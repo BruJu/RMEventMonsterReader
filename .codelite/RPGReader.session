@@ -12,8 +12,22 @@
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RMReader\analyseurLexical.c" Name="FileName"/>
-      <int Value="42" Name="FirstVisibleLine"/>
-      <int Value="52" Name="CurrentLine"/>
+      <int Value="39" Name="FirstVisibleLine"/>
+      <int Value="75" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RMReader\types.h" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="61" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RMReader\tools.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="2" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>

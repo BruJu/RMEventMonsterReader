@@ -95,5 +95,7 @@
   <VirtualDirectory Name="src">
     <File Name="main.c"/>
     <File Name="analyseurLexical.c"/>
+    <File Name="types.h"/>
+    <File Name="tools.c"/>
   </VirtualDirectory>
 </CodeLite_Project>
