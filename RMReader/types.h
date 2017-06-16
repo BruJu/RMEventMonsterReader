@@ -14,7 +14,8 @@ typedef enum {
     LoopBreak,
     ShowPicture,
     ChangeItem,
-    Void
+    Void,
+    Instr_Erreur
 } Instruction;
 
 typedef enum {
@@ -47,6 +48,11 @@ typedef union {
     char showPicture[255];      // ShowPicture
     /* rien */ // ForkElse, ForkEnd, Loop, LoopEnd, LoopBreak, Void,
 } InstructionBis;
+
+typedef struct {
+    Instruction    instruction;
+    InstructionBis complement;
+} InstructionEnsemble;
 
 
 typedef struct {

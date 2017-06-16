@@ -4,6 +4,8 @@ char yyLine[255];
 Instruction yyInstruction;
 InstructionBis yyInstructionBis;
 
+#define NB_INSTRUCTIONS 13
+
 /*
 
 - SCRIPT -
@@ -31,6 +33,45 @@ InstructionBis yyInstructionBis;
 */
 
 
+char instructionModeles[NB_INSTRUCTIONS] = {
+    "<> Change Switch: [_] = _",
+    "<> Change Variable: [_] _ _",
+    "<> Change Items: Add _ piece of item #_",
+    "<> Label: _",
+    "<> Jump To Label: _",
+    "<> Fork Condition: If _ [_] _ _ _ ¤",
+    "<> Loop",
+    "<> Break Loop",
+    "<> Show Picture: _, _, ¤", // ¤ = peu importe le reste
+    ": End of fork",
+    ": End of loop",
+    ": Else ...",
+    "<>"
+};
+
+Instruction instructionsCorrespondantes[NB_INSTRUCTIONS] = {
+    ChgSwitch,
+    ChgVariable,
+    ChangeItem,
+    Label,
+    JumpToLabel,
+    ForkIf,
+    Loop,
+    LoopEnd,
+    ForkElse,
+    ShowPicture,
+    ForkEnd,
+    LoopBreak,
+    Void
+}
+
+typedef struct {
+    Instruction instruction,
+    char chaine[5*50]
+} InstructionsEnCoursDeLecture;
+
+
+
 /**
  *  Lit une ligne dans le fichier
  * 
@@ -39,6 +80,102 @@ InstructionBis yyInstructionBis;
 int readLine() {
     return 0;
 }
+
+
+
+InstructionsEnCoursDeLecture lireLigne() {
+    InstructionsEnCoursDeLecture resultat;
+    int i_schema, i_chaineEnCours, i_ligneActuelle;
+    int chaineActuelle;
+    int schemaActuel;
+    
+    // Avancer les espaces
+    for (i_ligneActuelle = 0
+        ; !yyLine[i_ligneActuelle] || yyLine[i_ligneActuelle] == ' '
+        ; i_ligneActuelle ++) {
+    }
+    
+    if (!yyLigne[i_ligneActuelle]) {
+        resultat.instruction = Instr_Erreur;
+        return resultat;
+    }
+    
+    // Parcourir la liste des modèles
+    for (schemaActuel = 0 ; schemaActuel != NB_INSTRUCTIONS ; schemaActuel ++) {
+        i_schema = 0;
+        i_chaineEnCours = 0;
+        chaineActuelle = 0;
+        
+        while (1) {
+            if (instructionModeles[schemaActuel][i_schema] == '¤'
+                || (instructionModeles[schemaActuel][i_schema] == 0 && yyLigne[i_ligneActuelle] == 0) ) {
+                resultat.instruction = instructionsCorrespondantes[schemaActuel];
+                return resultat;
+            }
+            
+            if (instructionModeles[schemaActuel][i_schema] == 0 || (yyLigne[i_ligneActuelle] == 0 && instructionModeles[schemaActuel][i_schema] != '_')) {
+                break;
+            }
+            
+            if (instructionModeles[schemaActuel][i_schema] != yyLigne[i_ligneActuelle]) {
+                break;
+            }
+            
+            if (instructionModeles[schemaActuel][i_schema] == '_') {
+                // Fin d'analyse de variable ?
+                if (instructionModeles[schemaActuel][i_schema+1] == yyLigne[i_ligneActuelle]) {
+                    resultat.chaine[(chaineActuelle++) * 50 + i_chaineEnCours] = 0;
+                    
+                    i_chaineEnCours = 0;
+                    i_schema ++;
+                    continue;
+                }
+                
+                // Non
+                resultat.chaine[chaineActuelle * 50 + (i_chaineEnCours++)] = yyLigne[i_ligneActuelle++];
+            } else {
+                i_schema++;
+                i_ligneActuelle++;
+            }
+            
+        }
+        
+    }
+    
+    // Pas de résultat trouvé
+    resultat.instruction = Instr_Erreur;
+    return resultat;
+}
+
+
+InstructionEnsemble * analyserLigne() {
+    InstructionEnsemble * instructionEnsemble = malloc(sizeof(InstructionEnsemble));
+    if (instructionEnsemble == NULL)
+        return NULL;
+    
+    
+    
+    
+    
+}
+
+
+
+InstructionEnsemble * initialiserLaNouvelleLigne() {
+    if (readLine())
+        return 0;
+    
+    InstructionsEnCoursDeLecture iECDL;
+    InstructionEnsemble * instructionEnsemble;
+    
+    iECDL = lireLigne();
+    instructionEnsemble = analyserLigne(iECDL);
+    
+    return instructionEnsemble;
+}
+
+
+
 
 
 
@@ -105,6 +242,10 @@ int lireNouvelleLigne() {
         // <> Loop
         // <> Break Loop
         // <> Show Picture: #1, actionslibre2, (160, 120), Mgn 100%, Tsp 0%/0%
+            // : End of fork
+            // : End of loop
+            // : Else ...
+            // Instruction : <>
         
         
         
