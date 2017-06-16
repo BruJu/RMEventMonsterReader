@@ -1,48 +1,39 @@
 #include "types.h"
 
-char yyLine[255];
+#define NBCHARyyLine 255
+
+char yyLine[NBCHARyyLine];
 Instruction yyInstruction;
 InstructionBis yyInstructionBis;
 
 #define NB_INSTRUCTIONS 13
 
 /*
-
-- SCRIPT -
-<> Change Switch: [1] = ON
-<> Change Variable: [1] = 0
-<> Label: 1
-<> Jump To Label: 1
-<> Fork Condition: If Switch [1] == ON then ...
- <>
-: Else ...
- <>
-: End of fork
-<> Fork Condition: If Variable [10] != 0 then ...
- <>
-: Else ...
- <>
-: End of fork
-<> Loop
- <>
-: End of loop
-<> Break Loop
-<> Show Picture: #1, actionslibre2, (160, 120), Mgn 100%, Tsp 0%/0%
-<> Change Items: Add 1 piece of item #1
-
-*/
+ * Fonctionnalités non gérées :
+ * • ChgSwitch
+ * Il n'est pas possible de choisir une plage
+ * Il n'est pas possible d'inverser l'état d'un switch
+ * Il n'est pas possible d'utiliser un pointeur
+ * • ChgVariable
+ * Pas de plage / pointeur
+ * On ne peut mettre autre chose qu'un nombre brut
+ * • Change Item
+ * Pas de pointage
+ * • Fork If
+ * Non implémenté
+ */
 
 
 char instructionModeles[NB_INSTRUCTIONS] = {
     "<> Change Switch: [_] = _",
     "<> Change Variable: [_] _ _",
-    "<> Change Items: Add _ piece of item #_",
+    "<> Change Items: _ _ piece of item #_",
     "<> Label: _",
     "<> Jump To Label: _",
     "<> Fork Condition: If _ [_] _ _ _ ¤",
     "<> Loop",
     "<> Break Loop",
-    "<> Show Picture: _, _, ¤", // ¤ = peu importe le reste
+    "<> Show Picture: #_, _, ¤", // ¤ = peu importe le reste
     ": End of fork",
     ": End of loop",
     ": Else ...",
@@ -71,14 +62,32 @@ typedef struct {
 } InstructionsEnCoursDeLecture;
 
 
+int filedescriptor = -1;
+
 
 /**
  *  Lit une ligne dans le fichier
  * 
  * renvoie 1 si fin de fichier
+ * -1 si pas de fichier ouvert ou erreur sur read
  */
 int readLine() {
-    return 0;
+    if (filedescriptor == -1) {
+        return -1;
+    }
+    
+    int r;
+    r = _read(filedescriptor, yyLine, NBCHARyyLine-1);
+    
+    if (r < 0)
+        return r;
+        
+    yyLine[r] = 0;
+    
+    if (r == 0)
+        return 1;
+    else
+        return 0;
 }
 
 
@@ -139,7 +148,6 @@ InstructionsEnCoursDeLecture lireLigne() {
             }
             
         }
-        
     }
     
     // Pas de résultat trouvé
@@ -148,15 +156,105 @@ InstructionsEnCoursDeLecture lireLigne() {
 }
 
 
-InstructionEnsemble * analyserLigne() {
+InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
     InstructionEnsemble * instructionEnsemble = malloc(sizeof(InstructionEnsemble));
     if (instructionEnsemble == NULL)
         return NULL;
+        
+        
+    instructionEnsemble.instruction = iECDL.instruction;
+    
+    if (iECDL.instruction == ChgSwitch) {
+        // "<> Change Switch: [_] = _" [ChgSwitch] Numéro du switch, nouvelle position
+        instructionEnsemble.complement.affectation.numero = atoi(iECDL.chaine);
+        
+        // ON ou OFF ?
+        if (iECDL.chaine[1*50 + 1] == 'N') {
+            instructionEnsemble.complement.affectation.nouvelleValeur = 0;
+        } else {
+            instructionEnsemble.complement.affectation.nouvelleValeur = 1;
+        }
+    } else if (iECDL.instruction == ChgVariable) {
+        // "<> Change Variable: [_] _ _" [ChgVariable] Numéro de la variable, Opération, Valeur
+        instructionEnsemble.complement.affectation.numero = atoi(iECDL.chaine);
+        
+        /*
+        <> Change Variable: [1] = 0
+        <> Change Variable: [1] -= 0
+        <> Change Variable: [1] += 0
+        <> Change Variable: [1] *= 0
+        <> Change Variable: [1] /= 0
+        <> Change Variable: [1] Mod= 0
+        */
+        
+        switch (iECDL.chaine[1*50]) {
+        case '=':
+            instructionEnsemble.complement.affectation.signe = Egal;
+            break;
+        case '-':
+            instructionEnsemble.complement.affectation.signe = Moins;
+            break;
+        case '+':
+            instructionEnsemble.complement.affectation.signe = Plus;
+            break;
+        case '*':
+            instructionEnsemble.complement.affectation.signe = Fois;
+            break;
+        case '/':
+            instructionEnsemble.complement.affectation.signe = Divise;
+            break;
+        case 'M':
+            instructionEnsemble.complement.affectation.signe = Modulo;
+            break;
+        default:
+            instructionEnsemble.complement.affectation.signe = Egal;
+            break;
+        }
+        
+        /*
+        Pour l'instant seul les valeurs brutes sont prises en compte
+        TODO : Mettre en place les autres fonctionnalités proposées par RPG Maker
+        */
+        
+        instructionEnsemble.complement.affectation.nouvelleValeur = atoi(iECDL.chaine + 2*50);
+    } else if (iECDL.instruction == ChangeItem) {
+        // "<> Change Items: _ _ piece of item #_" [ChangeItem] Add/Remove Quantité ID
+        instructionEnsemble.complement.changeItem.numero = atoi(iECDL.chaine + 2*50);
+        instructionEnsemble.complement.changeItem.quantite = atoi(iECDL.chaine + 1*50);
+        
+        if (iECDL.chaine[0] == 'R') {   // Remove
+            instructionEnsemble.complement.changeItem.quantite *= -1;
+        }
+    } else if (iECDL.instruction == Label || iECDL.instruction == JumpToLabel) {
+        instructionEnsemble.complement.numero = atoi(iECDL.chaine);
+    } else if (iECDL.instruction == ShowPicture) {
+        // "<> Show Picture: #_, _, ¤" [ShowPicture]
+        strcpy(instructionEnsemble.complement.showPicture, iECDL.chaine + 1*50);
+    } else if (IECDL.instruction == ForkIf) {
+        // "<> Fork Condition: If _ [_] _ _ _ ¤" [ForkIf]
+        
+        /*
+        Exemples :
+        <> Fork Condition: If Switch [1] == ON then ...
+        <> Fork Condition: If Variable [1] == 0 then ...
+        <> Fork Condition: If Variable [1] <= 0 then ...
+        <> Fork Condition: If Variable [1] < 0 then ...
+        */
+        
+        
+        
+        
+        
+    }
+    
+    /*
+    
+       
+     * 
+     * */
     
     
-    
-    
-    
+    return instructionEnsemble;
 }
 
 
@@ -174,113 +272,6 @@ InstructionEnsemble * initialiserLaNouvelleLigne() {
     return instructionEnsemble;
 }
 
-
-
-
-
-
-/**
- * renvoie 1 si pas de nouvelle ligne
- * renvoie 2 si erreur
- */
-int lireNouvelleLigne() {
-    if (readLine()) {
-        return 1;
-    }
-    
-    int positionChar = 0;
-    
-    /* == Passer les espaces == */
-    while (positionChar != 255 && yyLine[positionChar] == ' ') {
-        positionChar++;
-    }
-    
-    if (positionChar == 255)
-        return 2;
-    
-    /*
-     * TODO :
-     * Dans la mesure où les performances ne sont pas une question vitale pour ce projet,
-     * faire un dictionnaire avec la liste des modèles d'instructions
-     * faire un lecteur qui renvoie
-     * struct (instruction, chaine 1, chaine 2, chaine 3, chaine 4, ...)
-     * et une autre fonction s'occupe de convertir les chaines en instructionbis
-     * 
-     * Avantages :
-     * - Plus facilement maintenanble si on vuet ajouter des isntructions ou les modifier
-     * Défaut :
-     * - Redondance de traitements (négligeable car il n'y a qu'une vingtaine d'instruction
-     * et les programmes à traiter ne devraient pas dépasser les 100000 lignes même en voyant large)
-     */
-    
-        
-    if (yyLine[positionChar] == '<') {
-        /* == Instruction normale == */
-        if (!(yyLine[positionChar+1] == '>')
-            return 2;
-        
-        positionChar += 2;
-        
-        if (yyLine[positionChar] == 0) {
-            // Instruction : <>
-            yyInstruction = Void;
-            return 0;
-        }
-        
-        if (!yyLine[positionChar] == ' ')
-            return 2;
-        
-        positionChar++;
-        
-        // <> Change Switch: [1] = ON
-        // <> Change Variable: [1] = 0
-        // <> Change Items: Add 1 piece of item #1
-        // <> Label: 1
-        // <> Jump To Label: 1
-        // <> Fork Condition: If Switch [1] == ON then ...
-        // <> Fork Condition: If Variable [10] != 0 then ...
-        // <> Loop
-        // <> Break Loop
-        // <> Show Picture: #1, actionslibre2, (160, 120), Mgn 100%, Tsp 0%/0%
-            // : End of fork
-            // : End of loop
-            // : Else ...
-            // Instruction : <>
-        
-        
-        
-    } else if (yyLine[positionChar] == ':') {
-        /* == End of something  == */
-        if (!(yyLine[positionChar+1] == ' ' && yyLine[positionChar+2] == 'E'))
-            return 2;
-        
-        positionChar += 3;
-        
-        if (yyLine[positionChar] == 'l') {
-            // : Else ...
-            yyInstruction = ForkElse;
-            return 0;
-        }
-        
-        // "nd of "  6 caractères
-        positionChar += 6;
-        
-        if (yyLine[positionChar] == 'f') {
-            // : End of fork
-            yyInstruction = ForkEnd;
-            return 0;
-        } else if (yyLigne[positionChar == 'l') {
-            // : End of loop
-            yyInstruction == LoopEnd;
-            return 0;
-        }
-        
-        return 2;
-    }
-    
-    return 2;
-    
-}
 
 
 
