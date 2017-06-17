@@ -15,7 +15,8 @@ typedef enum {
     ShowPicture,
     ChangeItem,
     Void,
-    Instr_Erreur
+    Instr_Erreur,
+    Ignore
 } Instruction;
 
 typedef enum {

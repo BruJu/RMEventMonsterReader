@@ -99,5 +99,9 @@
     <File Name="tools.c"/>
     <File Name="remarques.txt"/>
     <File Name="testAnalyseurLexical.c"/>
+    <File Name="script.txt"/>
+    <File Name="analyseurLexical.h"/>
+    <File Name="testAnalyseurLexical.h"/>
+    <File Name="tools.h"/>
   </VirtualDirectory>
 </CodeLite_Project>

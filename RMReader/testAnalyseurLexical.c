@@ -1,31 +1,44 @@
-#include "types.h"
+#include "testAnalyseurLexical.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>       // open
+#include <fcntl.h>          // open
+#include "analyseurLexical.h"
+
 
 int nbDespaces = 0;
 
 
-    Egal, Different,
-    Plus, Moins, Fois, Divise, Modulo,
-    Inferieur, Superieur,
-    InfEgal, SupEgal
-
 char * obtenirRepresentationDunSigne(Signe signe) {
     switch(signe) {
-    case Egal :
+    case Egal:
         return "=";
-        
-        
-        
-        
+    case Different:
+        return "!=";
+    case Plus:
+        return "+";
+    case Moins:
+        return "-";
+    case Fois:
+        return "*";
+    case Divise:
+        return "/";
+    case Modulo:
+        return "%";
+    case Inferieur:
+        return "<";
+    case Superieur:
+        return ">";
+    case InfEgal:
+        return "<=";
+    case SupEgal:
+        return ">=";
+    default:
+        return "err";
     }
-    
-    
-    // TODO
-    return "";
 }
 
-char * obtenirRepresentationDunSigne(int nombre) {
+char * obtenirRepresentationDunBooleen(int nombre) {
     if (nombre)
         return "Vrai";
     else   
@@ -39,6 +52,10 @@ void printEspaces() {
 }
 
 void afficherUnElement(InstructionEnsemble * instructionEnsemble) {
+    if (instructionEnsemble->instruction == Ignore)
+        return;
+    
+    
     if (   instructionEnsemble->instruction == ForkEnd
         || instructionEnsemble->instruction == LoopEnd
         || instructionEnsemble->instruction == ForkElse) {
@@ -54,7 +71,7 @@ void afficherUnElement(InstructionEnsemble * instructionEnsemble) {
         {
             printf("$%d = %s\n",
                     instructionEnsemble->complement.affectation.numero,
-                    obtenirRepresentationDunBooleen(InstructionEnsemble->complement.affectation.nouvelleValeur));
+                    obtenirRepresentationDunBooleen(instructionEnsemble->complement.affectation.nouvelleValeur));
         }
         break;
     case ChgVariable :
@@ -76,14 +93,7 @@ void afficherUnElement(InstructionEnsemble * instructionEnsemble) {
         }
         break;
     case ForkIf :
-        {
-            /*        int type;           // 0 = switch, 1 = variable
-        int numero;
-        Signe comparatif;
-        int valeur;
-        int pointeur;       // 1 = voir la variable [valeur]
-         * */
-            
+        {            
             printf("Si ");
             if (instructionEnsemble->complement.forkIf.type == 0) {
                 // Switch
@@ -155,4 +165,31 @@ void afficherUnElement(InstructionEnsemble * instructionEnsemble) {
         printf("!! Instruction non reconnue\n");
         break;
     }
+}
+
+extern FILE * filedescriptor;
+
+void testerFichier(char * nom) {
+    filedescriptor = fopen(nom, "r");
+    if (filedescriptor == NULL) {
+        perror("fopen");
+        return;
+    }
+    
+    InstructionEnsemble * instruct;
+    
+    while (1) {
+        instruct = initialiserLaNouvelleLigne();
+        
+        if (instruct == NULL)
+            break;
+        
+        if (instruct->instruction == Ignore)
+            continue;
+        
+        afficherUnElement(instruct);
+    }
+    
+    
+    fclose(filedescriptor);
 }

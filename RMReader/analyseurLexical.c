@@ -1,15 +1,23 @@
-#include "types.h"
+#include "analyseurLexical.h"
+
+/*
+ * vérifier la cohérence lorsqu'on lit un symbole _ dans une variable
+ * 
+ * 
+ * 
+ */
+
 #include <io.h>             // _read (Windows)
 #include <stdlib.h>
 #include <string.h>         // strcpy
+#include <stdio.h>
 
 #define NBCHARyyLine 255
+#define NB_INSTRUCTIONS 15
 
 char yyLine[NBCHARyyLine];
-Instruction yyInstruction;
-InstructionBis yyInstructionBis;
+FILE * filedescriptor = -1;
 
-#define NB_INSTRUCTIONS 13
 
 /*
  * Fonctionnalités non gérées :
@@ -40,11 +48,11 @@ char * instructionModeles[] = {
     ": End of fork",
     ": End of loop",
     ": Else ...",
-    "<>"
+    "<>",
+    "<> Set Event Location|",
+    "<> Change Panorama|"
 };
-/*
- * TODO : vérifier la cohérence lorsqu'on lit un symbole _ dans une variable
- */
+
 
 Instruction instructionsCorrespondantes[] = {
     ChgSwitch,
@@ -54,21 +62,17 @@ Instruction instructionsCorrespondantes[] = {
     JumpToLabel,
     ForkIf,
     Loop,
-    LoopEnd,
-    ForkElse,
+    LoopBreak,
     ShowPicture,
     ForkEnd,
-    LoopBreak,
-    Void
+    LoopEnd,
+    ForkElse,
+    Void,
+    Ignore,
+    Ignore
+    
 };
 
-typedef struct {
-    Instruction instruction;
-    char chaine[5*50];
-} InstructionsEnCoursDeLecture;
-
-
-int filedescriptor = -1;
 
 
 /**
@@ -78,29 +82,29 @@ int filedescriptor = -1;
  * -1 si pas de fichier ouvert ou erreur sur read
  */
 int readLine() {
-    if (filedescriptor == -1) {
+    if (filedescriptor == NULL) {
         return -1;
     }
     
-    int r;
-    r = _read(filedescriptor, yyLine, NBCHARyyLine-1);
-    
-    if (r < 0)
-        return r;
-        
-    yyLine[r] = 0;
-    
-    if (r == 0)
+    if (fgets(yyLine, NBCHARyyLine, filedescriptor) == NULL) {
         return 1;
-    else
-        return 0;
+    }
+    
+    for (int i = 0 ; yyLine[i] != 0 ; i++) {
+        if (yyLine[i] == '\r' || yyLine[i] == '\n') {
+            yyLine[i] = 0;
+            return 0;
+        }
+    }
+    
+    return 0;
 }
 
 
 
 InstructionsEnCoursDeLecture lireLigne() {
     InstructionsEnCoursDeLecture resultat;
-    int i_schema, i_chaineEnCours, i_ligneActuelle;
+    int i_schema, i_chaineEnCours, i_ligneActuelle, i_debutligneActuelle;
     int chaineActuelle;
     int schemaActuel;
     
@@ -109,6 +113,8 @@ InstructionsEnCoursDeLecture lireLigne() {
         ; !yyLine[i_ligneActuelle] || yyLine[i_ligneActuelle] == ' '
         ; i_ligneActuelle ++) {
     }
+    
+    i_debutligneActuelle = i_ligneActuelle;
     
     if (!yyLine[i_ligneActuelle]) {
         resultat.instruction = Instr_Erreur;
@@ -120,6 +126,7 @@ InstructionsEnCoursDeLecture lireLigne() {
         i_schema = 0;
         i_chaineEnCours = 0;
         chaineActuelle = 0;
+        i_ligneActuelle = i_debutligneActuelle;
         
         while (1) {
             if (instructionModeles[schemaActuel][i_schema] == '|'
@@ -135,7 +142,7 @@ InstructionsEnCoursDeLecture lireLigne() {
             if (instructionModeles[schemaActuel][i_schema] == '_') {
                 // Fin d'analyse de variable ?
                 if (instructionModeles[schemaActuel][i_schema+1] == yyLine[i_ligneActuelle]) {
-                    resultat.chaine[(chaineActuelle++) * 50 + i_chaineEnCours] = 0;
+                    resultat.chaine[(chaineActuelle++) * CHAINESIZE + i_chaineEnCours] = 0;
                     
                     i_chaineEnCours = 0;
                     i_schema ++;
@@ -143,7 +150,7 @@ InstructionsEnCoursDeLecture lireLigne() {
                 }
                 
                 // Non
-                resultat.chaine[chaineActuelle * 50 + (i_chaineEnCours++)] = yyLine[i_ligneActuelle++];
+                resultat.chaine[chaineActuelle * CHAINESIZE + (i_chaineEnCours++)] = yyLine[i_ligneActuelle++];
             } else {
 
                 if (instructionModeles[schemaActuel][i_schema] != yyLine[i_ligneActuelle]) {
@@ -171,16 +178,19 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
     InstructionEnsemble * instructionEnsemble = malloc(sizeof(InstructionEnsemble));
     if (instructionEnsemble == NULL)
         return NULL;
-        
-        
+    
+    
     instructionEnsemble->instruction = iECDL.instruction;
+    
+    if (iECDL.instruction == Ignore)
+        return instructionEnsemble;
     
     if (iECDL.instruction == ChgSwitch) {
         // "<> Change Switch: [_] = _" [ChgSwitch] Numéro du switch, nouvelle position
         instructionEnsemble->complement.affectation.numero = atoi(iECDL.chaine);
         
         // ON ou OFF ?
-        if (iECDL.chaine[1*50 + 1] == 'N') {
+        if (iECDL.chaine[1*CHAINESIZE + 1] == 'N') {
             instructionEnsemble->complement.affectation.nouvelleValeur = 1;
         } else {
             instructionEnsemble->complement.affectation.nouvelleValeur = 0;
@@ -198,7 +208,7 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         <> Change Variable: [1] Mod= 0
         */
         
-        switch (iECDL.chaine[1*50]) {
+        switch (iECDL.chaine[1*CHAINESIZE]) {
         case '=':
             instructionEnsemble->complement.affectation.signe = Egal;
             break;
@@ -227,11 +237,11 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         TODO : Mettre en place les autres fonctionnalités proposées par RPG Maker
         */
         
-        instructionEnsemble->complement.affectation.nouvelleValeur = atoi(iECDL.chaine + 2*50);
+        instructionEnsemble->complement.affectation.nouvelleValeur = atoi(iECDL.chaine + 2*CHAINESIZE);
     } else if (iECDL.instruction == ChangeItem) {
         // "<> Change Items: _ _ piece of item #_" [ChangeItem] Add/Remove Quantité ID
-        instructionEnsemble->complement.changeItem.numero = atoi(iECDL.chaine + 2*50);
-        instructionEnsemble->complement.changeItem.quantite = atoi(iECDL.chaine + 1*50);
+        instructionEnsemble->complement.changeItem.numero = atoi(iECDL.chaine + 2*CHAINESIZE);
+        instructionEnsemble->complement.changeItem.quantite = atoi(iECDL.chaine + 1*CHAINESIZE);
         
         if (iECDL.chaine[0] == 'R') {   // Remove
             instructionEnsemble->complement.changeItem.quantite *= -1;
@@ -240,7 +250,7 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         instructionEnsemble->complement.numero = atoi(iECDL.chaine);
     } else if (iECDL.instruction == ShowPicture) {
         // "<> Show Picture: #_, _, |" [ShowPicture]
-        strcpy(instructionEnsemble->complement.showPicture, iECDL.chaine + 1*50);
+        strcpy(instructionEnsemble->complement.showPicture, iECDL.chaine + 1*CHAINESIZE);
     } else if (iECDL.instruction == ForkIf) {
         // "<> Fork Condition: If _ [_] _ _ _ |" [ForkIf]
         
@@ -258,12 +268,12 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
             instructionEnsemble->complement.forkIf.type = 1;
         }
         
-        instructionEnsemble->complement.numero = atoi(iECDL.chaine + 1*50);
+        instructionEnsemble->complement.forkIf.numero = atoi(iECDL.chaine + 1*CHAINESIZE);
         
         /* Signe : == " !=" < <= >= > */
         char symboleEnCours;
         
-        symboleEnCours = iECDL.chaine[2*50];
+        symboleEnCours = iECDL.chaine[2*CHAINESIZE];
         
         if (symboleEnCours == ' ') {
             // " !="
@@ -272,7 +282,7 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
             // "=="
             instructionEnsemble->complement.forkIf.comparatif = Egal;
         } else if (symboleEnCours == '<') {
-            symboleEnCours = iECDL.chaine[2*50 + 1];
+            symboleEnCours = iECDL.chaine[2*CHAINESIZE + 1];
             
             if (symboleEnCours == '=') {
                 instructionEnsemble->complement.forkIf.comparatif = InfEgal;
@@ -280,7 +290,7 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
                 instructionEnsemble->complement.forkIf.comparatif = Inferieur;
             }
         } else { // >
-            symboleEnCours = iECDL.chaine[2*50 + 1];
+            symboleEnCours = iECDL.chaine[2*CHAINESIZE + 1];
             
             if (symboleEnCours == '=') {
                 instructionEnsemble->complement.forkIf.comparatif = SupEgal;
@@ -290,15 +300,15 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         }
         
         // Objet auquel comparer
-        if (iECDL.chaine[3*50] == 'V') {
+        if (iECDL.chaine[3*CHAINESIZE] == 'V') {
             instructionEnsemble->complement.forkIf.pointeur = 1;
-            instructionEnsemble->complement.forkIf.valeur = atoi(iECDL.chaine + 4*50 + 1);
+            instructionEnsemble->complement.forkIf.valeur = atoi(iECDL.chaine + 4*CHAINESIZE + 1);
         } else {
             if (instructionEnsemble->complement.forkIf.type == 1) {
                 instructionEnsemble->complement.forkIf.pointeur = 0;
-                instructionEnsemble->complement.forkIf.valeur = atoi(iECDL.chaine + 3*50);
+                instructionEnsemble->complement.forkIf.valeur = atoi(iECDL.chaine + 3*CHAINESIZE);
             } else {
-                if (iECDL.chaine[3*50+1] == 'N') {
+                if (iECDL.chaine[3*CHAINESIZE+1] == 'N') {
                     instructionEnsemble->complement.forkIf.valeur = 1;
                 } else {
                     instructionEnsemble->complement.forkIf.valeur = 0;
@@ -314,7 +324,7 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
 
 InstructionEnsemble * initialiserLaNouvelleLigne() {
     if (readLine())
-        return 0;
+        return NULL;
     
     InstructionsEnCoursDeLecture iECDL;
     InstructionEnsemble * instructionEnsemble;
