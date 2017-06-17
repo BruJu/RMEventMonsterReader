@@ -1,1 +1,3 @@
-Debug/analyseurLexical.c.o: analyseurLexical.c
+Debug/analyseurLexical.c.o: analyseurLexical.c types.h
+
+types.h:

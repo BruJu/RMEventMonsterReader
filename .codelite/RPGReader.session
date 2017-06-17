@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Session Name="A:\Daka\Documents\codelitework\RPGReader\RPGReader.workspace">
-  <int Value="1" Name="m_selectedTab"/>
-  <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RPGReader.workspace" Name="m_workspaceName"/>
+<Session Name="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RPGReader.workspace">
+  <int Value="4" Name="m_selectedTab"/>
+  <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RPGReader.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
-      <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RMReader\main.c" Name="FileName"/>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\analyseurLexical.c" Name="FileName"/>
+      <int Value="205" Name="FirstVisibleLine"/>
+      <int Value="295" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\tools.c" Name="FileName"/>
+      <int Value="1" Name="FirstVisibleLine"/>
+      <int Value="1" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\main.c" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="0" Name="CurrentLine"/>
+      <int Value="7" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
-      <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RMReader\analyseurLexical.c" Name="FileName"/>
-      <int Value="108" Name="FirstVisibleLine"/>
-      <int Value="226" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RMReader\types.h" Name="FileName"/>
-      <int Value="9" Name="FirstVisibleLine"/>
-      <int Value="47" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="A:\Daka\Documents\codelitework\RPGReader\RMReader\tools.c" Name="FileName"/>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\remarques.txt" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="2" Name="CurrentLine"/>
+      <int Value="10" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\testAnalyseurLexical.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="16" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\types.h" Name="FileName"/>
+      <int Value="6" Name="FirstVisibleLine"/>
+      <int Value="21" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>

@@ -1,4 +1,7 @@
 #include "types.h"
+#include <io.h>             // _read (Windows)
+#include <stdlib.h>
+#include <string.h>         // strcpy
 
 #define NBCHARyyLine 255
 
@@ -24,23 +27,26 @@ InstructionBis yyInstructionBis;
  */
 
 
-char instructionModeles[NB_INSTRUCTIONS] = {
+char * instructionModeles[] = {
     "<> Change Switch: [_] = _",
     "<> Change Variable: [_] _ _",
     "<> Change Items: _ _ piece of item #_",
     "<> Label: _",
     "<> Jump To Label: _",
-    "<> Fork Condition: If _ [_] _ _ _ ¤",
+    "<> Fork Condition: If _ [_] _ _ _ |",
     "<> Loop",
     "<> Break Loop",
-    "<> Show Picture: #_, _, ¤", // ¤ = peu importe le reste
+    "<> Show Picture: #_, _, |", // | = peu importe le reste
     ": End of fork",
     ": End of loop",
     ": Else ...",
     "<>"
 };
+/*
+ * TODO : vérifier la cohérence lorsqu'on lit un symbole _ dans une variable
+ */
 
-Instruction instructionsCorrespondantes[NB_INSTRUCTIONS] = {
+Instruction instructionsCorrespondantes[] = {
     ChgSwitch,
     ChgVariable,
     ChangeItem,
@@ -54,11 +60,11 @@ Instruction instructionsCorrespondantes[NB_INSTRUCTIONS] = {
     ForkEnd,
     LoopBreak,
     Void
-}
+};
 
 typedef struct {
-    Instruction instruction,
-    char chaine[5*50]
+    Instruction instruction;
+    char chaine[5*50];
 } InstructionsEnCoursDeLecture;
 
 
@@ -104,7 +110,7 @@ InstructionsEnCoursDeLecture lireLigne() {
         ; i_ligneActuelle ++) {
     }
     
-    if (!yyLigne[i_ligneActuelle]) {
+    if (!yyLine[i_ligneActuelle]) {
         resultat.instruction = Instr_Erreur;
         return resultat;
     }
@@ -116,23 +122,19 @@ InstructionsEnCoursDeLecture lireLigne() {
         chaineActuelle = 0;
         
         while (1) {
-            if (instructionModeles[schemaActuel][i_schema] == '¤'
-                || (instructionModeles[schemaActuel][i_schema] == 0 && yyLigne[i_ligneActuelle] == 0) ) {
+            if (instructionModeles[schemaActuel][i_schema] == '|'
+                || (instructionModeles[schemaActuel][i_schema] == 0 && yyLine[i_ligneActuelle] == 0) ) {
                 resultat.instruction = instructionsCorrespondantes[schemaActuel];
                 return resultat;
             }
             
-            if (instructionModeles[schemaActuel][i_schema] == 0 || (yyLigne[i_ligneActuelle] == 0 && instructionModeles[schemaActuel][i_schema] != '_')) {
-                break;
-            }
-            
-            if (instructionModeles[schemaActuel][i_schema] != yyLigne[i_ligneActuelle]) {
+            if (instructionModeles[schemaActuel][i_schema] == 0 || (yyLine[i_ligneActuelle] == 0 && instructionModeles[schemaActuel][i_schema] != '_')) {
                 break;
             }
             
             if (instructionModeles[schemaActuel][i_schema] == '_') {
                 // Fin d'analyse de variable ?
-                if (instructionModeles[schemaActuel][i_schema+1] == yyLigne[i_ligneActuelle]) {
+                if (instructionModeles[schemaActuel][i_schema+1] == yyLine[i_ligneActuelle]) {
                     resultat.chaine[(chaineActuelle++) * 50 + i_chaineEnCours] = 0;
                     
                     i_chaineEnCours = 0;
@@ -141,8 +143,17 @@ InstructionsEnCoursDeLecture lireLigne() {
                 }
                 
                 // Non
-                resultat.chaine[chaineActuelle * 50 + (i_chaineEnCours++)] = yyLigne[i_ligneActuelle++];
+                resultat.chaine[chaineActuelle * 50 + (i_chaineEnCours++)] = yyLine[i_ligneActuelle++];
             } else {
+
+                if (instructionModeles[schemaActuel][i_schema] != yyLine[i_ligneActuelle]) {
+                    
+                    // Si on attend un < et qu'on voit un @, c'est qu'on a c/c directement de RPG Maker 2003
+                    if (instructionModeles[schemaActuel][i_schema] != '<'
+                        && yyLine[i_ligneActuelle] != '@')
+                        break;
+                }
+                
                 i_schema++;
                 i_ligneActuelle++;
             }
@@ -162,21 +173,21 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         return NULL;
         
         
-    instructionEnsemble.instruction = iECDL.instruction;
+    instructionEnsemble->instruction = iECDL.instruction;
     
     if (iECDL.instruction == ChgSwitch) {
         // "<> Change Switch: [_] = _" [ChgSwitch] Numéro du switch, nouvelle position
-        instructionEnsemble.complement.affectation.numero = atoi(iECDL.chaine);
+        instructionEnsemble->complement.affectation.numero = atoi(iECDL.chaine);
         
         // ON ou OFF ?
         if (iECDL.chaine[1*50 + 1] == 'N') {
-            instructionEnsemble.complement.affectation.nouvelleValeur = 0;
+            instructionEnsemble->complement.affectation.nouvelleValeur = 1;
         } else {
-            instructionEnsemble.complement.affectation.nouvelleValeur = 1;
+            instructionEnsemble->complement.affectation.nouvelleValeur = 0;
         }
     } else if (iECDL.instruction == ChgVariable) {
         // "<> Change Variable: [_] _ _" [ChgVariable] Numéro de la variable, Opération, Valeur
-        instructionEnsemble.complement.affectation.numero = atoi(iECDL.chaine);
+        instructionEnsemble->complement.affectation.numero = atoi(iECDL.chaine);
         
         /*
         <> Change Variable: [1] = 0
@@ -189,25 +200,25 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         
         switch (iECDL.chaine[1*50]) {
         case '=':
-            instructionEnsemble.complement.affectation.signe = Egal;
+            instructionEnsemble->complement.affectation.signe = Egal;
             break;
         case '-':
-            instructionEnsemble.complement.affectation.signe = Moins;
+            instructionEnsemble->complement.affectation.signe = Moins;
             break;
         case '+':
-            instructionEnsemble.complement.affectation.signe = Plus;
+            instructionEnsemble->complement.affectation.signe = Plus;
             break;
         case '*':
-            instructionEnsemble.complement.affectation.signe = Fois;
+            instructionEnsemble->complement.affectation.signe = Fois;
             break;
         case '/':
-            instructionEnsemble.complement.affectation.signe = Divise;
+            instructionEnsemble->complement.affectation.signe = Divise;
             break;
         case 'M':
-            instructionEnsemble.complement.affectation.signe = Modulo;
+            instructionEnsemble->complement.affectation.signe = Modulo;
             break;
         default:
-            instructionEnsemble.complement.affectation.signe = Egal;
+            instructionEnsemble->complement.affectation.signe = Egal;
             break;
         }
         
@@ -216,22 +227,22 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         TODO : Mettre en place les autres fonctionnalités proposées par RPG Maker
         */
         
-        instructionEnsemble.complement.affectation.nouvelleValeur = atoi(iECDL.chaine + 2*50);
+        instructionEnsemble->complement.affectation.nouvelleValeur = atoi(iECDL.chaine + 2*50);
     } else if (iECDL.instruction == ChangeItem) {
         // "<> Change Items: _ _ piece of item #_" [ChangeItem] Add/Remove Quantité ID
-        instructionEnsemble.complement.changeItem.numero = atoi(iECDL.chaine + 2*50);
-        instructionEnsemble.complement.changeItem.quantite = atoi(iECDL.chaine + 1*50);
+        instructionEnsemble->complement.changeItem.numero = atoi(iECDL.chaine + 2*50);
+        instructionEnsemble->complement.changeItem.quantite = atoi(iECDL.chaine + 1*50);
         
         if (iECDL.chaine[0] == 'R') {   // Remove
-            instructionEnsemble.complement.changeItem.quantite *= -1;
+            instructionEnsemble->complement.changeItem.quantite *= -1;
         }
     } else if (iECDL.instruction == Label || iECDL.instruction == JumpToLabel) {
-        instructionEnsemble.complement.numero = atoi(iECDL.chaine);
+        instructionEnsemble->complement.numero = atoi(iECDL.chaine);
     } else if (iECDL.instruction == ShowPicture) {
-        // "<> Show Picture: #_, _, ¤" [ShowPicture]
-        strcpy(instructionEnsemble.complement.showPicture, iECDL.chaine + 1*50);
-    } else if (IECDL.instruction == ForkIf) {
-        // "<> Fork Condition: If _ [_] _ _ _ ¤" [ForkIf]
+        // "<> Show Picture: #_, _, |" [ShowPicture]
+        strcpy(instructionEnsemble->complement.showPicture, iECDL.chaine + 1*50);
+    } else if (iECDL.instruction == ForkIf) {
+        // "<> Fork Condition: If _ [_] _ _ _ |" [ForkIf]
         
         /*
         Exemples :
@@ -241,18 +252,60 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
         <> Fork Condition: If Variable [1] < 0 then ...
         */
         
+        if (iECDL.chaine[0] == 'S') {
+            instructionEnsemble->complement.forkIf.type = 0;
+        } else {
+            instructionEnsemble->complement.forkIf.type = 1;
+        }
         
+        instructionEnsemble->complement.numero = atoi(iECDL.chaine + 1*50);
         
+        /* Signe : == " !=" < <= >= > */
+        char symboleEnCours;
         
+        symboleEnCours = iECDL.chaine[2*50];
         
+        if (symboleEnCours == ' ') {
+            // " !="
+            instructionEnsemble->complement.forkIf.comparatif = Different;
+        } else if (symboleEnCours == '=') {
+            // "=="
+            instructionEnsemble->complement.forkIf.comparatif = Egal;
+        } else if (symboleEnCours == '<') {
+            symboleEnCours = iECDL.chaine[2*50 + 1];
+            
+            if (symboleEnCours == '=') {
+                instructionEnsemble->complement.forkIf.comparatif = InfEgal;
+            } else {
+                instructionEnsemble->complement.forkIf.comparatif = Inferieur;
+            }
+        } else { // >
+            symboleEnCours = iECDL.chaine[2*50 + 1];
+            
+            if (symboleEnCours == '=') {
+                instructionEnsemble->complement.forkIf.comparatif = SupEgal;
+            } else {
+                instructionEnsemble->complement.forkIf.comparatif = Superieur;
+            }
+        }
+        
+        // Objet auquel comparer
+        if (iECDL.chaine[3*50] == 'V') {
+            instructionEnsemble->complement.forkIf.pointeur = 1;
+            instructionEnsemble->complement.forkIf.valeur = atoi(iECDL.chaine + 4*50 + 1);
+        } else {
+            if (instructionEnsemble->complement.forkIf.type == 1) {
+                instructionEnsemble->complement.forkIf.pointeur = 0;
+                instructionEnsemble->complement.forkIf.valeur = atoi(iECDL.chaine + 3*50);
+            } else {
+                if (iECDL.chaine[3*50+1] == 'N') {
+                    instructionEnsemble->complement.forkIf.valeur = 1;
+                } else {
+                    instructionEnsemble->complement.forkIf.valeur = 0;
+                }
+            }
+        }
     }
-    
-    /*
-    
-       
-     * 
-     * */
-    
     
     return instructionEnsemble;
 }

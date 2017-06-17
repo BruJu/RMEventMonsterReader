@@ -1,0 +1,11 @@
+
+=== Nom de variables
+
+RPG Maker Event Extender copie les variables sans les noms
+@> Control Variables: [0001:Jour] -= 0 
+
+@> Conditional Branch: Variable [0001:Jour] <= 0
+  @>
+ : Else
+  @>
+ : Branch End

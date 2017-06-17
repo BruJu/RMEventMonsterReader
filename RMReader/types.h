@@ -34,11 +34,11 @@ typedef union {
     int numero;                 // Label, JumpToLabel
     
     struct {
-        int surSwitch;
-        union {
-            
-            
-        } contenu;
+        int type;           // 0 = switch, 1 = variable
+        int numero;
+        Signe comparatif;
+        int valeur;
+        int pointeur;       // 1 = voir la variable [valeur]
     } forkIf;                   // ForkIf
     
     struct {

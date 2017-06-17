@@ -1,1 +1,1 @@
-./Debug/main.c.o ./Debug/analyseurLexical.c.o   
+./Debug/main.c.o ./Debug/analyseurLexical.c.o ./Debug/tools.c.o ./Debug/testAnalyseurLexical.c.o   
