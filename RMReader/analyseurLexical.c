@@ -7,7 +7,6 @@
  * 
  */
 
-#include <io.h>             // _read (Windows)
 #include <stdlib.h>
 #include <string.h>         // strcpy
 #include <stdio.h>
@@ -16,7 +15,7 @@
 #define NB_INSTRUCTIONS 15
 
 char yyLine[NBCHARyyLine];
-FILE * filedescriptor = -1;
+FILE * filedescriptor = NULL;
 
 
 /*

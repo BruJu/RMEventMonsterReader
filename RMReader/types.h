@@ -1,6 +1,8 @@
 #ifndef __H_TYPES__
 #define __H_TYPES__
 
+#define SIZEMAXSTOREDTEXT (50)
+
 typedef enum {
     ChgSwitch,
     ChgVariable,
@@ -79,5 +81,31 @@ typedef struct {
     EntreeChar * entree;
 } DictionnaireChar;
 
+
+typedef enum { VS_VARIABLE, VS_SWITCH, VS_CHAINE } VS_Possibilitees;
+
+typedef struct {
+    char nom[20];
+    VS_Possibilitees type;
+    int position;
+} VariableSurveillee;
+
+typedef union {
+    int val;
+    char txt[SIZEMAXSTOREDTEXT];
+} Enregistrement;
+
+
+typedef struct {
+    int identifiantMax;
+    
+    int nbDeChamps;
+    int debutSousEnsembles;             // 1 <= debutSousEnsembles <= nbDeChamps
+    int nbDElementsParSousEnsembles;
+    int nbDeSousEnsembles;              // nbDeChamps = debutSousEnsembles + nbDeSousEnsmbles * nbDelementsParSousEnsembles
+    
+    VariableSurveillee * variables;     // taille nbDeChamps
+    Enregistrement * enregistrements;   // taille nbDeChamps x identifiantMax
+} Grille;
 
 #endif

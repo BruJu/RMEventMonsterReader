@@ -103,5 +103,12 @@
     <File Name="analyseurLexical.h"/>
     <File Name="testAnalyseurLexical.h"/>
     <File Name="tools.h"/>
+    <File Name="config.txt"/>
+    <File Name="tableur.c"/>
+    <File Name="tableur.h"/>
+    <File Name="configReader.c"/>
+    <File Name="configReader.h"/>
+    <File Name="grille.c"/>
+    <File Name="grille.h"/>
   </VirtualDirectory>
 </CodeLite_Project>

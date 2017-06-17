@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Dheim
-Date                   :=17/06/2017
+Date                   :=18/06/2017
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=c:/mingw/bin/g++.exe
 SharedObjectLinkerName :=c:/mingw/bin/g++.exe -shared -fPIC
@@ -62,7 +62,7 @@ AS       := c:/mingw/bin/as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/analyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tools.c$(ObjectSuffix) $(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/analyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tools.c$(ObjectSuffix) $(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tableur.c$(ObjectSuffix) $(IntermediateDirectory)/configReader.c$(ObjectSuffix) $(IntermediateDirectory)/grille.c$(ObjectSuffix) 
 
 
 
@@ -124,6 +124,30 @@ $(IntermediateDirectory)/testAnalyseurLexical.c$(DependSuffix): testAnalyseurLex
 
 $(IntermediateDirectory)/testAnalyseurLexical.c$(PreprocessSuffix): testAnalyseurLexical.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/testAnalyseurLexical.c$(PreprocessSuffix) testAnalyseurLexical.c
+
+$(IntermediateDirectory)/tableur.c$(ObjectSuffix): tableur.c $(IntermediateDirectory)/tableur.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "A:/Users/Dheim/Documents/GitHub/RMEventMonsterReader/RMReader/tableur.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tableur.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tableur.c$(DependSuffix): tableur.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tableur.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tableur.c$(DependSuffix) -MM tableur.c
+
+$(IntermediateDirectory)/tableur.c$(PreprocessSuffix): tableur.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tableur.c$(PreprocessSuffix) tableur.c
+
+$(IntermediateDirectory)/configReader.c$(ObjectSuffix): configReader.c $(IntermediateDirectory)/configReader.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "A:/Users/Dheim/Documents/GitHub/RMEventMonsterReader/RMReader/configReader.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/configReader.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/configReader.c$(DependSuffix): configReader.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/configReader.c$(ObjectSuffix) -MF$(IntermediateDirectory)/configReader.c$(DependSuffix) -MM configReader.c
+
+$(IntermediateDirectory)/configReader.c$(PreprocessSuffix): configReader.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/configReader.c$(PreprocessSuffix) configReader.c
+
+$(IntermediateDirectory)/grille.c$(ObjectSuffix): grille.c $(IntermediateDirectory)/grille.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "A:/Users/Dheim/Documents/GitHub/RMEventMonsterReader/RMReader/grille.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/grille.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/grille.c$(DependSuffix): grille.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/grille.c$(ObjectSuffix) -MF$(IntermediateDirectory)/grille.c$(DependSuffix) -MM grille.c
+
+$(IntermediateDirectory)/grille.c$(PreprocessSuffix): grille.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/grille.c$(PreprocessSuffix) grille.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
