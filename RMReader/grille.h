@@ -42,5 +42,9 @@ void grille_remplirVariable(Grille * grille, int id, int variable, int valeur);
 void grille_remplirSwitch(Grille * grille, int id, int interrupteur, int valeur);
 void grille_remplirChaine(Grille * grille, int id, int chaine, char * valeur);
 
+Enregistrement * grille_getEnregistrement(Grille * grille, int id, VS_Possibilitees type, int variable);
+int * grille_getEnregistrementInt(Grille * grille, int id, VS_Possibilitees type, int variable);
+char * grille_getEnregistrementChar(Grille * grille, int id, VS_Possibilitees type, int variable);
+
 
 #endif

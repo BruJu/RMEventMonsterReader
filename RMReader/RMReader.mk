@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Dheim
-Date                   :=18/06/2017
+Date                   :=19/06/2017
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=c:/mingw/bin/g++.exe
 SharedObjectLinkerName :=c:/mingw/bin/g++.exe -shared -fPIC
@@ -52,8 +52,8 @@ LibPath                := $(LibraryPathSwitch).
 AR       := c:/mingw/bin/ar.exe rcu
 CXX      := c:/mingw/bin/g++.exe
 CC       := c:/mingw/bin/gcc.exe
-CXXFLAGS :=  -g -O0 -Wall $(Preprocessors)
-CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
+CXXFLAGS :=  -g -O0 -Wall -Werror -Wextra -W $(Preprocessors)
+CFLAGS   :=  -g -O0 -Wall -Werror -Wextra -W $(Preprocessors)
 ASFLAGS  := 
 AS       := c:/mingw/bin/as.exe
 
@@ -62,7 +62,7 @@ AS       := c:/mingw/bin/as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/analyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tools.c$(ObjectSuffix) $(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tableur.c$(ObjectSuffix) $(IntermediateDirectory)/configReader.c$(ObjectSuffix) $(IntermediateDirectory)/grille.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/analyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tools.c$(ObjectSuffix) $(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tableur.c$(ObjectSuffix) $(IntermediateDirectory)/configReader.c$(ObjectSuffix) $(IntermediateDirectory)/grille.c$(ObjectSuffix) $(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix) 
 
 
 
@@ -148,6 +148,14 @@ $(IntermediateDirectory)/grille.c$(DependSuffix): grille.c
 
 $(IntermediateDirectory)/grille.c$(PreprocessSuffix): grille.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/grille.c$(PreprocessSuffix) grille.c
+
+$(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix): conditionMaker.c $(IntermediateDirectory)/conditionMaker.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "A:/Users/Dheim/Documents/GitHub/RMEventMonsterReader/RMReader/conditionMaker.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/conditionMaker.c$(DependSuffix): conditionMaker.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix) -MF$(IntermediateDirectory)/conditionMaker.c$(DependSuffix) -MM conditionMaker.c
+
+$(IntermediateDirectory)/conditionMaker.c$(PreprocessSuffix): conditionMaker.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/conditionMaker.c$(PreprocessSuffix) conditionMaker.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

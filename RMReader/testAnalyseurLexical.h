@@ -14,4 +14,9 @@ void afficherUnElement(InstructionEnsemble * instructionEnsemble);
 
 void testerFichier(char * nom);
 
+
+void afficherColonnesGrille(Grille * grille);
+
+void testerConfigReader();
+    
 #endif

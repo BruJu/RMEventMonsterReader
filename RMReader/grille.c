@@ -102,3 +102,36 @@ void grille_remplirChaine(Grille * grille, int id, int chaine, char * valeur) {
     strncpy(grille->enregistrements[id * grille->nbDeChamps + s].txt, valeur, SIZEMAXSTOREDTEXT-1);
     grille->enregistrements[id * grille->nbDeChamps + s].txt[SIZEMAXSTOREDTEXT] = 0;
 }
+
+Enregistrement * grille_getEnregistrement(Grille * grille, int id, VS_Possibilitees type, int variable) {
+    if (grille_outOfBound(grille, id))
+        return NULL;
+    
+    int s = grille_chercherVariableSurveillee(grille, variable, type);
+    
+    if (s == -1)
+        return NULL;
+    
+    return &(grille->enregistrements[id * grille->nbDeChamps + s]);
+}
+
+int * grille_getEnregistrementInt(Grille * grille, int id, VS_Possibilitees type, int variable) {
+    Enregistrement * enregistrement = grille_getEnregistrement(grille, id, type, variable);
+    
+    if (enregistrement == NULL)
+        return NULL;
+    
+    return &(enregistrement->val);
+}
+
+char * grille_getEnregistrementChar(Grille * grille, int id, VS_Possibilitees type, int variable) {
+    Enregistrement * enregistrement = grille_getEnregistrement(grille, id, type, variable);
+    
+    if (enregistrement == NULL)
+        return NULL;
+    
+    return enregistrement->txt;
+}
+
+
+

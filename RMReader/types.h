@@ -2,6 +2,9 @@
 #define __H_TYPES__
 
 #define SIZEMAXSTOREDTEXT (50)
+#define BUFFERIZEDFILESIZE (255)
+
+#include <stdio.h>
 
 typedef enum {
     ChgSwitch,
@@ -107,5 +110,11 @@ typedef struct {
     VariableSurveillee * variables;     // taille nbDeChamps
     Enregistrement * enregistrements;   // taille nbDeChamps x identifiantMax
 } Grille;
+
+
+typedef struct {
+    FILE * fichier;
+    char buffer[BUFFERIZEDFILESIZE];
+} BufferizedFile;
 
 #endif

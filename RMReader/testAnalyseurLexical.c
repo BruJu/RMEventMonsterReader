@@ -4,10 +4,21 @@
 #include <sys/stat.h>       // open
 #include <fcntl.h>          // open
 #include "analyseurLexical.h"
-
+#include "configReader.h"
+#include "grille.h"
 
 int nbDespaces = 0;
 
+
+char * obtenirRepresentationDuneVSPossibilite(VS_Possibilitees vs_possibilite) {
+    if (vs_possibilite == VS_VARIABLE) {
+        return "int ";
+    } else if (vs_possibilite == VS_SWITCH) {
+        return "bool";
+    } else {
+        return "str ";
+    }
+}
 
 char * obtenirRepresentationDunSigne(Signe signe) {
     switch(signe) {
@@ -192,4 +203,30 @@ void testerFichier(char * nom) {
     
     
     fclose(filedescriptor);
+}
+
+
+/* ==================================================================
+ * TEST DU PREREMPLISSAGE DES GRILLES
+ * ================================================================== */
+
+void afficherColonnesGrille(Grille * grille) {
+    for (int i = 0 ; i != grille->nbDeChamps ; i++) {
+        printf("%s %s %d\n", 
+            grille->variables[i].nom,
+            obtenirRepresentationDuneVSPossibilite(grille->variables[i].type),
+            grille->variables[i].position
+        );
+    }
+}
+
+void testerConfigReader() {
+    Grille * grid = configReader();
+    if (grid == NULL) {
+        fprintf(stderr, "Grille vide\n");
+        return;
+    }
+    
+    afficherColonnesGrille(grid);
+    libererGrille(grid);
 }
