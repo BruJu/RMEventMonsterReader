@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
     (void) argc;
     (void) argv;
     
-    //testerFichier("A:\\Users\\Dheim\\Documents\\GitHub\\RMEventMonsterReader\\RMReader\\script.txt");
+    //testerFichier("A:\\Users\\Dheim\\Documents\\GitHub\\RMEventMonsterReader\\RMReader\\ef_ev8850.txt");
     testerConfigReader();
 	return 0;
 }

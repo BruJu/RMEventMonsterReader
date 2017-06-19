@@ -3,11 +3,9 @@
 
 #include "types.h"
 
-
+int BufferizedFile_nextString(BufferizedFile * file);
 Grille * preparerTableur(BufferizedFile * file);
-
 int lireUnFichier();
-
 Grille * configReader();
 
 

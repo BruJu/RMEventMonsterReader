@@ -62,7 +62,7 @@ AS       := c:/mingw/bin/as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/analyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tools.c$(ObjectSuffix) $(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tableur.c$(ObjectSuffix) $(IntermediateDirectory)/configReader.c$(ObjectSuffix) $(IntermediateDirectory)/grille.c$(ObjectSuffix) $(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/analyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix) $(IntermediateDirectory)/tableur.c$(ObjectSuffix) $(IntermediateDirectory)/configReader.c$(ObjectSuffix) $(IntermediateDirectory)/grille.c$(ObjectSuffix) 
 
 
 
@@ -109,14 +109,6 @@ $(IntermediateDirectory)/analyseurLexical.c$(DependSuffix): analyseurLexical.c
 $(IntermediateDirectory)/analyseurLexical.c$(PreprocessSuffix): analyseurLexical.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/analyseurLexical.c$(PreprocessSuffix) analyseurLexical.c
 
-$(IntermediateDirectory)/tools.c$(ObjectSuffix): tools.c $(IntermediateDirectory)/tools.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "A:/Users/Dheim/Documents/GitHub/RMEventMonsterReader/RMReader/tools.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tools.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/tools.c$(DependSuffix): tools.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tools.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tools.c$(DependSuffix) -MM tools.c
-
-$(IntermediateDirectory)/tools.c$(PreprocessSuffix): tools.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tools.c$(PreprocessSuffix) tools.c
-
 $(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix): testAnalyseurLexical.c $(IntermediateDirectory)/testAnalyseurLexical.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "A:/Users/Dheim/Documents/GitHub/RMEventMonsterReader/RMReader/testAnalyseurLexical.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/testAnalyseurLexical.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/testAnalyseurLexical.c$(DependSuffix): testAnalyseurLexical.c
@@ -148,14 +140,6 @@ $(IntermediateDirectory)/grille.c$(DependSuffix): grille.c
 
 $(IntermediateDirectory)/grille.c$(PreprocessSuffix): grille.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/grille.c$(PreprocessSuffix) grille.c
-
-$(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix): conditionMaker.c $(IntermediateDirectory)/conditionMaker.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "A:/Users/Dheim/Documents/GitHub/RMEventMonsterReader/RMReader/conditionMaker.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/conditionMaker.c$(DependSuffix): conditionMaker.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/conditionMaker.c$(ObjectSuffix) -MF$(IntermediateDirectory)/conditionMaker.c$(DependSuffix) -MM conditionMaker.c
-
-$(IntermediateDirectory)/conditionMaker.c$(PreprocessSuffix): conditionMaker.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/conditionMaker.c$(PreprocessSuffix) conditionMaker.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

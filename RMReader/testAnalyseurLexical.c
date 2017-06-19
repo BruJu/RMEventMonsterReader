@@ -9,6 +9,8 @@
 
 int nbDespaces = 0;
 
+#define NBCHARyyLine 255
+extern char yyLine[NBCHARyyLine];
 
 char * obtenirRepresentationDuneVSPossibilite(VS_Possibilitees vs_possibilite) {
     if (vs_possibilite == VS_VARIABLE) {
@@ -174,6 +176,8 @@ void afficherUnElement(InstructionEnsemble * instructionEnsemble) {
         break;
     default :
         printf("!! Instruction non reconnue\n");
+        printf("%s\n", yyLine);
+        exit(0);
         break;
     }
 }
@@ -198,7 +202,6 @@ void testerFichier(char * nom) {
         if (instruct->instruction == Ignore)
             continue;
         
-        afficherUnElement(instruct);
     }
     
     
@@ -227,7 +230,7 @@ void testerConfigReader() {
         return;
     }
     
-    afficherColonnesGrille(grid);
+    //afficherColonnesGrille(grid);
     grille_afficher(grid);
     libererGrille(grid);
 }

@@ -5,18 +5,14 @@
 
 #define CHAINESIZE 50
 
-
 typedef struct {
     Instruction instruction;
     char chaine[5*CHAINESIZE];
 } InstructionsEnCoursDeLecture;
 
-
-
 int readLine();
 InstructionsEnCoursDeLecture lireLigne();
 InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL);
-
 InstructionEnsemble * initialiserLaNouvelleLigne();
 
 

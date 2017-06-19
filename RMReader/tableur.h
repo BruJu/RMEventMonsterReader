@@ -58,6 +58,7 @@ typedef struct {
 } ConditionForkee;
 
 
+int remplirTableur_init(Grille * grille, char * nomDuFichier);
 
 /*
  * Grammaire :
@@ -69,9 +70,6 @@ typedef struct {
  * Condition -> ForkIf S ForkEnd                } Condition' -> ForkElse S ForkEnd
  *                                              } Condition' -> ForkEnd
  */
-
-
-int remplirTableur_init(Grille * grille, char * nomDuFichier);
 
 int remplirTableur_S();
 int remplirTableur_Instruction();

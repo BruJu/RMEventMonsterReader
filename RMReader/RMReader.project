@@ -11,13 +11,11 @@
     <File Name="main.c"/>
     <File Name="analyseurLexical.c"/>
     <File Name="types.h"/>
-    <File Name="tools.c"/>
     <File Name="remarques.txt"/>
     <File Name="testAnalyseurLexical.c"/>
     <File Name="script.txt"/>
     <File Name="analyseurLexical.h"/>
     <File Name="testAnalyseurLexical.h"/>
-    <File Name="tools.h"/>
     <File Name="config.txt"/>
     <File Name="tableur.c"/>
     <File Name="tableur.h"/>
@@ -25,8 +23,6 @@
     <File Name="configReader.h"/>
     <File Name="grille.c"/>
     <File Name="grille.h"/>
-    <File Name="conditionMaker.c"/>
-    <File Name="conditionMaker.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

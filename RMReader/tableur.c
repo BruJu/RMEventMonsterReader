@@ -1,17 +1,28 @@
 #include "tableur.h"
 #include "analyseurLexical.h"
 #include "grille.h"
+#include "testAnalyseurLexical.h"
 #include <stdlib.h>
 #include <string.h>
 
 extern FILE * filedescriptor;
 
 Grille * grid;
-
 InstructionEnsemble * instr = NULL;
 ConditionWorker conditionWorker;
 
+/**
+ * Echange a et b
+ */
+void echanger(int * a, int * b) {
+    int temp = *a;    *a = *b;    *b = temp;
+}
 
+/**
+ * Renvoie l'enregistrement après actualLine qui respecte toutes les conditions mises en place.
+ * 
+ * Renvoie -1 si il n'y a plus de ligne
+ */
 int getNextLine(int actualLine) {
     if (actualLine < conditionWorker.minID) {
         actualLine = conditionWorker.minID;
@@ -73,7 +84,6 @@ noGood:
             condAu = condAu->s;
         }
         
-        actualLine++;
         
     } while (condId != NULL && condAu != NULL);
     
@@ -84,7 +94,11 @@ noGood:
 }
 
 
+int nb_aff;
 
+/**
+ * Applique le changement d'interrupteur à tous les enregistrements concernables
+ */
 void remplirTableur_ChgSwitch() {
     int newLine = -1;
     int colonne;
@@ -105,13 +119,23 @@ void remplirTableur_ChgSwitch() {
             case Egal:
                 *enreg = instr->complement.affectation.nouvelleValeur;
                 break;
+            case Different:
+                *enreg = 1-instr->complement.affectation.nouvelleValeur;
+                break;
             default:
-                fprintf(stderr, "Incoherent operator\n");
+                fprintf(stderr, "Incoherent operator a %d\n", instr->complement.affectation.signe);
+                exit(0);
                 break;
         }
     }
 }
 
+//int exmin = -5;
+//int exmax = -5;
+
+/**
+ * Applique le changement de variables à tous les enregistrements concernables
+ */
 void remplirTableur_ChgVariable() {
     int newLine = -1;
     int colonne;
@@ -122,6 +146,8 @@ void remplirTableur_ChgVariable() {
         return;
     
     int * enreg;
+    
+    nb_aff = 0;
     
     while ((newLine = getNextLine(newLine)) != -1) {
         grid->enregistrements[newLine * grid->nbDeChamps].val = newLine;
@@ -147,29 +173,30 @@ void remplirTableur_ChgVariable() {
                 *enreg %= instr->complement.affectation.nouvelleValeur;
                 break;
             default:
-                fprintf(stderr, "Incoherent operator\n");
+                fprintf(stderr, "Incoherent operator b\n");
+                exit (0);
                 break;
         }
+        
+        nb_aff ++;
     }
 }
 
 void remplirTableur_ShowPicture() {
-    fprintf(stderr, "Not implemented\n");
+    //fprintf(stderr, "Not implemented\n");
 }
 
 void remplirTableur_ChangeItem() {
-    fprintf(stderr, "Not implemented\n");
+    //fprintf(stderr, "Not implemented\n");
 }
 
 
-void echanger(int * a, int * b) {
-    int temp;
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-
+/**
+ * Lit une nouvelle instruction dans le fichier.
+ * 
+ * Renvoie -1 si l'instruction n'est pas gérable dans la grammaire
+ * Renvoie 0 si ok
+ */
 int avancer() {
     int k;
     
@@ -181,9 +208,13 @@ int avancer() {
         k = remplirTableur_instructionsNonGerees();
     } while (k == 1);
     
+    
     return !k;
 }
 
+/**
+ * Initialise la variable globale qui permet de gérer les conditions
+ */
 void conditionWorkerInit() {
     conditionWorker.autresConditions = NULL;
     conditionWorker.conditionsChaines = NULL;
@@ -192,15 +223,18 @@ void conditionWorkerInit() {
     conditionWorker.maxID = grid->identifiantMax - 1;
 }
 
+/**
+ * Retire la gestion de la condition
+ */
 void retirerCondForkee(ConditionForkee * condFork) {
     switch (condFork->type) {
         case CONDFORKEE_MIN:
-            if (conditionWorker.minID < condFork->u.valeur) {
+            if (conditionWorker.minID > condFork->u.valeur) {
                 echanger(&(conditionWorker.minID), &(condFork->u.valeur));
             }
             break;
         case CONDFORKEE_MAX:
-            if (conditionWorker.maxID > condFork->u.valeur) {
+            if (conditionWorker.maxID < condFork->u.valeur) {
                 echanger(&(conditionWorker.maxID), &(condFork->u.valeur));
             }
             break;
@@ -259,7 +293,9 @@ void retirerCondForkee(ConditionForkee * condFork) {
     
 }
 
-
+/**
+ * Ajoute la gestion de la condition
+ */
 int ajouterCondForkee(ConditionForkee * condFork) {
     switch (condFork->type) {
         case CONDFORKEE_MIN:
@@ -296,6 +332,9 @@ int ajouterCondForkee(ConditionForkee * condFork) {
     return 0;
 }
 
+/**
+ * Inverse la condition
+ */
 void inverserCondForkee(ConditionForkee * condFork) {
     switch (condFork->type) {
         case CONDFORKEE_MIN:
@@ -339,7 +378,9 @@ void inverserCondForkee(ConditionForkee * condFork) {
     }
 }
 
-
+/**
+ * Crée une structure ConditionForkée qui va gérer une nouvelle condition
+ */
 ConditionForkee * ajouterCondition(VS_Possibilitees type, Signe signe, int valeur, char * chaine, int numVariable) {
     int positionCol;
     
@@ -391,7 +432,7 @@ ConditionForkee * ajouterCondition(VS_Possibilitees type, Signe signe, int valeu
                 } else if (signe == Egal) {
                     condFork->type = CONDFORKEE_IMPOSER;
                     condFork->u.valeurs.oldmin = valeur;
-                    condFork->u.valeurs.oldmax = valeur;
+                    condFork->u.valeurs.oldmax = valeur+1;
                 } else if (signe == Different) {
                     condFork->type = CONDFORKEE_IDINTERDIT;
                     condFork->u.valeursInterdites.v = valeur;
@@ -430,7 +471,9 @@ ConditionForkee * ajouterCondition(VS_Possibilitees type, Signe signe, int valeu
     return condFork;
 }
 
-
+/**
+ * Rempli la grille avec le nom du fichier donnée
+ */
 int remplirTableur_init(Grille * grille, char * nomDuFichier) {
     int k;
     
@@ -456,26 +499,7 @@ int remplirTableur_init(Grille * grille, char * nomDuFichier) {
     return k;
 }
 
-/*
- *     ChgSwitch, ChgVariable, ShowPicture, ChangeItem
-    ChgVariable,
-    ForkIf,
-    ForkElse,
-    ForkEnd,
-    ShowPicture,
-    ChangeItem,
-     * 
-        case Label:
-        case JumpToLabel:
-        case Loop:
-        case LoopEnd:
-        case LoopBreak:
-        case Instr_Erreur:
-            return -1;
-        case Ignore:
-        case Void:
-            return 1;
-     * */
+
 
 int remplirTableur_S() {
     if (instr == NULL
@@ -521,8 +545,6 @@ int remplirTableur_Instruction() {
     return 0;
 }
 
-
-
 int remplirTableur_Condition() {
     if (instr == NULL || instr->instruction != ForkIf) {
         return 1;
@@ -551,43 +573,54 @@ int remplirTableur_Condition() {
                                            NULL,
                                            instr->complement.forkIf.numero);
     }
-    
+    /*
     if (forkedCondition == NULL) {
-        fprintf(stderr, "Forked Condition sur null\n");
-        return 1;
-    }
-    
-    // l'ajouter
-    if (ajouterCondForkee(forkedCondition)) {
-        if (!avancer())
-            return 1;
-        
-        remplirTableur_S();
-    } else {
-        // Squeezer tout le contenu
-        int imbrications = 1;
+        if (conditionWorker.minID == 270) {
+            printf("hey!\n");
+        }
         
         do {
+            printf(">>");
+            if (!avancer())
+                return 1;
+        } while (instr->instruction != ForkElse && instr->instruction != ForkEnd);
+        
+    } else {*/
+        // l'ajouter
+        if (forkedCondition != NULL && ajouterCondForkee(forkedCondition)) {
             if (!avancer())
                 return 1;
             
-            switch (instr->instruction) {
-                case ForkIf:
-                    imbrications++;
-                    break;
-                case ForkElse:
-                    if (imbrications == 1)
-                        imbrications--;
-                    break;
-                case ForkEnd:
-                    imbrications--;
-                    break;
-                default:
-                    break;
+            remplirTableur_S();
+        } else {
+            if (forkedCondition != NULL) {
+                free (forkedCondition);
+                forkedCondition = NULL;
             }
             
-        } while(imbrications != 0);
-    }
+            // Squeezer tout le contenu
+            int imbrications = 1;
+            
+            do {
+                if (!avancer())
+                    return 1;
+                
+                switch (instr->instruction) {
+                    case ForkIf:
+                        imbrications++;
+                        break;
+                    case ForkElse:
+                        break;
+                    case ForkEnd:
+                        imbrications--;
+                        break;
+                    default:
+                        break;
+                }
+                
+            } while(imbrications != 0);
+        }
+    //}
     
     remplirTableur_ConditionPrime(forkedCondition);
     
@@ -600,17 +633,31 @@ int remplirTableur_ConditionPrime(ConditionForkee * conditionForkee) {
 
     
     if (instr->instruction == ForkElse) {
-        retirerCondForkee(conditionForkee);
-        inverserCondForkee(conditionForkee);
-        ajouterCondForkee(conditionForkee);
+        /*
+        if (conditionForkee == NULL) {
+            do {
+            printf(">>");
+                if (!avancer())
+                    return 1;
+            } while (instr->instruction != ForkEnd);
         
-        if (!avancer())
-            return 1;
+        } else {*/
+            retirerCondForkee(conditionForkee);
+            inverserCondForkee(conditionForkee);
+            ajouterCondForkee(conditionForkee);
             
-        remplirTableur_S();
+            if (!avancer())
+                return 1;
+                
+            remplirTableur_S();
+        //}
     }
     
     if (instr->instruction == ForkEnd) {
+        if (conditionForkee != NULL) {
+            retirerCondForkee(conditionForkee);
+        }
+        
         // enlever la condition forkée
         return !avancer();
     }
@@ -618,6 +665,11 @@ int remplirTableur_ConditionPrime(ConditionForkee * conditionForkee) {
     return 1;
 }
 
+/**
+ * Renvoie 0 si on est sur une instruction null ou gérée
+ * Renvoie 1 si on est sur une instruction inutile
+ * Renvoie -1 si on est sur une instruction non gérée par cette grammaire
+ */
 int remplirTableur_instructionsNonGerees() {
     if (instr == NULL)
         return 0;

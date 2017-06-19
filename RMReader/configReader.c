@@ -4,6 +4,13 @@
 #include <string.h>         // strcpy
 #include <stdlib.h>         // atoi
 
+/**
+ * Lit la prochaine ligne du BufferizedFile;
+ * 
+ * Renvoie 0 si réussite
+ * Renvoie -1 si pas de fichier à exploiter
+ * Renvoie -2 si fin de fichier
+ */
 int BufferizedFile_nextString(BufferizedFile * file) {
     if (file == NULL || file->fichier == NULL)
         return -1;
@@ -14,7 +21,17 @@ int BufferizedFile_nextString(BufferizedFile * file) {
     return 0;
 }
 
-
+/**
+ * Lit les premières lignes du fichier passé en paramètre (config.txt) et 
+ * rempli la grille qui accueillera les données de la Grille.
+ * 
+ * La grille renvoyée contient la place suffisante pour acceuillir les données
+ * et les noms des variables sont mis en places.
+ * 
+ * Le BufferizedFile aura son prochain readLine qui agira sur un nom de fichier.
+ * 
+ * Gestion de mémoire : Faire un libererGrille()
+ */
 Grille * preparerTableur(BufferizedFile * file) {
     if (BufferizedFile_nextString(file)) {
         fprintf(stderr, "Le fichier config est vide\n");
@@ -71,7 +88,7 @@ Grille * preparerTableur(BufferizedFile * file) {
         
         int pos_c = 1;
         int pos_r;
-        /* NOM DES VARIABLES POOUR LE PREMIER GROUPE */
+        /* NOM DES VARIABLES POUR LE PREMIER GROUPE */
         
         // TODO : Corriger les dépassements de mémoire évidents
         for (loop = 0 ; loop != grille->nbDElementsParSousEnsembles ; loop++) {
@@ -149,6 +166,9 @@ erreurFinDeFichierInnatendue:
     return NULL;
 }
 
+/**
+ * Rempli la grille à partir du nom du fichier dans la prochaine ligne du BufferizedFile
+ */
 int lireUnFichier(BufferizedFile * file, Grille * grille) {
     if (BufferizedFile_nextString(file)) {
         return 1;
@@ -157,7 +177,11 @@ int lireUnFichier(BufferizedFile * file, Grille * grille) {
     return remplirTableur_init(grille, &(file->buffer[1]));
 }
 
-
+/**
+ * Renvoi un objet grille qui répond aux instructions du fichier config.txt
+ * 
+ * Gestion de mémoire : Faire un libererGrille()
+ */
 Grille * configReader() {
     BufferizedFile file;
     Grille * grille;

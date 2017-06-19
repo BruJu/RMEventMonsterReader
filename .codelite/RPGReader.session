@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Session Name="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RPGReader.workspace">
-  <int Value="0" Name="m_selectedTab"/>
+  <int Value="5" Name="m_selectedTab"/>
   <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RPGReader.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\analyseurLexical.c" Name="FileName"/>
-      <int Value="84" Name="FirstVisibleLine"/>
-      <int Value="90" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\tools.c" Name="FileName"/>
-      <int Value="1" Name="FirstVisibleLine"/>
-      <int Value="1" Name="CurrentLine"/>
+      <int Value="291" Name="FirstVisibleLine"/>
+      <int Value="331" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\main.c" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="5" Name="CurrentLine"/>
+      <int Value="9" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
@@ -33,29 +26,29 @@
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\testAnalyseurLexical.c" Name="FileName"/>
-      <int Value="162" Name="FirstVisibleLine"/>
-      <int Value="54" Name="CurrentLine"/>
+      <int Value="168" Name="FirstVisibleLine"/>
+      <int Value="190" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\types.h" Name="FileName"/>
-      <int Value="87" Name="FirstVisibleLine"/>
-      <int Value="6" Name="CurrentLine"/>
+      <int Value="18" Name="FirstVisibleLine"/>
+      <int Value="48" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\script.txt" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="17" Name="CurrentLine"/>
+      <int Value="16" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\analyseurLexical.h" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="0" Name="CurrentLine"/>
+      <int Value="5" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
@@ -67,63 +60,81 @@
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
-      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\tools.h" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="0" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\config.txt" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="5" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\tableur.c" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="0" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\tableur.h" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
       <int Value="6" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
-      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\configReader.c" Name="FileName"/>
-      <int Value="66" Name="FirstVisibleLine"/>
-      <int Value="99" Name="CurrentLine"/>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\tableur.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="3" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds">
+        <IntVectorItem Value="213"/>
+        <IntVectorItem Value="322"/>
+        <IntVectorItem Value="368"/>
+      </IntVector>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\tableur.h" Name="FileName"/>
+      <int Value="45" Name="FirstVisibleLine"/>
+      <int Value="63" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\configReader.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="181" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds">
+        <IntVectorItem Value="13"/>
+        <IntVectorItem Value="34"/>
+        <IntVectorItem Value="171"/>
+        <IntVectorItem Value="184"/>
+      </IntVector>
+    </TabInfo>
+    <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\configReader.h" Name="FileName"/>
       <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="10" Name="CurrentLine"/>
+      <int Value="4" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\grille.c" Name="FileName"/>
-      <int Value="102" Name="FirstVisibleLine"/>
+      <int Value="135" Name="FirstVisibleLine"/>
       <int Value="0" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\grille.h" Name="FileName"/>
-      <int Value="24" Name="FirstVisibleLine"/>
-      <int Value="48" Name="CurrentLine"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="16" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
   </TabInfoArray>
   <SerializedObject Name="m_breakpoints">
-    <long Value="0" Name="Count"/>
+    <long Value="1" Name="Count"/>
+    <SerializedObject Name="Breakpoint0">
+      <wxString Value="A:\Users\Dheim\Documents\GitHub\RMEventMonsterReader\RMReader\testAnalyseurLexical.c" Name="file"/>
+      <int Value="231" Name="lineno"/>
+      <wxString Value="" Name="function_name"/>
+      <wxString Value="" Name="memory_address"/>
+      <int Value="1" Name="bp_type"/>
+      <int Value="0" Name="watchpoint_type"/>
+      <wxString Value="" Name="watchpt_data"/>
+      <CData Name="commandlist"/>
+      <bool Value="0" Name="regex"/>
+      <bool Value="0" Name="is_temp"/>
+      <bool Value="1" Name="is_enabled"/>
+      <int Value="0" Name="ignore_number"/>
+      <wxString Value="" Name="conditions"/>
+      <int Value="0" Name="origin"/>
+    </SerializedObject>
   </SerializedObject>
 </Session>

@@ -1,5 +1,9 @@
 #include "analyseurLexical.h"
 
+#include <stdlib.h>
+#include <string.h>         // strcpy
+#include <stdio.h>
+
 /*
  * vérifier la cohérence lorsqu'on lit un symbole _ dans une variable
  * 
@@ -7,12 +11,8 @@
  * 
  */
 
-#include <stdlib.h>
-#include <string.h>         // strcpy
-#include <stdio.h>
-
 #define NBCHARyyLine 255
-#define NB_INSTRUCTIONS 15
+#define NB_INSTRUCTIONS 18
 
 char yyLine[NBCHARyyLine];
 FILE * filedescriptor = NULL;
@@ -30,9 +30,15 @@ FILE * filedescriptor = NULL;
  * • Change Item
  * Pas de pointage
  * • Fork If
- * Non implémenté
  */
 
+
+
+/* |||||||||||==========================================||||||||||
+ * |||||||||||==========================================||||||||||
+ * ||||||||||| SCHEMA DES INSTRUCTIONS PRISES EN COMPTE ||||||||||
+ * |||||||||||==========================================||||||||||
+ * |||||||||||==========================================|||||||||| */
 
 char * instructionModeles[] = {
     "<> Change Switch: [_] = _",
@@ -49,7 +55,10 @@ char * instructionModeles[] = {
     ": Else ...",
     "<>",
     "<> Set Event Location|",
-    "<> Change Panorama|"
+    "<> Change Panorama|",
+    "<> Play BGM:|",
+    "<> Erase Picture:|",
+    "<> Set Screen Tone:|"
 };
 
 
@@ -67,6 +76,9 @@ Instruction instructionsCorrespondantes[] = {
     LoopEnd,
     ForkElse,
     Void,
+    Ignore,
+    Ignore,
+    Ignore,
     Ignore,
     Ignore
     
@@ -99,8 +111,10 @@ int readLine() {
     return 0;
 }
 
-
-
+/**
+ * Converti la ligne yyLine afin de reconnaitre quel est le type d'instruction
+ * et isoler les différents paramètres
+ */
 InstructionsEnCoursDeLecture lireLigne() {
     InstructionsEnCoursDeLecture resultat;
     int i_schema, i_chaineEnCours, i_ligneActuelle, i_debutligneActuelle;
@@ -172,7 +186,10 @@ InstructionsEnCoursDeLecture lireLigne() {
     return resultat;
 }
 
-
+/**
+ * Decrypte les paramètres d'une instruction dont le type est connu et dont les paramètres
+ * ont été isolés.
+ */
 InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
     InstructionEnsemble * instructionEnsemble = malloc(sizeof(InstructionEnsemble));
     if (instructionEnsemble == NULL)
@@ -187,7 +204,7 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
     if (iECDL.instruction == ChgSwitch) {
         // "<> Change Switch: [_] = _" [ChgSwitch] Numéro du switch, nouvelle position
         instructionEnsemble->complement.affectation.numero = atoi(iECDL.chaine);
-        
+        instructionEnsemble->complement.affectation.signe = Egal;
         // ON ou OFF ?
         if (iECDL.chaine[1*CHAINESIZE + 1] == 'N') {
             instructionEnsemble->complement.affectation.nouvelleValeur = 1;
@@ -230,11 +247,6 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
             instructionEnsemble->complement.affectation.signe = Egal;
             break;
         }
-        
-        /*
-        Pour l'instant seul les valeurs brutes sont prises en compte
-        TODO : Mettre en place les autres fonctionnalités proposées par RPG Maker
-        */
         
         instructionEnsemble->complement.affectation.nouvelleValeur = atoi(iECDL.chaine + 2*CHAINESIZE);
     } else if (iECDL.instruction == ChangeItem) {
@@ -320,7 +332,11 @@ InstructionEnsemble * analyserLigne(InstructionsEnCoursDeLecture iECDL) {
 }
 
 
-
+/**
+ * Converti la prochaine ligne du fichier filedescriptor en Instruction.
+ *
+ * Gestion de la mémoire : Il faut free() le résultat
+ */
 InstructionEnsemble * initialiserLaNouvelleLigne() {
     if (readLine())
         return NULL;
