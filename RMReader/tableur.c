@@ -1,5 +1,6 @@
 #include "tableur.h"
 #include "analyseurLexical.h"
+#include "grille.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -9,6 +10,165 @@ Grille * grid;
 
 InstructionEnsemble * instr = NULL;
 ConditionWorker conditionWorker;
+
+
+int getNextLine(int actualLine) {
+    if (actualLine < conditionWorker.minID) {
+        actualLine = conditionWorker.minID;
+    } else {
+        actualLine ++;
+    }
+    
+    ConditionID * condId;
+    ConditionAutre * condAu;
+    
+    do {
+        condId = conditionWorker.valeursInterdites;
+        
+        while (condId != NULL) {
+            if (actualLine == condId->v) {
+                break;
+            }
+            
+            condId = condId->s;
+        }
+        
+        if (condId != NULL) {
+noGood:
+            actualLine ++;
+            continue;
+        }
+        
+        
+        condAu = conditionWorker.autresConditions;
+        
+        int valeurCible;
+        
+        while (condAu != NULL) {
+            valeurCible = grid->enregistrements[actualLine * grid->nbDeChamps + condAu->num].val;
+            
+            switch(condAu->type) {
+                case COND_DIFF:
+                    if (valeurCible == condId->v) {
+                        goto noGood;
+                    }
+                    break;
+                case COND_EGAL:
+                    if (valeurCible != condId->v) {
+                        goto noGood;
+                    }
+                    break;
+                case COND_INF:
+                    if (valeurCible > condId->v) {
+                        goto noGood;
+                    }
+                    break;
+                case COND_SUP:
+                    if (valeurCible < condId->v) {
+                        goto noGood;
+                    }
+                    break;
+            }
+            
+            condAu = condAu->s;
+        }
+        
+        actualLine++;
+        
+    } while (condId != NULL && condAu != NULL);
+    
+    if (actualLine >= conditionWorker.maxID )
+        return -1;
+    else
+        return actualLine;
+}
+
+
+
+void remplirTableur_ChgSwitch() {
+    int newLine = -1;
+    int colonne;
+    
+    colonne = grille_chercherVariableSurveillee(grid, instr->complement.affectation.numero, VS_SWITCH);
+
+    if (colonne == -1)  // Variable non surveillée
+        return;
+    
+    int * enreg;
+    
+    while ((newLine = getNextLine(newLine)) != -1) {
+        grid->enregistrements[newLine * grid->nbDeChamps].val = newLine;
+        
+        enreg = &(grid->enregistrements[newLine * grid->nbDeChamps + colonne].val);
+        
+        switch (instr->complement.affectation.signe) {
+            case Egal:
+                *enreg = instr->complement.affectation.nouvelleValeur;
+                break;
+            default:
+                fprintf(stderr, "Incoherent operator\n");
+                break;
+        }
+    }
+}
+
+void remplirTableur_ChgVariable() {
+    int newLine = -1;
+    int colonne;
+    
+    colonne = grille_chercherVariableSurveillee(grid, instr->complement.affectation.numero, VS_VARIABLE);
+
+    if (colonne == -1)  // Variable non surveillée
+        return;
+    
+    int * enreg;
+    
+    while ((newLine = getNextLine(newLine)) != -1) {
+        grid->enregistrements[newLine * grid->nbDeChamps].val = newLine;
+        enreg = &(grid->enregistrements[newLine * grid->nbDeChamps + colonne].val);
+        
+        switch (instr->complement.affectation.signe) {
+            case Egal:
+                *enreg = instr->complement.affectation.nouvelleValeur;
+                break;
+            case Plus:
+                *enreg += instr->complement.affectation.nouvelleValeur;
+                break;
+            case Moins:
+                *enreg -= instr->complement.affectation.nouvelleValeur;
+                break;
+            case Fois:
+                *enreg *= instr->complement.affectation.nouvelleValeur;
+                break;
+            case Divise:
+                *enreg /= instr->complement.affectation.nouvelleValeur;
+                break;
+            case Modulo:
+                *enreg %= instr->complement.affectation.nouvelleValeur;
+                break;
+            default:
+                fprintf(stderr, "Incoherent operator\n");
+                break;
+        }
+    }
+}
+
+void remplirTableur_ShowPicture() {
+    fprintf(stderr, "Not implemented\n");
+}
+
+void remplirTableur_ChangeItem() {
+    fprintf(stderr, "Not implemented\n");
+}
+
+
+void echanger(int * a, int * b) {
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 
 int avancer() {
     int k;
@@ -35,13 +195,18 @@ void conditionWorkerInit() {
 void retirerCondForkee(ConditionForkee * condFork) {
     switch (condFork->type) {
         case CONDFORKEE_MIN:
-            conditionWorker.maxID = condFork->u.valeur;
+            if (conditionWorker.minID < condFork->u.valeur) {
+                echanger(&(conditionWorker.minID), &(condFork->u.valeur));
+            }
+            break;
         case CONDFORKEE_MAX:
-            conditionWorker.minID = condFork->u.valeur;
+            if (conditionWorker.maxID > condFork->u.valeur) {
+                echanger(&(conditionWorker.maxID), &(condFork->u.valeur));
+            }
             break;
         case CONDFORKEE_IMPOSER:
-            conditionWorker.minID = condFork->u.valeurs.oldmin;
-            conditionWorker.maxID = condFork->u.valeurs.oldmax;
+            echanger(&(conditionWorker.minID), &(condFork->u.valeurs.oldmin));
+            echanger(&(conditionWorker.maxID), &(condFork->u.valeurs.oldmax));
             break;
         case CONDFORKEE_IDINTERDIT:
             {
@@ -54,15 +219,39 @@ void retirerCondForkee(ConditionForkee * condFork) {
                         conditionID = conditionID->s;
                     }
                     
-                    // TODO
+                    conditionID->s = conditionID->s->s;
                 }
             }
             break;
         case CONDFORKEE_AUTRE:
-            
+            {
+                ConditionAutre * conditionAutre = conditionWorker.autresConditions;
+                
+                if (conditionAutre == &(condFork->u.autresConditions)) {
+                    conditionWorker.autresConditions = conditionAutre->s;
+                } else {
+                    while (conditionAutre->s != &(condFork->u.autresConditions)) {
+                        conditionAutre = conditionAutre->s;
+                    }
+                    
+                    conditionAutre->s = conditionAutre->s->s;
+                }
+            }
             break;
         case CONDFORKEE_CHAINE:
-            
+            {
+                ConditionChaine * conditionChaine = conditionWorker.conditionsChaines;
+                
+                if (conditionChaine == &(condFork->u.conditionsChaines)) {
+                    conditionWorker.conditionsChaines = conditionChaine->s;
+                } else {
+                    while (conditionChaine->s != &(condFork->u.conditionsChaines)) {
+                        conditionChaine = conditionChaine->s;
+                    }
+                    
+                    conditionChaine->s = conditionChaine->s->s;
+                }
+            }
             break;
         default:
             return;
@@ -70,9 +259,84 @@ void retirerCondForkee(ConditionForkee * condFork) {
     
 }
 
-void ajouterCondForkee(ConditionForkee * condFork) {
-    (void) condFork;
+
+int ajouterCondForkee(ConditionForkee * condFork) {
+    switch (condFork->type) {
+        case CONDFORKEE_MIN:
+            if (conditionWorker.minID < condFork->u.valeur) {
+                echanger(&(conditionWorker.minID), &(condFork->u.valeur));
+            }
+            break;
+        case CONDFORKEE_MAX:
+            if (conditionWorker.maxID > condFork->u.valeur) {
+                echanger(&(conditionWorker.maxID), &(condFork->u.valeur));
+            }
+            break;
+        case CONDFORKEE_IMPOSER:
+            if (conditionWorker.minID <= condFork->u.valeurs.oldmin && conditionWorker.maxID >= condFork->u.valeurs.oldmax) {
+                echanger(&(conditionWorker.minID), &(condFork->u.valeurs.oldmin));
+                echanger(&(conditionWorker.maxID), &(condFork->u.valeurs.oldmax));
+            } else {
+                return 1;
+            }
+            break;
+        case CONDFORKEE_IDINTERDIT:
+            condFork->u.valeursInterdites.s = conditionWorker.valeursInterdites;
+            conditionWorker.valeursInterdites = &(condFork->u.valeursInterdites);
+            break;
+        case CONDFORKEE_AUTRE:
+            condFork->u.autresConditions.s = conditionWorker.autresConditions;
+            conditionWorker.autresConditions = &(condFork->u.autresConditions);
+            break;
+        case CONDFORKEE_CHAINE:
+            fprintf(stderr, "ERRTAB004 //");
+            break;
+    }
     
+    return 0;
+}
+
+void inverserCondForkee(ConditionForkee * condFork) {
+    switch (condFork->type) {
+        case CONDFORKEE_MIN:
+            condFork->type = CONDFORKEE_MAX;
+            condFork->u.valeur -= 1;
+            break;
+        case CONDFORKEE_MAX:
+            condFork->type = CONDFORKEE_MIN;
+            condFork->u.valeur += 1;
+            break;
+        case CONDFORKEE_IMPOSER:
+            condFork->type = CONDFORKEE_IDINTERDIT;
+            condFork->u.valeursInterdites.v = condFork->u.valeur;
+            break;
+        case CONDFORKEE_IDINTERDIT:
+            condFork->type = CONDFORKEE_IMPOSER;
+            condFork->u.valeur = condFork->u.valeursInterdites.v;
+            break;
+        case CONDFORKEE_AUTRE:
+            switch (condFork->u.autresConditions.type) {
+                case COND_DIFF:
+                    condFork->u.autresConditions.type = COND_EGAL;
+                    break;
+                case COND_EGAL:
+                    condFork->u.autresConditions.type = COND_DIFF;
+                    break;
+                case COND_INF:
+                    condFork->u.autresConditions.type = COND_SUP;
+                    condFork->u.autresConditions.val += 1;
+                    break;
+                case COND_SUP:
+                    condFork->u.autresConditions.type = COND_INF;
+                    condFork->u.autresConditions.val -= 1;
+                    break;
+            }
+            break;
+        case CONDFORKEE_CHAINE:
+            // Les CONDFORKEE_CHAINE n'ont en fait aucun sens dans le langage de programmation décrypté
+            fprintf(stderr, "ERRTAB005");
+            break;
+    }
 }
 
 
@@ -120,25 +384,14 @@ ConditionForkee * ajouterCondition(VS_Possibilitees type, Signe signe, int valeu
             if (positionCol == 0) {
                 if (signe == Inferieur) {
                     condFork->type = CONDFORKEE_MAX;
-                    condFork->u.valeur = conditionWorker.maxID;
-                        
-                    if (conditionWorker.maxID >= valeur) {
-                        conditionWorker.maxID = valeur-1;
-                    }
+                    condFork->u.valeur = valeur;
                 } else if (signe == Superieur) {
-                    condFork->type = CONDFORKEE_MAX;
-                    condFork->u.valeur = conditionWorker.minID;
-                        
-                    if (conditionWorker.minID < valeur) {
-                        conditionWorker.minID = valeur;
-                    }
+                    condFork->type = CONDFORKEE_MIN;
+                    condFork->u.valeur = valeur;
                 } else if (signe == Egal) {
                     condFork->type = CONDFORKEE_IMPOSER;
-                    condFork->u.valeurs.oldmin = conditionWorker.minID;
-                    condFork->u.valeurs.oldmax = conditionWorker.minID;
-                    
-                    conditionWorker.minID = valeur;
-                    conditionWorker.maxID = valeur;
+                    condFork->u.valeurs.oldmin = valeur;
+                    condFork->u.valeurs.oldmax = valeur;
                 } else if (signe == Different) {
                     condFork->type = CONDFORKEE_IDINTERDIT;
                     condFork->u.valeursInterdites.v = valeur;
@@ -147,6 +400,7 @@ ConditionForkee * ajouterCondition(VS_Possibilitees type, Signe signe, int valeu
                     return NULL;
                 }
             } else {
+                condFork->type = CONDFORKEE_AUTRE;
                 condFork->u.autresConditions.num = positionCol;
                     
                 if (signe == Inferieur) {
@@ -186,9 +440,10 @@ int remplirTableur_init(Grille * grille, char * nomDuFichier) {
         return -1;
     }
     
+    grid = grille;
+    
     conditionWorkerInit();
     
-    grid = grille;
     
     
     if (!avancer()) {
@@ -234,7 +489,6 @@ int remplirTableur_S() {
     return remplirTableur_S();
 }
 
-
 int remplirTableur_Instruction() {
     // Instructions impossibles : ForkElse et ForkEnd
     
@@ -243,8 +497,24 @@ int remplirTableur_Instruction() {
         return remplirTableur_Condition();
     } else {
         // ChgSwitch, ChgVariable, ShowPicture, ChangeItem
-        fprintf(stderr, "Not implemented\n");
-
+        switch (instr->instruction) {
+            case ChgSwitch:
+                remplirTableur_ChgSwitch();
+                break;
+            case ChgVariable:
+                remplirTableur_ChgVariable();
+                break;
+            case ShowPicture:
+                remplirTableur_ShowPicture();
+                break;
+            case ChangeItem:
+                remplirTableur_ChangeItem();
+                break;
+            default:
+                fprintf(stderr, "ERR006\n");
+                break;
+        }
+        
         return !avancer();
     }
     
@@ -258,11 +528,67 @@ int remplirTableur_Condition() {
         return 1;
     }
     
-    // créer la condition forkée
-    ConditionForkee * forkedCondition = NULL;
+    ConditionForkee * forkedCondition;
+
+    if (instr->complement.forkIf.type == 0) {
+        // Switch
+        forkedCondition = ajouterCondition(VS_SWITCH,
+                                           instr->complement.forkIf.comparatif,
+                                           instr->complement.forkIf.valeur,
+                                           NULL,
+                                           instr->complement.forkIf.numero);
+    } else {
+        // Variable
+        
+        if (instr->complement.forkIf.pointeur) {
+            fprintf(stderr, "Condition avec pointeur lue\n");
+            return 1;
+        }
+        
+        forkedCondition = ajouterCondition(VS_VARIABLE,
+                                           instr->complement.forkIf.comparatif,
+                                           instr->complement.forkIf.valeur,
+                                           NULL,
+                                           instr->complement.forkIf.numero);
+    }
+    
+    if (forkedCondition == NULL) {
+        fprintf(stderr, "Forked Condition sur null\n");
+        return 1;
+    }
     
     // l'ajouter
-    remplirTableur_S();
+    if (ajouterCondForkee(forkedCondition)) {
+        if (!avancer())
+            return 1;
+        
+        remplirTableur_S();
+    } else {
+        // Squeezer tout le contenu
+        int imbrications = 1;
+        
+        do {
+            if (!avancer())
+                return 1;
+            
+            switch (instr->instruction) {
+                case ForkIf:
+                    imbrications++;
+                    break;
+                case ForkElse:
+                    if (imbrications == 1)
+                        imbrications--;
+                    break;
+                case ForkEnd:
+                    imbrications--;
+                    break;
+                default:
+                    break;
+            }
+            
+        } while(imbrications != 0);
+    }
+    
     remplirTableur_ConditionPrime(forkedCondition);
     
     return 0;
@@ -271,15 +597,17 @@ int remplirTableur_Condition() {
 int remplirTableur_ConditionPrime(ConditionForkee * conditionForkee) {
     if (instr == NULL)
         return 1;
-    
-    (void) conditionForkee;
+
     
     if (instr->instruction == ForkElse) {
-        // inverser la condition forkée
+        retirerCondForkee(conditionForkee);
+        inverserCondForkee(conditionForkee);
+        ajouterCondForkee(conditionForkee);
         
+        if (!avancer())
+            return 1;
+            
         remplirTableur_S();
-        
-        avancer();
     }
     
     if (instr->instruction == ForkEnd) {

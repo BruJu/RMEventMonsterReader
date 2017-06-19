@@ -46,5 +46,8 @@ Enregistrement * grille_getEnregistrement(Grille * grille, int id, VS_Possibilit
 int * grille_getEnregistrementInt(Grille * grille, int id, VS_Possibilitees type, int variable);
 char * grille_getEnregistrementChar(Grille * grille, int id, VS_Possibilitees type, int variable);
 
+void grille_raz(Grille * grille);
+
+void grille_afficher(Grille * grille);
 
 #endif

@@ -12,6 +12,21 @@ int grille_decrypterParametres(char * ligneDeParametres, int debut, int * taille
     return k != 4;
 }
 
+void grille_raz(Grille * grille) {
+    int nbDeCases;
+    
+    nbDeCases = grille->identifiantMax * grille->nbDeChamps;
+    
+    for (int i = 0 ; i != nbDeCases ; i++) {
+        grille->enregistrements[i].val = 0;
+        
+        if (grille->enregistrements[i].txt[0] != 0) {
+            fprintf(stderr, "bah non ça marche pas\n");
+            exit(0);
+        }
+    }
+}
+
 Grille * initialiserGrille(char * ligneDeParametres, int debut) {
     Grille * grille;
     grille = malloc(sizeof(Grille));
@@ -134,4 +149,54 @@ char * grille_getEnregistrementChar(Grille * grille, int id, VS_Possibilitees ty
 }
 
 
+void grille_displayEnregistrement(Grille * grille, int ligne, int colonne) {
+    switch (grille->variables[colonne].type) {
+        case VS_CHAINE:
+            printf("%s,", grille->enregistrements[ligne * grille->nbDeChamps + colonne].txt);
+            break;
+        case VS_SWITCH:
+            if (grille->enregistrements[ligne * grille->nbDeChamps + colonne].val) {
+                printf("ON,");
+            } else {
+                printf("OFF,");
+            }
+            break;
+        case VS_VARIABLE:
+            printf("%d,", grille->enregistrements[ligne * grille->nbDeChamps + colonne].val);
+            break;
+    }
+}
+
+
+void grille_afficher(Grille * grille) {
+    int ligne;
+    int colonne, colonneMax;
+    
+    for (ligne = 0 ; ligne != grille->identifiantMax ; ligne++) {
+        if (grille->enregistrements[ligne * grille->nbDeChamps].val == 0) {
+            // Ne pas afficher les lignes en double
+            continue;
+        }
+        
+        // Afficher les éléments n'étant pas dans un sous groupe
+        for (int colonne = 0 ; colonne != grille->debutSousEnsembles ; colonne ++) {
+            grille_displayEnregistrement(grille, ligne, colonne);
+        }
+        printf("\n");
+        
+        for (int sousGroupe = 0 ; sousGroupe != grille->nbDeSousEnsembles ; sousGroupe++) {
+            colonne =  grille->debutSousEnsembles + sousGroupe * grille->nbDElementsParSousEnsembles;
+            if (grille->enregistrements[ligne * grille->nbDeChamps + colonne].val == 0)
+                continue;
+            
+            colonneMax = colonne + grille->nbDElementsParSousEnsembles;
+            
+            printf(">");
+            for (; colonne != colonneMax ; colonne ++) {
+                grille_displayEnregistrement(grille, ligne, colonne);
+            }
+            printf("\n");
+        }
+    }
+}
 

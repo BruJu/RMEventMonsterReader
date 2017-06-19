@@ -1,5 +1,6 @@
 #include "configReader.h"
 #include "grille.h"
+#include "tableur.h"
 #include <string.h>         // strcpy
 #include <stdlib.h>         // atoi
 
@@ -149,9 +150,11 @@ erreurFinDeFichierInnatendue:
 }
 
 int lireUnFichier(BufferizedFile * file, Grille * grille) {
-    (void) file;
-    (void) grille;
-    return 0;
+    if (BufferizedFile_nextString(file)) {
+        return 1;
+    }
+    
+    return remplirTableur_init(grille, &(file->buffer[1]));
 }
 
 
@@ -170,9 +173,8 @@ Grille * configReader() {
         return NULL;
     }
     
-    return grille;
+    grille_raz(grille);
     
-    /*
     int k;
     while (1) {
         k = lireUnFichier(&file, grille);
@@ -181,11 +183,11 @@ Grille * configReader() {
             libererGrille(grille);
             return NULL;
         }
-            
+        
         if (k == 1)
             break;
     }
-    */
+    
     return grille;
 }
 

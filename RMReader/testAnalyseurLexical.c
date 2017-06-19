@@ -22,30 +22,30 @@ char * obtenirRepresentationDuneVSPossibilite(VS_Possibilitees vs_possibilite) {
 
 char * obtenirRepresentationDunSigne(Signe signe) {
     switch(signe) {
-    case Egal:
-        return "=";
-    case Different:
-        return "!=";
-    case Plus:
-        return "+";
-    case Moins:
-        return "-";
-    case Fois:
-        return "*";
-    case Divise:
-        return "/";
-    case Modulo:
-        return "%";
-    case Inferieur:
-        return "<";
-    case Superieur:
-        return ">";
-    case InfEgal:
-        return "<=";
-    case SupEgal:
-        return ">=";
-    default:
-        return "err";
+        case Egal:
+            return "=";
+        case Different:
+            return "!=";
+        case Plus:
+            return "+";
+        case Moins:
+            return "-";
+        case Fois:
+            return "*";
+        case Divise:
+            return "/";
+        case Modulo:
+            return "%";
+        case Inferieur:
+            return "<";
+        case Superieur:
+            return ">";
+        case InfEgal:
+            return "<=";
+        case SupEgal:
+            return ">=";
+        default:
+            return "err";
     }
 }
 
@@ -228,5 +228,6 @@ void testerConfigReader() {
     }
     
     afficherColonnesGrille(grid);
+    grille_afficher(grid);
     libererGrille(grid);
 }
