@@ -74,7 +74,8 @@ Grille * initialiserGrille(char * ligneDeParametres, int debut) {
     
     grille->enregistrements = malloc(sizeof(Enregistrement) * grille->nbDeChamps * grille->identifiantMax);
     if (grille->enregistrements == NULL) {
-        free(grille->enregistrements);
+        free(grille->variables);
+        free(grille);
         return NULL;
     }
     

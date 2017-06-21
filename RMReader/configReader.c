@@ -1,8 +1,12 @@
 #include "configReader.h"
 #include "grille.h"
-#include "tableur.h"
+#include "grammairePrincip.h"
+#include "grammaireSousGrp.h"
+#include "listReader.h"
+#include "tools.h"
 #include <string.h>         // strcpy
 #include <stdlib.h>         // atoi
+
 
 /**
  * Lit la prochaine ligne du BufferizedFile;
@@ -170,11 +174,37 @@ erreurFinDeFichierInnatendue:
  * Rempli la grille à partir du nom du fichier dans la prochaine ligne du BufferizedFile
  */
 int lireUnFichier(BufferizedFile * file, Grille * grille) {
-    if (BufferizedFile_nextString(file)) {
-        return 1;
+    ASSERT(BufferizedFile_nextString(file));
+    
+    char buff1[50], prefixe[50];
+    
+    
+    strcpy(buff1, &(file->buffer[1]));
+    string_retirerSauts(buff1);
+    
+    printf("Fichier %s :\n", buff1);
+    
+    switch(file->buffer[0]) {
+        case '=':
+            return !remplirTableur_init(grille, buff1);
+            
+        case '@':
+            ASSERT(BufferizedFile_nextString(file));
+            
+            strcpy(prefixe, file->buffer);
+            string_retirerSauts(file->buffer);
+            
+            remplacerLesChaines(buff1, grille, prefixe);
+            break;
+        case '}':
+            return gramSG_init(file, grille);
+        default:
+            printf("Paramètre %c invalide\n", file->buffer[0]);
+            printf("%s\n", file->buffer);
+            return -1;
     }
     
-    return remplirTableur_init(grille, &(file->buffer[1]));
+    return 0;
 }
 
 /**

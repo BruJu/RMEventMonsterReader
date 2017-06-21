@@ -4,6 +4,8 @@
 #define SIZEMAXSTOREDTEXT (50)
 #define BUFFERIZEDFILESIZE (255)
 
+#define ASSERT(x)   if(x) return 1
+
 #include <stdio.h>
 
 typedef enum {
@@ -61,30 +63,6 @@ typedef struct {
 } InstructionEnsemble;
 
 
-typedef struct {
-    int id;
-    char nom[100];
-} Entree;
-
-typedef struct {
-    int nombredEntrees;
-    int capacite;
-    Entree * entree;
-} Dictionnaire;
-
-
-typedef struct {
-    int id[50];
-    char nom[100];
-} EntreeChar;
-
-typedef struct {
-    int nombredEntrees;
-    int capacite;
-    EntreeChar * entree;
-} DictionnaireChar;
-
-
 typedef enum { VS_VARIABLE, VS_SWITCH, VS_CHAINE } VS_Possibilitees;
 
 typedef struct {
@@ -98,6 +76,10 @@ typedef union {
     char txt[SIZEMAXSTOREDTEXT];
 } Enregistrement;
 
+typedef struct {
+    int numeroVariable;
+    int colonne;
+} VariableGroupee;
 
 typedef struct {
     int identifiantMax;

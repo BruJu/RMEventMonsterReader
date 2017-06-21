@@ -2,22 +2,13 @@
 #define __H_TABLEUR__
 
 #include "types.h"
+#include "grammaire.h"
 
 typedef struct _conditionID {
     int v;
     struct _conditionID * s;
 } ConditionID;
 
-typedef enum {
-    COND_INF, COND_SUP, COND_EGAL, COND_DIFF
-} CondAutreType;
-
-typedef struct _conditionAutre {
-    int num;
-    int val;
-    CondAutreType type;
-    struct _conditionAutre * s;
-} ConditionAutre;
 
 typedef struct _conditionChaine {
     int num;
@@ -31,7 +22,6 @@ typedef struct {
     int maxID;
     ConditionID     * valeursInterdites;
     ConditionAutre  * autresConditions;
-    ConditionChaine * conditionsChaines;
 } ConditionWorker;
 
 
@@ -53,12 +43,13 @@ typedef struct {
         } valeurs;         // IMPOSER
         ConditionID     valeursInterdites;
         ConditionAutre  autresConditions;
-        ConditionChaine conditionsChaines;
     } u;
 } ConditionForkee;
 
 
 int remplirTableur_init(Grille * grille, char * nomDuFichier);
+
+//int remplirTableur_preparerGrille(BufferizedFile * file, Grille * grille);
 
 /*
  * Grammaire :

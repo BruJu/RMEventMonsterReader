@@ -17,12 +17,20 @@
     <File Name="analyseurLexical.h"/>
     <File Name="testAnalyseurLexical.h"/>
     <File Name="config.txt"/>
-    <File Name="tableur.c"/>
-    <File Name="tableur.h"/>
     <File Name="configReader.c"/>
     <File Name="configReader.h"/>
     <File Name="grille.c"/>
     <File Name="grille.h"/>
+    <File Name="listReader.c"/>
+    <File Name="listReader.h"/>
+    <File Name="tools.c"/>
+    <File Name="tools.h"/>
+    <File Name="grammairePrincip.c"/>
+    <File Name="grammairePrincip.h"/>
+    <File Name="grammaireSousGrp.h"/>
+    <File Name="grammaireSousGrp.c"/>
+    <File Name="grammaire.h"/>
+    <File Name="grammaire.c"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

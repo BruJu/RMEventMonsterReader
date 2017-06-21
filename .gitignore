@@ -1,5 +1,7 @@
-.codelite*
+*codelite*
 .codelite\**
 .codelite/**
 RPGReader.workspace
 *.tags
+*.o*
+**Debug**
