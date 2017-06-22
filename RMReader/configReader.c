@@ -182,8 +182,6 @@ int lireUnFichier(BufferizedFile * file, Grille * grille) {
     strcpy(buff1, &(file->buffer[1]));
     string_retirerSauts(buff1);
     
-    printf("Fichier %s :\n", buff1);
-    
     switch(file->buffer[0]) {
         case '=':
             return remplirTableur_init(grille, buff1);

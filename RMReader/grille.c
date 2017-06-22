@@ -180,20 +180,24 @@ char * grille_getEnregistrementChar(Grille * grille, int id, VS_Possibilitees ty
 /**
  * Affiche la case ligne / colonne
  */
-void grille_displayEnregistrement(Grille * grille, int ligne, int colonne) {
+void grille_displayEnregistrement(Grille * grille, int ligne, int colonne, char post) {
+    if (post) {
+        printf("%c", post);
+    }
+    
     switch (grille->variables[colonne].type) {
         case VS_CHAINE:
-            printf("%s,", grille->enregistrements[ligne * grille->nbDeChamps + colonne].txt);
+            printf("%s", grille->enregistrements[ligne * grille->nbDeChamps + colonne].txt);
             break;
         case VS_SWITCH:
             if (grille->enregistrements[ligne * grille->nbDeChamps + colonne].val) {
-                printf("ON,");
+                printf("ON");
             } else {
-                printf("OFF,");
+                printf("OFF");
             }
             break;
         case VS_VARIABLE:
-            printf("%d,", grille->enregistrements[ligne * grille->nbDeChamps + colonne].val);
+            printf("%d", grille->enregistrements[ligne * grille->nbDeChamps + colonne].val);
             break;
     }
 }
@@ -205,15 +209,20 @@ void grille_afficher(Grille * grille) {
     int ligne;
     int colonne, colonneMax;
     
+    char post;
+    
     for (ligne = 0 ; ligne != grille->identifiantMax ; ligne++) {
         if (grille->enregistrements[ligne * grille->nbDeChamps].val == 0) {
             // Ne pas afficher les lignes en double
             continue;
         }
         
+        post = 0;
+        
         // Afficher les éléments n'étant pas dans un sous groupe
         for (int colonne = 0 ; colonne != grille->debutSousEnsembles ; colonne ++) {
-            grille_displayEnregistrement(grille, ligne, colonne);
+            grille_displayEnregistrement(grille, ligne, colonne, post);
+            post = ',';
         }
         printf("\n");
         
@@ -224,9 +233,10 @@ void grille_afficher(Grille * grille) {
             
             colonneMax = colonne + grille->nbDElementsParSousEnsembles;
             
-            printf(">");
+            post = '>';
             for (; colonne != colonneMax ; colonne ++) {
-                grille_displayEnregistrement(grille, ligne, colonne);
+                grille_displayEnregistrement(grille, ligne, colonne, post);
+                post = ',';
             }
             printf("\n");
         }

@@ -440,7 +440,10 @@ int remplirTableur_init(Grille * grille, char * nomDuFichier) {
 }
 
 
-
+/**
+ * S -> Instruction S
+ * S -> Epsilon
+ */
 int remplirTableur_S() {
     if (instr == NULL
         || instr->instruction == ForkElse
@@ -455,6 +458,10 @@ int remplirTableur_S() {
     return remplirTableur_S();
 }
 
+/**
+ * Instruction -> ChgSwitch | ChgVariable | ShowPic | ChgItem
+ * Instruction -> Condition
+ */
 int remplirTableur_Instruction() {
     // Instructions impossibles : ForkElse et ForkEnd
     if (instr == NULL) {
@@ -490,6 +497,9 @@ int remplirTableur_Instruction() {
     }
 }
 
+/**
+ * Condition -> ForkIf S Condition'
+ */
 int remplirTableur_Condition() {
     if (instr == NULL || instr->instruction != ForkIf) {
         return 1;
@@ -556,6 +566,10 @@ int remplirTableur_Condition() {
     return 0;
 }
 
+/**
+ * Condition' -> ForkElse S ForkEnd
+ * Condition' -> ForkEnd
+ */
 int remplirTableur_ConditionPrime(ConditionForkee * conditionForkee) {
     if (instr == NULL)
         return 1;
@@ -610,56 +624,3 @@ int remplirTableur_instructionsNonGerees() {
     }
 }
 
-
-
-/*
-int remplirTableur_preparerGrille(BufferizedFile * file, Grille * grille) {
-    int param1, param2;
-    
-    
-    ASSERT (BufferizedFile_nextString(file));
-    
-    if (sscanf(file->buffer, "%d %d", &param1, &param2) != 2)
-        return 1;
-    
-    
-    for (int i = 0 ; i != param1 ; i++) {
-        if (BufferizedFile_nextString(file))
-            return 1;
-        
-        if(sscanf(file->buffer,
-                  "%d = %d",
-                  &(grille->variableGrp[i].colonne),
-                  &(grille->variableGrp[i].numeroVariable)) != 2) {
-            return 1;
-        }
-    }
-    
-    grille->variableGrp[param1].numeroVariable = -1;
-    
-    
-    if (param2 == 0) {
-        grille->caseObjet = 0;
-        grille->casePicture = 0;
-    } else if (param2 == 1) {
-        if (BufferizedFile_nextString(file))
-            return 1;
-            
-        sscanf(file->buffer, "%d", &(grille->casePicture));
-        grille->caseObjet = 0;
-    } else if (param2 == 2) {
-        if (BufferizedFile_nextString(file))
-            return 1;
-        
-        sscanf(file->buffer, "%d", &(grille->caseObjet));
-        grille->casePicture = 0;
-    } else {
-        if (BufferizedFile_nextString(file))
-            return 1;
-
-        sscanf(file->buffer, "%d %d", &(grille->casePicture), &(grille->caseObjet));
-    }
-    
-    return 0;
-}
-*/

@@ -11,7 +11,6 @@
     <File Name="main.c"/>
     <File Name="analyseurLexical.c"/>
     <File Name="types.h"/>
-    <File Name="remarques.txt"/>
     <File Name="testAnalyseurLexical.c"/>
     <File Name="script.txt"/>
     <File Name="analyseurLexical.h"/>

@@ -11,6 +11,7 @@ typedef struct {
 } Dico;
 
 
+void remplacer(char * valeur, char * prefixe, Dico * dico);
 void remplirLeDico(FILE * file, Dico * dico);
 void remplacerLesOccurrences(Grille * grille, char * prefixe, Dico * dico);
 void remplacerLesChaines(char * nomFichier, Grille * grille, char * prefixe);

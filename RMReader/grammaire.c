@@ -1,6 +1,9 @@
 #include "grammaire.h"
 
 
+/**
+ * Inverse l'effet d'une condition sur une variable quelconque
+ */
 void inverser_condautre(ConditionAutre * conditionAutre) {
     switch (conditionAutre->type) {
         case COND_DIFF:

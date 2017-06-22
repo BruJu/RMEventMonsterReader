@@ -1,5 +1,8 @@
 #include "tools.H"
 
+/**
+ * Supprime tous les espaces et sauts de ligne à la fin de la chaine
+ */
 void string_retirerSauts(char * chaine) {
     int c;
     

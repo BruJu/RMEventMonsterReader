@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Rempli le dictionnaire avec les données dans le fichier donné en paramère.
+ * 
+ * Les données doivent être sous la forme
+ * id chaine de remplacement
+ */
 void remplirLeDico(FILE * file, Dico * dico) {
     char buffer[255];
     
@@ -11,7 +17,7 @@ void remplirLeDico(FILE * file, Dico * dico) {
     int resultatScanf;
 
     while(fgets(buffer, sizeof(buffer), file) != NULL) {
-        resultatScanf = sscanf(buffer, "%s %s", dico[d].identifiant, dico[d].chaine);
+        resultatScanf = sscanf(buffer, "%s %[^\n\r]", dico[d].identifiant, dico[d].chaine);
         
         if (resultatScanf == 2) {
             d++;
@@ -21,6 +27,10 @@ void remplirLeDico(FILE * file, Dico * dico) {
     dico[d].identifiant[0] = 0;
 }
 
+/**
+ * Si il existe x tq valeur = prefixe . dico[x].id
+ * alors remplace valeur par dico[x].chaine
+ */
 void remplacer(char * valeur, char * prefixe, Dico * dico) {
     int k = 0;
     
@@ -54,6 +64,10 @@ void remplacer(char * valeur, char * prefixe, Dico * dico) {
     }
 }
 
+/**
+ * Remplace toutes les chaines de la grille par les valeurs correspondantes dans dico
+ * si elles existent
+ */
 void remplacerLesOccurrences(Grille * grille, char * prefixe, Dico * dico) {
     int avantGroupee;
     int idDuGroupe;
@@ -84,37 +98,14 @@ void remplacerLesOccurrences(Grille * grille, char * prefixe, Dico * dico) {
         
         
     }
-    
-    /*
-    for (int id_grid = 0 ; id_grid != grille->identifiantMax ; id_grid++) {
-        if (grille->enregistrements[id_grid].val == 0)
-            continue;
-        
-        for (int c = 1 ; c != grille->debutSousEnsembles ; c++) {
-            if (grille->variables[c].type != VS_CHAINE)
-                continue;
-            
-            remplacer(grille_getEnregistrementChar(grille, id_grid, VS_CHAINE, c), prefixe, dico);
-        }
-        
-        for (int sg = 0 ; sg != grille->nbDeSousEnsembles ; sg++) {
-            if (grille->enregistrements[id_grid * grid->nbDeChamps + grille->debutSousEnsembles + sg * grille->nbDElementsParSousEnsembles].val == 0)
-                continue;
-            
-            for (int sgc = 0 ; sgc != grille->nbDElementsParSousEnsembles ; sgc++) {
-                int num_var = grille->debutSousEnsembles + grille->nbDElementsParSousEnsembles * sg + sgc;
-                
-                if (grille->variables[num_var].type != VS_CHAINE)
-                    continue;
-                
-                remplacer(grille_getEnregistrementChar(grille, id_grid, VS_CHAINE, num_var), prefixe, dico);
-            }
-        }
-        
-    }
-     * */
 }
 
+/**
+ * Remplace toutes les valeurs de la grille par les valeurs dont il existe x tq
+ * à la ligne x de la forme "a b" (où b désigne le reste de la ligne après le premier espace)
+ * la valeur = prefixe . a
+ * La valeur est alors remplacée par b
+ */
 void remplacerLesChaines(char * nomFichier, Grille * grille, char * prefixe) {
     Dico * dico;
     FILE * file;

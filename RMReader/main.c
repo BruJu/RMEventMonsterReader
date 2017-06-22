@@ -5,8 +5,6 @@
 #include "tools.h"
 
 int main() {
-    
-    //testerFichier("A:\\Users\\Dheim\\Documents\\GitHub\\RMEventMonsterReader\\RMReader\\ef_ev8850.txt");
     testerConfigReader();
 	return 0;
 }

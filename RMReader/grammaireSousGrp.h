@@ -45,23 +45,20 @@ int gramSG_Instruction();
 int gramSG_Condition();
 int gramSG_ConditionPrime();
 
-StatutInstrDansGrammaire gramSG_etatInstruction();
-
-int gramSG_avancer();
-
-
-void gramSG_ConditionSqueezer();
 
 void gramSG_ShowPicture();
-
 int gramSG_ConditionAjouter();
-
 void gramSG_ChgVariable();
 
+int gramSG_avancer();
+StatutInstrDansGrammaire gramSG_etatInstruction();
+
+int testerCA (int valeur, ConditionAutre * condi);
+
+void gramSG_ConditionSqueezer();
 
 void gramSG_apply(int slot, Modification * modif);
 
 
-int testerCA (int valeur, ConditionAutre * condi);
 
 #endif

@@ -12,6 +12,6 @@ BossFight I190
 12 objets 2120
 0 monstre 552
 @A:\Dheim\Documents\monstres.csv
-idmonstre
+id
 @A:\Dheim\Documents\objets.csv
 objets

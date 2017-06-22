@@ -12,7 +12,34 @@ ConditionAutre * cond;
 extern Grille * grid;
 Param_completerSsGrp complem;
 
+/*
+ * Cette grammaire permet d'affecter des valeurs à des sous groupes en utilisant
+ * des variables générales qui ne les désigne pas directement.
+ * 
+ * Il faut utiliser la grammaire principale si on souhaite que ça marche sur des
+ * variables désignées directement.
+ */
 
+/**
+ * Fonction d'entrée pour l'analyse de la grammaire.
+ * La grille passée en paramètre sera rempli en fonction du fichier
+ * qui est à la ligne courante du BufferizedFile avec certains paramètres
+ * 
+ * Paramètres dans le Bufferized File :
+ * La première ligne est de la forme a b c
+ * où a est le nombre de ligne suivant la première, b la colonne où mettre les informations des ShowPicture
+ * et où c est la colonne où sont mises les informations des ChangeItem (non géré actuellement)
+ * 
+ * Les lignes suivantes sont de la forme d e f où 
+ * d désigne le numéro de la coulonne dans le sous groupe
+ * e désigne son nom
+ * f désigne le numéro de variable dans le groupe
+ * 
+ * exemple : si on a une ligne 0 id 50
+ * A chaque fois que le script mentionne la variable 50, la première variable de chaque sous groupe sera testée / affectée
+ * Le nom id sera utilisé si jamais la colonne désignée est un champ texte. Dans ce cas, un Changement de Variable inscrira
+ * le nom précédé du préfixe proposé ici id)
+ */
 int gramSG_init(BufferizedFile * file, Grille * grille) {
     instr = NULL;
     cond = NULL;
@@ -72,8 +99,9 @@ fichierouvert:
 
 
 
-
-
+/**
+ * S -> Condition S | Instruction S | Epsilon
+ */
 int gramSG_S() {
     if (instr == NULL ||instr->instruction == ForkElse
         || instr->instruction == ForkEnd) {
@@ -91,8 +119,10 @@ int gramSG_S() {
     return gramSG_S();
 }
 
-
-
+/**
+ * Instruction -> ShowPic | ChgVariable | ChgSwitch | ChangeItem
+ * (note : la grammaire telle qu'implémentée est ambigue car elle peut engendrer Condition)
+ */
 int gramSG_Instruction() {
     if (instr->instruction == ForkIf) {
         return gramSG_Condition();
@@ -119,14 +149,15 @@ int gramSG_Instruction() {
     }
 }
 
-
+/**
+ * Condition -> ForkIf S Condition'
+ */
 int gramSG_Condition() {
     if (instr == NULL || instr->instruction != ForkIf) {
         return 1;
     }
     
     int nouvelleCondition = gramSG_ConditionAjouter();
-    //gramSG_ConditionAjouter();
     
     // Condition à ignorer
     if (nouvelleCondition) {
@@ -144,7 +175,9 @@ int gramSG_Condition() {
     return gramSG_ConditionPrime();
 }
 
-
+/**
+ * Condition' -> (ForkElse S) ForkEnd
+ */
 int gramSG_ConditionPrime() {
     if (instr == NULL)
         return 1;
@@ -175,6 +208,9 @@ int gramSG_ConditionPrime() {
     return 0;
 }
 
+/**
+ * Renvoie un StatutInstrDansGrammaire correspondant à l'instruction actuelle
+ */
 StatutInstrDansGrammaire gramSG_etatInstruction() {
     if (instr == NULL)
         return SIDG_Geree;
@@ -195,6 +231,9 @@ StatutInstrDansGrammaire gramSG_etatInstruction() {
     }
 }
 
+/**
+ * Lit l'instruction suivante
+ */
 int gramSG_avancer() {
     int k;
     
@@ -210,7 +249,9 @@ int gramSG_avancer() {
     return k;
 }
 
-
+/**
+ * Passe tout le contenu de la condition
+ */
 void gramSG_ConditionSqueezer() {
     int etage;
     etage = 1;
@@ -230,6 +271,9 @@ void gramSG_ConditionSqueezer() {
     gramSG_avancer();
 }
 
+/**
+ * Met le nom de l'image affichée dans les cases de la grille correspondantes
+ */
 void gramSG_ShowPicture() {
     if (complem.colonnePicture == -1) {
         return;
@@ -241,7 +285,9 @@ void gramSG_ShowPicture() {
     gramSG_apply(complem.colonnePicture, &modif);
 }
 
-
+/**
+ * Rempli la grille selon l'affectation de variable de l'instruction actuelle
+ */
 void gramSG_ChgVariable() {
     int colonne;
     Modification modif;
@@ -271,6 +317,9 @@ continuer:
     gramSG_apply(colonneChamps, &modif);
 }
 
+/**
+ * Ajoute en tête une condition décrivant le ForkIf actuel
+ */
 int gramSG_ConditionAjouter() {
     ConditionAutre * ca = malloc(sizeof(ConditionAutre));
     if (ca == NULL)
@@ -326,7 +375,9 @@ int gramSG_ConditionAjouter() {
     return 0;
 }
 
-
+/**
+ * Lit l'instruction suivante
+ */
 int avancer_GramSG_avanceur(GramSG_avanceur * av) {
     ConditionAutre * ca;
     int vari;
@@ -381,6 +432,9 @@ recommencer:
     return 1;
 }
 
+/**
+ * Renvoi vrai si la valeur vérifie la condition donnée
+ */
 int testerCA (int valeur, ConditionAutre * condi) {
     switch (condi->type) {
         case COND_DIFF:
@@ -396,7 +450,10 @@ int testerCA (int valeur, ConditionAutre * condi) {
     return 0;
 }
 
-
+/**
+ * Modifie pour toutes les lignes de la grille ayant déjà des valeurs
+ * la case selon la modification voulue en paramètre dans la colonne slot
+ */
 void gramSG_apply(int slot, Modification * modif) {
     GramSG_avanceur avanceur;
     avanceur.ligne = -1;
