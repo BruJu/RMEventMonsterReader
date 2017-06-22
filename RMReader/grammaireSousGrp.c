@@ -2,6 +2,7 @@
 #include "configReader.h"
 #include "analyseurLexical.h"
 #include "testAnalyseurLexical.h"
+#include "tools.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -20,11 +21,14 @@ int gramSG_init(BufferizedFile * file, Grille * grille) {
     
     grid = grille;
     
+    string_retirerSauts(&file->buffer[1]);
+    
     fopen(&(file->buffer[1]), "r");
     if (filedescriptor == NULL) {
         perror("file open SG");
         goto fichierouvert;
     }
+    
     
     if(BufferizedFile_nextString(file))
         goto fichierouvert;
@@ -39,14 +43,14 @@ int gramSG_init(BufferizedFile * file, Grille * grille) {
         }
     }
     
-    
     for (int i = 0 ; i != complem.nbRedir ; i++) {
+        if(BufferizedFile_nextString(file))
+            goto desallocredir;
+        
         if (sscanf(file->buffer, "%d %s %d", &(complem.redir[i].colonne), complem.redir[i].prefixe, &(complem.redir[i].variable)) != 3) {
             goto desallocredir;
         }
         
-        if(BufferizedFile_nextString(file))
-            goto desallocredir;
     }
     
     if (gramSG_avancer()) {
@@ -71,13 +75,18 @@ fichierouvert:
 
 
 int gramSG_S() {
-    if (instr == NULL
-        || instr->instruction == ForkElse
-        || instr->instruction == ForkEnd)
+    if (instr == NULL ||instr->instruction == ForkElse
+        || instr->instruction == ForkEnd) {
         return 0;
+    }
     
-    if (gramSG_Condition())
-        return 1;
+    if (instr->instruction == ForkIf) {
+        if (gramSG_Condition())
+            return 1;
+    } else {
+        if (gramSG_Instruction())
+            return 1;
+    }
     
     return gramSG_S();
 }
@@ -102,9 +111,8 @@ int gramSG_Instruction() {
                 fprintf(stderr, "Non géré\n");
                 break;
             default:
-                fprintf(stderr, "ERR006bis\n");
+                fprintf(stderr, "ERR006bis %d\n", instr->instruction);
                 break;
-            
         }
         
         return gramSG_avancer();
@@ -118,17 +126,18 @@ int gramSG_Condition() {
     }
     
     int nouvelleCondition = gramSG_ConditionAjouter();
-    
-    if (gramSG_avancer())
-        return 1;
+    //gramSG_ConditionAjouter();
     
     // Condition à ignorer
-    if (nouvelleCondition == 0) {
+    if (nouvelleCondition) {
         gramSG_ConditionSqueezer();
         return 0;
     }
     
     // Suite de la grammaire
+    if (gramSG_avancer())
+        return 1;
+    
     if (gramSG_S())
         return 1;
     
@@ -147,6 +156,7 @@ int gramSG_ConditionPrime() {
             return 1;
             
         gramSG_S();
+        
     }
     
     if (instr->instruction != ForkEnd)
@@ -195,9 +205,6 @@ int gramSG_avancer() {
         instr = initialiserLaNouvelleLigne();
         k = gramSG_etatInstruction();
         
-        if (instr != NULL)
-            afficherUnElement(instr);
-        
     } while (k == 1);
     
     return k;
@@ -206,7 +213,6 @@ int gramSG_avancer() {
 
 void gramSG_ConditionSqueezer() {
     int etage;
-    
     etage = 1;
     
     
@@ -219,15 +225,15 @@ void gramSG_ConditionSqueezer() {
         else if (instr->instruction == ForkEnd)
             etage--;
     }
+    
+    
+    gramSG_avancer();
 }
 
 void gramSG_ShowPicture() {
     if (complem.colonnePicture == -1) {
-        printf("non\n");
         return;
     }
-    
-    printf("%d\n", complem.colonnePicture);
     
     Modification modif;
     strcpy(modif.texte, instr->complement.showPicture);
@@ -252,7 +258,10 @@ void gramSG_ChgVariable() {
 continuer:
     colonneChamps = complem.redir[colonne].colonne;
     
-    if (grid->variables[colonneChamps].type == VS_CHAINE) {
+    if (grid->variables[colonneChamps + grid->debutSousEnsembles].type == VS_CHAINE) {
+        if (instr->complement.affectation.nouvelleValeur == 0)
+            return;
+            
         sprintf(modif.texte, "%s%d", complem.redir[colonne].prefixe, instr->complement.affectation.nouvelleValeur);
     } else {
         modif.arith.signe = instr->complement.affectation.signe;
@@ -271,7 +280,7 @@ int gramSG_ConditionAjouter() {
     //ca->num = instr->complement.forkIf.comparatif.numero;
     int k;
     for (k = 0 ; k != grid->debutSousEnsembles ; k++) {
-        if (grid->variables[k].position == instr->complement.forkIf.valeur) {
+        if (grid->variables[k].position == instr->complement.forkIf.numero) {
             ca->num = k;
             break;
         }
@@ -279,13 +288,13 @@ int gramSG_ConditionAjouter() {
     
     if (k == grid->debutSousEnsembles) {
         for (k = 0 ; k != complem.nbRedir ; k++) {
-            if (complem.redir[k].variable == instr->complement.forkIf.valeur) {
-                ca->num = -1 - k;
+            if (complem.redir[k].variable == instr->complement.forkIf.numero) {
+                ca->num = -1 - complem.redir[k].colonne;
                 break;
             }
         }
         
-        if (k != complem.nbRedir) {
+        if (k == complem.nbRedir) {
             free(ca);
             return 1;
         }
@@ -341,18 +350,26 @@ recommencer:
     
     ca = cond;
     
+    if (grid->enregistrements[av->ligne * grid->nbDeChamps].val == 0) {
+        goto recommencer;
+    }
+    
+    if (grid->enregistrements[av->ligne * grid->nbDeChamps + grid->debutSousEnsembles + av->groupe * grid->nbDElementsParSousEnsembles].val == 0) {
+        goto recommencer;
+    }
+    
     while (ca != NULL) {
         vari = ca->num;
         
         if (vari >= 0) {
-            if (testerCA(grid->enregistrements[av->ligne * grid->nbDeChamps + vari].val, ca)) {
+            if (!testerCA(grid->enregistrements[av->ligne * grid->nbDeChamps + vari].val, ca)) {
                 goto recommencer;
             }
         } else {
             vari = - vari - 1;
             
-            if (testerCA(grid->enregistrements[av->ligne * grid->nbDeChamps
-                                                + grid->debutSousEnsembles + av->groupe * grid->nbDeSousEnsembles
+            if (!testerCA(grid->enregistrements[av->ligne * grid->nbDeChamps
+                                                + grid->debutSousEnsembles + av->groupe * grid->nbDElementsParSousEnsembles
                                                 + vari].val, ca)) {
                 goto recommencer;
             }
@@ -392,7 +409,7 @@ void gramSG_apply(int slot, Modification * modif) {
     int numeroCase;
     
     while (avancer_GramSG_avanceur(&avanceur)) {
-        numeroCase = avanceur.ligne * grid->nbDeChamps + grid->debutSousEnsembles + avanceur.groupe * grid->nbDElementsParSousEnsembles;
+        numeroCase = avanceur.ligne * grid->nbDeChamps + grid->debutSousEnsembles + avanceur.groupe * grid->nbDElementsParSousEnsembles + slot;
         
         if (surChaine) {
             strcpy(grid->enregistrements[numeroCase].txt, modif->texte);

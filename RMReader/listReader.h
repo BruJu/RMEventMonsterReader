@@ -8,7 +8,8 @@
 typedef struct {
     char identifiant[50];
     char chaine[50];
-} Dico[DICTIONNARY_SIZE];
+} Dico;
+
 
 void remplirLeDico(FILE * file, Dico * dico);
 void remplacerLesOccurrences(Grille * grille, char * prefixe, Dico * dico);

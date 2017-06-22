@@ -123,14 +123,14 @@ InstructionsEnCoursDeLecture lireLigne() {
     
     // Avancer les espaces
     for (i_ligneActuelle = 0
-        ; !yyLine[i_ligneActuelle] || yyLine[i_ligneActuelle] == ' '
+        ; yyLine[i_ligneActuelle] && yyLine[i_ligneActuelle] == ' '
         ; i_ligneActuelle ++) {
     }
     
     i_debutligneActuelle = i_ligneActuelle;
     
     if (!yyLine[i_ligneActuelle]) {
-        resultat.instruction = Instr_Erreur;
+        resultat.instruction = Ignore;
         return resultat;
     }
     

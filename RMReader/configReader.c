@@ -186,7 +186,7 @@ int lireUnFichier(BufferizedFile * file, Grille * grille) {
     
     switch(file->buffer[0]) {
         case '=':
-            return !remplirTableur_init(grille, buff1);
+            return remplirTableur_init(grille, buff1);
             
         case '@':
             ASSERT(BufferizedFile_nextString(file));
@@ -238,8 +238,9 @@ Grille * configReader() {
             return NULL;
         }
         
-        if (k == 1)
+        if (k == 1) {
             break;
+        }
     }
     
     return grille;

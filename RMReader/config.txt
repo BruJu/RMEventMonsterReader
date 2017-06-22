@@ -7,5 +7,11 @@ BossFight I190
 >551,C3,517,535,532,615,572,529,538,576,579,596,C6
 =A:\Users\Dheim\Documents\ef_ev8850.txt
 }A:\Dheim\Documents\objetsdrop.scr
-1 1 -1
-12 objets 559
+3 1 -1
+0 monstre 559
+12 objets 2120
+0 monstre 552
+@A:\Dheim\Documents\monstres.csv
+idmonstre
+@A:\Dheim\Documents\objets.csv
+objets

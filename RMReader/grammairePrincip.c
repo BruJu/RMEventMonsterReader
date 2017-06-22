@@ -146,11 +146,11 @@ void remplirTableur_ChgVariable() {
     int * enreg;
     
     while ((newLine = getNextLine(newLine)) != -1) {
-        grid->enregistrements[newLine * grid->nbDeChamps].val = newLine;
         enreg = &(grid->enregistrements[newLine * grid->nbDeChamps + colonne].val);
         
         switch (instr->complement.affectation.signe) {
             case Egal:
+                grid->enregistrements[newLine * grid->nbDeChamps].val = newLine;
                 *enreg = instr->complement.affectation.nouvelleValeur;
                 break;
             case Plus:
@@ -177,6 +177,10 @@ void remplirTableur_ChgVariable() {
 }
 
 
+
+
+
+
 /**
  * Lit une nouvelle instruction dans le fichier.
  * 
@@ -193,7 +197,6 @@ int avancer() {
         instr = initialiserLaNouvelleLigne();
         k = remplirTableur_instructionsNonGerees();
     } while (k == 1);
-    
     
     return !k;
 }
@@ -239,6 +242,7 @@ void retirerCondForkee(ConditionForkee * condFork) {
                 // assert(conditionAutre == &(condFork->u.autresConditions))
                 ConditionAutre * conditionAutre = conditionWorker.autresConditions;
                 conditionWorker.autresConditions = conditionAutre->s;
+                
             }
             break;
         default:
@@ -278,6 +282,7 @@ int ajouterCondForkee(ConditionForkee * condFork) {
         case CONDFORKEE_AUTRE:
             condFork->u.autresConditions.s = conditionWorker.autresConditions;
             conditionWorker.autresConditions = &(condFork->u.autresConditions);
+            
             break;
         default:
             fprintf(stderr, "ERRTAB004 //");
@@ -442,14 +447,19 @@ int remplirTableur_S() {
         || instr->instruction == ForkEnd)
         return 0;
     
-    if (remplirTableur_Instruction())
+    if (remplirTableur_Instruction()) {
+        fprintf(stderr, "S -> Instruction S renvoie 0\n");
         return 1;
+    }
     
     return remplirTableur_S();
 }
 
 int remplirTableur_Instruction() {
     // Instructions impossibles : ForkElse et ForkEnd
+    if (instr == NULL) {
+        return 0;
+    }
     
     if (instr->instruction == ForkIf) {
         // ForkIf
@@ -466,6 +476,10 @@ int remplirTableur_Instruction() {
             case ShowPicture:
             case ChangeItem:
                 // Instructions sans action dans cette grammaire.
+                break;
+            case Ignore:
+            case Void:
+                return 0;
                 break;
             default:
                 fprintf(stderr, "ERR006 %d\n", instr->instruction);
@@ -503,7 +517,7 @@ int remplirTableur_Condition() {
                                            instr->complement.forkIf.numero);
     }
     // l'ajouter
-    if (forkedCondition != NULL && ajouterCondForkee(forkedCondition)) {
+    if (forkedCondition != NULL && !ajouterCondForkee(forkedCondition)) {
         if (!avancer())
             return 1;
         
@@ -561,6 +575,7 @@ int remplirTableur_ConditionPrime(ConditionForkee * conditionForkee) {
     if (instr->instruction == ForkEnd) {
         if (conditionForkee != NULL) {
             retirerCondForkee(conditionForkee);
+            free(conditionForkee);
         }
         
         // enlever la condition forkée
