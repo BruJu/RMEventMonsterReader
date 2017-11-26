@@ -6,8 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PatternMatcher {
-	
-	
 	public String[] recognize(String ligne, List<Pattern> patterns) {
 		String[] result = null;
 		
