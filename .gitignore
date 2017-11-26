@@ -5,3 +5,10 @@ RPGReader.workspace
 *.tags
 *.o*
 **Debug**
+log/
+
+target/
+.classpath
+.project
+.settings/
+.git
