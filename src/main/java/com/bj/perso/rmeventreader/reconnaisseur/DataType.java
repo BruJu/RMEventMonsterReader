@@ -5,5 +5,6 @@ package com.bj.perso.rmeventreader.reconnaisseur;
  * les Pattern
  */
 public enum DataType {
-	IGNORE
+	IGNORE,
+	IGNORETWO
 }

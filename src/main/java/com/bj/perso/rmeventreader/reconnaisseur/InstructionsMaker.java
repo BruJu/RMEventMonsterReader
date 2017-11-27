@@ -1,14 +1,10 @@
 package com.bj.perso.rmeventreader.reconnaisseur;
 
-import java.util.List;
-import java.util.regex.Pattern;
 import utility.PairList;
 
 public enum InstructionsMaker {
-	
 	// Objets
-	VOID(InstructionType.InstrVoid, "_", new DataType[] {DataType.IGNORE});
-	
+	VOID(InstructionType.InstrVoid, "_ et _", new DataType[] {DataType.IGNORE, DataType.IGNORETWO});
 	
 	// Attributs
 	private String pattern = null;
