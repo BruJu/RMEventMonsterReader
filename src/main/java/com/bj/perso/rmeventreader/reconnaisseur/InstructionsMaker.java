@@ -1,7 +1,5 @@
 package com.bj.perso.rmeventreader.reconnaisseur;
 
-import utility.PairList;
-
 public enum InstructionsMaker {
 	// Objets
 	VOID(InstructionType.InstrVoid, "_ et _", new DataType[] {DataType.IGNORE, DataType.IGNORETWO});

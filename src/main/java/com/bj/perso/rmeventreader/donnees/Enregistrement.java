@@ -1,6 +1,5 @@
 package com.bj.perso.rmeventreader.donnees;
 
-import com.bj.perso.rmeventreader.modificateur.Modificateur;
 
 public interface Enregistrement {
 	

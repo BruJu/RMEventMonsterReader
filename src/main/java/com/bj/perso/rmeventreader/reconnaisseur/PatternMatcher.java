@@ -40,6 +40,8 @@ public class PatternMatcher {
 			charPattern = pattern.charAt(positionPattern);
 			charData = data.charAt(positionData);
 			
+			System.out.println(charPattern + " / " + charData);
+			
 			// Arret de la reconnaissance
 			if (charPattern == CHAR_JOKER) {
 				joker = true;
@@ -61,12 +63,13 @@ public class PatternMatcher {
 					}
 				}
 				
-				if (charNextPattern == null || charNextPattern == charData) {
+				if (charNextPattern == null || charNextPattern != charData) {
 					// Cumuler
 					builder.append(charData);
 				} else {
 					// Décharger
 					dataRead.put(dataTypes[numeroDeLargument], builder.toString());
+					System.out.println("["+ dataTypes[numeroDeLargument] + "-" + builder.toString() + "]");
 					builder = null;
 					
 					numeroDeLargument ++;
@@ -86,6 +89,7 @@ public class PatternMatcher {
 		
 		if (builder != null) {
 			dataRead.put(dataTypes[numeroDeLargument], builder.toString());
+			System.out.println("["+ dataTypes[numeroDeLargument] + "-" + builder.toString() + "]");
 		}
 		
 		if (!joker && numeroDeLargument != dataTypes.length) {
