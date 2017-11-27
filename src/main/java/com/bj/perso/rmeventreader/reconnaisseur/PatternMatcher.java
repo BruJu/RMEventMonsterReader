@@ -73,6 +73,9 @@ public class PatternMatcher {
 					builder = null;
 					
 					numeroDeLargument ++;
+					positionPattern ++;
+					
+					continue;
 				}
 			} else {
 				// Comparaison
@@ -90,6 +93,7 @@ public class PatternMatcher {
 		if (builder != null) {
 			dataRead.put(dataTypes[numeroDeLargument], builder.toString());
 			System.out.println("["+ dataTypes[numeroDeLargument] + "-" + builder.toString() + "]");
+			numeroDeLargument++;
 		}
 		
 		if (!joker && numeroDeLargument != dataTypes.length) {

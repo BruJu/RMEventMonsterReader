@@ -24,10 +24,9 @@ public class PatternMatcherTest {
 	public void testJoker() {
 		PatternMatcher patternMatcher = new PatternMatcher();
 		
-		String pattern = "_ et";
 		DataType[] dataTypes = new DataType[] {DataType.IGNORE};
 		
-		assertEquals(patternMatcher.filtrer(pattern, dataTypes, "hamster et").get(DataType.IGNORE), "hamster");
-		assertEquals(patternMatcher.filtrer(pattern, dataTypes, "poney et").get(DataType.IGNORE), "poney");
+		assertEquals(patternMatcher.filtrer("_ et", dataTypes, "hamster et").get(DataType.IGNORE), "hamster");
+		assertEquals(patternMatcher.filtrer("_", dataTypes, "poney et").get(DataType.IGNORE), "poney et");
 	}
 }
