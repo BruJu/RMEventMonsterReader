@@ -12,9 +12,12 @@ public class PatternMatcher {
 	private static final char CHAR_JOKER = '£';
 	private static final char CHAR_FILL = '_';
 	
-	
-	
+
 	public PairList<DataType, String> filtrer(InstructionsMaker instruction, String data) {
+		return filtrer(instruction.getPattern(), instruction.getDataTypes(), data);
+	}
+	
+	public PairList<DataType, String> filtrer(String pattern, DataType[] dataTypes, String data) {
 		/*
 		 * On réimplémente le pattern maching afin d'avoir une utilisation user friendly
 		 * des regex.
@@ -25,9 +28,6 @@ public class PatternMatcher {
 		char charPattern;
 		char charData;
 		Character charNextPattern = null;
-		
-		String pattern = instruction.getPattern();
-		DataType[] dataTypes = instruction.getDataTypes();
 		
 		StringBuilder builder = null;
 		int numeroDeLargument = 0;
