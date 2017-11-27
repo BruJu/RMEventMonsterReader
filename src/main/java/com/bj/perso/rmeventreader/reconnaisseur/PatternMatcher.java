@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import utility.Pair;
 import utility.PairList;
 
 public class PatternMatcher {
@@ -12,7 +13,21 @@ public class PatternMatcher {
 	private static final char CHAR_JOKER = '£';
 	private static final char CHAR_FILL = '_';
 	
-
+	public Pair<InstructionsMaker, PairList<DataType, String>> recognize(List<InstructionsMaker> instructions, String str) {
+		PairList<DataType, String> pair;
+		
+		for (InstructionsMaker instruction : instructions) {
+			pair = filtrer(instruction, str);
+			
+			if (pair != null) {
+				return new Pair<>(instruction, pair);
+			}
+		}
+		
+		return null;
+	}
+	
+	
 	public PairList<DataType, String> filtrer(InstructionsMaker instruction, String data) {
 		return filtrer(instruction.getPattern(), instruction.getDataTypes(), data);
 	}
@@ -124,7 +139,7 @@ public class PatternMatcher {
 		
 		ArrayList<String> strings = new ArrayList<>();
 		
-		for (int i = 0 ; i <= matcher.groupCount() ; i++) {
+		for (int i = 0 ; i <= matcher.groupCount() ; ++i) {
 			strings.add(matcher.group(i));
 		}
 		
