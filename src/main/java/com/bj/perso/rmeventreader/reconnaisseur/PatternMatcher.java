@@ -5,7 +5,99 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import utility.PairList;
+
 public class PatternMatcher {
+	// CONSTANTES
+	private static final char CHAR_JOKER = '£';
+	private static final char CHAR_FILL = '_';
+	
+	
+	
+	public PairList<DataType, String> filtrer(InstructionsMaker instruction, String data) {
+		/*
+		 * On réimplémente le pattern maching afin d'avoir une utilisation user friendly
+		 * des regex.
+		 */
+		int positionPattern = 0;
+		int positionData = 0;
+		
+		char charPattern;
+		char charData;
+		Character charNextPattern = null;
+		
+		String pattern = instruction.getPattern();
+		DataType[] dataTypes = instruction.getDataTypes();
+		
+		StringBuilder builder = null;
+		int numeroDeLargument = 0;
+		
+		boolean joker = false;
+		
+		PairList<DataType, String> dataRead = new PairList<>();
+		
+		while (positionData != data.length()) {
+			charPattern = pattern.charAt(positionPattern);
+			charData = data.charAt(positionData);
+			
+			// Arret de la reconnaissance
+			if (charPattern == CHAR_JOKER) {
+				joker = true;
+				break;
+			}
+			
+			// Remplissage
+			if (charPattern == CHAR_FILL) {
+				if (builder == null) {
+					if (numeroDeLargument == dataTypes.length)
+						return null;
+					
+					builder = new StringBuilder();
+
+					if (positionPattern + 1 == pattern.length()) {
+						charNextPattern = null;
+					} else {
+						charNextPattern = pattern.charAt(positionPattern + 1);
+					}
+				}
+				
+				if (charNextPattern == null || charNextPattern == charData) {
+					// Cumuler
+					builder.append(charData);
+				} else {
+					// Décharger
+					dataRead.put(dataTypes[numeroDeLargument], builder.toString());
+					builder = null;
+					
+					numeroDeLargument ++;
+				}
+			} else {
+				// Comparaison
+				if (charPattern != charData) {
+					return null;
+				}
+				
+				positionPattern ++;
+			}
+			
+			
+			positionData ++;
+		}
+		
+		if (builder != null) {
+			dataRead.put(dataTypes[numeroDeLargument], builder.toString());
+		}
+		
+		if (!joker && numeroDeLargument != dataTypes.length) {
+			return null;
+		}
+		
+		
+		return dataRead;
+	}
+	
+	/* VANILLA */
+	
 	public String[] recognize(String ligne, List<Pattern> patterns) {
 		String[] result = null;
 		
