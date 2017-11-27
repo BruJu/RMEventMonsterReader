@@ -1,32 +1,50 @@
 package com.bj.perso.rmeventreader.reconnaisseur;
 
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
+
+import utility.Pair;
 
 public enum InstructionsMaker {
 	// Objets
-	VOID("_", "InstructionVoid");
+	VOID(InstructionType.InstrVoid, "_", new DataType[] {DataType.IGNORE});
 	
-	// TODO : chaîne, [enum de paramètres avec un nom], [enum de noms d'instructions]
-	// utiliser InstructionFactory qui prend cette enum, le tableau renvoyer par PatternMatcher
-	// et qui intancie avec les bons paramètres
 	
 	// Attributs
 	private Pattern pattern = null;
-	@SuppressWarnings("rawtypes")
-	private Class classe = null;
+	private InstructionType instruction;
+	private DataType[] data;
 	
 	// Constructeur
-	InstructionsMaker(String pattern, String instruction) {
+	InstructionsMaker(InstructionType instruction, String pattern, DataType[] data) {
+		this.instruction = instruction;
 		this.pattern = Pattern.compile(filtrer(pattern));
-		try {
-			this.classe = Class.forName("com.bj.perso.rmeventreader.instructions." + instruction);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e.getMessage());	// TODO : faire une exception dédiée
-		}
+		this.data = data;
 	}
 
 	private String filtrer(String pattern2) {
 		// TODO : enlever toute trace de regex dans la string et permettre au symbole _ de capturer les chaines
 		return pattern2;
+	}
+	
+	public InstructionType getInstruction() {
+		return instruction;
+	}
+	
+	public Pattern getPattern() {
+		return pattern;
+	}
+	
+	public DataType[] getDataTypes() {
+		return data;
+	}
+	
+	public List<Pair<DataType, String>> getValues(List<String> data) {
+		// Renvoie une paire parce qu'il est ridicule de faire un HashMap d'au pire 10 éléments
+		return null;
+		
+		
+		
 	}
 }
