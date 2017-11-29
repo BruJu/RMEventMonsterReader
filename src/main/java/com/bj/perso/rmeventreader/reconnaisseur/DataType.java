@@ -6,5 +6,5 @@ package com.bj.perso.rmeventreader.reconnaisseur;
  */
 public enum DataType {
 	IGNORE,
-	IGNORETWO
+	IGNORETWO, TOBEFILLED, ID, VALUE, OPERATOR, VERBACTION, LABELNAME, OPERATION
 }

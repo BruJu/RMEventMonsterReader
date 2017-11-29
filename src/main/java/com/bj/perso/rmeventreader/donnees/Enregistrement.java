@@ -30,6 +30,10 @@ public class Enregistrement {
 		return true;
 	}
 
+	/**
+	 * Renvoie l'id de l'engistrement
+	 * @return l'ID de l'enregistrement
+	 */
 	private int getId() {
 		return id;
 	}

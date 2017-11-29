@@ -8,11 +8,22 @@ import java.util.regex.Pattern;
 import utility.Pair;
 import utility.PairList;
 
+/**
+ * Classe permettant de matcher des chaînes avec des patterns
+ */
 public class PatternMatcher {
 	// CONSTANTES
 	private static final char CHAR_JOKER = '£';
 	private static final char CHAR_FILL = '_';
 	
+	/**
+	 * Cherche à matcher la chaîne par rapport aux instructions données et
+	 * renvoie une paire avec l'instruction donnée et la liste des associations
+	 * type de donnée - donnée en litéral
+	 * @param instructionsListe des instructions
+	 * @param str La chaîne à reconnaitre
+	 * @return Pair<Instruction matchante, liste des données> ou null
+	 */
 	public Pair<InstructionsMaker, PairList<DataType, String>> recognize(List<InstructionsMaker> instructions, String str) {
 		PairList<DataType, String> pair;
 		
