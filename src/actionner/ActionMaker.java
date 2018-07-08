@@ -2,7 +2,6 @@ package actionner;
 
 /**
  * Cette classe est appelée lorsqu'une évènement est lu
- * @author SquonK
  *
  */
 public interface ActionMaker {
