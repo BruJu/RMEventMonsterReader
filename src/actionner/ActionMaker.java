@@ -6,8 +6,12 @@ package actionner;
  */
 public interface ActionMaker {
 	
-	public void changeSwitch(int number, SwitchChange value);
+	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value);
+	
+	
 	public void changeVariable(int number, Operator operator, int value);
 	public void changeItem(int number, int value);
 	
+	
+	public void notImplementedFeature(String str);
 }

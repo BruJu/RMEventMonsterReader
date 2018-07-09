@@ -3,20 +3,28 @@ package decrypter;
 import java.util.ArrayList;
 import java.util.List;
 
+import decrypter.convertisseurs.Action;
+
 public class Recognizer {
 	private static final char CHAR_FILL = '_';
 	private static final char CHAR_JOKER = '£';
 	
-	private static List<AssociationChaineInstruction> patterns = AssociationChaineInstruction.bookMaker();
+	private static List<Action> patterns = AssociationChaineInstruction.bookMaker();
 
 	public ElementDecrypte recognize(String line) {
+		//System.out.println(line);
 		
-		for (AssociationChaineInstruction pattern : patterns) {
-			List<String> argumentsReconnus = tryPattern(pattern.pattern, line);
+		for (Action pattern : patterns) {
+			//System.out.print(pattern.getPattern() + " : ");
+			
+			List<String> argumentsReconnus = tryPattern(pattern.getPattern(), line);
 			
 			if (argumentsReconnus != null) {
-				return new ElementDecrypte(pattern.instruction, argumentsReconnus);
+				//System.out.println("succes");
+				return new ElementDecrypte(pattern, argumentsReconnus);
 			}
+			
+			//System.out.println("echec");
 		}
 		
 		return null;
@@ -84,8 +92,13 @@ public class Recognizer {
 			positionData ++;
 		}
 		
-		if (positionPattern != pattern.length() && pattern.charAt(positionPattern) != CHAR_JOKER && pattern.charAt(positionPattern) != CHAR_FILL) {
-			return null;
+		if (positionPattern != pattern.length() && pattern.charAt(positionPattern) != CHAR_JOKER) {
+			
+			if (pattern.charAt(positionPattern) == CHAR_FILL && positionPattern + 1 == pattern.length()) {
+				
+			} else {
+				return null;
+			}
 		}
 		
 		if (builder != null) {
