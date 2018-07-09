@@ -16,6 +16,10 @@ public class PrinterTest {
 		List<String> chaines = new ArrayList<>();
 		
 		chaines.add("<> Change Switch: [45] = ON");
+		chaines.add("<> Fork Condition: If Switch [509] == OFF then ...");
+		chaines.add("<> Fork Condition: If Switch [4] == ON then ...");
+		chaines.add(" <> Fork Condition: If Hero #7 has item #844 equipped then ...");
+		
 		
 		interpreter.inputLines(chaines);
 

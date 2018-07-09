@@ -8,11 +8,13 @@ import actionner.SwitchNumber;
 import decrypter.convertisseurs.Action;
 
 public class SetSwitchList implements Action {
+	private final String PATTERN = "<> Change Switch: [_-_] = _";
+	
 	@Override
 	public String getPattern() {
-		return "<> Change Switch: [_-_] = _";
+		return PATTERN;
 	}
-
+	
 	@Override
 	public void faire(ActionMaker actionMaker, List<String> arguments) {
 		int switchValueDeb = Integer.parseInt(arguments.get(0));

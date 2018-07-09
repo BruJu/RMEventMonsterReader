@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import decrypter.convertisseurs.Action;
+import decrypter.convertisseurs.IgnoreLine;
 import decrypter.convertisseurs.NoAction;
+import decrypter.convertisseurs.SetVariable;
+import decrypter.convertisseurs.condition.ConditionOnEquippedItem;
+import decrypter.convertisseurs.condition.ConditionOnSwitch;
 import decrypter.convertisseurs.interrupteur.*;
 
 class AssociationChaineInstruction {
@@ -20,17 +24,24 @@ class AssociationChaineInstruction {
 	static List<Action> bookMaker() {
 		List<Action> book = new ArrayList<>();
 		
-		// == Page 1 ==
-
+		book.add(new IgnoreLine("- SCRIPT -"));
+		
 		book.add(new NoAction("Show Message", "<> Show Message: _"));
 		book.add(new NoAction("Message Style", "<> Message Style: £"));
 		book.add(new NoAction("Select Face", "<> Select Face:"));
-
+		
+		book.add(new NoAction("Set Event Position", "<> Set Event Location:£"));
+		
 		// Interrupteurs
 		book.add(new ToggleList());
 		book.add(new Toggle());
 		book.add(new SetSwitchList());
 		book.add(new SetSwitch());
+		
+		book.add(new ConditionOnSwitch());
+		book.add(new ConditionOnEquippedItem());
+		
+		book.add(new SetVariable());
 		
 		
 

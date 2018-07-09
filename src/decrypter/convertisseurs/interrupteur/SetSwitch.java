@@ -8,9 +8,11 @@ import actionner.SwitchNumber;
 import decrypter.convertisseurs.Action;
 
 public class SetSwitch implements Action {
+	private final String PATTERN = "<> Change Switch: [_] = _";
+	
 	@Override
 	public String getPattern() {
-		return "<> Change Switch: [_] = _";
+		return PATTERN;
 	}
 
 	@Override

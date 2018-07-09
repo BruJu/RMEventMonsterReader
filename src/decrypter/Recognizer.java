@@ -30,7 +30,7 @@ public class Recognizer {
 		return null;
 	}
 
-	private List<String> tryPattern(String pattern, String data) {
+	public List<String> tryPattern(String pattern, String data) {
 		int positionPattern = 0;
 		int positionData = 0;
 		
