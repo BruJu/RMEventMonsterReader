@@ -9,7 +9,7 @@ public interface ActionMaker {
 	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value);
 	
 	
-	public void changeVariable(SwitchNumber variable, Operator operator, String value);
+	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue);
 	public void changeItem(int number, int value);
 	
 	

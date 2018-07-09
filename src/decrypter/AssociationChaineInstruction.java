@@ -25,6 +25,7 @@ class AssociationChaineInstruction {
 		List<Action> book = new ArrayList<>();
 		
 		book.add(new IgnoreLine("- SCRIPT -"));
+		book.add(new IgnoreLine("<>"));
 		
 		book.add(new NoAction("Show Message", "<> Show Message: _"));
 		book.add(new NoAction("Message Style", "<> Message Style: £"));

@@ -30,7 +30,7 @@ public class SetVariable implements Action {
 		Operator operator = OperatorIdentifier.getInstance().identify(operateur);
 		ReturnValue returnValue = ReturnValueIdentifier.getInstance().identify(value);
 		
-		actionMaker.changeVariable(variable, operator, value);
+		actionMaker.changeVariable(variable, operator, returnValue);
 	}
 
 

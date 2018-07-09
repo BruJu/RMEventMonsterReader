@@ -2,6 +2,7 @@ package example;
 
 import actionner.ActionMaker;
 import actionner.Operator;
+import actionner.ReturnValue;
 import actionner.SwitchChange;
 import actionner.SwitchNumber;
 
@@ -55,9 +56,70 @@ public class Printer implements ActionMaker {
 
 
 	@Override
-	public void changeVariable(SwitchNumber variable, Operator operator, String value) {
-		throw new UnsupportedOperationException("Not Yet implemented");
+	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue value) {
+		System.out.println("V[" + getRepresentation(variable) + "] " + getRepresentation(operator) +" "+ getRepresentation(value));
 		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private String getRepresentation(SwitchNumber variable) {
+		String s = "";
+		
+		if (variable.numberDebut == variable.numberFin) {
+			s = Integer.toString(variable.numberDebut);
+		} else {
+			s = Integer.toString(variable.numberDebut) + "-" + Integer.toString(variable.numberFin);
+		}
+		
+		if (variable.pointed) {
+			s = "V[" + s + "]";
+		}
+		
+		return s;
+	}
+
+	private String getRepresentation(Operator operator) {
+		switch (operator) {
+		case AFFECTATION:
+			return "=";
+		case DIVIDE:
+			return "/=";
+		case MINUS:
+			return "-=";
+		case MODULO:
+			return "%=";
+		case PLUS:
+			return "+=";
+		case TIMES:
+			return "*=";
+		}
+		
+		return null;
+	}
+	
+	private String getRepresentation(ReturnValue value) {
+		switch (value.type) {
+		case POINTER:
+			return "V[V[" + value.value +"]]";
+		case VALUE:
+			if (value.value == value.borneMax) {
+				return Integer.toString(value.value);
+			} else {
+				return Integer.toString(value.value) + "~" + Integer.toString(value.borneMax);
+			}
+		case VARIABLE:
+			return "V[" + value.value +"]";
+		}
+		
+		return null;
 	}
 
 

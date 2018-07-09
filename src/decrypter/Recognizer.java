@@ -6,25 +6,27 @@ import java.util.List;
 import decrypter.convertisseurs.Action;
 
 public class Recognizer {
+	private static boolean d = false;
+	
 	private static final char CHAR_FILL = '_';
 	private static final char CHAR_JOKER = '£';
 	
 	private static List<Action> patterns = AssociationChaineInstruction.bookMaker();
 
 	public ElementDecrypte recognize(String line) {
-		//System.out.println(line);
+		if (d) System.out.println("###### " + line);
 		
 		for (Action pattern : patterns) {
-			//System.out.print(pattern.getPattern() + " : ");
+			if (d) System.out.print(pattern.getPattern() + " : ");
 			
 			List<String> argumentsReconnus = tryPattern(pattern.getPattern(), line);
 			
 			if (argumentsReconnus != null) {
-				//System.out.println("succes");
+				if (d) System.out.println("succes");
 				return new ElementDecrypte(pattern, argumentsReconnus);
 			}
 			
-			//System.out.println("echec");
+			if (d) System.out.println("echec");
 		}
 		
 		return null;
@@ -92,20 +94,32 @@ public class Recognizer {
 			positionData ++;
 		}
 		
-		if (positionPattern != pattern.length() && pattern.charAt(positionPattern) != CHAR_JOKER) {
-			
-			if (pattern.charAt(positionPattern) == CHAR_FILL && positionPattern + 1 == pattern.length()) {
-				
-			} else {
-				return null;
-			}
-		}
-		
+		// Décharge du builder
 		if (builder != null) {
 			arguments.add(builder.toString());
 		}
 		
-		return arguments;
+		// Cas 1 : On est sur un joker
+		if (pattern.length() != positionPattern && pattern.charAt(positionPattern) == CHAR_JOKER) {
+			return arguments;
+		}
+		
+		// Cas 2 : on est arrivée à la fin des données à lire
+		if (positionData == data.length()) {
+			if (positionPattern == pattern.length()) {
+				return arguments;
+			} else {
+				// Le pattern n'est pas respecté sauf si on est sur un _ final
+				if (pattern.charAt(positionPattern) == CHAR_FILL && positionPattern + 1 == pattern.length()) {
+					return arguments;
+				} else {
+					return null;
+				}
+				
+			}
+		} else {
+			return null;
+		}
 	}
 
 }

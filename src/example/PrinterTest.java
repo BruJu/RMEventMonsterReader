@@ -19,10 +19,9 @@ public class PrinterTest {
 		chaines.add("<> Fork Condition: If Switch [509] == OFF then ...");
 		chaines.add("<> Fork Condition: If Switch [4] == ON then ...");
 		chaines.add(" <> Fork Condition: If Hero #7 has item #844 equipped then ...");
-		
-		
+		chaines.add(" <> Change Variable: [1818] += 3");
+		chaines.add(" <>");
 		interpreter.inputLines(chaines);
-
 	}
 
 }
