@@ -29,8 +29,20 @@ public class OperatorIdentifier {
 			return Operator.TIMES;
 		case "Mod=":
 			return Operator.MODULO;
+		case "==":
+			return Operator.IDENTIQUE;
+		case "!=":
+			return Operator.DIFFERENT;
+		case "<":
+			return Operator.INF;
+		case ">":
+			return Operator.SUP;
+		case "<=":
+			return Operator.INFEGAL;
+		case ">=":
+			return Operator.SUPEGAL;
 		default:
-			return null;
+			throw new UnsupportedOperationException("Opérateur " + operateur + " inconnu");
 		
 		}
 	}

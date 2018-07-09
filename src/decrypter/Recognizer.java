@@ -29,6 +29,8 @@ public class Recognizer {
 			if (d) System.out.println("echec");
 		}
 		
+		System.out.println("Ligne non reconnue : " + line);
+		
 		return null;
 	}
 

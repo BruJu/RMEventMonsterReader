@@ -1,5 +1,8 @@
 package actionner;
 
 public enum Operator {
-	AFFECTATION, PLUS, MINUS, TIMES, DIVIDE, MODULO
+	// Calculs
+	AFFECTATION, PLUS, MINUS, TIMES, DIVIDE, MODULO,
+	// Comparaisons
+	IDENTIQUE, DIFFERENT, INF, SUP, INFEGAL, SUPEGAL
 }

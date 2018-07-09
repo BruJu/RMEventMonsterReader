@@ -100,6 +100,18 @@ public class Printer implements ActionMaker {
 			return "+=";
 		case TIMES:
 			return "*=";
+		case DIFFERENT:
+			return "!=";
+		case IDENTIQUE:
+			return "==";
+		case INF:
+			return "<";
+		case INFEGAL:
+			return "<=";
+		case SUP:
+			return ">";
+		case SUPEGAL:
+			return ">=";
 		}
 		
 		return null;
@@ -120,6 +132,30 @@ public class Printer implements ActionMaker {
 		}
 		
 		return null;
+	}
+
+
+	@Override
+	public void condElse() {
+		System.out.println("Else");
+	}
+
+
+	@Override
+	public void condEnd() {
+		System.out.println("End If");
+	}
+
+
+	@Override
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+		System.out.println("If V[" + leftOperandValue + "] " + getRepresentation(operatorValue) + " " + getRepresentation(returnValue));
+	}
+
+
+	@Override
+	public void showPicture(int id, String pictureName) {
+		System.out.println("Show " + id + " = " + pictureName);
 	}
 
 

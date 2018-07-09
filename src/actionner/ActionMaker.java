@@ -19,4 +19,15 @@ public interface ActionMaker {
 
 
 	public void condOnEquippedItem(int heroId, int itemId);
+
+
+	public void condElse();
+	
+	public void condEnd();
+
+
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue);
+
+
+	public void showPicture(int id, String pictureName);
 }
