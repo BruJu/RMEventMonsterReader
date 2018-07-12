@@ -5,6 +5,9 @@ import java.util.List;
 import actionner.ActionMaker;
 import decrypter.convertisseurs.Action;
 
+/**
+ * Condition sur l'équipement d'un personnage
+ */
 public class ConditionOnEquippedItem implements Action {
 	private final String PATTERN = "<> Fork Condition: If Hero #_ has item #_ equipped then ...";
 	

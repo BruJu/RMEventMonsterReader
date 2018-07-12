@@ -4,6 +4,9 @@ import java.util.List;
 
 import actionner.ActionMaker;
 
+/**
+ * Saut vers un label
+ */
 public class JumpTo implements Action {
 	private final String PATTERN = "<> Jump To Label: _";
 

@@ -4,6 +4,9 @@ import java.util.List;
 
 import actionner.ActionMaker;
 
+/**
+ * Fonctionnalité non implémentée
+ */
 public class NoAction implements Action {
 	private final String str;
 	private final String pattern;

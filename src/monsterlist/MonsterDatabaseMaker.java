@@ -116,10 +116,6 @@ public class MonsterDatabaseMaker implements ActionMaker {
 	@Override
 	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value) { }
 
-
-	@Override
-	public void changeItem(int number, int value) {	}
-
 	@Override
 	public void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity) { }
 

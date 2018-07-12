@@ -4,6 +4,9 @@ import java.util.List;
 
 import actionner.ActionMaker;
 
+/**
+ * Pose d'un label
+ */
 public class Label implements Action {
 	private final String PATTERN = "<> Label: _";
 

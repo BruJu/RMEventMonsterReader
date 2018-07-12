@@ -3,38 +3,51 @@ package decrypter;
 import java.util.ArrayList;
 import java.util.List;
 
-import decrypter.convertisseurs.Action;
-
+/**
+ * Classe permettant de reconnaitre des chaînes avec le pattern suivant :
+ * Tous les symboles comptent
+ * 
+ * 
+ * Lorsqu'un _ est lu, le reconnaisseur lit la valeur jusqu'à trouver le symbole aprés le _
+ * Si un £ est lu, le reconnaisseur arrête son travail et annonce qu'il a reconnu la chaîne
+ *
+ */
 public class Recognizer {
-	private static boolean d = false;
+	/*
+	 * 1/
+	 * On n'utilise pas de classe avec des regex prédéfinis car les regex sont assez compliqués
+	 * à déchiffrer quand on n'a pas l'habitude.
+	 * La puissance des regex n'est pas pertinente par rapport à l'objectif de lisiblité recherché.
+	 * 
+	 * 2/ Une meilleur implémentation serait de faire une interface Recognizer, et de permettre
+	 * aux classes de choisir leur implémentation.
+	 * Cela permettrait d'intégrer la possibilité d'utiliser des regex lorsque leur puissance
+	 * se justifie.
+	 */
 	
+	/**
+	 * Caractère symbolisant une reconnaissance de valeur
+	 */
 	private static final char CHAR_FILL = '_';
+	
+	/**
+	 * Caractère symbolisant un pattern qui accepte n'importe quoi à la fin
+	 */
 	private static final char CHAR_JOKER = '£';
 	
-	private static List<Action> patterns = AssociationChaineInstruction.bookMaker();
-
-	public ElementDecrypte recognize(String line) {
-		if (d) System.out.println("###### " + line);
-		
-		for (Action pattern : patterns) {
-			if (d) System.out.print(pattern.getPattern() + " : ");
-			
-			List<String> argumentsReconnus = tryPattern(pattern.getPattern(), line);
-			
-			if (argumentsReconnus != null) {
-				if (d) System.out.println("succes");
-				return new ElementDecrypte(pattern, argumentsReconnus);
-			}
-			
-			if (d) System.out.println("echec");
-		}
-		
-		System.out.println("Ligne non reconnue : " + line);
-		
-		return null;
-	}
-
-	public List<String> tryPattern(String pattern, String data) {
+	/**
+	 * La méthode tryPattern étant static, on ne peut pas implémenter cette classe
+	 */
+	private Recognizer() {}
+	
+	/**
+	 * Renvoie la liste des paramètres reconnus si le pattern correspond à la donnée.
+	 * Renvoie null sinon
+	 * @param pattern Le pattern à reconnaître
+	 * @param data La ligne à reconnaître
+	 * @return Une liste de paramètres reconnus si le pattern correspond, null sinon
+	 */
+	public static List<String> tryPattern(String pattern, String data) {
 		int positionPattern = 0;
 		int positionData = 0;
 		

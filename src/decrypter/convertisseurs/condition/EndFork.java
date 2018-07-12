@@ -5,6 +5,9 @@ import java.util.List;
 import actionner.ActionMaker;
 import decrypter.convertisseurs.Action;
 
+/**
+ * Fin de condition
+ */
 public class EndFork implements Action {
 	private final String PATTERN = ": End of fork";
 

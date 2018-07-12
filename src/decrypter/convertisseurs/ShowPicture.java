@@ -4,6 +4,9 @@ import java.util.List;
 
 import actionner.ActionMaker;
 
+/**
+ * Affichage d'une image
+ */
 public class ShowPicture implements Action {
 	private final String PATTERN = "<> Show Picture: #_, _, £";
 	

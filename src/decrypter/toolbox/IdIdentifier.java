@@ -12,8 +12,6 @@ public class IdIdentifier {
 	private final String leftValuePattern_Multiple = "[_-_]";
 	private final String leftValuePattern_Variable = "[V[_]]";
 	
-	private Recognizer recognizer = new Recognizer();
-	
 	
 	public static IdIdentifier getInstance() {
 		if (instance == null)
@@ -25,7 +23,7 @@ public class IdIdentifier {
 	
 	public SwitchNumber identify(String data) {
 		// POINTED VARIABLE
-		List<String> value = recognizer.tryPattern(leftValuePattern_Variable, data);
+		List<String> value = Recognizer.tryPattern(leftValuePattern_Variable, data);
 		if (value != null) {
 			int id = Integer.parseInt(value.get(0));
 			
@@ -33,7 +31,7 @@ public class IdIdentifier {
 		}
 		
 		// MULTIPLE VARIABLES
-		value = recognizer.tryPattern(leftValuePattern_Multiple, data);
+		value = Recognizer.tryPattern(leftValuePattern_Multiple, data);
 		if (value != null) {
 			int id = Integer.parseInt(value.get(0));
 			int id2 = Integer.parseInt(value.get(0));
@@ -42,7 +40,7 @@ public class IdIdentifier {
 		}
 		
 		// SINGLE VARIABLE
-		value = recognizer.tryPattern(leftValuePattern_Simple, data);
+		value = Recognizer.tryPattern(leftValuePattern_Simple, data);
 		if (value != null) {
 			int id = Integer.parseInt(value.get(0));
 			

@@ -9,6 +9,9 @@ import decrypter.convertisseurs.Action;
 import decrypter.toolbox.OperatorIdentifier;
 import decrypter.toolbox.ReturnValueIdentifier;
 
+/**
+ * Condition sur une variable
+ */
 public class ConditionOnVariable implements Action {
 	private final String PATTERN = "<> Fork Condition: If Variable [_] _ _ then ...";
 	
@@ -30,30 +33,3 @@ public class ConditionOnVariable implements Action {
 		actionMaker.condOnVariable(leftOperandValue, operatorValue, returnValue);
 	}
 }
-
-/*
-
-
-- SCRIPT -
-<> Fork Condition: If Variable [1] == 0 then ...
- <>
-: End of fork
-<> Fork Condition: If Variable [1] == V[1] then ...
- <>
-: End of fork
-<> Fork Condition: If Variable [1] <= V[1] then ...
- <>
-: End of fork
-<> Fork Condition: If Variable [1] < V[1] then ...
- <>
-: End of fork
-<> Fork Condition: If Variable [1] != V[1] then ...
- <>
-: End of fork
-<> Fork Condition: If Variable [1] >= V[1] then ...
- <>
-: End of fork
-
-
-
-*/

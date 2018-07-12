@@ -5,6 +5,9 @@ import java.util.List;
 import actionner.ActionMaker;
 import decrypter.convertisseurs.Action;
 
+/**
+ * Condition sur l'état d'un interrupteur
+ */
 public class ConditionOnSwitch implements Action {
 	private final String PATTERN = "<> Fork Condition: If Switch [_] == _ then ...";
 	

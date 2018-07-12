@@ -7,6 +7,8 @@ import actionner.SwitchChange;
 import actionner.SwitchNumber;
 import decrypter.convertisseurs.Action;
 
+// TODO : unifier l'implémentation de SetSwitch
+
 public class SetSwitch implements Action {
 	private final String PATTERN = "<> Change Switch: [_] = _";
 	

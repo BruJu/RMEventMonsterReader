@@ -7,7 +7,6 @@ import decrypter.Recognizer;
 
 public class ReturnValueIdentifier {
 	private static ReturnValueIdentifier instance = null;
-	private Recognizer recognizer = new Recognizer();
 	
 	// TODO : Faire une classe séparée pour les objets
 	
@@ -32,32 +31,32 @@ public class ReturnValueIdentifier {
 	public ReturnValue identify(String data) {
 		List<String> argumentsLus;
 		
-		argumentsLus = recognizer.tryPattern(pattern_Random, data);
+		argumentsLus = Recognizer.tryPattern(pattern_Random, data);
 		if (argumentsLus != null) {
 			return new ReturnValue(Integer.parseInt(argumentsLus.get(0)), Integer.parseInt(argumentsLus.get(1)));
 		}
 		
-		argumentsLus = recognizer.tryPattern(pattern_RefVariable, data);
+		argumentsLus = Recognizer.tryPattern(pattern_RefVariable, data);
 		if (argumentsLus != null) {
 			return new ReturnValue(ReturnValue.Type.POINTER, Integer.parseInt(argumentsLus.get(0)));
 		}
 
-		argumentsLus = recognizer.tryPattern(pattern_Variable, data);
+		argumentsLus = Recognizer.tryPattern(pattern_Variable, data);
 		if (argumentsLus != null) {
 			return new ReturnValue(ReturnValue.Type.VARIABLE, Integer.parseInt(argumentsLus.get(0)));
 		}
 		
-		argumentsLus = recognizer.tryPattern(pattern_VariableSpace, data);
+		argumentsLus = Recognizer.tryPattern(pattern_VariableSpace, data);
 		if (argumentsLus != null) {
 			return new ReturnValue(ReturnValue.Type.VARIABLE, Integer.parseInt(argumentsLus.get(0)));
 		}
 
-		argumentsLus = recognizer.tryPattern(pattern_DiezeNumber, data);
+		argumentsLus = Recognizer.tryPattern(pattern_DiezeNumber, data);
 		if (argumentsLus != null) {
 			return new ReturnValue(ReturnValue.Type.VALUE, Integer.parseInt(argumentsLus.get(0)));
 		}
 		
-		argumentsLus = recognizer.tryPattern(pattern_Number, data);
+		argumentsLus = Recognizer.tryPattern(pattern_Number, data);
 		if (argumentsLus != null) {
 			return new ReturnValue(ReturnValue.Type.VALUE, Integer.parseInt(argumentsLus.get(0)));
 		}

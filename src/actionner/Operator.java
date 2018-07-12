@@ -1,17 +1,67 @@
 package actionner;
 
+/**
+ * Enumération des opérateurs existants de comparaison et de calculs
+ *
+ */
 public enum Operator {
 	// Calculs
-	AFFECTATION, PLUS, MINUS, TIMES, DIVIDE, MODULO,
+	/**
+	 * Affectation
+	 */
+	AFFECTATION,
+	/**
+	 * Addition
+	 */
+	PLUS,
+	/**
+	 * Soustraction
+	 */
+	MINUS,
+	/**
+	 * Multiplication
+	 */
+	TIMES,
+	/**
+	 * Division
+	 */
+	DIVIDE,
+	/**
+	 * Reste de la division euclidienne
+	 */
+	MODULO,
 	// Comparaisons
-	IDENTIQUE, DIFFERENT, INF, SUP, INFEGAL, SUPEGAL;
+	/**
+	 * Identique
+	 */
+	IDENTIQUE,
+	/**
+	 * Différent
+	 */
+	DIFFERENT,
+	/**
+	 * Inférieur strict
+	 */
+	INF,
+	/**
+	 * Supérieur strict
+	 */
+	SUP,
+	/**
+	 * Inférieur ou égal
+	 */
+	INFEGAL,
+	/**
+	 * Supérieur ou égal
+	 */
+	SUPEGAL;
 	
 	
 	/**
-	 * Test if leftValue Operator rightValue
-	 * @param leftValue The first value to test
-	 * @param rightValue The second value to test
-	 * @return True if leftValue Operator rightValue is true
+	 * Teste si la comparaison entre la valeur gauche et la valeur droite est vraie
+	 * @param leftValue La valeur de gauche
+	 * @param rightValue La valeur de droite
+	 * @return Vrai si la comparaison entre les deux valeurs est vraie
 	 */
 	public boolean test(int leftValue, int rightValue) {
 		switch (this) {
@@ -39,13 +89,14 @@ public enum Operator {
 		}
 	}
 	
+
 	/**
-	 * Compute leftValue operator rightValue
+	 * Calcule entre les deux valeurs avec l'opérateur courant
 	 * 
-	 * For the affectation, returns rightValue
-	 * @param leftValue The first value
-	 * @param rightValue The second value
-	 * @return leftValue operator rightValue
+	 * Pour l'affectation, renvoie la valeur de droite
+	 * @param leftValue La valeur de gauche
+	 * @param rightValue La valeur de droite
+	 * @return Le résultat
 	 */
 	public int compute(int leftValue, int rightValue) {
 		switch (this) {
@@ -73,6 +124,12 @@ public enum Operator {
 		}
 	}
 
+	/**
+	 * Renvoie le signe inverse de l'opérateur.
+	 * 
+	 * Impossible pour l'affectation et le modulo
+	 * @return Le signe opposé à l'opérateur
+	 */
 	public Operator revert() {
 		switch(this) {
 		case AFFECTATION:
@@ -103,7 +160,11 @@ public enum Operator {
 		return null;
 	}
 	
-	
+	/**
+	 * Renvoie vrai si l'opérateur appartient à la liste d'opérateur donnée
+	 * @param table La liste des opérateurs
+	 * @return Vrai si l'opérateur est dans la liste donnée
+	 */
 	public boolean appartient(Operator[] table) {
 		for (Operator operator : table) {
 			if (operator == this)
@@ -113,6 +174,10 @@ public enum Operator {
 		return false;
 	}
 
+	/**
+	 * Renvoie vrai si l'opérateur est la multiplication, la division ou le modulo
+	 * @return Vrai si l'opérateur est la multiplication, la division ou le modulo
+	 */
 	public boolean isAMultiplier() {
 		final Operator[] op = new Operator[] {TIMES, DIVIDE, MODULO};
 		

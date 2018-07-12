@@ -14,16 +14,34 @@ import decrypter.convertisseurs.ShowPicture;
 import decrypter.convertisseurs.condition.*;
 import decrypter.convertisseurs.interrupteur.*;
 
+/**
+ * Cette classe impémente des associations entre pattern à reconnaître et action à réaliser
+ */
 class AssociationChaineInstruction {
+	/**
+	 * Le pattern à reconnaître
+	 */
 	final String pattern;
+	
+	/**
+	 * Action à appeller
+	 */
 	final Action action;
 	
+	/**
+	 * Crée une association entre pattern et action
+	 * @param pattern Le pattern à reconnaître
+	 * @param action L'action à déclencher si le pattern est reconnu
+	 */
 	AssociationChaineInstruction(String pattern, Action action) {
 		this.pattern = pattern;
 		this.action = action;
 	}
 	
-	
+	/**
+	 * Renvoie la liste des associations pattern - action
+	 * @return La liste des associations pattern - action
+	 */
 	static List<Action> bookMaker() {
 		List<Action> book = new ArrayList<>();
 		

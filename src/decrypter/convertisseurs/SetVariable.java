@@ -10,6 +10,9 @@ import decrypter.toolbox.IdIdentifier;
 import decrypter.toolbox.OperatorIdentifier;
 import decrypter.toolbox.ReturnValueIdentifier;
 
+/**
+ * Modification de l'état d'une variable
+ */
 public class SetVariable implements Action {
 	private final String PATTERN = "<> Change Variable: _ _ _";
 	

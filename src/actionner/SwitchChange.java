@@ -1,5 +1,19 @@
 package actionner;
 
+/**
+ * Modification de l'état d'un interrupteur
+ */
 public enum SwitchChange {
-	ON, OFF, REVERSE
+	/**
+	 * Activé
+	 */
+	ON,
+	/**
+	 * Désactivé
+	 */
+	OFF,
+	/**
+	 * Inversé
+	 */
+	REVERSE
 }

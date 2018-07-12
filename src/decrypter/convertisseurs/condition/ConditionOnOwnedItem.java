@@ -5,6 +5,9 @@ import java.util.List;
 import actionner.ActionMaker;
 import decrypter.convertisseurs.Action;
 
+/**
+ * Condition sur la possession d'un objet
+ */
 public class ConditionOnOwnedItem implements Action {
 	private final String PATTERN = "<> Fork Condition: If Item #_ owning then ...";
 	

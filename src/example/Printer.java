@@ -32,13 +32,6 @@ public class Printer implements ActionMaker {
 
 
 	@Override
-	public void changeItem(int number, int value) {
-		throw new UnsupportedOperationException("Not Yet implemented");
-	}
-
-
-
-	@Override
 	public void notImplementedFeature(String str) {
 		// TODO Auto-generated method stub
 		

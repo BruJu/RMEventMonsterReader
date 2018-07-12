@@ -6,6 +6,9 @@ import actionner.ActionMaker;
 import actionner.ReturnValue;
 import decrypter.toolbox.ReturnValueIdentifier;
 
+/**
+ * Modification des objets possédés
+ */
 public class ModifyItems implements Action {
 	private final String PATTERN = "<> Change Items: _ _ _ of item _";
 	

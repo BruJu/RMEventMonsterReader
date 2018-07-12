@@ -4,7 +4,9 @@ import java.util.List;
 
 import actionner.ActionMaker;
 import decrypter.convertisseurs.Action;
-
+/**
+ * Condition sur la présence d'un coéquipier
+ */
 public class ConditionOnTeamMember implements Action {
 	private final String PATTERN = "<> Fork Condition: If Hero #_ is in party then ...";
 
