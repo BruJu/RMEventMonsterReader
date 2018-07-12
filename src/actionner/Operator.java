@@ -104,4 +104,19 @@ public enum Operator {
 	}
 	
 	
+	public boolean appartient(Operator[] table) {
+		for (Operator operator : table) {
+			if (operator == this)
+				return true;
+		}
+		
+		return false;
+	}
+
+	public boolean isAMultiplier() {
+		final Operator[] op = new Operator[] {TIMES, DIVIDE, MODULO};
+		
+		return appartient(op);
+	}
+	
 }

@@ -28,7 +28,7 @@ public class MonsterDatabase {
 		POS_DEXTERITE(527, 528, 529),
 		POS_ESQUIVE(536, 537, 538);
 		
-		public static final int TAILLE = Positions.POS_ESQUIVE.ordinal();
+		public static final int TAILLE = Positions.POS_ESQUIVE.ordinal() + 1;
 		
 		public int[] ids;
 		
@@ -59,6 +59,16 @@ public class MonsterDatabase {
 			stats = new int[Positions.TAILLE];
 		}
 		
+		public String getString() {
+			String s = "•";
+			
+			for (int i = 0 ; i != Positions.TAILLE ; i++) {
+				s = s + ", " + stats[i];
+			}
+			
+			return s;
+		}
+		
 	}
 	
 	public class Combat {
@@ -76,17 +86,42 @@ public class MonsterDatabase {
 			if (paire == null)
 				return;
 			
-			Monstre monstre = getMonster(paire.getRight());
+			Monstre monstre = getMonster(paire.getRight(), operator);
+			
+			if (monstre == null) {
+				return;
+			}
+			
 			int posStat = paire.getLeft().ordinal();
 			
 			monstre.stats[posStat] = operator.compute(monstre.stats[posStat], value);
 		}
 
-		private Monstre getMonster(Integer position) {
-			if (monstres[position] == null)
+		private Monstre getMonster(Integer position, Operator operator) {
+			if (monstres[position] == null) {
+				if (operator.isAMultiplier())
+					return null;
+				
 				monstres[position] = new Monstre();
+			}
 			
 			return monstres[position];
+		}
+		
+		
+		public String getString() {
+			String s = "=== Combat " + id;
+			
+			for (int i = 0 ; i != 3 ; i++) {
+				if (monstres[i] == null)
+					continue;
+				
+				s = s + "\n" + i + ";" + monstres[i].getString();
+			}
+			
+			
+			return s;
+			
 		}
 	}
 	
@@ -113,6 +148,10 @@ public class MonsterDatabase {
 	
 	
 	public static void setVariable(List<Combat> combats, SwitchNumber variable, Operator operator, ReturnValue returnValue) {
+		
+		
+		// TODO : isRelevant()
+		/*
 		if (variable.pointed || variable.numberDebut != variable.numberFin || returnValue.type != ReturnValue.Type.VALUE) {
 			throw new RuntimeException("Ne supporte pas les pointeurs");
 		}
@@ -120,12 +159,24 @@ public class MonsterDatabase {
 		if (returnValue.value != returnValue.borneMax) {
 			throw new RuntimeException("Ne supporte pas les returnValues en random");
 		}
+		*/
 		
 		for (Combat combat : combats) {
 			combat.applyModificator(variable.numberDebut, operator, returnValue.value);
 		}
 	}
 	
+	
+	
+	public String getString() {
+		String s = "";
+		
+		for (Combat combat : combatsConnus) {
+			s = s + "\n" + combat.getString();
+		}
+		
+		return s;
+	}
 	
 	
 }

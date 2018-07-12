@@ -27,7 +27,7 @@ public class MonsterDatabaseMaker implements ActionMaker {
 	}
 	
 	private boolean isExecutable() {
-		return nestedUselessIf != 0;
+		return nestedUselessIf == 0;
 	}
 	
 	
@@ -72,6 +72,10 @@ public class MonsterDatabaseMaker implements ActionMaker {
 		
 		if (leftOperandValue == MonsterDatabase.POS_ID_COMBAT) {
 			conditionsActuelles.add(new Condition(operatorValue, returnValue.value));
+			
+			if (operatorValue == Operator.IDENTIQUE)
+				this.database.addCombat(returnValue.value);
+			
 		} else {
 			ignoreIf();
 		}

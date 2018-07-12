@@ -26,6 +26,10 @@ public class Condition {
 	}
 	
 	public void revert() {
+		if (!isActiv) {
+			return;
+		}
+		
 		operator = operator.revert();
 	}
 	
