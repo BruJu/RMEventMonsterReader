@@ -10,32 +10,24 @@ import actionner.SwitchChange;
 import actionner.SwitchNumber;
 
 public class MonsterDatabaseMaker implements ActionMaker {
-	int niveauConditionnelTraite = 0;
-	int niveauConditionnelCourant = 0;
+	int nestedUselessIf = 0;
 	
 	List<Condition> conditionsActuelles = new ArrayList<>();
 	
 	private void ignoreIf() {
-		niveauConditionnelCourant++;
-	}
-	
-	private void treatIf() {
-		niveauConditionnelCourant++;
-		niveauConditionnelTraite++;
+		nestedUselessIf++;
 	}
 	
 	private void endElse() {
 		if (isExecutable()) {
-			niveauConditionnelCourant--;
-			niveauConditionnelTraite--;
 			conditionsActuelles.remove(conditionsActuelles.size() - 1);
 		} else {
-			niveauConditionnelCourant--;
+			nestedUselessIf--;
 		}
 	}
 	
 	private boolean isExecutable() {
-		return niveauConditionnelCourant == niveauConditionnelTraite; 
+		return nestedUselessIf != 0;
 	}
 	
 	
@@ -61,7 +53,6 @@ public class MonsterDatabaseMaker implements ActionMaker {
 	public void condOnSwitch(int number, boolean value) {
 		if (value) {
 			conditionsActuelles.add(new Condition());
-			treatIf();
 		} else {
 			ignoreIf();
 		}
@@ -74,6 +65,11 @@ public class MonsterDatabaseMaker implements ActionMaker {
 
 	@Override
 	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+		if (!isExecutable()) {
+			ignoreIf();
+			return;
+		}
+		
 		if (leftOperandValue == MonsterDatabase.POS_ID_COMBAT) {
 			conditionsActuelles.add(new Condition(operatorValue, returnValue.value));
 		} else {
@@ -84,6 +80,9 @@ public class MonsterDatabaseMaker implements ActionMaker {
 	
 	@Override
 	public void condElse() {
+		if (!isExecutable())
+			return;
+		
 		conditionsActuelles.get(conditionsActuelles.size() - 1).revert();
 	}
 

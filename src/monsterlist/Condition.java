@@ -19,6 +19,8 @@ public class Condition {
 	}
 	
 	public Condition(Operator operator, int rightValue) {
+		isActiv = true;
+		
 		this.operator = operator;
 		this.rightValue = rightValue;
 	}
