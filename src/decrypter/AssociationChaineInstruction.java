@@ -5,6 +5,9 @@ import java.util.List;
 
 import decrypter.convertisseurs.Action;
 import decrypter.convertisseurs.IgnoreLine;
+import decrypter.convertisseurs.JumpTo;
+import decrypter.convertisseurs.Label;
+import decrypter.convertisseurs.ModifyItems;
 import decrypter.convertisseurs.NoAction;
 import decrypter.convertisseurs.SetVariable;
 import decrypter.convertisseurs.ShowPicture;
@@ -32,6 +35,17 @@ class AssociationChaineInstruction {
 		book.add(new NoAction("Message Style", "<> Message Style: £"));				// Ne sert pas à l'analyse
 		book.add(new NoAction("Select Face", "<> Select Face:"));					// Ne sert pas à l'analyse
 		book.add(new NoAction("Set Event Position", "<> Set Event Location:£"));	// Ne sert pas à l'analyse
+		book.add(new NoAction("Move Event", "<> Move Event:£"));	// Ne sert pas à l'analyse
+		book.add(new NoAction("Wait", "<> Wait:£"));	// Ne sert pas à l'analyse
+		book.add(new NoAction("Move Picture", "<> Move Picture:£"));	// Ne sert pas à l'analyse
+		book.add(new NoAction("Erase Picture", "<> Erase Picture:£"));	// Ne sert pas à l'analyse
+		book.add(new NoAction("Play BGM", "<> Play BGM:£"));	// Ne sert pas à l'analyse
+		book.add(new NoAction("Weather", "<> Weather Effects: _"));
+		book.add(new NoAction("Screen Tone", "<> Set Screen Tone:£"));	// Ne sert pas à l'analyse
+		book.add(new NoAction("Wait Until Moved", "<> Wait Until Moved"));
+		book.add(new NoAction("Stop All Movement", "<> Stop All Movement"));
+		book.add(new NoAction("Key input", "<> Key Input Processing:£"));
+		book.add(new NoAction("Delete Event", "<> Delete Event"));
 		
 		book.add(new NoAction("Change Skill", "<> Change Skill:£"));				// Source buggée
 		
@@ -43,10 +57,18 @@ class AssociationChaineInstruction {
 		
 		
 		book.add(new NoAction("Set Hero Opacity", "<> Set Hero Opacity:£"));
+		book.add(new NoAction("Show Screen", "<> Show Screen: £"));
+		book.add(new NoAction("Erase Screen", "<> Erase Screen: £"));
+		book.add(new NoAction("Change Transition", "<> Change Transition: £"));
 		
 		book.add(new NoAction("Memorize BGM", "<> Memorize BGM"));
 		book.add(new NoAction("Commentary", "<> Comment: £"));
 
+		book.add(new NoAction("Panorama", "<> Change Panorama: _"));
+
+		book.add(new NoAction("Label", "<> Label: _"));					// A implémenter
+		book.add(new NoAction("Jump", "<> Jump To Label: _"));			// A implémenter
+		book.add(new NoAction("Change Money", "<> Change Money: £"));	// A implémenter
 		
 		// Interrupteurs
 		book.add(new ToggleList());
@@ -56,18 +78,23 @@ class AssociationChaineInstruction {
 
 		// Changement de variable
 		book.add(new SetVariable());
+		book.add(new ModifyItems());
 		
 		// Conditions
 		book.add(new ConditionOnSwitch());
 		book.add(new ConditionOnEquippedItem());
 		book.add(new ConditionOnVariable());
+		book.add(new ConditionOnOwnedItem());
 		book.add(new ElseFork());
 		book.add(new EndFork());
 		
 		book.add(new ShowPicture());
 		
+		book.add(new ConditionOnTeamMember());
 		
-		// <> Show Picture: #80, combfond-4, (160, 200), Mgn 100%, Tsp 100%/100%
+
+		book.add(new Label());
+		book.add(new JumpTo());
 		
 		
 		return book;

@@ -35,6 +35,9 @@ public class PrinterTest {
 		
 		try {
 			interpreter.inputFile(new File("ressources/Script.txt"));
+			interpreter.inputFile(new File("ressources/CombatSuite.txt"));
+			interpreter.inputFile(new File("ressources/CombatDrop.txt"));
+			interpreter.inputFile(new File("ressources/Complement.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

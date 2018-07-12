@@ -13,8 +13,6 @@ import decrypter.toolbox.ReturnValueIdentifier;
 public class SetVariable implements Action {
 	private final String PATTERN = "<> Change Variable: _ _ _";
 	
-
-	
 	@Override
 	public String getPattern() {
 		return PATTERN;

@@ -159,4 +159,35 @@ public class Printer implements ActionMaker {
 	}
 
 
+	@Override
+	public void condTeamMember(int memberId) {
+		System.out.println("If Hero #" + memberId + " is in the team");
+	}
+
+
+	@Override
+	public void condOnOwnedItem(int itemId) {
+		System.out.println("If Item #" + itemId + " is owned");
+	}
+
+
+	@Override
+	public void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity) {
+		String operator = add ? "Got " : "Lose ";
+		
+		System.out.println(operator + getRepresentation(quantity) + " of " + getRepresentation(idItem));
+	}
+
+
+	@Override
+	public void label(int labelNumber) {
+		System.out.println("Label " + labelNumber);
+	}
+
+
+	@Override
+	public void jumpToLabel(int labelNumber) {
+		System.out.println("Goto " + labelNumber);
+	}
+
 }
