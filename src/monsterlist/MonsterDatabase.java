@@ -1,9 +1,7 @@
 package monsterlist;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import actionner.Operator;
 import actionner.ReturnValue;
@@ -54,6 +52,8 @@ public class MonsterDatabase {
 	
 	public class Monstre {
 		int[] stats;
+		String name;
+		int drop;
 		
 		public Monstre() {
 			stats = new int[Positions.TAILLE];
@@ -70,9 +70,23 @@ public class MonsterDatabase {
 			monstres = new Monstre[3];
 		}
 
-		public void applyModificator(int numberDebut, Operator operator, int value) {
-			// TODO Auto-generated method stub
+		public void applyModificator(int idVariable, Operator operator, int value) {
+			Pair<Positions, Integer> paire = Positions.searchNumVariable(idVariable);
 			
+			if (paire == null)
+				return;
+			
+			Monstre monstre = getMonster(paire.getRight());
+			int posStat = paire.getLeft().ordinal();
+			
+			monstre.stats[posStat] = operator.compute(monstre.stats[posStat], value);
+		}
+
+		private Monstre getMonster(Integer position) {
+			if (monstres[position] == null)
+				monstres[position] = new Monstre();
+			
+			return monstres[position];
 		}
 	}
 	

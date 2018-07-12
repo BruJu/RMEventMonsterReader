@@ -1,42 +1,46 @@
 package monsterlist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import actionner.Operator;
-import actionner.ReturnValue;
 import monsterlist.MonsterDatabase.Combat;
 
+
+// This implementation is actually horrible performance wise
 public class Condition {
+	private boolean isActiv;
+	
+	private Operator operator;
+	private int rightValue;
+	
+	public Condition() {
+		isActiv = false;
+	}
+	
+	public Condition(Operator operator, int rightValue) {
+		this.operator = operator;
+		this.rightValue = rightValue;
+	}
+	
 	public void revert() {
-		
+		operator = operator.revert();
 	}
 	
 	public List<Combat> filter(List<Combat> liste) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!isActiv)
+			return liste;
+		
+		List<Combat> newCombatList = new ArrayList<>();
+		
+		for (Combat combat : liste) {
+			if (operator.test(combat.id, rightValue)) {
+				newCombatList.add(combat);
+			}
+		}
+		
+		return newCombatList;
 	}
 	
 	
 }
-
-
-
-/*
-
-public void condOnSwitch(int number, boolean value) {
-	// TODO Auto-generated method stub
-
-}
-
-@Override
-public void condOnEquippedItem(int heroId, int itemId) {
-
-@Override
-public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue)
-
-@Override
-public void condOnOwnedItem(int itemId)
-@Override
-
-public void condTeamMember(int memberId)
-*/
