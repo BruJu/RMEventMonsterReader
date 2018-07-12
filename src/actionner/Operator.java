@@ -91,7 +91,7 @@ public enum Operator {
 	
 
 	/**
-	 * Calcule entre les deux valeurs avec l'opérateur courant
+	 * Fait le calcul entre les deux valeurs données en utilisant l'opérateur courant
 	 * 
 	 * Pour l'affectation, renvoie la valeur de droite
 	 * @param leftValue La valeur de gauche
@@ -125,7 +125,7 @@ public enum Operator {
 	}
 
 	/**
-	 * Renvoie le signe inverse de l'opérateur.
+	 * Donne le signe opposé à l'opérateur actuel
 	 * 
 	 * Impossible pour l'affectation et le modulo
 	 * @return Le signe opposé à l'opérateur
@@ -161,7 +161,7 @@ public enum Operator {
 	}
 	
 	/**
-	 * Renvoie vrai si l'opérateur appartient à la liste d'opérateur donnée
+	 * Teste l'appartenance de cet opérateur à la liste donnée
 	 * @param table La liste des opérateurs
 	 * @return Vrai si l'opérateur est dans la liste donnée
 	 */
@@ -175,7 +175,7 @@ public enum Operator {
 	}
 
 	/**
-	 * Renvoie vrai si l'opérateur est la multiplication, la division ou le modulo
+	 * Cette fonction teste si l'application de cet opérateur à 0 peut modifier sa valeur.
 	 * @return Vrai si l'opérateur est la multiplication, la division ou le modulo
 	 */
 	public boolean isAMultiplier() {

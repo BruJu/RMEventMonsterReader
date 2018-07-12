@@ -33,8 +33,6 @@ public class Printer implements ActionMaker {
 
 	@Override
 	public void notImplementedFeature(String str) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -51,7 +49,6 @@ public class Printer implements ActionMaker {
 	@Override
 	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue value) {
 		System.out.println("V[" + getRepresentation(variable) + "] " + getRepresentation(operator) +" "+ getRepresentation(value));
-		
 	}
 	
 	
