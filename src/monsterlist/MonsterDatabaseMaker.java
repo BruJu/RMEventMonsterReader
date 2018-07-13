@@ -6,7 +6,6 @@ import java.util.List;
 import actionner.ActionMakerWithConditionalInterest;
 import actionner.Operator;
 import actionner.ReturnValue;
-import actionner.SwitchChange;
 import actionner.SwitchNumber;
 
 public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest {
@@ -35,8 +34,6 @@ public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest 
 		MonsterDatabase.setVariable(database.filter(conditionsActuelles), variable, operator, returnValue);
 	}
 	
-
-
 	@Override
 	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
 		conditionsActuelles.add(new Condition(operatorValue, returnValue.value));
@@ -61,19 +58,6 @@ public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest 
 	 */
 
 	@Override
-	public void condOnSwitch(int number, boolean value) { }
-	
-	@Override
-	public void condOnOwnedItem(int itemId) { }
-
-	@Override
-	public void condTeamMember(int memberId) { }
-
-	@Override
-	public void condOnEquippedItem(int heroId, int itemId) { }
-	
-
-	@Override
 	public boolean caresAboutCondOnSwitch(int number, boolean value) {
 		return false;
 	}
@@ -93,27 +77,5 @@ public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest 
 		return false;
 	}
 	
-	/*
-	 * AUCUN EFFET
-	 */
-	
-	
-	@Override
-	public void notImplementedFeature(String str) {	}
-
-	@Override
-	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value) { }
-
-	@Override
-	public void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity) { }
-
-	@Override
-	public void showPicture(int id, String pictureName) { }
-
-	@Override
-	public void label(int labelNumber) { }
-
-	@Override
-	public void jumpToLabel(int labelNumber) { }
 
 }
