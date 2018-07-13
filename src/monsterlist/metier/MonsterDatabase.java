@@ -92,4 +92,20 @@ public class MonsterDatabase {
 	}
 	
 	
+	
+	public void afficherLesInfosDunCombat(int idCombat) {
+		extractBattles().stream().filter(c -> c.getId() == idCombat).forEach(c -> 
+		{
+			for (int i = 0 ; i != 3 ; i++) {
+				if (c.getMonstre(i) == null)
+					continue;
+				
+				System.out.println(c.getMonstre(i).getBetterDisplay(i));
+				
+			}
+			
+		});
+	}
+	
+	
 }

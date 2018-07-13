@@ -36,6 +36,16 @@ public class Monstre {
 		return combat.getId();
 	}
 	
+	public String getBetterDisplay(int i) {
+		String s = "=== " + i + " : " + name;
+		
+		for (Positions position : Positions.values()) {
+			s = s + "\n" + position + "[" + position.getVar(i) + "] = " + stats[position.ordinal()];
+		}
+		
+		return s;
+	}
+	
 	/* =============
 	 * NON REFLEXION
 	 * ============= */

@@ -68,5 +68,9 @@ public class Combat {
 	public Stream<Monstre> getMonstersStream() {
 		return Arrays.stream(monstres);
 	}
+
+	public Monstre getMonstre(int i) {
+		return monstres[i];
+	}
 	
 }

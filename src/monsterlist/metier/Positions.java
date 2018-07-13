@@ -37,4 +37,8 @@ public enum Positions {
 		
 		return null;
 	}
+
+	public String getVar(int i) {
+		return Integer.toString(ids[i]);
+	}
 }

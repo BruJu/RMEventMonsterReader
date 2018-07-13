@@ -7,6 +7,7 @@ import actionner.ActionMaker;
 import actionner.ConditionalActionMaker;
 import actionner.Interpreter;
 import monsterlist.actionmaker.drop.DropCompleter;
+import monsterlist.metier.Combat;
 import monsterlist.metier.MonsterDatabase;
 import monsterlist.metier.Monstre.RemplacementNom;
 import monsterlist.metier.Monstre.RemplacementDrop;
@@ -54,7 +55,9 @@ public class MonsterDBTest {
 		
 		
 		
-		System.out.println(db.getString());
+		// System.out.println(db.getString());
 
+
+		
 	}
 }
