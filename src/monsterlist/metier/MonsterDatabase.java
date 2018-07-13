@@ -107,5 +107,44 @@ public class MonsterDatabase {
 		});
 	}
 	
+	public void trouverLesCombatsAvecDesNomsInconnus() {
+		extractBattles().stream()
+						.filter(battle -> battle.getMonstersStream()
+							                 	.filter(m -> m != null && m.name.equals("UNKNOWN_NAME"))
+							                 	.findAny()
+							                 	.isPresent())
+						.forEach(battle -> System.out.println(battle.getString()));
+	}
+
+
+	public Combat getBattleById(int idCombat) {
+		for (Combat combat : combatsConnus) {
+			if (combat.getId() == idCombat) {
+				return combat;
+			}
+		}
+		
+		return null;
+	}
+
+
+	public void trouverLesMonstresAvecDesNomsInconnus() {
+		this.extractMonsters().stream()
+		.filter(m -> m != null && m.name.equals("UNKNOWN_NAME"))
+		.forEach(m -> System.out.println("add(" + m.getBattleId() + ", " + m.getIdInBattleOf() + ", 0);"));
+		;
+		
+	}
+
+
+	public void removeBattle(int i) {
+		for (Combat combat : combatsConnus) {
+			if (combat.getId() == i) {
+				combatsConnus.remove(combat);
+				return;
+			}
+		}
+	}
+	
 	
 }

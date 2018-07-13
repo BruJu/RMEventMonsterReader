@@ -72,5 +72,9 @@ public class Combat {
 	public Monstre getMonstre(int i) {
 		return monstres[i];
 	}
+
+	public void remove(int idSlot) {
+		monstres[idSlot] = null;
+	}
 	
 }

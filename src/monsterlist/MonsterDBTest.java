@@ -1,63 +1,75 @@
 package monsterlist;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import actionner.ActionMaker;
-import actionner.ConditionalActionMaker;
-import actionner.Interpreter;
+import imagereader.BuildingMotifs;
 import monsterlist.actionmaker.drop.DropCompleter;
-import monsterlist.metier.Combat;
+import monsterlist.autotraitement.ActionAutomatique;
+import monsterlist.autotraitement.AutoActionMaker;
+import monsterlist.autotraitement.AutoCorrespondeur;
 import monsterlist.metier.MonsterDatabase;
+import monsterlist.metier.Monstre;
 import monsterlist.metier.Monstre.RemplacementNom;
 import monsterlist.metier.Monstre.RemplacementDrop;
 
 public class MonsterDBTest {
 
 	public static void main(String[] args) throws IOException {
+		
+		
+		MonsterDatabase baseDeDonnees = new MonsterDatabase(); 
+		
+		ActionAutomatique[] listeDesActions = new ActionAutomatique[] {
+				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)    , "ressources/InitCombat1.txt"),
+				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)    , "ressources/InitCombat2.txt"),
+				() -> { new AeAdd(baseDeDonnees).activate(); } ,
+				new AutoActionMaker(new CompleterWithShowPicture(baseDeDonnees), "ressources/NomDesMonstres.txt"),
+				new AutoCorrespondeur(baseDeDonnees, new RemplacementNom(), "ressources/Dico/Correspondance_Monstres.txt"),
+				new AutoActionMaker(new DropCompleter(baseDeDonnees)           , "ressources/CombatDrop.txt"),
+				new AutoCorrespondeur(baseDeDonnees, new RemplacementDrop(), "ressources/Dico/Objets.txt"),
+		};
+		
+		
+		for (ActionAutomatique action : listeDesActions) {
+			action.faire();
+		}
+		
+		
+		ocriserLesMonstresInconnus(baseDeDonnees);
+		
+		baseDeDonnees.extractMonsters().stream()
+		.filter(m -> m != null)
+		.filter(m -> m.name.substring(0, 2).equals("id"))
+		.forEach(m -> System.out.println(m.getString()));
+		
+		
+		
+		baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
 
-		// Init combat
+		baseDeDonnees.trouverLesMonstresAvecDesNomsInconnus();
 		
-		MonsterDatabaseMaker dbMaker = new MonsterDatabaseMaker();
+		System.out.println(baseDeDonnees.getString());
+		
+	}
 
-		ActionMaker conditionalActionMaker = new ConditionalActionMaker(dbMaker);
+	private static void ocriserLesMonstresInconnus(MonsterDatabase baseDeDonnees) {
+		List<Monstre> monstresInconnus = new ArrayList<>();
 		
-		Interpreter interpreter = new Interpreter(conditionalActionMaker);
-		
-		interpreter.inputFile(new File("ressources/InitCombat1.txt"));
-		interpreter.inputFile(new File("ressources/InitCombat2.txt"));
-		
-		MonsterDatabase db = dbMaker.get();
-		
-		// IDNom des monstres
-		
-		conditionalActionMaker = new ConditionalActionMaker(new CompleterWithShowPicture(db));
-		interpreter = new Interpreter(conditionalActionMaker);
-		
-		interpreter.inputFile(new File("ressources/NomDesMonstres.txt"));
-		
-
-		// Correspondance IDNom - Nom
-		
-		Correspondeur correspondeurNom = new Correspondeur();
-		correspondeurNom.lireFichier(new File("ressources/Dico/Correspondance_Monstres.txt"));
-		correspondeurNom.searchAndReplace(db.extractMonsters(), new RemplacementNom());
-		
-		conditionalActionMaker = new ConditionalActionMaker(new DropCompleter(db));
-		interpreter = new Interpreter(conditionalActionMaker);
-		
-		interpreter.inputFile(new File("ressources/CombatDrop.txt"));
-		
-		Correspondeur correspondeurObjets = new Correspondeur();
-		correspondeurObjets.lireFichier(new File("ressources/Dico/Objets.txt"));
-		correspondeurObjets.searchAndReplace(db.extractMonsters(), new RemplacementDrop());
+		for (Monstre monstre : baseDeDonnees.extractMonsters()) {
+			if (monstre == null)
+				continue;
+			
+			if (!monstre.name.substring(0, 2).equals("id"))
+				continue;
+			
+			monstresInconnus.add(monstre);
+		}
 		
 		
-		
-		
-		// System.out.println(db.getString());
-
-
-		
+		BuildingMotifs chercheurDeMotifs = new BuildingMotifs(monstresInconnus);
+		chercheurDeMotifs.lancer();
+		chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
 	}
 }

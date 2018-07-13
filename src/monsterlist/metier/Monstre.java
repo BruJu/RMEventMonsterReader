@@ -78,5 +78,18 @@ public class Monstre {
 			monstre.nomDrop = value;
 		}
 	}
+
+	public void setId(int idMonstre) {
+		this.stats[Positions.POS_ID.ordinal()] = idMonstre;
+	}
+
+	public int getIdInBattleOf() {
+		for (int i = 0 ; i != 3 ; i ++) {
+			if (combat.monstres[i] == this)
+				return i;
+		}
+		
+		return -1;
+	}
 	
 }

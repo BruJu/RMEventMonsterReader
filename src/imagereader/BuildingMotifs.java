@@ -63,8 +63,6 @@ public class BuildingMotifs {
 		
 		List<Motif> motifs = new SymboleReconnus().getMotifs();
 		
-		
-		
 		for (Monstre monstre : monstres) {
 			if (chainesReconnues.containsKey(monstre.name)) {
 				continue;

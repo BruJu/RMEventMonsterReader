@@ -48,17 +48,17 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 	
 	// Monstres
 	
-	private List<Monstre> monstres;
+	private MonsterDatabase database;
 	
 	public CompleterWithShowPicture(MonsterDatabase database) {
-		monstres = database.extractMonsters();
+		this.database = database;
 	}
 	
 	private List<Monstre> filterMonstres() {
 		List<Monstre> monstresFiltres = new ArrayList<>();
 		
 		explorationMonstre:
-		for (Monstre monstre : monstres) {
+		for (Monstre monstre : database.extractMonsters()) {
 			for (Condition condition : conditions) {
 				if (!condition.isRepectedBy(monstre)) {
 					continue explorationMonstre;

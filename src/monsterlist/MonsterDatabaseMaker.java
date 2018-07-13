@@ -22,8 +22,8 @@ public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest 
 		return leftOperandValue == MonsterDatabase.POS_ID_COMBAT;
 	}
 	
-	public MonsterDatabaseMaker() {
-		database = new MonsterDatabase();
+	public MonsterDatabaseMaker(MonsterDatabase monsterDatabase) {
+		database = monsterDatabase;
 	}
 	
 	public MonsterDatabase get() {

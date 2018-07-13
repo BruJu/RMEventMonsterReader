@@ -8,6 +8,8 @@ import java.util.List;
  * Ses instructions sont pseudo générées par la reconnaissance de motifs
  */
 public class SymboleReconnus {
+	// TODO : mettre dans un fichier
+	
 	/**
 	 * Renvoie la liste des motifs déjà connus
 	 */
