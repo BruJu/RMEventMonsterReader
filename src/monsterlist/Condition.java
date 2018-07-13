@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import actionner.Operator;
-import monsterlist.MonsterDatabase.Combat;
+import monsterlist.metier.MonsterDatabase.Combat;
 
 
 // This implementation is actually horrible performance wise
@@ -40,7 +40,7 @@ public class Condition {
 		List<Combat> newCombatList = new ArrayList<>();
 		
 		for (Combat combat : liste) {
-			if (operator.test(combat.id, rightValue)) {
+			if (operator.test(combat.getId(), rightValue)) {
 				newCombatList.add(combat);
 			}
 		}

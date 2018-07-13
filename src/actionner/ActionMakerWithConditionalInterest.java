@@ -1,15 +1,40 @@
 package actionner;
 
+/**
+ * Interface étendant les action maker afin d'être utilisé conjointement avec
+ * ConditionalActionMaker.
+ * 
+ * On implémente en plus des fonctions pour déclarer si on souhaite traiter
+ * les instructions dans certaines conditions. Ces fonctions seront utilisées pour
+ * tester si un bloc dans une condition doit être passé ou non.
+ * 
+ * Cette interface produit également des implémentations par défaut ne faisant rien
+ * et renvoyant faux. Cela permet de n'avoir que le code important dans les classes
+ * se reposant sur cette interface.
+ * 
+ * condElse et condEnd ne sont pas préimplémentées afin de faire prendre conscience
+ * qu'il faut généralement accepter certains types de conditions.
+ */
 public interface ActionMakerWithConditionalInterest extends ActionMaker {
-	public boolean caresAboutCondOnSwitch(int number, boolean value);
+	public default boolean caresAboutCondOnSwitch(int number, boolean value) {
+		return false;
+	}
 	
-	public boolean caresAboutCondOnEquippedItem(int heroId, int itemId);
+	public default boolean caresAboutCondOnEquippedItem(int heroId, int itemId) {
+		return false;
+	}
 	
-	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue);
+	public default boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+		return false;
+	}
 	
-	public boolean caresAboutCondOnOwnedItem(int itemId);
+	public default boolean caresAboutCondOnOwnedItem(int itemId) {
+		return false;
+	}
 	
-	public boolean caresAboutCondTeamMember(int memberId);
+	public default boolean caresAboutCondTeamMember(int memberId) {
+		return false;
+	}
 
 	@Override
 	default void notImplementedFeature(String str) {
@@ -46,15 +71,7 @@ public interface ActionMakerWithConditionalInterest extends ActionMaker {
 	@Override
 	default void condTeamMember(int memberId) {
 	}
-
-	@Override
-	default void condElse() {
-	}
-
-	@Override
-	default void condEnd() {
-	}
-
+	
 	@Override
 	default void showPicture(int id, String pictureName) {
 	}

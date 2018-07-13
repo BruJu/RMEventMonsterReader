@@ -1,4 +1,4 @@
-package monsterlist;
+package monsterlist.metier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import actionner.Operator;
 import actionner.ReturnValue;
 import actionner.SwitchNumber;
+import monsterlist.Condition;
+import monsterlist.Pair;
 
 public class MonsterDatabase {
 	
@@ -13,50 +15,19 @@ public class MonsterDatabase {
 	
 	private List<Combat> combatsConnus = new ArrayList<>();
 	
-	
-	public static enum Positions {
-		POS_ID(549, 550, 551),
-		POS_NIV(555, 556, 557),
-		POS_EXP(574, 575, 576),
-		POS_CAPA(557, 558, 559),
-		POS_ARGENT(594, 595, 596),
-		POS_HP(514, 516, 517),
-		POS_FORCE(533, 534, 535),
-		POS_DEFENSE(530, 531, 532),
-		POS_MAGIE(613, 614, 615),
-		POS_ESPRIT(570, 571, 572),
-		POS_DEXTERITE(527, 528, 529),
-		POS_ESQUIVE(536, 537, 538);
-		
-		public static final int TAILLE = Positions.POS_ESQUIVE.ordinal() + 1;
-		
-		public int[] ids;
-		
-		Positions(int idMonstre1, int idMonstre2, int idMonstre3) {
-			ids = new int[]{idMonstre1, idMonstre2, idMonstre3};
-		}
-		
-		public static Pair<Positions, Integer> searchNumVariable(int variable) {
-			for (Positions position : Positions.values()) {
-				for (int i = 0 ; i != 3 ; i++) {
-					if (variable == position.ids[i]) {
-						return new Pair<>(position, i);
-					}
-				}
-			}
-			
-			return null;
-		}
-	};
-	
+
 	
 	public class Monstre {
+		
+		Combat combat;
+		
 		int[] stats;
-		String name;
+		public String name;
 		int drop;
 		
-		public Monstre() {
+		public Monstre(Combat combat) {
 			stats = new int[Positions.TAILLE];
+			this.combat = combat;
 		}
 		
 		public String getString() {
@@ -69,11 +40,23 @@ public class MonsterDatabase {
 			return s;
 		}
 		
+		public int getId() {
+			return this.stats[Positions.POS_ID.ordinal()];
+		}
+
+		public int getBattleId() {
+			return combat.getId();
+		}
+		
 	}
 	
 	public class Combat {
 		Monstre[] monstres;
 		int id;
+		
+		public int getId() {
+			return this.id;
+		}
 		
 		public Combat(int id) {
 			this.id = id;
@@ -102,7 +85,7 @@ public class MonsterDatabase {
 				if (operator.isAMultiplier())
 					return null;
 				
-				monstres[position] = new Monstre();
+				monstres[position] = new Monstre(this);
 			}
 			
 			return monstres[position];
@@ -176,6 +159,21 @@ public class MonsterDatabase {
 		}
 		
 		return s;
+	}
+	
+	public List<Monstre> extractMonsters() {
+		List<Monstre> monstres = new ArrayList<>();
+		
+		for (Combat combat : combatsConnus) {
+			
+			for (int i = 0 ; i != Positions.NB_MONSTRES_MAX_PAR_COMBAT ; i++) {
+				if (combat.monstres[i] != null) {
+					monstres.add(combat.monstres[i]);
+				}
+			}
+		}
+		
+		return monstres;
 	}
 	
 	

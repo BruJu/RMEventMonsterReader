@@ -7,6 +7,7 @@ import actionner.ActionMakerWithConditionalInterest;
 import actionner.Operator;
 import actionner.ReturnValue;
 import actionner.SwitchNumber;
+import monsterlist.metier.MonsterDatabase;
 
 public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest {
 	private List<Condition> conditionsActuelles = new ArrayList<>();
@@ -51,30 +52,6 @@ public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest 
 	@Override
 	public void condEnd() {
 		conditionsActuelles.remove(conditionsActuelles.size() - 1);
-	}
-	
-	/*
-	 * FONCTIONS NON INTERESSEES
-	 */
-
-	@Override
-	public boolean caresAboutCondOnSwitch(int number, boolean value) {
-		return false;
-	}
-
-	@Override
-	public boolean caresAboutCondOnEquippedItem(int heroId, int itemId) {
-		return false;
-	}
-
-	@Override
-	public boolean caresAboutCondOnOwnedItem(int itemId) {
-		return false;
-	}
-
-	@Override
-	public boolean caresAboutCondTeamMember(int memberId) {
-		return false;
 	}
 	
 
