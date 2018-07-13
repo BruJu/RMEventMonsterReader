@@ -4,6 +4,9 @@ import java.util.List;
 
 import actionner.ActionMaker;
 
+/**
+ * Ligne à ignorer
+ */
 public class IgnoreLine implements Action {
 	private String pattern;
 	

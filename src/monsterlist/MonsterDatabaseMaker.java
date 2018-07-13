@@ -3,35 +3,24 @@ package monsterlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import actionner.ActionMaker;
+import actionner.ActionMakerWithConditionalInterest;
 import actionner.Operator;
 import actionner.ReturnValue;
 import actionner.SwitchChange;
 import actionner.SwitchNumber;
 
-public class MonsterDatabaseMaker implements ActionMaker {
-	int nestedUselessIf = 0;
-	
-	List<Condition> conditionsActuelles = new ArrayList<>();
-	
-	private void ignoreIf() {
-		nestedUselessIf++;
-	}
-	
-	private void endElse() {
-		if (isExecutable()) {
-			conditionsActuelles.remove(conditionsActuelles.size() - 1);
-		} else {
-			nestedUselessIf--;
-		}
-	}
-	
-	private boolean isExecutable() {
-		return nestedUselessIf == 0;
-	}
-	
-	
+public class MonsterDatabaseMaker implements ActionMakerWithConditionalInterest {
+	private List<Condition> conditionsActuelles = new ArrayList<>();
+
 	private MonsterDatabase database;
+	
+	
+	// With Conditional Interest
+
+	@Override
+	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+		return leftOperandValue == MonsterDatabase.POS_ID_COMBAT;
+	}
 	
 	public MonsterDatabaseMaker() {
 		database = new MonsterDatabase();
@@ -43,71 +32,70 @@ public class MonsterDatabaseMaker implements ActionMaker {
 	
 	@Override
 	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
-		if (!isExecutable())
-			return;
-		
 		MonsterDatabase.setVariable(database.filter(conditionsActuelles), variable, operator, returnValue);
 	}
 	
-	@Override
-	public void condOnSwitch(int number, boolean value) {
-		if (value) {
-			conditionsActuelles.add(new Condition());
-		} else {
-			ignoreIf();
-		}
-	}
 
-	@Override
-	public void condOnEquippedItem(int heroId, int itemId) {
-		ignoreIf();
-	}
 
 	@Override
 	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		if (!isExecutable()) {
-			ignoreIf();
-			return;
-		}
+		conditionsActuelles.add(new Condition(operatorValue, returnValue.value));
 		
-		if (leftOperandValue == MonsterDatabase.POS_ID_COMBAT) {
-			conditionsActuelles.add(new Condition(operatorValue, returnValue.value));
-			
-			if (operatorValue == Operator.IDENTIQUE)
-				this.database.addCombat(returnValue.value);
-			
-		} else {
-			ignoreIf();
+		if (operatorValue == Operator.IDENTIQUE) {
+			this.database.addCombat(returnValue.value);
 		}
 	}
 	
-	
 	@Override
 	public void condElse() {
-		if (!isExecutable())
-			return;
-		
 		conditionsActuelles.get(conditionsActuelles.size() - 1).revert();
 	}
 
 	@Override
-	public void condOnOwnedItem(int itemId) {
-		ignoreIf();
-	}
-
-	@Override
-	public void condTeamMember(int memberId) {
-		ignoreIf();
-	}
-
-
-	@Override
 	public void condEnd() {
-		endElse();
+		conditionsActuelles.remove(conditionsActuelles.size() - 1);
 	}
 	
+	/*
+	 * FONCTIONS NON INTERESSEES
+	 */
+
+	@Override
+	public void condOnSwitch(int number, boolean value) { }
 	
+	@Override
+	public void condOnOwnedItem(int itemId) { }
+
+	@Override
+	public void condTeamMember(int memberId) { }
+
+	@Override
+	public void condOnEquippedItem(int heroId, int itemId) { }
 	
+
+	@Override
+	public boolean caresAboutCondOnSwitch(int number, boolean value) {
+		return false;
+	}
+
+	@Override
+	public boolean caresAboutCondOnEquippedItem(int heroId, int itemId) {
+		return false;
+	}
+
+	@Override
+	public boolean caresAboutCondOnOwnedItem(int itemId) {
+		return false;
+	}
+
+	@Override
+	public boolean caresAboutCondTeamMember(int memberId) {
+		return false;
+	}
+	
+	/*
+	 * AUCUN EFFET
+	 */
 	
 	
 	@Override

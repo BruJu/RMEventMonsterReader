@@ -3,19 +3,24 @@ package monsterlist;
 import java.io.File;
 import java.io.IOException;
 
+import actionner.ActionMaker;
+import actionner.ConditionalActionMaker;
 import actionner.Interpreter;
 
 public class MonsterDBTest {
 
 	public static void main(String[] args) {
-		MonsterDatabaseMaker printer = new MonsterDatabaseMaker();
+		MonsterDatabaseMaker dbMaker = new MonsterDatabaseMaker();
 
-		Interpreter interpreter = new Interpreter(printer);
+		ActionMaker conditionalActionMaker = new ConditionalActionMaker(dbMaker);
+		
+		Interpreter interpreter = new Interpreter(conditionalActionMaker);
 		
 		try {
-			interpreter.inputFile(new File("ressources/CombatSuite.txt"));
+			interpreter.inputFile(new File("ressources/InitCombat1.txt"));
+			interpreter.inputFile(new File("ressources/InitCombat2.txt"));
 			
-			MonsterDatabase db = printer.get();
+			MonsterDatabase db = dbMaker.get();
 			
 			System.out.println(db.getString());
 			
