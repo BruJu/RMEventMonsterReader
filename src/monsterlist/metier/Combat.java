@@ -1,5 +1,8 @@
 package monsterlist.metier;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import actionner.Operator;
 import monsterlist.Pair;
 
@@ -55,8 +58,15 @@ public class Combat {
 			s = s + "\n" + i + ";" + monstres[i].getString();
 		}
 		
+
+		
 		
 		return s;
 		
 	}
+	
+	public Stream<Monstre> getMonstersStream() {
+		return Arrays.stream(monstres);
+	}
+	
 }

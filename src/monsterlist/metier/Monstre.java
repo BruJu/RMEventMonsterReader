@@ -2,12 +2,14 @@ package monsterlist.metier;
 
 
 public class Monstre {
+
+
 	
 	Combat combat;
 	
 	int[] stats;
 	public String name = "UNKNOWN_NAME";
-	int drop;
+	public String nomDrop = "";
 	
 	public Monstre(Combat combat) {
 		stats = new int[Positions.TAILLE];
@@ -21,6 +23,8 @@ public class Monstre {
 			s = s + ", " + stats[i];
 		}
 		
+		s = s + ", " + nomDrop;
+		
 		return s;
 	}
 	
@@ -30,6 +34,39 @@ public class Monstre {
 
 	public int getBattleId() {
 		return combat.getId();
+	}
+	
+	/* =============
+	 * NON REFLEXION
+	 * ============= */
+	
+	public static interface Remplacement {
+		public String get(Monstre monstre);
+		public void set(Monstre monstre, String value);
+	}
+	
+	public static class RemplacementNom implements Remplacement {
+		@Override
+		public String get(Monstre monstre) {
+			return monstre.name;
+		}
+
+		@Override
+		public void set(Monstre monstre, String value) {
+			monstre.name = value;
+		}
+	}
+	
+	public static class RemplacementDrop implements Remplacement {
+		@Override
+		public String get(Monstre monstre) {
+			return monstre.nomDrop;
+		}
+
+		@Override
+		public void set(Monstre monstre, String value) {
+			monstre.nomDrop = value;
+		}
 	}
 	
 }

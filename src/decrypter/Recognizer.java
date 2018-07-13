@@ -36,7 +36,7 @@ public class Recognizer {
 	private static final char CHAR_JOKER = '£';
 	
 	/**
-	 * La méthode tryPattern étant static, on ne peut pas implémenter cette classe
+	 * La méthode tryPattern étant static, on ne peut pas instancier cette classe
 	 */
 	private Recognizer() {}
 	

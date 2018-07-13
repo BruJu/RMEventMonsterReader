@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import decrypter.Recognizer;
+import monsterlist.metier.Monstre;
+import monsterlist.metier.Monstre.Remplacement;
 
 public class Correspondeur {
 	private Map<String, String> map = new HashMap<>();
@@ -47,6 +49,18 @@ public class Correspondeur {
 	
 	public String get(int cle) {
 		return map.get(Integer.toString(cle));
+	}
+	
+	public void searchAndReplace(List<Monstre> monstres, Remplacement remplaceur) {
+		for (Monstre monstre : monstres) {
+			String id = remplaceur.get(monstre);
+			
+			String valeur = map.get(id);
+			
+			if (valeur != null) {
+				remplaceur.set(monstre, valeur);
+			}
+		}
 	}
 	
 }

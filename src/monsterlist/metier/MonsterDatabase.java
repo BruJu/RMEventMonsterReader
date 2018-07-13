@@ -87,5 +87,9 @@ public class MonsterDatabase {
 		return monstres;
 	}
 	
+	public List<Combat> extractBattles() {
+		return combatsConnus;
+	}
+	
 	
 }

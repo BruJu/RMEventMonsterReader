@@ -13,6 +13,13 @@ import monsterlist.metier.Monstre;
  * 
  * Pour cela, on suppose que le nom actuel du monstre est le nom de l'image où est écrit
  * son nom.
+ * 
+ * 
+ * Usage à partir d'une MonsterDatabase nommée db pour obtenir le fichier avec la liste des noms
+ * des monstres
+ * 	BuildingMotifs chercheurDeMotifs = new BuildingMotifs(db.extractMonsters());
+	chercheurDeMotifs.lancer();
+	chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
  */
 public class BuildingMotifs {
 	private static String IGNORE_NAME = "UNKNOWN_NAME";				// Monstres dont l'image contenant le nom n'a pas pu être obtenue
