@@ -7,6 +7,7 @@ import actionner.ActionMakerWithConditionalInterest;
 import actionner.Operator;
 import actionner.ReturnValue;
 import monsterlist.metier.MonsterDatabase;
+import monsterlist.metier.Monstre;
 
 public class CompleterWithShowPicture implements ActionMakerWithConditionalInterest {
 	// Constantes
@@ -31,7 +32,7 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 			operator = operator.revert();
 		}
 		
-		public boolean isRepectedBy(MonsterDatabase.Monstre monstre) {
+		public boolean isRepectedBy(Monstre monstre) {
 			if (onMonstre) {
 				return operator.test(monstre.getId(), value);
 			} else {
@@ -44,17 +45,17 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 	
 	// Monstres
 	
-	private List<MonsterDatabase.Monstre> monstres;
+	private List<Monstre> monstres;
 	
 	public CompleterWithShowPicture(MonsterDatabase database) {
 		monstres = database.extractMonsters();
 	}
 	
-	private List<MonsterDatabase.Monstre> filterMonstres() {
-		List<MonsterDatabase.Monstre> monstresFiltres = new ArrayList<>();
+	private List<Monstre> filterMonstres() {
+		List<Monstre> monstresFiltres = new ArrayList<>();
 		
 		explorationMonstre:
-		for (MonsterDatabase.Monstre monstre : monstres) {
+		for (Monstre monstre : monstres) {
 			for (Condition condition : conditions) {
 				if (!condition.isRepectedBy(monstre)) {
 					continue explorationMonstre;
@@ -84,10 +85,10 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 			return;
 		}
 		
-		List<MonsterDatabase.Monstre> monstres = filterMonstres();
+		List<Monstre> monstres = filterMonstres();
 		
 		
-		for (MonsterDatabase.Monstre monstre : monstres) {
+		for (Monstre monstre : monstres) {
 			monstre.name = pictureName;
 		}
 	}

@@ -17,96 +17,9 @@ public class MonsterDatabase {
 	
 
 	
-	public class Monstre {
-		
-		Combat combat;
-		
-		int[] stats;
-		public String name;
-		int drop;
-		
-		public Monstre(Combat combat) {
-			stats = new int[Positions.TAILLE];
-			this.combat = combat;
-		}
-		
-		public String getString() {
-			String s = "•";
-			
-			for (int i = 0 ; i != Positions.TAILLE ; i++) {
-				s = s + ", " + stats[i];
-			}
-			
-			return s;
-		}
-		
-		public int getId() {
-			return this.stats[Positions.POS_ID.ordinal()];
-		}
 
-		public int getBattleId() {
-			return combat.getId();
-		}
-		
-	}
 	
-	public class Combat {
-		Monstre[] monstres;
-		int id;
-		
-		public int getId() {
-			return this.id;
-		}
-		
-		public Combat(int id) {
-			this.id = id;
-			monstres = new Monstre[3];
-		}
 
-		public void applyModificator(int idVariable, Operator operator, int value) {
-			Pair<Positions, Integer> paire = Positions.searchNumVariable(idVariable);
-			
-			if (paire == null)
-				return;
-			
-			Monstre monstre = getMonster(paire.getRight(), operator);
-			
-			if (monstre == null) {
-				return;
-			}
-			
-			int posStat = paire.getLeft().ordinal();
-			
-			monstre.stats[posStat] = operator.compute(monstre.stats[posStat], value);
-		}
-
-		private Monstre getMonster(Integer position, Operator operator) {
-			if (monstres[position] == null) {
-				if (operator.isAMultiplier())
-					return null;
-				
-				monstres[position] = new Monstre(this);
-			}
-			
-			return monstres[position];
-		}
-		
-		
-		public String getString() {
-			String s = "=== Combat " + id;
-			
-			for (int i = 0 ; i != 3 ; i++) {
-				if (monstres[i] == null)
-					continue;
-				
-				s = s + "\n" + i + ";" + monstres[i].getString();
-			}
-			
-			
-			return s;
-			
-		}
-	}
 	
 	public void addCombat(int id) {
 		for (Combat combat : combatsConnus) {

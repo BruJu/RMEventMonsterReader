@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import actionner.Operator;
-import monsterlist.metier.MonsterDatabase.Combat;
+import monsterlist.metier.Combat;
 
 
 // This implementation is actually horrible performance wise
