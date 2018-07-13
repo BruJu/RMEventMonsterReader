@@ -6,6 +6,7 @@ import java.io.IOException;
 import actionner.ActionMaker;
 import actionner.ConditionalActionMaker;
 import actionner.Interpreter;
+import imagereader.BuildingMotifs;
 import monsterlist.metier.MonsterDatabase;
 
 public class MonsterDBTest {
@@ -34,13 +35,15 @@ public class MonsterDBTest {
 			
 			interpreter.inputFile(new File("ressources/NomDesMonstres.txt"));
 			
+			BuildingMotifs lazy = new BuildingMotifs(db.extractMonsters());
+			
+			lazy.lancer();
 			
 			
 			
 			
 			
-			
-			System.out.println(db.getString());
+			//System.out.println(db.getString());
 			
 		} catch (IOException e) {
 			e.printStackTrace();

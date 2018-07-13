@@ -6,7 +6,7 @@ public class Monstre {
 	Combat combat;
 	
 	int[] stats;
-	public String name;
+	public String name = "UNKNOWN_NAME";
 	int drop;
 	
 	public Monstre(Combat combat) {
@@ -15,7 +15,7 @@ public class Monstre {
 	}
 	
 	public String getString() {
-		String s = "•";
+		String s = name;
 		
 		for (int i = 0 ; i != Positions.TAILLE ; i++) {
 			s = s + ", " + stats[i];
