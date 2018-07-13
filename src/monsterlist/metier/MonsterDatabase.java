@@ -7,10 +7,8 @@ import actionner.Operator;
 import actionner.ReturnValue;
 import actionner.SwitchNumber;
 import monsterlist.Condition;
-import monsterlist.Pair;
 
 public class MonsterDatabase {
-	
 	public final static int POS_ID_COMBAT = 435;
 	
 	private List<Combat> combatsConnus = new ArrayList<>();

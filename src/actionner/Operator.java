@@ -135,7 +135,7 @@ public enum Operator {
 		case AFFECTATION:
 			throw new RuntimeException("Can't revert an affectation operator");
 		case IDENTIQUE:
-			break;
+			return DIFFERENT;
 		case DIFFERENT:
 			return IDENTIQUE;
 		case TIMES:

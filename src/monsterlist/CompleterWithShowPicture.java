@@ -33,6 +33,9 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 		}
 		
 		public boolean isRepectedBy(Monstre monstre) {
+			if (operator == null)
+				throw new RuntimeException("45564456");
+			
 			if (onMonstre) {
 				return operator.test(monstre.getId(), value);
 			} else {
