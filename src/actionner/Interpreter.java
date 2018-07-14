@@ -1,12 +1,11 @@
 package actionner;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
 import decrypter.Decrypter;
+import filereader.FileReaderByLine;
 
 /**
  * Classe permettant de déchiffrer des instructions RPG Maker 2003 et
@@ -32,20 +31,7 @@ public class Interpreter {
 	 * @throws IOException
 	 */
 	public void inputFile(File file) throws IOException {
-		FileReader fileReader = new FileReader(file);
-		BufferedReader buffer = new BufferedReader(fileReader);
-		
-		while (true) {
-			String line = buffer.readLine();
-			
-			if (line == null) {
-				break;
-			}
-			
-			interpreter(line);
-		}
-		
-		buffer.close();
+		FileReaderByLine.lireLeFichier(file, s -> decrypter.decript(s));
 	}
 	
 	/**
@@ -54,15 +40,7 @@ public class Interpreter {
 	 */
 	public void inputLines(List<String> lines) {
 		for (String line : lines) {
-			interpreter(line);
+			decrypter.decript(line);
 		}
-	}
-
-	/**
-	 * Déchiffre une ligne avec le decryper
-	 * @param line La ligne à déchiffrer
-	 */
-	private void interpreter(String line) {
-		decrypter.decript(line);
 	}
 }
