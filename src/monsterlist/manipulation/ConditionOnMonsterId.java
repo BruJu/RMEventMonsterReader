@@ -3,6 +3,11 @@ package monsterlist.manipulation;
 import actionner.Operator;
 import monsterlist.metier.Monstre;
 
+/**
+ * Condition sur les id des monstres et l'id du combat où ils apparraissent
+ * @author Bruju
+ *
+ */
 public class ConditionOnMonsterId implements Condition<Monstre> {
 	private boolean onMonstre;
 	private Operator operator;
