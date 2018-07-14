@@ -1,4 +1,4 @@
-package imagereader;
+package imagereader.model;
 
 /**
  * Représentation simplifiée de l'image

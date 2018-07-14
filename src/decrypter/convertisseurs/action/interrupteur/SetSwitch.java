@@ -1,4 +1,4 @@
-package decrypter.convertisseurs.interrupteur;
+package decrypter.convertisseurs.action.interrupteur;
 
 import java.util.List;
 

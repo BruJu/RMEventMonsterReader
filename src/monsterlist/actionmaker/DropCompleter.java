@@ -1,4 +1,4 @@
-package monsterlist.actionmaker.drop;
+package monsterlist.actionmaker;
 
 import actionner.ActionMakerWithConditionalInterest;
 import actionner.Operator;

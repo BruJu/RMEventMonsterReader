@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import imagereader.BuildingMotifs;
-import monsterlist.actionmaker.drop.DropCompleter;
+import monsterlist.actionmaker.CompleterWithShowPicture;
+import monsterlist.actionmaker.DropCompleter;
+import monsterlist.actionmaker.MonsterDatabaseMaker;
 import monsterlist.autotraitement.ActionAutomatique;
 import monsterlist.autotraitement.AutoActionMaker;
 import monsterlist.autotraitement.AutoCorrespondeur;
@@ -26,9 +28,9 @@ public class MonsterDBTest {
 				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)    , "ressources/InitCombat2.txt"),
 				() -> { new AeAdd(baseDeDonnees).activate(); } ,
 				new AutoActionMaker(new CompleterWithShowPicture(baseDeDonnees), "ressources/NomDesMonstres.txt"),
-				new AutoCorrespondeur(baseDeDonnees, new RemplacementNom(), "ressources/Dico/Correspondance_Monstres.txt"),
+				new AutoCorrespondeur(baseDeDonnees, new RemplacementNom()     , "ressources/Dico/Correspondance_Monstres.txt"),
 				new AutoActionMaker(new DropCompleter(baseDeDonnees)           , "ressources/CombatDrop.txt"),
-				new AutoCorrespondeur(baseDeDonnees, new RemplacementDrop(), "ressources/Dico/Objets.txt"),
+				new AutoCorrespondeur(baseDeDonnees, new RemplacementDrop()    , "ressources/Dico/Objets.txt"),
 		};
 		
 		

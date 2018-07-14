@@ -6,21 +6,24 @@ import java.io.IOException;
 import actionner.ActionMaker;
 import actionner.Interpreter;
 
+/**
+ * Classe permettant de tester visuellement les effets de la classe Printer
+ *
+ */
 public class PrinterTest {
-
-	public static void main2(String[] args) {
+	/**
+	 * Affiche dans la console les données lues pour des fichiers prédéfinis
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void printerMain(String[] args) throws IOException {
 		ActionMaker printer = new Printer();
 
 		Interpreter interpreter = new Interpreter(printer);
 		
-		try {
-			interpreter.inputFile(new File("ressources/Script.txt"));
-			interpreter.inputFile(new File("ressources/CombatSuite.txt"));
-			interpreter.inputFile(new File("ressources/CombatDrop.txt"));
-			interpreter.inputFile(new File("ressources/Complement.txt"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		interpreter.inputFile(new File("ressources/Script.txt"));
+		interpreter.inputFile(new File("ressources/CombatSuite.txt"));
+		interpreter.inputFile(new File("ressources/CombatDrop.txt"));
+		interpreter.inputFile(new File("ressources/Complement.txt"));
 	}
-
 }

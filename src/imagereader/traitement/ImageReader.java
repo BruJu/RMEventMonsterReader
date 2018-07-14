@@ -1,4 +1,4 @@
-package imagereader;
+package imagereader.traitement;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import imagereader.model.MatricePixels;
 
 /**
  * Cette classe permet de lire une image et de reconnaître les pixels allumés.

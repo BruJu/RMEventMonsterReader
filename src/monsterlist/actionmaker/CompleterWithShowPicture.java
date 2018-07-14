@@ -1,4 +1,4 @@
-package monsterlist;
+package monsterlist.actionmaker;
 
 import java.util.ArrayList;
 import java.util.List;

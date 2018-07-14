@@ -1,6 +1,9 @@
-package imagereader;
+package imagereader.traitement;
 
 import java.util.List;
+
+import imagereader.model.MatricePixels;
+import imagereader.model.Motif;
 
 /**
  * Cette classe recherche des motifs dans une matrice de pixels

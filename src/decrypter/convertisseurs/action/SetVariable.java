@@ -1,4 +1,4 @@
-package decrypter.convertisseurs;
+package decrypter.convertisseurs.action;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import actionner.ActionMaker;
 import actionner.Operator;
 import actionner.ReturnValue;
 import actionner.SwitchNumber;
+import decrypter.convertisseurs.Action;
 import decrypter.toolbox.IdIdentifier;
 import decrypter.toolbox.OperatorIdentifier;
 import decrypter.toolbox.ReturnValueIdentifier;

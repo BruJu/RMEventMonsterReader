@@ -6,8 +6,96 @@ import actionner.ReturnValue;
 import actionner.SwitchChange;
 import actionner.SwitchNumber;
 
+/**
+ * Imprime les instructions qui sont reconnues
+ */
 public class Printer implements ActionMaker {
+	/**
+	 * Permet d'avoir un affichage d'une variable
+	 * @param variable La variable à représenter
+	 * @return Une chaîne représentant la variable
+	 */
+	private String getRepresentation(SwitchNumber variable) {
+		String s = "";
+		
+		if (variable.numberDebut == variable.numberFin) {
+			s = Integer.toString(variable.numberDebut);
+		} else {
+			s = Integer.toString(variable.numberDebut) + "-" + Integer.toString(variable.numberFin);
+		}
+		
+		if (variable.pointed) {
+			s = "V[" + s + "]";
+		}
+		
+		return s;
+	}
 
+	/**
+	 * Permet d'avoir une représentation symbolique d'un opérateur
+	 * @param operator L'opérateur à représenter
+	 * @return Le signe mathématique / informatique usuellement utilisé pour représenter
+	 * l'opération sous forme de chaîne
+	 */
+	private String getRepresentation(Operator operator) {
+		switch (operator) {
+		case AFFECTATION:
+			return "=";
+		case DIVIDE:
+			return "/=";
+		case MINUS:
+			return "-=";
+		case MODULO:
+			return "%=";
+		case PLUS:
+			return "+=";
+		case TIMES:
+			return "*=";
+		case DIFFERENT:
+			return "!=";
+		case IDENTIQUE:
+			return "==";
+		case INF:
+			return "<";
+		case INFEGAL:
+			return "<=";
+		case SUP:
+			return ">";
+		case SUPEGAL:
+			return ">=";
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Permet d'obtenir une représentation de la valeur d'affectation d'une instruction
+	 * @param value La valeur affectée
+	 * @return Une représentation sous forpme de chaîne de la valeur à affecter
+	 */
+	private String getRepresentation(ReturnValue value) {
+		switch (value.type) {
+		case POINTER:
+			return "V[V[" + value.value +"]]";
+		case VALUE:
+			if (value.value == value.borneMax) {
+				return Integer.toString(value.value);
+			} else {
+				return Integer.toString(value.value) + "~" + Integer.toString(value.borneMax);
+			}
+		case VARIABLE:
+			return "V[" + value.value +"]";
+		}
+		
+		return null;
+	}
+	
+	
+	/* =========================================
+	 * Redéfinition des méthodes de Action Maker
+	 * ========================================= */
+	
+	
 	@Override
 	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value) {
 		
@@ -51,80 +139,6 @@ public class Printer implements ActionMaker {
 		System.out.println("V[" + getRepresentation(variable) + "] " + getRepresentation(operator) +" "+ getRepresentation(value));
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	private String getRepresentation(SwitchNumber variable) {
-		String s = "";
-		
-		if (variable.numberDebut == variable.numberFin) {
-			s = Integer.toString(variable.numberDebut);
-		} else {
-			s = Integer.toString(variable.numberDebut) + "-" + Integer.toString(variable.numberFin);
-		}
-		
-		if (variable.pointed) {
-			s = "V[" + s + "]";
-		}
-		
-		return s;
-	}
-
-	private String getRepresentation(Operator operator) {
-		switch (operator) {
-		case AFFECTATION:
-			return "=";
-		case DIVIDE:
-			return "/=";
-		case MINUS:
-			return "-=";
-		case MODULO:
-			return "%=";
-		case PLUS:
-			return "+=";
-		case TIMES:
-			return "*=";
-		case DIFFERENT:
-			return "!=";
-		case IDENTIQUE:
-			return "==";
-		case INF:
-			return "<";
-		case INFEGAL:
-			return "<=";
-		case SUP:
-			return ">";
-		case SUPEGAL:
-			return ">=";
-		}
-		
-		return null;
-	}
-	
-	private String getRepresentation(ReturnValue value) {
-		switch (value.type) {
-		case POINTER:
-			return "V[V[" + value.value +"]]";
-		case VALUE:
-			if (value.value == value.borneMax) {
-				return Integer.toString(value.value);
-			} else {
-				return Integer.toString(value.value) + "~" + Integer.toString(value.borneMax);
-			}
-		case VARIABLE:
-			return "V[" + value.value +"]";
-		}
-		
-		return null;
-	}
-
-
 	@Override
 	public void condElse() {
 		System.out.println("Else");

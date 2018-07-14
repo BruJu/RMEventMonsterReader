@@ -10,6 +10,12 @@ public class Combat {
 	Monstre[] monstres;
 	int id;
 	
+	boolean bossBattle = false;
+	
+	public void declareBossBattle() {
+		bossBattle = true;
+	}
+	
 	public int getId() {
 		return this.id;
 	}
@@ -49,7 +55,16 @@ public class Combat {
 	
 	
 	public String getString() {
-		String s = "=== Combat " + id;
+		
+		
+		String s;
+		
+		if (this.bossBattle) {
+			s = "=== Boss " + id;
+		} else {
+			s = "=== Combat " + id;
+		}
+		
 		
 		for (int i = 0 ; i != 3 ; i++) {
 			if (monstres[i] == null)

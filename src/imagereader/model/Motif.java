@@ -1,4 +1,4 @@
-package imagereader;
+package imagereader.model;
 
 /**
  * Motif preexistant

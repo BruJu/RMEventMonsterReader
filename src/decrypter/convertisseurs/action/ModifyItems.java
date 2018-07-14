@@ -1,9 +1,10 @@
-package decrypter.convertisseurs;
+package decrypter.convertisseurs.action;
 
 import java.util.List;
 
 import actionner.ActionMaker;
 import actionner.ReturnValue;
+import decrypter.convertisseurs.Action;
 import decrypter.toolbox.ReturnValueIdentifier;
 
 /**

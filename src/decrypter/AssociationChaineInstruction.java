@@ -7,12 +7,12 @@ import decrypter.convertisseurs.Action;
 import decrypter.convertisseurs.IgnoreLine;
 import decrypter.convertisseurs.JumpTo;
 import decrypter.convertisseurs.Label;
-import decrypter.convertisseurs.ModifyItems;
 import decrypter.convertisseurs.NoAction;
-import decrypter.convertisseurs.SetVariable;
-import decrypter.convertisseurs.ShowPicture;
+import decrypter.convertisseurs.action.ModifyItems;
+import decrypter.convertisseurs.action.SetVariable;
+import decrypter.convertisseurs.action.ShowPicture;
+import decrypter.convertisseurs.action.interrupteur.*;
 import decrypter.convertisseurs.condition.*;
-import decrypter.convertisseurs.interrupteur.*;
 
 /**
  * Cette classe impémente des associations entre pattern à reconnaître et action à réaliser

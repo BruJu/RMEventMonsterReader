@@ -6,10 +6,11 @@ import java.util.List;
 import actionner.Operator;
 import actionner.ReturnValue;
 import actionner.SwitchNumber;
-import monsterlist.Condition;
 
 public class MonsterDatabase {
 	public final static int POS_ID_COMBAT = 435;
+
+	public static final int POS_BOSSBATTLE = 190;
 	
 	private List<Combat> combatsConnus = new ArrayList<>();
 	
@@ -30,21 +31,10 @@ public class MonsterDatabase {
 	}
 	
 	
-	public List<Combat> filter(List<Condition> conditions) {
-		List<Combat> liste = combatsConnus;
-		
-		for (Condition condition : conditions) {
-			liste = condition.filter(liste);
-		}
-		
-		return liste;
-	}
-	
-	
 	public static void setVariable(List<Combat> combats, SwitchNumber variable, Operator operator, ReturnValue returnValue) {
 		
+		// TODO : Changer cette méthode pour qu'elle soit plus maintenanble
 		
-		// TODO : isRelevant()
 		/*
 		if (variable.pointed || variable.numberDebut != variable.numberFin || returnValue.type != ReturnValue.Type.VALUE) {
 			throw new RuntimeException("Ne supporte pas les pointeurs");
@@ -143,6 +133,13 @@ public class MonsterDatabase {
 				combatsConnus.remove(combat);
 				return;
 			}
+		}
+	}
+
+
+	public static void setBossBattle(List<Combat> combats) {
+		for (Combat combat : combats) {
+			combat.declareBossBattle();
 		}
 	}
 	

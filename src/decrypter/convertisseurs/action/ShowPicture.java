@@ -1,8 +1,9 @@
-package decrypter.convertisseurs;
+package decrypter.convertisseurs.action;
 
 import java.util.List;
 
 import actionner.ActionMaker;
+import decrypter.convertisseurs.Action;
 
 /**
  * Affichage d'une image

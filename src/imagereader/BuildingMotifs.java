@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import imagereader.model.MatricePixels;
+import imagereader.model.Motif;
+import imagereader.model.SymboleReconnus;
+import imagereader.traitement.ChercheurDeMotifs;
+import imagereader.traitement.ImageReader;
 import monsterlist.metier.Monstre;
 
 /**
