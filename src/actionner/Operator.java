@@ -133,7 +133,7 @@ public enum Operator {
 	public Operator revert() {
 		switch(this) {
 		case AFFECTATION:
-			throw new RuntimeException("Can't revert an affectation operator");
+			throw new OperatorErrorException("Can't revert an affectation operator");
 		case IDENTIQUE:
 			return DIFFERENT;
 		case DIFFERENT:
@@ -149,7 +149,7 @@ public enum Operator {
 		case MINUS:
 			return PLUS;
 		case MODULO:
-			throw new RuntimeException("Can't revert a modulo operator");
+			throw new OperatorErrorException("Can't revert a modulo operator");
 		case PLUS:
 			return MINUS;
 		case SUP:
@@ -184,4 +184,19 @@ public enum Operator {
 		return appartient(op);
 	}
 	
+	
+	/**
+	 * Exceptions concernant les opérateurs
+	 */
+	public static class OperatorErrorException extends RuntimeException {
+		private static final long serialVersionUID = 1178358377586546702L;
+		
+		/**
+		 * Crée une exception sur les opérateurs avec le message donné
+		 * @param message Le message décrivant l'erreur
+		 */
+		public OperatorErrorException(String message) {
+			super("OperatorErrorException : " + message);
+		}
+	}
 }

@@ -33,9 +33,6 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 		}
 		
 		public boolean isRepectedBy(Monstre monstre) {
-			if (operator == null)
-				throw new RuntimeException("45564456");
-			
 			if (onMonstre) {
 				return operator.test(monstre.getId(), value);
 			} else {
@@ -78,7 +75,8 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 	
 	@Override
 	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		return leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT;
+		return (leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT)
+				&& returnValue.type == ReturnValue.Type.VALUE;
 	}
 	
 	
@@ -98,10 +96,6 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 
 	@Override
 	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		if (returnValue.type != ReturnValue.Type.VALUE) {
-			throw new RuntimeException("rip");
-		}
-		
 		conditions.add(new Condition(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.value));
 	}
 

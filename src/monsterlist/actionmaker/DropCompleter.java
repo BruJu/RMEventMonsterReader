@@ -36,7 +36,7 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 			return false;
 		
 		if (operatorValue != Operator.IDENTIQUE || returnValue.type != ReturnValue.Type.VALUE)
-			throw new RuntimeException("DropCompleter - Comparaison entre la variable ID_MONSTRE et quelque chose de différent que identique à une valeur fixe");
+			throw new DropCompleterException("Comparaison entre la variable ID_MONSTRE et quelque chose de différent que identique à une valeur fixe");
 		
 		return true;
 	}
@@ -48,7 +48,7 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 		}
 		
 		if (dernierIfLu == -1) {
-			throw new RuntimeException("DropCompleter - Affectation hors d'un if donnant l'id du monstre");
+			throw new DropCompleterException("Affectation hors d'un if donnant l'id du monstre");
 		}
 		
 		db.extractBattles()
@@ -66,7 +66,7 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 
 	@Override
 	public void condElse() {
-		throw new RuntimeException("DropCompleter - Else");
+		throw new DropCompleterException("Condition Else");
 	}
 
 	@Override
@@ -74,8 +74,20 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 		dernierIfLu = -1; 
 	}
 
+	
+	/**
+	 * Exceptions jetées par le Drop Completer
+	 */
+	public static class DropCompleterException extends RuntimeException {
+		private static final long serialVersionUID = -5435094486561966642L;
+		
+		/**
+		 * Crée une exception avec le message donné
+		 * @param message Le message décrivant l'erreur
+		 */
+		public DropCompleterException(String message) {
+			super("DropCompleter :" + message);
+		}
+	}
+	
 }
-
-/*
-
-*/
