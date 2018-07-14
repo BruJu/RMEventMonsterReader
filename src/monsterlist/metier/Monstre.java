@@ -39,7 +39,7 @@ public class Monstre {
 	public String getBetterDisplay(int i) {
 		String s = "=== " + i + " : " + name;
 		
-		for (Positions position : Positions.values()) {
+		for (Positions position : Positions.values()) {			
 			s = s + "\n" + position + "[" + position.getVar(i) + "] = " + stats[position.ordinal()];
 		}
 		

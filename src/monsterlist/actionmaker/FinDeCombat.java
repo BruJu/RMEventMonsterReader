@@ -1,52 +1,65 @@
 package monsterlist.actionmaker;
 
-import actionner.ActionMakerWithConditionalInterest;
+import java.util.List;
+
 import actionner.Operator;
 import actionner.ReturnValue;
-import actionner.SwitchChange;
 import actionner.SwitchNumber;
+import monsterlist.manipulation.Condition;
+import monsterlist.manipulation.ConditionOnMembreStat;
+import monsterlist.manipulation.ConditionPassThrought;
+import monsterlist.metier.Combat;
 import monsterlist.metier.MonsterDatabase;
 import monsterlist.metier.Positions;
 
-public class FinDeCombat implements ActionMakerWithConditionalInterest {
-	private MonsterDatabase db;
-	
-	public FinDeCombat(MonsterDatabase baseDeDonnees) {
-		db = baseDeDonnees;
-	}
-
-	private static boolean appartient(int element, int[] elements) {
-		for (int membre : elements) {
-			if (element == membre) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
+public class FinDeCombat extends StackedActionMaker<Combat> {
+	/* ==========
+	 * Constantes
+	 * ========== */
 	private final static int[] VARIABLES_IGNOREES = {514, 516, 517};
 	private final static int[] VARIABLES_CAPA = Positions.POS_CAPA.ids;
 	private final static int[] VARIABLES_EXP = Positions.POS_EXP.ids;
 	private final static int VARIABLE_GAINEXP = 4976;
 	private final static int SWITCH_BOSS = 190;
 	
+	/* ========
+	 * Database
+	 * ======== */
+	
+	private MonsterDatabase db;
+	
+	public FinDeCombat(MonsterDatabase db) {
+		this.db = db;
+	}
 	
 	@Override
-	public void condElse() {
-		throw new FinDeCombatException("Cond else non géré");
+	protected List<Combat> getAllElements() {
+		return db.extractBattles();
 	}
-
-	@Override
-	public void condEnd() {
-		
-	}
-
+	
+	
 	@Override
 	public boolean caresAboutCondOnSwitch(int number, boolean value) {
-		return false;
+		return number == SWITCH_BOSS;
 	}
 
+	@Override
+	public void condOnSwitch(int number, boolean value) {
+		this.conditions.push(new Condition<Combat>() {
+			private boolean allume = value;
+			
+			@Override
+			public void revert() {
+				allume = !allume;
+			}
+
+			@Override
+			public boolean filter(Combat element) {
+				return element.isBossBattle() == allume;
+			}
+		});
+	}
+	
 	@Override
 	public boolean caresAboutCondOnVariable(int idVariable, Operator operatorValue, ReturnValue returnValue) {
 		if (appartient(idVariable, VARIABLES_IGNOREES)) {
@@ -56,14 +69,63 @@ public class FinDeCombat implements ActionMakerWithConditionalInterest {
 		if (appartient(idVariable, VARIABLES_CAPA)) {
 			return true;
 		}
+
+		if (appartient(idVariable, VARIABLES_EXP)) {
+			return true;
+		}
 		
+		if (idVariable == VARIABLE_GAINEXP) {
+			return true;
+		}
 		
 		return false;
 	}
-
 	@Override
-	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value) {
+	public void condOnVariable(int idVariable, Operator operatorValue, ReturnValue returnValue) {
+		if (appartient(idVariable, VARIABLES_IGNOREES)) {
+			conditions.push(new ConditionPassThrought<Combat>());
+			return;
+		}
+		
+		if (appartient(idVariable, VARIABLES_CAPA)) {
+			conditions.push(
+					new ConditionOnMembreStat(
+							Positions.POS_CAPA,
+							getPosition(idVariable, VARIABLES_CAPA),
+							operatorValue,
+							returnValue.value
+						));
+			return;
+		}
 
+		if (appartient(idVariable, VARIABLES_EXP)) {
+			conditions.push(
+					new ConditionOnMembreStat(
+							Positions.POS_EXP,
+							getPosition(idVariable, VARIABLES_EXP),
+							operatorValue,
+							returnValue.value
+						));
+			return;
+		}
+		
+		if (idVariable == VARIABLE_GAINEXP) {
+			conditions.push(new Condition<Combat>() {
+				Operator operator = operatorValue;
+				int value = returnValue.value;
+
+				@Override
+				public void revert() {
+					operator = operator.revert();
+				}
+
+				@Override
+				public boolean filter(Combat element) {
+					return operator.test(element.gainExp, value);
+				}
+			});
+			return;
+		}
 	}
 
 	@Override
@@ -77,22 +139,71 @@ public class FinDeCombat implements ActionMakerWithConditionalInterest {
 				throw new FinDeCombatException("Affectation brute d'une récompense de capa");
 			}
 			
-			db.extractBattles().forEach(battle -> battle.addGainCapa(returnValue.value));
+			this.getElementsFiltres().forEach(battle -> battle.addGainCapa(returnValue.value));
 			
 			return;
 		}
+		
+		if (appartient(variable.numberDebut, VARIABLES_EXP)) {
+			throw new FinDeCombatException("Modification d'une quantité d'exp gagnée");
+		}
+		
+		if (variable.numberDebut == VARIABLE_GAINEXP) {
+			modificationGainExp(operator, returnValue);
+			return;
+		}	
+	}
+	
+	
+	private void modificationGainExp(Operator operator, ReturnValue returnValue) {
+		if (returnValue.type == ReturnValue.Type.POINTER) {
+			throw new FinDeCombatException("Modifie un gain d'exp selon un pointeur");
+		}
+		
+		AssociationCombatValeur valeurReelle;
+		
+		if (returnValue.type == ReturnValue.Type.VALUE) {
+			valeurReelle = c -> returnValue.value;
+		} else {
+			int idMonstre = getPosition(returnValue.value, VARIABLES_EXP);
+			
+			if (idMonstre == -1) {
+				throw new FinDeCombatException("Modifie un gain d'exp selon une variable qui n'est pas un gain d'exp");
+			}
+			
+			valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).get(Positions.POS_EXP);
+		}
+		
+		getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.getValue(c)));
 	}
 
-	@Override
-	public void condOnSwitch(int number, boolean value) {
-
+	/* ==========
+	 * Appartient
+	 * ========== */
+	
+	private static int getPosition(int element, int[] elements) {
+		for (int i = 0 ; i != elements.length ; i++) {
+			if (elements[i] == element) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+	
+	
+	private static boolean appartient(int element, int[] elements) {
+		return getPosition(element, elements) != -1;
 	}
 
-	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-
+	/* =========
+	 * Aleatoire
+	 * ========= */
+	
+	interface AssociationCombatValeur {
+		public int getValue(Combat combat);
 	}
-
+	
 	/* ==========
 	 * Exceptions
 	 * ========== */
@@ -104,5 +215,4 @@ public class FinDeCombat implements ActionMakerWithConditionalInterest {
 			super("Fin de combat : " + message);
 		}
 	}
-	
 }

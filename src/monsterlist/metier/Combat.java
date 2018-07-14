@@ -86,10 +86,6 @@ public class Combat {
 			
 			s = s + "\n" + i + ";" + monstres[i].getString();
 		}
-		
-
-		
-		
 		return s;
 		
 	}
@@ -104,6 +100,11 @@ public class Combat {
 
 	public void remove(int idSlot) {
 		monstres[idSlot] = null;
+	}
+
+
+	public boolean isBossBattle() {
+		return bossBattle;
 	}
 	
 }
