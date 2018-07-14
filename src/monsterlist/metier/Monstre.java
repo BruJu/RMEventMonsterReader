@@ -91,5 +91,9 @@ public class Monstre {
 		
 		return -1;
 	}
+
+	public int get(Positions posCapa) {
+		return this.stats[posCapa.ordinal()];
+	}
 	
 }

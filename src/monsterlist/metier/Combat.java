@@ -10,7 +10,20 @@ public class Combat {
 	Monstre[] monstres;
 	int id;
 	
+	public int gainExp = 0;
+	private int gainCapa = 0;
+	
 	boolean bossBattle = false;
+	
+	
+	public void addGainCapa(int value) {
+		gainCapa += value;
+	}
+	
+	
+	public int getCapa() {
+		return gainCapa;
+	}
 	
 	public void declareBossBattle() {
 		bossBattle = true;
@@ -65,6 +78,7 @@ public class Combat {
 			s = "=== Combat " + id;
 		}
 		
+		s = s + " ; CAPA = " + this.gainCapa + " ; EXP = " + this.gainExp;
 		
 		for (int i = 0 ; i != 3 ; i++) {
 			if (monstres[i] == null)

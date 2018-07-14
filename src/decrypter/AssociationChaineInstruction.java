@@ -64,6 +64,8 @@ class AssociationChaineInstruction {
 		book.add(new NoAction("Stop All Movement", "<> Stop All Movement"));
 		book.add(new NoAction("Key input", "<> Key Input Processing:£"));
 		book.add(new NoAction("Delete Event", "<> Delete Event"));
+		book.add(new NoAction("Fade out BGM", "<> Fade Out £"));
+		
 		
 		book.add(new NoAction("Change Skill", "<> Change Skill:£"));				// Source buggée
 		

@@ -1,15 +1,14 @@
 package monsterlist.actionmaker;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import actionner.ActionMakerWithConditionalInterest;
 import actionner.Operator;
 import actionner.ReturnValue;
+import monsterlist.manipulation.ConditionOnMonsterId;
 import monsterlist.metier.MonsterDatabase;
 import monsterlist.metier.Monstre;
 
-public class CompleterWithShowPicture implements ActionMakerWithConditionalInterest {
+public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 	// Constantes
 	private static final int SHOW_PIC_ID_WITH_NAME = 19;
 	private static final int VARIABLE_IDMONSTRE = 559;
@@ -17,31 +16,10 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 	
 	// Sous classe : Condition
 	
-	public class Condition {
-		private boolean onMonstre;
-		private Operator operator;
-		private int value;
-		
-		public Condition(boolean onMonster, Operator operator, int value) {
-			this.onMonstre = onMonster;
-			this.operator = operator;
-			this.value = value;
-		}
-		
-		public void revert() {
-			operator = operator.revert();
-		}
-		
-		public boolean isRepectedBy(Monstre monstre) {
-			if (onMonstre) {
-				return operator.test(monstre.getId(), value);
-			} else {
-				return operator.test(monstre.getBattleId(), value);
-			}
-		}
+	@Override
+	protected List<Monstre> getAllElements() {
+		return database.extractMonsters();
 	}
-	
-	private List<Condition> conditions = new ArrayList<>(5);
 	
 	// Monstres
 	
@@ -49,23 +27,6 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 	
 	public CompleterWithShowPicture(MonsterDatabase database) {
 		this.database = database;
-	}
-	
-	private List<Monstre> filterMonstres() {
-		List<Monstre> monstresFiltres = new ArrayList<>();
-		
-		explorationMonstre:
-		for (Monstre monstre : database.extractMonsters()) {
-			for (Condition condition : conditions) {
-				if (!condition.isRepectedBy(monstre)) {
-					continue explorationMonstre;
-				}
-			}
-			
-			monstresFiltres.add(monstre);
-		}
-		
-		return monstresFiltres;
 	}
 	
 	
@@ -86,7 +47,7 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 			return;
 		}
 		
-		List<Monstre> monstres = filterMonstres();
+		List<Monstre> monstres = this.getElementsFiltres();
 		
 		
 		for (Monstre monstre : monstres) {
@@ -96,17 +57,8 @@ public class CompleterWithShowPicture implements ActionMakerWithConditionalInter
 
 	@Override
 	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		conditions.add(new Condition(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.value));
+		conditions.push(new ConditionOnMonsterId(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.value));
 	}
 
-	@Override
-	public void condElse() {
-		conditions.get(conditions.size() - 1).revert();
-	}
-
-	@Override
-	public void condEnd() {
-		conditions.remove(conditions.size() - 1);
-	}
 
 }
