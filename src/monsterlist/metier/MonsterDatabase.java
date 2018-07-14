@@ -144,4 +144,25 @@ public class MonsterDatabase {
 	}
 	
 	
+	public String getCSVRepresentationOfBattles() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(Combat.getCSVHeader());
+		
+		combatsConnus.forEach(combat -> {sb.append("\n"); sb.append(combat.getCSV()); } );
+		
+		return sb.toString();
+	}
+
+	public String getCSVRepresentationOfMonsters() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(Monstre.getCSVHeader(true));
+		
+		combatsConnus.stream()
+					.flatMap(combat -> combat.getMonstersStream())
+					.filter(monstre -> monstre != null)
+					.forEach(monstre -> {sb.append("\n"); sb.append(monstre.getCSV(true)); });
+		
+		return sb.toString();
+	}
+	
 }

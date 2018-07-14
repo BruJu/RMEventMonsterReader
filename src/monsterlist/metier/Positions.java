@@ -41,4 +41,8 @@ public enum Positions {
 	public String getVar(int i) {
 		return Integer.toString(ids[i]);
 	}
+
+	public static String getCSVHeader() {
+		return "NIVEAU;EXP;POINTCAPA;ARGENT;HP;FORCE;DEFENSE;MAGIE;ESPRIT;DEXTERITE;ESQUIVE";
+	}
 }

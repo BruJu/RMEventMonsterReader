@@ -13,6 +13,7 @@ import monsterlist.autotraitement.ActionAutomatique;
 import monsterlist.autotraitement.AutoActionMaker;
 import monsterlist.autotraitement.AutoCorrespondeur;
 import monsterlist.autotraitement.InitialisateurTotal;
+import monsterlist.metier.BDDReduite;
 import monsterlist.metier.MonsterDatabase;
 import monsterlist.metier.Monstre;
 import monsterlist.metier.Monstre.RemplacementNom;
@@ -37,32 +38,26 @@ public class MonsterDBTest {
 				new AutoActionMaker(new FinDeCombat(baseDeDonnees)             , "ressources/FinCombat.txt"),
 		};
 		
-		
 		for (ActionAutomatique action : listeDesActions) {
 			action.faire();
 		}
-		
 		
 		if (aBesoinDOCR(baseDeDonnees)) {
 			ocriserLesMonstresInconnus(baseDeDonnees);	
 			return;
 		}
 		
-		
-		
-		
-		
-		
-		
-
-		
-		
-		
 		baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
-
 		baseDeDonnees.trouverLesMonstresAvecDesNomsInconnus();
 		
-		System.out.println(baseDeDonnees.getString());
+		// System.out.println(baseDeDonnees.getString());
+		System.out.println(baseDeDonnees.getCSVRepresentationOfBattles());
+		// System.out.println(baseDeDonnees.getCSVRepresentationOfMonsters());
+	
+		/*
+		BDDReduite bddR = BDDReduite.generate(baseDeDonnees);
+		System.out.println(bddR.getCSV());
+		*/
 		
 	}
 	

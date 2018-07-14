@@ -6,6 +6,7 @@ import actionner.Operator;
 import actionner.ReturnValue;
 import actionner.SwitchChange;
 import actionner.SwitchNumber;
+import monsterlist.manipulation.Condition;
 import monsterlist.manipulation.ConditionOnBattleId;
 import monsterlist.metier.Combat;
 import monsterlist.metier.MonsterDatabase;
@@ -55,6 +56,29 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 		if (operatorValue == Operator.IDENTIQUE) {
 			this.database.addCombat(returnValue.value);
 		}
+	}
+
+	@Override
+	public boolean caresAboutCondOnSwitch(int number, boolean value) {
+		return number == MonsterDatabase.POS_BOSSBATTLE;
+	}
+
+	@Override
+	public void condOnSwitch(int number, boolean value) {
+		conditions.push(new Condition<Combat>() {
+			boolean v = value;
+			
+			@Override
+			public void revert() {
+				v = !v;
+			}
+
+			@Override
+			public boolean filter(Combat element) {
+				return element.isBossBattle() == v;
+			}
+		});
+		
 	}
 	
 

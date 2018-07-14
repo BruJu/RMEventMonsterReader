@@ -96,4 +96,41 @@ public class Monstre {
 		return this.stats[posCapa.ordinal()];
 	}
 	
+	
+	
+	public String getCSV(boolean withBattleId) {
+		StringBuilder sb = new StringBuilder();
+		
+		if (withBattleId) {
+			sb.append(this.getBattleId());
+			sb.append(";");
+		}
+		
+		sb.append(this.getId());
+		sb.append(";");
+		sb.append(this.name);
+		sb.append(";");
+		sb.append(this.nomDrop);
+		
+		for (Positions position : Positions.values()) {
+			if (position == Positions.POS_ID)
+				continue;
+
+			sb.append(";");
+			sb.append(this.get(position));
+		}
+		
+		return sb.toString();
+	}
+
+	public static String getCSVHeader(boolean withBattleId) {
+		String prefixe = "";
+		
+		if (withBattleId) {
+			prefixe = "IDCOMBAT;";
+		}
+		
+		return prefixe + "IDMONSTRE;NOM;DROP;" + Positions.getCSVHeader();
+	}
+	
 }

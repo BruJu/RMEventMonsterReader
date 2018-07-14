@@ -107,4 +107,13 @@ public class Combat {
 		return bossBattle;
 	}
 	
+
+	public String getCSV() {
+		return this.getId() + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((this.isBossBattle()) ? "Boss" : "");
+	}
+
+	public static String getCSVHeader() {
+		return "ID;EXP;CAPA;BOSS";
+	}
+	
 }
