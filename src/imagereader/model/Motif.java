@@ -3,7 +3,7 @@ package imagereader.model;
 /**
  * Motif preexistant
  */
-public class Motif {
+public class Motif {	
 	/**
 	 * Chaîne représentée par le motif
 	 */

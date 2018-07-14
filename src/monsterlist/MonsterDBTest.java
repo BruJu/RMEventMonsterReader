@@ -39,12 +39,18 @@ public class MonsterDBTest {
 		}
 		
 		
-		ocriserLesMonstresInconnus(baseDeDonnees);
+		if (aBesoinDOCR(baseDeDonnees)) {
+			ocriserLesMonstresInconnus(baseDeDonnees);	
+			return;
+		}
 		
-		baseDeDonnees.extractMonsters().stream()
-		.filter(m -> m != null)
-		.filter(m -> m.name.substring(0, 2).equals("id"))
-		.forEach(m -> System.out.println(m.getString()));
+		
+		
+		
+		
+		
+		
+
 		
 		
 		
@@ -54,6 +60,27 @@ public class MonsterDBTest {
 		
 		System.out.println(baseDeDonnees.getString());
 		
+	}
+	
+	private static boolean aBesoinDOCR(MonsterDatabase baseDeDonnees) {
+		Object[] monstresInconnus = baseDeDonnees.extractMonsters().stream()
+				.filter(m -> m != null)
+				.filter(m -> m.name.substring(0, 2).equals("id"))
+				.toArray();
+		
+		if (monstresInconnus.length == 0) {
+			return false;
+		}
+		
+		System.out.println("== Des monstres n'ont pas été reconnus ==");
+		
+		for (Object m : monstresInconnus) {
+			System.out.println(((Monstre) m).getString());
+		}
+		
+		System.out.println();
+		
+		return true;
 	}
 
 	private static void ocriserLesMonstresInconnus(MonsterDatabase baseDeDonnees) {
@@ -72,6 +99,8 @@ public class MonsterDBTest {
 		
 		BuildingMotifs chercheurDeMotifs = new BuildingMotifs(monstresInconnus);
 		chercheurDeMotifs.lancer();
+		
+		System.out.println("== Identification == ");
 		chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
 	}
 }

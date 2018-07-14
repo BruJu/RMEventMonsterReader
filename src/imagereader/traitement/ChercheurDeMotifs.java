@@ -250,20 +250,13 @@ public class ChercheurDeMotifs {
 		
 		Motif.dessinerUnMotif(tab);
 		
-		System.out.print("motifs.add(new Motif('?', new int[]{");
+		System.out.print("?");
 		
-		boolean estFirst = true;
-		
-		for (int valeur : tab) {
-			if (!estFirst)
-				System.out.print(", ");
-			
-			estFirst = false;
-			
-			System.out.print(valeur);
+		for (int valeur : tab) {			
+			System.out.print(" " + valeur);
 		}
 		
-		System.out.println("}));");
+		System.out.println();
 		
 		motifs.add(new Motif('?', tab));
 		
