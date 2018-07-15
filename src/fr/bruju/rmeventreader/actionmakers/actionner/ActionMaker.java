@@ -119,4 +119,12 @@ public interface ActionMaker {
 	 * @param labelNumber Le label vers lequel aller
 	 */
 	public void jumpToLabel(int labelNumber);
+	
+	
+	/**
+	 * Exécution du code d'un autre évènement sur la carte
+	 * @param eventNumber Numéro de l'évènement
+	 * @param eventPage Page de l'évènement
+	 */
+	public void callMapEvent(int eventNumber, int eventPage);
 }

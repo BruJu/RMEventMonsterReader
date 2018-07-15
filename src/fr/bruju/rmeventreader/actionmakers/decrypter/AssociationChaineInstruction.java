@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.IgnoreLine;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.JumpTo;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Label;
+import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.MapEventAction;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.NoAction;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action.ModifyItems;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action.SetVariable;
@@ -68,6 +69,8 @@ class AssociationChaineInstruction {
 		
 		
 		book.add(new NoAction("Change Skill", "<> Change Skill:£"));				// Source buggée
+
+		book.add(new MapEventAction());
 		
 		book.add(new NoAction("Call Event", "<> Call Event:£"));					// Serait utile mais pas rentable
 		

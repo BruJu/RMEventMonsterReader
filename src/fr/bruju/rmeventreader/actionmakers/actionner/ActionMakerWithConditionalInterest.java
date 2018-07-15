@@ -84,5 +84,10 @@ public interface ActionMakerWithConditionalInterest extends ActionMaker {
 	default void jumpToLabel(int labelNumber) {
 	}
 	
+	@Override
+	default void callMapEvent(int eventNumber, int eventPage) {
+		
+	}
+	
 	
 }

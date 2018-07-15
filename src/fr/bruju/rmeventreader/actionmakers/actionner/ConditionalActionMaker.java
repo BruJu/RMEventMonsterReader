@@ -152,5 +152,15 @@ public class ConditionalActionMaker implements ActionMaker {
 	}
 
 
+	@Override
+	public void callMapEvent(int eventNumber, int eventPage) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.callMapEvent(eventNumber, eventPage);
+	}
+
+
 
 }

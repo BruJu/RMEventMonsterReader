@@ -194,4 +194,9 @@ public class Printer implements ActionMaker {
 		System.out.println("Goto " + labelNumber);
 	}
 
+	@Override
+	public void callMapEvent(int eventNumber, int eventPage) {
+		System.out.println("Call Map Event " + eventNumber + " Page " + eventPage);
+	}
+
 }
