@@ -69,6 +69,7 @@ class AssociationChaineInstruction {
 		book.add(new NoAction("Flash Screen", "<> Flash Screen: £"));
 		book.add(new NoAction("Shake Screen", "<> Shake Screen: £"));
 		book.add(new NoAction("Flash Event", "<> Flash Event: £"));
+		book.add(new NoAction("Play Memorized BGM", "<> Play Memorized BGM"));
 
 		book.add(new NoAction("Show Battle Animation", "<> Show Battle Animation:£"));
 		

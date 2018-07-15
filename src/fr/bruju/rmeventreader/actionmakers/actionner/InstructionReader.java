@@ -23,7 +23,7 @@ public class InstructionReader implements ActionOnLine {
 		}
 		
 		if (statut == 1) {
-			if (line.equals("--- SCRIPT ---")) {
+			if (line.equals("- SCRIPT -")) {
 				statut = 2;
 			}
 		}

@@ -29,6 +29,12 @@ public class Recognizer {
 	 * Caractère symbolisant une reconnaissance de valeur
 	 */
 	private static final char CHAR_FILL = '_';
+
+	/**
+	 * Caractère symbolisant une reconnaissance de valeur ne pouvant être vide
+	 */
+	private static final char CHAR_FILL_NOT_EMPTY = 'µ';
+	
 	
 	/**
 	 * Caractère symbolisant un pattern qui accepte n'importe quoi à la fin
@@ -64,6 +70,8 @@ public class Recognizer {
 			positionData++;
 		}
 		
+		boolean builderDejaRempli = false;
+		
 		// Analyse comparative
 		while (positionData != data.length() && positionPattern != pattern.length()) {
 			charPattern = pattern.charAt(positionPattern);
@@ -75,20 +83,22 @@ public class Recognizer {
 			}
 			
 			// Remplissage
-			if (charPattern == CHAR_FILL) {
+			if (charPattern == CHAR_FILL || charPattern == CHAR_FILL_NOT_EMPTY) {
 				if (builder == null) {
 					builder = new StringBuilder();
+					builderDejaRempli = false;
 
-					if (positionPattern + 1 == pattern.length()) {
+					if (positionPattern + 1 == pattern.length()) {						
 						charNextPattern = null;
 					} else {
 						charNextPattern = pattern.charAt(positionPattern + 1);
 					}
 				}
 				
-				if (charNextPattern == null || charNextPattern != charData) {
+				if (charNextPattern == null || charNextPattern != charData || (charPattern == CHAR_FILL_NOT_EMPTY && !builderDejaRempli)) {
 					// Cumuler
 					builder.append(charData);
+					builderDejaRempli = true;
 				} else {
 					// Décharger
 					arguments.add(builder.toString());

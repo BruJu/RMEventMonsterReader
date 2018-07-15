@@ -19,7 +19,7 @@ public class ReturnValueIdentifier {
 	private static String pattern_Variable = "V[_]";
 	private static String pattern_VariableSpace = "V[_] ";	// Items
 	private static String pattern_RefVariable = "V[V[_]]";
-	private static String pattern_Random = "Random [_-_]";
+	private static String pattern_Random = "Random [µ-µ]";
 
 	public static ReturnValueIdentifier getInstance() {
 		if (instance == null)
@@ -37,6 +37,12 @@ public class ReturnValueIdentifier {
 		
 		argumentsLus = Recognizer.tryPattern(pattern_Random, data);
 		if (argumentsLus != null) {
+			
+			System.out.println(data);
+			for (String str : argumentsLus) {
+				System.out.println(str);
+			}
+			
 			return new ValeurAleatoire(Integer.parseInt(argumentsLus.get(0)), Integer.parseInt(argumentsLus.get(1)));
 		}
 		
