@@ -28,10 +28,6 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 		MonsterDatabase.setBossBattle(getElementsFiltres());
 	}
 
-	@Override
-	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		return leftOperandValue == MonsterDatabase.POS_ID_COMBAT;
-	}
 	
 	public MonsterDatabaseMaker(MonsterDatabase monsterDatabase) {
 		database = monsterDatabase;
@@ -47,21 +43,25 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	}
 	
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		if (leftOperandValue != MonsterDatabase.POS_ID_COMBAT)
+			return false;
+		
 		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));
 		
 		if (operatorValue == Operator.IDENTIQUE) {
 			this.database.addCombat(returnValue.get());
 		}
+		
+		return true;
 	}
 
-	@Override
-	public boolean caresAboutCondOnSwitch(int number, boolean value) {
-		return number == MonsterDatabase.POS_BOSSBATTLE;
-	}
 
 	@Override
-	public void condOnSwitch(int number, boolean value) {
+	public boolean condOnSwitch(int number, boolean value) {
+		if (number != MonsterDatabase.POS_BOSSBATTLE)
+			return false;
+		
 		conditions.push(new Condition<Combat>() {
 			boolean v = value;
 			
@@ -75,7 +75,8 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 				return element.isBossBattle() == v;
 			}
 		});
-		
+
+		return true;
 	}
 	
 

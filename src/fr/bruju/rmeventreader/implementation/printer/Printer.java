@@ -112,13 +112,17 @@ public class Printer implements ActionMaker {
 	}
 
 	@Override
-	public void condOnSwitch(int number, boolean value) {
+	public boolean condOnSwitch(int number, boolean value) {
 		System.out.println("If Switch[" + number + "] = " + value);
+		
+		return true;
 	}
 
 	@Override
-	public void condOnEquippedItem(int heroId, int itemId) {
+	public boolean condOnEquippedItem(int heroId, int itemId) {
 		System.out.println("If Hero " + heroId + " has " + itemId);
+		
+		return true;
 	}
 
 
@@ -133,9 +137,11 @@ public class Printer implements ActionMaker {
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		System.out.println("If V[" + leftOperandValue + "] " + getRepresentation(operatorValue) + " "
 				+ getRepresentation(returnValue));
+
+		return true;
 	}
 
 	@Override
@@ -144,13 +150,17 @@ public class Printer implements ActionMaker {
 	}
 
 	@Override
-	public void condTeamMember(int memberId) {
+	public boolean condTeamMember(int memberId) {
 		System.out.println("If Hero #" + memberId + " is in the team");
+
+		return true;
 	}
 
 	@Override
-	public void condOnOwnedItem(int itemId) {
+	public boolean condOnOwnedItem(int itemId) {
 		System.out.println("If Item #" + itemId + " is owned");
+		
+		return true;
 	}
 
 	@Override
@@ -238,9 +248,11 @@ public class Printer implements ActionMaker {
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) {
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) {
 		System.out.println("If V[" + leftOperandValue + "] " + getRepresentation(operatorValue) + " "
 				+ getRepresentation(returnValue));
+		
+		return true;
 	}
 
 }

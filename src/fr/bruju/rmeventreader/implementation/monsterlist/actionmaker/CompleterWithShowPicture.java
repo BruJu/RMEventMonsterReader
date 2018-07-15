@@ -33,12 +33,7 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 	
 	// Interprétation des instructions
 
-	
-	@Override
-	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		return (leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT);
-	}
-	
+
 	
 	@Override
 	public void showPicture(int id, String pictureName) {
@@ -55,8 +50,14 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		if (!(leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT)) {
+			return false;
+		}
+		
 		conditions.push(new ConditionOnMonsterId(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.get()));
+		
+		return true;
 	}
 
 

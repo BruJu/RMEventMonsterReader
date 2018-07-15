@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
+import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
@@ -17,7 +17,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
  * : End of fork
  *
  */
-public class DropCompleter implements ActionMakerWithConditionalInterest {
+public class DropCompleter implements ActionMakerDefalse {
 	private static final int VARIABLE_ID_MONSTRE = 552;
 	private static final int VARIABLE_ID_DROP = 2120;
 	
@@ -31,14 +31,16 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 	
 
 	@Override
-	public boolean caresAboutCondOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		if (returnValue.get() != VARIABLE_ID_MONSTRE)
 			return false;
 		
-		if (operatorValue != Operator.IDENTIQUE)
+		if (operatorValue != Operator.IDENTIQUE) {
+			dernierIfLu = returnValue.get();
+			return true;
+		} else {
 			throw new DropCompleterException("Comparaison entre la variable ID_MONSTRE et quelque chose de différent que identique à une valeur fixe");
-		
-		return true;
+		}
 	}
 	
 	@Override
@@ -59,10 +61,6 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 	}
 
 
-	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		dernierIfLu = returnValue.get();
-	}
 
 	@Override
 	public void condElse() {

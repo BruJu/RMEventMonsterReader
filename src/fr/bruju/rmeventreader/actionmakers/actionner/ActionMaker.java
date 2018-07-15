@@ -160,42 +160,48 @@ public interface ActionMaker {
 	 * Condition sur un interrupteur
 	 * @param number Le numéro de l'interrupteur
 	 * @param value La valeur que doit avoir l'interrupteur
+	 * @return Vrai si la condition a été utile à l'interprétation
 	 */
-	public void condOnSwitch(int number, boolean value);
+	public boolean condOnSwitch(int number, boolean value);
 	
 	/**
 	 * Condition sur la possession d'un objet par un héros
 	 * @param heroId LE numéro du héros
 	 * @param itemId L'objet voulu
+	 * @return Vrai si la condition a été utile à l'interprétation
 	 */
-	public void condOnEquippedItem(int heroId, int itemId);
+	public boolean condOnEquippedItem(int heroId, int itemId);
 	
 	/**
 	 * Condition sur la valeur d'une variable
 	 * @param leftOperandValue Le numéro de la variable à comparer
 	 * @param operatorValue L'opérateur de comparaison
 	 * @param returnValue La valeur avec laquelle comparer
+	 * @return Vrai si la condition a été utile à l'interprétation
 	 */
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue);
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue);
 	/**
 	 * Condition sur la valeur d'une variable
 	 * @param leftOperandValue Le numéro de la variable à comparer
 	 * @param operatorValue L'opérateur de comparaison
 	 * @param returnValue La variable avec laquelle comparer
+	 * @return Vrai si la condition a été utile à l'interprétation
 	 */
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue);
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue);
 	
 	/**
 	 * Condition sur un objet possédé
 	 * @param itemId L'objet possédé
+	 * @return Vrai si la condition a été utile à l'interprétation
 	 */
-	public void condOnOwnedItem(int itemId);
+	public boolean condOnOwnedItem(int itemId);
 	
 	/**
 	 * Condition sur la présence d'un membre du groupe
 	 * @param memberId Le numéro du membre du groupe
+	 * @return Vrai si la condition a été utile à l'interprétation
 	 */
-	public void condTeamMember(int memberId);
+	public boolean condTeamMember(int memberId);
 
 
 	/**

@@ -37,14 +37,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		return db.extractBattles();
 	}
 	
-	
 	@Override
-	public boolean caresAboutCondOnSwitch(int number, boolean value) {
-		return number == SWITCH_BOSS;
-	}
-
-	@Override
-	public void condOnSwitch(int number, boolean value) {
+	public boolean condOnSwitch(int number, boolean value) {
+		if (number != SWITCH_BOSS)
+			return false;
+		
 		this.conditions.push(new Condition<Combat>() {
 			private boolean allume = value;
 			
@@ -58,33 +55,16 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 				return element.isBossBattle() == allume;
 			}
 		});
+		
+		return true; 
 	}
 	
-	@Override
-	public boolean caresAboutCondOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
-		if (appartient(idVariable, VARIABLES_IGNOREES)) {
-			return true;
-		}
-		
-		if (appartient(idVariable, VARIABLES_CAPA)) {
-			return true;
-		}
 
-		if (appartient(idVariable, VARIABLES_EXP)) {
-			return true;
-		}
-		
-		if (idVariable == VARIABLE_GAINEXP) {
-			return true;
-		}
-		
-		return false;
-	}
 	@Override
-	public void condOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
+	public boolean condOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
 		if (appartient(idVariable, VARIABLES_IGNOREES)) {
 			conditions.push(new ConditionPassThrought<Combat>());
-			return;
+			return true;
 		}
 		
 		if (appartient(idVariable, VARIABLES_CAPA)) {
@@ -95,7 +75,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 							operatorValue,
 							returnValue.get()
 						));
-			return;
+			return true;
 		}
 
 		if (appartient(idVariable, VARIABLES_EXP)) {
@@ -106,7 +86,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 							operatorValue,
 							returnValue.get()
 						));
-			return;
+			return true;
 		}
 		
 		if (idVariable == VARIABLE_GAINEXP) {
@@ -124,8 +104,10 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 					return operator.test(element.gainExp, value);
 				}
 			});
-			return;
+			return true;
 		}
+
+		return false;
 	}
 
 	@Override

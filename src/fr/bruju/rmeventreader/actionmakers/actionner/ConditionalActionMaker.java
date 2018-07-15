@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
  * Cette classe s'utilise comme un décorateur
  */
 public class ConditionalActionMaker implements ActionMaker {
-	private ActionMakerWithConditionalInterest base;
+	private ActionMaker base;
 	
 	private int niveauDignorance = 0;
 	
@@ -22,63 +22,63 @@ public class ConditionalActionMaker implements ActionMaker {
 	}
 	
 	
-	public ConditionalActionMaker(ActionMakerWithConditionalInterest base) {
+	public ConditionalActionMaker(ActionMakerDefalse base) {
 		this.base = base;
 	}
 	
 
 	@Override
-	public void condOnSwitch(int number, boolean value) {
-		if (isIgnoring() || !base.caresAboutCondOnSwitch(number, value)) {
+	public boolean condOnSwitch(int number, boolean value) {
+		if (isIgnoring() || !base.condOnSwitch(number, value)) {
 			niveauDignorance = niveauDignorance + 1;
-		} else {
-			base.condOnSwitch(number, value);
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void condOnEquippedItem(int heroId, int itemId) {
-		if (isIgnoring() || !base.caresAboutCondOnEquippedItem(heroId, itemId)) {
+	public boolean condOnEquippedItem(int heroId, int itemId) {
+		if (isIgnoring() || !base.condOnEquippedItem(heroId, itemId)) {
 			niveauDignorance = niveauDignorance + 1;
-		} else {
-			base.condOnEquippedItem(heroId, itemId);;
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (isIgnoring() || !base.caresAboutCondOnVariable(leftOperandValue, operatorValue, returnValue)) {
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		if (isIgnoring() || !base.condOnVariable(leftOperandValue, operatorValue, returnValue)) {
 			niveauDignorance = niveauDignorance + 1;
-		} else {
-			base.condOnVariable(leftOperandValue, operatorValue, returnValue);;
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) {
-		if (isIgnoring() || !base.caresAboutCondOnVariable(leftOperandValue, operatorValue, returnValue)) {
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) {
+		if (isIgnoring() || !base.condOnVariable(leftOperandValue, operatorValue, returnValue)) {
 			niveauDignorance = niveauDignorance + 1;
-		} else {
-			base.condOnVariable(leftOperandValue, operatorValue, returnValue);;
 		}
+		
+		return true;
 	}
 	
 	@Override
-	public void condOnOwnedItem(int itemId) {
-		if (isIgnoring() || !base.caresAboutCondOnOwnedItem(itemId)) {
+	public boolean condOnOwnedItem(int itemId) {
+		if (isIgnoring() || !base.condOnOwnedItem(itemId)) {
 			niveauDignorance = niveauDignorance + 1;
-		} else {
-			base.condOnOwnedItem(itemId);
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void condTeamMember(int memberId) {
-		if (isIgnoring() || !base.caresAboutCondTeamMember(memberId)) {
+	public boolean condTeamMember(int memberId) {
+		if (isIgnoring() || !base.condTeamMember(memberId)) {
 			niveauDignorance = niveauDignorance + 1;
-		} else {
-			base.condTeamMember(memberId);
 		}
+		
+		return true;
 	}
 
 

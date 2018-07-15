@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulareader;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
+import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
@@ -18,7 +18,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.Pair;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 import fr.bruju.rmeventreadercomplement.AeStatsPerso;
 
-public class FormulaCalculator implements ActionMakerWithConditionalInterest {
+public class FormulaCalculator implements ActionMakerDefalse {
 	private static final int TERMINATOR_EVENT_MAP_NUMB = 77;
 	private static final int TERMINATOR_EVENT_MAP_PAGE = 1;
 	
@@ -91,30 +91,18 @@ public class FormulaCalculator implements ActionMakerWithConditionalInterest {
 
 	// Switch
 	
-	@Override
-	public boolean caresAboutCondOnSwitch(int number, boolean value) {
-		return Ensemble.appartient(number, ENTER_IN_SWITCHES);
-	}
 
 	@Override
-	public void condOnSwitch(int number, boolean value) { }
+	public boolean condOnSwitch(int number, boolean value) {
+		return Ensemble.appartient(number, ENTER_IN_SWITCHES);
+	}
 	
 	
 	// Variable
-	
-	@Override
-	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		// TODO
-		return leftOperandValue == VARIABLE_CIBLE && returnValue.get() == VALEUR_CIBLE;
-	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (leftOperandValue == VARIABLE_CIBLE && returnValue.get() == VALEUR_CIBLE) {
-			return;
-		}
-		
-		// TODO
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		return (leftOperandValue == VARIABLE_CIBLE && returnValue.get() == VALEUR_CIBLE);
 	}
 
 

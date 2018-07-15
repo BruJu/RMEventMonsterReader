@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
+import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
 
 /**
@@ -23,7 +23,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
  *
  * @param <T> Le type sur lequel portent les conditions
  */
-public abstract class StackedActionMaker<T> implements ActionMakerWithConditionalInterest {
+public abstract class StackedActionMaker<T> implements ActionMakerDefalse {
 	/**
 	 * Liste des conditions actuellement traitées
 	 */

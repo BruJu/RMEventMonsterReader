@@ -23,8 +23,6 @@ import fr.bruju.rmeventreadercomplement.AeAdd;
 public class MonsterDBTest {
 
 	public static void main_(String[] args, int csv) throws IOException {
-		
-		
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(); 
 		
 		ActionAutomatique[] listeDesActions = new ActionAutomatique[] {
