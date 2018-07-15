@@ -1,18 +1,14 @@
-*codelite*
-.codelite\**
-.codelite/**
-RPGReader.workspace
-*.tags
-*.o*
-**Debug**
-log/
-
+# Compilation
 target/
+
+# Eclipse
 .classpath
 .project
 .settings/
 .git
 bin/
+
+# Fichiers non propriétaires
 ressources/
-src/monsterlist/AeAdd.java
+src/fr/bruju/rmeventreadercomplement/
 sorties/
