@@ -2,9 +2,8 @@ package fr.bruju.rmeventreader.implementation.printer;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchChange;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
 
 /**
  * Imprime les instructions qui sont reconnues
@@ -97,27 +96,26 @@ public class Printer implements ActionMaker {
 	
 	
 	@Override
-	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value) {
-		
+	public void changeSwitch(SwitchNumber interrupteur, boolean value) {
 		if (interrupteur.pointed) {
 			throw new UnsupportedOperationException("Not Yet implemented");
 		}
 		
 		int number = interrupteur.numberDebut;
-		
-		switch (value) {
-		case OFF:
-			System.out.println("Switch " + number + " = OFF");
-			break;
-		case ON:
-			System.out.println("Switch " + number + " = ON");
-			break;
-		case REVERSE:
-			System.out.println("Switch " + number + " = REVERSE");
-			break;
-		}
+
+		System.out.println("Switch " + number + " = " + ( (value) ? "ON" : "OFF"));
 	}
 
+	@Override
+	public void revertSwitch(SwitchNumber interrupteur) {
+		if (interrupteur.pointed) {
+			throw new UnsupportedOperationException("Not Yet implemented");
+		}
+		
+		int number = interrupteur.numberDebut;
+
+		System.out.println("Switch " + number + " = REVERSE");
+	}
 
 	@Override
 	public void notImplementedFeature(String str) {

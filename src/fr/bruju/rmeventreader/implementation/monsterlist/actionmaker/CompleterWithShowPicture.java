@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;

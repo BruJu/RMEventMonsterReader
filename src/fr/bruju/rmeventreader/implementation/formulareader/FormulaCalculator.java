@@ -5,8 +5,8 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
 import fr.bruju.rmeventreader.formule.Valeur;
 import fr.bruju.rmeventreader.formule.base.ValeurNumerique;
 import fr.bruju.rmeventreader.formule.base.ValeurStatistique;

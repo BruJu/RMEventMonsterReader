@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.actionner;
+package fr.bruju.rmeventreader.actionmakers.donnees;
 
 /**
  * Modification d'une variable ou d'un interrupteur

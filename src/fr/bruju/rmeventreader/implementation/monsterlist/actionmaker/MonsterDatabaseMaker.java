@@ -3,9 +3,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchChange;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
@@ -21,10 +20,10 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	private MonsterDatabase database;
 	
 	@Override
-	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value) {
+	public void changeSwitch(SwitchNumber interrupteur, boolean value) {
 		if (interrupteur.numberDebut != MonsterDatabase.POS_BOSSBATTLE
 				|| interrupteur.pointed
-				|| value != SwitchChange.ON) {
+				|| !value) {
 			return;
 		}
 		

@@ -3,9 +3,8 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action.inte
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchChange;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchNumber;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
 
 // TODO : unifier l'implémentation de SetSwitch
 
@@ -25,11 +24,11 @@ public class SetSwitch implements Action {
 		String nouvelleValeur = arguments.get(1);
 		
 		if (nouvelleValeur.equals("ON")) {
-			actionMaker.changeSwitch(switchNumber, SwitchChange.ON);
+			actionMaker.changeSwitch(switchNumber, true);
 			return;
 		}
 		if (nouvelleValeur.equals("OFF")) {
-			actionMaker.changeSwitch(switchNumber, SwitchChange.OFF);
+			actionMaker.changeSwitch(switchNumber, false);
 			return;
 		}
 		

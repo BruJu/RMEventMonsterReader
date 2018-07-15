@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
 
 public class MonsterDatabase {
 	public final static int POS_ID_COMBAT = 435;

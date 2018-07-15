@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
 

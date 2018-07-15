@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+
 /**
  * Interface étendant les action maker afin d'être utilisé conjointement avec
  * ConditionalActionMaker.
@@ -44,8 +47,13 @@ public interface ActionMakerWithConditionalInterest extends ActionMaker {
 	}
 
 	@Override
-	default void changeSwitch(SwitchNumber interrupteur, SwitchChange value) {
+	default void changeSwitch(SwitchNumber interrupteur, boolean value) {
 	}
+
+	@Override
+	default void revertSwitch(SwitchNumber interrupteur) {
+	}
+	
 
 	@Override
 	default void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {

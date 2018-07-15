@@ -4,10 +4,10 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.OperatorIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.ReturnValueIdentifier;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
 
 /**
  * Condition sur une variable

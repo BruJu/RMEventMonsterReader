@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.actionner;
+package fr.bruju.rmeventreader.actionmakers.donnees;
 
 /**
  * Valeur de retour pour la plupart des opérations

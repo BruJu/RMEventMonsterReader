@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+
 /**
  * Fourni une implémentation de la gestion des conditions, avec possibilité d'ignorer
  * des blocs dans des conditions.
@@ -98,7 +101,7 @@ public class ConditionalActionMaker implements ActionMaker {
 	}
 
 	@Override
-	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value) {
+	public void changeSwitch(SwitchNumber interrupteur, boolean value) {
 		if (isIgnoring()) {
 			return;
 		}
@@ -106,6 +109,16 @@ public class ConditionalActionMaker implements ActionMaker {
 		base.changeSwitch(interrupteur, value);
 	}
 
+
+	@Override
+	public void revertSwitch(SwitchNumber interrupteur) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.revertSwitch(interrupteur);
+	}
+	
 	@Override
 	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
 		if (isIgnoring()) {
@@ -160,6 +173,8 @@ public class ConditionalActionMaker implements ActionMaker {
 		
 		base.callMapEvent(eventNumber, eventPage);
 	}
+
+
 
 
 

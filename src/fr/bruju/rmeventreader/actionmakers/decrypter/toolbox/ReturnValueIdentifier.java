@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.toolbox;
 
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
 
 public class ReturnValueIdentifier {
 	private static ReturnValueIdentifier instance = null;

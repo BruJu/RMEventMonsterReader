@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+
 /**
  * Cette classe est appelée lorsqu'un évènement est lu.
  * 
@@ -26,7 +29,14 @@ public interface ActionMaker {
 	 * @param interrupteur L'interrupteur à modifier
 	 * @param value La nouvelle valeur
 	 */
-	public void changeSwitch(SwitchNumber interrupteur, SwitchChange value);
+	public void changeSwitch(SwitchNumber interrupteur, boolean value);
+	
+
+	/**
+	 * Action déclenchée quand un interrupteur est inversé
+	 * @param interrupteur L'interrupteur à inverser
+	 */
+	public void revertSwitch(SwitchNumber interrupteur);
 	
 	/**
 	 * Action déclenchée lors d'un changement de valeur d'une variable

@@ -3,9 +3,8 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action.inte
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchChange;
-import fr.bruju.rmeventreader.actionmakers.actionner.SwitchNumber;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
+import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
 
 public class ToggleList implements Action {
 	private final String PATTERN = "<> Change Switch: [_], Toggle";
@@ -19,6 +18,6 @@ public class ToggleList implements Action {
 	public void faire(ActionMaker actionMaker, List<String> arguments) {
 		int switchValue = Integer.parseInt(arguments.get(0));
 		
-		actionMaker.changeSwitch(new SwitchNumber(switchValue, false), SwitchChange.REVERSE);
+		actionMaker.revertSwitch(new SwitchNumber(switchValue, false));
 	}
 }

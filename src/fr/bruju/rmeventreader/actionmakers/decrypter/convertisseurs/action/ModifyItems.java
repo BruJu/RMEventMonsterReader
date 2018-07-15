@@ -3,9 +3,9 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.ReturnValue;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.ReturnValueIdentifier;
+import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
 
 /**
  * Modification des objets possédés
