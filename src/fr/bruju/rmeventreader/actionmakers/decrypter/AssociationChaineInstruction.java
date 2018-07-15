@@ -66,6 +66,9 @@ class AssociationChaineInstruction {
 		book.add(new NoAction("Key input", "<> Key Input Processing:£"));
 		book.add(new NoAction("Delete Event", "<> Delete Event"));
 		book.add(new NoAction("Fade out BGM", "<> Fade Out £"));
+		book.add(new NoAction("Flash Screen", "<> Flash Screen: £"));
+		book.add(new NoAction("Shake Screen", "<> Shake Screen: £"));
+		book.add(new NoAction("Flash Event", "<> Flash Event: £"));
 
 		book.add(new NoAction("Show Battle Animation", "<> Show Battle Animation:£"));
 		

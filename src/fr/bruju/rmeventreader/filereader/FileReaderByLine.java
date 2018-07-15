@@ -18,7 +18,9 @@ public class FileReaderByLine {
 				break;
 			}
 			
-			actionOnLine.read(line);
+			if (!line.equals("")) {
+				actionOnLine.read(line);
+			}
 		}
 		
 		buffer.close();

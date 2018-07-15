@@ -31,7 +31,7 @@ public class Interpreter {
 	 * @throws IOException
 	 */
 	public void inputFile(File file) throws IOException {
-		FileReaderByLine.lireLeFichier(file, s -> decrypter.decript(s));
+		FileReaderByLine.lireLeFichier(file, new InstructionReader(decrypter));
 	}
 	
 	/**
