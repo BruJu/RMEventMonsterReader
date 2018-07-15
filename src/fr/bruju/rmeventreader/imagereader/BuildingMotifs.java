@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.imagereader.model.MatricePixels;
 import fr.bruju.rmeventreader.imagereader.model.Motif;
 import fr.bruju.rmeventreader.imagereader.model.SymboleReconnus;
 import fr.bruju.rmeventreader.imagereader.traitement.ChercheurDeMotifs;
 import fr.bruju.rmeventreader.imagereader.traitement.ImageReader;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 /**
  * L'objectif de cette classe est de prendre une liste de monstres et de tenter de reconnaître
