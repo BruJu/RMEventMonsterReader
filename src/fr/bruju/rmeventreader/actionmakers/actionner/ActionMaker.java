@@ -1,9 +1,10 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 
 /**
  * Cette classe est appelée lorsqu'un évènement est lu.
@@ -58,13 +59,31 @@ public interface ActionMaker {
 	 * @param operator L'opérateur appliqué
 	 * @param returnValue La valeur mise
 	 */
-	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue);
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue);
+	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire returnValue);
+	public void changeVariable(Variable variable, Operator operator, Variable returnValue);
+	public void changeVariable(Variable variable, Operator operator, Pointeur returnValue);
 
-	public default void changeVariable(VariablePlage variables, Operator operator, ReturnValue returnValue) {
+	public default void changeVariable(VariablePlage variables, Operator operator, ValeurFixe returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
 	}
 
-	public void changeVariable(Pointeur pointeur, Operator operator, ReturnValue returnValue);
+	public default void changeVariable(VariablePlage variables, Operator operator, ValeurAleatoire returnValue) {
+		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
+	}
+
+	public default void changeVariable(VariablePlage variables, Operator operator, Variable returnValue) {
+		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
+	}
+
+	public default void changeVariable(VariablePlage variables, Operator operator, Pointeur returnValue) {
+		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
+	}
+	
+	public void changeVariable(Pointeur pointeur, Operator operator, ValeurFixe returnValue);
+	public void changeVariable(Pointeur pointeur, Operator operator, ValeurAleatoire returnValue);
+	public void changeVariable(Pointeur pointeur, Operator operator, Variable returnValue);
+	public void changeVariable(Pointeur pointeur, Operator operator, Pointeur returnValue);
 	
 	
 	/**
@@ -73,7 +92,10 @@ public interface ActionMaker {
 	 * @param add Vrai si il faut en ajouter, faux si il faut en retirer
 	 * @param quantity La quantité d'objets
 	 */
-	public void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity);
+	public void modifyItems(ValeurFixe idItem, boolean add, ValeurFixe quantity);
+	public void modifyItems(ValeurFixe idItem, boolean add, Variable quantity);
+	public void modifyItems(Variable idItem, boolean add, ValeurFixe quantity);
+	public void modifyItems(Variable idItem, boolean add, Variable quantity);
 	
 	
 	/* ==========
@@ -100,7 +122,8 @@ public interface ActionMaker {
 	 * @param operatorValue L'opérateur de comparaison
 	 * @param returnValue La valeur avec laquelle comparer (une variable ou un nombre)
 	 */
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue);
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue);
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue);
 	
 	/**
 	 * Condition sur un objet possédé

@@ -1,9 +1,10 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 
 /**
  * Fourni une implémentation de la gestion des conditions, avec possibilité d'ignorer
@@ -45,7 +46,7 @@ public class ConditionalActionMaker implements ActionMaker {
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		if (isIgnoring() || !base.caresAboutCondOnVariable(leftOperandValue, operatorValue, returnValue)) {
 			niveauDignorance = niveauDignorance + 1;
 		} else {
@@ -53,6 +54,15 @@ public class ConditionalActionMaker implements ActionMaker {
 		}
 	}
 
+	@Override
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) {
+		if (isIgnoring() || !base.caresAboutCondOnVariable(leftOperandValue, operatorValue, returnValue)) {
+			niveauDignorance = niveauDignorance + 1;
+		} else {
+			base.condOnVariable(leftOperandValue, operatorValue, returnValue);;
+		}
+	}
+	
 	@Override
 	public void condOnOwnedItem(int itemId) {
 		if (isIgnoring() || !base.caresAboutCondOnOwnedItem(itemId)) {
@@ -163,7 +173,7 @@ public class ConditionalActionMaker implements ActionMaker {
 	// Change Variable
 	
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		if (isIgnoring()) {
 			return;
 		}
@@ -172,7 +182,7 @@ public class ConditionalActionMaker implements ActionMaker {
 	}
 
 	@Override
-	public void changeVariable(VariablePlage variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(VariablePlage variable, Operator operator, ValeurFixe returnValue) {
 		if (isIgnoring()) {
 			return;
 		}
@@ -181,16 +191,94 @@ public class ConditionalActionMaker implements ActionMaker {
 	}
 
 	@Override
-	public void changeVariable(Pointeur variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Pointeur variable, Operator operator, ValeurFixe returnValue) {
 		if (isIgnoring()) {
 			return;
 		}
 		
 		base.changeVariable(variable, operator, returnValue);
 	}
-	
+
 	@Override
-	public void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity) {
+	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+
+	@Override
+	public void changeVariable(VariablePlage variable, Operator operator, ValeurAleatoire returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+
+	@Override
+	public void changeVariable(Pointeur variable, Operator operator, ValeurAleatoire returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+	@Override
+	public void changeVariable(Variable variable, Operator operator, Variable returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+
+	@Override
+	public void changeVariable(VariablePlage variable, Operator operator, Variable returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+
+	@Override
+	public void changeVariable(Pointeur variable, Operator operator, Variable returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+	@Override
+	public void changeVariable(Variable variable, Operator operator, Pointeur returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+
+	@Override
+	public void changeVariable(VariablePlage variable, Operator operator, Pointeur returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+
+	@Override
+	public void changeVariable(Pointeur variable, Operator operator, Pointeur returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+	@Override
+	public void modifyItems(ValeurFixe idItem, boolean add, ValeurFixe quantity) {
 		if (isIgnoring()) {
 			return;
 		}
@@ -198,6 +286,30 @@ public class ConditionalActionMaker implements ActionMaker {
 		base.modifyItems(idItem, add, quantity);
 	}
 
+	@Override
+	public void modifyItems(ValeurFixe idItem, boolean add, Variable quantity) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.modifyItems(idItem, add, quantity);
+	}
+	@Override
+	public void modifyItems(Variable idItem, boolean add, ValeurFixe quantity) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.modifyItems(idItem, add, quantity);
+	}
+	@Override
+	public void modifyItems(Variable idItem, boolean add, Variable quantity) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.modifyItems(idItem, add, quantity);
+	}
 	@Override
 	public void showPicture(int id, String pictureName) {
 		if (isIgnoring()) {

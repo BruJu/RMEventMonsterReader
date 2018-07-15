@@ -3,8 +3,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
@@ -21,8 +21,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	
 	@Override
 	public void changeSwitch(Variable interrupteur, boolean value) {
-		if (interrupteur.get() != MonsterDatabase.POS_BOSSBATTLE
-				|| !value) {
+		if (interrupteur.get() != MonsterDatabase.POS_BOSSBATTLE || !value) {
 			return;
 		}
 		
@@ -30,7 +29,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	}
 
 	@Override
-	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		return leftOperandValue == MonsterDatabase.POS_ID_COMBAT;
 	}
 	
@@ -43,16 +42,16 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	}
 	
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		MonsterDatabase.setVariable(getElementsFiltres(), variable, operator, returnValue);
 	}
 	
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.value));
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));
 		
 		if (operatorValue == Operator.IDENTIQUE) {
-			this.database.addCombat(returnValue.value);
+			this.database.addCombat(returnValue.get());
 		}
 	}
 

@@ -3,8 +3,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMembreStat;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
@@ -61,7 +61,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	}
 	
 	@Override
-	public boolean caresAboutCondOnVariable(int idVariable, Operator operatorValue, ReturnValue returnValue) {
+	public boolean caresAboutCondOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
 		if (appartient(idVariable, VARIABLES_IGNOREES)) {
 			return true;
 		}
@@ -81,7 +81,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		return false;
 	}
 	@Override
-	public void condOnVariable(int idVariable, Operator operatorValue, ReturnValue returnValue) {
+	public void condOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
 		if (appartient(idVariable, VARIABLES_IGNOREES)) {
 			conditions.push(new ConditionPassThrought<Combat>());
 			return;
@@ -93,7 +93,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 							Positions.POS_CAPA,
 							getPosition(idVariable, VARIABLES_CAPA),
 							operatorValue,
-							returnValue.value
+							returnValue.get()
 						));
 			return;
 		}
@@ -104,7 +104,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 							Positions.POS_EXP,
 							getPosition(idVariable, VARIABLES_EXP),
 							operatorValue,
-							returnValue.value
+							returnValue.get()
 						));
 			return;
 		}
@@ -112,7 +112,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		if (idVariable == VARIABLE_GAINEXP) {
 			conditions.push(new Condition<Combat>() {
 				Operator operator = operatorValue;
-				int value = returnValue.value;
+				int value = returnValue.get();
 
 				@Override
 				public void revert() {
@@ -129,14 +129,14 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	}
 
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		
 		if (appartient(variable.get(), VARIABLES_CAPA)) {
 			if (operator == Operator.AFFECTATION) {
 				throw new FinDeCombatException("Affectation brute d'une récompense de capa");
 			}
 			
-			this.getElementsFiltres().forEach(battle -> battle.addGainCapa(returnValue.value));
+			this.getElementsFiltres().forEach(battle -> battle.addGainCapa(returnValue.get()));
 			
 			return;
 		}
@@ -151,29 +151,40 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		}	
 	}
 	
+	@Override
+	public void changeVariable(Variable variable, Operator operator, Variable returnValue) {		
+		if (variable.get() == VARIABLE_GAINEXP) {
+			modificationGainExp(operator, returnValue);
+			return;
+		}	
+	}
 	
-	private void modificationGainExp(Operator operator, ReturnValue returnValue) {
-		if (returnValue.type == ReturnValue.Type.POINTER) {
-			throw new FinDeCombatException("Modifie un gain d'exp selon un pointeur");
-		}
-		
+	
+	private void modificationGainExp(Operator operator, Variable returnValue) {
 		AssociationCombatValeur valeurReelle;
 		
-		if (returnValue.type == ReturnValue.Type.VALUE) {
-			valeurReelle = c -> returnValue.value;
-		} else {
-			int idMonstre = getPosition(returnValue.value, VARIABLES_EXP);
-			
-			if (idMonstre == -1) {
-				throw new FinDeCombatException("Modifie un gain d'exp selon une variable qui n'est pas un gain d'exp");
-			}
-			
-			valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).get(Positions.POS_EXP);
+
+		int idMonstre = getPosition(returnValue.get(), VARIABLES_EXP);
+		
+		if (idMonstre == -1) {
+			throw new FinDeCombatException("Modifie un gain d'exp selon une variable qui n'est pas un gain d'exp");
 		}
+		
+		valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).get(Positions.POS_EXP);
+
 		
 		getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.getValue(c)));
 	}
 
+	private void modificationGainExp(Operator operator, ValeurFixe returnValue) {
+		AssociationCombatValeur valeurReelle;
+		
+		valeurReelle = c -> returnValue.get();
+
+		getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.getValue(c)));
+	}
+
+	
 	/* ==========
 	 * Appartient
 	 * ========== */

@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
@@ -35,9 +35,8 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 
 	
 	@Override
-	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		return (leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT)
-				&& returnValue.type == ReturnValue.Type.VALUE;
+	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		return (leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT);
 	}
 	
 	
@@ -56,8 +55,8 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		conditions.push(new ConditionOnMonsterId(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.value));
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		conditions.push(new ConditionOnMonsterId(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.get()));
 	}
 
 

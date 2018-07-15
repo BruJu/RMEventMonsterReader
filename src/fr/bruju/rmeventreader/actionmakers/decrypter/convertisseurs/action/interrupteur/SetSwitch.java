@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
 // TODO : unifier l'implémentation de SetSwitch
 

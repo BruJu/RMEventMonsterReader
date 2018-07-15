@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.actionmakers.donnees.rework;
+package fr.bruju.rmeventreader.actionmakers.donnees;
 
-public class ValeurFixe {
+public class ValeurFixe implements RightValue {
 	private int valeur;
 	
 	public ValeurFixe(int valeur) {

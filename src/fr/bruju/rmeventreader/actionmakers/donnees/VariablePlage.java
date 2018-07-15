@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.donnees.rework;
+package fr.bruju.rmeventreader.actionmakers.donnees;
 
 import java.util.ArrayList;
 import java.util.List;

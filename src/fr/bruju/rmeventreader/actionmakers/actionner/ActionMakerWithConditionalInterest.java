@@ -1,8 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
 /**
  * Interface étendant les action maker afin d'être utilisé conjointement avec
@@ -31,7 +32,11 @@ public interface ActionMakerWithConditionalInterest extends ActionMaker {
 		return false;
 	}
 	
-	public default boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+	public default boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) {
+		return false;
+	}
+
+	public default boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		return false;
 	}
 	
@@ -66,17 +71,35 @@ public interface ActionMakerWithConditionalInterest extends ActionMaker {
 	
 
 	@Override
-	default void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
-	}
-
+	default void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) { }
 
 	@Override
-	default void changeVariable(Pointeur variable, Operator operator, ReturnValue returnValue) {
-	}
+	default void changeVariable(Variable variable, Operator operator, ValeurAleatoire returnValue) { }
+
+	@Override
+	default void changeVariable(Variable variable, Operator operator, Variable returnValue) { }
+
+	@Override
+	default void changeVariable(Variable variable, Operator operator, Pointeur returnValue) { }
+	
+
+	@Override
+	default void changeVariable(Pointeur variable, Operator operator, ValeurFixe returnValue) { }
+	@Override
+	default void changeVariable(Pointeur variable, Operator operator, ValeurAleatoire returnValue) { }
+	@Override
+	default void changeVariable(Pointeur variable, Operator operator, Variable returnValue) { }
+	@Override
+	default void changeVariable(Pointeur variable, Operator operator, Pointeur returnValue) { }
 	
 	@Override
-	default void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity) {
-	}
+	default void modifyItems(ValeurFixe idItem, boolean add, ValeurFixe quantity) { }
+	@Override
+	default void modifyItems(ValeurFixe idItem, boolean add, Variable quantity) { }
+	@Override
+	default void modifyItems(Variable idItem, boolean add, ValeurFixe quantity) { }
+	@Override
+	default void modifyItems(Variable idItem, boolean add, Variable quantity) { }
 
 	@Override
 	default void condOnSwitch(int number, boolean value) {
@@ -87,8 +110,9 @@ public interface ActionMakerWithConditionalInterest extends ActionMaker {
 	}
 
 	@Override
-	default void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-	}
+	default void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) { }
+	@Override
+	default void condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) { }
 
 	@Override
 	default void condOnOwnedItem(int itemId) {

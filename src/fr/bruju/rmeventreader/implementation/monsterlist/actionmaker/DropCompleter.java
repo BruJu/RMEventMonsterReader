@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
 
@@ -31,18 +31,18 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 	
 
 	@Override
-	public boolean caresAboutCondOnVariable(int idVariable, Operator operatorValue, ReturnValue returnValue) {
-		if (idVariable != VARIABLE_ID_MONSTRE)
+	public boolean caresAboutCondOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
+		if (returnValue.get() != VARIABLE_ID_MONSTRE)
 			return false;
 		
-		if (operatorValue != Operator.IDENTIQUE || returnValue.type != ReturnValue.Type.VALUE)
+		if (operatorValue != Operator.IDENTIQUE)
 			throw new DropCompleterException("Comparaison entre la variable ID_MONSTRE et quelque chose de différent que identique à une valeur fixe");
 		
 		return true;
 	}
 	
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		if (variable.get() != VARIABLE_ID_DROP) {
 			return;
 		}
@@ -55,13 +55,13 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 		  .stream()
 		  .flatMap(combat -> combat.getMonstersStream())
 		  .filter(monstre -> monstre != null && monstre.getId() == dernierIfLu)
-		  .forEach(monstre -> monstre.nomDrop = Integer.toString(returnValue.value));
+		  .forEach(monstre -> monstre.nomDrop = Integer.toString(returnValue.get()));
 	}
 
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		dernierIfLu = returnValue.value;
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		dernierIfLu = returnValue.get();
 	}
 
 	@Override

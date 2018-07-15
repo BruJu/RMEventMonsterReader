@@ -3,10 +3,10 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.toolbox;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.LeftValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.donnees.LeftValue;
 
 public class IdIdentifier {
 	private static IdIdentifier instance = null;

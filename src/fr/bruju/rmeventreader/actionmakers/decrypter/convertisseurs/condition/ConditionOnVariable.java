@@ -7,7 +7,9 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.OperatorIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.ReturnValueIdentifier;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.RightValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
 /**
  * Condition sur une variable
@@ -28,8 +30,19 @@ public class ConditionOnVariable implements Action {
 		
 		int leftOperandValue = Integer.parseInt(leftOperand);
 		Operator operatorValue = OperatorIdentifier.getInstance().identify(operator);
-		ReturnValue returnValue = ReturnValueIdentifier.getInstance().identify(rightOperand);
+		RightValue returnValue = ReturnValueIdentifier.getInstance().identify(rightOperand);
 		
-		actionMaker.condOnVariable(leftOperandValue, operatorValue, returnValue);
+		if (returnValue instanceof ValeurFixe) {
+			actionMaker.condOnVariable(leftOperandValue, operatorValue, (ValeurFixe) returnValue);
+			return;
+		}
+
+		if (returnValue instanceof Variable) {
+			actionMaker.condOnVariable(leftOperandValue, operatorValue, (Variable) returnValue);
+			return;
+		}
+		
+		throw new RuntimeException("ConditionOnVariable : unknown right value");
+		
 	}
 }

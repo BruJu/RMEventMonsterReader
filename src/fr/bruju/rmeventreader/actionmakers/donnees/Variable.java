@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.actionmakers.donnees.rework;
+package fr.bruju.rmeventreader.actionmakers.donnees;
 
-public class Variable implements LeftValue {
+public class Variable implements LeftValue, RightValue {
 	private int idVariable;
 	
 	public Variable(int idVariable) {

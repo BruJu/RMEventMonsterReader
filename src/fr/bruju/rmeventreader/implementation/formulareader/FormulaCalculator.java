@@ -5,8 +5,9 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.formule.Valeur;
 import fr.bruju.rmeventreader.formule.base.ValeurNumerique;
 import fr.bruju.rmeventreader.formule.base.ValeurStatistique;
@@ -40,25 +41,23 @@ public class FormulaCalculator implements ActionMakerWithConditionalInterest {
 		return sortie;
 	}
 	
-	private Valeur getValue(ReturnValue returnValue) {
-		switch (returnValue.type) {
-		case VALUE:
-			return new ValeurNumerique(returnValue.value, returnValue.borneMax);
-		case VARIABLE:
-			Pair<Personnage, Statistique> variableDepart = getStatName(returnValue.value);
-			
-			if (variableDepart != null) {
-				return new ValeurStatistique(variableDepart.getLeft(), variableDepart.getRight());
-			} else {
-				return variableUtilisee.getOrDefault(returnValue.value, new ValeurNumerique(0, 0));
-			}
-		case POINTER:
-			throw new RuntimeException("Ne gere pas les pointeurs");
-		}
-
-		throw new RuntimeException("Magic");
+	private Valeur getValue(ValeurFixe value) {
+		return new ValeurNumerique(value.get(), value.get());
 	}
 
+	private Valeur getValue(ValeurAleatoire value) {
+		return new ValeurNumerique(value.getMin(), value.getMax());
+	}
+
+	private Valeur getValue(Variable value) {
+		Pair<Personnage, Statistique> variableDepart = getStatName(value.get());
+		
+		if (variableDepart != null) {
+			return new ValeurStatistique(variableDepart.getLeft(), variableDepart.getRight());
+		} else {
+			return variableUtilisee.getOrDefault(value.get(), new ValeurNumerique(0, 0));
+		}
+	}
 
 	private Pair<Personnage, Statistique> getStatName(int value) {
 		Map<Integer, Pair<Personnage, Statistique>> mapStats = AeStatsPerso.get(); 
@@ -104,14 +103,14 @@ public class FormulaCalculator implements ActionMakerWithConditionalInterest {
 	// Variable
 	
 	@Override
-	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
+	public boolean caresAboutCondOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		// TODO
-		return leftOperandValue == VARIABLE_CIBLE && returnValue.value == VALEUR_CIBLE;
+		return leftOperandValue == VARIABLE_CIBLE && returnValue.get() == VALEUR_CIBLE;
 	}
 
 	@Override
-	public void condOnVariable(int leftOperandValue, Operator operatorValue, ReturnValue returnValue) {
-		if (leftOperandValue == VARIABLE_CIBLE && returnValue.value == VALEUR_CIBLE) {
+	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		if (leftOperandValue == VARIABLE_CIBLE && returnValue.get() == VALEUR_CIBLE) {
 			return;
 		}
 		
@@ -136,18 +135,29 @@ public class FormulaCalculator implements ActionMakerWithConditionalInterest {
 	 * ========== */
 
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
-		Valeur value = getValue(returnValue);
-		
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
+		chgVar(variable.get(), operator, getValue(returnValue));
+	}
+
+	@Override
+	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire returnValue) {
+		chgVar(variable.get(), operator, getValue(returnValue));
+	}
+	
+	@Override
+	public void changeVariable(Variable variable, Operator operator, Variable returnValue) {
+		chgVar(variable.get(), operator, getValue(returnValue));
+	}
+
+	private void chgVar(int idVariableAModifier, Operator operator, Valeur rightValue) {
 		if (operator == Operator.AFFECTATION) {
-			variableUtilisee.put(variable.get(), value);
+			variableUtilisee.put(idVariableAModifier, rightValue);
 		} else {
 			String symbole = getSymbole(operator);
 			
-			variableUtilisee.put(variable.get(), new Calcul(variableUtilisee.get(variable.get()), symbole, value));
+			variableUtilisee.put(idVariableAModifier, new Calcul(variableUtilisee.get(idVariableAModifier), symbole, rightValue));
 		}
 	}
-
 
 	@Override
 	public void callMapEvent(int eventNumber, int eventPage) {

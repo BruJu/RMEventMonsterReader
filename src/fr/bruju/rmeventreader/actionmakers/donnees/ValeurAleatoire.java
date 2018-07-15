@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.actionmakers.donnees.rework;
+package fr.bruju.rmeventreader.actionmakers.donnees;
 
-public class ValeurAleatoire {
+public class ValeurAleatoire implements RightValue {
 	private int valeurMin;
 	private int valeurMax;
 	

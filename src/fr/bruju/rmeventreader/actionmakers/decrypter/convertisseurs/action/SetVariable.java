@@ -8,11 +8,13 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.IdIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.OperatorIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.ReturnValueIdentifier;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.LeftValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
-import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.RightValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.donnees.LeftValue;
 
 /**
  * Modification de l'état d'une variable
@@ -33,29 +35,47 @@ public class SetVariable implements Action {
 		
 		LeftValue variable = IdIdentifier.getInstance().identify(variableName);
 		Operator operator = OperatorIdentifier.getInstance().identify(operateur);
-		ReturnValue returnValue = ReturnValueIdentifier.getInstance().identify(value);
+		RightValue rightValue = ReturnValueIdentifier.getInstance().identify(value);
 		
 		if (variable instanceof Variable) {
-			actionMaker.changeVariable((Variable) variable, operator, returnValue);
-			
-			return;
+			if (rightValue instanceof ValeurFixe) {
+				actionMaker.changeVariable((Variable) variable, operator, (ValeurFixe) rightValue);
+			} else if (rightValue instanceof ValeurAleatoire) {
+				actionMaker.changeVariable((Variable) variable, operator, (ValeurAleatoire) rightValue);
+			} else if (rightValue instanceof Variable) {
+				actionMaker.changeVariable((Variable) variable, operator, (Variable) rightValue);
+			} else if (rightValue instanceof Pointeur) {
+				actionMaker.changeVariable((Variable) variable, operator, (Pointeur) rightValue);
+			} else {
+				throw new UnkownVariableTypeException();
+			}
+		} else if (variable instanceof VariablePlage) {
+			if (rightValue instanceof ValeurFixe) {
+				actionMaker.changeVariable((VariablePlage) variable, operator, (ValeurFixe) rightValue);
+			} else if (rightValue instanceof ValeurAleatoire) {
+				actionMaker.changeVariable((VariablePlage) variable, operator, (ValeurAleatoire) rightValue);
+			} else if (rightValue instanceof Variable) {
+				actionMaker.changeVariable((VariablePlage) variable, operator, (Variable) rightValue);
+			} else if (rightValue instanceof Pointeur) {
+				actionMaker.changeVariable((VariablePlage) variable, operator, (Pointeur) rightValue);
+			} else {
+				throw new UnkownVariableTypeException();
+			}
+		} else if (variable instanceof Pointeur) {
+			if (rightValue instanceof ValeurFixe) {
+				actionMaker.changeVariable((Pointeur) variable, operator, (ValeurFixe) rightValue);
+			} else if (rightValue instanceof ValeurAleatoire) {
+				actionMaker.changeVariable((Pointeur) variable, operator, (ValeurAleatoire) rightValue);
+			} else if (rightValue instanceof Variable) {
+				actionMaker.changeVariable((Pointeur) variable, operator, (Variable) rightValue);
+			} else if (rightValue instanceof Pointeur) {
+				actionMaker.changeVariable((Pointeur) variable, operator, (Pointeur) rightValue);
+			} else {
+				throw new UnkownVariableTypeException();
+			}
+		} else {
+			throw new UnkownVariableTypeException();
 		}
-		
-
-		if (variable instanceof VariablePlage) {
-			actionMaker.changeVariable((VariablePlage) variable, operator, returnValue);
-			
-			return;
-		}
-		
-
-		if (variable instanceof Pointeur) {
-			actionMaker.changeVariable((Pointeur) variable, operator, returnValue);
-			
-			return;
-		}
-		
-		throw new UnkownVariableTypeException();
 	}
 
 

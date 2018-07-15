@@ -3,7 +3,11 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.toolbox;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
-import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.RightValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
+import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
 public class ReturnValueIdentifier {
 	private static ReturnValueIdentifier instance = null;
@@ -28,37 +32,37 @@ public class ReturnValueIdentifier {
 	
 	private ReturnValueIdentifier() {}
 
-	public ReturnValue identify(String data) {
+	public RightValue identify(String data) {
 		List<String> argumentsLus;
 		
 		argumentsLus = Recognizer.tryPattern(pattern_Random, data);
 		if (argumentsLus != null) {
-			return new ReturnValue(Integer.parseInt(argumentsLus.get(0)), Integer.parseInt(argumentsLus.get(1)));
+			return new ValeurAleatoire(Integer.parseInt(argumentsLus.get(0)), Integer.parseInt(argumentsLus.get(1)));
 		}
 		
 		argumentsLus = Recognizer.tryPattern(pattern_RefVariable, data);
 		if (argumentsLus != null) {
-			return new ReturnValue(ReturnValue.Type.POINTER, Integer.parseInt(argumentsLus.get(0)));
+			return new Pointeur(Integer.parseInt(argumentsLus.get(0)));
 		}
 
 		argumentsLus = Recognizer.tryPattern(pattern_Variable, data);
 		if (argumentsLus != null) {
-			return new ReturnValue(ReturnValue.Type.VARIABLE, Integer.parseInt(argumentsLus.get(0)));
+			return new Variable(Integer.parseInt(argumentsLus.get(0)));
 		}
 		
 		argumentsLus = Recognizer.tryPattern(pattern_VariableSpace, data);
 		if (argumentsLus != null) {
-			return new ReturnValue(ReturnValue.Type.VARIABLE, Integer.parseInt(argumentsLus.get(0)));
+			return new Variable(Integer.parseInt(argumentsLus.get(0)));
 		}
 
 		argumentsLus = Recognizer.tryPattern(pattern_DiezeNumber, data);
 		if (argumentsLus != null) {
-			return new ReturnValue(ReturnValue.Type.VALUE, Integer.parseInt(argumentsLus.get(0)));
+			return new ValeurFixe(Integer.parseInt(argumentsLus.get(0)));
 		}
 		
 		argumentsLus = Recognizer.tryPattern(pattern_Number, data);
 		if (argumentsLus != null) {
-			return new ReturnValue(ReturnValue.Type.VALUE, Integer.parseInt(argumentsLus.get(0)));
+			return new ValeurFixe(Integer.parseInt(argumentsLus.get(0)));
 		}
 		
 		return null;
