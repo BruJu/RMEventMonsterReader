@@ -95,8 +95,8 @@ class AssociationChaineInstruction {
 		book.add(new NoAction("Change Money", "<> Change Money: £"));	// A implémenter
 		
 		// Interrupteurs
-		book.add(new ToggleList());
 		book.add(new Toggle());
+		book.add(new ToggleList());
 		book.add(new SetSwitchList());
 		book.add(new SetSwitch());
 

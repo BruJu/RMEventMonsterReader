@@ -6,7 +6,7 @@ import java.util.Map;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 import fr.bruju.rmeventreader.formule.Valeur;
 import fr.bruju.rmeventreader.formule.base.ValeurNumerique;
 import fr.bruju.rmeventreader.formule.base.ValeurStatistique;
@@ -134,19 +134,20 @@ public class FormulaCalculator implements ActionMakerWithConditionalInterest {
 	/* ==========
 	 * Actions
 	 * ========== */
-	
+
 	@Override
-	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
 		Valeur value = getValue(returnValue);
 		
 		if (operator == Operator.AFFECTATION) {
-			variableUtilisee.put(variable.numberDebut, value);
+			variableUtilisee.put(variable.get(), value);
 		} else {
 			String symbole = getSymbole(operator);
 			
-			variableUtilisee.put(variable.numberDebut, new Calcul(variableUtilisee.get(variable.numberDebut), symbole, value));
+			variableUtilisee.put(variable.get(), new Calcul(variableUtilisee.get(variable.get()), symbole, value));
 		}
 	}
+
 
 	@Override
 	public void callMapEvent(int eventNumber, int eventPage) {

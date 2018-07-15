@@ -4,10 +4,10 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 
 public class Toggle implements Action {
-	private final String PATTERN = "<> Change Switch: [_-_], Toggle";
+	private final String PATTERN = "<> Change Switch: [_], Toggle";
 	
 	@Override
 	public String getPattern() {
@@ -16,12 +16,8 @@ public class Toggle implements Action {
 
 	@Override
 	public void faire(ActionMaker actionMaker, List<String> arguments) {
-		int switchValueDebut = Integer.parseInt(arguments.get(0));
-		int switchValueFin = Integer.parseInt(arguments.get(1));
+		int switchValue = Integer.parseInt(arguments.get(0));
 		
-		for (int i = switchValueDebut ; i <= switchValueFin ; i++) {
-			actionMaker.revertSwitch(new SwitchNumber(i, false));
-			
-		}
+		actionMaker.revertSwitch(new Variable(switchValue));
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 
 public class MonsterDatabase {
 	public final static int POS_ID_COMBAT = 435;
@@ -31,7 +31,7 @@ public class MonsterDatabase {
 	}
 	
 	
-	public static void setVariable(List<Combat> combats, SwitchNumber variable, Operator operator, ReturnValue returnValue) {
+	public static void setVariable(List<Combat> combats, Variable variable, Operator operator, ReturnValue returnValue) {
 		
 		// TODO : Changer cette méthode pour qu'elle soit plus maintenanble
 		
@@ -46,7 +46,7 @@ public class MonsterDatabase {
 		*/
 		
 		for (Combat combat : combats) {
-			combat.applyModificator(variable.numberDebut, operator, returnValue.value);
+			combat.applyModificator(variable.get(), operator, returnValue.value);
 		}
 	}
 	

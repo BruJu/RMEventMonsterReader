@@ -1,7 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
 
 /**
  * Fourni une implémentation de la gestion des conditions, avec possibilité d'ignorer
@@ -100,8 +102,10 @@ public class ConditionalActionMaker implements ActionMaker {
 		base.notImplementedFeature(str);
 	}
 
+	// Change Switch
+	
 	@Override
-	public void changeSwitch(SwitchNumber interrupteur, boolean value) {
+	public void changeSwitch(Variable interrupteur, boolean value) {
 		if (isIgnoring()) {
 			return;
 		}
@@ -109,9 +113,46 @@ public class ConditionalActionMaker implements ActionMaker {
 		base.changeSwitch(interrupteur, value);
 	}
 
+	@Override
+	public void changeSwitch(VariablePlage interrupteurs, boolean value) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeSwitch(interrupteurs, value);
+	}
+	
+	@Override
+	public void changeSwitch(Pointeur interrupteur, boolean value) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeSwitch(interrupteur, value);
+	}
+
+	// Revert Switch
+	
+	@Override
+	public void revertSwitch(Variable interrupteur) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.revertSwitch(interrupteur);
+	}
 
 	@Override
-	public void revertSwitch(SwitchNumber interrupteur) {
+	public void revertSwitch(VariablePlage interrupteur) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.revertSwitch(interrupteur);
+	}
+
+	@Override
+	public void revertSwitch(Pointeur interrupteur) {
 		if (isIgnoring()) {
 			return;
 		}
@@ -119,8 +160,10 @@ public class ConditionalActionMaker implements ActionMaker {
 		base.revertSwitch(interrupteur);
 	}
 	
+	// Change Variable
+	
 	@Override
-	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
 		if (isIgnoring()) {
 			return;
 		}
@@ -128,6 +171,24 @@ public class ConditionalActionMaker implements ActionMaker {
 		base.changeVariable(variable, operator, returnValue);
 	}
 
+	@Override
+	public void changeVariable(VariablePlage variable, Operator operator, ReturnValue returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+
+	@Override
+	public void changeVariable(Pointeur variable, Operator operator, ReturnValue returnValue) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.changeVariable(variable, operator, returnValue);
+	}
+	
 	@Override
 	public void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity) {
 		if (isIgnoring()) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 
 public class SetSwitchList implements Action {
 	private final String PATTERN = "<> Change Switch: [_-_] = _";
@@ -21,7 +21,7 @@ public class SetSwitchList implements Action {
 		boolean switchChange = arguments.get(2).equals("ON");
 		
 		for (int i = switchValueDeb ; i <= switchValueEnd ; i++) {
-			actionMaker.changeSwitch(new SwitchNumber(i, false), switchChange);
+			actionMaker.changeSwitch(new Variable(i), switchChange);
 		}
 	}
 }

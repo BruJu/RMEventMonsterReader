@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMembreStat;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
@@ -129,12 +129,9 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	}
 
 	@Override
-	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
-		if (variable.pointed) {
-			throw new FinDeCombatException("changeVariable : les variables pointées ne sont pas gérées");
-		}
+	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
 		
-		if (appartient(variable.numberDebut, VARIABLES_CAPA)) {
+		if (appartient(variable.get(), VARIABLES_CAPA)) {
 			if (operator == Operator.AFFECTATION) {
 				throw new FinDeCombatException("Affectation brute d'une récompense de capa");
 			}
@@ -144,11 +141,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 			return;
 		}
 		
-		if (appartient(variable.numberDebut, VARIABLES_EXP)) {
+		if (appartient(variable.get(), VARIABLES_EXP)) {
 			throw new FinDeCombatException("Modification d'une quantité d'exp gagnée");
 		}
 		
-		if (variable.numberDebut == VARIABLE_GAINEXP) {
+		if (variable.get() == VARIABLE_GAINEXP) {
 			modificationGainExp(operator, returnValue);
 			return;
 		}	

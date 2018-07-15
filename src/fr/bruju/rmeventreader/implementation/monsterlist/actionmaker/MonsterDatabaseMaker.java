@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
@@ -20,9 +20,8 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	private MonsterDatabase database;
 	
 	@Override
-	public void changeSwitch(SwitchNumber interrupteur, boolean value) {
-		if (interrupteur.numberDebut != MonsterDatabase.POS_BOSSBATTLE
-				|| interrupteur.pointed
+	public void changeSwitch(Variable interrupteur, boolean value) {
+		if (interrupteur.get() != MonsterDatabase.POS_BOSSBATTLE
 				|| !value) {
 			return;
 		}
@@ -44,7 +43,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	}
 	
 	@Override
-	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
+	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
 		MonsterDatabase.setVariable(getElementsFiltres(), variable, operator, returnValue);
 	}
 	

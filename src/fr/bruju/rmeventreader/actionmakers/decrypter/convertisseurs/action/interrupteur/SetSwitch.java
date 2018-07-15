@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 
 // TODO : unifier l'implémentation de SetSwitch
 
@@ -19,7 +19,7 @@ public class SetSwitch implements Action {
 	@Override
 	public void faire(ActionMaker actionMaker, List<String> arguments) {
 		int switchValue = Integer.parseInt(arguments.get(0));
-		SwitchNumber switchNumber = new SwitchNumber(switchValue, false);
+		Variable switchNumber = new Variable(switchValue);
 				
 		String nouvelleValeur = arguments.get(1);
 		

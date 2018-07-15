@@ -1,7 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 
 /**
  * Interface étendant les action maker afin d'être utilisé conjointement avec
@@ -47,18 +48,32 @@ public interface ActionMakerWithConditionalInterest extends ActionMaker {
 	}
 
 	@Override
-	default void changeSwitch(SwitchNumber interrupteur, boolean value) {
+	default void changeSwitch(Variable interrupteur, boolean value) {
+	}
+
+
+	@Override
+	default void changeSwitch(Pointeur interrupteur, boolean value) {
+	}
+	
+	@Override
+	default void revertSwitch(Variable interrupteur) {
 	}
 
 	@Override
-	default void revertSwitch(SwitchNumber interrupteur) {
+	default void revertSwitch(Pointeur interrupteur) {
 	}
 	
 
 	@Override
-	default void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
+	default void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
 	}
 
+
+	@Override
+	default void changeVariable(Pointeur variable, Operator operator, ReturnValue returnValue) {
+	}
+	
 	@Override
 	default void modifyItems(ReturnValue idItem, boolean add, ReturnValue quantity) {
 	}

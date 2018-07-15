@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerWithConditionalInterest;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
 
@@ -42,8 +42,8 @@ public class DropCompleter implements ActionMakerWithConditionalInterest {
 	}
 	
 	@Override
-	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue) {
-		if (variable.numberDebut != VARIABLE_ID_DROP) {
+	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue) {
+		if (variable.get() != VARIABLE_ID_DROP) {
 			return;
 		}
 		

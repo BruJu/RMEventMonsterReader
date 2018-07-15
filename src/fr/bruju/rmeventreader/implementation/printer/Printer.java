@@ -3,32 +3,14 @@ package fr.bruju.rmeventreader.implementation.printer;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
 
 /**
  * Imprime les instructions qui sont reconnues
  */
 public class Printer implements ActionMaker {
-	/**
-	 * Permet d'avoir un affichage d'une variable
-	 * @param variable La variable à représenter
-	 * @return Une chaîne représentant la variable
-	 */
-	private String getRepresentation(SwitchNumber variable) {
-		String s = "";
-		
-		if (variable.numberDebut == variable.numberFin) {
-			s = Integer.toString(variable.numberDebut);
-		} else {
-			s = Integer.toString(variable.numberDebut) + "-" + Integer.toString(variable.numberFin);
-		}
-		
-		if (variable.pointed) {
-			s = "V[" + s + "]";
-		}
-		
-		return s;
-	}
+
 
 	/**
 	 * Permet d'avoir une représentation symbolique d'un opérateur
@@ -96,27 +78,31 @@ public class Printer implements ActionMaker {
 	
 	
 	@Override
-	public void changeSwitch(SwitchNumber interrupteur, boolean value) {
-		if (interrupteur.pointed) {
-			throw new UnsupportedOperationException("Not Yet implemented");
-		}
-		
-		int number = interrupteur.numberDebut;
+	public void changeSwitch(Variable interrupteur, boolean value) {
+		int number = interrupteur.get();
 
 		System.out.println("Switch " + number + " = " + ( (value) ? "ON" : "OFF"));
 	}
 
 	@Override
-	public void revertSwitch(SwitchNumber interrupteur) {
-		if (interrupteur.pointed) {
-			throw new UnsupportedOperationException("Not Yet implemented");
-		}
-		
-		int number = interrupteur.numberDebut;
-
+	public void revertSwitch(Variable interrupteur) {
+		int number = interrupteur.get();
 		System.out.println("Switch " + number + " = REVERSE");
 	}
 
+
+	@Override
+	public void changeSwitch(Pointeur interrupteur, boolean value) {
+		int number = interrupteur.get();
+		System.out.println("Switch V[" + number + "] = " + ( (value) ? "ON" : "OFF"));
+	}
+
+	@Override
+	public void revertSwitch(Pointeur interrupteur) {
+		int number = interrupteur.get();
+		System.out.println("Switch V[" + number + "] = REVERSE");
+	}
+	
 	@Override
 	public void notImplementedFeature(String str) {
 	}
@@ -133,9 +119,15 @@ public class Printer implements ActionMaker {
 
 
 	@Override
-	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue value) {
-		System.out.println("V[" + getRepresentation(variable) + "] " + getRepresentation(operator) +" "+ getRepresentation(value));
+	public void changeVariable(Variable variable, Operator operator, ReturnValue value) {
+		System.out.println("V[" + variable.get() + "] " + getRepresentation(operator) +" "+ getRepresentation(value));
 	}
+
+	@Override
+	public void changeVariable(Pointeur variable, Operator operator, ReturnValue value) {
+		System.out.println("V[V[" + variable.get() + "]] " + getRepresentation(operator) +" "+ getRepresentation(value));
+	}
+	
 	
 	@Override
 	public void condElse() {
@@ -196,5 +188,6 @@ public class Printer implements ActionMaker {
 	public void callMapEvent(int eventNumber, int eventPage) {
 		System.out.println("Call Map Event " + eventNumber + " Page " + eventPage);
 	}
+
 
 }

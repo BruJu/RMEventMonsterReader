@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.actionmakers.donnees.rework;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VariablePlage {
+public class VariablePlage implements LeftValue {
 	private int idVariableMin;
 	private int idVariableMax;
 	

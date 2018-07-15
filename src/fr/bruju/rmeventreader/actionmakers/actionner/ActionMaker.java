@@ -1,7 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
 
 /**
  * Cette classe est appelée lorsqu'un évènement est lu.
@@ -29,14 +31,26 @@ public interface ActionMaker {
 	 * @param interrupteur L'interrupteur à modifier
 	 * @param value La nouvelle valeur
 	 */
-	public void changeSwitch(SwitchNumber interrupteur, boolean value);
+	public void changeSwitch(Variable interrupteur, boolean value);
+
+	public default void changeSwitch(VariablePlage interrupteur, boolean value) {
+		interrupteur.getList().forEach(unique -> changeSwitch(unique, value));
+	}
+	
+	public void changeSwitch(Pointeur interrupteur, boolean value);
 	
 
 	/**
 	 * Action déclenchée quand un interrupteur est inversé
 	 * @param interrupteur L'interrupteur à inverser
 	 */
-	public void revertSwitch(SwitchNumber interrupteur);
+	public void revertSwitch(Variable interrupteur);
+	
+	public default void revertSwitch(VariablePlage interrupteurs) {
+		interrupteurs.getList().forEach(unique -> revertSwitch(unique));
+	}
+
+	public void revertSwitch(Pointeur interrupteur);
 	
 	/**
 	 * Action déclenchée lors d'un changement de valeur d'une variable
@@ -44,7 +58,13 @@ public interface ActionMaker {
 	 * @param operator L'opérateur appliqué
 	 * @param returnValue La valeur mise
 	 */
-	public void changeVariable(SwitchNumber variable, Operator operator, ReturnValue returnValue);
+	public void changeVariable(Variable variable, Operator operator, ReturnValue returnValue);
+
+	public default void changeVariable(VariablePlage variables, Operator operator, ReturnValue returnValue) {
+		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
+	}
+
+	public void changeVariable(Pointeur pointeur, Operator operator, ReturnValue returnValue);
 	
 	
 	/**

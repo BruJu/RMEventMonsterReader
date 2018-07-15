@@ -3,7 +3,10 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.toolbox;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.LeftValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
 
 public class IdIdentifier {
 	private static IdIdentifier instance = null;
@@ -21,13 +24,13 @@ public class IdIdentifier {
 	}
 	
 	
-	public SwitchNumber identify(String data) {
+	public LeftValue identify(String data) {
 		// POINTED VARIABLE
 		List<String> value = Recognizer.tryPattern(leftValuePattern_Variable, data);
 		if (value != null) {
 			int id = Integer.parseInt(value.get(0));
 			
-			return new SwitchNumber(id, true);
+			return new Pointeur(id);
 		}
 		
 		// MULTIPLE VARIABLES
@@ -36,7 +39,7 @@ public class IdIdentifier {
 			int id = Integer.parseInt(value.get(0));
 			int id2 = Integer.parseInt(value.get(0));
 			
-			return new SwitchNumber(id, id2);
+			return new VariablePlage(id, id2);
 		}
 		
 		// SINGLE VARIABLE
@@ -44,7 +47,7 @@ public class IdIdentifier {
 		if (value != null) {
 			int id = Integer.parseInt(value.get(0));
 			
-			return new SwitchNumber(id, false);
+			return new Variable(id);
 		}
 		
 		return null;

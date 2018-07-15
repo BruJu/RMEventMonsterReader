@@ -9,7 +9,10 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.IdIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.OperatorIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.ReturnValueIdentifier;
 import fr.bruju.rmeventreader.actionmakers.donnees.ReturnValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.SwitchNumber;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.LeftValue;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.Variable;
+import fr.bruju.rmeventreader.actionmakers.donnees.rework.VariablePlage;
 
 /**
  * Modification de l'état d'une variable
@@ -28,12 +31,43 @@ public class SetVariable implements Action {
 		String operateur = arguments.get(1);
 		String value = arguments.get(2);
 		
-		SwitchNumber variable = IdIdentifier.getInstance().identify(variableName);
+		LeftValue variable = IdIdentifier.getInstance().identify(variableName);
 		Operator operator = OperatorIdentifier.getInstance().identify(operateur);
 		ReturnValue returnValue = ReturnValueIdentifier.getInstance().identify(value);
 		
-		actionMaker.changeVariable(variable, operator, returnValue);
+		if (variable instanceof Variable) {
+			actionMaker.changeVariable((Variable) variable, operator, returnValue);
+			
+			return;
+		}
+		
+
+		if (variable instanceof VariablePlage) {
+			actionMaker.changeVariable((VariablePlage) variable, operator, returnValue);
+			
+			return;
+		}
+		
+
+		if (variable instanceof Pointeur) {
+			actionMaker.changeVariable((Pointeur) variable, operator, returnValue);
+			
+			return;
+		}
+		
+		throw new UnkownVariableTypeException();
 	}
 
+
+	public static class UnkownVariableTypeException extends RuntimeException {
+		/**
+		 * UID
+		 */
+		private static final long serialVersionUID = -8489136065148619931L;
+
+		public UnkownVariableTypeException() {
+			super("UnkownVariableTypeException");
+		}
+	}
 
 }

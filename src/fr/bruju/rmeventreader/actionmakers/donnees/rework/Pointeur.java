@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.actionmakers.donnees.rework;
 
-public class Pointeur {
+public class Pointeur implements LeftValue {
 	private int pointeur;
 	
 	public Pointeur(int pointeur) {
