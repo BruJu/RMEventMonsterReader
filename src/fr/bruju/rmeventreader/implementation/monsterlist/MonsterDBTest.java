@@ -13,6 +13,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.ActionAu
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoCorrespondeur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.InitialisateurTotal;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.RemplacementDrop;
@@ -21,7 +22,7 @@ import fr.bruju.rmeventreadercomplement.AeAdd;
 
 public class MonsterDBTest {
 
-	public static void main(String[] args) throws IOException {
+	public static void main_(String[] args, int csv) throws IOException {
 		
 		
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(); 
@@ -50,14 +51,21 @@ public class MonsterDBTest {
 		baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
 		baseDeDonnees.trouverLesMonstresAvecDesNomsInconnus();
 		
-		// System.out.println(baseDeDonnees.getString());
-		System.out.println(baseDeDonnees.getCSVRepresentationOfBattles());
-		// System.out.println(baseDeDonnees.getCSVRepresentationOfMonsters());
-	
-		/*
-		BDDReduite bddR = BDDReduite.generate(baseDeDonnees);
-		System.out.println(bddR.getCSV());
-		*/
+		switch (csv) {
+		case 0:
+			System.out.println(baseDeDonnees.getString());
+			break;
+		case 1:
+			System.out.println(baseDeDonnees.getCSVRepresentationOfBattles());
+			break;
+		case 2:
+			System.out.println(baseDeDonnees.getCSVRepresentationOfMonsters());
+			break;
+		case 3:
+			BDDReduite bddR = BDDReduite.generate(baseDeDonnees);
+			System.out.println(bddR.getCSV());
+			break;
+		}
 		
 	}
 	

@@ -4,6 +4,8 @@ package fr.bruju.rmeventreader.actionmakers.actionner;
  * Modification d'une variable ou d'un interrupteur
  */
 public class SwitchNumber {
+	// TODO : Faire 3 classes différentes
+	
 	/**
 	 * Première variable modifiée
 	 */

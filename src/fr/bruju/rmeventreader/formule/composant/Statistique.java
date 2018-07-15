@@ -13,5 +13,6 @@ public enum Statistique {
 	AttaqueArme1,
 	AttaqueArme2,
 	DefenseArmure,
-	DefenseMagiqueArmure
+	DefenseMagiqueArmure,
+	BonusMagieOff
 }

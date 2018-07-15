@@ -68,7 +68,7 @@ public class ConditionalActionMaker implements ActionMaker {
 
 
 	@Override
-	public void condEnd() {
+	public void condEnd() {		
 		if (isIgnoring()) {
 			niveauDignorance = niveauDignorance - 1;
 		} else {

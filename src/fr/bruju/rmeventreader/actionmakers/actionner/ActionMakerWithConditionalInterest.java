@@ -16,6 +16,9 @@ package fr.bruju.rmeventreader.actionmakers.actionner;
  * qu'il faut généralement accepter certains types de conditions.
  */
 public interface ActionMakerWithConditionalInterest extends ActionMaker {
+	
+	// TODO : unifier careAbout et condOn. 
+	
 	public default boolean caresAboutCondOnSwitch(int number, boolean value) {
 		return false;
 	}

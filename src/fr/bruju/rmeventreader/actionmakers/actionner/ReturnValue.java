@@ -4,6 +4,17 @@ package fr.bruju.rmeventreader.actionmakers.actionner;
  * Valeur de retour pour la plupart des opérations
  */
 public class ReturnValue {
+	// TODO : retirer l'énum au profit de 4 implémentations de l'interface (qui n'existera pas) ReturnValue
+	/*
+	 * Le choix de condenser les informations dans une classe simple d'accés est un choix de design que j'ai fait
+	 * dans le but de minimiser le nombre d'instructions à gérer dans ActionMaker.
+	 * Néanmoins à l'utilisation, il apparait que
+	 * 1/ On implémente pas tout
+	 * 2/ On utilise des interfaces / classes dérivées qui préimplémentent des parties qui ne nous interessent pas
+	 * 
+	 * Ainsi, ce choix de design est plus propice à des bugs (oubli de vérifier le type) que n'apporte de solutions
+	 */
+	
 	/**
 	 * Enumération des types possibles de valeur de retour
 	 */
