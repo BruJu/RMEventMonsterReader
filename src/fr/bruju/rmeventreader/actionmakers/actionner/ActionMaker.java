@@ -34,11 +34,21 @@ public interface ActionMaker {
 	 */
 	public void changeSwitch(Variable interrupteur, boolean value);
 
+	/**
+	 * Modifie une série d'interrupteurs
+	 * @param interrupteur La liste des interrupteurs à modifier
+	 * @param value La nouvelle valeur
+	 */
 	public default void changeSwitch(VariablePlage interrupteur, boolean value) {
 		interrupteur.getList().forEach(unique -> changeSwitch(unique, value));
 	}
-	
-	public void changeSwitch(Pointeur interrupteur, boolean value);
+
+	/**
+	 * Modifie l'interrupteur pointé par la variable donnée
+	 * @param interrupteur La variable qui pointe vers l'interrupteur
+	 * @param value La valeur
+	 */
+	public void changeSwitch(Pointeur interrupteur, boolean value);	
 	
 
 	/**
@@ -47,54 +57,98 @@ public interface ActionMaker {
 	 */
 	public void revertSwitch(Variable interrupteur);
 	
+	/**
+	 * Action déclenchée pour inverser une série d'interrupteurs
+	 * @param interrupteurs La liste des interrupteurs à inverser
+	 */
 	public default void revertSwitch(VariablePlage interrupteurs) {
 		interrupteurs.getList().forEach(unique -> revertSwitch(unique));
 	}
 
+	/**
+	 * Action délenchée pour inverser un interrupteur pointé par une variable
+	 * @param interrupteur La variable qui pointe vers l'interrupteur
+	 */
 	public void revertSwitch(Pointeur interrupteur);
 	
 	/**
-	 * Action déclenchée lors d'un changement de valeur d'une variable
-	 * @param variable La variable
-	 * @param operator L'opérateur appliqué
-	 * @param returnValue La valeur mise
+	 * Modifie une variable avec une valeur donnée
 	 */
-	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue);
-	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire returnValue);
-	public void changeVariable(Variable variable, Operator operator, Variable returnValue);
-	public void changeVariable(Variable variable, Operator operator, Pointeur returnValue);
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe rightValue);
+	/**
+	 * Modifie une variable avec une valeur aléatoire entre deux bornes
+	 */
+	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire rightValue);
+	/**
+	 * Modifie une variable avec une autre variable
+	 */
+	public void changeVariable(Variable variable, Operator operator, Variable rightValue);
+	/**
+	 * Modifie une variable avec une valeur se trouvant dans une variable pointée
+	 */
+	public void changeVariable(Variable variable, Operator operator, Pointeur rightValue);
 
+	/**
+	 * Modifie une liste de variables avec une valeur donnée
+	 */
 	public default void changeVariable(VariablePlage variables, Operator operator, ValeurFixe returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
 	}
 
+	/**
+	 * Modifie une liste de variables avec une valeur aléatoire entre deux bornes
+	 */
 	public default void changeVariable(VariablePlage variables, Operator operator, ValeurAleatoire returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
 	}
 
+	/**
+	 * Modifie une liste de variables avec une autre variable
+	 */
 	public default void changeVariable(VariablePlage variables, Operator operator, Variable returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
 	}
 
+	/**
+	 * Modifie une liste de variables avec une valeur se trouvant dans une variable pointée
+	 */
 	public default void changeVariable(VariablePlage variables, Operator operator, Pointeur returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
 	}
-	
+
+	/**
+	 * Modifie une variable pointée avec une valeur donnée
+	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, ValeurFixe returnValue);
+	/**
+	 * Modifie une variable pointée avec une valeur aléatoire entre deux bornes
+	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, ValeurAleatoire returnValue);
+	/**
+	 * Modifie une variable pointée avec une autre variable
+	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, Variable returnValue);
+	/**
+	 * Modifie une variable pointée avec une valeur se trouvant dans une variable pointée
+	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, Pointeur returnValue);
 	
 	
 	/**
 	 * Action déclenchée lorsque les objets possédés sont modifiés
-	 * @param idItem L'objet à modifier
-	 * @param add Vrai si il faut en ajouter, faux si il faut en retirer
-	 * @param quantity La quantité d'objets
 	 */
 	public void modifyItems(ValeurFixe idItem, boolean add, ValeurFixe quantity);
+	/**
+	 * Action déclenchée lorsque les objets possédés sont modifiés
+	 */
 	public void modifyItems(ValeurFixe idItem, boolean add, Variable quantity);
+	/**
+	 * Action déclenchée lorsque les objets possédés sont modifiés
+	 */
 	public void modifyItems(Variable idItem, boolean add, ValeurFixe quantity);
+	/**
+	 * Action déclenchée lorsque les objets possédés sont modifiés
+	 */
 	public void modifyItems(Variable idItem, boolean add, Variable quantity);
 	
 	
@@ -120,9 +174,15 @@ public interface ActionMaker {
 	 * Condition sur la valeur d'une variable
 	 * @param leftOperandValue Le numéro de la variable à comparer
 	 * @param operatorValue L'opérateur de comparaison
-	 * @param returnValue La valeur avec laquelle comparer (une variable ou un nombre)
+	 * @param returnValue La valeur avec laquelle comparer
 	 */
 	public void condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue);
+	/**
+	 * Condition sur la valeur d'une variable
+	 * @param leftOperandValue Le numéro de la variable à comparer
+	 * @param operatorValue L'opérateur de comparaison
+	 * @param returnValue La variable avec laquelle comparer
+	 */
 	public void condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue);
 	
 	/**
