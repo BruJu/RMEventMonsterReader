@@ -37,6 +37,12 @@ public class SetVariable implements Action {
 		Operator operator = OperatorIdentifier.getInstance().identify(operateur);
 		RightValue rightValue = ReturnValueIdentifier.getInstance().identify(value);
 		
+		/* 
+		 * Il s'agit d'un choix de design de ne pas avoir de fonctions prenant comme argument LeftValue ou RightValue
+		 * afin de simplifier l'implémentation de ActionMaker (éviter de tester le type d'argument reçu en début
+		 * de fonction).
+		 */
+		
 		if (variable instanceof Variable) {
 			if (rightValue instanceof ValeurFixe) {
 				actionMaker.changeVariable((Variable) variable, operator, (ValeurFixe) rightValue);
@@ -79,12 +85,18 @@ public class SetVariable implements Action {
 	}
 
 
-	public static class UnkownVariableTypeException extends RuntimeException {
+	/**
+	 * Exception jetée lorsqu'un type de valeur n'a pas été prévu
+	 */
+	private static class UnkownVariableTypeException extends RuntimeException {
 		/**
 		 * UID
 		 */
 		private static final long serialVersionUID = -8489136065148619931L;
-
+		
+		/**
+		 * Construit l'exception
+		 */
 		public UnkownVariableTypeException() {
 			super("UnkownVariableTypeException");
 		}

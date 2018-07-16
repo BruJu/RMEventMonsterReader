@@ -4,6 +4,12 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 
+/**
+ * Détection d'un commentaire
+ * 
+ * @author Bruju
+ *
+ */
 public class Commentary implements Action {
 	private final String PATTERN = "<> Comment: _";
 

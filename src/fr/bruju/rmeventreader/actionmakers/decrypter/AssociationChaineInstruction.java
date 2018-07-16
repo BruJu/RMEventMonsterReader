@@ -14,8 +14,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action.inter
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.condition.*;
 
 /**
- * Cette classe impémente des associations entre pattern à reconnaître et action
- * à réaliser
+ * Cette classe impémente des associations entre pattern à reconnaître et action à réaliser
  */
 class AssociationChaineInstruction {
 	/**
@@ -36,10 +35,8 @@ class AssociationChaineInstruction {
 	/**
 	 * Crée une association entre pattern et action
 	 * 
-	 * @param pattern
-	 *            Le pattern à reconnaître
-	 * @param action
-	 *            L'action à déclencher si le pattern est reconnu
+	 * @param pattern Le pattern à reconnaître
+	 * @param action L'action à déclencher si le pattern est reconnu
 	 */
 	AssociationChaineInstruction(String pattern, Action action) {
 		this.pattern = pattern;
@@ -75,7 +72,7 @@ class AssociationChaineInstruction {
 
 					// Flot de controle
 					new Label(), new JumpTo(),
-					
+
 					new Commentary(),
 
 					// Ne servent pas l'analyse

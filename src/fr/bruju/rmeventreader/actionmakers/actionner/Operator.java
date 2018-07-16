@@ -56,19 +56,29 @@ public enum Operator {
 	 */
 	SUPEGAL(INF, (l, r) -> l >= r, null);
 
+	/* ============================
+	 * FONCTIONEMENT D'UN OPERATEUR
+	 * ============================	*/
+
+	/** Opposé */
 	private Operator oppose;
+
+	/** Fonction de test */
 	private TestFunc testFunction;
+
+	/** Fonction de calcul */
 	private CompFunc compFunc;
+
+	/** Vrai si le fait de mettre une opérande à 0 rend le résultat égal à 0 */
 	private boolean zeroEstAbsorbant = false;
 
-	private interface TestFunc {
-		boolean test(int leftValue, int rightValue);
-	}
-
-	private interface CompFunc {
-		int compute(int leftValue, int rightValue);
-	}
-
+	/**
+	 * Construit un opérateur
+	 * 
+	 * @param oppose Opérateur opposé à cet opérateur
+	 * @param tstFunc Fonction permettant de tester l'opérateur sur deux opérandes
+	 * @param compFunc Fonction permettant de calculer le résultat en fonction de deux opérandes
+	 */
 	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc) {
 		this.oppose = oppose;
 		if (oppose != null) {
@@ -77,7 +87,15 @@ public enum Operator {
 		this.testFunction = tstFunc;
 		this.compFunc = compFunc;
 	}
-	
+
+	/**
+	 * Construit un opérateur
+	 * 
+	 * @param oppose Opérateur opposé à cet opérateur
+	 * @param tstFunc Fonction permettant de tester l'opérateur sur deux opérandes
+	 * @param compFunc Fonction permettant de calculer le résultat en fonction de deux opérandes
+	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
+	 */
 	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc, boolean zeroEstAbsorbant) {
 		this.oppose = oppose;
 		if (oppose != null) {
@@ -88,13 +106,15 @@ public enum Operator {
 		this.zeroEstAbsorbant = zeroEstAbsorbant;
 	}
 
+	/* ========
+	 * SERVICES
+	 * ======== */
+
 	/**
 	 * Teste si la comparaison entre la valeur gauche et la valeur droite est vraie
 	 * 
-	 * @param leftValue
-	 *            La valeur de gauche
-	 * @param rightValue
-	 *            La valeur de droite
+	 * @param leftValue La valeur de gauche
+	 * @param rightValue La valeur de droite
 	 * @return Vrai si la comparaison entre les deux valeurs est vraie
 	 */
 	public boolean test(int leftValue, int rightValue) {
@@ -106,15 +126,12 @@ public enum Operator {
 	}
 
 	/**
-	 * Fait le calcul entre les deux valeurs données en utilisant l'opérateur
-	 * courant
+	 * Fait le calcul entre les deux valeurs données en utilisant l'opérateur courant
 	 * 
 	 * Pour l'affectation, renvoie la valeur de droite
 	 * 
-	 * @param leftValue
-	 *            La valeur de gauche
-	 * @param rightValue
-	 *            La valeur de droite
+	 * @param leftValue La valeur de gauche
+	 * @param rightValue La valeur de droite
 	 * @return Le résultat
 	 */
 	public int compute(int leftValue, int rightValue) {
@@ -143,8 +160,7 @@ public enum Operator {
 	/**
 	 * Teste l'appartenance de cet opérateur à la liste donnée
 	 * 
-	 * @param table
-	 *            La liste des opérateurs
+	 * @param table La liste des opérateurs
 	 * @return Vrai si l'opérateur est dans la liste donnée
 	 */
 	public boolean appartient(Operator[] table) {
@@ -157,8 +173,7 @@ public enum Operator {
 	}
 
 	/**
-	 * Cette fonction teste si l'application de cet opérateur à 0 peut modifier sa
-	 * valeur.
+	 * Cette fonction teste si l'application de cet opérateur à 0 peut modifier sa valeur.
 	 * 
 	 * @return Vrai si l'opérateur est la multiplication, la division ou le modulo
 	 */
@@ -175,11 +190,22 @@ public enum Operator {
 		/**
 		 * Crée une exception sur les opérateurs avec le message donné
 		 * 
-		 * @param message
-		 *            Le message décrivant l'erreur
+		 * @param message Le message décrivant l'erreur
 		 */
 		public OperatorErrorException(String message) {
 			super("OperatorErrorException : " + message);
 		}
+	}
+
+	/* ================
+	 * Lambda fonctions
+	 * ================ */
+
+	private interface TestFunc {
+		boolean test(int leftValue, int rightValue);
+	}
+
+	private interface CompFunc {
+		int compute(int leftValue, int rightValue);
 	}
 }

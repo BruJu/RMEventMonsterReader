@@ -18,15 +18,13 @@ public class SymboleReconnus {
 	private static final String CHEMIN_MOTIFS_CONNUS = "metaressources/ocr/motifsconnus.txt";
 
 	/**
-	 * Renvoie la liste des motifs déjà connus, qui sont dans
-	 * metaressources/ocr/motifsconnus.txt
+	 * Renvoie la liste des motifs déjà connus, qui sont dans metaressources/ocr/motifsconnus.txt
 	 */
 	public List<Motif> getMotifs() {
 		List<Motif> motifs = new ArrayList<>();
 
 		try {
-			FileReaderByLine.lireLeFichier(new File(CHEMIN_MOTIFS_CONNUS),
-				line -> {
+			FileReaderByLine.lireLeFichier(new File(CHEMIN_MOTIFS_CONNUS), line -> {
 				Scanner scanner = new Scanner(line);
 
 				String chaine = scanner.next();

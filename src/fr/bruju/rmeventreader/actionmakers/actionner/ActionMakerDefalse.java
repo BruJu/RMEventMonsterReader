@@ -6,21 +6,18 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
 /**
- * Interface étendant les action maker afin d'être utilisé conjointement avec
- * ConditionalActionMaker.
+ * Interface étendant les action maker afin d'être utilisé conjointement avec ConditionalActionMaker.
  * 
- * On implémente en plus des fonctions pour déclarer si on souhaite traiter les
- * instructions dans certaines conditions. Ces fonctions seront utilisées pour
- * tester si un bloc dans une condition doit être passé ou non.
+ * On implémente en plus des fonctions pour déclarer si on souhaite traiter les instructions dans certaines conditions.
+ * Ces fonctions seront utilisées pour tester si un bloc dans une condition doit être passé ou non.
  * 
- * Cette interface produit également des implémentations par défaut ne faisant
- * rien et renvoyant faux. Cela permet de n'avoir que le code important dans les
- * classes se reposant sur cette interface.
+ * Cette interface produit également des implémentations par défaut ne faisant rien et renvoyant faux. Cela permet de
+ * n'avoir que le code important dans les classes se reposant sur cette interface.
  * 
- * condElse et condEnd ne sont pas préimplémentées afin de faire prendre
- * conscience qu'il faut généralement accepter certains types de conditions.
+ * condElse et condEnd ne sont pas préimplémentées afin de faire prendre conscience qu'il faut généralement accepter
+ * certains types de conditions.
  */
-public interface ActionMakerDefalse extends ActionMaker {	
+public interface ActionMakerDefalse extends ActionMaker {
 	@Override
 	default void notImplementedFeature(String str) {
 	}
@@ -103,7 +100,7 @@ public interface ActionMakerDefalse extends ActionMaker {
 	default boolean condOnOwnedSpell(int heroId, int spellId) {
 		return false;
 	}
-	
+
 	@Override
 	default boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		return false;
@@ -144,8 +141,5 @@ public interface ActionMakerDefalse extends ActionMaker {
 	@Override
 	default void getComment(String str) {
 	}
-	
-	
-
 
 }

@@ -4,6 +4,12 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 
+/**
+ * Détection d'un appel à un évènement sur la carte
+ * 
+ * @author Bruju
+ *
+ */
 public class MapEventAction implements Action {
 	private final String PATTERN = "<> Call Event: Map Event #_, Page #_";
 
@@ -14,9 +20,9 @@ public class MapEventAction implements Action {
 
 	@Override
 	public void faire(ActionMaker actionMaker, List<String> arguments) {
-		int map  = Integer.parseInt(arguments.get(0));
+		int map = Integer.parseInt(arguments.get(0));
 		int page = Integer.parseInt(arguments.get(1));
-		
+
 		actionMaker.callMapEvent(map, page);
 	}
 

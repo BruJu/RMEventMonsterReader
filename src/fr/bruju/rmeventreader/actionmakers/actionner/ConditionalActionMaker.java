@@ -7,32 +7,45 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 
 /**
- * Fourni une implémentation de la gestion des conditions, avec possibilité d'ignorer
- * des blocs dans des conditions.
+ * Fourni une implémentation de la gestion des conditions, avec possibilité d'ignorer des blocs dans des conditions.
  * 
- * Cette classe s'utilise comme un décorateur
+ * Cette classe s'utilise comme un décorateur.
  */
 public class ConditionalActionMaker implements ActionMaker {
+	/**
+	 * ActionMaker traitant les instructions
+	 */
 	private ActionMaker base;
-	
+
+	/**
+	 * Nombre de conditions dans lesquelles on est entré
+	 */
 	private int niveauDignorance = 0;
-	
+
+	/**
+	 * Permet de savoir si il faut court circuiter les instructions
+	 * 
+	 * @return Vrai si on est dans une condition que l'ActionMaker de base veut ignorer
+	 */
 	private boolean isIgnoring() {
 		return niveauDignorance != 0;
 	}
-	
-	
-	public ConditionalActionMaker(ActionMakerDefalse base) {
+
+	/**
+	 * Construit un Action Maker permettant d'ignorer les conditions que la base ne souhaite pas traiter.
+	 * 
+	 * @param base L'ActionMaker de base
+	 */
+	public ConditionalActionMaker(ActionMaker base) {
 		this.base = base;
 	}
-	
 
 	@Override
 	public boolean condOnSwitch(int number, boolean value) {
 		if (isIgnoring() || !base.condOnSwitch(number, value)) {
 			niveauDignorance = niveauDignorance + 1;
 		}
-		
+
 		return true;
 	}
 
@@ -41,7 +54,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring() || !base.condOnEquippedItem(heroId, itemId)) {
 			niveauDignorance = niveauDignorance + 1;
 		}
-		
+
 		return true;
 	}
 
@@ -50,7 +63,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring() || !base.condOnVariable(leftOperandValue, operatorValue, returnValue)) {
 			niveauDignorance = niveauDignorance + 1;
 		}
-		
+
 		return true;
 	}
 
@@ -59,16 +72,16 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring() || !base.condOnVariable(leftOperandValue, operatorValue, returnValue)) {
 			niveauDignorance = niveauDignorance + 1;
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean condOnOwnedItem(int itemId) {
 		if (isIgnoring() || !base.condOnOwnedItem(itemId)) {
 			niveauDignorance = niveauDignorance + 1;
 		}
-		
+
 		return true;
 	}
 
@@ -77,22 +90,21 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring() || !base.condTeamMember(memberId)) {
 			niveauDignorance = niveauDignorance + 1;
 		}
-		
+
 		return true;
 	}
-
 
 	@Override
 	public boolean condOnOwnedSpell(int heroId, int spellId) {
 		if (isIgnoring() || !base.condOnOwnedSpell(heroId, spellId)) {
 			niveauDignorance = niveauDignorance + 1;
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
-	public void condEnd() {		
+	public void condEnd() {
 		if (isIgnoring()) {
 			niveauDignorance = niveauDignorance - 1;
 		} else {
@@ -100,35 +112,34 @@ public class ConditionalActionMaker implements ActionMaker {
 		}
 	}
 
-
 	// Décoration brûte
-	
+
 	@Override
 	public void condElse() {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.condElse();
 	}
-	
+
 	@Override
 	public void notImplementedFeature(String str) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.notImplementedFeature(str);
 	}
 
 	// Change Switch
-	
+
 	@Override
 	public void changeSwitch(Variable interrupteur, boolean value) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeSwitch(interrupteur, value);
 	}
 
@@ -137,27 +148,27 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeSwitch(interrupteurs, value);
 	}
-	
+
 	@Override
 	public void changeSwitch(Pointeur interrupteur, boolean value) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeSwitch(interrupteur, value);
 	}
 
 	// Revert Switch
-	
+
 	@Override
 	public void revertSwitch(Variable interrupteur) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.revertSwitch(interrupteur);
 	}
 
@@ -166,7 +177,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.revertSwitch(interrupteur);
 	}
 
@@ -175,18 +186,18 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.revertSwitch(interrupteur);
 	}
-	
+
 	// Change Variable
-	
+
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -195,7 +206,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -204,7 +215,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -213,7 +224,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -222,7 +233,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -231,15 +242,16 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
+
 	@Override
 	public void changeVariable(Variable variable, Operator operator, Variable returnValue) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -248,7 +260,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -257,15 +269,16 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
+
 	@Override
 	public void changeVariable(Variable variable, Operator operator, Pointeur returnValue) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -274,7 +287,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
 
@@ -283,15 +296,16 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.changeVariable(variable, operator, returnValue);
 	}
+
 	@Override
 	public void modifyItems(ValeurFixe idItem, boolean add, ValeurFixe quantity) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.modifyItems(idItem, add, quantity);
 	}
 
@@ -300,31 +314,34 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.modifyItems(idItem, add, quantity);
 	}
+
 	@Override
 	public void modifyItems(Variable idItem, boolean add, ValeurFixe quantity) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.modifyItems(idItem, add, quantity);
 	}
+
 	@Override
 	public void modifyItems(Variable idItem, boolean add, Variable quantity) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.modifyItems(idItem, add, quantity);
 	}
+
 	@Override
 	public void showPicture(int id, String pictureName) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.showPicture(id, pictureName);
 	}
 
@@ -333,7 +350,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.label(labelNumber);
 	}
 
@@ -342,34 +359,26 @@ public class ConditionalActionMaker implements ActionMaker {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.jumpToLabel(labelNumber);
 	}
-
 
 	@Override
 	public void callMapEvent(int eventNumber, int eventPage) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.callMapEvent(eventNumber, eventPage);
 	}
-
 
 	@Override
 	public void getComment(String str) {
 		if (isIgnoring()) {
 			return;
 		}
-		
+
 		base.getComment(str);
 	}
-
-
-
-
-
-
 
 }

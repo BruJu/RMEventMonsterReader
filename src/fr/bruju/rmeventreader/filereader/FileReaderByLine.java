@@ -10,19 +10,19 @@ public class FileReaderByLine {
 		FileReader fileReader = new FileReader(file);
 		BufferedReader buffer = new BufferedReader(fileReader);
 		String line;
-		
+
 		while (true) {
 			line = buffer.readLine();
-			
+
 			if (line == null) {
 				break;
 			}
-			
+
 			if (!line.equals("")) {
 				actionOnLine.read(line);
 			}
 		}
-		
+
 		buffer.close();
 	}
 }

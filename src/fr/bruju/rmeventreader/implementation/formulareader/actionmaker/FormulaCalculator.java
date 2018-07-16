@@ -16,7 +16,6 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.Calcul;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 
 public class FormulaCalculator implements ActionMakerDefalse {
