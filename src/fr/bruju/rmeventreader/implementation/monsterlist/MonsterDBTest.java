@@ -13,12 +13,12 @@ import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.ActionAu
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoCorrespondeur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.InitialisateurTotal;
+import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.LectureAutomatique;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.RemplacementDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.RemplacementNom;
-import fr.bruju.rmeventreadercomplement.AeAdd;
 
 public class MonsterDBTest {
 
@@ -28,7 +28,7 @@ public class MonsterDBTest {
 		ActionAutomatique[] listeDesActions = new ActionAutomatique[] {
 				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)    , "ressources/InitCombat1.txt"),
 				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)    , "ressources/InitCombat2.txt"),
-				() -> { new AeAdd(baseDeDonnees).activate(); } ,
+				new LectureAutomatique(new Correcteur(baseDeDonnees)           , "ressources/Correction.txt"),
 				new AutoActionMaker(new CompleterWithShowPicture(baseDeDonnees), "ressources/NomDesMonstres.txt"),
 				new AutoCorrespondeur(baseDeDonnees, new RemplacementNom()     , "ressources/Dico/Monstres.txt"),
 				new AutoActionMaker(new DropCompleter(baseDeDonnees)           , "ressources/CombatDrop.txt"),

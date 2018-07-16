@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
+import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 
 /**
  * Classe permettant de décrypter des lignes et de déclencher les actions
@@ -45,24 +46,5 @@ public class Decrypter {
 		}
 		
 		throw new LigneNonReconnueException(line);
-	}
-	
-	
-	/**
-	 * Exception jetée lorsqu'une ligne n'est pas reconnue
-	 */
-	private class LigneNonReconnueException extends RuntimeException {
-		/**
-		 * Un serial id unique
-		 */
-		private static final long serialVersionUID = -6801007137729905515L;
-		
-		/**
-		 * Déclare une LigneNonReconnueException avec la ligne donnée
-		 * @param ligne La ligne qui n'a pas pu être reconnue
-		 */
-		public LigneNonReconnueException(String ligne) {
-			super("LigneNonReconnueException : " + ligne);
-		}
 	}
 }

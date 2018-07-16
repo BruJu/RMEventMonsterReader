@@ -1,6 +1,4 @@
-package fr.bruju.rmeventreader.formule.base;
-
-import fr.bruju.rmeventreader.formule.Valeur;
+package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
 public class ValeurNumerique implements Valeur {
 	private int valeurMin;
@@ -25,6 +23,15 @@ public class ValeurNumerique implements Valeur {
 	@Override
 	public int getPriorite() {
 		return 0;
+	}
+
+	@Override
+	public String getStringUnique() {
+		if (valeurMin == valeurMax) {
+			return Integer.toString(valeurMin);
+		} else {
+			return Integer.toString(valeurMin) + "~" + Integer.toString(valeurMax);
+		}
 	}
 
 }

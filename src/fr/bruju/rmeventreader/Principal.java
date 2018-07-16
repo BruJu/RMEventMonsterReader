@@ -5,11 +5,15 @@ import java.io.IOException;
 import fr.bruju.rmeventreader.implementation.formulareader.FormulaMain;
 import fr.bruju.rmeventreader.implementation.monsterlist.MonsterDBTest;
 
-@SuppressWarnings("unused")
 public class Principal {
 	public static void main(String[] args) throws IOException {
-		//MonsterDBTest.main_(args, 0);
-		
-		FormulaMain.main_(args);
+
+		int choix = 1;
+
+		if (choix == 0)
+			MonsterDBTest.main_(args, 0);
+
+		if (choix == 1)
+			FormulaMain.main_(args);
 	}
 }

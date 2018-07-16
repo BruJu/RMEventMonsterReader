@@ -255,4 +255,10 @@ public class Printer implements ActionMaker {
 		return true;
 	}
 
+	@Override
+	public boolean condOnOwnedSpell(int heroId, int spellId) {
+		System.out.println("If Hero " + heroId + " has Spell " + spellId );
+		return true;
+	}
+
 }

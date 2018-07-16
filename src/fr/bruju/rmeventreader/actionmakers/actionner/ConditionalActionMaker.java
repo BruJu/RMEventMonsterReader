@@ -83,6 +83,15 @@ public class ConditionalActionMaker implements ActionMaker {
 
 
 	@Override
+	public boolean condOnOwnedSpell(int heroId, int spellId) {
+		if (isIgnoring() || !base.condOnOwnedSpell(heroId, spellId)) {
+			niveauDignorance = niveauDignorance + 1;
+		}
+		
+		return true;
+	}
+	
+	@Override
 	public void condEnd() {		
 		if (isIgnoring()) {
 			niveauDignorance = niveauDignorance - 1;
@@ -346,6 +355,8 @@ public class ConditionalActionMaker implements ActionMaker {
 		
 		base.callMapEvent(eventNumber, eventPage);
 	}
+
+
 
 
 

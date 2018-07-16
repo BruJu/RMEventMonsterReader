@@ -8,33 +8,42 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.formule.Valeur;
-import fr.bruju.rmeventreader.formule.base.ValeurNumerique;
-import fr.bruju.rmeventreader.formule.base.ValeurStatistique;
-import fr.bruju.rmeventreader.formule.composant.Personnage;
-import fr.bruju.rmeventreader.formule.composant.Statistique;
-import fr.bruju.rmeventreader.formule.operations.Calcul;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.Calcul;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurStatistique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurVariable;
+import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
+import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
 import fr.bruju.rmeventreader.implementation.monsterlist.Pair;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
-import fr.bruju.rmeventreadercomplement.AeStatsPerso;
 
 public class FormulaCalculator implements ActionMakerDefalse {
 	private static final int TERMINATOR_EVENT_MAP_NUMB = 77;
 	private static final int TERMINATOR_EVENT_MAP_PAGE = 1;
 	
-	private static final int[] ENTER_IN_SWITCHES = {182};
+	private static final int[] ENTER_IN_SWITCHES = {181, 182};
 	private static final int VARIABLE_CIBLE = 42;
 	private static final int VALEUR_CIBLE = 70;
 	
 	private static final int VARIABLE_DEGATS_INFLIGES = 1181;
+	private static final int VARIABLE_DEGATS_INFLIGES2 = 548;
 	
 	private Map<Integer, Valeur> variableUtilisee = new HashMap<>();
 	
+	
+	public FormulaCalculator() {
+		
+		
+	}
 	
 	private Valeur sortie;
 
 	private void fixerLaSortie() {
 		sortie = variableUtilisee.get(VARIABLE_DEGATS_INFLIGES);
+		
+		if (sortie == null)
+			sortie = variableUtilisee.get(VARIABLE_DEGATS_INFLIGES2);
 	}
 	
 	public Valeur getSortie() {
@@ -55,12 +64,12 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (variableDepart != null) {
 			return new ValeurStatistique(variableDepart.getLeft(), variableDepart.getRight());
 		} else {
-			return variableUtilisee.getOrDefault(value.get(), new ValeurNumerique(0, 0));
+			return variableUtilisee.getOrDefault(value.get(), new ValeurVariable(value.get()));
 		}
 	}
 
 	private Pair<Personnage, Statistique> getStatName(int value) {
-		Map<Integer, Pair<Personnage, Statistique>> mapStats = AeStatsPerso.get(); 
+		Map<Integer, Pair<Personnage, Statistique>> mapStats = CreateurPersonnage.getMap();
 		
 		return mapStats.get(value);
 	}

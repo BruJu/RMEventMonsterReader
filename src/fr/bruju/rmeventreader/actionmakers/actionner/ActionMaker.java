@@ -203,6 +203,8 @@ public interface ActionMaker {
 	 */
 	public boolean condTeamMember(int memberId);
 
+	
+	public boolean condOnOwnedSpell(int heroId, int spellId);
 
 	/**
 	 * Passage au sinon de la condition
@@ -246,4 +248,5 @@ public interface ActionMaker {
 	 * @param eventPage Page de l'évènement
 	 */
 	public void callMapEvent(int eventNumber, int eventPage);
+
 }

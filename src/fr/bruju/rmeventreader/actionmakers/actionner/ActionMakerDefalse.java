@@ -100,6 +100,11 @@ public interface ActionMakerDefalse extends ActionMaker {
 	}
 
 	@Override
+	default boolean condOnOwnedSpell(int heroId, int spellId) {
+		return false;
+	}
+	
+	@Override
 	default boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		return false;
 	}

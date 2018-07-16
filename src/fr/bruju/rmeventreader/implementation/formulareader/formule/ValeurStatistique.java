@@ -1,8 +1,7 @@
-package fr.bruju.rmeventreader.formule.base;
+package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
-import fr.bruju.rmeventreader.formule.Valeur;
-import fr.bruju.rmeventreader.formule.composant.Personnage;
-import fr.bruju.rmeventreader.formule.composant.Statistique;
+import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
+import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
 
 public class ValeurStatistique implements Valeur {
 	private Statistique statistique;
@@ -14,7 +13,7 @@ public class ValeurStatistique implements Valeur {
 	}
 
 	private String getString() {
-		return personnage + "." + statistique;
+		return personnage.getNom() + "." + statistique;
 	}
 	
 	@Override
@@ -30,5 +29,10 @@ public class ValeurStatistique implements Valeur {
 	@Override
 	public int getPriorite() {
 		return 0;
+	}
+
+	@Override
+	public String getStringUnique() {
+		return getString();
 	}
 }

@@ -70,6 +70,8 @@ class AssociationChaineInstruction {
 		book.add(new NoAction("Shake Screen", "<> Shake Screen: £"));
 		book.add(new NoAction("Flash Event", "<> Flash Event: £"));
 		book.add(new NoAction("Play Memorized BGM", "<> Play Memorized BGM"));
+		book.add(new NoAction("Play Movie", "<> Play Movie:£"));
+		book.add(new NoAction("Select face", "<> Select Face:£"));
 
 		book.add(new NoAction("Show Battle Animation", "<> Show Battle Animation:£"));
 		
@@ -94,9 +96,12 @@ class AssociationChaineInstruction {
 
 		book.add(new NoAction("Panorama", "<> Change Panorama: _"));
 
-		book.add(new NoAction("Label", "<> Label: _"));					// A implémenter
-		book.add(new NoAction("Jump", "<> Jump To Label: _"));			// A implémenter
 		book.add(new NoAction("Change Money", "<> Change Money: £"));	// A implémenter
+		
+
+		book.add(new NoAction("Loop", "<> Loop"));	// A implémenter
+		book.add(new NoAction("LoopEnd", ": End of loop"));	// A implémenter
+		book.add(new NoAction("LoopBreak", "<> Break Loop"));	// A implémenter
 		
 		// Interrupteurs
 		book.add(new Toggle());
@@ -113,6 +118,7 @@ class AssociationChaineInstruction {
 		book.add(new ConditionOnEquippedItem());
 		book.add(new ConditionOnVariable());
 		book.add(new ConditionOnOwnedItem());
+		book.add(new ConditionOnOwnedSpell());
 		book.add(new ElseFork());
 		book.add(new EndFork());
 		

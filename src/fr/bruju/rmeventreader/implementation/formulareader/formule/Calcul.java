@@ -1,6 +1,4 @@
-package fr.bruju.rmeventreader.formule.operations;
-
-import fr.bruju.rmeventreader.formule.Valeur;
+package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
 public class Calcul implements Valeur {
 	private Valeur gauche;
@@ -65,5 +63,21 @@ public class Calcul implements Valeur {
 	@Override
 	public int getPriorite() {
 		return priorite;
+	}
+
+	@Override
+	public String getStringUnique() {
+		String gaucheStr = gauche.getStringUnique();
+		String droiteStr = droite.getStringUnique();
+		
+		if (gauche.getPriorite() > this.getPriorite()) {
+			gaucheStr = "(" + gaucheStr + ")";
+		}
+	
+		if (droite.getPriorite() > this.getPriorite()) {
+			droiteStr = "(" + droiteStr + ")";
+		}
+		
+		return gaucheStr + " " + operateur + " " + droiteStr;
 	}
 }

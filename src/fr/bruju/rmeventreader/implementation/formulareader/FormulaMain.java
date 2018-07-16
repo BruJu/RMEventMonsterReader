@@ -17,13 +17,16 @@ public class FormulaMain {
 			FormulaCalculator calc = new FormulaCalculator();
 			new AutoActionMaker(calc, "ressources/Attaques/" + fichiersTexte).faire();
 			
-			System.out.println("--" + fichiersTexte);
+			
+			String ccc = null;
 			
 			if (calc.getSortie() != null) {
-				System.out.println(calc.getSortie().getStringMin());
-				System.out.println(calc.getSortie().getStringMax());
+				if (ccc == null || calc.getSortie().getStringMin().contains(ccc)) {
+					System.out.print("--" +  fichiersTexte.substring(0, fichiersTexte.length() - 4) + " = ");
+					System.out.println(calc.getSortie().getStringUnique());
+				}
 			} else {
-				System.out.println("Pas de formule");
+				System.out.println("--" + fichiersTexte.substring(0, fichiersTexte.length() - 4) + " : Pas de sortie");
 			}
 			
 			

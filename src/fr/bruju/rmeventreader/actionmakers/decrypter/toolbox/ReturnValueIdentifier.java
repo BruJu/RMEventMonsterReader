@@ -36,13 +36,7 @@ public class ReturnValueIdentifier {
 		List<String> argumentsLus;
 		
 		argumentsLus = Recognizer.tryPattern(pattern_Random, data);
-		if (argumentsLus != null) {
-			
-			System.out.println(data);
-			for (String str : argumentsLus) {
-				System.out.println(str);
-			}
-			
+		if (argumentsLus != null) {			
 			return new ValeurAleatoire(Integer.parseInt(argumentsLus.get(0)), Integer.parseInt(argumentsLus.get(1)));
 		}
 		
