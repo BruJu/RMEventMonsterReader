@@ -1,8 +1,5 @@
 package fr.bruju.rmeventreader.actionmakers.decrypter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.IgnoreLine;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.JumpTo;
@@ -16,122 +13,107 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action.inter
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.condition.*;
 
 /**
- * Cette classe impémente des associations entre pattern à reconnaître et action à réaliser
+ * Cette classe impémente des associations entre pattern à reconnaître et action
+ * à réaliser
  */
 class AssociationChaineInstruction {
 	/**
 	 * Le pattern à reconnaître
 	 */
 	final String pattern;
-	
+
 	/**
 	 * Action à appeller
 	 */
 	final Action action;
-	
+
+	/**
+	 * Liste des instructions
+	 */
+	private static Action[] bdd;
+
 	/**
 	 * Crée une association entre pattern et action
-	 * @param pattern Le pattern à reconnaître
-	 * @param action L'action à déclencher si le pattern est reconnu
+	 * 
+	 * @param pattern
+	 *            Le pattern à reconnaître
+	 * @param action
+	 *            L'action à déclencher si le pattern est reconnu
 	 */
 	AssociationChaineInstruction(String pattern, Action action) {
 		this.pattern = pattern;
 		this.action = action;
 	}
-	
+
 	/**
 	 * Renvoie la liste des associations pattern - action
+	 * 
 	 * @return La liste des associations pattern - action
 	 */
-	static List<Action> bookMaker() {
-		List<Action> book = new ArrayList<>();
-		
-		book.add(new IgnoreLine("- SCRIPT -"));
-		book.add(new IgnoreLine("<>"));
-		
-		// Instructions non traitées
-		book.add(new NoAction("Show Message", "<> Show Message: _"));				// Ne sert pas à l'analyse
-		book.add(new NoAction("Message Style", "<> Message Style: £"));				// Ne sert pas à l'analyse
-		book.add(new NoAction("Select Face", "<> Select Face:"));					// Ne sert pas à l'analyse
-		book.add(new NoAction("Set Event Position", "<> Set Event Location:£"));	// Ne sert pas à l'analyse
-		book.add(new NoAction("Move Event", "<> Move Event:£"));	// Ne sert pas à l'analyse
-		book.add(new NoAction("Wait", "<> Wait:£"));	// Ne sert pas à l'analyse
-		book.add(new NoAction("Move Picture", "<> Move Picture:£"));	// Ne sert pas à l'analyse
-		book.add(new NoAction("Erase Picture", "<> Erase Picture:£"));	// Ne sert pas à l'analyse
-		book.add(new NoAction("Play BGM", "<> Play BGM:£"));	// Ne sert pas à l'analyse
-		book.add(new NoAction("Weather", "<> Weather Effects: _"));
-		book.add(new NoAction("Screen Tone", "<> Set Screen Tone:£"));	// Ne sert pas à l'analyse
-		book.add(new NoAction("Wait Until Moved", "<> Wait Until Moved"));
-		book.add(new NoAction("Stop All Movement", "<> Stop All Movement"));
-		book.add(new NoAction("Key input", "<> Key Input Processing:£"));
-		book.add(new NoAction("Delete Event", "<> Delete Event"));
-		book.add(new NoAction("Fade out BGM", "<> Fade Out £"));
-		book.add(new NoAction("Flash Screen", "<> Flash Screen: £"));
-		book.add(new NoAction("Shake Screen", "<> Shake Screen: £"));
-		book.add(new NoAction("Flash Event", "<> Flash Event: £"));
-		book.add(new NoAction("Play Memorized BGM", "<> Play Memorized BGM"));
-		book.add(new NoAction("Play Movie", "<> Play Movie:£"));
-		book.add(new NoAction("Select face", "<> Select Face:£"));
+	static Action[] bookMaker() {
+		if (bdd == null)
+			bdd = new Action[] {
+					// Lignes vides
+					new IgnoreLine("- SCRIPT -"), new IgnoreLine("<>"),
 
-		book.add(new NoAction("Show Battle Animation", "<> Show Battle Animation:£"));
-		
-		book.add(new NoAction("Change Skill", "<> Change Skill:£"));				// Source buggée
+					new MapEventAction(),
 
-		book.add(new MapEventAction());
-		
-		book.add(new NoAction("Call Event", "<> Call Event:£"));					// Serait utile mais pas rentable
-		
-		book.add(new NoAction("Sound Effet", "<> Play Sound Effect£"));				// Intéret mineur
-		
-		book.add(new NoAction("Change Variable On Screen", "<> Change Variable: _ = _ position on £"));	// Intéret mineur
-		
-		
-		book.add(new NoAction("Set Hero Opacity", "<> Set Hero Opacity:£"));
-		book.add(new NoAction("Show Screen", "<> Show Screen: £"));
-		book.add(new NoAction("Erase Screen", "<> Erase Screen: £"));
-		book.add(new NoAction("Change Transition", "<> Change Transition: £"));
-		
-		book.add(new NoAction("Memorize BGM", "<> Memorize BGM"));
-		book.add(new NoAction("Commentary", "<> Comment: £"));
+					// Modifications d'état
+					new Toggle(), new ToggleList(), new SetSwitchList(), new SetSwitch(),
 
-		book.add(new NoAction("Panorama", "<> Change Panorama: _"));
+					new NoAction("Change Variable On Screen", "<> Change Variable: _ = _ position on £"),
+					new SetVariable(), new ModifyItems(),
 
-		book.add(new NoAction("Change Money", "<> Change Money: £"));	// A implémenter
-		
+					// Conditions
+					new ConditionOnSwitch(), new ConditionOnEquippedItem(), new ConditionOnVariable(),
+					new ConditionOnOwnedItem(), new ConditionOnOwnedSpell(), new ConditionOnTeamMember(),
+					new ElseFork(), new EndFork(),
 
-		book.add(new NoAction("Loop", "<> Loop"));	// A implémenter
-		book.add(new NoAction("LoopEnd", ": End of loop"));	// A implémenter
-		book.add(new NoAction("LoopBreak", "<> Break Loop"));	// A implémenter
-		
-		// Interrupteurs
-		book.add(new Toggle());
-		book.add(new ToggleList());
-		book.add(new SetSwitchList());
-		book.add(new SetSwitch());
+					// Misc
+					new ShowPicture(),
 
-		// Changement de variable
-		book.add(new SetVariable());
-		book.add(new ModifyItems());
-		
-		// Conditions
-		book.add(new ConditionOnSwitch());
-		book.add(new ConditionOnEquippedItem());
-		book.add(new ConditionOnVariable());
-		book.add(new ConditionOnOwnedItem());
-		book.add(new ConditionOnOwnedSpell());
-		book.add(new ElseFork());
-		book.add(new EndFork());
-		
-		book.add(new ShowPicture());
-		
-		book.add(new ConditionOnTeamMember());
-		
+					// Flot de controle
+					new Label(), new JumpTo(),
 
-		book.add(new Label());
-		book.add(new JumpTo());
-		
-		
-		return book;
+					// Ne servent pas l'analyse
+					new NoAction("Show Message", "<> Show Message: _"),
+					new NoAction("Message Style", "<> Message Style: £"),
+					new NoAction("Select Face", "<> Select Face:"),
+					new NoAction("Set Event Position", "<> Set Event Location:£"),
+					new NoAction("Move Event", "<> Move Event:£"), new NoAction("Wait", "<> Wait:£"),
+					new NoAction("Move Picture", "<> Move Picture:£"),
+					new NoAction("Erase Picture", "<> Erase Picture:£"), new NoAction("Play BGM", "<> Play BGM:£"),
+					new NoAction("Weather", "<> Weather Effects: _"),
+					new NoAction("Screen Tone", "<> Set Screen Tone:£"),
+					new NoAction("Wait Until Moved", "<> Wait Until Moved"),
+					new NoAction("Stop All Movement", "<> Stop All Movement"),
+					new NoAction("Key input", "<> Key Input Processing:£"),
+					new NoAction("Delete Event", "<> Delete Event"), new NoAction("Fade out BGM", "<> Fade Out £"),
+					new NoAction("Flash Screen", "<> Flash Screen: £"),
+					new NoAction("Shake Screen", "<> Shake Screen: £"),
+					new NoAction("Flash Event", "<> Flash Event: £"),
+					new NoAction("Play Memorized BGM", "<> Play Memorized BGM"),
+					new NoAction("Play Movie", "<> Play Movie:£"), new NoAction("Select face", "<> Select Face:£"),
+					new NoAction("Show Battle Animation", "<> Show Battle Animation:£"),
+					new NoAction("Call Event", "<> Call Event:£"), new NoAction("Sound Effet", "<> Play Sound Effect£"),
+
+					new NoAction("Set Hero Opacity", "<> Set Hero Opacity:£"),
+					new NoAction("Show Screen", "<> Show Screen: £"),
+					new NoAction("Erase Screen", "<> Erase Screen: £"),
+					new NoAction("Change Transition", "<> Change Transition: £"),
+
+					new NoAction("Memorize BGM", "<> Memorize BGM"), new NoAction("Commentary", "<> Comment: £"),
+
+					new NoAction("Panorama", "<> Change Panorama: _"),
+
+					// Source bugee
+					new NoAction("Change Skill", "<> Change Skill:£"),
+
+					// A implémenter
+					new NoAction("Change Money", "<> Change Money: £"), new NoAction("Loop", "<> Loop"),
+					new NoAction("LoopEnd", ": End of loop"), new NoAction("LoopBreak", "<> Break Loop") };
+
+		return bdd;
 	}
 
 }

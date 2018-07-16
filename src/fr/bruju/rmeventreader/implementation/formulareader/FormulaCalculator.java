@@ -15,8 +15,8 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurStatist
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
-import fr.bruju.rmeventreader.implementation.monsterlist.Pair;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class FormulaCalculator implements ActionMakerDefalse {
 	private static final int TERMINATOR_EVENT_MAP_NUMB = 77;

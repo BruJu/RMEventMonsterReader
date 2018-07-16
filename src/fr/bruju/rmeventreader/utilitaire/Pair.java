@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.monsterlist;
+package fr.bruju.rmeventreader.utilitaire;
 
 public class Pair<T1, T2> {
 	private final T1 t1;

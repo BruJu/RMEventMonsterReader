@@ -14,7 +14,7 @@ public class Decrypter {
 	/**
 	 * Liste des pattern à déchiffrer
 	 */
-	private static List<Action> patterns = AssociationChaineInstruction.bookMaker();
+	private static Action[] patterns = AssociationChaineInstruction.bookMaker();
 	
 	
 	

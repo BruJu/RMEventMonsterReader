@@ -9,118 +9,119 @@ public enum Operator {
 	/**
 	 * Affectation
 	 */
-	AFFECTATION,
+	AFFECTATION(null, null, (l, r) -> r),
 	/**
 	 * Addition
 	 */
-	PLUS,
+	PLUS(null, null, (l, r) -> l + r),
 	/**
 	 * Soustraction
 	 */
-	MINUS,
+	MINUS(PLUS, null, (l, r) -> l - r),
 	/**
 	 * Multiplication
 	 */
-	TIMES,
-	/**
-	 * Division
-	 */
-	DIVIDE,
+	TIMES(null, null, (l, r) -> l * r, true),
 	/**
 	 * Reste de la division euclidienne
 	 */
-	MODULO,
+	MODULO(TIMES, null, (l, r) -> l % r, true),
+	/**
+	 * Division
+	 */
+	DIVIDE(TIMES, null, (l, r) -> l / r, true),
 	// Comparaisons
 	/**
 	 * Identique
 	 */
-	IDENTIQUE,
+	IDENTIQUE(null, (l, r) -> l == r, null),
 	/**
 	 * Différent
 	 */
-	DIFFERENT,
+	DIFFERENT(IDENTIQUE, (l, r) -> l != r, null),
 	/**
 	 * Inférieur strict
 	 */
-	INF,
+	INF(null, (l, r) -> l < r, null),
 	/**
 	 * Supérieur strict
 	 */
-	SUP,
+	SUP(null, (l, r) -> l > r, null),
 	/**
 	 * Inférieur ou égal
 	 */
-	INFEGAL,
+	INFEGAL(SUP, (l, r) -> l <= r, null),
 	/**
 	 * Supérieur ou égal
 	 */
-	SUPEGAL;
+	SUPEGAL(INF, (l, r) -> l >= r, null);
+
+	private Operator oppose;
+	private TestFunc testFunction;
+	private CompFunc compFunc;
+	private boolean zeroEstAbsorbant = false;
+
+	private interface TestFunc {
+		boolean test(int leftValue, int rightValue);
+	}
+
+	private interface CompFunc {
+		int compute(int leftValue, int rightValue);
+	}
+
+	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc) {
+		this.oppose = oppose;
+		if (oppose != null) {
+			oppose.oppose = this;
+		}
+		this.testFunction = tstFunc;
+		this.compFunc = compFunc;
+	}
 	
-	
+	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc, boolean zeroEstAbsorbant) {
+		this.oppose = oppose;
+		if (oppose != null) {
+			oppose.oppose = this;
+		}
+		this.testFunction = tstFunc;
+		this.compFunc = compFunc;
+		this.zeroEstAbsorbant = zeroEstAbsorbant;
+	}
+
 	/**
 	 * Teste si la comparaison entre la valeur gauche et la valeur droite est vraie
-	 * @param leftValue La valeur de gauche
-	 * @param rightValue La valeur de droite
+	 * 
+	 * @param leftValue
+	 *            La valeur de gauche
+	 * @param rightValue
+	 *            La valeur de droite
 	 * @return Vrai si la comparaison entre les deux valeurs est vraie
 	 */
 	public boolean test(int leftValue, int rightValue) {
-		switch (this) {
-		case DIFFERENT:
-			return leftValue != rightValue;
-		case IDENTIQUE:
-			return leftValue == rightValue;
-		case INF:
-			return leftValue < rightValue;
-		case INFEGAL:
-			return leftValue <= rightValue;
-		case SUP:
-			return leftValue > rightValue;
-		case SUPEGAL:
-			return leftValue >= rightValue;
-
-		case MODULO:
-		case MINUS:
-		case AFFECTATION:
-		case PLUS:
-		case DIVIDE:
-		case TIMES:
-		default:
-			throw new UnsupportedOperationException("Try to test with a calculation operator");
+		if (testFunction == null) {
+			throw new OperatorErrorException("Try to test with a calculation operator");
+		} else {
+			return testFunction.test(leftValue, rightValue);
 		}
 	}
-	
 
 	/**
-	 * Fait le calcul entre les deux valeurs données en utilisant l'opérateur courant
+	 * Fait le calcul entre les deux valeurs données en utilisant l'opérateur
+	 * courant
 	 * 
 	 * Pour l'affectation, renvoie la valeur de droite
-	 * @param leftValue La valeur de gauche
-	 * @param rightValue La valeur de droite
+	 * 
+	 * @param leftValue
+	 *            La valeur de gauche
+	 * @param rightValue
+	 *            La valeur de droite
 	 * @return Le résultat
 	 */
 	public int compute(int leftValue, int rightValue) {
-		switch (this) {
-		case MODULO:
-			return leftValue % rightValue;
-		case MINUS:
-			return leftValue - rightValue;
-		case AFFECTATION:
-			return rightValue;
-		case PLUS:
-			return leftValue + rightValue;
-		case DIVIDE:
-			return leftValue / rightValue;
-		case TIMES:
-			return leftValue * rightValue;
-			
-		case DIFFERENT:
-		case IDENTIQUE:
-		case INF:
-		case INFEGAL:
-		case SUP:
-		case SUPEGAL:
-		default:
-			throw new UnsupportedOperationException("Try to compute with a compare operator");
+		if (compFunc == null) {
+			throw new OperatorErrorException("Try to compute with a compare operator");
+		} else {
+			return compFunc.compute(leftValue, rightValue);
 		}
 	}
 
@@ -128,41 +129,22 @@ public enum Operator {
 	 * Donne le signe opposé à l'opérateur actuel
 	 * 
 	 * Impossible pour l'affectation et le modulo
+	 * 
 	 * @return Le signe opposé à l'opérateur
 	 */
 	public Operator revert() {
-		switch(this) {
-		case AFFECTATION:
-			throw new OperatorErrorException("Can't revert an affectation operator");
-		case IDENTIQUE:
-			return DIFFERENT;
-		case DIFFERENT:
-			return IDENTIQUE;
-		case TIMES:
-			return DIVIDE;
-		case DIVIDE:
-			return TIMES;
-		case INF:
-			return SUPEGAL;
-		case INFEGAL:
-			return SUP;
-		case MINUS:
-			return PLUS;
-		case MODULO:
-			throw new OperatorErrorException("Can't revert a modulo operator");
-		case PLUS:
-			return MINUS;
-		case SUP:
-			return INFEGAL;
-		case SUPEGAL:
-			return INF;
+		if (oppose == null) {
+			throw new UnsupportedOperationException("Can't revert " + this);
+		} else {
+			return oppose;
 		}
-		return null;
 	}
-	
+
 	/**
 	 * Teste l'appartenance de cet opérateur à la liste donnée
-	 * @param table La liste des opérateurs
+	 * 
+	 * @param table
+	 *            La liste des opérateurs
 	 * @return Vrai si l'opérateur est dans la liste donnée
 	 */
 	public boolean appartient(Operator[] table) {
@@ -170,30 +152,31 @@ public enum Operator {
 			if (operator == this)
 				return true;
 		}
-		
+
 		return false;
 	}
 
 	/**
-	 * Cette fonction teste si l'application de cet opérateur à 0 peut modifier sa valeur.
+	 * Cette fonction teste si l'application de cet opérateur à 0 peut modifier sa
+	 * valeur.
+	 * 
 	 * @return Vrai si l'opérateur est la multiplication, la division ou le modulo
 	 */
 	public boolean isAMultiplier() {
-		final Operator[] op = new Operator[] {TIMES, DIVIDE, MODULO};
-		
-		return appartient(op);
+		return zeroEstAbsorbant;
 	}
-	
-	
+
 	/**
 	 * Exceptions concernant les opérateurs
 	 */
 	public static class OperatorErrorException extends RuntimeException {
 		private static final long serialVersionUID = 1178358377586546702L;
-		
+
 		/**
 		 * Crée une exception sur les opérateurs avec le message donné
-		 * @param message Le message décrivant l'erreur
+		 * 
+		 * @param message
+		 *            Le message décrivant l'erreur
 		 */
 		public OperatorErrorException(String message) {
 			super("OperatorErrorException : " + message);

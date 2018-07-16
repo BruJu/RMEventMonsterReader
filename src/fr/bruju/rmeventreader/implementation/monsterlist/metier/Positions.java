@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
-import fr.bruju.rmeventreader.implementation.monsterlist.Pair;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public enum Positions {
 	

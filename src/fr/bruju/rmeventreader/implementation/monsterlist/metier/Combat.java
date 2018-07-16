@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.monsterlist.Pair;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class Combat {
 	Monstre[] monstres;

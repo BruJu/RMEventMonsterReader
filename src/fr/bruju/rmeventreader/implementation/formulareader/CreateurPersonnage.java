@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
-import fr.bruju.rmeventreader.implementation.monsterlist.Pair;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class CreateurPersonnage {
 	private static final String CHEMIN_STATS = "ressources/statistiques/";
@@ -49,9 +49,9 @@ public class CreateurPersonnage {
 	}
 
 	public static List<Personnage> creerTousLesPersonnages() {
-		CreateurPersonnage cp = new CreateurPersonnage();
-
 		List<Personnage> liste = new ArrayList<>();
+
+		CreateurPersonnage cp = new CreateurPersonnage();
 
 		File repertoire = new File(CHEMIN_STATS);
 

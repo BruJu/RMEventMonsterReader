@@ -30,7 +30,6 @@ public class ImageReader {
 		
 		boolean[][] pixelsAllumes = new boolean[longueur][hauteur];
 		
-		
 		for (int x = 0 ; x != longueur ; x++) {
 			for (int y = 0 ; y != hauteur ; y++) {
 				Color color = new Color(image.getRGB(x, y));
