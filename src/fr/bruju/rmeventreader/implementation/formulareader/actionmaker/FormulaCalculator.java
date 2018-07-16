@@ -31,10 +31,12 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	private List<Valeur> sortie;
 	
+	private Pile pile = new Pile();
+	private ConstructionBorne construireBorne;
+	
 	@Override
 	public boolean condOnEquippedItem(int heroId, int itemId) {
-		
-		this.pile.empiler(false);
+		pile.empiler(Pile.Valeur.FAUX);
 		
 		return true;
 	}
@@ -59,10 +61,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		}
 	}
 	
-	private PileDeBooleens pile = new PileDeBooleens();
-	
-	private ConstructionBorne construireBorne = null;
-	
 	
 	/*
 	 * Sortie
@@ -70,8 +68,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	
 	private void fixerLaSortie() {
 		sortie.add(etat.getSortie(VARIABLE_DEGATS_INFLIGES));
-		
-		pile.eternellementFaux();
 	}
 	
 	public Valeur getSortie() {
@@ -129,7 +125,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	@Override
 	public boolean condOnSwitch(int number, boolean value) {
-		if (!pile.toutAVrai()) {
+		if (pile.possedeUnFaux()) {
 			return false;
 		}
 		
@@ -141,7 +137,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	@Override
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (!pile.toutAVrai()) {
+		if (pile.possedeUnFaux()) {
 			return false;
 		}
 		
@@ -160,10 +156,15 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		try {
 			int evaluation = valeurCible.evaluer();
 			
-			pile.empiler(operatorValue.test(evaluation, returnValue.get()));
+			boolean resultatTest = operatorValue.test(evaluation, returnValue.get());
+			pile.empiler(resultatTest ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
+			
 		} catch (NonEvaluableException e) {
-
-			// System.out.println("Cant eval : " + valeurCible.getString() + " = " + leftOperandValue + " " + operatorValue + " " + returnValue.get());
+			System.out.println("Cant eval : "
+				+ valeurCible.getString() + " = "
+				+ leftOperandValue + " "
+				+ operatorValue + " "
+				+ returnValue.get());
 			
 			return false;
 		} catch (DependantDeStatistiquesEvaluation e) {
@@ -173,13 +174,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			// Connaissance Metier 1 : Les statistique sont toujours positives
 			if (operatorValue == Operator.SUP && returnValue.get() == 0) {
 				if (valeurCible.estGarantiePositive()) {
-					pile.empiler(true);
+					pile.empiler(Pile.Valeur.VRAI);
 					return true;
 				}
 			}
 			if (operatorValue == Operator.INFEGAL && returnValue.get() == 0) {
 				if (valeurCible.estGarantiePositive()) {
-					pile.empiler(false);
+					pile.empiler(Pile.Valeur.FAUX);
 					return true;
 				}
 			}
@@ -217,7 +218,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (this.construireBorne != null) {
 			this.construireBorne.tuer();
 		} else {
-			pile.inverseSommet();
+			pile.inverserSommet();
 		}
 	}
 
@@ -245,7 +246,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
-		if (!pile.toutAVrai()) {
+		if (pile.possedeUnFaux()) {
 			return;
 		}
 		
@@ -257,7 +258,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire returnValue) {
-		if (!pile.toutAVrai()) {
+		if (pile.possedeUnFaux()) {
 			return;
 		}
 
@@ -269,7 +270,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	
 	@Override
 	public void changeVariable(Variable variable, Operator operator, Variable returnValue) {
-		if (!pile.toutAVrai()) {
+		if (pile.possedeUnFaux()) {
 			return;
 		}
 		
@@ -280,7 +281,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	}
 
 	private void chgVar(int idVariableAModifier, Operator operator, Valeur rightValue) {
-		if (!pile.toutAVrai()) {
+		if (pile.possedeUnFaux()) {
 			return;
 		}
 		
@@ -297,10 +298,11 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	@Override
 	public void callMapEvent(int eventNumber, int eventPage) {
+		if (pile.possedeUnFaux()) {
+			return;
+		}
+		
 		if (eventNumber == TERMINATOR_EVENT_MAP_NUMB && eventPage == TERMINATOR_EVENT_MAP_PAGE) {
-			if (!pile.toutAVrai()) {
-				return;
-			}
 			
 			fixerLaSortie();
 		}
@@ -308,7 +310,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	
 	@Override
 	public void getComment(String str) {
-		if (!pile.toutAVrai()) {
+		if (pile.possedeUnFaux()) {
 			return;
 		}
 		
