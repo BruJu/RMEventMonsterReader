@@ -37,6 +37,18 @@ public class Etat {
 		etatMemoire = new HashMap<>();
 		this.pere = pere;
 	}
+	
+	public Etat getFilsGauche() {
+		return filsGauche;
+	}
+	public Etat getFilsDroit() {
+		return filsDroite;
+	}
+	public Etat getPere() {
+		return pere;
+	}
+	
+	
 
 	public Pair<Etat, Etat> creerFils() {
 		filsGauche = new Etat(this);

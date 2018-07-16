@@ -44,4 +44,8 @@ public class Pile {
 		
 		
 	}
+
+	public boolean sommetExplore() {
+		return valeurs.get(valeurs.size() - 1) == Valeur.EXPLOREBOTH;
+	}
 }
