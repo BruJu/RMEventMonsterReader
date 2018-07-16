@@ -28,7 +28,8 @@ public class FormulaMain {
 					System.out.println(calc.getSortie().getString());
 				}
 			} else {
-				System.out.println("--" + fichiersTexte.substring(0, fichiersTexte.length() - 4) + " : Pas de sortie");
+				if (ccc == null)
+					System.out.println("--" + fichiersTexte.substring(0, fichiersTexte.length() - 4) + " : Pas de sortie");
 			}
 			
 			

@@ -25,12 +25,20 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	
 	private Etat etat;
 	
+	@Override
+	public boolean condOnEquippedItem(int heroId, int itemId) {
+		
+		this.pile.empiler(false);
+		
+		return true;
+	}
+
 	private Valeur sortie;
 	
 	public FormulaCalculator() {
 		etat = new Etat();
 		etat.enregistrerValeurDepart(VARIABLE_CIBLE, VALEUR_CIBLE);
-		etat.enregistrerValeurDepart(588, 0);
+		etat.enregistrerValeurDepart(436, 5);
 		
 		// TODO : Ressource
 		
@@ -38,6 +46,16 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		for (int i = 965 ; i <= 971 ; i++) {
 			etat.enregistrerValeurDepart(i, 0);
 		}
+		
+		// Capa
+		for (int i = 588 ; i <= 593 ; i++) {
+			etat.enregistrerValeurDepart(i, 0);
+		}
+		etat.enregistrerValeurDepart(600, 0);
+
+		etat.enregistrerValeurDepart(483, 0);
+		etat.enregistrerValeurDepart(484, 0);
+		
 		
 	}
 	
