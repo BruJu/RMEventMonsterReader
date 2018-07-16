@@ -87,16 +87,16 @@ public class Calcul implements Valeur {
 	}
 
 	@Override
-	public boolean estPositif() {
+	public boolean estGarantiePositive() {
 		if (operateur.equals("-")) {
 			return false;
 		}
 		
-		return gauche.estPositif() && droite.estPositif();
+		return gauche.estGarantiePositive() && droite.estGarantiePositive();
 	}
 
 	@Override
-	public boolean estDeLaFormeMPMoinsConstante() {
+	public boolean estGarantieDeLaFormeMPMoinsConstante() {
 		return gauche.concerneLesMP() && operateur.equals("-") && droite.estConstant();
 	}
 }

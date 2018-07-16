@@ -30,7 +30,7 @@ public class ValeurStatistique implements Valeur {
 	}
 
 	@Override
-	public boolean estPositif() {
+	public boolean estGarantiePositive() {
 		return true;
 	}
 	

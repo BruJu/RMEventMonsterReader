@@ -35,7 +35,7 @@ public class ValeurNumerique implements Valeur {
 	}
 
 	@Override
-	public boolean estPositif() {
+	public boolean estGarantiePositive() {
 		return valeurMin > 0;
 	}
 

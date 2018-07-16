@@ -54,13 +54,13 @@ public class ValeurBornement implements Valeur {
 	}
 
 	@Override
-	public boolean estPositif() {
-		return (borneSup && valeurBornee.estPositif()) || (!borneSup && borneePar.estPositif());
+	public boolean estGarantiePositive() {
+		return (borneSup && valeurBornee.estGarantiePositive()) || (!borneSup && borneePar.estGarantiePositive());
 	}
 
 	@Override
-	public boolean estDeLaFormeMPMoinsConstante() {
-		return valeurBornee.estDeLaFormeMPMoinsConstante();
+	public boolean estGarantieDeLaFormeMPMoinsConstante() {
+		return valeurBornee.estGarantieDeLaFormeMPMoinsConstante();
 	}
 
 	@Override

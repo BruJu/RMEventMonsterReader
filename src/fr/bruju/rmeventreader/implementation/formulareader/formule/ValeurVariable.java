@@ -26,7 +26,7 @@ public class ValeurVariable implements Valeur {
 	}
 
 	@Override
-	public boolean estPositif() {
+	public boolean estGarantiePositive() {
 		return false;
 	}
 

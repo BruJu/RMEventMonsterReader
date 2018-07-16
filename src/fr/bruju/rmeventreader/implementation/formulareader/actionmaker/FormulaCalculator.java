@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
@@ -24,6 +27,8 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	private static final int VARIABLE_DEGATS_INFLIGES2 = 548;
 	
 	private Etat etat;
+
+	private List<Valeur> sortie;
 	
 	@Override
 	public boolean condOnEquippedItem(int heroId, int itemId) {
@@ -33,10 +38,10 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		return true;
 	}
 
-	private Valeur sortie;
 	
 	public FormulaCalculator() {
 		etat = new Etat();
+		sortie = new ArrayList<>();
 		etat.enregistrerValeurDepart(VARIABLE_CIBLE, VALEUR_CIBLE);
 		etat.enregistrerValeurDepart(436, 5);
 		
@@ -69,13 +74,17 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 */
 	
 	private void fixerLaSortie() {
-		sortie = etat.getSortie(new int[]{VARIABLE_DEGATS_INFLIGES, VARIABLE_DEGATS_INFLIGES2});
+		sortie.add(etat.getSortie(new int[]{VARIABLE_DEGATS_INFLIGES, VARIABLE_DEGATS_INFLIGES2}));
 		
 		pile.eternellementFaux();
 	}
 	
 	public Valeur getSortie() {
-		return sortie;
+		if (sortie.isEmpty()) {
+			return null;
+		}
+		
+		return sortie.get(0);
 	}
 	
 	/*
@@ -168,20 +177,20 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			
 			// Connaissance Metier 1 : Les statistique sont toujours positives
 			if (operatorValue == Operator.SUP && returnValue.get() == 0) {
-				if (valeurCible.estPositif()) {
+				if (valeurCible.estGarantiePositive()) {
 					pile.empiler(true);
 					return true;
 				}
 			}
 			if (operatorValue == Operator.INFEGAL && returnValue.get() == 0) {
-				if (valeurCible.estPositif()) {
+				if (valeurCible.estGarantiePositive()) {
 					pile.empiler(false);
 					return true;
 				}
 			}
 			
 			// Connaissance Metier 2 : Les conditions de la forme "MP - constante < 0" ne nous interessent pas
-			if (valeurCible.estDeLaFormeMPMoinsConstante() && operatorValue == Operator.INF && returnValue.get() == 0) {
+			if (valeurCible.estGarantieDeLaFormeMPMoinsConstante() && operatorValue == Operator.INF && returnValue.get() == 0) {
 				return false;
 			}
 			
