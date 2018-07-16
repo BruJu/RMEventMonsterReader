@@ -20,36 +20,43 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumeriq
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 
 public class FormulaCalculator implements ActionMakerDefalse {
+	/* ===========================
+	 * Constantes liées au dataset
+	 * =========================== */
 	private static final int TERMINATOR_EVENT_MAP_NUMB = 77;
 	private static final int TERMINATOR_EVENT_MAP_PAGE = 1;
-	
 	private static final int[] ENTER_IN_SWITCHES = {181, 182};
-	
 	private static final int[] VARIABLE_DEGATS_INFLIGES = {1181, 548};
 	
-	private Etat etat;
-
-	private List<Valeur> sortie;
+	/* =========
+	 * Attributs
+	 * ========= */
+	private Etat etat;							// Etat de la mémoire 
+	private List<Valeur> sortie;				// Sorties possibles
 	
-	private Pile pile = new Pile();
-	private ConstructionBorne construireBorne;
+	private Pile pile;							// Pile de conditions
+	private ConstructionBorne construireBorne;	// Construction de la borne (temporaire)
 	
-	@Override
-	public boolean condOnEquippedItem(int heroId, int itemId) {
-		pile.empiler(Pile.Valeur.FAUX);
-		
-		return true;
-	}
+	
+	
 
+	/* ============
+	 * Constructeur
+	 * ============ */
 	
 	public FormulaCalculator() {
 		etat = new Etat();
 		sortie = new ArrayList<>();
+		pile = new Pile();
 		
 		try {
 			FileReaderByLine.lireLeFichier(new File("ressources/CalculFormule.txt"),
 					ligne -> {
 						List<String> args = Recognizer.tryPattern("_ _", ligne);
+						
+						if (args == null) {
+							throw new RuntimeException("Pattern non vérifié");
+						}
 						
 						int idVar = Integer.parseInt(args.get(0));
 						int valFixee = Integer.parseInt(args.get(1));
@@ -58,13 +65,14 @@ public class FormulaCalculator implements ActionMakerDefalse {
 					});
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Erreur IO : Fin du programme");
 		}
 	}
 	
-	
-	/*
-	 * Sortie
-	 */
+
+	/* =======
+	 * Sorties
+	 * ======= */
 	
 	private void fixerLaSortie() {
 		sortie.add(etat.getSortie(VARIABLE_DEGATS_INFLIGES));
@@ -74,54 +82,16 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (sortie.isEmpty()) {
 			return null;
 		}
-		
+
 		return sortie.get(0);
 	}
-	
-	/*
-	 * Valeurs selon entree de actionmaker
-	 */
-	
-	private ValeurNumerique getValue(ValeurFixe value) {
-		return new ValeurNumerique(value.get());
-	}
-
-	private ValeurNumerique getValue(ValeurAleatoire value) {
-		return new ValeurNumerique(value.getMin(), value.getMax());
-	}
-
-	private Valeur getValue(Variable value) {
-		int idVariable = value.get();
-		
-		return etat.getValeur(idVariable);
-	}
-
-	private String getSymbole(Operator operator) {
-		switch (operator) {
-		case DIVIDE:
-			return "/";
-		case MINUS:
-			return "-";
-		case MODULO:
-			return "%";
-		case PLUS:
-			return "+";
-		case TIMES:
-			return "*";
-		default:
-			break;
-		}
-		
-		return "?";
-	}
 
 	
-	/* ==========
-	 * Conditions
-	 * ========== */
+	/* ==================
+	 * Conditions stables
+	 * ================== */
 
 	// Switch
-	
 
 	@Override
 	public boolean condOnSwitch(int number, boolean value) {
@@ -129,8 +99,60 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			return false;
 		}
 		
-		return Ensemble.appartient(number, ENTER_IN_SWITCHES);
+		if (Ensemble.appartient(number, ENTER_IN_SWITCHES)) {
+			pile.empiler(Pile.Valeur.VRAI);
+			return true;
+		}
+		
+		return false;
 	}
+	
+	@Override
+	public boolean condOnEquippedItem(int heroId, int itemId) {
+		if (pile.possedeUnFaux()) {
+			return false;
+		}
+		
+		pile.empiler(Pile.Valeur.FAUX);
+		return true;
+	}
+
+
+	@Override
+	public void condElse() {
+		if (this.construireBorne != null) {
+			this.construireBorne.tuer();
+		} else {
+			pile.inverserSommet();
+		}
+	}
+
+	@Override
+	public void condEnd() {
+		if (this.construireBorne == null) {
+			pile.depiler();
+		} else {
+			Valeur val = this.construireBorne.finir();
+			
+			if (val == null) {
+				this.construireBorne = null;
+				return;
+			}
+			
+			etat.setValue(construireBorne.getVariable(), val);
+			this.construireBorne = null;
+			
+		}
+	}
+	
+
+	/* ====================
+	 * Conditions instables
+	 * ==================== */
+	
+	
+	
+	
 	
 	
 	// Variable
@@ -147,6 +169,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			// System.out.println("SHOWNEXTCOND " + leftOperandValue + operatorValue + returnValue.get());
 			
 			if (leftOperandValue == 519 && operatorValue == Operator.SUP && returnValue.get() == 0) {
+				pile.empiler(Pile.Valeur.VRAI);
 				return true;
 			}
 		}
@@ -160,11 +183,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			pile.empiler(resultatTest ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
 			
 		} catch (NonEvaluableException e) {
+			/*
 			System.out.println("Cant eval : "
 				+ valeurCible.getString() + " = "
 				+ leftOperandValue + " "
 				+ operatorValue + " "
 				+ returnValue.get());
+			*/
 			
 			return false;
 		} catch (DependantDeStatistiquesEvaluation e) {
@@ -213,32 +238,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	// Else End
 	
-	@Override
-	public void condElse() {
-		if (this.construireBorne != null) {
-			this.construireBorne.tuer();
-		} else {
-			pile.inverserSommet();
-		}
-	}
-
-	@Override
-	public void condEnd() {
-		if (this.construireBorne == null) {
-			pile.depiler();
-		} else {
-			Valeur val = this.construireBorne.finir();
-			
-			if (val == null) {
-				this.construireBorne = null;
-				return;
-			}
-			
-			etat.setValue(construireBorne.getVariable(), val);
-			this.construireBorne = null;
-			
-		}
-	}
 
 	/* ==========
 	 * Actions
@@ -251,9 +250,9 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		}
 		
 		if (construireBorne != null)
-			construireBorne.changeVariable(variable.get(), operator, getValue(returnValue));
+			construireBorne.changeVariable(variable.get(), operator, Traduction.getValue(returnValue));
 		else
-			chgVar(variable.get(), operator, getValue(returnValue));
+			chgVar(variable.get(), operator, Traduction.getValue(returnValue));
 	}
 
 	@Override
@@ -263,9 +262,9 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		}
 
 		if (construireBorne != null)
-			construireBorne.changeVariable(variable.get(), operator, getValue(returnValue));
+			construireBorne.changeVariable(variable.get(), operator, Traduction.getValue(returnValue));
 		else
-			chgVar(variable.get(), operator, getValue(returnValue));
+			chgVar(variable.get(), operator, Traduction.getValue(returnValue));
 	}
 	
 	@Override
@@ -277,7 +276,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (construireBorne != null)
 			construireBorne.tuer();
 		else
-			chgVar(variable.get(), operator, getValue(returnValue));
+			chgVar(variable.get(), operator, Traduction.getValue(etat, returnValue));
 	}
 
 	private void chgVar(int idVariableAModifier, Operator operator, Valeur rightValue) {
@@ -288,7 +287,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (operator == Operator.AFFECTATION) {
 			etat.setValue(idVariableAModifier, rightValue);
 		} else {
-			String symbole = getSymbole(operator);
+			String symbole = Traduction.getSymbole(operator);
 			
 			Calcul calcul = new Calcul(etat.getValeur(idVariableAModifier), symbole, rightValue);
 			

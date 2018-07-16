@@ -12,7 +12,6 @@ public class Pile {
 	
 	List<Valeur> valeurs = new ArrayList<>();
 	
-	
 	public void empiler(Valeur valeur) {
 		valeurs.add(valeur);
 	}
@@ -24,10 +23,10 @@ public class Pile {
 	public boolean possedeUnFaux() {
 		for (int i = 0 ; i != valeurs.size() ; i++ ) {
 			if (valeurs.get(i) == Valeur.FAUX)
-				return false;
+				return true;
 		}
 		
-		return true;
+		return false;
 	}
 	
 	public void inverserSommet() {
@@ -41,7 +40,6 @@ public class Pile {
 			}
 			
 			valeurs.set(valeurs.size() - 1, v);
-			
 		}
 		
 		

@@ -34,6 +34,8 @@ public class FormulaMain {
 			new AutoActionMaker(calc, "ressources/Attaques/" + fichiersTexte).faire();
 			
 			Valeur val = calc.getSortie();
+			String nomAttaque = fichiersTexte.substring(0, fichiersTexte.length() - 4);
+			
 			
 			if (val == null) {
 				continue;
@@ -41,7 +43,8 @@ public class FormulaMain {
 			
 			for (Personnage perso : persos) {
 				if (val.getString().contains(perso.getNom())) {
-					map.get(perso).add(new Pair<>(fichiersTexte.substring(0, fichiersTexte.length() - 4), val));
+					map.get(perso).add(new Pair<>(nomAttaque, val));
+					
 				}
 			}
 			

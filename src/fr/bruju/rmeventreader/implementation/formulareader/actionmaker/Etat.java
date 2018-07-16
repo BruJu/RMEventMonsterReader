@@ -81,8 +81,9 @@ public class Etat {
 		for (int idVariable : idVariables) {
 			val = etatMemoire.get(idVariable);
 
-			if (val != null)
-				return val;
+			if (val != null) {
+				return val; 
+			}
 		}
 
 		if (pere == null) {
