@@ -1,13 +1,17 @@
 package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Calcul;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
@@ -20,11 +24,8 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	private static final int TERMINATOR_EVENT_MAP_PAGE = 1;
 	
 	private static final int[] ENTER_IN_SWITCHES = {181, 182};
-	private static final int VARIABLE_CIBLE = 42;
-	private static final int VALEUR_CIBLE = 70;
 	
-	private static final int VARIABLE_DEGATS_INFLIGES = 1181;
-	private static final int VARIABLE_DEGATS_INFLIGES2 = 548;
+	private static final int[] VARIABLE_DEGATS_INFLIGES = {1181, 548};
 	
 	private Etat etat;
 
@@ -42,26 +43,20 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	public FormulaCalculator() {
 		etat = new Etat();
 		sortie = new ArrayList<>();
-		etat.enregistrerValeurDepart(VARIABLE_CIBLE, VALEUR_CIBLE);
-		etat.enregistrerValeurDepart(436, 5);
 		
-		// TODO : Ressource
-		
-		// Double impact
-		for (int i = 965 ; i <= 971 ; i++) {
-			etat.enregistrerValeurDepart(i, 0);
+		try {
+			FileReaderByLine.lireLeFichier(new File("ressources/CalculFormule.txt"),
+					ligne -> {
+						List<String> args = Recognizer.tryPattern("_ _", ligne);
+						
+						int idVar = Integer.parseInt(args.get(0));
+						int valFixee = Integer.parseInt(args.get(1));
+						
+						etat.enregistrerValeurDepart(idVar, valFixee);
+					});
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		// Capa
-		for (int i = 588 ; i <= 593 ; i++) {
-			etat.enregistrerValeurDepart(i, 0);
-		}
-		etat.enregistrerValeurDepart(600, 0);
-
-		etat.enregistrerValeurDepart(483, 0);
-		etat.enregistrerValeurDepart(484, 0);
-		
-		
 	}
 	
 	private PileDeBooleens pile = new PileDeBooleens();
@@ -74,7 +69,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 */
 	
 	private void fixerLaSortie() {
-		sortie.add(etat.getSortie(new int[]{VARIABLE_DEGATS_INFLIGES, VARIABLE_DEGATS_INFLIGES2}));
+		sortie.add(etat.getSortie(VARIABLE_DEGATS_INFLIGES));
 		
 		pile.eternellementFaux();
 	}
