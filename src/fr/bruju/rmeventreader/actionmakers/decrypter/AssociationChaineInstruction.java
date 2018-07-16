@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.decrypter;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
+import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Commentary;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.IgnoreLine;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.JumpTo;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Label;
@@ -74,6 +75,8 @@ class AssociationChaineInstruction {
 
 					// Flot de controle
 					new Label(), new JumpTo(),
+					
+					new Commentary(),
 
 					// Ne servent pas l'analyse
 					new NoAction("Show Message", "<> Show Message: _"),
@@ -102,7 +105,7 @@ class AssociationChaineInstruction {
 					new NoAction("Erase Screen", "<> Erase Screen: £"),
 					new NoAction("Change Transition", "<> Change Transition: £"),
 
-					new NoAction("Memorize BGM", "<> Memorize BGM"), new NoAction("Commentary", "<> Comment: £"),
+					new NoAction("Memorize BGM", "<> Memorize BGM"),
 
 					new NoAction("Panorama", "<> Change Panorama: _"),
 

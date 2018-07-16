@@ -138,7 +138,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		if (variable.get() == VARIABLE_GAINEXP) {
 			modificationGainExp(operator, returnValue);
 			return;
-		}	
+		}
 	}
 	
 	

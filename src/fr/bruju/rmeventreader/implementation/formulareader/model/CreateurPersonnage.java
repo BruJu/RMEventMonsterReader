@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulareader;
+package fr.bruju.rmeventreader.implementation.formulareader.model;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +9,6 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
-import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class CreateurPersonnage {

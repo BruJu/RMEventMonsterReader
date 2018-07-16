@@ -21,43 +21,19 @@ public class Calcul implements Valeur {
 	}
 
 	public Calcul(Valeur gauche, String operateur, Valeur droite) {
+		if (gauche == null)
+			throw new RuntimeException("Gauche null");
+		if (operateur == null)
+			throw new RuntimeException("Op null");
+		if (droite == null)
+			throw new RuntimeException("Droite null");
+		
 		this.gauche = gauche;
 		this.operateur = operateur;
 		this.droite = droite;
 		this.priorite = setPriorite(operateur);
 	}
 
-	@Override
-	public String getStringMin() {
-		String gaucheStr = gauche.getStringMin();
-		String droiteStr = droite.getStringMin();
-		
-		if (gauche.getPriorite() > this.getPriorite()) {
-			gaucheStr = "(" + gaucheStr + ")";
-		}
-
-		if (droite.getPriorite() > this.getPriorite()) {
-			droiteStr = "(" + droiteStr + ")";
-		}
-		
-		return gaucheStr + " " + operateur + " " + droiteStr;
-	}
-
-	@Override
-	public String getStringMax() {
-		String gaucheStr = gauche.getStringMax();
-		String droiteStr = droite.getStringMax();
-		
-		if (gauche.getPriorite() > this.getPriorite()) {
-			gaucheStr = "(" + gaucheStr + ")";
-		}
-
-		if (droite.getPriorite() > this.getPriorite()) {
-			droiteStr = "(" + droiteStr + ")";
-		}
-		
-		return gaucheStr + " " + operateur + " " + droiteStr;
-	}
 
 	
 	@Override
@@ -66,9 +42,9 @@ public class Calcul implements Valeur {
 	}
 
 	@Override
-	public String getStringUnique() {
-		String gaucheStr = gauche.getStringUnique();
-		String droiteStr = droite.getStringUnique();
+	public String getString() {
+		String gaucheStr = gauche.getString();
+		String droiteStr = droite.getString();
 		
 		if (gauche.getPriorite() > this.getPriorite()) {
 			gaucheStr = "(" + gaucheStr + ")";
@@ -79,5 +55,34 @@ public class Calcul implements Valeur {
 		}
 		
 		return gaucheStr + " " + operateur + " " + droiteStr;
+	}
+
+	@Override
+	public int evaluate() throws CantEvaluateException, StatDependantEvaluation {
+		int evalG;
+		int evalD;
+		
+		try {
+			evalG = gauche.evaluate();
+			evalD = droite.evaluate();
+		} catch (CantEvaluateException e) {
+			evalD = droite.evaluate();
+			throw e;
+		}
+		
+		switch (operateur) {
+		case "+":
+			return evalG + evalD;
+		case "-":
+			return evalG - evalD;
+		case "*":
+			return evalG * evalD;
+		case "/":
+			return evalG / evalD;
+		case "%":
+			return evalG % evalD;
+		default:
+			throw new RuntimeException("Opérateur inconnu");
+		}
 	}
 }

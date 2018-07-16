@@ -141,5 +141,11 @@ public interface ActionMakerDefalse extends ActionMaker {
 
 	}
 
+	@Override
+	default void getComment(String str) {
+	}
+	
+	
+
 
 }

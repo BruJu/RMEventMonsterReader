@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulareader.model;
 
+// TODO : ceci est en réalité une ressource
 public enum Statistique {
 	Niveau,
 	HP,
@@ -12,6 +13,7 @@ public enum Statistique {
 	Esprit,
 	Dexterite,
 	Esquive,
+	Fatigue,
 	AttaqueArme1,
 	AttaqueArme2,
 	AttaqueBouclier,

@@ -12,19 +12,12 @@ public class ValeurStatistique implements Valeur {
 		this.statistique = statistique;
 	}
 
-	private String getString() {
+	@Override
+	public String getString() {
 		return personnage.getNom() + "." + statistique;
 	}
 	
-	@Override
-	public String getStringMin() {
-		return getString();
-	}
 
-	@Override
-	public String getStringMax() {
-		return getString();
-	}
 	
 	@Override
 	public int getPriorite() {
@@ -32,7 +25,7 @@ public class ValeurStatistique implements Valeur {
 	}
 
 	@Override
-	public String getStringUnique() {
-		return getString();
+	public int evaluate() throws StatDependantEvaluation {
+		throw new StatDependantEvaluation();
 	}
 }

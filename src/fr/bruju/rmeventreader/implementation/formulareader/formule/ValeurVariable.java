@@ -1,20 +1,12 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+import fr.bruju.rmeventreader.implementation.formulareader.actionmaker.Etat;
+
 public class ValeurVariable implements Valeur {
 	private int idVariable;
 	
 	public ValeurVariable (int idVariable) {
 		this.idVariable = idVariable;
-	}
-	
-	@Override
-	public String getStringMin() {
-		return "V[" + idVariable + "]";
-	}
-
-	@Override
-	public String getStringMax() {
-		return "V[" + idVariable + "]";
 	}
 
 	@Override
@@ -23,8 +15,13 @@ public class ValeurVariable implements Valeur {
 	}
 
 	@Override
-	public String getStringUnique() {
+	public String getString() {
+		Etat.updateStatic(idVariable);
 		return "V[" + idVariable + "]";
 	}
-
+	
+	@Override
+	public int evaluate() throws CantEvaluateException {
+		throw new CantEvaluateException();
+	}
 }

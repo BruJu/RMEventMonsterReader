@@ -248,5 +248,12 @@ public interface ActionMaker {
 	 * @param eventPage Page de l'évènement
 	 */
 	public void callMapEvent(int eventNumber, int eventPage);
+	
+	
+	/**
+	 * Commentaire lu
+	 * @param str Le commentaire
+	 */
+	public void getComment(String str);
 
 }

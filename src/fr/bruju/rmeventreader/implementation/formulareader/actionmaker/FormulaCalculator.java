@@ -1,7 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulareader;
-
-import java.util.HashMap;
-import java.util.Map;
+package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -9,14 +6,11 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Calcul;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.CantEvaluateException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.StatDependantEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurStatistique;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurVariable;
-import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
-import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class FormulaCalculator implements ActionMakerDefalse {
 	private static final int TERMINATOR_EVENT_MAP_NUMB = 77;
@@ -29,29 +23,37 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	private static final int VARIABLE_DEGATS_INFLIGES = 1181;
 	private static final int VARIABLE_DEGATS_INFLIGES2 = 548;
 	
-	private Map<Integer, Valeur> variableUtilisee = new HashMap<>();
-	
-	
-	public FormulaCalculator() {
-		
-		
-	}
+	private Etat etat;
 	
 	private Valeur sortie;
-
+	
+	public FormulaCalculator() {
+		etat = new Etat();
+		etat.enregistrerValeurDepart(VARIABLE_CIBLE, VALEUR_CIBLE);
+		etat.enregistrerValeurDepart(588, 0);
+	}
+	
+	private PileDeBooleens pile = new PileDeBooleens();
+	
+	
+	/*
+	 * Sortie
+	 */
+	
 	private void fixerLaSortie() {
-		sortie = variableUtilisee.get(VARIABLE_DEGATS_INFLIGES);
-		
-		if (sortie == null)
-			sortie = variableUtilisee.get(VARIABLE_DEGATS_INFLIGES2);
+		sortie = etat.getSortie(new int[]{VARIABLE_DEGATS_INFLIGES, VARIABLE_DEGATS_INFLIGES2});
 	}
 	
 	public Valeur getSortie() {
 		return sortie;
 	}
 	
+	/*
+	 * Valeurs selon entree de actionmaker
+	 */
+	
 	private Valeur getValue(ValeurFixe value) {
-		return new ValeurNumerique(value.get(), value.get());
+		return new ValeurNumerique(value.get());
 	}
 
 	private Valeur getValue(ValeurAleatoire value) {
@@ -59,19 +61,9 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	}
 
 	private Valeur getValue(Variable value) {
-		Pair<Personnage, Statistique> variableDepart = getStatName(value.get());
+		int idVariable = value.get();
 		
-		if (variableDepart != null) {
-			return new ValeurStatistique(variableDepart.getLeft(), variableDepart.getRight());
-		} else {
-			return variableUtilisee.getOrDefault(value.get(), new ValeurVariable(value.get()));
-		}
-	}
-
-	private Pair<Personnage, Statistique> getStatName(int value) {
-		Map<Integer, Pair<Personnage, Statistique>> mapStats = CreateurPersonnage.getMap();
-		
-		return mapStats.get(value);
+		return etat.getValeur(idVariable);
 	}
 
 	private String getSymbole(Operator operator) {
@@ -111,7 +103,35 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	@Override
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		return (leftOperandValue == VARIABLE_CIBLE && returnValue.get() == VALEUR_CIBLE);
+		if (showNextCond) {
+			showNextCond = false;
+			
+			// System.out.println("SHOWNEXTCOND " + leftOperandValue + operatorValue + returnValue.get());
+			
+			if (leftOperandValue == 519 && operatorValue == Operator.SUP && returnValue.get() == 0) {
+				return true;
+			}
+		}
+		
+		Valeur valeurCible = etat.getValeur(leftOperandValue);
+		
+		try {
+			int evaluation = valeurCible.evaluate();
+			
+			pile.empiler(operatorValue.test(evaluation, returnValue.get()));
+		} catch (CantEvaluateException e) {
+			
+			
+			return false;
+		} catch (StatDependantEvaluation e) {
+			
+			return false;
+		}
+		
+		
+		
+		
+		return true;
 	}
 
 
@@ -119,11 +139,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	
 	@Override
 	public void condElse() {
-		throw new RuntimeException("condElse");
+		pile.inverseSommet();
+		
 	}
 
 	@Override
 	public void condEnd() {
+		pile.depiler();
 		
 	}
 
@@ -148,11 +170,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 	private void chgVar(int idVariableAModifier, Operator operator, Valeur rightValue) {
 		if (operator == Operator.AFFECTATION) {
-			variableUtilisee.put(idVariableAModifier, rightValue);
+			etat.setValue(idVariableAModifier, rightValue);
 		} else {
 			String symbole = getSymbole(operator);
 			
-			variableUtilisee.put(idVariableAModifier, new Calcul(variableUtilisee.get(idVariableAModifier), symbole, rightValue));
+			Calcul calcul = new Calcul(etat.getValeur(idVariableAModifier), symbole, rightValue);
+			
+			etat.setValue(idVariableAModifier, calcul);
 		}
 	}
 
@@ -162,6 +186,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			fixerLaSortie();
 		}
 	}
+	
+	@Override
+	public void getComment(String str) {
+		if (str.equals("CALCUL DEGATS")) {
+			showNextCond = true;
+		}
+	}
 
-
+	private boolean showNextCond = false;
 }

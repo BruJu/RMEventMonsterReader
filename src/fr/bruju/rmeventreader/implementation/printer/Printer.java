@@ -261,4 +261,9 @@ public class Printer implements ActionMaker {
 		return true;
 	}
 
+	@Override
+	public void getComment(String str) {
+		System.out.println("// " + str);
+	}
+
 }

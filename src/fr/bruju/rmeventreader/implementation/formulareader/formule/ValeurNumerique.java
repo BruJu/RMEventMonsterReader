@@ -10,14 +10,9 @@ public class ValeurNumerique implements Valeur {
 		this.valeurMax = valeurMax;
 	}
 	
-	@Override
-	public String getStringMin() {
-		return Integer.toString(valeurMin);
-	}
-
-	@Override
-	public String getStringMax() {
-		return Integer.toString(valeurMax);
+	public ValeurNumerique(int valeurInitiale) {
+		this.valeurMin = valeurInitiale;
+		this.valeurMax = valeurInitiale;
 	}
 
 	@Override
@@ -26,12 +21,17 @@ public class ValeurNumerique implements Valeur {
 	}
 
 	@Override
-	public String getStringUnique() {
+	public String getString() {
 		if (valeurMin == valeurMax) {
 			return Integer.toString(valeurMin);
 		} else {
 			return Integer.toString(valeurMin) + "~" + Integer.toString(valeurMax);
 		}
+	}
+
+	@Override
+	public int evaluate() throws CantEvaluateException {
+		return valeurMin;
 	}
 
 }

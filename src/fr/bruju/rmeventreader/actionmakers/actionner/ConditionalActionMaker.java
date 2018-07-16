@@ -357,6 +357,16 @@ public class ConditionalActionMaker implements ActionMaker {
 	}
 
 
+	@Override
+	public void getComment(String str) {
+		if (isIgnoring()) {
+			return;
+		}
+		
+		base.getComment(str);
+	}
+
+
 
 
 

@@ -2,6 +2,8 @@ package fr.bruju.rmeventreader.implementation.formulareader;
 
 import java.io.File;
 
+import fr.bruju.rmeventreader.implementation.formulareader.actionmaker.Etat;
+import fr.bruju.rmeventreader.implementation.formulareader.actionmaker.FormulaCalculator;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
 
 public class FormulaMain {
@@ -21,9 +23,9 @@ public class FormulaMain {
 			String ccc = null;
 			
 			if (calc.getSortie() != null) {
-				if (ccc == null || calc.getSortie().getStringMin().contains(ccc)) {
+				if (ccc == null || calc.getSortie().getString().contains(ccc)) {
 					System.out.print("--" +  fichiersTexte.substring(0, fichiersTexte.length() - 4) + " = ");
-					System.out.println(calc.getSortie().getStringUnique());
+					System.out.println(calc.getSortie().getString());
 				}
 			} else {
 				System.out.println("--" + fichiersTexte.substring(0, fichiersTexte.length() - 4) + " : Pas de sortie");
@@ -33,6 +35,14 @@ public class FormulaMain {
 		}
 		
 		
+		
+		System.out.println("Variable crees : ");
+		
+		for (Integer idVar : Etat.idVariablesCrees) {
+
+			System.out.print(idVar + " ");
+		}
+		System.out.println();
 		
 		
 		
