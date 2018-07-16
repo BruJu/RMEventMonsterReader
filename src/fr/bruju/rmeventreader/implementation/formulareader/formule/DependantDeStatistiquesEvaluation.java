@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
-public class StatDependantEvaluation extends Exception {
+public class DependantDeStatistiquesEvaluation extends Exception {
 
 	/**
 	 * 

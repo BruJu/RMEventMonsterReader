@@ -58,15 +58,15 @@ public class Calcul implements Valeur {
 	}
 
 	@Override
-	public int evaluate() throws CantEvaluateException, StatDependantEvaluation {
+	public int evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		int evalG;
 		int evalD;
 		
 		try {
-			evalG = gauche.evaluate();
-			evalD = droite.evaluate();
-		} catch (CantEvaluateException e) {
-			evalD = droite.evaluate();
+			evalG = gauche.evaluer();
+			evalD = droite.evaluer();
+		} catch (NonEvaluableException e) {
+			evalD = droite.evaluer();
 			throw e;
 		}
 		
@@ -84,5 +84,19 @@ public class Calcul implements Valeur {
 		default:
 			throw new RuntimeException("Opérateur inconnu");
 		}
+	}
+
+	@Override
+	public boolean estPositif() {
+		if (operateur.equals("-")) {
+			return false;
+		}
+		
+		return gauche.estPositif() && droite.estPositif();
+	}
+
+	@Override
+	public boolean estDeLaFormeMPMoinsConstante() {
+		return gauche.concerneLesMP() && operateur.equals("-") && droite.estConstant();
 	}
 }

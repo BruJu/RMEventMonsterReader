@@ -30,4 +30,9 @@ public class PileDeBooleens {
 	public void inverseSommet() {
 		empiler(!depiler());
 	}
+
+	
+	public void eternellementFaux() {
+		pile = Integer.MIN_VALUE;
+	}
 }

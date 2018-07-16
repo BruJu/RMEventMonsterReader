@@ -25,7 +25,18 @@ public class ValeurStatistique implements Valeur {
 	}
 
 	@Override
-	public int evaluate() throws StatDependantEvaluation {
-		throw new StatDependantEvaluation();
+	public int evaluer() throws DependantDeStatistiquesEvaluation {
+		throw new DependantDeStatistiquesEvaluation();
+	}
+
+	@Override
+	public boolean estPositif() {
+		return true;
+	}
+	
+	
+	@Override
+	public boolean concerneLesMP() {
+		return statistique == Statistique.MP;
 	}
 }

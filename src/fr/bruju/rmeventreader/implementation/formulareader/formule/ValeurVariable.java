@@ -21,7 +21,13 @@ public class ValeurVariable implements Valeur {
 	}
 	
 	@Override
-	public int evaluate() throws CantEvaluateException {
-		throw new CantEvaluateException();
+	public int evaluer() throws NonEvaluableException {
+		throw new NonEvaluableException();
 	}
+
+	@Override
+	public boolean estPositif() {
+		return false;
+	}
+
 }

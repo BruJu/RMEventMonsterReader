@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
-public class CantEvaluateException extends Exception {
+public class NonEvaluableException extends Exception {
 
 	/**
 	 * 

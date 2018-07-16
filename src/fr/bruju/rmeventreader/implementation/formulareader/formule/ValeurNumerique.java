@@ -30,8 +30,29 @@ public class ValeurNumerique implements Valeur {
 	}
 
 	@Override
-	public int evaluate() throws CantEvaluateException {
+	public int evaluer() throws NonEvaluableException {
 		return valeurMin;
+	}
+
+	@Override
+	public boolean estPositif() {
+		return valeurMin > 0;
+	}
+
+
+	@Override
+	public boolean estConstant() {
+		return true;
+	}
+	
+	@Override
+	public int evaluerMin() {
+		return valeurMin;
+	}
+
+	@Override
+	public int evaluerMax() {
+		return valeurMax;
 	}
 
 }
