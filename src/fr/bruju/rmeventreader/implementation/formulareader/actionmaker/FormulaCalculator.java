@@ -8,7 +8,6 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Calcul;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionSwitch;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionVariable;
