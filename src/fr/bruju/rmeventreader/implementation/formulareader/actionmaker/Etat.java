@@ -15,6 +15,7 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurSwitch;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurTernaire;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
+import fr.bruju.rmeventreader.utilitaire.Ensemble;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
@@ -242,23 +243,12 @@ public class Etat {
 
 		return valeursSorties;
 	}
-
-	public Valeur getSortie() {
-		Valeur val;
-
-		for (int idVariable : getVariablesDeSorties()) {
-			val = etatMemoire.get(idVariable);
-
-			if (val != null) {
-				return val;
-			}
+	
+	public boolean estUneSortie(int idVariable) {
+		if (valeursSorties == null) {
+			valeursSorties = getVariablesDeSorties();
 		}
-
-		if (pere == null) {
-			return null;
-		} else {
-			return pere.getSortie();
-		}
+		
+		return Ensemble.appartient(idVariable, valeursSorties);
 	}
-
 }

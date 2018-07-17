@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.utilitaire;
 
+import java.util.List;
+
 public class Ensemble {
 	private Ensemble() { }
 	
@@ -16,5 +18,15 @@ public class Ensemble {
 	
 	public static boolean appartient(int element, int[] elements) {
 		return getPosition(element, elements) != -1;
+	}
+
+	public static boolean appartient(int valeurRecherchee, List<Integer> valeurs) {
+		for (Integer valeur : valeurs) {
+			if (valeur == valeurRecherchee) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

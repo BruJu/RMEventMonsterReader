@@ -66,7 +66,7 @@ public class FormulaMain {
 			System.out.println("===== " + perso.getNom() + "=====");
 			map.get(perso).forEach(element -> {
 
-				System.out.println(element.getLeft() + " = " + element.getRight().getString());
+				System.out.println(element.getLeft() + " = " + perso.subFormula(element.getRight().getString()));
 			});
 			/*
 			map.get(perso).forEach(element -> {

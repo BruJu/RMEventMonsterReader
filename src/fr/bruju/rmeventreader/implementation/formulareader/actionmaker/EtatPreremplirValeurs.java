@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNommee;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
@@ -42,6 +43,10 @@ public class EtatPreremplirValeurs implements ActionOnLine {
 			interrupteurs.put(idVar, new ValeurNumerique(1));
 		} else if (args.getRight().equals("OFF")) {
 			interrupteurs.put(idVar, new ValeurNumerique(0));
+		} else if (args.getRight().charAt(0) == '@') {
+			interrupteurs.put(idVar, new ValeurNommee(idVar, args.getRight()));
+		} else if (args.getRight().charAt(0) == '$') {
+			variables.put(idVar, new ValeurNommee(idVar, args.getRight()));
 		} else {
 			int valFixee = Integer.parseInt(args.getRight());
 			variables.put(idVar, new ValeurNumerique(valFixee));

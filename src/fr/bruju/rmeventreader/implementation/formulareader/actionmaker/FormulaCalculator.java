@@ -47,7 +47,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * ======= */
 
 	private void fixerLaSortie() {
-		sortie.add(etat.getSortie());
+		//sortie.add(etat.getSortie());
 	}
 
 	public List<Valeur> getSortie() {
@@ -276,6 +276,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (operator == Operator.AFFECTATION) {
 			etat.setValue(idVariableAModifier, rightValue);
 		} else {
+			
+			if (operator == Operator.MINUS) {
+				if (etat.estUneSortie(idVariableAModifier)) {
+					sortie.add(rightValue);
+				}
+			}
+			
 			String symbole = Traduction.getSymbole(operator);
 
 			Calcul calcul = new Calcul(etat.getValeur(idVariableAModifier), symbole, rightValue);
@@ -289,11 +296,12 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (pile.possedeUnFaux()) {
 			return;
 		}
-
+/*
 		if (eventNumber == TERMINATOR_EVENT_MAP_NUMB && eventPage == TERMINATOR_EVENT_MAP_PAGE) {
 
 			fixerLaSortie();
 		}
+		*/
 	}
 
 	@Override
