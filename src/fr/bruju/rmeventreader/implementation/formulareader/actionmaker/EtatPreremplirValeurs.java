@@ -37,7 +37,7 @@ public class EtatPreremplirValeurs implements ActionOnLine {
 
 		int idVar = Integer.parseInt(args.getLeft());
 
-		if (args.getRight().equals("DMG")) {
+		if (args.getRight().equals("DMG") || args.getRight().equals("HEAL")) {
 			sorties.add(idVar);
 		} else if (args.getRight().equals("ON")) {
 			interrupteurs.put(idVar, new ValeurNumerique(1));

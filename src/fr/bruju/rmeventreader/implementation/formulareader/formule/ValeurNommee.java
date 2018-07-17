@@ -5,7 +5,7 @@ public class ValeurNommee extends ValeurVariable {
 	
 	public ValeurNommee(int idVar, String nom) {
 		super(idVar);
-		this.nom = nom;
+		this.nom = nom.substring(1);
 	}
 	
 	@Override

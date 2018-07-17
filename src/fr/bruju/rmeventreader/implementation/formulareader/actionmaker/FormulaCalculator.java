@@ -10,6 +10,8 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Calcul;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionSwitch;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
@@ -20,8 +22,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	/* ===========================
 	 * Constantes liées au dataset
 	 * =========================== */
-	private static final int TERMINATOR_EVENT_MAP_NUMB = 77;
-	private static final int TERMINATOR_EVENT_MAP_PAGE = 1;
 
 	/* =========
 	 * Attributs
@@ -46,9 +46,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Sorties
 	 * ======= */
 
-	private void fixerLaSortie() {
-		//sortie.add(etat.getSortie());
-	}
 
 	public List<Valeur> getSortie() {
 		return sortie;
@@ -68,18 +65,23 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 		Valeur v = etat.getSwitch(number);
 
-		if (v == null) {
-			System.out.println("Cond on " + number);
-
-			return false;
+		Condition cond = new ConditionSwitch(v, value);
+		
+		boolean resultat;
+		
+		try {
+			resultat = cond.tester();
+		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
+			entrerDansUnEtatFils(cond);
+			return true;
 		}
-
-		int valueBool = (value) ? 1 : 0;
-
-		Condition cond = new Condition(v, Operator.IDENTIQUE, new ValeurNumerique(valueBool));
-
-		entrerDansUnEtatFils(cond);
-
+		
+		if (resultat) {
+			this.pile.empiler(Pile.Valeur.VRAI);
+		} else {
+			this.pile.empiler(Pile.Valeur.FAUX);
+		}
+		
 		return true;
 	}
 
@@ -154,6 +156,8 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			construireBorne.tuer();
 
 		}
+		
+		
 
 		if (showNextCond) {
 			showNextCond = false;
@@ -175,16 +179,8 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			pile.empiler(resultatTest ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
 
 		} catch (NonEvaluableException e) {
-
-			/*
-			System.out.println("Cant eval : " + valeurCible.getString() + " = " + leftOperandValue + " " + operatorValue
-					+ " " + returnValue.get());
-			 */
-
-			Condition cond = new Condition(valeurCible, operatorValue, new ValeurNumerique(returnValue.get()));
-
+			Condition cond = new ConditionVariable(valeurCible, operatorValue, new ValeurNumerique(returnValue.get()));
 			entrerDansUnEtatFils(cond);
-
 			return true;
 		} catch (DependantDeStatistiquesEvaluation e) {
 
@@ -216,11 +212,16 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 				return true;
 			}
-
+			
+			
+			Condition cond = new ConditionVariable(valeurCible, operatorValue, new ValeurNumerique(returnValue.get()));
+			entrerDansUnEtatFils(cond);
+			return true;
+			
+			/*
 			System.out.println("Stat dep  : " + valeurCible.getString() + " = " + leftOperandValue + " " + operatorValue
 					+ " " + returnValue.get());
-
-			return false;
+*/
 		}
 
 		return true;
@@ -277,7 +278,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			etat.setValue(idVariableAModifier, rightValue);
 		} else {
 			
-			if (operator == Operator.MINUS) {
+			if (operator == Operator.MINUS /*|| operator == Operator.PLUS*/) {
 				if (etat.estUneSortie(idVariableAModifier)) {
 					sortie.add(rightValue);
 				}
@@ -289,19 +290,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 			etat.setValue(idVariableAModifier, calcul);
 		}
-	}
-
-	@Override
-	public void callMapEvent(int eventNumber, int eventPage) {
-		if (pile.possedeUnFaux()) {
-			return;
-		}
-/*
-		if (eventNumber == TERMINATOR_EVENT_MAP_NUMB && eventPage == TERMINATOR_EVENT_MAP_PAGE) {
-
-			fixerLaSortie();
-		}
-		*/
 	}
 
 	@Override
