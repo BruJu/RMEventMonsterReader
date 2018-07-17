@@ -28,4 +28,16 @@ public class ConditionVariable implements Condition {
 	public String getString() {
 		return gauche.getString() + " " + operateur.name() + " " + droite.getString();
 	}
+	
+	public Valeur getGauche() {
+		return gauche;
+	}
+	
+	public Valeur getDroite() {
+		return droite;
+	}
+	
+	public Operator getOperator() {
+		return operateur;
+	}
 }

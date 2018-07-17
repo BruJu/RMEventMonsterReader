@@ -6,7 +6,7 @@ import java.util.List;
 public class ValeurVariable implements Valeur {
 	private int idVariable;
 	
-	public ValeurVariable (int idVariable) {
+	ValeurVariable (int idVariable) {
 		this.idVariable = idVariable;
 	}
 

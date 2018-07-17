@@ -9,11 +9,8 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurStatistique;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurSwitch;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurTernaire;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 import fr.bruju.rmeventreader.utilitaire.Pair;
@@ -47,7 +44,7 @@ public class Etat {
 		valeursSorties = new ArrayList<>();
 
 		CreateurPersonnage.getMap()
-				.forEach((k, v) -> etatMemoire.put(k, new ValeurStatistique(v.getLeft(), v.getRight())));
+				.forEach((k, v) -> etatMemoire.put(k, NewValeur.Statistique(v.getLeft(), v.getRight())));
 
 		pere = null;
 	}
@@ -139,26 +136,77 @@ public class Etat {
 	 * @param condition La condition qui a permis de créer les deux fils.
 	 */
 	public void unifierFils() {
+		Map<Integer, Valeur[]> resultat = new HashMap<>();
+
+		remplirMapUnification(resultat, filsGauche, 1, 3);
+		remplirMapUnification(resultat, filsDroite, 2, 3);
+		finirMapUnification(resultat, this);
+
+		resultat.forEach((idVariable, valeursBdd) -> {
+			if (valeursBdd[1] == null) {
+				if (valeursBdd[2] == null) {
+					throw new RuntimeException("Erreur de conception");
+				} else {
+					etatMemoire.put(idVariable, NewValeur.Ternaire(condition, valeursBdd[0], valeursBdd[2]));
+				}
+			} else {
+				if (valeursBdd[2] == null) {
+					etatMemoire.put(idVariable, NewValeur.Ternaire(condition, valeursBdd[1], valeursBdd[0]));
+				} else {
+					etatMemoire.put(idVariable, NewValeur.Ternaire(condition, valeursBdd[1], valeursBdd[2]));
+				}
+			}
+
+		}
+
+		);
+
+		/*
+		
+		filsGauche.etatMemoire
+				.forEach((idVar, valeurGauche) -> resultat.put(idVar, new Valeur[] { null, valeurGauche, null }));
+			
+			
+			resultat.put(idVar, new Valeur[] { null, valeurGauche, null }));
+		
+		
 		filsGauche.etatMemoire.forEach((idVar, valeurGauche) -> {
 			Valeur valeurDroite = filsDroite.etatMemoire.get(idVar);
-
+		
 			if (valeurDroite == null) {
 				valeurDroite = getValeur(idVar);
 			}
-
-			etatMemoire.put(idVar, new ValeurTernaire(condition, valeurGauche, valeurDroite));
+		
+			etatMemoire.put(idVar, NewValeur.Ternaire(condition, valeurGauche, valeurDroite));
 		});
-
+		
 		filsDroite.etatMemoire.forEach((idVar, valeurDroite) -> {
 			Valeur valeurGauche = filsGauche.etatMemoire.get(idVar);
 			if (valeurGauche == null) {
-				etatMemoire.put(idVar, new ValeurTernaire(condition, getValeur(idVar), valeurDroite));
+				etatMemoire.put(idVar, NewValeur.Ternaire(condition, getValeur(idVar), valeurDroite));
 			}
 		});
+		
+		 */
 
 		filsGauche = null;
 		filsDroite = null;
 		condition = null;
+	}
+
+	private static void finirMapUnification(Map<Integer, Valeur[]> destination, Etat source) {
+		destination.forEach((idVar, values) -> values[0] = source.getValeur(idVar));
+	}
+
+	private static void remplirMapUnification(Map<Integer, Valeur[]> destination, Etat etat, int slot, int taille) {
+
+		etat.etatMemoire.forEach((idVar, valeur) -> {
+			if (!destination.containsKey(idVar)) {
+				destination.put(idVar, new Valeur[taille]);
+			}
+
+			destination.get(idVar)[slot] = valeur;
+		});
 	}
 
 	/* =============
@@ -170,7 +218,7 @@ public class Etat {
 
 		if (retour == null) {
 			if (pere == null)
-				retour = new ValeurSwitch(idSwitch);
+				retour = NewValeur.Switch(idSwitch);
 			else
 				retour = pere.getSwitch(idSwitch);
 
@@ -212,7 +260,7 @@ public class Etat {
 
 		if (retour == null) {
 			if (pere == null) {
-				retour = new ValeurVariable(idVariable);
+				retour = NewValeur.Variable(idVariable);
 				etatMemoire.put(idVariable, retour);
 			} else {
 				retour = pere.getValeur(idVariable);
@@ -243,12 +291,12 @@ public class Etat {
 
 		return valeursSorties;
 	}
-	
+
 	public boolean estUneSortie(int idVariable) {
 		if (valeursSorties == null) {
 			valeursSorties = getVariablesDeSorties();
 		}
-		
+
 		return Ensemble.appartient(idVariable, valeursSorties);
 	}
 }

@@ -14,8 +14,8 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionSwit
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class FormulaCalculator implements ActionMakerDefalse {
@@ -46,7 +46,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Sorties
 	 * ======= */
 
-
 	public List<Valeur> getSortie() {
 		return sortie;
 	}
@@ -66,22 +65,22 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		Valeur v = etat.getSwitch(number);
 
 		Condition cond = new ConditionSwitch(v, value);
-		
+
 		boolean resultat;
-		
+
 		try {
 			resultat = cond.tester();
 		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
 			entrerDansUnEtatFils(cond);
 			return true;
 		}
-		
+
 		if (resultat) {
 			this.pile.empiler(Pile.Valeur.VRAI);
 		} else {
 			this.pile.empiler(Pile.Valeur.FAUX);
 		}
-		
+
 		return true;
 	}
 
@@ -156,8 +155,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			construireBorne.tuer();
 
 		}
-		
-		
 
 		if (showNextCond) {
 			showNextCond = false;
@@ -179,7 +176,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			pile.empiler(resultatTest ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
 
 		} catch (NonEvaluableException e) {
-			Condition cond = new ConditionVariable(valeurCible, operatorValue, new ValeurNumerique(returnValue.get()));
+			Condition cond = new ConditionVariable(valeurCible, operatorValue, NewValeur.Numerique(returnValue.get()));
 			entrerDansUnEtatFils(cond);
 			return true;
 		} catch (DependantDeStatistiquesEvaluation e) {
@@ -212,16 +209,15 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 				return true;
 			}
-			
-			
-			Condition cond = new ConditionVariable(valeurCible, operatorValue, new ValeurNumerique(returnValue.get()));
+
+			Condition cond = new ConditionVariable(valeurCible, operatorValue, NewValeur.Numerique(returnValue.get()));
 			entrerDansUnEtatFils(cond);
 			return true;
-			
+
 			/*
 			System.out.println("Stat dep  : " + valeurCible.getString() + " = " + leftOperandValue + " " + operatorValue
 					+ " " + returnValue.get());
-*/
+			*/
 		}
 
 		return true;
@@ -277,16 +273,16 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (operator == Operator.AFFECTATION) {
 			etat.setValue(idVariableAModifier, rightValue);
 		} else {
-			
+
 			if (operator == Operator.MINUS /*|| operator == Operator.PLUS*/) {
 				if (etat.estUneSortie(idVariableAModifier)) {
 					sortie.add(rightValue);
 				}
 			}
-			
+
 			String symbole = Traduction.getSymbole(operator);
 
-			Calcul calcul = new Calcul(etat.getValeur(idVariableAModifier), symbole, rightValue);
+			Valeur calcul = NewValeur.Calcul(etat.getValeur(idVariableAModifier), symbole, rightValue);
 
 			etat.setValue(idVariableAModifier, calcul);
 		}

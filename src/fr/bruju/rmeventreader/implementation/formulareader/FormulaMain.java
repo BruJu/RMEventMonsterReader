@@ -30,6 +30,9 @@ public class FormulaMain {
 		File file = new File(RESSOURCES_ATTAQUES);
 
 		for (String fichiersTexte : file.list()) {
+			
+			if (!fichiersTexte.equals("Hsitaq.txt"))
+				continue;
 
 			FormulaCalculator calc = new FormulaCalculator();
 			new AutoActionMaker(calc, RESSOURCES_ATTAQUES + fichiersTexte).faire();
@@ -70,24 +73,24 @@ public class FormulaMain {
 			});
 			/*
 			map.get(perso).forEach(element -> {
-
+			
 				System.out.print(element.getLeft() + " = ");
-
+			
 				List<Valeur> valeurs = element.getRight().splash();
-
+			
 				if (valeurs.size() == 0) {
 					return;
 				}
-
+			
 				if (valeurs.size() == 1) {
 					System.out.println(valeurs.get(0).getString());
 					return;
 				}
-
+			
 				System.out.println();
-
+			
 				valeurs.forEach(v -> System.out.println(v.getString()));
-
+			
 			});
 			 */
 		}

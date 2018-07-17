@@ -29,7 +29,7 @@ public class Calcul implements Valeur {
 	 * @param operateur Un opérateur dans +, -, *, /, %
 	 * @param droite Valeur de droite
 	 */
-	public Calcul(Valeur gauche, String operateur, Valeur droite) {
+	Calcul(Valeur gauche, String operateur, Valeur droite) {
 		if (gauche == null)
 			throw new RuntimeException("Gauche null");
 		if (operateur == null)
@@ -140,5 +140,18 @@ public class Calcul implements Valeur {
 		gaucheSpl.forEach(g -> droiteSpl.forEach(d -> thisSpl.add(new Calcul(g, operateur, d))));
 		
 		return thisSpl;
+	}
+	
+	
+	public Valeur getGauche() {
+		return this.gauche;
+	}
+	
+	public Valeur getDroite() {
+		return this.droite;
+	}
+	
+	public String getOperateur() {
+		return this.operateur;
 	}
 }

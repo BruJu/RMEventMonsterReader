@@ -8,7 +8,7 @@ public class ValeurTernaire implements Valeur {
 	private Valeur siVrai;
 	private Valeur siFaux;
 	
-	public ValeurTernaire(Condition condition, Valeur siVrai, Valeur siFaux) {
+	ValeurTernaire(Condition condition, Valeur siVrai, Valeur siFaux) {
 		this.condition = condition;
 		this.siFaux = siFaux;
 		this.siVrai = siVrai;
@@ -28,8 +28,7 @@ public class ValeurTernaire implements Valeur {
 
 	@Override
 	public int evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		// TODO Auto-generated method stub
-		return 0;
+		return evaluerMin();
 	}
 
 	@Override

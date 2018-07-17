@@ -14,12 +14,12 @@ public class ValeurNumerique implements Valeur {
 	private int valeurMax;
 	
 	
-	public ValeurNumerique(int valeurMin, int valeurMax) {
+	ValeurNumerique(int valeurMin, int valeurMax) {
 		this.valeurMin = valeurMin;
 		this.valeurMax = valeurMax;
 	}
 	
-	public ValeurNumerique(int valeurInitiale) {
+	ValeurNumerique(int valeurInitiale) {
 		this.valeurMin = valeurInitiale;
 		this.valeurMax = valeurInitiale;
 	}

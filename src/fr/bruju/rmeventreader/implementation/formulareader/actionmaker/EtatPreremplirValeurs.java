@@ -6,9 +6,8 @@ import java.util.Map;
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNommee;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class EtatPreremplirValeurs implements ActionOnLine {
@@ -40,16 +39,16 @@ public class EtatPreremplirValeurs implements ActionOnLine {
 		if (args.getRight().equals("DMG") || args.getRight().equals("HEAL")) {
 			sorties.add(idVar);
 		} else if (args.getRight().equals("ON")) {
-			interrupteurs.put(idVar, new ValeurNumerique(1));
+			interrupteurs.put(idVar, NewValeur.True());
 		} else if (args.getRight().equals("OFF")) {
-			interrupteurs.put(idVar, new ValeurNumerique(0));
+			interrupteurs.put(idVar, NewValeur.False());
 		} else if (args.getRight().charAt(0) == '@') {
-			interrupteurs.put(idVar, new ValeurNommee(idVar, args.getRight()));
+			interrupteurs.put(idVar, NewValeur.Nommee(idVar, args.getRight()));
 		} else if (args.getRight().charAt(0) == '$') {
-			variables.put(idVar, new ValeurNommee(idVar, args.getRight()));
+			variables.put(idVar, NewValeur.Nommee(idVar, args.getRight()));
 		} else {
 			int valFixee = Integer.parseInt(args.getRight());
-			variables.put(idVar, new ValeurNumerique(valFixee));
+			variables.put(idVar, NewValeur.Numerique(valFixee));
 		}
 	}
 

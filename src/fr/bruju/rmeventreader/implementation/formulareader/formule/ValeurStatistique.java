@@ -10,7 +10,7 @@ public class ValeurStatistique implements Valeur {
 	private Statistique statistique;
 	private Personnage personnage;
 
-	public ValeurStatistique(Personnage personnage, Statistique statistique) {
+	ValeurStatistique(Personnage personnage, Statistique statistique) {
 		this.personnage = personnage;
 		this.statistique = statistique;
 	}

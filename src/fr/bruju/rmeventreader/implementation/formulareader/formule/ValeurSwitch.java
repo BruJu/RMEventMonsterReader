@@ -6,7 +6,7 @@ import java.util.List;
 public class ValeurSwitch implements Valeur {
 	private int idVariable;
 	
-	public ValeurSwitch (int idVariable) {
+	ValeurSwitch (int idVariable) {
 		this.idVariable = idVariable;
 	}
 
