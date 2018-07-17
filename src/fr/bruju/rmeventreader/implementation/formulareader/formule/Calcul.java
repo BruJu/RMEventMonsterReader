@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Valeur qui est un calcul entre deux valeurs
@@ -131,18 +129,6 @@ public class Calcul implements Valeur {
 		return gauche.concerneLesMP() && operateur.equals("-") && droite.estConstant();
 	}
 
-	@Override
-	public List<Valeur> splash() {
-		List<Valeur> gaucheSpl = gauche.splash();
-		List<Valeur> droiteSpl = droite.splash();
-		List<Valeur> thisSpl = new ArrayList<>();
-		
-		gaucheSpl.forEach(g -> droiteSpl.forEach(d -> thisSpl.add(new Calcul(g, operateur, d))));
-		
-		return thisSpl;
-	}
-	
-	
 	public Valeur getGauche() {
 		return this.gauche;
 	}

@@ -127,12 +127,6 @@ public class ValeurConditionnelle implements Valeur {
 		return true;
 	}
 
-	@Override
-	public List<Valeur> splash() {
-		List<Valeur> valeurs = new ArrayList<>();
-		valeursConditionnelles.forEach(paire -> valeurs.add(paire.getRight()));
-		return valeurs;
-	}
 
 	
 }

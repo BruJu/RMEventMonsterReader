@@ -1,8 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Valeur bornée par une autre
  * @author Bruju
@@ -80,11 +77,6 @@ public class ValeurBornement implements Valeur {
 		return valeurBornee.concerneLesMP();
 	}
 
-	@Override
-	public List<Valeur> splash() {
-		List<Valeur> list = new ArrayList<>();
-		valeurBornee.splash().forEach(v -> list.add(new ValeurBornement(v, borneePar, borneSup)));
-		return list;
-	}
+
 
 }

@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
-import java.util.List;
-
 /**
  * 
  * 
@@ -68,11 +66,5 @@ public interface Valeur {
 	public default boolean concerneLesMP() {
 		return false;
 	}
-	
-	/**
-	 * Permet de ransformer la valeur en une liste de valeurs sans ternaire
-	 * 
-	 * @return
-	 */
-	public List<Valeur> splash();
+
 }

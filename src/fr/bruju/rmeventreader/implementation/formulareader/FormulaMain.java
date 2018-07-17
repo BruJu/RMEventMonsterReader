@@ -31,8 +31,8 @@ public class FormulaMain {
 
 		for (String fichiersTexte : file.list()) {
 			
-			if (!fichiersTexte.equals("Hsitaq.txt"))
-				continue;
+			
+			// if (!fichiersTexte.equals("Hsitaq.txt")) continue;
 
 			FormulaCalculator calc = new FormulaCalculator();
 			new AutoActionMaker(calc, RESSOURCES_ATTAQUES + fichiersTexte).faire();
