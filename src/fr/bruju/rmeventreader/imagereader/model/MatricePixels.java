@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.imagereader.model;
 
 /**
- * Représentation simplifiée de l'image
+ * ReprÃ©sentation simplifiÃ©e de l'image
  */
 public class MatricePixels {
 	/**
@@ -15,16 +15,16 @@ public class MatricePixels {
 	private int longueur;
 
 	/**
-	 * Tableau montrant la liste des pixels où le rouge est plus clair
+	 * Tableau montrant la liste des pixels oÃ¹ le rouge est plus clair
 	 */
 	private boolean[][] pixelsAllumes;
 
 	/**
-	 * Construit un reconnaissuer de motifs à partir d'une matrice de pixels allumés
+	 * Construit un reconnaissuer de motifs Ã  partir d'une matrice de pixels allumÃ©s
 	 * 
 	 * @param hauteur Hauteur de l'image
 	 * @param longueur Longueur de l'image
-	 * @param pixelsAllumes Matrice avec la position des pixels allumés
+	 * @param pixelsAllumes Matrice avec la position des pixels allumÃ©s
 	 */
 	public MatricePixels(int hauteur, int longueur, boolean[][] pixelsAllumes) {
 		this.hauteur = hauteur;
@@ -33,11 +33,11 @@ public class MatricePixels {
 	}
 
 	/**
-	 * Donne l'état du pixel voulu
+	 * Donne l'Ã©tat du pixel voulu
 	 * 
-	 * @param x La coordonnée x
-	 * @param y La coordonnée y
-	 * @return Vrai si le pixel en x,y est allumé
+	 * @param x La coordonnÃ©e x
+	 * @param y La coordonnÃ©e y
+	 * @return Vrai si le pixel en x,y est allumÃ©
 	 */
 	public boolean get(int x, int y) {
 		return pixelsAllumes[x][y];

@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulareader.model;
 
-// TODO : ceci est en réalité une ressource
+// TODO : ceci est en rÃ©alitÃ© une ressource
 public enum Statistique {
 	Niveau,
 	HP,

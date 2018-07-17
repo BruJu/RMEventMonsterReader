@@ -40,8 +40,8 @@ public class ValeurTernaire implements Valeur {
 	}
 
 	
-	// Ces implémentations ne sont pas assez précises (mais correctes dans la msure où ces méthodes
-	// garantissent que si vrai est renvoyé, on est sur de la réponse, mais que renvoyer faux
+	// Ces implÃ©mentations ne sont pas assez prÃ©cises (mais correctes dans la msure oÃ¹ ces mÃ©thodes
+	// garantissent que si vrai est renvoyÃ©, on est sur de la rÃ©ponse, mais que renvoyer faux
 	// signifie "On ne sait pas")
 	
 	@Override

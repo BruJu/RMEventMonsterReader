@@ -61,7 +61,7 @@ public class Correcteur implements ActionOnLine {
 	private static class ActionCommentaire implements Action {
 		@Override
 		public String getPattern() {
-			return "//£";
+			return "//Â£";
 		}
 
 		@Override

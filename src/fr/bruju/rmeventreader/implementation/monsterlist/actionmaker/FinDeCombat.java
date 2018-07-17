@@ -115,7 +115,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		
 		if (appartient(variable.get(), VARIABLES_CAPA)) {
 			if (operator == Operator.AFFECTATION) {
-				throw new FinDeCombatException("Affectation brute d'une récompense de capa");
+				throw new FinDeCombatException("Affectation brute d'une rÃ©compense de capa");
 			}
 			
 			this.getElementsFiltres().forEach(battle -> battle.addGainCapa(returnValue.get()));
@@ -124,7 +124,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		}
 		
 		if (appartient(variable.get(), VARIABLES_EXP)) {
-			throw new FinDeCombatException("Modification d'une quantité d'exp gagnée");
+			throw new FinDeCombatException("Modification d'une quantitÃ© d'exp gagnÃ©e");
 		}
 		
 		if (variable.get() == VARIABLE_GAINEXP) {

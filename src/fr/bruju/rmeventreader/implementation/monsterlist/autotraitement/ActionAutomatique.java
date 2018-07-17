@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
 /**
- * Interface permettant de déclarer facilement une lambda qui ne prend aucun paramètre
+ * Interface permettant de dÃ©clarer facilement une lambda qui ne prend aucun paramÃ¨tre
  * 
  * @author Bruju
  *

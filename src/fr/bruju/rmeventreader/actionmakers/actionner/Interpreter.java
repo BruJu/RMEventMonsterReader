@@ -8,27 +8,27 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.Decrypter;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 
 /**
- * Classe permettant de déchiffrer des instructions RPG Maker 2003 et d'activer les fonctions de l'actionMaker donné.
+ * Classe permettant de dÃ©chiffrer des instructions RPG Maker 2003 et d'activer les fonctions de l'actionMaker donnÃ©.
  */
 public class Interpreter {
 	/**
-	 * Décrypteur utilisé
+	 * DÃ©crypteur utilisÃ©
 	 */
 	private Decrypter decrypter;
 
 	/**
-	 * Crée un interpréteur avec l'actionMaker donné
+	 * CrÃ©e un interprÃ©teur avec l'actionMaker donnÃ©
 	 * 
-	 * @param actionMaker L'objet qui traitera les actions déchiffrées
+	 * @param actionMaker L'objet qui traitera les actions dÃ©chiffrÃ©es
 	 */
 	public Interpreter(ActionMaker actionMaker) {
 		decrypter = new Decrypter(actionMaker);
 	}
 
 	/**
-	 * Déchiffre un fichier
+	 * DÃ©chiffre un fichier
 	 * 
-	 * @param file Le fichier à déchiffrer
+	 * @param file Le fichier Ã  dÃ©chiffrer
 	 * @throws IOException
 	 */
 	public void inputFile(File file) throws IOException {
@@ -36,9 +36,9 @@ public class Interpreter {
 	}
 
 	/**
-	 * Déchiffre une liste de lignes
+	 * DÃ©chiffre une liste de lignes
 	 * 
-	 * @param lines La liste de lignes à déchiffrer
+	 * @param lines La liste de lignes Ã  dÃ©chiffrer
 	 */
 	public void inputLines(List<String> lines) {
 		for (String line : lines) {

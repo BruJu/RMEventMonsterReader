@@ -2,8 +2,8 @@
  * Ce package sert de librairie pour la lecture d'instructions RPG Maker 2003 sous la forme fournie par le logiciel
  * RMEventFactory de Cherry.
  * <p>
- * Les utilisateurs sont invités à implémenter l'interface ActionMaker ou ActionMakerDefalse, puis à utiliser la classe
- * Interpreter pour faire le lien entre lignes lues et les actions déclenchées par l'interface.
+ * Les utilisateurs sont invitÃ©s Ã  implÃ©menter l'interface ActionMaker ou ActionMakerDefalse, puis Ã  utiliser la classe
+ * Interpreter pour faire le lien entre lignes lues et les actions dÃ©clenchÃ©es par l'interface.
  * <p>
  * Requis : Ce package a besoin du package fr.bruju.rmeventreader.filereader pour fonctionner.
  * <p>

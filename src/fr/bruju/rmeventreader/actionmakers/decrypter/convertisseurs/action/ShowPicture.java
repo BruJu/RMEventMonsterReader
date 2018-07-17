@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
  * Affichage d'une image
  */
 public class ShowPicture implements Action {
-	private final String PATTERN = "<> Show Picture: #_, _, £";
+	private final String PATTERN = "<> Show Picture: #_, _, Â£";
 	
 	@Override
 	public String getPattern() {

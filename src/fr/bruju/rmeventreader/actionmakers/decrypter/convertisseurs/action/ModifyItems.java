@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
 /**
- * Modification des objets possédés
+ * Modification des objets possÃ©dÃ©s
  */
 public class ModifyItems implements Action {
 	private final String PATTERN = "<> Change Items: _ _ _ of item _";

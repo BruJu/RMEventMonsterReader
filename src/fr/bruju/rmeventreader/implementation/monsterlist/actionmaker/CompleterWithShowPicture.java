@@ -31,7 +31,7 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 	
 	
 	
-	// Interprétation des instructions
+	// InterprÃ©tation des instructions
 
 
 	

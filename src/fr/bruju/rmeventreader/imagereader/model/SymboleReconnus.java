@@ -9,7 +9,7 @@ import java.util.Scanner;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 
 /**
- * Cette classe rÈcupËre la liste des motifs ‡ reconnaÓtre.
+ * Cette classe r√©cup√®re la liste des motifs √† reconna√Ætre.
  */
 public class SymboleReconnus {
 	/**
@@ -18,7 +18,7 @@ public class SymboleReconnus {
 	private static final String CHEMIN_MOTIFS_CONNUS = "metaressources/ocr/motifsconnus.txt";
 
 	/**
-	 * Renvoie la liste des motifs dÈj‡ connus, qui sont dans metaressources/ocr/motifsconnus.txt
+	 * Renvoie la liste des motifs d√©j√† connus, qui sont dans metaressources/ocr/motifsconnus.txt
 	 */
 	public List<Motif> getMotifs() {
 		List<Motif> motifs = new ArrayList<>();

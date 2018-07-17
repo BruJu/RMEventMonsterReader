@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Permet de tester une liste d'éléments par rapport à une liste de conditions 
+ * Permet de tester une liste d'Ã©lÃ©ments par rapport Ã  une liste de conditions 
  * @author Bruju
  *
  */
 class ConditionManipulator {
 	/**
-	 * Permet de filtrer la liste des éléments pour ne garder que ceux qui respectent les conditions 
+	 * Permet de filtrer la liste des Ã©lÃ©ments pour ne garder que ceux qui respectent les conditions 
 	 * @param conditions La liste de conditions
-	 * @param elements La liste d'éléments à filtrer
-	 * @return Une liste avec tous les éléments donnés qui respectent toutes les conditions
+	 * @param elements La liste d'Ã©lÃ©ments Ã  filtrer
+	 * @return Une liste avec tous les Ã©lÃ©ments donnÃ©s qui respectent toutes les conditions
 	 */
 	static <T> List<T> filterList(List<? extends Condition<T>> conditions, List<T> elements) {
 		List<T> elementsFiltres = new ArrayList<>();
@@ -26,10 +26,10 @@ class ConditionManipulator {
 	}
 	
 	/**
-	 * Permet de savoir si l'élément respecte toutes les conditions données
+	 * Permet de savoir si l'Ã©lÃ©ment respecte toutes les conditions donnÃ©es
 	 * @param conditions Les conditions
-	 * @param element L'élément
-	 * @return Vrai si l'élément respecte toutes les conditions
+	 * @param element L'Ã©lÃ©ment
+	 * @return Vrai si l'Ã©lÃ©ment respecte toutes les conditions
 	 */
 	static <T> boolean filter(List<? extends Condition<T>> conditions, T element) {
 		for (Condition<T> condition : conditions) {

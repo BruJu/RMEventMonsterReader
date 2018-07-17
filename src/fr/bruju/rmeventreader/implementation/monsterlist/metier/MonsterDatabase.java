@@ -33,7 +33,7 @@ public class MonsterDatabase {
 	
 	public static void setVariable(List<Combat> combats, Variable variable, Operator operator, ValeurFixe returnValue) {
 		
-		// TODO : Changer cette méthode pour qu'elle soit plus maintenanble
+		// TODO : Changer cette mÃ©thode pour qu'elle soit plus maintenanble
 		
 		/*
 		if (variable.pointed || variable.numberDebut != variable.numberFin || returnValue.type != ReturnValue.Type.VALUE) {

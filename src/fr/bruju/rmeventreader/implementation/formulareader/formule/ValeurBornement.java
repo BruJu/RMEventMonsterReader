@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
 /**
- * Valeur bornée par une autre
+ * Valeur bornÃ©e par une autre
  * @author Bruju
  *
  */

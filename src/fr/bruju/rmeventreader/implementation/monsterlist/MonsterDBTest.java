@@ -77,7 +77,7 @@ public class MonsterDBTest {
 			return false;
 		}
 		
-		System.out.println("== Des monstres n'ont pas été reconnus ==");
+		System.out.println("== Des monstres n'ont pas Ã©tÃ© reconnus ==");
 		
 		for (Object m : monstresInconnus) {
 			System.out.println(((Monstre) m).getString());

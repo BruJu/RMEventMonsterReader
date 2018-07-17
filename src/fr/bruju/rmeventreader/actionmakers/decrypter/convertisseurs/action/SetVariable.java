@@ -17,7 +17,7 @@ import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 import fr.bruju.rmeventreader.actionmakers.donnees.LeftValue;
 
 /**
- * Modification de l'état d'une variable
+ * Modification de l'Ã©tat d'une variable
  */
 public class SetVariable implements Action {
 	private final String PATTERN = "<> Change Variable: _ _ _";
@@ -39,7 +39,7 @@ public class SetVariable implements Action {
 		
 		/* 
 		 * Il s'agit d'un choix de design de ne pas avoir de fonctions prenant comme argument LeftValue ou RightValue
-		 * afin de simplifier l'implémentation de ActionMaker (éviter de tester le type d'argument reçu en début
+		 * afin de simplifier l'implÃ©mentation de ActionMaker (Ã©viter de tester le type d'argument reÃ§u en dÃ©but
 		 * de fonction).
 		 */
 		
@@ -86,7 +86,7 @@ public class SetVariable implements Action {
 
 
 	/**
-	 * Exception jetée lorsqu'un type de valeur n'a pas été prévu
+	 * Exception jetÃ©e lorsqu'un type de valeur n'a pas Ã©tÃ© prÃ©vu
 	 */
 	private static class UnkownVariableTypeException extends RuntimeException {
 		/**

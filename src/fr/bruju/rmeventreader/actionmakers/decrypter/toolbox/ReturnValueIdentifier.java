@@ -15,7 +15,7 @@ public class ReturnValueIdentifier {
 	private static String pattern_Number = "_";
 	private static String pattern_Variable = "V[_]";
 	private static String pattern_RefVariable = "V[V[_]]";
-	private static String pattern_Random = "Random [µ-µ]";
+	private static String pattern_Random = "Random [Âµ-Âµ]";
 
 	// Items
 	private static String pattern_DiezeNumber = "#_";

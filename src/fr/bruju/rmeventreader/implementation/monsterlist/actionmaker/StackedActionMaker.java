@@ -6,17 +6,17 @@ import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
 
 /**
- * Cette classe est une implémentation partielle des ActionMakerWithConditionalInterest.
+ * Cette classe est une implÃ©mentation partielle des ActionMakerWithConditionalInterest.
  * 
- * Elle pousse plus loin le concept de condition en proposant une structure pour gérer
- * les conditions dont on traite les instructions (en particulier imbriquées).
+ * Elle pousse plus loin le concept de condition en proposant une structure pour gÃ©rer
+ * les conditions dont on traite les instructions (en particulier imbriquÃ©es).
  * 
  * Les classes utilisant cette classe doivent :
- * - push une condition dans conditions à chaque fois qu'une fonction condOn(...) est appellée
- * - implémenter la fonction getAllElements qui donne tous les éléments à filtrer
+ * - push une condition dans conditions Ã  chaque fois qu'une fonction condOn(...) est appellÃ©e
+ * - implÃ©menter la fonction getAllElements qui donne tous les Ã©lÃ©ments Ã  filtrer
  * 
  * En contrepartie, les fonctions peuvent utiliser la fonction getElementsFiltres() qui
- * renvoie tous les éléments qui satisfont les conditions actuelles.
+ * renvoie tous les Ã©lÃ©ments qui satisfont les conditions actuelles.
  * 
  * 
  * @author Bruju
@@ -25,21 +25,21 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
  */
 public abstract class StackedActionMaker<T> implements ActionMakerDefalse {
 	/**
-	 * Liste des conditions actuellement traitées
+	 * Liste des conditions actuellement traitÃ©es
 	 */
 	protected MetaStack<T> conditions = new MetaStack<>();
 	
 	/**
-	 * Permet d'obtenir la liste des éléments filtrés par l'enchaînement courant de conditions
-	 * @return La liste des éléments qui respectent les conditions établies
+	 * Permet d'obtenir la liste des Ã©lÃ©ments filtrÃ©s par l'enchaÃ®nement courant de conditions
+	 * @return La liste des Ã©lÃ©ments qui respectent les conditions Ã©tablies
 	 */
 	public List<T> getElementsFiltres() {
 		return conditions.filter(getAllElements());
 	}
 	
 	/**
-	 * Donne tous les éléments de la base de données
-	 * @return Une liste de tous les éléments non filtrés
+	 * Donne tous les Ã©lÃ©ments de la base de donnÃ©es
+	 * @return Une liste de tous les Ã©lÃ©ments non filtrÃ©s
 	 */
 	protected abstract List<T> getAllElements();
 

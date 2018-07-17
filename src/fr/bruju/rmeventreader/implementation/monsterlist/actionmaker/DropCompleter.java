@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 /**
  *
  * 
- * Instructions d'intéret :
+ * Instructions d'intÃ©ret :
  * <> Fork Condition: If Variable [552] == 0 then ...
  * <> Change Variable: [2120] = 0
  * <>
@@ -39,7 +39,7 @@ public class DropCompleter implements ActionMakerDefalse {
 			dernierIfLu = returnValue.get();
 			return true;
 		} else {
-			throw new DropCompleterException("Comparaison entre la variable ID_MONSTRE et quelque chose de différent que identique à une valeur fixe");
+			throw new DropCompleterException("Comparaison entre la variable ID_MONSTRE et quelque chose de diffÃ©rent que identique Ã  une valeur fixe");
 		}
 	}
 	
@@ -74,14 +74,14 @@ public class DropCompleter implements ActionMakerDefalse {
 
 	
 	/**
-	 * Exceptions jetées par le Drop Completer
+	 * Exceptions jetÃ©es par le Drop Completer
 	 */
 	public static class DropCompleterException extends RuntimeException {
 		private static final long serialVersionUID = -5435094486561966642L;
 		
 		/**
-		 * Crée une exception avec le message donné
-		 * @param message Le message décrivant l'erreur
+		 * CrÃ©e une exception avec le message donnÃ©
+		 * @param message Le message dÃ©crivant l'erreur
 		 */
 		public DropCompleterException(String message) {
 			super("DropCompleter :" + message);

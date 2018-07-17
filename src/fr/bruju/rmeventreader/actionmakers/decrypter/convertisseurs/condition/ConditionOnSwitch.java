@@ -6,7 +6,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 
 /**
- * Condition sur l'état d'un interrupteur
+ * Condition sur l'Ã©tat d'un interrupteur
  */
 public class ConditionOnSwitch implements Action {
 	private final String PATTERN = "<> Fork Condition: If Switch [_] == _ then ...";

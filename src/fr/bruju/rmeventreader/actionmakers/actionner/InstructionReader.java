@@ -4,8 +4,8 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.Decrypter;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 
 /**
- * Cette classe sert de proxy aux instructions afin de ne commencer l'analyse qu'à partir de l'instruction - SCRIPT - si
- * la ligne --- EVENT --- est présente
+ * Cette classe sert de proxy aux instructions afin de ne commencer l'analyse qu'Ã  partir de l'instruction - SCRIPT - si
+ * la ligne --- EVENT --- est prÃ©sente
  * 
  * @author Bruju
  *
@@ -22,7 +22,7 @@ public class InstructionReader implements ActionOnLine {
 	}
 
 	/**
-	 * Classe de décryptage des lignes
+	 * Classe de dÃ©cryptage des lignes
 	 */
 	private Decrypter decrypter;
 

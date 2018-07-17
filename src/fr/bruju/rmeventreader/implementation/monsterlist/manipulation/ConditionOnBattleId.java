@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
  */
 public class ConditionOnBattleId implements Condition<Combat> {
 	/**
-	 * Opérateur de comparaison
+	 * OpÃ©rateur de comparaison
 	 */
 	private Operator operator;
 	
@@ -22,7 +22,7 @@ public class ConditionOnBattleId implements Condition<Combat> {
 	/**
 	 * Construit une condition sur un combat
 	 * tel que id du combat operator rightValue
-	 * @param operator L'opérateur de comparaison
+	 * @param operator L'opÃ©rateur de comparaison
 	 * @param rightValue La valeur de comparaison
 	 */
 	public ConditionOnBattleId(Operator operator, int rightValue) {

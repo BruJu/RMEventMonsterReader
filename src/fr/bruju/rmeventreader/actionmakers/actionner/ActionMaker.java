@@ -7,20 +7,20 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 
 /**
- * Cette classe est appelée lorsqu'un évènement est lu.
+ * Cette classe est appelÃ©e lorsqu'un Ã©vÃ¨nement est lu.
  * 
- * Cette classe est appellée de manière séquentielle pour chaque instruction. L'implémentation doit donc prendre en
- * compte l'ordre d'écriture des instructions.
+ * Cette classe est appellÃ©e de maniÃ¨re sÃ©quentielle pour chaque instruction. L'implÃ©mentation doit donc prendre en
+ * compte l'ordre d'Ã©criture des instructions.
  */
 public interface ActionMaker {
 
 	/* ==============
-	 * Non implémenté
+	 * Non implÃ©mentÃ©
 	 * ============== */
 	/**
-	 * Action déclenchée lorsque l'analyseur lit une ligne dont il n'a pas implémenté la fonctionnalité
+	 * Action dÃ©clenchÃ©e lorsque l'analyseur lit une ligne dont il n'a pas implÃ©mentÃ© la fonctionnalitÃ©
 	 * 
-	 * @param str Une chaîne avec un nom de la fonctionnalité non implémentée
+	 * @param str Une chaÃ®ne avec un nom de la fonctionnalitÃ© non implÃ©mentÃ©e
 	 */
 	public void notImplementedFeature(String str);
 
@@ -29,17 +29,17 @@ public interface ActionMaker {
 	 * ==================== */
 
 	/**
-	 * Action déclenchée lorsqu'un switch doit êre modifié
+	 * Action dÃ©clenchÃ©e lorsqu'un switch doit Ãªre modifiÃ©
 	 * 
-	 * @param interrupteur L'interrupteur à modifier
+	 * @param interrupteur L'interrupteur Ã  modifier
 	 * @param value La nouvelle valeur
 	 */
 	public void changeSwitch(Variable interrupteur, boolean value);
 
 	/**
-	 * Modifie une série d'interrupteurs
+	 * Modifie une sÃ©rie d'interrupteurs
 	 * 
-	 * @param interrupteur La liste des interrupteurs à modifier
+	 * @param interrupteur La liste des interrupteurs Ã  modifier
 	 * @param value La nouvelle valeur
 	 */
 	public default void changeSwitch(VariablePlage interrupteur, boolean value) {
@@ -47,7 +47,7 @@ public interface ActionMaker {
 	}
 
 	/**
-	 * Modifie l'interrupteur pointé par la variable donnée
+	 * Modifie l'interrupteur pointÃ© par la variable donnÃ©e
 	 * 
 	 * @param interrupteur La variable qui pointe vers l'interrupteur
 	 * @param value La valeur
@@ -55,35 +55,35 @@ public interface ActionMaker {
 	public void changeSwitch(Pointeur interrupteur, boolean value);
 
 	/**
-	 * Action déclenchée quand un interrupteur est inversé
+	 * Action dÃ©clenchÃ©e quand un interrupteur est inversÃ©
 	 * 
-	 * @param interrupteur L'interrupteur à inverser
+	 * @param interrupteur L'interrupteur Ã  inverser
 	 */
 	public void revertSwitch(Variable interrupteur);
 
 	/**
-	 * Action déclenchée pour inverser une série d'interrupteurs
+	 * Action dÃ©clenchÃ©e pour inverser une sÃ©rie d'interrupteurs
 	 * 
-	 * @param interrupteurs La liste des interrupteurs à inverser
+	 * @param interrupteurs La liste des interrupteurs Ã  inverser
 	 */
 	public default void revertSwitch(VariablePlage interrupteurs) {
 		interrupteurs.getList().forEach(unique -> revertSwitch(unique));
 	}
 
 	/**
-	 * Action délenchée pour inverser un interrupteur pointé par une variable
+	 * Action dÃ©lenchÃ©e pour inverser un interrupteur pointÃ© par une variable
 	 * 
 	 * @param interrupteur La variable qui pointe vers l'interrupteur
 	 */
 	public void revertSwitch(Pointeur interrupteur);
 
 	/**
-	 * Modifie une variable avec une valeur donnée
+	 * Modifie une variable avec une valeur donnÃ©e
 	 */
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe rightValue);
 
 	/**
-	 * Modifie une variable avec une valeur aléatoire entre deux bornes
+	 * Modifie une variable avec une valeur alÃ©atoire entre deux bornes
 	 */
 	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire rightValue);
 
@@ -93,19 +93,19 @@ public interface ActionMaker {
 	public void changeVariable(Variable variable, Operator operator, Variable rightValue);
 
 	/**
-	 * Modifie une variable avec une valeur se trouvant dans une variable pointée
+	 * Modifie une variable avec une valeur se trouvant dans une variable pointÃ©e
 	 */
 	public void changeVariable(Variable variable, Operator operator, Pointeur rightValue);
 
 	/**
-	 * Modifie une liste de variables avec une valeur donnée
+	 * Modifie une liste de variables avec une valeur donnÃ©e
 	 */
 	public default void changeVariable(VariablePlage variables, Operator operator, ValeurFixe returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
 	}
 
 	/**
-	 * Modifie une liste de variables avec une valeur aléatoire entre deux bornes
+	 * Modifie une liste de variables avec une valeur alÃ©atoire entre deux bornes
 	 */
 	public default void changeVariable(VariablePlage variables, Operator operator, ValeurAleatoire returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
@@ -119,49 +119,49 @@ public interface ActionMaker {
 	}
 
 	/**
-	 * Modifie une liste de variables avec une valeur se trouvant dans une variable pointée
+	 * Modifie une liste de variables avec une valeur se trouvant dans une variable pointÃ©e
 	 */
 	public default void changeVariable(VariablePlage variables, Operator operator, Pointeur returnValue) {
 		variables.getList().forEach(unique -> changeVariable(unique, operator, returnValue));
 	}
 
 	/**
-	 * Modifie une variable pointée avec une valeur donnée
+	 * Modifie une variable pointÃ©e avec une valeur donnÃ©e
 	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, ValeurFixe returnValue);
 
 	/**
-	 * Modifie une variable pointée avec une valeur aléatoire entre deux bornes
+	 * Modifie une variable pointÃ©e avec une valeur alÃ©atoire entre deux bornes
 	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, ValeurAleatoire returnValue);
 
 	/**
-	 * Modifie une variable pointée avec une autre variable
+	 * Modifie une variable pointÃ©e avec une autre variable
 	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, Variable returnValue);
 
 	/**
-	 * Modifie une variable pointée avec une valeur se trouvant dans une variable pointée
+	 * Modifie une variable pointÃ©e avec une valeur se trouvant dans une variable pointÃ©e
 	 */
 	public void changeVariable(Pointeur pointeur, Operator operator, Pointeur returnValue);
 
 	/**
-	 * Action déclenchée lorsque les objets possédés sont modifiés
+	 * Action dÃ©clenchÃ©e lorsque les objets possÃ©dÃ©s sont modifiÃ©s
 	 */
 	public void modifyItems(ValeurFixe idItem, boolean add, ValeurFixe quantity);
 
 	/**
-	 * Action déclenchée lorsque les objets possédés sont modifiés
+	 * Action dÃ©clenchÃ©e lorsque les objets possÃ©dÃ©s sont modifiÃ©s
 	 */
 	public void modifyItems(ValeurFixe idItem, boolean add, Variable quantity);
 
 	/**
-	 * Action déclenchée lorsque les objets possédés sont modifiés
+	 * Action dÃ©clenchÃ©e lorsque les objets possÃ©dÃ©s sont modifiÃ©s
 	 */
 	public void modifyItems(Variable idItem, boolean add, ValeurFixe quantity);
 
 	/**
-	 * Action déclenchée lorsque les objets possédés sont modifiés
+	 * Action dÃ©clenchÃ©e lorsque les objets possÃ©dÃ©s sont modifiÃ©s
 	 */
 	public void modifyItems(Variable idItem, boolean add, Variable quantity);
 
@@ -172,54 +172,54 @@ public interface ActionMaker {
 	/**
 	 * Condition sur un interrupteur
 	 * 
-	 * @param number Le numéro de l'interrupteur
+	 * @param number Le numÃ©ro de l'interrupteur
 	 * @param value La valeur que doit avoir l'interrupteur
-	 * @return Vrai si la condition a été utile à l'interprétation
+	 * @return Vrai si la condition a Ã©tÃ© utile Ã  l'interprÃ©tation
 	 */
 	public boolean condOnSwitch(int number, boolean value);
 
 	/**
-	 * Condition sur la possession d'un objet par un héros
+	 * Condition sur la possession d'un objet par un hÃ©ros
 	 * 
-	 * @param heroId LE numéro du héros
+	 * @param heroId LE numÃ©ro du hÃ©ros
 	 * @param itemId L'objet voulu
-	 * @return Vrai si la condition a été utile à l'interprétation
+	 * @return Vrai si la condition a Ã©tÃ© utile Ã  l'interprÃ©tation
 	 */
 	public boolean condOnEquippedItem(int heroId, int itemId);
 
 	/**
 	 * Condition sur la valeur d'une variable
 	 * 
-	 * @param leftOperandValue Le numéro de la variable à comparer
-	 * @param operatorValue L'opérateur de comparaison
+	 * @param leftOperandValue Le numÃ©ro de la variable Ã  comparer
+	 * @param operatorValue L'opÃ©rateur de comparaison
 	 * @param returnValue La valeur avec laquelle comparer
-	 * @return Vrai si la condition a été utile à l'interprétation
+	 * @return Vrai si la condition a Ã©tÃ© utile Ã  l'interprÃ©tation
 	 */
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue);
 
 	/**
 	 * Condition sur la valeur d'une variable
 	 * 
-	 * @param leftOperandValue Le numéro de la variable à comparer
-	 * @param operatorValue L'opérateur de comparaison
+	 * @param leftOperandValue Le numÃ©ro de la variable Ã  comparer
+	 * @param operatorValue L'opÃ©rateur de comparaison
 	 * @param returnValue La variable avec laquelle comparer
-	 * @return Vrai si la condition a été utile à l'interprétation
+	 * @return Vrai si la condition a Ã©tÃ© utile Ã  l'interprÃ©tation
 	 */
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue);
 
 	/**
-	 * Condition sur un objet possédé
+	 * Condition sur un objet possÃ©dÃ©
 	 * 
-	 * @param itemId L'objet possédé
-	 * @return Vrai si la condition a été utile à l'interprétation
+	 * @param itemId L'objet possÃ©dÃ©
+	 * @return Vrai si la condition a Ã©tÃ© utile Ã  l'interprÃ©tation
 	 */
 	public boolean condOnOwnedItem(int itemId);
 
 	/**
-	 * Condition sur la présence d'un membre du groupe
+	 * Condition sur la prÃ©sence d'un membre du groupe
 	 * 
-	 * @param memberId Le numéro du membre du groupe
-	 * @return Vrai si la condition a été utile à l'interprétation
+	 * @param memberId Le numÃ©ro du membre du groupe
+	 * @return Vrai si la condition a Ã©tÃ© utile Ã  l'interprÃ©tation
 	 */
 	public boolean condTeamMember(int memberId);
 
@@ -240,7 +240,7 @@ public interface ActionMaker {
 	 * ====== */
 
 	/**
-	 * Affiche une image avec l'id donné et dont le nom est pictureName
+	 * Affiche une image avec l'id donnÃ© et dont le nom est pictureName
 	 * 
 	 * @param id L'id de l'image
 	 * @param pictureName Le nom de l'image
@@ -250,7 +250,7 @@ public interface ActionMaker {
 	/**
 	 * Mise en place d'un label
 	 * 
-	 * @param labelNumber Le numéro posé
+	 * @param labelNumber Le numÃ©ro posÃ©
 	 */
 	public void label(int labelNumber);
 
@@ -262,10 +262,10 @@ public interface ActionMaker {
 	public void jumpToLabel(int labelNumber);
 
 	/**
-	 * Exécution du code d'un autre évènement sur la carte
+	 * ExÃ©cution du code d'un autre Ã©vÃ¨nement sur la carte
 	 * 
-	 * @param eventNumber Numéro de l'évènement
-	 * @param eventPage Page de l'évènement
+	 * @param eventNumber NumÃ©ro de l'Ã©vÃ¨nement
+	 * @param eventPage Page de l'Ã©vÃ¨nement
 	 */
 	public void callMapEvent(int eventNumber, int eventPage);
 

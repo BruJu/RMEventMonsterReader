@@ -6,54 +6,54 @@ import java.util.List;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
- * Classe permettant de reconnaitre des chaînes avec le pattern suivant : Tous les symboles comptent
+ * Classe permettant de reconnaitre des chaÃ®nes avec le pattern suivant : Tous les symboles comptent
  * 
  * 
- * Lorsqu'un _ est lu, le reconnaisseur lit la valeur jusqu'à trouver le symbole aprés le _ Si un £ est lu, le
- * reconnaisseur arrête son travail et annonce qu'il a reconnu la chaîne
+ * Lorsqu'un _ est lu, le reconnaisseur lit la valeur jusqu'Ã  trouver le symbole aprÃ©s le _ Si un Â£ est lu, le
+ * reconnaisseur arrÃªte son travail et annonce qu'il a reconnu la chaÃ®ne
  *
  */
 public class Recognizer {
 	/*
 	 * 1/
-	 * On n'utilise pas de classe avec des regex prédéfinis car les regex sont assez compliqués à déchiffrer quand on
+	 * On n'utilise pas de classe avec des regex prÃ©dÃ©finis car les regex sont assez compliquÃ©s Ã  dÃ©chiffrer quand on
 	 * n'a pas l'habitude.
-	 * La puissance des regex n'est pas pertinente par rapport à l'objectif de lisiblité recherché.
+	 * La puissance des regex n'est pas pertinente par rapport Ã  l'objectif de lisiblitÃ© recherchÃ©.
 	 * 
-	 * 2/ Une meilleur implémentation serait de faire une interface Recognizer, et de permettre aux classes de choisir
-	 * leur implémentation.
-	 * Cela permettrait d'intégrer la possibilité d'utiliser des regex lorsque leur puissance se justifie.
+	 * 2/ Une meilleur implÃ©mentation serait de faire une interface Recognizer, et de permettre aux classes de choisir
+	 * leur implÃ©mentation.
+	 * Cela permettrait d'intÃ©grer la possibilitÃ© d'utiliser des regex lorsque leur puissance se justifie.
 	 */
 
 	/**
-	 * Caractère symbolisant une reconnaissance de valeur
+	 * CaractÃ¨re symbolisant une reconnaissance de valeur
 	 */
 	private static final char CHAR_FILL = '_';
 
 	/**
-	 * Caractère symbolisant une reconnaissance de valeur ne pouvant être vide
+	 * CaractÃ¨re symbolisant une reconnaissance de valeur ne pouvant Ãªtre vide
 	 */
-	private static final char CHAR_FILL_NOT_EMPTY = 'µ';
+	private static final char CHAR_FILL_NOT_EMPTY = 'Âµ';
 
 	/**
-	 * Caractère symbolisant un pattern qui accepte n'importe quoi à la fin
+	 * CaractÃ¨re symbolisant un pattern qui accepte n'importe quoi Ã  la fin
 	 */
-	private static final char CHAR_JOKER = '£';
+	private static final char CHAR_JOKER = 'Â£';
 	
 	/**
-	 * Pattern représentant une ligne de deux valeur distinctes 
+	 * Pattern reprÃ©sentant une ligne de deux valeur distinctes 
 	 */
 	private static final String PATTERN_DOUBLEVALUE = "_ _";
 
 	/**
-	 * La méthode tryPattern étant static, on ne peut pas instancier cette classe
+	 * La mÃ©thode tryPattern Ã©tant static, on ne peut pas instancier cette classe
 	 */
 	private Recognizer() {
 	}
 
 	/**
-	 * Extrait de la ligne deux valeurs séparées par un espace
-	 * @param data La ligne contenant les données
+	 * Extrait de la ligne deux valeurs sÃ©parÃ©es par un espace
+	 * @param data La ligne contenant les donnÃ©es
 	 * @return Une paire avec les deux valeurs
 	 */
 	public static Pair<String, String> extractValues(String data) {
@@ -66,11 +66,11 @@ public class Recognizer {
 	}
 	
 	/**
-	 * Renvoie la liste des paramètres reconnus si le pattern correspond à la donnée. Renvoie null sinon
+	 * Renvoie la liste des paramÃ¨tres reconnus si le pattern correspond Ã  la donnÃ©e. Renvoie null sinon
 	 * 
-	 * @param pattern Le pattern à reconnaître
-	 * @param data La ligne à reconnaître
-	 * @return Une liste de paramètres reconnus si le pattern correspond, null sinon
+	 * @param pattern Le pattern Ã  reconnaÃ®tre
+	 * @param data La ligne Ã  reconnaÃ®tre
+	 * @return Une liste de paramÃ¨tres reconnus si le pattern correspond, null sinon
 	 */
 	public static List<String> tryPattern(String pattern, String data) {
 		int positionPattern = 0;
@@ -120,7 +120,7 @@ public class Recognizer {
 					builder.append(charData);
 					builderDejaRempli = true;
 				} else {
-					// Décharger
+					// DÃ©charger
 					arguments.add(builder.toString());
 					builder = null;
 					positionPattern++;
@@ -139,7 +139,7 @@ public class Recognizer {
 			positionData++;
 		}
 
-		// Décharge du builder
+		// DÃ©charge du builder
 		if (builder != null) {
 			arguments.add(builder.toString());
 		}
@@ -149,12 +149,12 @@ public class Recognizer {
 			return arguments;
 		}
 
-		// Cas 2 : on est arrivée à la fin des données à lire
+		// Cas 2 : on est arrivÃ©e Ã  la fin des donnÃ©es Ã  lire
 		if (positionData == data.length()) {
 			if (positionPattern == pattern.length()) {
 				return arguments;
 			} else {
-				// Le pattern n'est pas respecté sauf si on est sur un _ final
+				// Le pattern n'est pas respectÃ© sauf si on est sur un _ final
 				if (pattern.charAt(positionPattern) == CHAR_FILL && positionPattern + 1 == pattern.length()) {
 					return arguments;
 				} else {

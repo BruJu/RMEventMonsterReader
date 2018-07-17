@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 /**
- * Condition sur les id des monstres et l'id du combat où ils apparraissent
+ * Condition sur les id des monstres et l'id du combat oÃ¹ ils apparraissent
  * @author Bruju
  *
  */

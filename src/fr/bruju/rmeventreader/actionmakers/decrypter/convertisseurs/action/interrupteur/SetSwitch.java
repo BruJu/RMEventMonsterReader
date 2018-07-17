@@ -6,7 +6,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
-// TODO : unifier l'implémentation de SetSwitch
+// TODO : unifier l'implÃ©mentation de SetSwitch
 
 public class SetSwitch implements Action {
 	private final String PATTERN = "<> Change Switch: [_] = _";

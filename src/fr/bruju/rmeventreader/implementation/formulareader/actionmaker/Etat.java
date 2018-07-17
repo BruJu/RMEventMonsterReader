@@ -18,7 +18,7 @@ import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonn
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
- * Etat de la mémoire virtuelle
+ * Etat de la mÃ©moire virtuelle
  * 
  * @author Bruju
  *
@@ -40,7 +40,7 @@ public class Etat {
 	 * ============= */
 
 	/**
-	 * Crée un état qui est à la racine de l'arbre
+	 * CrÃ©e un Ã©tat qui est Ã  la racine de l'arbre
 	 */
 	public Etat() {
 		valeursSorties = new ArrayList<>();
@@ -52,7 +52,7 @@ public class Etat {
 	}
 
 	/**
-	 * Crée un état qui est à la racine de l'arbre et le prérempli avec les valeurs données
+	 * CrÃ©e un Ã©tat qui est Ã  la racine de l'arbre et le prÃ©rempli avec les valeurs donnÃ©es
 	 */
 	public Etat(String cheminValeursPreremplies) {
 		this();
@@ -61,7 +61,7 @@ public class Etat {
 	}
 
 	/**
-	 * Rempli les valeurs de l'état à partir d'un fichier de la forme idVariable ValeurDeDepart
+	 * Rempli les valeurs de l'Ã©tat Ã  partir d'un fichier de la forme idVariable ValeurDeDepart
 	 * 
 	 * @param chemin Le fichier
 	 */
@@ -75,9 +75,9 @@ public class Etat {
 	}
 
 	/**
-	 * Crée un état qui a un père
+	 * CrÃ©e un Ã©tat qui a un pÃ¨re
 	 * 
-	 * @param pere Le père
+	 * @param pere Le pÃ¨re
 	 */
 	private Etat(Etat pere) {
 		this.pere = pere;
@@ -119,9 +119,9 @@ public class Etat {
 	// Methodes
 
 	/**
-	 * Permet de créer deux fils à l'état courant
+	 * Permet de crÃ©er deux fils Ã  l'Ã©tat courant
 	 * 
-	 * @return Les deux états fils
+	 * @return Les deux Ã©tats fils
 	 */
 	public Pair<Etat, Etat> creerFils(Condition condition) {
 		filsGauche = new Etat(this);
@@ -132,10 +132,10 @@ public class Etat {
 	}
 
 	/**
-	 * Détruit les fils de l'élément et créee des valeurs ternaires pour absorber les modifications de mémoire issues
+	 * DÃ©truit les fils de l'Ã©lÃ©ment et crÃ©ee des valeurs ternaires pour absorber les modifications de mÃ©moire issues
 	 * des fils.
 	 * 
-	 * @param condition La condition qui a permis de créer les deux fils.
+	 * @param condition La condition qui a permis de crÃ©er les deux fils.
 	 */
 	public void unifierFils() {
 		filsGauche.etatMemoire.forEach((idVar, valeurGauche) -> {
@@ -203,8 +203,8 @@ public class Etat {
 	/**
 	 * Renvoie la valeur dans la variable
 	 * 
-	 * @param idVariable Le numéro de la variable
-	 * @return La valeur à l'intérieur.
+	 * @param idVariable Le numÃ©ro de la variable
+	 * @return La valeur Ã  l'intÃ©rieur.
 	 */
 	public Valeur getValeur(int idVariable) {
 		Valeur retour = etatMemoire.get(idVariable);
@@ -222,7 +222,7 @@ public class Etat {
 	}
 
 	/**
-	 * File la variable à la valeur donnée
+	 * File la variable Ã  la valeur donnÃ©e
 	 * 
 	 * @param idVariable La variable
 	 * @param nouvelleValeur La nouvelle valeur

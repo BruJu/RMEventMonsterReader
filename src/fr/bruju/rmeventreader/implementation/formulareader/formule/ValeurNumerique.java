@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
 /**
- * Valeur constante ou aléatoire entre deux bornes
+ * Valeur constante ou alÃ©atoire entre deux bornes
  *  
  * @author Bruju
  *

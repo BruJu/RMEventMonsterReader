@@ -18,7 +18,7 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class FormulaCalculator implements ActionMakerDefalse {
 	/* ===========================
-	 * Constantes liées au dataset
+	 * Constantes liÃ©es au dataset
 	 * =========================== */
 	private static final int TERMINATOR_EVENT_MAP_NUMB = 77;
 	private static final int TERMINATOR_EVENT_MAP_PAGE = 1;
@@ -26,7 +26,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	/* =========
 	 * Attributs
 	 * ========= */
-	private Etat etat; // Etat de la mémoire 
+	private Etat etat; // Etat de la mÃ©moire 
 	private List<Valeur> sortie; // Sorties possibles
 
 	private Pile pile; // Pile de conditions
@@ -208,7 +208,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 				return false;
 			}
 
-			// Connaissance Metier 3 : On peut être borné
+			// Connaissance Metier 3 : On peut Ãªtre bornÃ©
 
 			if (this.construireBorne == null) {
 				this.construireBorne = new ConstructionBorne(leftOperandValue, valeurCible, operatorValue,

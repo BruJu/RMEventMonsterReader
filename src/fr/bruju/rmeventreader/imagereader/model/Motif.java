@@ -5,20 +5,20 @@ package fr.bruju.rmeventreader.imagereader.model;
  */
 public class Motif {
 	/**
-	 * Chaîne représentée par le motif
+	 * ChaÃ®ne reprÃ©sentÃ©e par le motif
 	 */
 	private String lettre;
 
 	/**
-	 * Représentation numérique du motif
+	 * ReprÃ©sentation numÃ©rique du motif
 	 */
 	private int[] composition;
 
 	/**
-	 * Crée un motif préconnu
+	 * CrÃ©e un motif prÃ©connu
 	 * 
-	 * @param chaine Chaîne représentée par le motif
-	 * @param composition Représentation numérique du motif
+	 * @param chaine ChaÃ®ne reprÃ©sentÃ©e par le motif
+	 * @param composition ReprÃ©sentation numÃ©rique du motif
 	 */
 	public Motif(String chaine, int[] composition) {
 		this.lettre = chaine;
@@ -26,10 +26,10 @@ public class Motif {
 	}
 
 	/**
-	 * Crée un motif préconnu
+	 * CrÃ©e un motif prÃ©connu
 	 * 
-	 * @param lettre Lettre représentée par le motif
-	 * @param composition Représentation numérique du motif
+	 * @param lettre Lettre reprÃ©sentÃ©e par le motif
+	 * @param composition ReprÃ©sentation numÃ©rique du motif
 	 */
 	public Motif(char lettre, int[] composition) {
 		this.lettre = Character.toString(lettre);
@@ -37,10 +37,10 @@ public class Motif {
 	}
 
 	/**
-	 * Permet de savoir si ce motif et le motif donné sont identiques
+	 * Permet de savoir si ce motif et le motif donnÃ© sont identiques
 	 * 
-	 * @param candidat Le motif dont on souhaite savoir si il est égal à ce motif
-	 * @return Vrai si candidat et le motif représenté sont identiques
+	 * @param candidat Le motif dont on souhaite savoir si il est Ã©gal Ã  ce motif
+	 * @return Vrai si candidat et le motif reprÃ©sentÃ© sont identiques
 	 */
 	public boolean comparer(int[] candidat) {
 		if (composition.length != candidat.length)
@@ -55,18 +55,18 @@ public class Motif {
 	}
 
 	/**
-	 * Renvoie la chaîne représentant le motif
+	 * Renvoie la chaÃ®ne reprÃ©sentant le motif
 	 * 
-	 * @return La chaîne représentant le motif
+	 * @return La chaÃ®ne reprÃ©sentant le motif
 	 */
 	public String getSymboleDesigne() {
 		return lettre;
 	}
 
 	/**
-	 * Dessine le motif donné sous forme numérique
+	 * Dessine le motif donnÃ© sous forme numÃ©rique
 	 * 
-	 * @param tab Motif sous forme numérique
+	 * @param tab Motif sous forme numÃ©rique
 	 */
 	public static void dessinerUnMotif(int[] tab) {
 		for (int valeur : tab) {
@@ -76,9 +76,9 @@ public class Motif {
 	}
 
 	/**
-	 * Dessine une ligne de motif à partir du nombre donné
+	 * Dessine une ligne de motif Ã  partir du nombre donnÃ©
 	 * 
-	 * @param valeur Le nombre représentant la ligne
+	 * @param valeur Le nombre reprÃ©sentant la ligne
 	 */
 	private static void dessinerUneLigneDeMotif(int valeur) {
 		while (valeur != 0) {

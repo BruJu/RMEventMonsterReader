@@ -11,12 +11,12 @@ import fr.bruju.rmeventreader.imagereader.model.Motif;
 public class ChercheurDeMotifs {
 
 	/**
-	 * Nombre de colonnes vides pour considÈrer que c'est un espace
+	 * Nombre de colonnes vides pour consid√©rer que c'est un espace
 	 */
 	private static int LARGEUR_ESPACE = 4;
 
 	/**
-	 * Matrice de pixels ‡ fouiller
+	 * Matrice de pixels √† fouiller
 	 */
 	private MatricePixels matrice;
 
@@ -31,24 +31,24 @@ public class ChercheurDeMotifs {
 	private int colActuelle = 0;
 
 	/**
-	 * Nombre de colonnes vides entre le prÈcÈdent motif et l'actuel
+	 * Nombre de colonnes vides entre le pr√©c√©dent motif et l'actuel
 	 */
 	private int nombreDeColonnesVides = 0;
 
 	/**
-	 * BoolÈen reprÈsentant si on n'a pas encore lu de lettres;
+	 * Bool√©en repr√©sentant si on n'a pas encore lu de lettres;
 	 */
 	private boolean premierPassage = true;
 
 	/**
-	 * Vrai si au moins un motif du mot n'a pas ÈtÈ reconnu
+	 * Vrai si au moins un motif du mot n'a pas √©t√© reconnu
 	 */
 	private boolean malReconnu = false;
 
 	/**
-	 * CrÈe un chercheur de motifs
+	 * Cr√©e un chercheur de motifs
 	 * 
-	 * @param matrice La matrice ‡ fouiller
+	 * @param matrice La matrice √† fouiller
 	 * @param motifs Les motifs connus
 	 */
 	public ChercheurDeMotifs(MatricePixels matrice, List<Motif> motifs) {
@@ -57,13 +57,13 @@ public class ChercheurDeMotifs {
 	}
 
 	/**
-	 * Permet d'obtenir une chaÓne reprÈsentant le texte dÈcrit par les pixels
+	 * Permet d'obtenir une cha√Æne repr√©sentant le texte d√©crit par les pixels
 	 * 
 	 * @param motifs La liste des motifs connus
-	 * @return Une chaine avec l'enchaÓnement des motifs reconnus
+	 * @return Une chaine avec l'encha√Ænement des motifs reconnus
 	 */
 	public String reconnaitre() {
-		// Initialisation des paramËtres du parcours
+		// Initialisation des param√®tres du parcours
 		colActuelle = 0;
 		premierPassage = true;
 
@@ -97,10 +97,10 @@ public class ChercheurDeMotifs {
 	 * ========================= */
 
 	/**
-	 * Parcours les colonnes non explorÈes. Renvoie le premier motif trouvÈ sous forme de nombres quand il a trouvÈ une
+	 * Parcours les colonnes non explor√©es. Renvoie le premier motif trouv√© sous forme de nombres quand il a trouv√© une
 	 * colonne non vide
 	 * 
-	 * @return Le motif trouvÈ sous forme numÈrique
+	 * @return Le motif trouv√© sous forme num√©rique
 	 */
 	private int[] reconnaitreMotif() {
 		nombreDeColonnesVides = colActuelle;
@@ -121,9 +121,9 @@ public class ChercheurDeMotifs {
 	}
 
 	/**
-	 * Permet d'encadrer le motif trouvÈ, en supposant que l'on connait dÈj‡ la borne de gauche qui est dans colActuelle
+	 * Permet d'encadrer le motif trouv√©, en supposant que l'on connait d√©j√† la borne de gauche qui est dans colActuelle
 	 * 
-	 * @return Le motif trouvÈ sous forme numÈrique
+	 * @return Le motif trouv√© sous forme num√©rique
 	 */
 	private int[] cadrer() {
 		int xMin = colActuelle;
@@ -161,14 +161,14 @@ public class ChercheurDeMotifs {
 	}
 
 	/**
-	 * Converti les bornes trouvÈes pour un motif en une sÈrie de nombres le reprÈsentant
+	 * Converti les bornes trouv√©es pour un motif en une s√©rie de nombres le repr√©sentant
 	 * 
 	 * @param xMin La borne gauche
 	 * @param xMax La borne droite
 	 * @param yMin La borne haute
 	 * @param yMax La borne basse
-	 * @return La liste des nombres reprÈsentant le motif Avec xi le nombre ‡ la ligne i, si xi mod 2^p = 1, alors le
-	 *         pixel (i-1, p) est allumÈ sur le motif
+	 * @return La liste des nombres repr√©sentant le motif Avec xi le nombre √† la ligne i, si xi mod 2^p = 1, alors le
+	 *         pixel (i-1, p) est allum√© sur le motif
 	 */
 	private int[] designerMotif(int xMin, int xMax, int yMin, int yMax) {
 		int[] representation = new int[yMax - yMin + 1];
@@ -193,7 +193,7 @@ public class ChercheurDeMotifs {
 	/**
 	 * Recherche la croix la plus haute sur la colonne
 	 * 
-	 * @return La position de la premiËre croix en partant du haut sur la ligne colActuelle ou -1 si il n'y en a pas
+	 * @return La position de la premi√®re croix en partant du haut sur la ligne colActuelle ou -1 si il n'y en a pas
 	 */
 	private int getFirstCross() {
 		for (int ligne = 0; ligne != matrice.getHauteur(); ligne++) {
@@ -208,7 +208,7 @@ public class ChercheurDeMotifs {
 	/**
 	 * Recherche la croix la plus basse sur la colonne
 	 * 
-	 * @return La position de la premiËre croix en partant du bas sur la ligne colActuelle ou -1 si il n'y en a pas
+	 * @return La position de la premi√®re croix en partant du bas sur la ligne colActuelle ou -1 si il n'y en a pas
 	 */
 	private int getLastCross() {
 		for (int ligne = 0; ligne != matrice.getHauteur(); ligne++) {
@@ -221,13 +221,13 @@ public class ChercheurDeMotifs {
 	}
 
 	/**
-	 * Cherche le motif donnÈ dans la base de motifs.
+	 * Cherche le motif donn√© dans la base de motifs.
 	 * 
-	 * Si il n'y est pas, affiche le mot ayant posÈ problËme, le motif ayant posÈ problËme et la ligne de code ‡ ajouter
-	 * ‡ SymboleReconnus afin de complÈter la liste des motifs prÈexistants
+	 * Si il n'y est pas, affiche le mot ayant pos√© probl√®me, le motif ayant pos√© probl√®me et la ligne de code √† ajouter
+	 * √† SymboleReconnus afin de compl√©ter la liste des motifs pr√©existants
 	 * 
-	 * @param tab La reprÈsentation du motif
-	 * @return La chaÓne reprÈsentant le motif
+	 * @param tab La repr√©sentation du motif
+	 * @return La cha√Æne repr√©sentant le motif
 	 */
 	private String trouverMotif(int[] tab) {
 		for (Motif motif : motifs) {

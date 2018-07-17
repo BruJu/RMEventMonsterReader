@@ -5,18 +5,18 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 
 /**
- * Une action est définie comme étant un pattern à reconnaître, et une action à faire si le pattern est reconnu.
+ * Une action est dÃ©finie comme Ã©tant un pattern Ã  reconnaÃ®tre, et une action Ã  faire si le pattern est reconnu.
  */
 public interface Action {
 	/**
-	 * Pattern à reconnaître
+	 * Pattern Ã  reconnaÃ®tre
 	 * 
-	 * @return Le pattern à reconnaître
+	 * @return Le pattern Ã  reconnaÃ®tre
 	 */
 	public String getPattern();
 
 	/**
-	 * Traduit les arguments reconnus par le pattern, et appelle la méthode adéquate de actionMaker
+	 * Traduit les arguments reconnus par le pattern, et appelle la mÃ©thode adÃ©quate de actionMaker
 	 * 
 	 * @param actionMaker Le gestionnaire d'action fourni par l'utilisateur
 	 * @param arguments La liste des arguments reconnus dans le pattern

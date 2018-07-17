@@ -1,19 +1,19 @@
 
 # Objectif du programme
 
-Il s'agit d'une base de code permettant d'interpréter des instructions RPG Maker 2003.
+Il s'agit d'une base de code permettant d'interprÃ©ter des instructions RPG Maker 2003.
 
-## Usage général
+## Usage gÃ©nÃ©ral
 
-Dans la mesure où le jeu de données sur lequel se repose ce programme ne m'appartiennent pas, seul le programme de traitement est fourni.
+Dans la mesure oÃ¹ le jeu de donnÃ©es sur lequel se repose ce programme ne m'appartiennent pas, seul le programme de traitement est fourni.
 
 
-Les instructions sont à mettre dans des fichiers texte sous la forme généré par le logiciel [RMEventFactory de Cherry](http://cherrytree.at/cms/lang/en/download/?did=11)
+Les instructions sont Ã  mettre dans des fichiers texte sous la forme gÃ©nÃ©rÃ© par le logiciel [RMEventFactory de Cherry](http://cherrytree.at/cms/lang/en/download/?did=11)
 
 Pour se faire il faut :
-* Copier sous RPG Maker 2003 les instructions à reconnaître
-* Lire les évènements avec RMEventFactory
-* Copier la représentation des évènements sous format texte qui est donnée et l'enregistrer dans un fichier
+* Copier sous RPG Maker 2003 les instructions Ã  reconnaÃ®tre
+* Lire les Ã©vÃ¨nements avec RMEventFactory
+* Copier la reprÃ©sentation des Ã©vÃ¨nements sous format texte qui est donnÃ©e et l'enregistrer dans un fichier
 
 On peut ensuite afficher les instructions telles qu'elles sont comprises par ce programme avec les instructions
 
@@ -28,34 +28,34 @@ interpreter.inputFile(new File(cheminVersLeFichier));
 
 ## Reconnaissance de lettres
 
-### Problème
+### ProblÃ¨me
 
 
-Les noms des ennemis sont écris sur des images en orange sur fond transparent. Ils ne sont pas disponibles autrement.
+Les noms des ennemis sont Ã©cris sur des images en orange sur fond transparent. Ils ne sont pas disponibles autrement.
 
-Le package imagereader traite ce problème en appliquant une pseudo reconnaissance automatique de lettres.
+Le package imagereader traite ce problÃ¨me en appliquant une pseudo reconnaissance automatique de lettres.
 
 ### imagereader
 
 Le principe est le suivant :
-* On analyse l'image qui contient le nom et on extrait une matrice avec vrai à l'endroit où on estime qu'il y a du texte et faux ailleurs.
-* On identifie les motifs qui composent l'image. On dit qu'il y a un motif quand on a une suite de colonnes dans la matrice avec au moins un vrai. On suppose donc que les lettres sont séparées par une colonne vide. (Comme ce n'est pas toujours vrai, on permet qu'un motif corresponde à une suite de lettres)
-* On estime qu'il y a un espace si deux motifs sont séparés de 4 colonnes vides.
-* Si le motif n'est pas dans la base de motif, on invite l'utilisateur a ajouté le motif reconnu dans la base de motifs. Sa seule tâche sera de remplacer le ? de la ligne par ce qu'il voit.
-* Une fois tous les motifs de l'image vus, le programme restitue une chaîne qui est l'enchaînement des lettres représentées par le motif.
+* On analyse l'image qui contient le nom et on extrait une matrice avec vrai Ã  l'endroit oÃ¹ on estime qu'il y a du texte et faux ailleurs.
+* On identifie les motifs qui composent l'image. On dit qu'il y a un motif quand on a une suite de colonnes dans la matrice avec au moins un vrai. On suppose donc que les lettres sont sÃ©parÃ©es par une colonne vide. (Comme ce n'est pas toujours vrai, on permet qu'un motif corresponde Ã  une suite de lettres)
+* On estime qu'il y a un espace si deux motifs sont sÃ©parÃ©s de 4 colonnes vides.
+* Si le motif n'est pas dans la base de motif, on invite l'utilisateur a ajoutÃ© le motif reconnu dans la base de motifs. Sa seule tÃ¢che sera de remplacer le ? de la ligne par ce qu'il voit.
+* Une fois tous les motifs de l'image vus, le programme restitue une chaÃ®ne qui est l'enchaÃ®nement des lettres reprÃ©sentÃ©es par le motif.
 
 ### Exemple
 
-Le programme utilise une table de conversion en nom d'image et texte écrit sur l'image. (non fournie)
+Le programme utilise une table de conversion en nom d'image et texte Ã©crit sur l'image. (non fournie)
 
-Si le texte ne lui est pas connu, il essaye de reconnaître les lettres décrites sur l'image via une table de correspondance entre motifs et lettre (ou suite de lettre) qu'il possède.
+Si le texte ne lui est pas connu, il essaye de reconnaÃ®tre les lettres dÃ©crites sur l'image via une table de correspondance entre motifs et lettre (ou suite de lettre) qu'il possÃ¨de.
 
-Si un motif n'est pas reconnu, un affichage est fait pour signaler que le motif n'existe pas. Le même motif n'est pas signalé deux fois.
+Si un motif n'est pas reconnu, un affichage est fait pour signaler que le motif n'existe pas. Le mÃªme motif n'est pas signalÃ© deux fois.
 
-Dans cet exemple, on suppose que le programme a besoin de la chaîne contenue dans l'image idmonstre76-2.
+Dans cet exemple, on suppose que le programme a besoin de la chaÃ®ne contenue dans l'image idmonstre76-2.
 
 ~~~~
-== Des monstres n'ont pas été reconnus ==
+== Des monstres n'ont pas Ã©tÃ© reconnus ==
 idmonstre76-2, 76, 51, 160, 3, 140, 4550, 288, 237, 162, 206, 237, 262,  
 
                                                                                                                                                                                                         
@@ -143,7 +143,7 @@ Si on ajoute la ligne "s 30 1 1 14 16 16 15" aux motifsconnus.txt
 
 
 ~~~~
-== Des monstres n'ont pas été reconnus ==
+== Des monstres n'ont pas Ã©tÃ© reconnus ==
 idmonstre76-2, 76, 51, 160, 3, 140, 4550, 288, 237, 162, 206, 237, 262,  
 
                                                                                                                                                                                                         
@@ -217,10 +217,10 @@ x    x
 idmonstre76-2 ?ss?ss??
 ~~~~
 
-Une fois tous les motifs ajoutés au fichier motifsconnus en remplaçant les ? par le symbole correspondant on obtient.
+Une fois tous les motifs ajoutÃ©s au fichier motifsconnus en remplaÃ§ant les ? par le symbole correspondant on obtient.
 
 ~~~~
-== Des monstres n'ont pas été reconnus ==
+== Des monstres n'ont pas Ã©tÃ© reconnus ==
 idmonstre76-2, 76, 51, 160, 3, 140, 4550, 288, 237, 162, 206, 237, 262,  
 
 == Identification == 

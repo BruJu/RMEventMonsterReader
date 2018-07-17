@@ -10,15 +10,15 @@ import javax.imageio.ImageIO;
 import fr.bruju.rmeventreader.imagereader.model.MatricePixels;
 
 /**
- * Cette classe permet de lire une image et de reconnaître les pixels allumés.
+ * Cette classe permet de lire une image et de reconnaÃ®tre les pixels allumÃ©s.
  */
 public class ImageReader {
 	/**
-	 * Lit l'image donnée et reconnait les pixels qui sont allumés Un pixel est considéré comme allumé si sa composante
-	 * de rouge est supérieure à 50
+	 * Lit l'image donnÃ©e et reconnait les pixels qui sont allumÃ©s Un pixel est considÃ©rÃ© comme allumÃ© si sa composante
+	 * de rouge est supÃ©rieure Ã  50
 	 * 
 	 * @param chemin Le chemin vers l'image
-	 * @return Un objet contenant une matrice avec les pixels allumés
+	 * @return Un objet contenant une matrice avec les pixels allumÃ©s
 	 * @throws IOException
 	 */
 	public MatricePixels lireImage(String chemin) throws IOException {

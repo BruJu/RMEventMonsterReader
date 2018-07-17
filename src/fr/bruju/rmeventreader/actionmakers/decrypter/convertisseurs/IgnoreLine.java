@@ -5,7 +5,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 
 /**
- * Ligne à ignorer
+ * Ligne Ã  ignorer
  */
 public class IgnoreLine implements Action {
 	private String pattern;

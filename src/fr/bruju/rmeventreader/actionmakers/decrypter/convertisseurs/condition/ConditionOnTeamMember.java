@@ -7,7 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 
 
 /**
- * Condition sur la présence d'un coéquipier
+ * Condition sur la prÃ©sence d'un coÃ©quipier
  */
 public class ConditionOnTeamMember implements Action {
 	private final String PATTERN = "<> Fork Condition: If Hero #_ is in party then ...";

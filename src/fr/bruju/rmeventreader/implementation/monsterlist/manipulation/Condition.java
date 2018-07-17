@@ -1,21 +1,21 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
 /**
- * Condition sur des éléments de type T
+ * Condition sur des Ã©lÃ©ments de type T
  * @author Bruju
  *
  * @param <T> Type sur lequel porteront les conditions
  */
 public interface Condition<T> {
 	/**
-	 * Inverse la condition pour que les éléments qui étaient 
+	 * Inverse la condition pour que les Ã©lÃ©ments qui Ã©taient 
 	 */
 	public void revert();
 	
 	/**
-	 * Permet de savoir si l'élément respecte la condition
-	 * @param element L'élément à tester
-	 * @return Vrai si l'élément respecte la condition
+	 * Permet de savoir si l'Ã©lÃ©ment respecte la condition
+	 * @param element L'Ã©lÃ©ment Ã  tester
+	 * @return Vrai si l'Ã©lÃ©ment respecte la condition
 	 */
 	public boolean filter(T element);
 }

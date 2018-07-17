@@ -5,8 +5,8 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule;
  * 
  * 
  * 
- * Certains services de cette interface sont sans garantis, c'est à dire
- * que les valeurs peuvent déclarer qu'elles n'ont pas des propriétés
+ * Certains services de cette interface sont sans garantis, c'est Ã  dire
+ * que les valeurs peuvent dÃ©clarer qu'elles n'ont pas des propriÃ©tÃ©s
  * qu'elles ont.
  * @author Bruju
  *
@@ -30,8 +30,8 @@ public interface Valeur {
 	/**
 	 * Permet de savoir si on a la garantie que la valeur est positive
 	 * 
-	 * Cette méthode n'a aucune garantie. Si elle renvoie toujours faux,
-	 * même si la valeur est une constante positive, elle serait correcte.
+	 * Cette mÃ©thode n'a aucune garantie. Si elle renvoie toujours faux,
+	 * mÃªme si la valeur est une constante positive, elle serait correcte.
 	 * @return Vrai si la valeur est toujours positive
 	 */
 	public boolean estGarantiePositive();
@@ -39,8 +39,8 @@ public interface Valeur {
 	/**
 	 * 
 	 * 
-	 * Cette méthode n'a aucune garantie. Si elle renvoie toujours faux,
-	 * même si la valeur est de la forme MP - Constante
+	 * Cette mÃ©thode n'a aucune garantie. Si elle renvoie toujours faux,
+	 * mÃªme si la valeur est de la forme MP - Constante
 	 * @return
 	 */
 	public default boolean estGarantieDeLaFormeMPMoinsConstante() {
@@ -50,8 +50,8 @@ public interface Valeur {
 	/**
 	 * 
 	 * 
-	 * Cette méthode n'a aucune garantie. Si elle renvoie toujours faux,
-	 * même si la valeur est constante
+	 * Cette mÃ©thode n'a aucune garantie. Si elle renvoie toujours faux,
+	 * mÃªme si la valeur est constante
 	 * @return
 	 */
 	public default boolean estConstant() {
@@ -60,8 +60,8 @@ public interface Valeur {
 	
 	/**
 	 * 
-	 * Cette méthode n'a aucune garantie. Si elle renvoie toujours faux,
-	 * même si la valeur concerne les MP.
+	 * Cette mÃ©thode n'a aucune garantie. Si elle renvoie toujours faux,
+	 * mÃªme si la valeur concerne les MP.
 	 * @return
 	 */
 	public default boolean concerneLesMP() {

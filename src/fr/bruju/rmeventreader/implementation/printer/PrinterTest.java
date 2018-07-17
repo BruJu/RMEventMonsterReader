@@ -12,7 +12,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
  */
 public class PrinterTest {
 	/**
-	 * Affiche dans la console les données lues pour des fichiers prédéfinis
+	 * Affiche dans la console les donnÃ©es lues pour des fichiers prÃ©dÃ©finis
 	 * @param args
 	 * @throws IOException
 	 */

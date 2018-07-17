@@ -5,7 +5,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 
 /**
- * Détection d'un appel à un évènement sur la carte
+ * DÃ©tection d'un appel Ã  un Ã©vÃ¨nement sur la carte
  * 
  * @author Bruju
  *

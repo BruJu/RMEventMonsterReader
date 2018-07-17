@@ -5,7 +5,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 
 /**
- * Détection d'un commentaire
+ * DÃ©tection d'un commentaire
  * 
  * @author Bruju
  *

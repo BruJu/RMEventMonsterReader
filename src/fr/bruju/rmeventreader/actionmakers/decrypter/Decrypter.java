@@ -7,12 +7,12 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 
 /**
- * Classe permettant de décrypter des lignes et de déclencher les actions
+ * Classe permettant de dÃ©crypter des lignes et de dÃ©clencher les actions
  * qui leur correspond.
  */
 public class Decrypter {
 	/**
-	 * Liste des pattern à déchiffrer
+	 * Liste des pattern Ã  dÃ©chiffrer
 	 */
 	private static Action[] patterns = AssociationChaineInstruction.bookMaker();
 	
@@ -24,7 +24,7 @@ public class Decrypter {
 	private ActionMaker actionMaker;
 
 	/**
-	 * Crée un décrypteur de lignes
+	 * CrÃ©e un dÃ©crypteur de lignes
 	 * @param actionMaker L'objet qui se chargera d'appliquer les actions
 	 */
 	public Decrypter(ActionMaker actionMaker) {
@@ -32,8 +32,8 @@ public class Decrypter {
 	}
 
 	/**
-	 * Déchiffre une ligne et appelle l'action associée
-	 * @param line La ligne à déchiffrer
+	 * DÃ©chiffre une ligne et appelle l'action associÃ©e
+	 * @param line La ligne Ã  dÃ©chiffrer
 	 */
 	public void decript(String line) {
 		for (Action pattern : patterns) {

@@ -13,12 +13,12 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 public class Printer implements ActionMaker {
 
 	/**
-	 * Permet d'avoir une représentation symbolique d'un opérateur
+	 * Permet d'avoir une reprÃ©sentation symbolique d'un opÃ©rateur
 	 * 
 	 * @param operator
-	 *            L'opérateur à représenter
-	 * @return Le signe mathématique / informatique usuellement utilisé pour
-	 *         représenter l'opération sous forme de chaîne
+	 *            L'opÃ©rateur Ã  reprÃ©senter
+	 * @return Le signe mathÃ©matique / informatique usuellement utilisÃ© pour
+	 *         reprÃ©senter l'opÃ©ration sous forme de chaÃ®ne
 	 */
 	private String getRepresentation(Operator operator) {
 		switch (operator) {
@@ -52,12 +52,12 @@ public class Printer implements ActionMaker {
 	}
 
 	/**
-	 * Permet d'obtenir une représentation de la valeur d'affectation d'une
+	 * Permet d'obtenir une reprÃ©sentation de la valeur d'affectation d'une
 	 * instruction
 	 * 
 	 * @param value
-	 *            La valeur affectée
-	 * @return Une représentation sous forpme de chaîne de la valeur à affecter
+	 *            La valeur affectÃ©e
+	 * @return Une reprÃ©sentation sous forpme de chaÃ®ne de la valeur Ã  affecter
 	 */
 	private String getRepresentation(ValeurFixe value) {
 		return Integer.toString(value.get());
@@ -78,7 +78,7 @@ public class Printer implements ActionMaker {
 	}
 
 	/*
-	 * ========================================= Redéfinition des méthodes de Action
+	 * ========================================= RedÃ©finition des mÃ©thodes de Action
 	 * Maker =========================================
 	 */
 

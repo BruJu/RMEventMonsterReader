@@ -4,7 +4,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
  * Condition qui est toujours vraie
  * @author Bruju
  *
- * @param <T> Le type d'éléments à filtrer
+ * @param <T> Le type d'Ã©lÃ©ments Ã  filtrer
  */
 public class ConditionPassThrought<T> implements Condition<T> {
 	@Override

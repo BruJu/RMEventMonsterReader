@@ -6,15 +6,15 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
 /**
- * Interface étendant les action maker afin d'être utilisé conjointement avec ConditionalActionMaker.
+ * Interface Ã©tendant les action maker afin d'Ãªtre utilisÃ© conjointement avec ConditionalActionMaker.
  * 
- * On implémente en plus des fonctions pour déclarer si on souhaite traiter les instructions dans certaines conditions.
- * Ces fonctions seront utilisées pour tester si un bloc dans une condition doit être passé ou non.
+ * On implÃ©mente en plus des fonctions pour dÃ©clarer si on souhaite traiter les instructions dans certaines conditions.
+ * Ces fonctions seront utilisÃ©es pour tester si un bloc dans une condition doit Ãªtre passÃ© ou non.
  * 
- * Cette interface produit également des implémentations par défaut ne faisant rien et renvoyant faux. Cela permet de
+ * Cette interface produit Ã©galement des implÃ©mentations par dÃ©faut ne faisant rien et renvoyant faux. Cela permet de
  * n'avoir que le code important dans les classes se reposant sur cette interface.
  * 
- * condElse et condEnd ne sont pas préimplémentées afin de faire prendre conscience qu'il faut généralement accepter
+ * condElse et condEnd ne sont pas prÃ©implÃ©mentÃ©es afin de faire prendre conscience qu'il faut gÃ©nÃ©ralement accepter
  * certains types de conditions.
  */
 public interface ActionMakerDefalse extends ActionMaker {

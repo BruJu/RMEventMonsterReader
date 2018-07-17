@@ -8,7 +8,7 @@ target/
 .git
 bin/
 
-# Fichiers non propriétaires
+# Fichiers non propriÃƒÂ©taires
 ressources/
 src/fr/bruju/rmeventreadercomplement/
 sorties/

@@ -5,7 +5,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 
 /**
- * Fonctionnalité non implémentée
+ * FonctionnalitÃ© non implÃ©mentÃ©e
  */
 public class NoAction implements Action {
 	private final String str;

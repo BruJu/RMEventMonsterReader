@@ -14,16 +14,16 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.action.inter
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.condition.*;
 
 /**
- * Cette classe impémente des associations entre pattern à reconnaître et action à réaliser
+ * Cette classe impÃ©mente des associations entre pattern Ã  reconnaÃ®tre et action Ã  rÃ©aliser
  */
 class AssociationChaineInstruction {
 	/**
-	 * Le pattern à reconnaître
+	 * Le pattern Ã  reconnaÃ®tre
 	 */
 	final String pattern;
 
 	/**
-	 * Action à appeller
+	 * Action Ã  appeller
 	 */
 	final Action action;
 
@@ -33,10 +33,10 @@ class AssociationChaineInstruction {
 	private static Action[] bdd;
 
 	/**
-	 * Crée une association entre pattern et action
+	 * CrÃ©e une association entre pattern et action
 	 * 
-	 * @param pattern Le pattern à reconnaître
-	 * @param action L'action à déclencher si le pattern est reconnu
+	 * @param pattern Le pattern Ã  reconnaÃ®tre
+	 * @param action L'action Ã  dÃ©clencher si le pattern est reconnu
 	 */
 	AssociationChaineInstruction(String pattern, Action action) {
 		this.pattern = pattern;
@@ -56,10 +56,10 @@ class AssociationChaineInstruction {
 
 					new MapEventAction(),
 
-					// Modifications d'état
+					// Modifications d'Ã©tat
 					new Toggle(), new ToggleList(), new SetSwitchList(), new SetSwitch(),
 
-					new NoAction("Change Variable On Screen", "<> Change Variable: _ = _ position on £"),
+					new NoAction("Change Variable On Screen", "<> Change Variable: _ = _ position on Â£"),
 					new SetVariable(), new ModifyItems(),
 
 					// Conditions
@@ -77,40 +77,40 @@ class AssociationChaineInstruction {
 
 					// Ne servent pas l'analyse
 					new NoAction("Show Message", "<> Show Message: _"),
-					new NoAction("Message Style", "<> Message Style: £"),
+					new NoAction("Message Style", "<> Message Style: Â£"),
 					new NoAction("Select Face", "<> Select Face:"),
-					new NoAction("Set Event Position", "<> Set Event Location:£"),
-					new NoAction("Move Event", "<> Move Event:£"), new NoAction("Wait", "<> Wait:£"),
-					new NoAction("Move Picture", "<> Move Picture:£"),
-					new NoAction("Erase Picture", "<> Erase Picture:£"), new NoAction("Play BGM", "<> Play BGM:£"),
+					new NoAction("Set Event Position", "<> Set Event Location:Â£"),
+					new NoAction("Move Event", "<> Move Event:Â£"), new NoAction("Wait", "<> Wait:Â£"),
+					new NoAction("Move Picture", "<> Move Picture:Â£"),
+					new NoAction("Erase Picture", "<> Erase Picture:Â£"), new NoAction("Play BGM", "<> Play BGM:Â£"),
 					new NoAction("Weather", "<> Weather Effects: _"),
-					new NoAction("Screen Tone", "<> Set Screen Tone:£"),
+					new NoAction("Screen Tone", "<> Set Screen Tone:Â£"),
 					new NoAction("Wait Until Moved", "<> Wait Until Moved"),
 					new NoAction("Stop All Movement", "<> Stop All Movement"),
-					new NoAction("Key input", "<> Key Input Processing:£"),
-					new NoAction("Delete Event", "<> Delete Event"), new NoAction("Fade out BGM", "<> Fade Out £"),
-					new NoAction("Flash Screen", "<> Flash Screen: £"),
-					new NoAction("Shake Screen", "<> Shake Screen: £"),
-					new NoAction("Flash Event", "<> Flash Event: £"),
+					new NoAction("Key input", "<> Key Input Processing:Â£"),
+					new NoAction("Delete Event", "<> Delete Event"), new NoAction("Fade out BGM", "<> Fade Out Â£"),
+					new NoAction("Flash Screen", "<> Flash Screen: Â£"),
+					new NoAction("Shake Screen", "<> Shake Screen: Â£"),
+					new NoAction("Flash Event", "<> Flash Event: Â£"),
 					new NoAction("Play Memorized BGM", "<> Play Memorized BGM"),
-					new NoAction("Play Movie", "<> Play Movie:£"), new NoAction("Select face", "<> Select Face:£"),
-					new NoAction("Show Battle Animation", "<> Show Battle Animation:£"),
-					new NoAction("Call Event", "<> Call Event:£"), new NoAction("Sound Effet", "<> Play Sound Effect£"),
+					new NoAction("Play Movie", "<> Play Movie:Â£"), new NoAction("Select face", "<> Select Face:Â£"),
+					new NoAction("Show Battle Animation", "<> Show Battle Animation:Â£"),
+					new NoAction("Call Event", "<> Call Event:Â£"), new NoAction("Sound Effet", "<> Play Sound EffectÂ£"),
 
-					new NoAction("Set Hero Opacity", "<> Set Hero Opacity:£"),
-					new NoAction("Show Screen", "<> Show Screen: £"),
-					new NoAction("Erase Screen", "<> Erase Screen: £"),
-					new NoAction("Change Transition", "<> Change Transition: £"),
+					new NoAction("Set Hero Opacity", "<> Set Hero Opacity:Â£"),
+					new NoAction("Show Screen", "<> Show Screen: Â£"),
+					new NoAction("Erase Screen", "<> Erase Screen: Â£"),
+					new NoAction("Change Transition", "<> Change Transition: Â£"),
 
 					new NoAction("Memorize BGM", "<> Memorize BGM"),
 
 					new NoAction("Panorama", "<> Change Panorama: _"),
 
 					// Source bugee
-					new NoAction("Change Skill", "<> Change Skill:£"),
+					new NoAction("Change Skill", "<> Change Skill:Â£"),
 
-					// A implémenter
-					new NoAction("Change Money", "<> Change Money: £"), new NoAction("Loop", "<> Loop"),
+					// A implÃ©menter
+					new NoAction("Change Money", "<> Change Money: Â£"), new NoAction("Loop", "<> Loop"),
 					new NoAction("LoopEnd", ": End of loop"), new NoAction("LoopBreak", "<> Break Loop") };
 
 		return bdd;

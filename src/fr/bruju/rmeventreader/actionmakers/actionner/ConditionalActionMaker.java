@@ -7,9 +7,9 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 
 /**
- * Fourni une implémentation de la gestion des conditions, avec possibilité d'ignorer des blocs dans des conditions.
+ * Fourni une implÃ©mentation de la gestion des conditions, avec possibilitÃ© d'ignorer des blocs dans des conditions.
  * 
- * Cette classe s'utilise comme un décorateur.
+ * Cette classe s'utilise comme un dÃ©corateur.
  */
 public class ConditionalActionMaker implements ActionMaker {
 	/**
@@ -18,7 +18,7 @@ public class ConditionalActionMaker implements ActionMaker {
 	private ActionMaker base;
 
 	/**
-	 * Nombre de conditions dans lesquelles on est entré
+	 * Nombre de conditions dans lesquelles on est entrÃ©
 	 */
 	private int niveauDignorance = 0;
 
@@ -112,7 +112,7 @@ public class ConditionalActionMaker implements ActionMaker {
 		}
 	}
 
-	// Décoration brûte
+	// DÃ©coration brÃ»te
 
 	@Override
 	public void condElse() {

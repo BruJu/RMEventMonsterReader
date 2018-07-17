@@ -7,13 +7,13 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule;
  *
  */
 public class Calcul implements Valeur {
-	/** Opérande de gauche */
+	/** OpÃ©rande de gauche */
 	private Valeur gauche;
-	/** Opérateur */
+	/** OpÃ©rateur */
 	private String operateur;
-	/** Opérande de droite */
+	/** OpÃ©rande de droite */
 	private Valeur droite;
-	/** Priorité du calcul pour le parenthésage */
+	/** PrioritÃ© du calcul pour le parenthÃ©sage */
 	private int priorite;
 	
 	/* ============
@@ -21,9 +21,9 @@ public class Calcul implements Valeur {
 	 * ============ */
 	
 	/**
-	 * Construit un calcul à partir de deux valeurs et un opératuer
+	 * Construit un calcul Ã  partir de deux valeurs et un opÃ©ratuer
 	 * @param gauche Valeur de gauche
-	 * @param operateur Un opérateur dans +, -, *, /, %
+	 * @param operateur Un opÃ©rateur dans +, -, *, /, %
 	 * @param droite Valeur de droite
 	 */
 	public Calcul(Valeur gauche, String operateur, Valeur droite) {
@@ -41,9 +41,9 @@ public class Calcul implements Valeur {
 	}
 	
 	/**
-	 * Détermine la priorité selon l'opérateur
-	 * @param operateur L'opérateur
-	 * @return La priorité
+	 * DÃ©termine la prioritÃ© selon l'opÃ©rateur
+	 * @param operateur L'opÃ©rateur
+	 * @return La prioritÃ©
 	 */
 	private static int setPriorite(String operateur) {
 		switch (operateur) {
@@ -55,7 +55,7 @@ public class Calcul implements Valeur {
 		case "%":
 			return 1;
 		default:
-			throw new RuntimeException("Opérateur inconnu");
+			throw new RuntimeException("OpÃ©rateur inconnu");
 		}
 	}
 
@@ -110,7 +110,7 @@ public class Calcul implements Valeur {
 		case "%":
 			return evalG % evalD;
 		default:
-			throw new RuntimeException("Opérateur inconnu");
+			throw new RuntimeException("OpÃ©rateur inconnu");
 		}
 	}
 

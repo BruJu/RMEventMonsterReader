@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
 /**
- * Enumération des opérateurs existants de comparaison et de calculs
+ * EnumÃ©ration des opÃ©rateurs existants de comparaison et de calculs
  *
  */
 public enum Operator {
@@ -36,23 +36,23 @@ public enum Operator {
 	 */
 	IDENTIQUE(null, (l, r) -> l == r, null),
 	/**
-	 * Différent
+	 * DiffÃ©rent
 	 */
 	DIFFERENT(IDENTIQUE, (l, r) -> l != r, null),
 	/**
-	 * Inférieur strict
+	 * InfÃ©rieur strict
 	 */
 	INF(null, (l, r) -> l < r, null),
 	/**
-	 * Supérieur strict
+	 * SupÃ©rieur strict
 	 */
 	SUP(null, (l, r) -> l > r, null),
 	/**
-	 * Inférieur ou égal
+	 * InfÃ©rieur ou Ã©gal
 	 */
 	INFEGAL(SUP, (l, r) -> l <= r, null),
 	/**
-	 * Supérieur ou égal
+	 * SupÃ©rieur ou Ã©gal
 	 */
 	SUPEGAL(INF, (l, r) -> l >= r, null);
 
@@ -60,7 +60,7 @@ public enum Operator {
 	 * FONCTIONEMENT D'UN OPERATEUR
 	 * ============================	*/
 
-	/** Opposé */
+	/** OpposÃ© */
 	private Operator oppose;
 
 	/** Fonction de test */
@@ -69,15 +69,15 @@ public enum Operator {
 	/** Fonction de calcul */
 	private CompFunc compFunc;
 
-	/** Vrai si le fait de mettre une opérande à 0 rend le résultat égal à 0 */
+	/** Vrai si le fait de mettre une opÃ©rande Ã  0 rend le rÃ©sultat Ã©gal Ã  0 */
 	private boolean zeroEstAbsorbant = false;
 
 	/**
-	 * Construit un opérateur
+	 * Construit un opÃ©rateur
 	 * 
-	 * @param oppose Opérateur opposé à cet opérateur
-	 * @param tstFunc Fonction permettant de tester l'opérateur sur deux opérandes
-	 * @param compFunc Fonction permettant de calculer le résultat en fonction de deux opérandes
+	 * @param oppose OpÃ©rateur opposÃ© Ã  cet opÃ©rateur
+	 * @param tstFunc Fonction permettant de tester l'opÃ©rateur sur deux opÃ©randes
+	 * @param compFunc Fonction permettant de calculer le rÃ©sultat en fonction de deux opÃ©randes
 	 */
 	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc) {
 		this.oppose = oppose;
@@ -89,12 +89,12 @@ public enum Operator {
 	}
 
 	/**
-	 * Construit un opérateur
+	 * Construit un opÃ©rateur
 	 * 
-	 * @param oppose Opérateur opposé à cet opérateur
-	 * @param tstFunc Fonction permettant de tester l'opérateur sur deux opérandes
-	 * @param compFunc Fonction permettant de calculer le résultat en fonction de deux opérandes
-	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
+	 * @param oppose OpÃ©rateur opposÃ© Ã  cet opÃ©rateur
+	 * @param tstFunc Fonction permettant de tester l'opÃ©rateur sur deux opÃ©randes
+	 * @param compFunc Fonction permettant de calculer le rÃ©sultat en fonction de deux opÃ©randes
+	 * @param zeroEstAbsorbant Vrai si l'opÃ©rateur a pour Ã©lÃ©ment absorbant zÃ©ro
 	 */
 	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc, boolean zeroEstAbsorbant) {
 		this.oppose = oppose;
@@ -126,13 +126,13 @@ public enum Operator {
 	}
 
 	/**
-	 * Fait le calcul entre les deux valeurs données en utilisant l'opérateur courant
+	 * Fait le calcul entre les deux valeurs donnÃ©es en utilisant l'opÃ©rateur courant
 	 * 
 	 * Pour l'affectation, renvoie la valeur de droite
 	 * 
 	 * @param leftValue La valeur de gauche
 	 * @param rightValue La valeur de droite
-	 * @return Le résultat
+	 * @return Le rÃ©sultat
 	 */
 	public int compute(int leftValue, int rightValue) {
 		if (compFunc == null) {
@@ -143,11 +143,11 @@ public enum Operator {
 	}
 
 	/**
-	 * Donne le signe opposé à l'opérateur actuel
+	 * Donne le signe opposÃ© Ã  l'opÃ©rateur actuel
 	 * 
 	 * Impossible pour l'affectation et le modulo
 	 * 
-	 * @return Le signe opposé à l'opérateur
+	 * @return Le signe opposÃ© Ã  l'opÃ©rateur
 	 */
 	public Operator revert() {
 		if (oppose == null) {
@@ -158,10 +158,10 @@ public enum Operator {
 	}
 
 	/**
-	 * Teste l'appartenance de cet opérateur à la liste donnée
+	 * Teste l'appartenance de cet opÃ©rateur Ã  la liste donnÃ©e
 	 * 
-	 * @param table La liste des opérateurs
-	 * @return Vrai si l'opérateur est dans la liste donnée
+	 * @param table La liste des opÃ©rateurs
+	 * @return Vrai si l'opÃ©rateur est dans la liste donnÃ©e
 	 */
 	public boolean appartient(Operator[] table) {
 		for (Operator operator : table) {
@@ -173,24 +173,24 @@ public enum Operator {
 	}
 
 	/**
-	 * Cette fonction teste si l'application de cet opérateur à 0 peut modifier sa valeur.
+	 * Cette fonction teste si l'application de cet opÃ©rateur Ã  0 peut modifier sa valeur.
 	 * 
-	 * @return Vrai si l'opérateur est la multiplication, la division ou le modulo
+	 * @return Vrai si l'opÃ©rateur est la multiplication, la division ou le modulo
 	 */
 	public boolean isAMultiplier() {
 		return zeroEstAbsorbant;
 	}
 
 	/**
-	 * Exceptions concernant les opérateurs
+	 * Exceptions concernant les opÃ©rateurs
 	 */
 	public static class OperatorErrorException extends RuntimeException {
 		private static final long serialVersionUID = 1178358377586546702L;
 
 		/**
-		 * Crée une exception sur les opérateurs avec le message donné
+		 * CrÃ©e une exception sur les opÃ©rateurs avec le message donnÃ©
 		 * 
-		 * @param message Le message décrivant l'erreur
+		 * @param message Le message dÃ©crivant l'erreur
 		 */
 		public OperatorErrorException(String message) {
 			super("OperatorErrorException : " + message);

@@ -13,19 +13,19 @@ import fr.bruju.rmeventreader.imagereader.traitement.ImageReader;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 /**
- * L'objectif de cette classe est de prendre une liste de monstres et de tenter de reconnaître leurs noms.
+ * L'objectif de cette classe est de prendre une liste de monstres et de tenter de reconnaÃ®tre leurs noms.
  * 
- * Pour cela, on suppose que le nom actuel du monstre est le nom de l'image où est écrit son nom.
+ * Pour cela, on suppose que le nom actuel du monstre est le nom de l'image oÃ¹ est Ã©crit son nom.
  * 
  * 
- * Usage à partir d'une MonsterDatabase nommée db pour obtenir le fichier avec la liste des noms des monstres
+ * Usage Ã  partir d'une MonsterDatabase nommÃ©e db pour obtenir le fichier avec la liste des noms des monstres
  * BuildingMotifs chercheurDeMotifs = new BuildingMotifs(db.extractMonsters()); chercheurDeMotifs.lancer();
  * chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
  */
 public class BuildingMotifs {
-	private static String IGNORE_NAME = "UNKNOWN_NAME"; // Monstres dont l'image contenant le nom n'a pas pu être obtenue
-	private static String CHEMIN_PREFIX = "ressources\\Picture\\"; // Préfixe du repertoire où sont les images
-	private static String CHEMIN_SUFFIXE = ".PNG"; // Suffixe du chemin où sont les images
+	private static String IGNORE_NAME = "UNKNOWN_NAME"; // Monstres dont l'image contenant le nom n'a pas pu Ãªtre obtenue
+	private static String CHEMIN_PREFIX = "ressources\\Picture\\"; // PrÃ©fixe du repertoire oÃ¹ sont les images
+	private static String CHEMIN_SUFFIXE = ".PNG"; // Suffixe du chemin oÃ¹ sont les images
 
 	/**
 	 * Liste des monstres
@@ -38,16 +38,16 @@ public class BuildingMotifs {
 	private Map<String, String> chainesReconnues;
 
 	/**
-	 * Crée un constructeur de motifs
+	 * CrÃ©e un constructeur de motifs
 	 * 
-	 * @param monstres La liste des monstres à reconnaître
+	 * @param monstres La liste des monstres Ã  reconnaÃ®tre
 	 */
 	public BuildingMotifs(List<Monstre> monstres) {
 		this.monstres = monstres;
 	}
 
 	/**
-	 * Permet de récupérer la liste des images de monstre reconnues avec les noms associés
+	 * Permet de rÃ©cupÃ©rer la liste des images de monstre reconnues avec les noms associÃ©s
 	 * 
 	 * @return Une map associant nom d'image et mot reconnu
 	 */

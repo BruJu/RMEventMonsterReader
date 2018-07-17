@@ -42,7 +42,7 @@ public class OperatorIdentifier {
 		case ">=":
 			return Operator.SUPEGAL;
 		default:
-			throw new UnsupportedOperationException("Opérateur " + operateur + " inconnu");
+			throw new UnsupportedOperationException("OpÃ©rateur " + operateur + " inconnu");
 		
 		}
 	}
