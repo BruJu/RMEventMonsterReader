@@ -20,7 +20,6 @@ public class FormulaMain {
 	private static final String RESSOURCES_ATTAQUES = "ressources/Attaques/";
 
 	public static void main_(String[] args) {
-
 		List<Personnage> persos = CreateurPersonnage.creerTousLesPersonnages();
 		Map<Personnage, List<Pair<String, Valeur>>> map = new HashMap<>();
 
@@ -65,12 +64,33 @@ public class FormulaMain {
 				continue;
 
 			System.out.println("===== " + perso.getNom() + "=====");
+			map.get(perso).forEach(element -> {
 
-			map.get(perso)
-					.forEach(element -> System.out.println(element.getLeft() + " = " + element.getRight().getString()));
+				System.out.println(element.getLeft() + " = " + element.getRight().getString());
+			});
+			/*
+			map.get(perso).forEach(element -> {
+
+				System.out.print(element.getLeft() + " = ");
+
+				List<Valeur> valeurs = element.getRight().splash();
+
+				if (valeurs.size() == 0) {
+					return;
+				}
+
+				if (valeurs.size() == 1) {
+					System.out.println(valeurs.get(0).getString());
+					return;
+				}
+
+				System.out.println();
+
+				valeurs.forEach(v -> System.out.println(v.getString()));
+
+			});
+			 */
 		}
-
-
 
 	}
 

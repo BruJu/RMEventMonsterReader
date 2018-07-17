@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Valeur constante ou aléatoire entre deux bornes
  *  
@@ -59,6 +62,13 @@ public class ValeurNumerique implements Valeur {
 	@Override
 	public int evaluerMax() {
 		return valeurMax;
+	}
+
+	@Override
+	public List<Valeur> splash() {
+		List<Valeur> list = new ArrayList<>();
+		list.add(this);
+		return list;
 	}
 
 }

@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class ValeurSwitch implements Valeur {
 	private int idVariable;
@@ -28,4 +30,11 @@ public class ValeurSwitch implements Valeur {
 		return false;
 	}
 
+
+	@Override
+	public List<Valeur> splash() {
+		List<Valeur> list = new ArrayList<>();
+		list.add(this);
+		return list;
+	}
 }

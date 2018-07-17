@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ValeurTernaire implements Valeur {
 	private Condition condition;
 	private Valeur siVrai;
@@ -63,5 +66,14 @@ public class ValeurTernaire implements Valeur {
 	public boolean concerneLesMP() {
 		return siVrai.concerneLesMP() && siFaux.concerneLesMP();
 	}
+	
 
+	@Override
+	public List<Valeur> splash() {
+		// Faux pour les imbrications de ternaires sur les mêmes variables
+		List<Valeur> list = new ArrayList<>();
+		siVrai.splash().forEach(list::add);
+		siFaux.splash().forEach(list::add);
+		return list;
+	}
 }
