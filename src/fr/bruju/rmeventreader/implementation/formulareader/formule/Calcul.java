@@ -1,11 +1,50 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+/**
+ * Valeur qui est un calcul entre deux valeurs
+ * 
+ * @author Bruju
+ *
+ */
 public class Calcul implements Valeur {
+	/** Opérande de gauche */
 	private Valeur gauche;
+	/** Opérateur */
 	private String operateur;
+	/** Opérande de droite */
 	private Valeur droite;
+	/** Priorité du calcul pour le parenthésage */
 	private int priorite;
 	
+	/* ============
+	 * Constructeur
+	 * ============ */
+	
+	/**
+	 * Construit un calcul à partir de deux valeurs et un opératuer
+	 * @param gauche Valeur de gauche
+	 * @param operateur Un opérateur dans +, -, *, /, %
+	 * @param droite Valeur de droite
+	 */
+	public Calcul(Valeur gauche, String operateur, Valeur droite) {
+		if (gauche == null)
+			throw new RuntimeException("Gauche null");
+		if (operateur == null)
+			throw new RuntimeException("Op null");
+		if (droite == null)
+			throw new RuntimeException("Droite null");
+		
+		this.gauche = gauche;
+		this.operateur = operateur;
+		this.droite = droite;
+		this.priorite = setPriorite(operateur);
+	}
+	
+	/**
+	 * Détermine la priorité selon l'opérateur
+	 * @param operateur L'opérateur
+	 * @return La priorité
+	 */
 	private static int setPriorite(String operateur) {
 		switch (operateur) {
 		case "+":
@@ -20,22 +59,11 @@ public class Calcul implements Valeur {
 		}
 	}
 
-	public Calcul(Valeur gauche, String operateur, Valeur droite) {
-		if (gauche == null)
-			throw new RuntimeException("Gauche null");
-		if (operateur == null)
-			throw new RuntimeException("Op null");
-		if (droite == null)
-			throw new RuntimeException("Droite null");
+
+	/* ======
+	 * Valeur
+	 * ====== */
 		
-		this.gauche = gauche;
-		this.operateur = operateur;
-		this.droite = droite;
-		this.priorite = setPriorite(operateur);
-	}
-
-
-	
 	@Override
 	public int getPriorite() {
 		return priorite;

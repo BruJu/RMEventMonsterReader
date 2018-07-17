@@ -1,10 +1,10 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
 
-public class ValeurVariable implements Valeur {
+public class ValeurSwitch implements Valeur {
 	private int idVariable;
 	
-	public ValeurVariable (int idVariable) {
+	public ValeurSwitch (int idVariable) {
 		this.idVariable = idVariable;
 	}
 
@@ -15,7 +15,7 @@ public class ValeurVariable implements Valeur {
 
 	@Override
 	public String getString() {
-		return "V[" + idVariable + "]";
+		return "S[" + idVariable + "]";
 	}
 	
 	@Override

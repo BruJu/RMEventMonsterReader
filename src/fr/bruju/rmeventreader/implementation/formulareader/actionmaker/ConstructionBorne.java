@@ -23,8 +23,6 @@ public class ConstructionBorne {
 	private int idVariable;
 	private Valeur valeurVariable;
 	private boolean borneSup;
-	@SuppressWarnings("unused")
-	private int valeurDansCondition;
 	private ValeurNumerique valeurDansAffectation;
 	
 
@@ -81,8 +79,6 @@ public class ConstructionBorne {
 		}
 		
 		statut = Statut.CHGVARLU;
-		
-		// TODO : verifier la cohérence
 		
 		this.valeurDansAffectation = valeurNumerique;
 	}

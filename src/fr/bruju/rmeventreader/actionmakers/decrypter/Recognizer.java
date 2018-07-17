@@ -3,6 +3,8 @@ package fr.bruju.rmeventreader.actionmakers.decrypter;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmeventreader.utilitaire.Pair;
+
 /**
  * Classe permettant de reconnaitre des chaînes avec le pattern suivant : Tous les symboles comptent
  * 
@@ -37,6 +39,11 @@ public class Recognizer {
 	 * Caractère symbolisant un pattern qui accepte n'importe quoi à la fin
 	 */
 	private static final char CHAR_JOKER = '£';
+	
+	/**
+	 * Pattern représentant une ligne de deux valeur distinctes 
+	 */
+	private static final String PATTERN_DOUBLEVALUE = "_ _";
 
 	/**
 	 * La méthode tryPattern étant static, on ne peut pas instancier cette classe
@@ -44,6 +51,20 @@ public class Recognizer {
 	private Recognizer() {
 	}
 
+	/**
+	 * Extrait de la ligne deux valeurs séparées par un espace
+	 * @param data La ligne contenant les données
+	 * @return Une paire avec les deux valeurs
+	 */
+	public static Pair<String, String> extractValues(String data) {
+		List<String> str = tryPattern(PATTERN_DOUBLEVALUE, data);
+		
+		if (str == null)
+			return null;
+		
+		return new Pair<>(str.get(0), str.get(1));
+	}
+	
 	/**
 	 * Renvoie la liste des paramètres reconnus si le pattern correspond à la donnée. Renvoie null sinon
 	 * 

@@ -1,5 +1,11 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+/**
+ * Valeur constante ou aléatoire entre deux bornes
+ *  
+ * @author Bruju
+ *
+ */
 public class ValeurNumerique implements Valeur {
 	private int valeurMin;
 	private int valeurMax;

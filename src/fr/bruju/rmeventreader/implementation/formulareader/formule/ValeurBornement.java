@@ -1,5 +1,10 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+/**
+ * Valeur bornée par une autre
+ * @author Bruju
+ *
+ */
 public class ValeurBornement implements Valeur {
 	private Valeur valeurBornee;
 	private ValeurNumerique borneePar;
@@ -18,7 +23,6 @@ public class ValeurBornement implements Valeur {
 
 	@Override
 	public String getString() {
-		
 		if (valeurBornee instanceof ValeurBornement
 				&& this.borneSup != ((ValeurBornement) valeurBornee).borneSup) {
 			ValeurBornement autreBorne = (ValeurBornement) valeurBornee;
