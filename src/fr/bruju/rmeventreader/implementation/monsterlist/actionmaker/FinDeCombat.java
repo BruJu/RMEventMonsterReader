@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.List;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
@@ -143,27 +144,21 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	
 	
 	private void modificationGainExp(Operator operator, Variable returnValue) {
-		AssociationCombatValeur valeurReelle;
-		
-
 		int idMonstre = getPosition(returnValue.get(), VARIABLES_EXP);
 		
 		if (idMonstre == -1) {
 			throw new FinDeCombatException("Modifie un gain d'exp selon une variable qui n'est pas un gain d'exp");
 		}
 		
+		Function<Combat, Integer> valeurReelle;
 		valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).get(Positions.POS_EXP);
 
 		
-		getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.getValue(c)));
+		getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.apply(c)));
 	}
 
 	private void modificationGainExp(Operator operator, ValeurFixe returnValue) {
-		AssociationCombatValeur valeurReelle;
-		
-		valeurReelle = c -> returnValue.get();
-
-		getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.getValue(c)));
+		getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, returnValue.get()));
 	}
 
 	
@@ -184,14 +179,6 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	
 	private static boolean appartient(int element, int[] elements) {
 		return getPosition(element, elements) != -1;
-	}
-
-	/* =========
-	 * Aleatoire
-	 * ========= */
-	
-	interface AssociationCombatValeur {
-		public int getValue(Combat combat);
 	}
 	
 	/* ==========

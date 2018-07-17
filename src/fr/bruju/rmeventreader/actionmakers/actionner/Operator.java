@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+
 /**
  * Enumération des opérateurs existants de comparaison et de calculs
  *
@@ -9,101 +12,118 @@ public enum Operator {
 	/**
 	 * Affectation
 	 */
-	AFFECTATION(null, null, (l, r) -> r),
+	AFFECTATION((l, r) -> r, false),
 	/**
 	 * Addition
 	 */
-	PLUS(null, null, (l, r) -> l + r),
+	PLUS((l, r) -> l + r, false),
 	/**
 	 * Soustraction
 	 */
-	MINUS(PLUS, null, (l, r) -> l - r),
+	MINUS(PLUS, (l, r) -> l - r, false),
 	/**
 	 * Multiplication
 	 */
-	TIMES(null, null, (l, r) -> l * r, true),
+	TIMES((l, r) -> l * r, true),
 	/**
 	 * Reste de la division euclidienne
 	 */
-	MODULO(TIMES, null, (l, r) -> l % r, true),
+	MODULO(TIMES, (l, r) -> l % r, true),
 	/**
 	 * Division
 	 */
-	DIVIDE(TIMES, null, (l, r) -> l / r, true),
+	DIVIDE(TIMES, (l, r) -> l / r, false),
 	// Comparaisons
 	/**
 	 * Identique
 	 */
-	IDENTIQUE(null, (l, r) -> l == r, null),
+	IDENTIQUE((l, r) -> l == r),
 	/**
 	 * Différent
 	 */
-	DIFFERENT(IDENTIQUE, (l, r) -> l != r, null),
+	DIFFERENT(IDENTIQUE, (l, r) -> l != r),
 	/**
 	 * Inférieur strict
 	 */
-	INF(null, (l, r) -> l < r, null),
+	INF((l, r) -> l < r),
 	/**
 	 * Supérieur strict
 	 */
-	SUP(null, (l, r) -> l > r, null),
+	SUP((l, r) -> l > r),
 	/**
 	 * Inférieur ou égal
 	 */
-	INFEGAL(SUP, (l, r) -> l <= r, null),
+	INFEGAL(SUP, (l, r) -> l <= r),
 	/**
 	 * Supérieur ou égal
 	 */
-	SUPEGAL(INF, (l, r) -> l >= r, null);
+	SUPEGAL(INF, (l, r) -> l >= r);
 
 	/* ============================
 	 * FONCTIONEMENT D'UN OPERATEUR
 	 * ============================	*/
 
 	/** Opposé */
-	private Operator oppose;
+	private Operator oppose = null;
 
 	/** Fonction de test */
-	private TestFunc testFunction;
+	private BiPredicate<Integer, Integer> testFunction = null;
 
 	/** Fonction de calcul */
-	private CompFunc compFunc;
+	private BiFunction<Integer, Integer, Integer> compFunc = null;
 
 	/** Vrai si le fait de mettre une opérande à 0 rend le résultat égal à 0 */
 	private boolean zeroEstAbsorbant = false;
 
+	
 	/**
-	 * Construit un opérateur
+	 * Construit un opérateur de test
+	 * @param fonctionTest La fonction qui teste l'opérateur à partir de deux entiers
+	 */
+	Operator(BiPredicate<Integer, Integer> fonctionTest) {
+		this.testFunction = fonctionTest;
+	}
+	
+	/**
+	 * Construit un opérateur de test ayant un opposé
 	 * 
 	 * @param oppose Opérateur opposé à cet opérateur
 	 * @param tstFunc Fonction permettant de tester l'opérateur sur deux opérandes
-	 * @param compFunc Fonction permettant de calculer le résultat en fonction de deux opérandes
 	 */
-	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc) {
-		this.oppose = oppose;
+	Operator(Operator oppose, BiPredicate<Integer, Integer> fonctionTest) {
+		this(fonctionTest);
+		
 		if (oppose != null) {
+			this.oppose = oppose;
 			oppose.oppose = this;
 		}
-		this.testFunction = tstFunc;
-		this.compFunc = compFunc;
+	}
+	
+	/**
+	 * Construit un opérateur de calcul
+	 *  
+	 * @param fonctionCalcul Fonction permettant de calculer le résultat en fonction de deux opérandes
+	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
+	 */
+	Operator(BiFunction<Integer, Integer, Integer> fonctionCalcul, boolean zeroEstAbsorbant) {
+		this.compFunc = fonctionCalcul;
+		this.zeroEstAbsorbant = zeroEstAbsorbant;
 	}
 
 	/**
-	 * Construit un opérateur
-	 * 
+	 * Construit un opérateur de calcul
+	 *  
 	 * @param oppose Opérateur opposé à cet opérateur
-	 * @param tstFunc Fonction permettant de tester l'opérateur sur deux opérandes
-	 * @param compFunc Fonction permettant de calculer le résultat en fonction de deux opérandes
+	 * @param fonctionCalcul Fonction permettant de calculer le résultat en fonction de deux opérandes
 	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
 	 */
-	Operator(Operator oppose, TestFunc tstFunc, CompFunc compFunc, boolean zeroEstAbsorbant) {
-		this.oppose = oppose;
+	Operator(Operator oppose, BiFunction<Integer, Integer, Integer> fonctionCalcul, boolean zeroEstAbsorbant) {
+		this(fonctionCalcul, zeroEstAbsorbant);
+		
 		if (oppose != null) {
+			this.oppose = oppose;
 			oppose.oppose = this;
 		}
-		this.testFunction = tstFunc;
-		this.compFunc = compFunc;
-		this.zeroEstAbsorbant = zeroEstAbsorbant;
 	}
 
 	/* ========
@@ -138,7 +158,7 @@ public enum Operator {
 		if (compFunc == null) {
 			throw new OperatorErrorException("Try to compute with a compare operator");
 		} else {
-			return compFunc.compute(leftValue, rightValue);
+			return compFunc.apply(leftValue, rightValue);
 		}
 	}
 
@@ -195,17 +215,5 @@ public enum Operator {
 		public OperatorErrorException(String message) {
 			super("OperatorErrorException : " + message);
 		}
-	}
-
-	/* ================
-	 * Lambda fonctions
-	 * ================ */
-
-	private interface TestFunc {
-		boolean test(int leftValue, int rightValue);
-	}
-
-	private interface CompFunc {
-		int compute(int leftValue, int rightValue);
 	}
 }
