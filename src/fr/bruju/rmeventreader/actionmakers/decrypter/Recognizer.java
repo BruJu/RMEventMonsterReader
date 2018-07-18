@@ -62,6 +62,10 @@ public class Recognizer {
 		if (str == null)
 			return null;
 		
+		if (str.size() == 1) {
+			str.add("");
+		}
+		
 		return new Pair<>(str.get(0), str.get(1));
 	}
 	
