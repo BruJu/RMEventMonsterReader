@@ -19,4 +19,12 @@ public class Remplacement {
 	public BiConsumer<Monstre, String> getReplace() {
 		return replace;
 	}
+	
+	public static Remplacement nom() {
+		return new Remplacement(m -> m.name, (m, s) -> m.name = s);
+	}
+	
+	public static Remplacement drop() {
+		return new Remplacement(m -> m.nomDrop, (m, s) -> m.nomDrop = s);
+	}
 }

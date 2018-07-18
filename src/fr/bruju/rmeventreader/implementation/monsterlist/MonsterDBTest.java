@@ -19,6 +19,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.RemplacementDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.RemplacementNom;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Remplacement;
 
 public class MonsterDBTest {
 
@@ -30,9 +31,9 @@ public class MonsterDBTest {
 				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)    , "ressources/InitCombat2.txt"),
 				new LectureAutomatique(new Correcteur(baseDeDonnees)           , "ressources/Correction.txt"),
 				new AutoActionMaker(new CompleterWithShowPicture(baseDeDonnees), "ressources/NomDesMonstres.txt"),
-				new AutoCorrespondeur(baseDeDonnees, new RemplacementNom()     , "ressources/Dico/Monstres.txt"),
+				new AutoCorrespondeur(baseDeDonnees, Remplacement.nom()        , "ressources/Dico/Monstres.txt"),
 				new AutoActionMaker(new DropCompleter(baseDeDonnees)           , "ressources/CombatDrop.txt"),
-				new AutoCorrespondeur(baseDeDonnees, new RemplacementDrop()    , "ressources/Dico/Objets.txt"),
+				new AutoCorrespondeur(baseDeDonnees, Remplacement.drop()       , "ressources/Dico/Objets.txt"),
 				new InitialisateurTotal(baseDeDonnees),
 				new AutoActionMaker(new FinDeCombat(baseDeDonnees)             , "ressources/FinCombat.txt"),
 		};
