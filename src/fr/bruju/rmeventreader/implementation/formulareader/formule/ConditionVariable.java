@@ -40,4 +40,49 @@ public class ConditionVariable implements Condition {
 	public Operator getOperator() {
 		return operateur;
 	}
+
+	@Override
+	public Condition revert() {
+		return new ConditionVariable(gauche, operateur.revert(), droite);
+	}
+	
+	@Override
+	public int degreDeSimilitude(Condition autre) {
+		if (autre == null)
+			return 0;
+		
+		if (!(autre instanceof ConditionVariable))
+			return 0;
+		
+		ConditionVariable autreV = (ConditionVariable) autre;
+		
+		if (this.getGauche() != autreV.getGauche())
+			return 1;
+		
+		if (this.operateur != autreV.operateur)
+			return 2;
+		
+		return 3;
+	}
+
+	@Override
+	public String getStringApresAutre(Condition autre) {
+		int degre = degreDeSimilitude(autre);
+		
+		switch (degre) {
+		case 3:
+			return droite.getString();
+		case 2:
+			return operateur.name() + " " + droite.getString();
+		case 1:
+		case 0:
+		default:
+			return getString();
+		}
+	}
+
+	@Override
+	public Valeur estVariableIdentiqueA() {
+		return (operateur == Operator.IDENTIQUE) ? gauche : null;
+	}
 }

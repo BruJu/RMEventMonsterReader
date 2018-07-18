@@ -147,11 +147,11 @@ public class Etat {
 				if (valeursBdd[2] == null) {
 					throw new RuntimeException("Erreur de conception");
 				} else {
-					etatMemoire.put(idVariable, NewValeur.Ternaire(condition, valeursBdd[0], valeursBdd[2]));
+					etatMemoire.put(idVariable, NewValeur.Unification(condition, valeursBdd[0], null, valeursBdd[2]));
 				}
 			} else {
 				if (valeursBdd[2] == null) {
-					etatMemoire.put(idVariable, NewValeur.Ternaire(condition, valeursBdd[1], valeursBdd[0]));
+					etatMemoire.put(idVariable, NewValeur.Unification(condition, valeursBdd[0], valeursBdd[1], null));
 				} else {
 					etatMemoire.put(idVariable, NewValeur.Ternaire(condition, valeursBdd[1], valeursBdd[2]));
 				}
@@ -160,34 +160,6 @@ public class Etat {
 		}
 
 		);
-
-		/*
-		
-		filsGauche.etatMemoire
-				.forEach((idVar, valeurGauche) -> resultat.put(idVar, new Valeur[] { null, valeurGauche, null }));
-			
-			
-			resultat.put(idVar, new Valeur[] { null, valeurGauche, null }));
-		
-		
-		filsGauche.etatMemoire.forEach((idVar, valeurGauche) -> {
-			Valeur valeurDroite = filsDroite.etatMemoire.get(idVar);
-		
-			if (valeurDroite == null) {
-				valeurDroite = getValeur(idVar);
-			}
-		
-			etatMemoire.put(idVar, NewValeur.Ternaire(condition, valeurGauche, valeurDroite));
-		});
-		
-		filsDroite.etatMemoire.forEach((idVar, valeurDroite) -> {
-			Valeur valeurGauche = filsGauche.etatMemoire.get(idVar);
-			if (valeurGauche == null) {
-				etatMemoire.put(idVar, NewValeur.Ternaire(condition, getValeur(idVar), valeurDroite));
-			}
-		});
-		
-		 */
 
 		filsGauche = null;
 		filsDroite = null;

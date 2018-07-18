@@ -12,11 +12,15 @@ public class ValeurConditionnelle implements Valeur {
 	public ValeurConditionnelle(Condition condition, Valeur valeur, int elementNeutre) {
 		valeursConditionnelles = new ArrayList<>();
 		valeursConditionnelles.add(new Pair<>(condition, valeur));
+		this.elementNeutre = elementNeutre;
 	}
 
-	public ValeurConditionnelle(Condition condition, Valeur valeur, ValeurConditionnelle base) {
-		this(condition, valeur, base.elementNeutre);
-		valeursConditionnelles.addAll(base.valeursConditionnelles);
+	public ValeurConditionnelle(ValeurConditionnelle gauche, ValeurConditionnelle droite) {
+		valeursConditionnelles = new ArrayList<>();
+		this.elementNeutre = droite.elementNeutre;
+
+		valeursConditionnelles.addAll(gauche.valeursConditionnelles);
+		valeursConditionnelles.addAll(droite.valeursConditionnelles);
 	}
 
 	@Override
@@ -59,10 +63,16 @@ public class ValeurConditionnelle implements Valeur {
 
 	@Override
 	public String getString() {
+		if (affichageEnsemblistePossible()) {
+			return getAffichageEnsembliste();
+		}
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 
-		valeursConditionnelles.forEach(paireCondValeur -> {
+		Condition derniereConditionVue = null;
+
+		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
 			Condition cond = paireCondValeur.getLeft();
 			Valeur valeur = paireCondValeur.getRight();
 
@@ -70,29 +80,69 @@ public class ValeurConditionnelle implements Valeur {
 				sb.append(" | ");
 			}
 
-			sb.append(cond.getString()).append(" -> ").append(valeur.getString());
-		}
+			sb.append(cond.getStringApresAutre(derniereConditionVue)).append(" -> ").append(valeur.getString());
 
-		);
+			derniereConditionVue = cond;
+		}
 
 		sb.append("}");
 
 		return sb.toString();
 	}
 
-	@Override
-	public boolean estGarantiePositive() {
-		if (this.elementNeutre <= 0)
-			return false;
+	private String getAffichageEnsembliste() {
+		String valeursDepart = "[";
+		String valeursSortie = "[";
+		String valeurTestee = ((ConditionVariable) valeursConditionnelles.get(0).getLeft()).getGauche().getString();
 		
 		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
-			Valeur valeur = paireCondValeur.getRight();
+			ConditionVariable c = (ConditionVariable) paireCondValeur.getLeft();
 			
-			if (!valeur.estGarantiePositive()) {
+			valeursDepart = valeursDepart + c.getDroite().getString()+ ", ";
+			valeursSortie = valeursSortie + paireCondValeur.getRight().getString()+ ", ";
+			
+		}
+
+		
+		valeursDepart = valeursDepart.substring(0, valeursDepart.length() - 2) + "]";
+		valeursSortie = valeursSortie.substring(0, valeursSortie.length() - 2) + "]";
+
+		return "{" + valeurTestee + valeursDepart + " = " + valeursSortie + "}";
+	}
+
+	private boolean affichageEnsemblistePossible() {
+		if (valeursConditionnelles.size() < 2) {
+			return false;
+		}
+
+		Valeur valeurCommune = valeursConditionnelles.get(0).getLeft().estVariableIdentiqueA();
+
+		if (valeurCommune == null)
+			return false;
+
+		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
+			if (paireCondValeur.getLeft().degreDeSimilitude(valeursConditionnelles.get(0).getLeft()) != 3) {
 				return false;
 			}
 		}
 		
+		
+		return valeurCommune != null;
+	}
+
+	@Override
+	public boolean estGarantiePositive() {
+		if (this.elementNeutre <= 0)
+			return false;
+
+		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
+			Valeur valeur = paireCondValeur.getRight();
+
+			if (!valeur.estGarantiePositive()) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
@@ -105,12 +155,12 @@ public class ValeurConditionnelle implements Valeur {
 	public boolean estConstant() {
 		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
 			Valeur valeur = paireCondValeur.getRight();
-			
+
 			if (!valeur.estConstant()) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -118,15 +168,13 @@ public class ValeurConditionnelle implements Valeur {
 	public boolean concerneLesMP() {
 		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
 			Valeur valeur = paireCondValeur.getRight();
-			
+
 			if (!valeur.concerneLesMP()) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
-
-	
 }

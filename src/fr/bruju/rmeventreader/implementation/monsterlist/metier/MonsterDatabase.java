@@ -119,11 +119,13 @@ public class MonsterDatabase {
 
 
 	public void trouverLesMonstresAvecDesNomsInconnus() {
+		
+		/*
 		this.extractMonsters().stream()
 		.filter(m -> m != null && m.name.equals("UNKNOWN_NAME"))
 		.forEach(m -> System.out.println("add(" + m.getBattleId() + ", " + m.getIdInBattleOf() + ", 0);"));
 		;
-		
+		*/
 	}
 
 

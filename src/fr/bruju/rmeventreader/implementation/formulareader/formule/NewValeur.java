@@ -84,4 +84,80 @@ public class NewValeur {
 		return new Calcul(leftValue, symbole, rightValue);
 	}
 
+	public static ValeurConditionnelle ValeurConditionnelle(Condition condition, Valeur valeur, int neutre) {
+		return new ValeurConditionnelle(condition, valeur, neutre);
+	}
+	
+	
+	public static Valeur Unification(Condition condition, Valeur valeurBDD, Valeur valeurGauche, Valeur valeurDroite) {
+		if (valeurGauche != null && valeurDroite != null) {
+			return Ternaire(condition, (valeurGauche == null) ? valeurBDD : valeurGauche, (valeurDroite == null) ? valeurBDD : valeurDroite);
+		}
+		
+		if (valeurGauche != null && valeurGauche instanceof Calcul) {
+			Calcul calc = (Calcul) valeurGauche;
+			
+			if (calc.getGauche() == valeurBDD) {
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition, calc.getDroite(), getNeutre(calc.getOperateur())));
+			}
+
+			if (calc.getDroite() == valeurBDD) {
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition, calc.getGauche(), getNeutre(calc.getOperateur())));
+			}
+		}
+
+		if (valeurDroite != null && valeurDroite instanceof Calcul) {
+			Calcul calc = (Calcul) valeurDroite;
+			
+			if (calc.getGauche() == valeurBDD) {
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition.revert(), calc.getDroite(), getNeutre(calc.getOperateur())));
+			}
+
+			if (calc.getDroite() == valeurBDD) {
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition.revert(), calc.getGauche(), getNeutre(calc.getOperateur())));
+			}
+		}
+
+		
+		
+
+		return Ternaire(condition, (valeurGauche == null) ? valeurBDD : valeurGauche, (valeurDroite == null) ? valeurBDD : valeurDroite);
+	}
+
+	private static Valeur UnificationEnCours(Valeur valeurBDD, String operateur, ValeurConditionnelle valeurConditionnelle) {
+
+		if (valeurBDD instanceof Calcul) {
+			Calcul calculBDD = (Calcul) valeurBDD;
+			
+			if (calculBDD.getOperateur().equals(operateur) && calculBDD.getDroite() instanceof ValeurConditionnelle) {
+				ValeurConditionnelle nouveauDroite = new ValeurConditionnelle(valeurConditionnelle, (ValeurConditionnelle) calculBDD.getDroite());
+				
+				return Calcul(calculBDD.getGauche(), operateur, nouveauDroite);
+			}
+
+			if (calculBDD.getOperateur().equals(operateur) && calculBDD.getGauche() instanceof ValeurConditionnelle) {
+				ValeurConditionnelle nouveauDroite = new ValeurConditionnelle(valeurConditionnelle, (ValeurConditionnelle) calculBDD.getGauche());
+				
+				return Calcul(calculBDD.getDroite(), operateur, nouveauDroite);
+			}
+			
+		}
+		return Calcul(valeurBDD, operateur, valeurConditionnelle);
+	}
+
+	private static int getNeutre(String operateur) {
+		switch (operateur) {
+		case "*":
+		case "/":
+			return 1;
+		case "%":
+			return Integer.MAX_VALUE;
+		case "+":
+		case "-":
+			return 0;
+		default:
+			throw new RuntimeException("Opérateur inconnu");
+		}
+	}
+
 }

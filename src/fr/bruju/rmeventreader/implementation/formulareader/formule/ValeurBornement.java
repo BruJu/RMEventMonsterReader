@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
 /**
  * Valeur bornée par une autre
+ * 
  * @author Bruju
  *
  */
@@ -9,13 +10,13 @@ public class ValeurBornement implements Valeur {
 	private Valeur valeurBornee;
 	private ValeurNumerique borneePar;
 	private boolean borneSup;
-	
+
 	public ValeurBornement(Valeur valeurBornee, ValeurNumerique borneePar, boolean borneSup) {
 		this.valeurBornee = valeurBornee;
 		this.borneePar = borneePar;
 		this.borneSup = borneSup;
 	}
-	
+
 	@Override
 	public int getPriorite() {
 		return 0;
@@ -23,13 +24,12 @@ public class ValeurBornement implements Valeur {
 
 	@Override
 	public String getString() {
-		if (valeurBornee instanceof ValeurBornement
-				&& this.borneSup != ((ValeurBornement) valeurBornee).borneSup) {
+		if (valeurBornee instanceof ValeurBornement && this.borneSup != ((ValeurBornement) valeurBornee).borneSup) {
 			ValeurBornement autreBorne = (ValeurBornement) valeurBornee;
 			String borneInf;
 			String borneSup;
 			String valeur;
-			
+
 			if (this.borneSup) {
 				borneInf = autreBorne.borneePar.getString();
 				borneSup = this.borneePar.getString();
@@ -37,14 +37,14 @@ public class ValeurBornement implements Valeur {
 				borneSup = autreBorne.borneePar.getString();
 				borneInf = this.borneePar.getString();
 			}
-			
+
 			valeur = autreBorne.valeurBornee.getString();
-			
-			return "entre(" + borneInf + ", " + valeur + ", " + borneSup + ")"; 
+
+			return "entre(" + borneInf + ", " + valeur + ", " + borneSup + ")";
 		}
-		
+
 		String nom = borneSup ? "max" : "min";
-		
+
 		return nom + "(" + valeurBornee.getString() + ", " + borneePar.getString() + ")";
 	}
 
@@ -76,7 +76,6 @@ public class ValeurBornement implements Valeur {
 	public boolean concerneLesMP() {
 		return valeurBornee.concerneLesMP();
 	}
-
 
 
 }

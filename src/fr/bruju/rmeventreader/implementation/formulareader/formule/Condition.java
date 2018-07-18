@@ -9,4 +9,12 @@ public interface Condition {
 	public boolean testerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
 	
 	public String getString();
+	
+	public Condition revert();
+	
+	public int degreDeSimilitude(Condition autre);
+	
+	public String getStringApresAutre(Condition autre);
+	
+	public Valeur estVariableIdentiqueA();
 }

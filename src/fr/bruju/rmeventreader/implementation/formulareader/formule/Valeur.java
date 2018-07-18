@@ -66,5 +66,6 @@ public interface Valeur {
 	public default boolean concerneLesMP() {
 		return false;
 	}
+	
 
 }

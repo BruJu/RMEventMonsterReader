@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
-
 /**
  * Valeur qui est un calcul entre deux valeurs
  * 
@@ -16,13 +15,14 @@ public class Calcul implements Valeur {
 	private Valeur droite;
 	/** Priorité du calcul pour le parenthésage */
 	private int priorite;
-	
+
 	/* ============
 	 * Constructeur
 	 * ============ */
-	
+
 	/**
 	 * Construit un calcul à partir de deux valeurs et un opératuer
+	 * 
 	 * @param gauche Valeur de gauche
 	 * @param operateur Un opérateur dans +, -, *, /, %
 	 * @param droite Valeur de droite
@@ -34,15 +34,16 @@ public class Calcul implements Valeur {
 			throw new RuntimeException("Op null");
 		if (droite == null)
 			throw new RuntimeException("Droite null");
-		
+
 		this.gauche = gauche;
 		this.operateur = operateur;
 		this.droite = droite;
 		this.priorite = setPriorite(operateur);
 	}
-	
+
 	/**
 	 * Détermine la priorité selon l'opérateur
+	 * 
 	 * @param operateur L'opérateur
 	 * @return La priorité
 	 */
@@ -60,11 +61,10 @@ public class Calcul implements Valeur {
 		}
 	}
 
-
 	/* ======
 	 * Valeur
 	 * ====== */
-		
+
 	@Override
 	public int getPriorite() {
 		return priorite;
@@ -74,15 +74,15 @@ public class Calcul implements Valeur {
 	public String getString() {
 		String gaucheStr = gauche.getString();
 		String droiteStr = droite.getString();
-		
+
 		if (gauche.getPriorite() > this.getPriorite()) {
 			gaucheStr = "(" + gaucheStr + ")";
 		}
-	
+
 		if (droite.getPriorite() > this.getPriorite()) {
 			droiteStr = "(" + droiteStr + ")";
 		}
-		
+
 		return gaucheStr + " " + operateur + " " + droiteStr;
 	}
 
@@ -90,7 +90,7 @@ public class Calcul implements Valeur {
 	public int evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		int evalG;
 		int evalD;
-		
+
 		try {
 			evalG = gauche.evaluer();
 			evalD = droite.evaluer();
@@ -98,7 +98,7 @@ public class Calcul implements Valeur {
 			evalD = droite.evaluer();
 			throw e;
 		}
-		
+
 		switch (operateur) {
 		case "+":
 			return evalG + evalD;
@@ -120,7 +120,7 @@ public class Calcul implements Valeur {
 		if (operateur.equals("-")) {
 			return false;
 		}
-		
+
 		return gauche.estGarantiePositive() && droite.estGarantiePositive();
 	}
 
@@ -132,12 +132,14 @@ public class Calcul implements Valeur {
 	public Valeur getGauche() {
 		return this.gauche;
 	}
-	
+
 	public Valeur getDroite() {
 		return this.droite;
 	}
-	
+
 	public String getOperateur() {
 		return this.operateur;
 	}
+
+
 }
