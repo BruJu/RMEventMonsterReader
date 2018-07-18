@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionArme;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionSwitch;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
@@ -97,7 +98,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			return false;
 		}
 
-		pile.empiler(Pile.Valeur.FAUX);
+		entrerDansUnEtatFils(new ConditionArme(heroId, itemId));
 		return true;
 	}
 
