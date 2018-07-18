@@ -10,7 +10,6 @@ import fr.bruju.rmeventreader.imagereader.model.Motif;
 import fr.bruju.rmeventreader.imagereader.model.SymboleReconnus;
 import fr.bruju.rmeventreader.imagereader.traitement.ChercheurDeMotifs;
 import fr.bruju.rmeventreader.imagereader.traitement.ImageReader;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 /**
  * L'objectif de cette classe est de prendre une liste de monstres et de tenter de reconnaître leurs noms.
@@ -30,7 +29,7 @@ public class BuildingMotifs {
 	/**
 	 * Liste des monstres
 	 */
-	private List<Monstre> monstres;
+	private List<String> nomImages;
 
 	/**
 	 * Chaines reconnues
@@ -42,8 +41,8 @@ public class BuildingMotifs {
 	 * 
 	 * @param monstres La liste des monstres à reconnaître
 	 */
-	public BuildingMotifs(List<Monstre> monstres) {
-		this.monstres = monstres;
+	public BuildingMotifs(List<String> nomImages) {
+		this.nomImages = nomImages;
 	}
 
 	/**
@@ -63,16 +62,16 @@ public class BuildingMotifs {
 
 		List<Motif> motifs = new SymboleReconnus().getMotifs();
 
-		for (Monstre monstre : monstres) {
-			if (chainesReconnues.containsKey(monstre.name)) {
+		for (String image : nomImages) {
+			if (chainesReconnues.containsKey(image)) {
 				continue;
 			}
 
-			if (monstre.name.equals(IGNORE_NAME)) {
+			if (image.equals(IGNORE_NAME)) {
 				continue;
 			}
 
-			String filename = CHEMIN_PREFIX + monstre.name + CHEMIN_SUFFIXE;
+			String filename = CHEMIN_PREFIX + image + CHEMIN_SUFFIXE;
 
 			ImageReader ir = new ImageReader();
 
@@ -89,7 +88,7 @@ public class BuildingMotifs {
 
 			String s = chercheurMotifs.reconnaitre();
 
-			chainesReconnues.put(monstre.name, s);
+			chainesReconnues.put(image, s);
 		}
 	}
 }
