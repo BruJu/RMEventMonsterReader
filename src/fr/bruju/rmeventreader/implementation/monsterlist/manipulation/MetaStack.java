@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MetaStack<T> {
@@ -22,7 +23,7 @@ public class MetaStack<T> {
 		elements.get(elements.size() - 1).revert();
 	}
 	
-	public List<T> filter(List<T> listeAFiltrer) {
+	public Collection<T> filter(Collection<T> listeAFiltrer) {
 		return ConditionManipulator.<T>filterList(elements, listeAFiltrer);
 	}
 }

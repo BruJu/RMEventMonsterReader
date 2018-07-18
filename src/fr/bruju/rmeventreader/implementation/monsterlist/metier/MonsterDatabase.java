@@ -1,7 +1,10 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
@@ -12,61 +15,53 @@ public class MonsterDatabase {
 
 	public static final int POS_BOSSBATTLE = 190;
 	
-	private List<Combat> combatsConnus = new ArrayList<>();
+	//private List<Combat> combatsConnus = new ArrayList<>();
+	
+	private Map<Integer, Combat> combats = new HashMap<>();
 	
 
-	
 
-	
-
-	
+	/**
+	 * Ajoute le combat portant l'id donné si il n'existe pas déjà
+	 * @param id Le combat à ajouter
+	 */
 	public void addCombat(int id) {
-		for (Combat combat : combatsConnus) {
-			if (combat.id == id) {
-				return;
-			}
-		}
+		Combat combat = getBattleById(id);
 		
-		combatsConnus.add(new Combat(id));
-	}
-	
-	
-	public static void setVariable(List<Combat> combats, Variable variable, Operator operator, ValeurFixe returnValue) {
-		
-		// TODO : Changer cette méthode pour qu'elle soit plus maintenanble
-		
-		/*
-		if (variable.pointed || variable.numberDebut != variable.numberFin || returnValue.type != ReturnValue.Type.VALUE) {
-			throw new RuntimeException("Ne supporte pas les pointeurs");
-		}
-		
-		if (returnValue.value != returnValue.borneMax) {
-			throw new RuntimeException("Ne supporte pas les returnValues en random");
-		}
-		*/
-		
-		for (Combat combat : combats) {
-			combat.applyModificator(variable.get(), operator, returnValue.get());
+		if (combat == null) {
+			combats.put(id, new Combat(id));
 		}
 	}
 	
+
+	/**
+	 * Renvoie le combat dont l'id est donné
+	 * @param idCombat L'id du combat
+	 * @return Le combat
+	 */
+	public Combat getBattleById(int idCombat) {
+		return combats.get(idCombat);
+	}
+
 	
-	
+	/**
+	 * Donne une représentation la liste des combats
+	 * @return Une chaîne avec la liste des combats
+	 */
 	public String getString() {
 		String s = "";
 		
-		for (Combat combat : combatsConnus) {
+		for (Combat combat : combats.values()) {
 			s = s + "\n" + combat.getString();
 		}
 		
 		return s;
 	}
 	
-	public List<Monstre> extractMonsters() {
+	public Collection<Monstre> extractMonsters() {
 		List<Monstre> monstres = new ArrayList<>();
 		
-		for (Combat combat : combatsConnus) {
-			
+		for (Combat combat : combats.values()) {
 			for (int i = 0 ; i != Positions.NB_MONSTRES_MAX_PAR_COMBAT ; i++) {
 				if (combat.monstres[i] != null) {
 					monstres.add(combat.monstres[i]);
@@ -77,8 +72,8 @@ public class MonsterDatabase {
 		return monstres;
 	}
 	
-	public List<Combat> extractBattles() {
-		return combatsConnus;
+	public Collection<Combat> extractBattles() {
+		return combats.values();
 	}
 	
 	
@@ -107,15 +102,6 @@ public class MonsterDatabase {
 	}
 
 
-	public Combat getBattleById(int idCombat) {
-		for (Combat combat : combatsConnus) {
-			if (combat.getId() == idCombat) {
-				return combat;
-			}
-		}
-		
-		return null;
-	}
 
 
 	public void trouverLesMonstresAvecDesNomsInconnus() {
@@ -129,18 +115,13 @@ public class MonsterDatabase {
 	}
 
 
-	public void removeBattle(int i) {
-		for (Combat combat : combatsConnus) {
-			if (combat.getId() == i) {
-				combatsConnus.remove(combat);
-				return;
-			}
-		}
+	public void removeBattle(int id) {
+		combats.remove(id);
 	}
 
 
-	public static void setBossBattle(List<Combat> combats) {
-		for (Combat combat : combats) {
+	public static void setBossBattle(Collection<Combat> collection) {
+		for (Combat combat : collection) {
 			combat.declareBossBattle();
 		}
 	}
@@ -150,7 +131,7 @@ public class MonsterDatabase {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Combat.getCSVHeader());
 		
-		combatsConnus.forEach(combat -> {sb.append("\n"); sb.append(combat.getCSV()); } );
+		combats.values().forEach(combat -> {sb.append("\n"); sb.append(combat.getCSV()); } );
 		
 		return sb.toString();
 	}
@@ -159,12 +140,20 @@ public class MonsterDatabase {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Monstre.getCSVHeader(true));
 		
-		combatsConnus.stream()
+		combats.values().stream()
 					.flatMap(combat -> combat.getMonstersStream())
 					.filter(monstre -> monstre != null)
 					.forEach(monstre -> {sb.append("\n"); sb.append(monstre.getCSV(true)); });
 		
 		return sb.toString();
+	}
+	
+	
+	
+	public static void setVariable(Collection<Combat> collection, Variable variable, Operator operator, ValeurFixe returnValue) {
+		for (Combat combat : collection) {
+			combat.applyModificator(variable.get(), operator, returnValue.get());
+		}
 	}
 	
 }

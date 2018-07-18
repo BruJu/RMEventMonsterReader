@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
-import java.util.List;
+import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
@@ -33,7 +33,7 @@ public abstract class StackedActionMaker<T> implements ActionMakerDefalse {
 	 * Permet d'obtenir la liste des éléments filtrés par l'enchaînement courant de conditions
 	 * @return La liste des éléments qui respectent les conditions établies
 	 */
-	public List<T> getElementsFiltres() {
+	public Collection<T> getElementsFiltres() {
 		return conditions.filter(getAllElements());
 	}
 	
@@ -41,7 +41,7 @@ public abstract class StackedActionMaker<T> implements ActionMakerDefalse {
 	 * Donne tous les éléments de la base de données
 	 * @return Une liste de tous les éléments non filtrés
 	 */
-	protected abstract List<T> getAllElements();
+	protected abstract Collection<T> getAllElements();
 
 	@Override
 	public void condElse() {

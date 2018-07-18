@@ -3,22 +3,19 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BDDReduite {
 	public List<MonstreReduit> monstresReduits = new ArrayList<>();
-
+	
 	public BDDReduite(MonsterDatabase db) {
-		Map<Long, List<Monstre>> collected = db.extractMonsters()
+		db.extractMonsters()
 		  .stream()
-		  .collect(Collectors.groupingBy(m -> m.hasher()));
-		
-		
-		collected.entrySet()
-		         .stream()
-		         .map(entree -> new MonstreReduit(entree.getValue()))
-		         .forEach(monstresReduits::add);
+		  .collect(Collectors.groupingBy(m -> m.hasher()))
+		  .values()
+		  .stream()
+		  .map(monstres -> new MonstreReduit(monstres))
+		  .forEach(monstresReduits::add);
 	}
 
 	public String getCSV() {

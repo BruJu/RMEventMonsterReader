@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
-import java.util.List;
+import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	
 	@Override
-	protected List<Combat> getAllElements() {
+	protected Collection<Combat> getAllElements() {
 		return database.extractBattles();
 	}
 
@@ -46,7 +46,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		if (leftOperandValue != MonsterDatabase.POS_ID_COMBAT)
 			return false;
-		
+
 		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));
 		
 		if (operatorValue == Operator.IDENTIQUE) {

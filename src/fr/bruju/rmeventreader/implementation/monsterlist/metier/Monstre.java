@@ -28,7 +28,7 @@ public class Monstre {
 		return s;
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return this.stats[Positions.POS_ID.ordinal()];
 	}
 
@@ -70,7 +70,21 @@ public class Monstre {
 	}
 	
 	
-	
+	public Long hasher() {
+		long hash = 0;
+		
+		int x = 3;
+		
+		for (int i = 0 ; i != Positions.TAILLE ; i++) {
+			hash = hash + stats[i] * x;
+			
+			x = x + 1000;
+		}
+		
+		hash = hash + name.hashCode() * 50 + nomDrop.hashCode();
+		
+		return hash;
+	}
 	
 	
 	

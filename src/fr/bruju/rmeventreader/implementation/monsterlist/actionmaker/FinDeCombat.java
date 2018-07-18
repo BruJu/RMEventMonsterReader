@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -34,7 +34,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	}
 	
 	@Override
-	protected List<Combat> getAllElements() {
+	protected Collection<Combat> getAllElements() {
 		return db.extractBattles();
 	}
 	

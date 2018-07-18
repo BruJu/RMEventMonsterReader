@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public enum Positions {
-	
 	POS_ID(549, 550, 551),
 	POS_NIV(555, 556, 557),
 	POS_EXP(574, 575, 576),

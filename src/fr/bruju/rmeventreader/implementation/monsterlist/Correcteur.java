@@ -6,7 +6,9 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 /**
  * 
@@ -82,6 +84,21 @@ public class Correcteur implements ActionOnLine {
 			int idSlot    = Integer.parseInt(arguments.get(1));
 			int idMonstre = Integer.parseInt(arguments.get(2));
 			
+			Combat combat = db.getBattleById(idCombat);
+			
+			if (combat == null) {
+				System.out.println("Le combat " + idCombat + " n'existe pas");
+				return;
+			}
+			
+			Monstre monstre = combat.getMonstre(idSlot);
+
+			if (monstre == null) {
+				System.out.println("Le monstre " + idCombat + "." + idSlot + " n'existe pas");
+				return;
+			}
+			
+			
 			db.getBattleById(idCombat).getMonstre(idSlot).setId(idMonstre);
 		}
 	}
@@ -97,7 +114,14 @@ public class Correcteur implements ActionOnLine {
 			int idCombat  = Integer.parseInt(arguments.get(0));
 			int idSlot    = Integer.parseInt(arguments.get(1));
 			
-			db.getBattleById(idCombat).remove(idSlot);
+			Combat combat = db.getBattleById(idCombat);
+			
+			if (combat == null) {
+				System.out.println("Le combat " + idCombat + " n'existe pas");
+				return;
+			}
+			
+			combat.remove(idSlot);
 		}
 	}
 	

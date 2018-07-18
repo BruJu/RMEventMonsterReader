@@ -53,10 +53,9 @@ public class DropCompleter implements ActionMakerDefalse {
 			throw new DropCompleterException("Affectation hors d'un if donnant l'id du monstre");
 		}
 		
-		db.extractBattles()
+		db.extractMonsters()
 		  .stream()
-		  .flatMap(combat -> combat.getMonstersStream())
-		  .filter(monstre -> monstre != null && monstre.getId() == dernierIfLu)
+		  .filter(monstre -> monstre.getId() == dernierIfLu)
 		  .forEach(monstre -> monstre.nomDrop = Integer.toString(returnValue.get()));
 	}
 

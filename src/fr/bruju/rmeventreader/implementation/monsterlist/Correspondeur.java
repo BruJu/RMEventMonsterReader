@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class Correspondeur {
 		return map.get(Integer.toString(cle));
 	}
 
-	public void searchAndReplace(List<Monstre> monstres, Function<Monstre, String> search, BiConsumer<Monstre, String> replace) {
+	public void searchAndReplace(Collection<Monstre> monstres, Function<Monstre, String> search, BiConsumer<Monstre, String> replace) {
 		for (Monstre monstre : monstres) {
 			String id = search.apply(monstre);
 			

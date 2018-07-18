@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
-import java.util.List;
+import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
@@ -17,7 +17,7 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 	// Sous classe : Condition
 	
 	@Override
-	protected List<Monstre> getAllElements() {
+	protected Collection<Monstre> getAllElements() {
 		return database.extractMonsters();
 	}
 	
@@ -41,7 +41,7 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 			return;
 		}
 		
-		List<Monstre> monstres = this.getElementsFiltres();
+		Collection<Monstre> monstres = this.getElementsFiltres();
 		
 		
 		for (Monstre monstre : monstres) {

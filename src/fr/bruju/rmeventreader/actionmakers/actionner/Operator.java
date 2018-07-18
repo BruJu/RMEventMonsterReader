@@ -32,7 +32,7 @@ public enum Operator {
 	/**
 	 * Division
 	 */
-	DIVIDE(TIMES, (l, r) -> l / r, false),
+	DIVIDE(TIMES, (l, r) -> l / r, true),
 	// Comparaisons
 	/**
 	 * Identique

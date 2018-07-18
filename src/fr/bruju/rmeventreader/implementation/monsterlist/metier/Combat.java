@@ -61,6 +61,7 @@ public class Combat {
 				return null;
 			
 			monstres[position] = new Monstre(this);
+			System.out.println("Je crée un monstre avec " + operator);
 		}
 		
 		return monstres[position];

@@ -36,9 +36,21 @@ public class MonsterDBTest {
 				new AutoActionMaker(new FinDeCombat(baseDeDonnees)             , "ressources/FinCombat.txt"),
 		};
 		
+		int etapes = 2;
+		
 		for (ActionAutomatique action : listeDesActions) {
 			action.faire();
+			
+			etapes --;
+			
+			if (etapes == 0)
+				break;
 		}
+
+		System.out.println(baseDeDonnees.getString());
+		
+		if (true)
+			return;
 		
 		if (aBesoinDOCR(baseDeDonnees)) {
 			ocriserLesMonstresInconnus(baseDeDonnees);	

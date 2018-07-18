@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ class ConditionManipulator {
 	 * @param elements La liste d'éléments à filtrer
 	 * @return Une liste avec tous les éléments donnés qui respectent toutes les conditions
 	 */
-	static <T> List<T> filterList(List<? extends Condition<T>> conditions, List<T> elements) {
+	static <T> List<T> filterList(List<? extends Condition<T>> conditions, Collection<T> elements) {
 		List<T> elementsFiltres = new ArrayList<>();
 		
 		elements.stream()
