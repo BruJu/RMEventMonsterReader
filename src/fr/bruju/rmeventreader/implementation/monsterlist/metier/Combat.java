@@ -7,8 +7,8 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class Combat {
-	Monstre[] monstres;
-	int id;
+	private Monstre[] monstres;
+	private int id;
 	
 	public int gainExp = 0;
 	private int gainCapa = 0;
@@ -52,16 +52,20 @@ public class Combat {
 		
 		int posStat = paire.getLeft().ordinal();
 		
-		monstre.stats[posStat] = operator.compute(monstre.stats[posStat], value);
+		monstre.apply(posStat, operator, value);
+		
 	}
 
+	public Monstre getMonstre(Integer position) {
+		return monstres[position];
+	}
+	
 	private Monstre getMonster(Integer position, Operator operator) {
 		if (monstres[position] == null) {
 			if (operator.isAMultiplier())
 				return null;
 			
 			monstres[position] = new Monstre(this);
-			System.out.println("Je crée un monstre avec " + operator);
 		}
 		
 		return monstres[position];

@@ -37,5 +37,4 @@ public class ConditionOnMembreStat implements Condition<Combat> {
 		
 		return operator.test(statMonstre, compareTo);
 	}
-	
 }

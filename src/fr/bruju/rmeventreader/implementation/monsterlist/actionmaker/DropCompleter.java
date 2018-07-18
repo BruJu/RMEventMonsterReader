@@ -56,7 +56,7 @@ public class DropCompleter implements ActionMakerDefalse {
 		db.extractMonsters()
 		  .stream()
 		  .filter(monstre -> monstre.getId() == dernierIfLu)
-		  .forEach(monstre -> monstre.nomDrop = Integer.toString(returnValue.get()));
+		  .forEach(monstre -> monstre.setDrop(Integer.toString(returnValue.get())));
 	}
 
 

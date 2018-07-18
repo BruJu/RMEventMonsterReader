@@ -18,4 +18,5 @@ public interface Condition<T> {
 	 * @return Vrai si l'élément respecte la condition
 	 */
 	public boolean filter(T element);
+
 }

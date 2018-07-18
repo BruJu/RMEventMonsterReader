@@ -5,7 +5,7 @@ import java.util.Collection;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
+import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
@@ -62,19 +62,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 		if (number != MonsterDatabase.POS_BOSSBATTLE)
 			return false;
 		
-		conditions.push(new Condition<Combat>() {
-			boolean v = value;
-			
-			@Override
-			public void revert() {
-				v = !v;
-			}
-
-			@Override
-			public boolean filter(Combat element) {
-				return element.isBossBattle() == v;
-			}
-		});
+		conditions.push(new ConditionEstUnBoss(value));
 
 		return true;
 	}

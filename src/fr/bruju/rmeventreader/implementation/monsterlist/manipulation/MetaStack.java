@@ -25,5 +25,5 @@ public class MetaStack<T> {
 	
 	public Collection<T> filter(Collection<T> listeAFiltrer) {
 		return ConditionManipulator.<T>filterList(elements, listeAFiltrer);
-	}
+	}	
 }

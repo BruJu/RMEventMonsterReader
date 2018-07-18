@@ -1,15 +1,35 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
 public class Monstre {
 
+	/* =========
+	 * Attributs 
+	 * ========= */
 
+	/**
+	 * Combat associé
+	 */
+	private Combat combat;
 	
-	Combat combat;
+	/**
+	 * Statistiques du monstre
+	 */
+	private int[] stats;
 	
-	int[] stats;
-	public String name = "UNKNOWN_NAME";
-	public String nomDrop = "";
+	
+	// Accessibles dans le package pour la classe Remplacement
+	
+	/**
+	 * Nom du monstre
+	 */
+	String name = "UNKNOWN_NAME";
+	
+	/**
+	 * Nom du drop
+	 */
+	String nomDrop = "";
 	
 	public Monstre(Combat combat) {
 		stats = new int[Positions.TAILLE];
@@ -50,19 +70,8 @@ public class Monstre {
 	 * NON REFLEXION
 	 * ============= */
 	
-
-
 	public void setId(int idMonstre) {
 		this.stats[Positions.POS_ID.ordinal()] = idMonstre;
-	}
-
-	public int getIdInBattleOf() {
-		for (int i = 0 ; i != 3 ; i ++) {
-			if (combat.monstres[i] == this)
-				return i;
-		}
-		
-		return -1;
 	}
 
 	public int get(Positions posCapa) {
@@ -125,6 +134,22 @@ public class Monstre {
 		}
 		
 		return prefixe + "IDMONSTRE;NOM;DROP;" + Positions.getCSVHeader();
+	}
+
+	public String getNom() {
+		return this.name;
+	}
+
+	public void apply(int posStat, Operator operator, int value) {
+		stats[posStat] = operator.compute(stats[posStat], value);
+	}
+
+	public void setNom(String pictureName) {
+		this.name = pictureName;
+	}
+
+	public void setDrop(String string) {
+		this.nomDrop = string;
 	}
 	
 }

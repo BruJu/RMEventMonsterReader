@@ -61,13 +61,15 @@ public class MonsterDatabase {
 	public Collection<Monstre> extractMonsters() {
 		List<Monstre> monstres = new ArrayList<>();
 		
-		for (Combat combat : combats.values()) {
+		combats.values().forEach(combat -> {
 			for (int i = 0 ; i != Positions.NB_MONSTRES_MAX_PAR_COMBAT ; i++) {
-				if (combat.monstres[i] != null) {
-					monstres.add(combat.monstres[i]);
+				Monstre monstre = combat.getMonstre(i);
+				
+				if (monstre != null) {
+					monstres.add(monstre);
 				}
 			}
-		}
+		});
 		
 		return monstres;
 	}

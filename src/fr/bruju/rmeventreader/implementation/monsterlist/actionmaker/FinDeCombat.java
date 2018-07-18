@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
+import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMembreStat;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
@@ -43,19 +44,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		if (number != SWITCH_BOSS)
 			return false;
 		
-		this.conditions.push(new Condition<Combat>() {
-			private boolean allume = value;
-			
-			@Override
-			public void revert() {
-				allume = !allume;
-			}
-
-			@Override
-			public boolean filter(Combat element) {
-				return element.isBossBattle() == allume;
-			}
-		});
+		this.conditions.push(new ConditionEstUnBoss(value));
 		
 		return true; 
 	}

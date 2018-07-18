@@ -85,21 +85,8 @@ public class Correcteur implements ActionOnLine {
 			int idMonstre = Integer.parseInt(arguments.get(2));
 			
 			Combat combat = db.getBattleById(idCombat);
-			
-			if (combat == null) {
-				System.out.println("Le combat " + idCombat + " n'existe pas");
-				return;
-			}
-			
 			Monstre monstre = combat.getMonstre(idSlot);
-
-			if (monstre == null) {
-				System.out.println("Le monstre " + idCombat + "." + idSlot + " n'existe pas");
-				return;
-			}
-			
-			
-			db.getBattleById(idCombat).getMonstre(idSlot).setId(idMonstre);
+			monstre.setId(idMonstre);
 		}
 	}
 
@@ -114,13 +101,7 @@ public class Correcteur implements ActionOnLine {
 			int idCombat  = Integer.parseInt(arguments.get(0));
 			int idSlot    = Integer.parseInt(arguments.get(1));
 			
-			Combat combat = db.getBattleById(idCombat);
-			
-			if (combat == null) {
-				System.out.println("Le combat " + idCombat + " n'existe pas");
-				return;
-			}
-			
+			Combat combat = db.getBattleById(idCombat);			
 			combat.remove(idSlot);
 		}
 	}

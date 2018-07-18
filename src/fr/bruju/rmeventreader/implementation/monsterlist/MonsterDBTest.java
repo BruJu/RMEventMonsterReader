@@ -21,6 +21,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Remplacement;
 
 public class MonsterDBTest {
 
+	@SuppressWarnings("unused")
 	public static void main_(String[] args, int csv) throws IOException {
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(); 
 		
@@ -36,27 +37,19 @@ public class MonsterDBTest {
 				new AutoActionMaker(new FinDeCombat(baseDeDonnees)             , "ressources/FinCombat.txt"),
 		};
 		
-		int etapes = 2;
-		
 		for (ActionAutomatique action : listeDesActions) {
 			action.faire();
-			
-			etapes --;
-			
-			if (etapes == 0)
-				break;
 		}
 
 		System.out.println(baseDeDonnees.getString());
+
 		
-		if (true)
-			return;
 		
 		if (aBesoinDOCR(baseDeDonnees)) {
 			ocriserLesMonstresInconnus(baseDeDonnees);	
 			return;
 		}
-		
+
 		baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
 		baseDeDonnees.trouverLesMonstresAvecDesNomsInconnus();
 		
@@ -81,7 +74,7 @@ public class MonsterDBTest {
 	private static boolean aBesoinDOCR(MonsterDatabase baseDeDonnees) {
 		Object[] monstresInconnus = baseDeDonnees.extractMonsters().stream()
 				.filter(m -> m != null)
-				.filter(m -> m.name.substring(0, 2).equals("id"))
+				.filter(m -> m.getNom().substring(0, 2).equals("id"))
 				.toArray();
 		
 		if (monstresInconnus.length == 0) {
@@ -100,16 +93,16 @@ public class MonsterDBTest {
 	}
 
 	private static void ocriserLesMonstresInconnus(MonsterDatabase baseDeDonnees) {
-		List<Monstre> monstresInconnus = new ArrayList<>();
+		List<String> monstresInconnus = new ArrayList<>();
 		
 		for (Monstre monstre : baseDeDonnees.extractMonsters()) {
 			if (monstre == null)
 				continue;
 			
-			if (!monstre.name.substring(0, 2).equals("id"))
+			if (!monstre.getNom().substring(0, 2).equals("id"))
 				continue;
 			
-			monstresInconnus.add(monstre);
+			monstresInconnus.add(monstre.getNom());
 		}
 		
 		

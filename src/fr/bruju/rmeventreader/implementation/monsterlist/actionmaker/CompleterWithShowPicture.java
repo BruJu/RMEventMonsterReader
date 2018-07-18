@@ -42,10 +42,9 @@ public class CompleterWithShowPicture extends StackedActionMaker<Monstre> {
 		}
 		
 		Collection<Monstre> monstres = this.getElementsFiltres();
-		
-		
+
 		for (Monstre monstre : monstres) {
-			monstre.name = pictureName;
+			monstre.setNom(pictureName);
 		}
 	}
 
