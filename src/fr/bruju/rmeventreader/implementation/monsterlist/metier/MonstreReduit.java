@@ -7,26 +7,22 @@ public class MonstreReduit {
 	public Monstre monstre;
 	public List<Integer> presence;
 	
-	public MonstreReduit(Monstre monstre) {
-		this.monstre = monstre;
-		presence = new ArrayList<>();
-		presence.add(monstre.getBattleId());
-	}
-	
-	public MonstreReduit clone() {
-		return new MonstreReduit(monstre, presence);
-	}
-	
-	private MonstreReduit(Monstre monstre, List<Integer> presence) {
-		this.monstre = monstre;
-		this.presence = new ArrayList<>();
-		this.presence.addAll(presence);
-	}
-
-	public static boolean sontIdentiques(MonstreReduit ar, MonstreReduit br) {
-		Monstre a = ar.monstre;
-		Monstre b = br.monstre;
+	public MonstreReduit(List<Monstre> list) {
+		this.monstre = list.get(0);
 		
+		presence = new ArrayList<>();
+		
+		for (Monstre monstre : list) {
+			if (!sontIdentiques(this.monstre, monstre)) {
+				throw new RuntimeException("This hash is bad and you should feel bad");
+			}
+		}
+		
+		list.forEach(monstre -> presence.add(monstre.getBattleId()));
+	}
+	
+
+	public static boolean sontIdentiques(Monstre a, Monstre b) {
 		for (Positions pos : Positions.values()) {
 			if (a.get(pos) != b.get(pos)) {
 				return false;
@@ -38,10 +34,6 @@ public class MonstreReduit {
 				&& a.nomDrop.equals(b.nomDrop);
 	}
 
-	public void recoit(MonstreReduit mr) {
-		presence.addAll(mr.presence);
-	}
-	
 	public static String getCSVHeader() {
 		return Monstre.getCSVHeader(false) + ";Combats";
 	}

@@ -3,36 +3,22 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BDDReduite {
 	public List<MonstreReduit> monstresReduits = new ArrayList<>();
 
-	public static BDDReduite generate(MonsterDatabase db) {
-		return db.extractMonsters().stream().map(monstre -> new BDDReduite(monstre)).reduce(new BDDReduite(),
-				(a, b) -> new BDDReduite(a, b));
-	}
-
-	public BDDReduite() {
-	}
-
-	public BDDReduite(Monstre monstre) {
-		monstresReduits.add(new MonstreReduit(monstre));
-	}
-
-	public BDDReduite(BDDReduite a, BDDReduite b) {
-		a.monstresReduits.forEach(mr -> monstresReduits.add(mr.clone()));
-
-		b.monstresReduits.forEach(mr -> {
-			for (MonstreReduit present : monstresReduits) {
-				if (MonstreReduit.sontIdentiques(mr, present)) {
-					present.recoit(mr);
-					return;
-				}
-
-			}
-
-			monstresReduits.add(mr.clone());
-		});
+	public BDDReduite(MonsterDatabase db) {
+		Map<Long, List<Monstre>> collected = db.extractMonsters()
+		  .stream()
+		  .collect(Collectors.groupingBy(m -> m.hasher()));
+		
+		
+		collected.entrySet()
+		         .stream()
+		         .map(entree -> new MonstreReduit(entree.getValue()))
+		         .forEach(monstresReduits::add);
 	}
 
 	public String getCSV() {
@@ -62,6 +48,10 @@ public class BDDReduite {
 		});
 
 		return sb.toString();
+	}
+
+	public static BDDReduite generate(MonsterDatabase baseDeDonnees) {
+		return new BDDReduite(baseDeDonnees);
 	}
 
 }
