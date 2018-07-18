@@ -60,7 +60,6 @@ public class Recognizer {
 		List<String> str = tryPattern(PATTERN_DOUBLEVALUE, data);
 		
 		if (str == null) {
-			System.out.println("Pattern unmatched :" + data);
 			return null;
 		}
 		

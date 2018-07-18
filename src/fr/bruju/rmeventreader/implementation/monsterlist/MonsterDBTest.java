@@ -21,7 +21,6 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Remplacement;
 
 public class MonsterDBTest {
 
-	@SuppressWarnings("unused")
 	public static void main_(String[] args, int csv) throws IOException {
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(); 
 		
