@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import fr.bruju.rmeventreader.implementation.monsterlist.Correspondeur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.Remplacement;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Remplacement;
 
 public class AutoCorrespondeur implements ActionAutomatique {
 	private MonsterDatabase database;
@@ -24,7 +24,7 @@ public class AutoCorrespondeur implements ActionAutomatique {
 		Correspondeur correspondeur = new Correspondeur();
 		try {
 			correspondeur.lireFichier(new File(filename));
-			correspondeur.searchAndReplace(database.extractMonsters(), remplaceur);
+			correspondeur.searchAndReplace(database.extractMonsters(), remplaceur.getSearch(), remplaceur.getReplace());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

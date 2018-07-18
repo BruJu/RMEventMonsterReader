@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.Remplacement;
 
 public class Correspondeur {
 	private Map<String, String> map = new HashMap<>();
@@ -32,14 +33,14 @@ public class Correspondeur {
 		return map.get(Integer.toString(cle));
 	}
 
-	public void searchAndReplace(List<Monstre> monstres, Remplacement remplaceur) {
+	public void searchAndReplace(List<Monstre> monstres, Function<Monstre, String> search, BiConsumer<Monstre, String> replace) {
 		for (Monstre monstre : monstres) {
-			String id = remplaceur.get(monstre);
-
+			String id = search.apply(monstre);
+			
 			String valeur = map.get(id);
 
 			if (valeur != null) {
-				remplaceur.set(monstre, valeur);
+				replace.accept(monstre, valeur);
 			}
 		}
 	}
