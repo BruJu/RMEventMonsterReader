@@ -10,7 +10,7 @@ Dans la mesure où le jeu de données sur lequel se repose ce programme ne m'app
 
 Les instructions sont à mettre dans des fichiers texte sous la forme généré par le logiciel [RMEventFactory de Cherry](http://cherrytree.at/cms/lang/en/download/?did=11)
 
-Pour se faire il faut :
+Pour ce faire il faut :
 * Copier sous RPG Maker 2003 les instructions à reconnaître
 * Lire les évènements avec RMEventFactory
 * Copier la représentation des évènements sous format texte qui est donnée et l'enregistrer dans un fichier
@@ -229,6 +229,33 @@ idmonstre76-2 Assassin
 ~~~~
 
 
+ 
+
+## Calcul de formules de dégâts
+
+### Objectif
+
+Ce module a pour but de permettre de générer des formules de dégâts compréhensibles.
+
+Par exemple si on a l'enchaînement
+
+~~~~
+Temp = 50
+Temp *= Magie
+Temp2 = 10
+Temp2 *= Niveau
+Temp += Temp2
+HPMonstre -= Temp
+~~~~
+
+
+Et qu'on spécifie que Magie et Niveau sont des statistiques, ainsi que HPMonstre est la vie de l'ennemi, il faut pouvoir générer "50 x Magie + 10 x Niveau" qui est la formule de dégâts tel qu'un humain la comprend.
+
+
+### Solution
+
+Implémentation en cours
+ 
  
 
 
