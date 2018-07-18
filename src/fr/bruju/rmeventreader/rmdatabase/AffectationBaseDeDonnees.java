@@ -25,7 +25,7 @@ public class AffectationBaseDeDonnees {
 	private AffectationBaseDeDonnees(BaseDeDonneesRPGMaker base) {
 		this.bddSupportee = base;
 	}
-	
+
 	public Integer getQuantitePossedee(int idObjet) {
 		return objetsPossedes.get(idObjet);
 	}
@@ -37,17 +37,30 @@ public class AffectationBaseDeDonnees {
 	public Boolean getInterrupteur(int idInterrupteur) {
 		return interrupteursAffectes.get(idInterrupteur);
 	}
-	
+
 	public Boolean herosPossedeEquipement(int idHeros, int idObjet) {
 		List<Integer> objetsEquipesParLeHeros = objetsEquipes.get(idHeros);
-		
+
 		if (objetsEquipesParLeHeros == null) {
 			return null;
 		}
-		
+
 		return objetsEquipesParLeHeros.contains(idObjet);
 	}
-	
+
+	public void display() {
+		objetsPossedes.forEach((item, quantite) -> System.out.println("item " + item + "has " + quantite));
+		variablesAffectees.forEach((variable, valeur) -> System.out.println("Variable " + variable + " = " + valeur));
+		interrupteursAffectes
+				.forEach((interrupteur, valeur) -> System.out.println("Switch " + interrupteur + " = " + valeur));
+		objetsEquipes.forEach((perso, items) -> {
+			System.out.print("perso " + perso + "-> ");
+			items.forEach(item -> System.out.print(item + " "));
+			System.out.println();
+		});
+
+	}
+
 	/* =======
 	 * Builder
 	 * ======= */
@@ -58,11 +71,11 @@ public class AffectationBaseDeDonnees {
 			String cheminParDefaut = "ressources/basededonnees/etat/";
 
 			try {
-				build.getObjetsEquipes        (cheminParDefaut + "equipement.txt"    );
-				build.setObjetsPossedes       (cheminParDefaut + "objetspossedes.txt");
-				build.setVariablesAffectees   (cheminParDefaut + "variables.txt"     );
-				build.getInterrupteursAffectes(cheminParDefaut + "interrupteurs.txt" );
-				
+				build.setObjetsEquipes(cheminParDefaut + "equipement.txt");
+				build.setObjetsPossedes(cheminParDefaut + "objetspossedes.txt");
+				build.setVariablesAffectees(cheminParDefaut + "variables.txt");
+				build.setInterrupteursAffectes(cheminParDefaut + "interrupteurs.txt");
+
 			} catch (IOException e) {
 				e.printStackTrace();
 				return null;
@@ -87,9 +100,9 @@ public class AffectationBaseDeDonnees {
 			Map<Integer, Integer> map = new HashMap<>();
 
 			donnees.forEach(paire -> {
-				String objet = paire.getLeft();
+				String objet = paire.getRight();
 				Integer idObjet = affectation.bddSupportee.getIdObjet(objet);
-				Integer quantite = Integer.decode(paire.getRight());
+				Integer quantite = Integer.decode(paire.getLeft());
 
 				map.put(idObjet, quantite);
 			});
@@ -98,15 +111,14 @@ public class AffectationBaseDeDonnees {
 
 			return this;
 		}
-		
+
 		public Builder setVariablesAffectees(String fichier) throws IOException {
 			List<Pair<String, String>> donnees = Utilitaire.lireFichierRessource(fichier);
 
 			Map<Integer, Integer> map = new HashMap<>();
 
 			donnees.forEach(paire -> {
-				String nomVariable = paire.getLeft();
-				Integer idVariable = affectation.bddSupportee.getIdVariable(nomVariable);
+				Integer idVariable = Integer.decode(paire.getLeft());
 				Integer valeur = Integer.decode(paire.getRight());
 
 				map.put(idVariable, valeur);
@@ -117,14 +129,13 @@ public class AffectationBaseDeDonnees {
 			return this;
 		}
 
-		public Builder getInterrupteursAffectes(String fichier) throws IOException {
+		public Builder setInterrupteursAffectes(String fichier) throws IOException {
 			List<Pair<String, String>> donnees = Utilitaire.lireFichierRessource(fichier);
 
 			Map<Integer, Boolean> map = new HashMap<>();
 
 			donnees.forEach(paire -> {
-				String nomInterrupteur = paire.getLeft();
-				Integer idInterrupteur = affectation.bddSupportee.getIdInterrupteur(nomInterrupteur);
+				Integer idInterrupteur = Integer.decode(paire.getLeft());
 
 				map.put(idInterrupteur, paire.getRight().equals("ON"));
 			});
@@ -133,8 +144,8 @@ public class AffectationBaseDeDonnees {
 
 			return this;
 		}
-		
-		public Builder getObjetsEquipes(String fichier) throws IOException {
+
+		public Builder setObjetsEquipes(String fichier) throws IOException {
 			List<Pair<String, String>> donnees = Utilitaire.lireFichierRessource(fichier);
 
 			Map<Integer, List<Integer>> map = new HashMap<>();
@@ -142,9 +153,9 @@ public class AffectationBaseDeDonnees {
 			donnees.forEach(paire -> {
 				Integer idPerso = affectation.bddSupportee.getIdPersonnage(paire.getLeft());
 				Integer idObjet = affectation.bddSupportee.getIdObjet(paire.getRight());
-				
+
 				List<Integer> listeObjetsEquipes = map.get(idPerso);
-				
+
 				if (listeObjetsEquipes == null) {
 					listeObjetsEquipes = new ArrayList<>();
 					listeObjetsEquipes.add(idObjet);
@@ -158,6 +169,6 @@ public class AffectationBaseDeDonnees {
 
 			return this;
 		}
-		
+
 	}
 }

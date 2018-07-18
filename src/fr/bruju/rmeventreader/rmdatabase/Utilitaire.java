@@ -24,7 +24,7 @@ public class Utilitaire {
 		List<Pair<String, String>> associations = new ArrayList<>();
 		
 		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(nomDuFichier, ligne -> {
+			FileReaderByLine.lireLeFichierSansCommentaires(nomDuFichier, ligne -> {				
 				Pair<String, String> donnees = Recognizer.extractValues(ligne);
 				
 				if (donnees == null) {
@@ -34,6 +34,7 @@ public class Utilitaire {
 				associations.add(donnees);
 			});
 		} catch (IOException | NullPointerException e) {
+			e.printStackTrace();
 			return null;
 		}
 		

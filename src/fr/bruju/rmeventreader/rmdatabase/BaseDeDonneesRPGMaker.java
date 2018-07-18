@@ -49,7 +49,7 @@ public class BaseDeDonneesRPGMaker {
 
 
 	Integer getIdPersonnage(String nom) {
-		return search(nomDesObjets, nom);
+		return search(nomDesPersonnages, nom);
 	}
 
 	Integer getIdObjet(String objet) {
@@ -57,11 +57,11 @@ public class BaseDeDonneesRPGMaker {
 	}
 
 	Integer getIdVariable(String variable) {
-		return search(nomDesObjets, variable);
+		return search(nomDesVariables, variable);
 	}
 
 	Integer getIdInterrupteur(String interrupteur) {
-		return search(nomDesObjets, interrupteur);
+		return search(nomDesInterrupteurs, interrupteur);
 	}
 	
 

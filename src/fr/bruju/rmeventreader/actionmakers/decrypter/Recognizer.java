@@ -59,8 +59,10 @@ public class Recognizer {
 	public static Pair<String, String> extractValues(String data) {
 		List<String> str = tryPattern(PATTERN_DOUBLEVALUE, data);
 		
-		if (str == null)
+		if (str == null) {
+			System.out.println("Pattern unmatched :" + data);
 			return null;
+		}
 		
 		if (str.size() == 1) {
 			str.add("");
