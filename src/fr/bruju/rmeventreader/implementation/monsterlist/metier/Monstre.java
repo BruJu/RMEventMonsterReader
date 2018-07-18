@@ -2,8 +2,12 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
+/**
+ * Représentation d'un monstre
+ * @author Bruju
+ *
+ */
 public class Monstre {
-
 	/* =========
 	 * Attributs 
 	 * ========= */
@@ -48,7 +52,7 @@ public class Monstre {
 		return s;
 	}
 	
-	public Integer getId() {
+	public int getId() {
 		return this.stats[Positions.POS_ID.ordinal()];
 	}
 

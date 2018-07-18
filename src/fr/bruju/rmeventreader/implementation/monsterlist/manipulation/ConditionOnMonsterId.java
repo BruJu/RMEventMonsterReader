@@ -9,10 +9,28 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  *
  */
 public class ConditionOnMonsterId implements Condition<Monstre> {
+	/**
+	 * Si vrai, la condition est sur le monstre. Sinon sur le combat
+	 */
 	private boolean onMonstre;
+	
+	/**
+	 * Opérateur
+	 */
 	private Operator operator;
+	
+	/**
+	 * Valeur avec laquelle comparer
+	 */
 	private int value;
 	
+	
+	/**
+	 * Construit une condition sur l'id du monstre ou du combat où apparait le monstre
+	 * @param onMonster Si vrai teste l'id du monstre, si faux l'id du combat dans lequel le monstre apparait
+	 * @param operator L'opérateur de comparaison
+	 * @param value La valeur de référence
+	 */
 	public ConditionOnMonsterId(boolean onMonster, Operator operator, int value) {
 		this.onMonstre = onMonster;
 		this.operator = operator;

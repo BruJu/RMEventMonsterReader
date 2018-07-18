@@ -6,12 +6,30 @@ import java.io.IOException;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 
+/**
+ * Action consistant à lire un fichier en utilisant une action donnée lorsqu'on lit une ligne
+ * 
+ * @author Bruju
+ *
+ */
 public class LectureAutomatique implements ActionAutomatique {
+	/**
+	 * Action réaliser à la lecture d'une ligne
+	 */
 	private ActionOnLine correcteur; 
+	
+	/**
+	 * Nom du fichier
+	 */
 	private String filename;
 	
-	public LectureAutomatique(ActionOnLine correcteur, String filename) {
-		this.correcteur = correcteur;
+	/**
+	 * Construit une action qui traitera les lignes du fichier
+	 * @param action Classe traitant les lignes données
+	 * @param filename Le nom du fichier
+	 */
+	public LectureAutomatique(ActionOnLine action, String filename) {
+		this.correcteur = action;
 		this.filename = filename;
 	}
 
@@ -23,5 +41,4 @@ public class LectureAutomatique implements ActionAutomatique {
 			e.printStackTrace();
 		}
 	}
-
 }

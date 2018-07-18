@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
-import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import java.util.function.IntBinaryOperator;
 
 /**
  * Enumération des opérateurs existants de comparaison et de calculs
@@ -70,7 +70,7 @@ public enum Operator {
 	private BiPredicate<Integer, Integer> testFunction = null;
 
 	/** Fonction de calcul */
-	private BiFunction<Integer, Integer, Integer> compFunc = null;
+	private IntBinaryOperator compFunc = null;
 
 	/** Vrai si le fait de mettre une opérande à 0 rend le résultat égal à 0 */
 	private boolean zeroEstAbsorbant = false;
@@ -103,7 +103,7 @@ public enum Operator {
 	 * @param fonctionCalcul Fonction permettant de calculer le résultat en fonction de deux opérandes
 	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
 	 */
-	Operator(BiFunction<Integer, Integer, Integer> fonctionCalcul, boolean zeroEstAbsorbant) {
+	Operator(IntBinaryOperator fonctionCalcul, boolean zeroEstAbsorbant) {
 		this.compFunc = fonctionCalcul;
 		this.zeroEstAbsorbant = zeroEstAbsorbant;
 	}
@@ -115,7 +115,7 @@ public enum Operator {
 	 * @param fonctionCalcul Fonction permettant de calculer le résultat en fonction de deux opérandes
 	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
 	 */
-	Operator(Operator oppose, BiFunction<Integer, Integer, Integer> fonctionCalcul, boolean zeroEstAbsorbant) {
+	Operator(Operator oppose, IntBinaryOperator fonctionCalcul, boolean zeroEstAbsorbant) {
 		this(fonctionCalcul, zeroEstAbsorbant);
 		
 		if (oppose != null) {
@@ -156,7 +156,7 @@ public enum Operator {
 		if (compFunc == null) {
 			throw new OperatorErrorException("Try to compute with a compare operator");
 		} else {
-			return compFunc.apply(leftValue, rightValue);
+			return compFunc.applyAsInt(leftValue, rightValue);
 		}
 	}
 
@@ -174,7 +174,7 @@ public enum Operator {
 			return oppose;
 		}
 	}
-
+	
 	/**
 	 * Teste l'appartenance de cet opérateur à la liste donnée
 	 * 

@@ -10,53 +10,41 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionO
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
+/**
+ * Action Maker qui crée des combats et rempli dedans les statistiques des monstres
+ * @author Bruju
+ *
+ */
 public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	
+	/* ==================
+	 * StackedActionMaker
+	 * ================== */
+
+	/**
+	 * Base de données
+	 */
+	private MonsterDatabase database;
+	
+	/**
+	 * Construit un MonsterDatabaseMaker
+	 * @param monsterDatabase La base de données à remplir
+	 */
+	public MonsterDatabaseMaker(MonsterDatabase monsterDatabase) {
+		database = monsterDatabase;
+	}
+
 	@Override
 	protected Collection<Combat> getAllElements() {
 		return database.extractBattles();
 	}
-
-	private MonsterDatabase database;
 	
-	@Override
-	public void changeSwitch(Variable interrupteur, boolean value) {
-		if (interrupteur.get() != MonsterDatabase.POS_BOSSBATTLE || !value) {
-			return;
-		}
-		
-		MonsterDatabase.setBossBattle(getElementsFiltres());
-	}
+	/* =======
+	 * Actions
+	 * ======= */
 
+	// Switch
 	
-	public MonsterDatabaseMaker(MonsterDatabase monsterDatabase) {
-		database = monsterDatabase;
-	}
-	
-	public MonsterDatabase get() {
-		return database;
-	}
-	
-	@Override
-	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
-		MonsterDatabase.setVariable(getElementsFiltres(), variable, operator, returnValue);
-	}
-	
-	@Override
-	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (leftOperandValue != MonsterDatabase.POS_ID_COMBAT)
-			return false;
-
-		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));
-		
-		if (operatorValue == Operator.IDENTIQUE) {
-			this.database.addCombat(returnValue.get());
-		}
-		
-		return true;
-	}
-
-
 	@Override
 	public boolean condOnSwitch(int number, boolean value) {
 		if (number != MonsterDatabase.POS_BOSSBATTLE)
@@ -67,6 +55,33 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 		return true;
 	}
 	
+	@Override
+	public void changeSwitch(Variable interrupteur, boolean value) {
+		if (interrupteur.get() != MonsterDatabase.POS_BOSSBATTLE || !value) {
+			return;
+		}
+		
+		MonsterDatabase.setBossBattle(getElementsFiltres());
+	}
 
+	// Variables
+	
+	@Override
+	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
+		if (leftOperandValue != MonsterDatabase.POS_ID_COMBAT)
+			return false;
 
+		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));
+		
+		if (operatorValue == Operator.IDENTIQUE) {
+			database.addCombat(returnValue.get());
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
+		MonsterDatabase.setVariable(getElementsFiltres(), variable, operator, returnValue);
+	}
 }

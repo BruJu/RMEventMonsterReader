@@ -2,11 +2,23 @@ package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 
+/**
+ * Condition sur si un combat est un combat de boss
+ * @author Bruju
+ *
+ */
 public class ConditionEstUnBoss implements Condition<Combat> {
-	boolean v;
+	/**
+	 * Vrai si le combat doit être un combat de boss
+	 */
+	private boolean v;
 	
-	public ConditionEstUnBoss(boolean value) {
-		this.v = value;
+	/**
+	 * Construit une condition sur si le combat doit être un combat de boss ou non
+	 * @param estUnCombatDeBoss Vrai si le combat doit être un combat de boss
+	 */
+	public ConditionEstUnBoss(boolean estUnCombatDeBoss) {
+		this.v = estUnCombatDeBoss;
 	}
 	
 	@Override
