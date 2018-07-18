@@ -37,27 +37,27 @@ public enum Operator {
 	/**
 	 * Identique
 	 */
-	IDENTIQUE((l, r) -> l == r),
+	IDENTIQUE((l, r) -> l.intValue() == r.intValue()),
 	/**
 	 * Différent
 	 */
-	DIFFERENT(IDENTIQUE, (l, r) -> l != r),
+	DIFFERENT(IDENTIQUE),
 	/**
 	 * Inférieur strict
 	 */
-	INF((l, r) -> l < r),
+	INF((l, r) -> l.intValue() < r.intValue()),
 	/**
 	 * Supérieur strict
 	 */
-	SUP((l, r) -> l > r),
+	SUP((l, r) -> l.intValue() > r.intValue()),
 	/**
 	 * Inférieur ou égal
 	 */
-	INFEGAL(SUP, (l, r) -> l <= r),
+	INFEGAL(SUP),
 	/**
 	 * Supérieur ou égal
 	 */
-	SUPEGAL(INF, (l, r) -> l >= r);
+	SUPEGAL(INF);
 
 	/* ============================
 	 * FONCTIONEMENT D'UN OPERATEUR
@@ -90,13 +90,11 @@ public enum Operator {
 	 * @param oppose Opérateur opposé à cet opérateur
 	 * @param tstFunc Fonction permettant de tester l'opérateur sur deux opérandes
 	 */
-	Operator(Operator oppose, BiPredicate<Integer, Integer> fonctionTest) {
-		this(fonctionTest);
+	Operator(Operator oppose) {
+		this.oppose = oppose;
+		oppose.oppose = this;
 		
-		if (oppose != null) {
-			this.oppose = oppose;
-			oppose.oppose = this;
-		}
+		testFunction = (left, right) -> !oppose.testFunction.test(left, right);
 	}
 	
 	/**
