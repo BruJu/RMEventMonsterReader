@@ -17,8 +17,6 @@ import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.LectureA
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.RemplacementDrop;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre.RemplacementNom;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Remplacement;
 
 public class MonsterDBTest {
