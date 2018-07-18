@@ -18,7 +18,11 @@ import fr.bruju.rmeventreader.imagereader.traitement.ImageReader;
  * 
  * 
  * Usage à partir d'une MonsterDatabase nommée db pour obtenir le fichier avec la liste des noms des monstres
- * BuildingMotifs chercheurDeMotifs = new BuildingMotifs(db.extractMonsters()); chercheurDeMotifs.lancer();
+ * 
+ * List<String> nomDesImages = new ArrayList<>();
+ * db.extractMonsters().forEach(m -> nomDesImages.add(m.getNom()));
+ * BuildingMotifs chercheurDeMotifs = new BuildingMotifs(nomDesImages);
+ * chercheurDeMotifs.lancer();
  * chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
  */
 public class BuildingMotifs {

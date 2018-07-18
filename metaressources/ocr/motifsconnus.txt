@@ -1,3 +1,5 @@
+// Fichier utilisé par imagereader pour reconnaître des motifs sur des images
+// Symboles uniques
 - 15
 - 31
 - 7
@@ -127,6 +129,7 @@ y 33 33 18 18 18 12 12 4 4 2
 z 15 8 4 2 1 15
 z 31 16 8 4 2 1 31
 Z 63 32 16 8 4 2 1 63
+// Plusieurs symboles
 << 20 10 5 10 20
 >> 5 10 20 10 5
 ct 64 64 1006 81 65 65 65 81 910

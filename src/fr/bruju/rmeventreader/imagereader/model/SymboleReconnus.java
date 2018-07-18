@@ -25,6 +25,10 @@ public class SymboleReconnus {
 
 		try {
 			FileReaderByLine.lireLeFichier(new File(CHEMIN_MOTIFS_CONNUS), line -> {
+				if (line.startsWith("//")) {
+					return;
+				}
+				
 				Scanner scanner = new Scanner(line);
 
 				String chaine = scanner.next();

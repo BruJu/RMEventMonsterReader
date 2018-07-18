@@ -8,7 +8,9 @@ target/
 .git
 bin/
 
-# Fichiers non propriÃƒÂ©taires
+# Compteur de lignes dans le projet
+src/fr/nblignes.sh
+
+# Fichiers non propriétaires
 ressources/
-src/fr/bruju/rmeventreadercomplement/
 sorties/
