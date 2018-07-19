@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.formulareader.actionmaker.FormulaCalculator;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
@@ -24,7 +25,7 @@ public class FormulaMain {
 
 	public static void main_(String[] args) {
 		List<Personnage> persos = CreateurPersonnage.creerTousLesPersonnages();
-		Map<Personnage, List<Triplet<String, Affectation, Valeur>>> map = new HashMap<>();
+		Map<Personnage, List<Triplet<String, List<Condition>, Valeur>>> map = new HashMap<>();
 
 		for (Personnage perso : persos) {
 			map.put(perso, new ArrayList<>());
@@ -41,7 +42,7 @@ public class FormulaMain {
 			FormulaCalculator calc = new FormulaCalculator();
 			new AutoActionMaker(calc, RESSOURCES_ATTAQUES + fichiersTexte).faire();
 
-			List<Triplet<Integer, Affectation, Valeur>> val = calc.getSortie();
+			List<Triplet<Integer, List<Condition>, Valeur>> val = calc.getSortie();
 			String nomAttaque = fichiersTexte.substring(0, fichiersTexte.length() - 4);
 
 			if (val.isEmpty()) {
@@ -73,9 +74,13 @@ public class FormulaMain {
 			System.out.println("===== " + perso.getNom() + "=====");
 			map.get(perso).forEach(element -> {
 
-				System.out.println(element.a + " = ");
-				((AffectationFlexible)element.b).display();
-				System.out.println(perso.subFormula(element.c.getString()));
+				System.out.print(element.a + " = ");
+				
+				element.b.stream().map(condition -> condition.getString())
+				.map(chaine -> (chaine.length() > 15) ? chaine.substring(0, 13) + "…" : chaine)
+				.map(chaine -> "(" + chaine + ")")
+				.forEach(chaine -> System.out.print(chaine + " "));
+				System.out.println(" => " + perso.subFormula(element.c.getString()));
 			});
 			/*
 			map.get(perso).forEach(element -> {

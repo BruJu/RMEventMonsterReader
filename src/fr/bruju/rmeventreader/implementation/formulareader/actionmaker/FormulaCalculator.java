@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -31,7 +32,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Attributs
 	 * ========= */
 	private Etat etat; // Etat de la mémoire 
-	private List<Triplet<Integer, Affectation, Valeur>> sortie; // Sorties possibles
+	private List<Triplet<Integer, List<Condition>, Valeur>> sortie; // Sorties possibles
 
 	private PileConditions pile; // Pile de conditions
 	private ConstructionBorne construireBorne; // Construction de la borne
@@ -50,7 +51,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Sorties
 	 * ======= */
 
-	public List<Triplet<Integer, Affectation, Valeur>> getSortie() {
+	public List<Triplet<Integer, List<Condition>, Valeur>> getSortie() {
 		return sortie;
 	}
 
@@ -276,9 +277,8 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 			if (operator == Operator.MINUS /*|| operator == Operator.PLUS*/) {
 				if (etat.estUneSortie(idVariableAModifier)) {
-					Affectation affectation = Conditions.convertirEnAffectation(pile.getConditions());
 					
-					sortie.add(new Triplet<>(idVariableAModifier, affectation, rightValue));
+					sortie.add(new Triplet<>(idVariableAModifier, pile.getConditions(), rightValue));
 				}
 			}
 
