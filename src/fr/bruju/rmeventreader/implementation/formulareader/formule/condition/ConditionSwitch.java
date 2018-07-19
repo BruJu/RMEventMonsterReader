@@ -88,5 +88,27 @@ public class ConditionSwitch implements Condition {
 		}	
 	}
 
+	@Override
+	public Condition integrerCondition(Condition aInclure) {
+		// Types identiques
+		if (!(aInclure instanceof ConditionSwitch)) {
+			return this;
+		}
+		
+		ConditionSwitch aInc = (ConditionSwitch) aInclure;
+		
+		// Concerne la même valeur
+		if (!(interrupteur == aInc.interrupteur)) {
+			return this;
+		}
+		
+		// Simplification
+		if (value == aInc.value) {
+			return ConditionFixe.VRAI;
+		} else {
+			return ConditionFixe.FAUX;
+		}
+	}
+
 
 }

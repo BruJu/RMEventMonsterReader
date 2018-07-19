@@ -78,4 +78,27 @@ public class ConditionArme implements Condition {
 	}
 
 
+	@Override
+	public Condition integrerCondition(Condition aInclure) {
+		// Types identiques
+		if (!(aInclure instanceof ConditionArme)) {
+			return this;
+		}
+		
+		ConditionArme aInc = (ConditionArme) aInclure;
+		
+		// Concerne le même personnage et la même arme
+		if (!(aInc.numeroPersonnage == this.numeroPersonnage && aInc.numeroArme == this.numeroArme)) {
+			return this;
+		}
+		
+		// Simplification
+		if (has == aInc.has) {
+			return ConditionFixe.VRAI;
+		} else {
+			return ConditionFixe.FAUX;
+		}
+	}
+
+
 }

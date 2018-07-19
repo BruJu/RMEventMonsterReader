@@ -82,34 +82,33 @@ public class ConditionVariable implements Condition {
 		return new ConditionVariable(gauche, operateur.revert(), droite);
 	}
 
-
 	@Override
 	public Condition evaluationPartielle(Affectation affectation) {
 		return new ConditionVariable(gauche.evaluationPartielle(affectation), operateur,
 				droite.evaluationPartielle(affectation));
 	}
-	
+
 	@Override
 	public void modifierAffectation(AffectationFlexible affectation) throws AffectationNonFaisable {
 		if (!(droite instanceof ValeurNumerique)) {
 			throw new AffectationNonFaisable();
 		}
-		
+
 		if (!(gauche instanceof ValeurVariable)) {
 			return;
-			
+
 			// throw new AffectationNonFaisable();
 		}
-		
+
 		ValeurVariable variable = (ValeurVariable) gauche;
 		ValeurNumerique valeur = (ValeurNumerique) droite;
-		
+
 		Integer valeurDansAffectation = affectation.getVariable(variable.getIdVariable());
-		
+
 		if (valeurDansAffectation == null) {
 			int valeurReference = valeur.getValue();
 			int valeurAMettre;
-			
+
 			switch (operateur) {
 			case DIFFERENT:
 			case INF:
@@ -126,13 +125,75 @@ public class ConditionVariable implements Condition {
 			default:
 				throw new AffectationNonFaisable();
 			}
-			
+
 			affectation.putVariable(variable.getIdVariable(), valeurAMettre);
 		} else {
 			if (operateur.test(valeurDansAffectation, valeur.getValue())) {
 				throw new AffectationNonFaisable();
 			}
-		}	
+		}
+	}
+
+	@Override
+	public Condition integrerCondition(Condition aInclure) {
+		// Types identiques
+		if (!(aInclure instanceof ConditionVariable)) {
+			return this;
+		}
+
+		ConditionVariable aInc = (ConditionVariable) aInclure;
+
+		// N'intègre que les conditions de la forme Valeur • Constante 
+		if (!(gauche == aInc.gauche && droite instanceof ValeurNumerique && aInc.droite instanceof ValeurNumerique)) {
+			return this;
+		}
+
+		// N'intègre que les conditions de la forme Valeur • Constante 
+
+		if (aInc.operateur == Operator.IDENTIQUE || operateur == Operator.IDENTIQUE) {
+			try {
+				boolean res = operateur.test(aInc.droite.evaluerUnique(), droite.evaluerUnique());
+				return ConditionFixe.get(res);
+			} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
+				return this;
+			}
+		}
+
+		if (aInc.operateur == Operator.DIFFERENT || operateur == Operator.DIFFERENT) {
+			return ConditionFixe.VRAI;
+		}
+
+		ConditionVariable sousConditionAInclude = aInc.sansEgal();
+		ConditionVariable sousConditionthis = sansEgal();
+
+		try {
+
+			if (sousConditionAInclude.operateur == sousConditionthis.operateur) {
+				return ConditionFixe.VRAI;
+			} else {
+				if (sousConditionAInclude.operateur == Operator.INF) {
+					return ConditionFixe.get(operateur.test(sousConditionAInclude.droite.evaluer()[1],
+							sousConditionthis.droite.evaluer()[0]));
+				} else {
+					return ConditionFixe.get(operateur.test(sousConditionAInclude.droite.evaluer()[0],
+							sousConditionthis.droite.evaluer()[1]));
+				}
+			}
+		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
+			return this;
+		}
+	}
+
+	private ConditionVariable sansEgal() {
+		ValeurNumerique vDroite = (ValeurNumerique) droite;
+
+		if (this.operateur == Operator.INFEGAL) {
+			return new ConditionVariable(this.gauche, Operator.INF, new ValeurNumerique(vDroite.evaluer()[1] + 1));
+		} else if (this.operateur == Operator.SUPEGAL) {
+			return new ConditionVariable(this.gauche, Operator.SUP, new ValeurNumerique(vDroite.evaluer()[0] - 1));
+		} else {
+			return this;
+		}
 	}
 
 }

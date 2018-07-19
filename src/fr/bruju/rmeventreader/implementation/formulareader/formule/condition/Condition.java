@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
 
+import java.util.Iterator;
+import java.util.List;
+
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
@@ -65,4 +68,44 @@ public interface Condition {
 
 	
 	public void modifierAffectation(AffectationFlexible affectation) throws AffectationNonFaisable;
+	
+	/**
+	 * Transforme la condition afin d'intégrer le fait que les conditions de la liste donnée sont respectées
+	 * @param conditions La liste de conditions
+	 * @return La condition simplifiée par le fait que les conditions données sont vraies
+	 */
+	public default Condition integrerConditions(List<Condition> conditions) {
+		// Transformation de la liste en iterateur pour avoir une vision [debut : reste de la liste]
+		return this.integrerConditions(conditions.iterator());
+	}
+
+	/**
+	 * Transforme la condition afin d'intégrer le fait que les conditions de l'itérateur sont vraies
+	 */
+	public default Condition integrerConditions(Iterator<Condition> iterator) {
+		if (!iterator.hasNext()) {
+			// Plus de condition à traiter
+			return this;
+		} else {
+			// On traite la condition en tête
+			Condition nouvelleCondition = integrerCondition(iterator.next());
+			// La nouvelle condition doit intégrer les conditions restantes
+			return nouvelleCondition.integrerConditions(iterator);
+		}
+	}
+	
+	/**
+	 * Donne une condition simplifiée par que le fait que la condition à inclure est vrai
+	 * @param aInclure La condition à inclure
+	 * @return Cette condition, mais où les cas où la condition aInclure n'est pas vérifiée sont exclus
+	 */
+	public Condition integrerCondition(Condition aInclure);
+	
+	/**
+	 * Implémenté uniquement par les conditions fixes. Si il s'agit d'une condition fixe, donne sa valeur
+	 * @return null si la condition n'est pas fixe. Vrai ou faux si c'est une condition fixe.
+	 */
+	public default Boolean fastEval() {
+		return null;
+	}
 }

@@ -40,6 +40,15 @@ public interface Valeur {
 	 */
 	public boolean estGarantiePositive();
 
+	public default int evaluerUnique() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		int[] evaluation = evaluer();
+		
+		if (evaluation[0] != evaluation[1])
+			throw new NonEvaluableException();
+		
+		return evaluation[0];
+	}
+
 
 
 }

@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -15,9 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Con
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionSwitch;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariable;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Conditions;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;

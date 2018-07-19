@@ -70,6 +70,9 @@ public class FormulaMain {
 				continue;
 			if (perso.getNom().contains(MEMBRE))
 				continue;
+			
+			if (!perso.getNom().equals("Ainorie"))
+				continue;
 
 			System.out.println("===== " + perso.getNom() + "=====");
 			map.get(perso).forEach(element -> {
@@ -82,28 +85,7 @@ public class FormulaMain {
 				.forEach(chaine -> System.out.print(chaine + " "));
 				System.out.println(" => " + perso.subFormula(element.c.getString()));
 			});
-			/*
-			map.get(perso).forEach(element -> {
 			
-				System.out.print(element.getLeft() + " = ");
-			
-				List<Valeur> valeurs = element.getRight().splash();
-			
-				if (valeurs.size() == 0) {
-					return;
-				}
-			
-				if (valeurs.size() == 1) {
-					System.out.println(valeurs.get(0).getString());
-					return;
-				}
-			
-				System.out.println();
-			
-				valeurs.forEach(v -> System.out.println(v.getString()));
-			
-			});
-			 */
 		}
 
 	}
