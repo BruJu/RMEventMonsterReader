@@ -51,11 +51,6 @@ public class ValeurNumerique implements Valeur {
 		return valeurMin > 0;
 	}
 
-
-	@Override
-	public boolean estConstant() {
-		return true;
-	}
 	
 	@Override
 	public int evaluerMin() {

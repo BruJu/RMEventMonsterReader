@@ -37,37 +37,6 @@ public interface Valeur {
 	 */
 	public boolean estGarantiePositive();
 
-	/**
-	 * 
-	 * 
-	 * Cette méthode n'a aucune garantie. Si elle renvoie toujours faux, même si la valeur est de la forme MP -
-	 * Constante
-	 * 
-	 * @return
-	 */
-	public default boolean estGarantieDeLaFormeMPMoinsConstante() {
-		return false;
-	}
 
-	/**
-	 * 
-	 * 
-	 * Cette méthode n'a aucune garantie. Si elle renvoie toujours faux, même si la valeur est constante
-	 * 
-	 * @return
-	 */
-	public default boolean estConstant() {
-		return false;
-	}
-
-	/**
-	 * 
-	 * Cette méthode n'a aucune garantie. Si elle renvoie toujours faux, même si la valeur concerne les MP.
-	 * 
-	 * @return
-	 */
-	public default boolean concerneLesMP() {
-		return false;
-	}
 
 }

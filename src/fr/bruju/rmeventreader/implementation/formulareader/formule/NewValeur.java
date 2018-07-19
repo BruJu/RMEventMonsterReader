@@ -70,7 +70,7 @@ public class NewValeur {
 
 		ConditionVariable condV = (ConditionVariable) condition;
 
-		if (!condV.getDroite().estConstant())
+		if (!estConstant(condV.getDroite()))
 			return null;
 
 		Calcul siVraiC = (Calcul) siVrai;
@@ -90,6 +90,15 @@ public class NewValeur {
 		}
 
 		return null;
+	}
+
+	private static boolean estConstant(Valeur droite) {
+		if (!(droite instanceof ValeurNumerique))
+			return false;
+		
+		ValeurNumerique droiteNum = (ValeurNumerique) droite;
+		
+		return droiteNum.evaluerMin() == droiteNum.evaluerMax();
 	}
 
 	public static Valeur Calcul(Valeur leftValue, Operator symbole, Valeur rightValue) {

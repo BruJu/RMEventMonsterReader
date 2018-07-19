@@ -102,19 +102,6 @@ public class ValeurBornement implements Valeur {
 		return (borneSup && valeurBornee.estGarantiePositive()) || (!borneSup && borneePar.estGarantiePositive());
 	}
 
-	@Override
-	public boolean estGarantieDeLaFormeMPMoinsConstante() {
-		return valeurBornee.estGarantieDeLaFormeMPMoinsConstante();
-	}
 
-	@Override
-	public boolean estConstant() {
-		return valeurBornee.estConstant();
-	}
-
-	@Override
-	public boolean concerneLesMP() {
-		return valeurBornee.concerneLesMP();
-	}
 
 }

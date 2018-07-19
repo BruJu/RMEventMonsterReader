@@ -195,13 +195,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 				}
 			}
 
-			// Connaissance Metier 2 : Les conditions de la forme "MP - constante < 0" ne nous interessent pas
-			/*
-			if (valeurCible.estGarantieDeLaFormeMPMoinsConstante() && operatorValue == Operator.INF
-					&& returnValue.get() == 0) {
-				return false;
-			}
-*/
 			// Connaissance Metier 3 : On peut être borné
 
 			if (this.construireBorne == null) {

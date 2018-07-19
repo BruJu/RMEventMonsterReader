@@ -34,11 +34,6 @@ public class ValeurStatistique implements Valeur {
 		return true;
 	}
 	
-	
-	@Override
-	public boolean concerneLesMP() {
-		return statistique == Statistique.MP;
-	}
 
 	@Override
 	public Valeur evaluationPartielle(Affectation affectation) {

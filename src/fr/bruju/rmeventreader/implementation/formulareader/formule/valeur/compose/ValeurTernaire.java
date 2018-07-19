@@ -52,24 +52,14 @@ public class ValeurTernaire implements Valeur {
 		return siVrai.estGarantiePositive() && siFaux.estGarantiePositive();
 	}
 	
-	@Override
-	public boolean estGarantieDeLaFormeMPMoinsConstante() {
-		return siVrai.estGarantieDeLaFormeMPMoinsConstante() && siFaux.estGarantieDeLaFormeMPMoinsConstante();
-	}
 
-	@Override
-	public boolean estConstant() {
-		return siVrai.estConstant() && siFaux.estConstant();
-	}
-
-	@Override
-	public boolean concerneLesMP() {
-		return siVrai.concerneLesMP() && siFaux.concerneLesMP();
-	}
 
 	@Override
 	public Valeur evaluationPartielle(Affectation affectation) {
-		// TODO Auto-generated method stub
+		// TODO
+		
+		
+		
 		return null;
 	}
 

@@ -163,10 +163,7 @@ public class Calcul implements Valeur {
 		return gauche.estGarantiePositive() && droite.estGarantiePositive();
 	}
 
-	@Override
-	public boolean estGarantieDeLaFormeMPMoinsConstante() {
-		return gauche.concerneLesMP() && operateur.equals("-") && droite.estConstant();
-	}
+
 
 	public Valeur getGauche() {
 		return this.gauche;

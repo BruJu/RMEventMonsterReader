@@ -144,40 +144,12 @@ public class ValeurConditionnelle implements Valeur {
 		return true;
 	}
 
-	@Override
-	public boolean estGarantieDeLaFormeMPMoinsConstante() {
-		return false;
-	}
-
-	@Override
-	public boolean estConstant() {
-		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
-			Valeur valeur = paireCondValeur.getRight();
-
-			if (!valeur.estConstant()) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	@Override
-	public boolean concerneLesMP() {
-		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
-			Valeur valeur = paireCondValeur.getRight();
-
-			if (!valeur.concerneLesMP()) {
-				return false;
-			}
-		}
-
-		return true;
-	}
 
 	@Override
 	public Valeur evaluationPartielle(Affectation affectation) {
-		// TODO Auto-generated method stub
+		// TODO
+		
+		
 		return null;
 	}
 
