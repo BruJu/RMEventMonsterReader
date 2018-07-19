@@ -11,6 +11,7 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionArme;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionSwitch;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
@@ -29,7 +30,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	private Etat etat; // Etat de la mémoire 
 	private List<Pair<Integer, Valeur>> sortie; // Sorties possibles
 
-	private Pile pile; // Pile de conditions
+	private PileConditions pile; // Pile de conditions
 	private ConstructionBorne construireBorne; // Construction de la borne
 
 	/* ============
@@ -39,7 +40,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	public FormulaCalculator() {
 		etat = new Etat("ressources/CalculFormule.txt");
 		sortie = new ArrayList<>();
-		pile = new Pile();
+		pile = new PileConditions();
 	}
 
 	/* =======
@@ -76,16 +77,16 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		}
 
 		if (resultat) {
-			this.pile.empiler(Pile.Valeur.VRAI);
+			this.pile.empiler(cond, PileConditions.BranchesAExplorer.GAUCHE);
 		} else {
-			this.pile.empiler(Pile.Valeur.FAUX);
+			this.pile.empiler(cond, PileConditions.BranchesAExplorer.DROITE);
 		}
 
 		return true;
 	}
 
 	private void entrerDansUnEtatFils(Condition cond) {
-		pile.empiler(Pile.Valeur.EXPLOREBOTH);
+		pile.empiler(cond, PileConditions.BranchesAExplorer.TOUTES);
 		Pair<Etat, Etat> etatsFils = etat.creerFils(cond);
 
 		this.etat = etatsFils.getLeft();
@@ -107,7 +108,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		if (this.construireBorne != null) {
 			this.construireBorne.tuer();
 		} else {
-			pile.inverserSommet();
+			pile.passerADroite();
 
 			if (pile.sommetExplore()) {
 				etat = etat.getPere().getFilsDroit();
@@ -162,7 +163,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			// System.out.println("SHOWNEXTCOND " + leftOperandValue + operatorValue + returnValue.get());
 
 			if (leftOperandValue == 519 && operatorValue == Operator.SUP && returnValue.get() == 0) {
-				pile.empiler(Pile.Valeur.VRAI);
+				pile.empiler(new ConditionFixe(true), true);
 				return true;
 			}
 		}
@@ -175,7 +176,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			
 			
 			if (test[0] == test[1]) {
-				pile.empiler(test[0] ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
+				pile.empiler(cond, test[0]);
 			} else {
 				entrerDansUnEtatFils(cond);
 			}
@@ -187,13 +188,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			// Connaissance Metier 1 : Les statistique sont toujours positives
 			if (operatorValue == Operator.SUP && returnValue.get() == 0) {
 				if (valeurCible.estGarantiePositive()) {
-					pile.empiler(Pile.Valeur.VRAI);
+					pile.empiler(new ConditionFixe(true), true);
 					return true;
 				}
 			}
 			if (operatorValue == Operator.INFEGAL && returnValue.get() == 0) {
 				if (valeurCible.estGarantiePositive()) {
-					pile.empiler(Pile.Valeur.FAUX);
+					pile.empiler(new ConditionFixe(false), false);
 					return true;
 				}
 			}
