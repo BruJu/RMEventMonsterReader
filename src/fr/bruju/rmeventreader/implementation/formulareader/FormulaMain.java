@@ -38,7 +38,7 @@ public class FormulaMain {
 			FormulaCalculator calc = new FormulaCalculator();
 			new AutoActionMaker(calc, RESSOURCES_ATTAQUES + fichiersTexte).faire();
 
-			List<Valeur> val = calc.getSortie();
+			List<Pair<Integer, Valeur>> val = calc.getSortie();
 			String nomAttaque = fichiersTexte.substring(0, fichiersTexte.length() - 4);
 
 			if (val.isEmpty()) {
@@ -49,8 +49,8 @@ public class FormulaMain {
 				if (valeur == null)
 					return;
 
-				if (valeur.getString().contains(perso.getNom())) {
-					map.get(perso).add(new Pair<>(nomAttaque, valeur));
+				if (valeur.getRight().getString().contains(perso.getNom())) {
+					map.get(perso).add(new Pair<>(nomAttaque + "-" + valeur.getLeft(), valeur.getRight()));
 				}
 
 			}

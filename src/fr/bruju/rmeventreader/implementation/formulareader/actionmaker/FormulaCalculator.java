@@ -27,7 +27,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Attributs
 	 * ========= */
 	private Etat etat; // Etat de la mémoire 
-	private List<Valeur> sortie; // Sorties possibles
+	private List<Pair<Integer, Valeur>> sortie; // Sorties possibles
 
 	private Pile pile; // Pile de conditions
 	private ConstructionBorne construireBorne; // Construction de la borne
@@ -46,7 +46,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Sorties
 	 * ======= */
 
-	public List<Valeur> getSortie() {
+	public List<Pair<Integer, Valeur>> getSortie() {
 		return sortie;
 	}
 
@@ -272,7 +272,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 			if (operator == Operator.MINUS /*|| operator == Operator.PLUS*/) {
 				if (etat.estUneSortie(idVariableAModifier)) {
-					sortie.add(rightValue);
+					sortie.add(new Pair<>(idVariableAModifier, rightValue));
 				}
 			}
 
