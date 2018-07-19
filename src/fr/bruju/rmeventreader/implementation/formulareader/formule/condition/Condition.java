@@ -6,9 +6,6 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 public interface Condition {
-	public boolean testerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
-	
-	public boolean testerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
 	
 	public String getString();
 	
@@ -27,5 +24,24 @@ public interface Condition {
 	 * respectée, faux sinon.
 	 */
 	public Boolean resoudre(Affectation affectation);
+
 	
+	/**
+	 * Renvoie un tableau avec : si la conditon est respectée avec la borne inférieure et si la condition est respectée avec la borne supérieure
+	 * @return
+	 * @throws NonEvaluableException
+	 * @throws DependantDeStatistiquesEvaluation
+	 */
+	public boolean[] tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
+	
+	public default boolean testerDeterministe() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		boolean[] test = tester();
+		
+		if (test[0] == test[1]) {
+			return test[0];
+		} else {
+			throw new NonEvaluableException();
+		}
+		
+	}
 }

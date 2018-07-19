@@ -93,12 +93,12 @@ public class NewValeur {
 	}
 
 	private static boolean estConstant(Valeur droite) {
-		if (!(droite instanceof ValeurNumerique))
+		try {
+			int[] evaluation = droite.evaluer();
+			return evaluation[0] == evaluation[1];
+		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
 			return false;
-		
-		ValeurNumerique droiteNum = (ValeurNumerique) droite;
-		
-		return droiteNum.evaluerMin() == droiteNum.evaluerMax();
+		}
 	}
 
 	public static Valeur Calcul(Valeur leftValue, Operator symbole, Valeur rightValue) {

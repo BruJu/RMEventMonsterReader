@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.FonctionEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
@@ -41,27 +40,25 @@ public class ValeurBornement implements Valeur {
 	 * EVALUATION
 	 * ========== */
 
-	/**
-	 * Evalue la valeur en fonction d'une fonction d'évaluation des valeurs la composant
-	 */
-	public int evaluer(FonctionEvaluation fonctionEvaluation)
-			throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+	@Override
+	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		int[] intValeurBornee = valeurBornee.evaluer();
+		int[] intBorneePar = valeurBornee.evaluer();
+		
+		int valeurInf;
+		int valeurSup;
+		
 		if (borneSup) {
-			return Math.max(fonctionEvaluation.evaluate(valeurBornee), fonctionEvaluation.evaluate(borneePar));
+			valeurInf = Math.min(intValeurBornee[0], intBorneePar[0]);
+			valeurSup = Math.min(intValeurBornee[1], intBorneePar[1]);
 		} else {
-			return Math.min(fonctionEvaluation.evaluate(valeurBornee), fonctionEvaluation.evaluate(borneePar));
+			valeurInf = Math.max(intValeurBornee[0], intBorneePar[0]);
+			valeurSup = Math.max(intValeurBornee[1], intBorneePar[1]);
 		}
+		
+		return new int[] {valeurInf, valeurSup};
 	}
 
-	@Override
-	public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return evaluer(FonctionEvaluation.minimum);
-	}
-
-	@Override
-	public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return evaluer(FonctionEvaluation.maximum);
-	}
 
 	/* =========
 	 * AFFICHAGE

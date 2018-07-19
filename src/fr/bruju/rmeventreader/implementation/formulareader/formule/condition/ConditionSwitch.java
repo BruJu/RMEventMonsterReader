@@ -14,16 +14,16 @@ public class ConditionSwitch implements Condition {
 		this.interrupteur = interrupteur;
 		this.value = value;
 	}
-	
 
 	@Override
-	public boolean testerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return (interrupteur.evaluerMax() == 1) == value;
-	}
-
-	@Override
-	public boolean testerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return (interrupteur.evaluerMin() == 1) == value;
+	public boolean[] tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		int[] evaluation = interrupteur.evaluer();
+		int v = (value) ? 1 : 0;
+		
+		
+		boolean[] resultat = new boolean[] {v == evaluation[0], v == evaluation[1]};
+		
+		return resultat;
 	}
 
 	@Override
@@ -74,11 +74,10 @@ public class ConditionSwitch implements Condition {
 		Valeur valeurAffectee = interrupteur.evaluationPartielle(affectation);
 		
 		try {
-			int valeurMin = valeurAffectee.evaluerMin();
-			int valeurMax = valeurAffectee.evaluerMax();
+			int[] evaluation = valeurAffectee.evaluer();
 			
-			if (valeurMin == valeurMax) {
-				return (valeurMin == 1) ? value : !value;
+			if (evaluation[0] == evaluation[1]) {
+				return (evaluation[0] == 1) ? value : !value;
 			} else {
 				return null;
 			}

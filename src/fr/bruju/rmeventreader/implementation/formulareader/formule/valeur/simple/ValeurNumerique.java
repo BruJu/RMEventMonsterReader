@@ -53,13 +53,8 @@ public class ValeurNumerique implements Valeur {
 
 	
 	@Override
-	public int evaluerMin() {
-		return valeurMin;
-	}
-
-	@Override
-	public int evaluerMax() {
-		return valeurMax;
+	public int[] evaluer() {
+		return new int[] {valeurMin, valeurMax};
 	}
 
 	@Override

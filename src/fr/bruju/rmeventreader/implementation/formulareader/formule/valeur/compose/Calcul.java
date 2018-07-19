@@ -2,8 +2,6 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compo
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.FonctionEvaluation;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Utilitaire;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
@@ -91,66 +89,45 @@ public class Calcul implements Valeur {
 		return gaucheStr + " " + Utilitaire.getSymbole(operateur) + " " + droiteStr;
 	}
 	
-	// TODO : Corriger les évaluations pour renvoyer des résultats corrects
-
-	@Override
-	public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		if (operateur == Operator.MINUS) {
-			// Il faut enlever le plus possible au maximum
-			return evaluer(FonctionEvaluation.minimum, FonctionEvaluation.maximum);
-		} else {
-			return evaluer(FonctionEvaluation.minimum, FonctionEvaluation.minimum);
-		}
-	}
-
-	@Override
-	public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		if (operateur == Operator.MINUS) {
-			// Il faut enlever le moins possible au maximum
-			return evaluer(FonctionEvaluation.maximum, FonctionEvaluation.minimum);
-		} else {
-			return evaluer(FonctionEvaluation.maximum, FonctionEvaluation.maximum);
-		}
-	}
 	
 	/**
 	 * Evalue la valeur en fonction d'une fonction d'évaluation des valeurs la composant
 	 */
-	public int evaluer(FonctionEvaluation fonctionEvaluationGauche, FonctionEvaluation fonctionEvaluationDroite)
-			throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		int evalG;
-		int evalD;
-
+	@Override
+	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		int[] operandeGauche;
+		int[] operandeDroite;
+		
 		try {
-			evalG = fonctionEvaluationGauche.evaluate(gauche);
+			operandeGauche = gauche.evaluer();
 			
-			if (evalG == 0 && operateur.estAbsorbantAGauche()) {
-				return 0;
+			if (operandeGauche[0] == 0 && operandeGauche[1] == 0 && operateur.estAbsorbantAGauche()) {
+				return new int[] {0,0};
 			}
 			
-			evalD = fonctionEvaluationDroite.evaluate(droite);
+			operandeDroite = droite.evaluer();
 		} catch (NonEvaluableException e) {
-			 // Essaye de jeter une exception de type DependantDeStatistiquesEvaluation
-			evalD = fonctionEvaluationDroite.evaluate(droite);
+			droite.evaluer();
 			throw e;
 		}
-
-		return operateur.compute(evalG, evalD);
+		
+		int minmin = operateur.compute(operandeGauche[0], operandeDroite[0]);
+		int minmax = operateur.compute(operandeGauche[0], operandeDroite[1]);
+		int maxmin = operateur.compute(operandeGauche[1], operandeDroite[0]);
+		int maxmax = operateur.compute(operandeGauche[1], operandeDroite[1]);
+		
+		int vraimin = Math.min(Math.min(minmin, minmax), Math.min(maxmin, maxmax));
+		int vraimax = Math.max(Math.max(minmin, minmax), Math.max(maxmin, maxmax));
+		
+		return new int[] {vraimin, vraimax};
 	}
 	
 	@Override
 	public Valeur evaluationPartielle(Affectation affectation) {
-		Calcul calcul = new Calcul(gauche.evaluationPartielle(affectation), operateur, droite.evaluationPartielle(affectation));
+		//Calcul calcul = new Calcul(gauche.evaluationPartielle(affectation), operateur, droite.evaluationPartielle(affectation));
 		
-		try {
-			// Essaie d'évaluer pour avoir une simple valeur numérique
-			int valeurMin = calcul.evaluerMin();
-			int valeurMax = calcul.evaluerMax();
-			
-			return NewValeur.Numerique(valeurMin, valeurMax);
-		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
-			return calcul;
-		}
+		//return NewValeur.Numerique(valeurMin, valeurMax);
+		return null;
 	}
 	
 

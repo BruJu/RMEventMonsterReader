@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.FonctionEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
@@ -18,18 +17,28 @@ public class ValeurTernaire implements Valeur {
 		this.siVrai = siVrai;
 	}
 	
-	public int evaluer(FonctionEvaluation fonction) throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return (fonction.tester(condition)) ? fonction.evaluate(siVrai) : fonction.evaluate(siFaux);
-	}
-
 	@Override
-	public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return evaluer(FonctionEvaluation.minimum);
-	}
-
-	@Override
-	public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return evaluer(FonctionEvaluation.maximum);
+	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		boolean[] conditions = condition.tester();
+		
+		boolean conditionMin = conditions[0];
+		boolean conditionMax = conditions[1];
+		
+		int[] siVraiRes = null;
+		int[] siFauxRes = null;
+		
+		if (conditionMin || conditionMax) {
+			siVraiRes = siVrai.evaluer();
+		}
+		
+		if (!conditionMin || !conditionMax) {
+			siFauxRes = siFaux.evaluer();
+		}
+		
+		int valeurMin = conditionMin ? siVraiRes[0] : siFauxRes[0];
+		int valeurMax = conditionMin ? siVraiRes[1] : siFauxRes[1];
+		
+		return new int[] {valeurMin, valeurMax};
 	}
 
 	@Override
@@ -39,7 +48,7 @@ public class ValeurTernaire implements Valeur {
 
 	@Override
 	public String getString() {
-		return "[(" + condition.getString() +") ? " + siVrai.getString() + " : " + siFaux.getString() + ")]";
+		return "[(" + condition.getString() +") ? " + siVrai.getString() + " : " + siFaux.getString() + "]";
 	}
 
 	
@@ -56,11 +65,17 @@ public class ValeurTernaire implements Valeur {
 
 	@Override
 	public Valeur evaluationPartielle(Affectation affectation) {
-		// TODO
+		Boolean resultat = condition.resoudre(affectation);
 		
-		
-		
-		return null;
+		if (resultat == null) {
+			return this;
+		} else {
+			if (resultat == Boolean.TRUE) {
+				return siVrai.evaluationPartielle(affectation);
+			} else {
+				return siFaux.evaluationPartielle(affectation);
+			}
+		}
 	}
 
 

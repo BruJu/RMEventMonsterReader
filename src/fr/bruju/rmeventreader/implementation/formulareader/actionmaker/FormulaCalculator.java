@@ -69,7 +69,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		boolean resultat;
 
 		try {
-			resultat = cond.testerMin();
+			resultat = cond.testerDeterministe();
 		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
 			entrerDansUnEtatFils(cond);
 			return true;
@@ -168,17 +168,20 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		}
 
 		Valeur valeurCible = etat.getValeur(leftOperandValue);
+		Condition cond = new ConditionVariable(valeurCible, operatorValue, NewValeur.Numerique(returnValue.get()));
 
 		try {
-			int evaluation = valeurCible.evaluerMin();
-
-			boolean resultatTest = operatorValue.test(evaluation, returnValue.get());
-			pile.empiler(resultatTest ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
-
+			boolean[] test = cond.tester();
+			
+			
+			if (test[0] == test[1]) {
+				pile.empiler(test[0] ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
+			} else {
+				entrerDansUnEtatFils(cond);
+			}
 		} catch (NonEvaluableException e) {
-			Condition cond = new ConditionVariable(valeurCible, operatorValue, NewValeur.Numerique(returnValue.get()));
 			entrerDansUnEtatFils(cond);
-			return true;
+			
 		} catch (DependantDeStatistiquesEvaluation e) {
 
 			// Connaissance Metier 1 : Les statistique sont toujours positives
@@ -204,7 +207,6 @@ public class FormulaCalculator implements ActionMakerDefalse {
 				return true;
 			}
 
-			Condition cond = new ConditionVariable(valeurCible, operatorValue, NewValeur.Numerique(returnValue.get()));
 			entrerDansUnEtatFils(cond);
 			return true;
 

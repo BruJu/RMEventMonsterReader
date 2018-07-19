@@ -16,14 +16,10 @@ public class ConditionArme implements Condition {
 		this.numeroArme = numeroArme;
 		this.has = true;
 	}
+	
 
 	@Override
-	public boolean testerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		throw new DependantDeStatistiquesEvaluation();
-	}
-
-	@Override
-	public boolean testerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+	public boolean[] tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		throw new DependantDeStatistiquesEvaluation();
 	}
 
@@ -88,5 +84,6 @@ public class ConditionArme implements Condition {
 			return Boolean.FALSE;
 		}
 	}
+
 
 }

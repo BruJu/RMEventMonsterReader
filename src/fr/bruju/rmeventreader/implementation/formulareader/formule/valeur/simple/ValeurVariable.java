@@ -40,13 +40,9 @@ public class ValeurVariable implements Valeur {
 	}
 
 	@Override
-	public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		throw new NonEvaluableException();
 	}
 
-	@Override
-	public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		throw new NonEvaluableException();
-	}
 
 }

@@ -15,9 +15,12 @@ import fr.bruju.rmeventreader.rmdatabase.Affectation;
  *
  */
 public interface Valeur {
-	public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
 	
-	public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
+	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
+	
+	// public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
+	
+	// public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
 
 	public int getPriorite();
 

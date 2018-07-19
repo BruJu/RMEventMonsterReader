@@ -21,30 +21,45 @@ public class ConditionVariable implements Condition {
 	@Override
 	public Boolean resoudre(Affectation affectation) {
 		Valeur valeurGauche = gauche.evaluationPartielle(affectation);
-		// Valeur valeurDroite = droite.evaluationPartielle(affectation);
+		Valeur valeurDroite = droite.evaluationPartielle(affectation);
 	
 		try {
-			int valeurGMin = valeurGauche.evaluerMin();
-			// int valeurGMax = valeurGauche.evaluerMax();
+			int[] evalG = valeurGauche.evaluer();
+			int[] evalD = valeurDroite.evaluer();
 			
-			int valeurDMin = valeurGauche.evaluerMin();
-			// int valeurDMax = valeurGauche.evaluerMax();
+			boolean[] resultat = testerValuation(operateur, evalG, evalD);
 			
-			return operateur.test(valeurGMin, valeurDMin);
+			boolean testMin = resultat[0];
+			boolean testMax = resultat[1];
 			
+			
+			if (testMin != testMax) {
+				return null;
+			}
+			
+			return testMin;
 		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
 			return null;
 		}
 	}
 	
-	
-	public boolean testerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return operateur.test(gauche.evaluerMax(), droite.evaluerMax());
+	public static boolean[] testerValuation(Operator operateur, int[] evalG, int[] evalD) {
+		boolean testMin = operateur.test(evalG[0], evalD[0]);
+		boolean testMax = operateur.test(evalG[1], evalD[1]);
+		
+		return new boolean[] {testMin, testMax};
 	}
 	
-	public boolean testerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return operateur.test(gauche.evaluerMin(), droite.evaluerMin());
+	
+	public boolean[] tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		int[] evalG = gauche.evaluer();
+		int[] evalD = droite.evaluer();
+		
+		boolean[] resultat = testerValuation(operateur, evalG, evalD);
+		
+		return resultat;
 	}
+	
 	
 	public String getString() {
 		return gauche.getString() + " " + Utilitaire.getSymbole(operateur) + " " + droite.getString();
