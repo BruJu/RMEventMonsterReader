@@ -42,6 +42,7 @@ public interface Condition {
 		} else {
 			throw new NonEvaluableException();
 		}
-		
 	}
+	
+	public Condition evaluationPartielle(Affectation affectation);
 }

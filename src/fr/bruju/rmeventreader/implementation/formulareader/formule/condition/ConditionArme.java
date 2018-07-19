@@ -86,4 +86,16 @@ public class ConditionArme implements Condition {
 	}
 
 
+	@Override
+	public Condition evaluationPartielle(Affectation affectation) {
+		Boolean etat = affectation.herosPossedeEquipement(numeroPersonnage, numeroArme);
+		
+		if (etat == null) {
+			return this;
+		} else {
+			return new ConditionFixe(etat);
+		}
+	}
+
+
 }

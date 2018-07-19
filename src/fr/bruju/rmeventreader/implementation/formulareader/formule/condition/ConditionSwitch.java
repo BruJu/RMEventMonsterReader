@@ -86,5 +86,10 @@ public class ConditionSwitch implements Condition {
 		}
 	}
 
+	@Override
+	public Condition evaluationPartielle(Affectation affectation) {
+		return new ConditionSwitch(interrupteur.evaluationPartielle(affectation), value);
+	}
+
 
 }
