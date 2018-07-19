@@ -36,38 +36,7 @@ public class ConditionSwitch implements Condition {
 		return new ConditionSwitch(interrupteur, !value);
 	}
 
-	@Override
-	public int degreDeSimilitude(Condition autre) {
-		if (autre == null)
-			return 0;
-		
-		if (!(autre instanceof ConditionSwitch))
-			return 0;
-		
-		ConditionSwitch autreS = (ConditionSwitch) autre;
-		
-		if (this.interrupteur != autreS.interrupteur)
-			return 1;
-		
-		if (this.value != autreS.value)
-			return 2;
-		
-		return 3;
-	}
 
-	@Override
-	public String getStringApresAutre(Condition autre) {
-		if (degreDeSimilitude(autre) == 3) {
-			return "";
-		}
-		
-		return getString();
-	}
-
-	@Override
-	public Valeur estVariableIdentiqueA() {
-		return null;
-	}
 
 	@Override
 	public Boolean resoudre(Affectation affectation) {

@@ -79,7 +79,6 @@ public class ConditionVariable implements Condition {
 		return new ConditionVariable(gauche, operateur.revert(), droite);
 	}
 
-	@Override
 	public int degreDeSimilitude(Condition autre) {
 		if (autre == null)
 			return 0;
@@ -98,7 +97,6 @@ public class ConditionVariable implements Condition {
 		return 3;
 	}
 
-	@Override
 	public String getStringApresAutre(Condition autre) {
 		int degre = degreDeSimilitude(autre);
 
@@ -114,7 +112,6 @@ public class ConditionVariable implements Condition {
 		}
 	}
 
-	@Override
 	public Valeur estVariableIdentiqueA() {
 		return (operateur == Operator.IDENTIQUE) ? gauche : null;
 	}
