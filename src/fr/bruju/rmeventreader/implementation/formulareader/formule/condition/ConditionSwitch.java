@@ -1,4 +1,9 @@
-package fr.bruju.rmeventreader.implementation.formulareader.formule;
+package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
+
+import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 public class ConditionSwitch implements Condition {
 
@@ -10,19 +15,15 @@ public class ConditionSwitch implements Condition {
 		this.value = value;
 	}
 	
-	@Override
-	public boolean tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return (interrupteur.evaluer() == 1) == value;
-	}
 
 	@Override
 	public boolean testerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return tester();
+		return (interrupteur.evaluerMax() == 1) == value;
 	}
 
 	@Override
 	public boolean testerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return tester();
+		return (interrupteur.evaluerMin() == 1) == value;
 	}
 
 	@Override
@@ -66,6 +67,24 @@ public class ConditionSwitch implements Condition {
 	@Override
 	public Valeur estVariableIdentiqueA() {
 		return null;
+	}
+
+	@Override
+	public Boolean resoudre(Affectation affectation) {
+		Valeur valeurAffectee = interrupteur.evaluationPartielle(affectation);
+		
+		try {
+			int valeurMin = valeurAffectee.evaluerMin();
+			int valeurMax = valeurAffectee.evaluerMax();
+			
+			if (valeurMin == valeurMax) {
+				return (valeurMin == 1) ? value : !value;
+			} else {
+				return null;
+			}
+		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
+			return null;
+		}
 	}
 
 

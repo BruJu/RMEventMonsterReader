@@ -7,7 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class EtatPreremplirValeurs implements ActionOnLine {

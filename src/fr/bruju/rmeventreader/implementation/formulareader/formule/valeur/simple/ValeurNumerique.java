@@ -1,4 +1,7 @@
-package fr.bruju.rmeventreader.implementation.formulareader.formule;
+package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple;
+
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 /**
  * Valeur constante ou aléatoire entre deux bornes
@@ -10,13 +13,21 @@ public class ValeurNumerique implements Valeur {
 	private int valeurMin;
 	private int valeurMax;
 	
-	
-	ValeurNumerique(int valeurMin, int valeurMax) {
+	/**
+	 * Valeur aléatoire entre deux bornes
+	 * @param valeurMin Valeur minimale
+	 * @param valeurMax Valeur maximale
+	 */
+	public ValeurNumerique(int valeurMin, int valeurMax) {
 		this.valeurMin = valeurMin;
 		this.valeurMax = valeurMax;
 	}
 	
-	ValeurNumerique(int valeurInitiale) {
+	/**
+	 * Constante
+	 * @param valeurInitiale La valeur
+	 */
+	public ValeurNumerique(int valeurInitiale) {
 		this.valeurMin = valeurInitiale;
 		this.valeurMax = valeurInitiale;
 	}
@@ -33,11 +44,6 @@ public class ValeurNumerique implements Valeur {
 		} else {
 			return Integer.toString(valeurMin) + "~" + Integer.toString(valeurMax);
 		}
-	}
-
-	@Override
-	public int evaluer() throws NonEvaluableException {
-		return valeurMin;
 	}
 
 	@Override
@@ -59,6 +65,11 @@ public class ValeurNumerique implements Valeur {
 	@Override
 	public int evaluerMax() {
 		return valeurMax;
+	}
+
+	@Override
+	public Valeur evaluationPartielle(Affectation affectation) {
+		return this;
 	}
 
 

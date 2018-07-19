@@ -1,4 +1,9 @@
-package fr.bruju.rmeventreader.implementation.formulareader.formule;
+package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
+
+import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 public class ConditionArme implements Condition {
 	private int numeroPersonnage;
@@ -10,11 +15,6 @@ public class ConditionArme implements Condition {
 		this.numeroPersonnage = numeroPersonnage;
 		this.numeroArme = numeroArme;
 		this.has = true;
-	}
-
-	@Override
-	public boolean tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		throw new DependantDeStatistiquesEvaluation();
 	}
 
 	@Override
@@ -72,6 +72,21 @@ public class ConditionArme implements Condition {
 	@Override
 	public Valeur estVariableIdentiqueA() {
 		return null;
+	}
+
+	@Override
+	public Boolean resoudre(Affectation affectation) {
+		Boolean etat = affectation.herosPossedeEquipement(numeroPersonnage, numeroArme);
+		
+		if (etat == null) {
+			return null;
+		}
+		
+		if (etat.booleanValue() == has) {
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
+		}
 	}
 
 }

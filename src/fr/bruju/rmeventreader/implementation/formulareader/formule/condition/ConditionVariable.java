@@ -1,6 +1,11 @@
-package fr.bruju.rmeventreader.implementation.formulareader.formule;
+package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.Utilitaire;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 public class ConditionVariable implements Condition {
 	private Valeur gauche;
@@ -13,9 +18,25 @@ public class ConditionVariable implements Condition {
 		this.droite = droite;
 	}
 	
-	public boolean tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return operateur.test(gauche.evaluer(), droite.evaluer());
+	@Override
+	public Boolean resoudre(Affectation affectation) {
+		Valeur valeurGauche = gauche.evaluationPartielle(affectation);
+		// Valeur valeurDroite = droite.evaluationPartielle(affectation);
+	
+		try {
+			int valeurGMin = valeurGauche.evaluerMin();
+			// int valeurGMax = valeurGauche.evaluerMax();
+			
+			int valeurDMin = valeurGauche.evaluerMin();
+			// int valeurDMax = valeurGauche.evaluerMax();
+			
+			return operateur.test(valeurGMin, valeurDMin);
+			
+		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
+			return null;
+		}
 	}
+	
 	
 	public boolean testerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		return operateur.test(gauche.evaluerMax(), droite.evaluerMax());
@@ -26,7 +47,7 @@ public class ConditionVariable implements Condition {
 	}
 	
 	public String getString() {
-		return gauche.getString() + " " + operateur.name() + " " + droite.getString();
+		return gauche.getString() + " " + Utilitaire.getSymbole(operateur) + " " + droite.getString();
 	}
 	
 	public Valeur getGauche() {
@@ -85,4 +106,5 @@ public class ConditionVariable implements Condition {
 	public Valeur estVariableIdentiqueA() {
 		return (operateur == Operator.IDENTIQUE) ? gauche : null;
 	}
+
 }

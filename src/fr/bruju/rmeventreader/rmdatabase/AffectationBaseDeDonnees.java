@@ -14,7 +14,7 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  * @author Bruju
  *
  */
-public class AffectationBaseDeDonnees {
+public class AffectationBaseDeDonnees implements Affectation {
 	/* =========
 	 * Attributs
 	 * ========= */
@@ -64,39 +64,34 @@ public class AffectationBaseDeDonnees {
 		return this.bddSupportee;
 	}
 	
-	/**
-	 * Donne le nombre d'objets possédés
-	 * @param idObjet L'objet dont on veut connaître la quantité possédée
-	 * @return La quantité d'idObjet possédés
+	/* (non-Javadoc)
+	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#getQuantitePossedee(int)
 	 */
+	@Override
 	public Integer getQuantitePossedee(int idObjet) {
 		return objetsPossedes.get(idObjet);
 	}
 
-	/**
-	 * Renvoie la valeur de la variable idVariable
-	 * @param idVariable La variable
-	 * @return La valeur de idVariable
+	/* (non-Javadoc)
+	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#getVariable(int)
 	 */
+	@Override
 	public Integer getVariable(int idVariable) {
 		return variablesAffectees.get(idVariable);
 	}
 
-	/**
-	 * Renvoie l'état de l'interrupteur donné
-	 * @param idInterrupteur L'interrupteur dont on veut connaître l'état
-	 * @return L'état de l'interrupteur
+	/* (non-Javadoc)
+	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#getInterrupteur(int)
 	 */
+	@Override
 	public Boolean getInterrupteur(int idInterrupteur) {
 		return interrupteursAffectes.get(idInterrupteur);
 	}
 	
-	/**
-	 * Permet de savoir si un héros possède un objet donné
-	 * @param idHeros Le numréo du héros
-	 * @param idObjet Le numéro de l'objet
-	 * @return Vrai si le héros a l'objet équipé
+	/* (non-Javadoc)
+	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#herosPossedeEquipement(int, int)
 	 */
+	@Override
 	public Boolean herosPossedeEquipement(int idHeros, int idObjet) {
 		List<Integer> objetsEquipesParLeHeros = objetsEquipes.get(idHeros);
 

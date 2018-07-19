@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.formulareader.actionmaker.FormulaCalculator;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;

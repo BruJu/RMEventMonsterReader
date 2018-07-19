@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 import fr.bruju.rmeventreader.utilitaire.Pair;

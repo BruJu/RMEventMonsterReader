@@ -1,12 +1,11 @@
 package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
 
 public class Traduction {
 	public static ValeurNumerique getValue(ValeurFixe value) {
@@ -23,22 +22,4 @@ public class Traduction {
 		return etat.getValeur(idVariable);
 	}
 
-	public static String getSymbole(Operator operator) {
-		switch (operator) {
-		case DIVIDE:
-			return "/";
-		case MINUS:
-			return "-";
-		case MODULO:
-			return "%";
-		case PLUS:
-			return "+";
-		case TIMES:
-			return "*";
-		default:
-			break;
-		}
-		
-		return "?";
-	}
 }

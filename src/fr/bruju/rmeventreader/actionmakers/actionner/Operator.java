@@ -12,27 +12,27 @@ public enum Operator {
 	/**
 	 * Affectation
 	 */
-	AFFECTATION((l, r) -> r, false),
+	AFFECTATION((l, r) -> r, false, 0),
 	/**
 	 * Addition
 	 */
-	PLUS((l, r) -> l + r, false),
+	PLUS((l, r) -> l + r, false, 0),
 	/**
 	 * Soustraction
 	 */
-	MINUS(PLUS, (l, r) -> l - r, false),
+	MINUS(PLUS, (l, r) -> l - r, false, 0),
 	/**
 	 * Multiplication
 	 */
-	TIMES((l, r) -> l * r, true),
+	TIMES((l, r) -> l * r, true, 1),
 	/**
 	 * Reste de la division euclidienne
 	 */
-	MODULO(TIMES, (l, r) -> l % r, true),
+	MODULO(TIMES, (l, r) -> l % r, true, Integer.MAX_VALUE),
 	/**
 	 * Division
 	 */
-	DIVIDE(TIMES, (l, r) -> l / r, true),
+	DIVIDE(TIMES, (l, r) -> l / r, true, 1),
 	// Comparaisons
 	/**
 	 * Identique
@@ -75,6 +75,8 @@ public enum Operator {
 	/** Vrai si le fait de mettre une opérande à 0 rend le résultat égal à 0 */
 	private boolean zeroEstAbsorbant = false;
 
+	/** Element neutre pour les fonctions de calcul */
+	private int elementNeutre;
 	
 	/**
 	 * Construit un opérateur de test
@@ -103,9 +105,10 @@ public enum Operator {
 	 * @param fonctionCalcul Fonction permettant de calculer le résultat en fonction de deux opérandes
 	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
 	 */
-	Operator(IntBinaryOperator fonctionCalcul, boolean zeroEstAbsorbant) {
+	Operator(IntBinaryOperator fonctionCalcul, boolean zeroEstAbsorbant, int neutre) {
 		this.compFunc = fonctionCalcul;
 		this.zeroEstAbsorbant = zeroEstAbsorbant;
+		this.elementNeutre = neutre;
 	}
 
 	/**
@@ -115,8 +118,8 @@ public enum Operator {
 	 * @param fonctionCalcul Fonction permettant de calculer le résultat en fonction de deux opérandes
 	 * @param zeroEstAbsorbant Vrai si l'opérateur a pour élément absorbant zéro
 	 */
-	Operator(Operator oppose, IntBinaryOperator fonctionCalcul, boolean zeroEstAbsorbant) {
-		this(fonctionCalcul, zeroEstAbsorbant);
+	Operator(Operator oppose, IntBinaryOperator fonctionCalcul, boolean zeroEstAbsorbant, int neutre) {
+		this(fonctionCalcul, zeroEstAbsorbant, neutre);
 		
 		if (oppose != null) {
 			this.oppose = oppose;
@@ -195,7 +198,7 @@ public enum Operator {
 	 * 
 	 * @return Vrai si l'opérateur est la multiplication, la division ou le modulo
 	 */
-	public boolean isAMultiplier() {
+	public boolean estAbsorbantAGauche() {
 		return zeroEstAbsorbant;
 	}
 
@@ -213,5 +216,15 @@ public enum Operator {
 		public OperatorErrorException(String message) {
 			super("OperatorErrorException : " + message);
 		}
+	}
+
+	/**
+	 * Renvoie l'élément neutre de l'opération.
+	 * Résultat non garanti si la notion d'élément neutre n'a pas de sens
+	 * 
+	 * @return L'élément neutre
+	 */
+	public int getNeutre() {
+		return this.elementNeutre;
 	}
 }

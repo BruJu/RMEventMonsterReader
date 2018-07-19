@@ -1,9 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurBornement;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ValeurNumerique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose.ValeurBornement;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
 
 public class ConstructionBorne {
 	public enum Statut {

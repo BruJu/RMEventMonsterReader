@@ -1,8 +1,15 @@
-package fr.bruju.rmeventreader.implementation.formulareader.formule;
+package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.FonctionEvaluation;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.rmdatabase.Affectation;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class ValeurConditionnelle implements Valeur {
@@ -22,38 +29,29 @@ public class ValeurConditionnelle implements Valeur {
 		valeursConditionnelles.addAll(gauche.valeursConditionnelles);
 		valeursConditionnelles.addAll(droite.valeursConditionnelles);
 	}
+	
 
-	@Override
-	public int evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		return evaluerMin();
-	}
-
-	@Override
-	public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+	public int evaluer(FonctionEvaluation fonction) throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
 			Condition cond = paireCondValeur.getLeft();
 			Valeur valeur = paireCondValeur.getRight();
 
-			if (cond.testerMin()) {
-				return valeur.evaluerMin();
+			if (fonction.tester(cond)) {
+				return fonction.evaluate(valeur);
 			}
 		}
 
 		return elementNeutre;
+	}
+	
+	@Override
+	public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
+		return evaluer(FonctionEvaluation.minimum);
 	}
 
 	@Override
 	public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
-		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
-			Condition cond = paireCondValeur.getLeft();
-			Valeur valeur = paireCondValeur.getRight();
-
-			if (cond.testerMax()) {
-				return valeur.evaluerMax();
-			}
-		}
-
-		return elementNeutre;
+		return evaluer(FonctionEvaluation.maximum);
 	}
 
 	@Override
@@ -175,6 +173,12 @@ public class ValeurConditionnelle implements Valeur {
 		}
 
 		return true;
+	}
+
+	@Override
+	public Valeur evaluationPartielle(Affectation affectation) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

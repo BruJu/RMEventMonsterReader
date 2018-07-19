@@ -8,14 +8,14 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Condition;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionArme;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionSwitch;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionArme;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionSwitch;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class FormulaCalculator implements ActionMakerDefalse {
@@ -69,7 +69,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		boolean resultat;
 
 		try {
-			resultat = cond.tester();
+			resultat = cond.testerMin();
 		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
 			entrerDansUnEtatFils(cond);
 			return true;
@@ -170,7 +170,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 		Valeur valeurCible = etat.getValeur(leftOperandValue);
 
 		try {
-			int evaluation = valeurCible.evaluer();
+			int evaluation = valeurCible.evaluerMin();
 
 			boolean resultatTest = operatorValue.test(evaluation, returnValue.get());
 			pile.empiler(resultatTest ? Pile.Valeur.VRAI : Pile.Valeur.FAUX);
@@ -281,9 +281,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 				}
 			}
 
-			String symbole = Traduction.getSymbole(operator);
-
-			Valeur calcul = NewValeur.Calcul(etat.getValeur(idVariableAModifier), symbole, rightValue);
+			Valeur calcul = NewValeur.Calcul(etat.getValeur(idVariableAModifier), operator, rightValue);
 
 			etat.setValue(idVariableAModifier, calcul);
 		}

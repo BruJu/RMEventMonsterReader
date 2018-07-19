@@ -62,7 +62,7 @@ public class Combat {
 	
 	private Monstre getMonster(Integer position, Operator operator) {
 		if (monstres[position] == null) {
-			if (operator.isAMultiplier())
+			if (operator.estAbsorbantAGauche())
 				return null;
 			
 			monstres[position] = new Monstre(this);

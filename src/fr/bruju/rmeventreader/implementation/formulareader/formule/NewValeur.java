@@ -1,5 +1,17 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose.Calcul;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose.ValeurConditionnelle;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose.ValeurTernaire;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNommee;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurStatistique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurSwitch;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurVariable;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
 
@@ -80,7 +92,7 @@ public class NewValeur {
 		return null;
 	}
 
-	public static Valeur Calcul(Valeur leftValue, String symbole, Valeur rightValue) {
+	public static Valeur Calcul(Valeur leftValue, Operator symbole, Valeur rightValue) {
 		return new Calcul(leftValue, symbole, rightValue);
 	}
 
@@ -98,11 +110,11 @@ public class NewValeur {
 			Calcul calc = (Calcul) valeurGauche;
 			
 			if (calc.getGauche() == valeurBDD) {
-				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition, calc.getDroite(), getNeutre(calc.getOperateur())));
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition, calc.getDroite(), calc.getOperateur().getNeutre()));
 			}
 
 			if (calc.getDroite() == valeurBDD) {
-				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition, calc.getGauche(), getNeutre(calc.getOperateur())));
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition, calc.getGauche(), calc.getOperateur().getNeutre()));
 			}
 		}
 
@@ -110,11 +122,11 @@ public class NewValeur {
 			Calcul calc = (Calcul) valeurDroite;
 			
 			if (calc.getGauche() == valeurBDD) {
-				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition.revert(), calc.getDroite(), getNeutre(calc.getOperateur())));
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition.revert(), calc.getDroite(), calc.getOperateur().getNeutre()));
 			}
 
 			if (calc.getDroite() == valeurBDD) {
-				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition.revert(), calc.getGauche(), getNeutre(calc.getOperateur())));
+				return UnificationEnCours(valeurBDD, calc.getOperateur(), ValeurConditionnelle(condition.revert(), calc.getGauche(), calc.getOperateur().getNeutre()));
 			}
 		}
 
@@ -124,7 +136,7 @@ public class NewValeur {
 		return Ternaire(condition, (valeurGauche == null) ? valeurBDD : valeurGauche, (valeurDroite == null) ? valeurBDD : valeurDroite);
 	}
 
-	private static Valeur UnificationEnCours(Valeur valeurBDD, String operateur, ValeurConditionnelle valeurConditionnelle) {
+	private static Valeur UnificationEnCours(Valeur valeurBDD, Operator operateur, ValeurConditionnelle valeurConditionnelle) {
 
 		if (valeurBDD instanceof Calcul) {
 			Calcul calculBDD = (Calcul) valeurBDD;
@@ -145,19 +157,8 @@ public class NewValeur {
 		return Calcul(valeurBDD, operateur, valeurConditionnelle);
 	}
 
-	private static int getNeutre(String operateur) {
-		switch (operateur) {
-		case "*":
-		case "/":
-			return 1;
-		case "%":
-			return Integer.MAX_VALUE;
-		case "+":
-		case "-":
-			return 0;
-		default:
-			throw new RuntimeException("Opérateur inconnu");
-		}
+	public static Valeur Booleen(Boolean etat) {
+		return new ValeurNumerique(etat ? 1 : 0);
 	}
 
 }
