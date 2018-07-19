@@ -103,7 +103,6 @@ public class AffectationBaseDeDonnees implements Affectation {
 			items.forEach(item -> System.out.print(item + " "));
 			System.out.println();
 		});
-
 	}
 
 	/* =======

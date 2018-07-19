@@ -62,5 +62,9 @@ public class ValeurNumerique implements Valeur {
 		return this;
 	}
 
+	public int getValue() {
+		return valeurMin;
+	}
+
 
 }

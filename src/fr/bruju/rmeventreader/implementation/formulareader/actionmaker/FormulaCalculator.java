@@ -14,10 +14,13 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Con
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionSwitch;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Conditions;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.rmdatabase.Affectation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class FormulaCalculator implements ActionMakerDefalse {
 	/* ===========================
@@ -28,7 +31,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Attributs
 	 * ========= */
 	private Etat etat; // Etat de la mémoire 
-	private List<Pair<Integer, Valeur>> sortie; // Sorties possibles
+	private List<Triplet<Integer, Affectation, Valeur>> sortie; // Sorties possibles
 
 	private PileConditions pile; // Pile de conditions
 	private ConstructionBorne construireBorne; // Construction de la borne
@@ -47,7 +50,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * Sorties
 	 * ======= */
 
-	public List<Pair<Integer, Valeur>> getSortie() {
+	public List<Triplet<Integer, Affectation, Valeur>> getSortie() {
 		return sortie;
 	}
 
@@ -273,7 +276,9 @@ public class FormulaCalculator implements ActionMakerDefalse {
 
 			if (operator == Operator.MINUS /*|| operator == Operator.PLUS*/) {
 				if (etat.estUneSortie(idVariableAModifier)) {
-					sortie.add(new Pair<>(idVariableAModifier, rightValue));
+					Affectation affectation = Conditions.convertirEnAffectation(pile.getConditions());
+					
+					sortie.add(new Triplet<>(idVariableAModifier, affectation, rightValue));
 				}
 			}
 

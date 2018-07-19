@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
+import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
 
 /**
  * Condition sur des valeurs
@@ -61,4 +62,7 @@ public interface Condition {
 	 * @return La condition en prenant en compte les données de l'affectation
 	 */
 	public Condition evaluationPartielle(Affectation affectation);
+
+	
+	public void modifierAffectation(AffectationFlexible affectation) throws AffectationNonFaisable;
 }

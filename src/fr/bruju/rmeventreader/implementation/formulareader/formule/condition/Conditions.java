@@ -8,10 +8,16 @@ import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
 public interface Conditions {
 	public static Affectation convertirEnAffectation(List<Condition> conditions) {
 		AffectationFlexible affectation = new AffectationFlexible();
-		
-		conditions.forEach();
-		
-		
+
+		try {
+			for (Condition condition : conditions) {
+				condition.modifierAffectation(affectation);
+			}
+		} catch (AffectationNonFaisable e) {
+			e.printStackTrace();
+			return null;
+		}
+
 		return affectation;
 	}
 }

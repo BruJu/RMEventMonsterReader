@@ -11,7 +11,10 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
+import fr.bruju.rmeventreader.rmdatabase.Affectation;
+import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
 import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class FormulaMain {
 
@@ -21,7 +24,7 @@ public class FormulaMain {
 
 	public static void main_(String[] args) {
 		List<Personnage> persos = CreateurPersonnage.creerTousLesPersonnages();
-		Map<Personnage, List<Pair<String, Valeur>>> map = new HashMap<>();
+		Map<Personnage, List<Triplet<String, Affectation, Valeur>>> map = new HashMap<>();
 
 		for (Personnage perso : persos) {
 			map.put(perso, new ArrayList<>());
@@ -38,7 +41,7 @@ public class FormulaMain {
 			FormulaCalculator calc = new FormulaCalculator();
 			new AutoActionMaker(calc, RESSOURCES_ATTAQUES + fichiersTexte).faire();
 
-			List<Pair<Integer, Valeur>> val = calc.getSortie();
+			List<Triplet<Integer, Affectation, Valeur>> val = calc.getSortie();
 			String nomAttaque = fichiersTexte.substring(0, fichiersTexte.length() - 4);
 
 			if (val.isEmpty()) {
@@ -49,8 +52,8 @@ public class FormulaMain {
 				if (valeur == null)
 					return;
 
-				if (valeur.getRight().getString().contains(perso.getNom())) {
-					map.get(perso).add(new Pair<>(nomAttaque + "-" + valeur.getLeft(), valeur.getRight()));
+				if (valeur.c.getString().contains(perso.getNom())) {
+					map.get(perso).add(new Triplet<>(nomAttaque + "-" + valeur.a, valeur.b, valeur.c));
 				}
 
 			}
@@ -70,7 +73,9 @@ public class FormulaMain {
 			System.out.println("===== " + perso.getNom() + "=====");
 			map.get(perso).forEach(element -> {
 
-				System.out.println(element.getLeft() + " = " + perso.subFormula(element.getRight().getString()));
+				System.out.println(element.a + " = ");
+				((AffectationFlexible)element.b).display();
+				System.out.println(perso.subFormula(element.c.getString()));
 			});
 			/*
 			map.get(perso).forEach(element -> {

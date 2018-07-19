@@ -5,7 +5,10 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeSt
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Utilitaire;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurVariable;
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
+import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
 
 public class ConditionVariable implements Condition {
 	private Valeur gauche;
@@ -84,6 +87,52 @@ public class ConditionVariable implements Condition {
 	public Condition evaluationPartielle(Affectation affectation) {
 		return new ConditionVariable(gauche.evaluationPartielle(affectation), operateur,
 				droite.evaluationPartielle(affectation));
+	}
+	
+	@Override
+	public void modifierAffectation(AffectationFlexible affectation) throws AffectationNonFaisable {
+		if (!(droite instanceof ValeurNumerique)) {
+			throw new AffectationNonFaisable();
+		}
+		
+		if (!(gauche instanceof ValeurVariable)) {
+			return;
+			
+			// throw new AffectationNonFaisable();
+		}
+		
+		ValeurVariable variable = (ValeurVariable) gauche;
+		ValeurNumerique valeur = (ValeurNumerique) droite;
+		
+		Integer valeurDansAffectation = affectation.getVariable(variable.getIdVariable());
+		
+		if (valeurDansAffectation == null) {
+			int valeurReference = valeur.getValue();
+			int valeurAMettre;
+			
+			switch (operateur) {
+			case DIFFERENT:
+			case INF:
+				valeurAMettre = valeurReference - 1;
+				break;
+			case IDENTIQUE:
+			case INFEGAL:
+			case SUPEGAL:
+				valeurAMettre = valeurReference;
+				break;
+			case SUP:
+				valeurAMettre = valeurReference + 1;
+				break;
+			default:
+				throw new AffectationNonFaisable();
+			}
+			
+			affectation.putVariable(variable.getIdVariable(), valeurAMettre);
+		} else {
+			if (operateur.test(valeurDansAffectation, valeur.getValue())) {
+				throw new AffectationNonFaisable();
+			}
+		}	
 	}
 
 }

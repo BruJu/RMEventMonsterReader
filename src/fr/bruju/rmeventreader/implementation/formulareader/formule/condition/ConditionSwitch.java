@@ -3,7 +3,10 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurSwitch;
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
+import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
 
 public class ConditionSwitch implements Condition {
 
@@ -58,6 +61,31 @@ public class ConditionSwitch implements Condition {
 	@Override
 	public Condition evaluationPartielle(Affectation affectation) {
 		return new ConditionSwitch(interrupteur.evaluationPartielle(affectation), value);
+	}
+
+	@Override
+	public void modifierAffectation(AffectationFlexible affectation) throws AffectationNonFaisable {
+		if (!(interrupteur instanceof ValeurSwitch)) {
+			if (interrupteur instanceof ValeurNumerique) {
+				if (((ValeurNumerique) interrupteur).getValue() == 1) {
+					return;
+				}
+			}
+			
+			throw new AffectationNonFaisable();
+		}
+		
+		ValeurSwitch valeurSwitch = (ValeurSwitch) interrupteur;
+		
+		Boolean valeurDansAffectation = affectation.getInterrupteur(valeurSwitch.getIdSwitch());
+		
+		if (valeurDansAffectation == null) {
+			affectation.putInterrupteur(valeurSwitch.getIdSwitch(), value);
+		} else {
+			if (valeurDansAffectation != value) {
+				throw new AffectationNonFaisable();
+			}
+		}	
 	}
 
 

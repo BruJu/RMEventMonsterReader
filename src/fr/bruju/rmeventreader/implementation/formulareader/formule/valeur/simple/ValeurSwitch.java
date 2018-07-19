@@ -12,6 +12,11 @@ public class ValeurSwitch implements Valeur {
 	public ValeurSwitch (int idVariable) {
 		this.idVariable = idVariable;
 	}
+	
+	public int getIdSwitch() {
+		return idVariable;
+	}
+	
 
 	@Override
 	public int getPriorite() {

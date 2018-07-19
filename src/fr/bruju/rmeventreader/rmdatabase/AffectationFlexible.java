@@ -62,4 +62,18 @@ public class AffectationFlexible implements Affectation {
 		return objetsEquipesParLeHeros.contains(idObjet);
 	}
 
+	/**
+	 * Affiche sur la console l'affectation
+	 */
+	public void display() {
+		quantiteDobjets.forEach((item, quantite) -> System.out.println("item " + item + "has " + quantite));
+		variables.forEach((variable, valeur) -> System.out.println("Variable " + variable + " = " + valeur));
+		interrupteurs
+				.forEach((interrupteur, valeur) -> System.out.println("Switch " + interrupteur + " = " + valeur));
+		objetsPossedes.forEach((perso, items) -> {
+			System.out.print("perso " + perso + "-> ");
+			items.forEach(item -> System.out.print(item + " "));
+			System.out.println();
+		});
+	}
 }

@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 
@@ -64,5 +65,9 @@ public class PileConditions {
 
 	public boolean sommetExplore() {
 		return elementsEmpiles.get(dernierElementPosition()).branchesAExplorer == BranchesAExplorer.TOUTES;
+	}
+
+	public List<Condition> getConditions() {
+		return elementsEmpiles.stream().map(element -> element.condition).collect(Collectors.toList());
 	}
 }

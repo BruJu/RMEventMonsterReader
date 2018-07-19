@@ -13,6 +13,11 @@ public class ValeurVariable implements Valeur {
 		this.idVariable = idVariable;
 	}
 
+	public int getIdVariable() {
+		return idVariable;
+	}
+	
+	
 	@Override
 	public int getPriorite() {
 		return 0;
