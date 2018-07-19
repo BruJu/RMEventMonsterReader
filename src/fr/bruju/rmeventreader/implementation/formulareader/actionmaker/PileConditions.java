@@ -47,7 +47,7 @@ public class PileConditions {
 	
 	public boolean possedeUnFaux() {
 		if (elementsEmpiles.isEmpty())
-			return true;
+			return false;
 		
 		Element element = elementsEmpiles.get(dernierElementPosition());
 		
@@ -55,7 +55,7 @@ public class PileConditions {
 			return false;
 		}
 		
-		return element.brancheCourante == element.branchesAExplorer;
+		return element.brancheCourante != element.branchesAExplorer;
 	}
 	
 	public void passerADroite() {
