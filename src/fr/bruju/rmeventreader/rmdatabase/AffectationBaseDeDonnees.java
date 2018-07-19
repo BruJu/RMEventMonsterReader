@@ -64,39 +64,27 @@ public class AffectationBaseDeDonnees implements Affectation {
 		return this.bddSupportee;
 	}
 	
-	/* (non-Javadoc)
-	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#getQuantitePossedee(int)
-	 */
 	@Override
 	public Integer getQuantitePossedee(int idObjet) {
 		return objetsPossedes.get(idObjet);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#getVariable(int)
-	 */
 	@Override
 	public Integer getVariable(int idVariable) {
 		return variablesAffectees.get(idVariable);
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#getInterrupteur(int)
-	 */
 	@Override
 	public Boolean getInterrupteur(int idInterrupteur) {
 		return interrupteursAffectes.get(idInterrupteur);
 	}
 	
-	/* (non-Javadoc)
-	 * @see fr.bruju.rmeventreader.rmdatabase.Affectation#herosPossedeEquipement(int, int)
-	 */
 	@Override
 	public Boolean herosPossedeEquipement(int idHeros, int idObjet) {
 		List<Integer> objetsEquipesParLeHeros = objetsEquipes.get(idHeros);
 
 		if (objetsEquipesParLeHeros == null) {
-			return null;
+			return false;
 		}
 
 		return objetsEquipesParLeHeros.contains(idObjet);

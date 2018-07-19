@@ -65,37 +65,4 @@ public class PileConditions {
 	public boolean sommetExplore() {
 		return elementsEmpiles.get(dernierElementPosition()).branchesAExplorer == BranchesAExplorer.TOUTES;
 	}
-
-	
-	/*	
-	public boolean possedeUnFaux() {
-		for (int i = 0 ; i != valeurs.size() ; i++ ) {
-			if (valeurs.get(i) == Valeur.FAUX)
-				return true;
-		}
-		
-		return false;
-	}
-	
-	public void inverserSommet() {
-		Valeur v = valeurs.get(valeurs.size() - 1);
-		
-		if (v != Valeur.EXPLOREBOTH) {
-			if (v == Valeur.VRAI) {
-				v = Valeur.FAUX;
-			} else {
-				v = Valeur.VRAI;
-			}
-			
-			valeurs.set(valeurs.size() - 1, v);
-		}
-		
-		
-	}
-
-	public boolean sommetExplore() {
-		return valeurs.get(valeurs.size() - 1) == Valeur.EXPLOREBOTH;
-	}
-	*/
-	
 }
