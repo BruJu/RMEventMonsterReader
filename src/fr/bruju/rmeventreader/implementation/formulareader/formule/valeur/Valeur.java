@@ -6,7 +6,6 @@ import java.util.function.UnaryOperator;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 /**
  * 
@@ -22,16 +21,11 @@ public interface Valeur {
 	
 	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
 	
-	// public int evaluerMin() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
-	
-	// public int evaluerMax() throws NonEvaluableException, DependantDeStatistiquesEvaluation;
 
 	public int getPriorite();
 
 	public String getString();
-
-	public Valeur evaluationPartielle(Affectation affectation);
-
+	
 	// Services non garantis
 
 	/**

@@ -5,8 +5,6 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
-import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
 
 public class ConditionFixe implements Condition {
 	public static final ConditionFixe VRAI = new ConditionFixe(true);
@@ -35,26 +33,10 @@ public class ConditionFixe implements Condition {
 	}
 
 	@Override
-	public Boolean resoudre(Affectation affectation) {
-		return valeur;
-	}
-
-	@Override
 	public boolean[] tester() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		return new boolean[] {valeur, valeur};
 	}
 
-	@Override
-	public Condition evaluationPartielle(Affectation affectation) {
-		return this;
-	}
-	
-	@Override
-	public void modifierAffectation(AffectationFlexible affectation) throws AffectationNonFaisable {
-		if (!valeur) {
-			throw new AffectationNonFaisable();
-		}
-	}
 
 	// Simplificiation de condition : il n'est pas possible de simplifier cette condition
 	

@@ -9,7 +9,6 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableE
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Utilitaire;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 /**
  * Valeur qui est un calcul entre deux valeurs
@@ -123,14 +122,6 @@ public class Calcul implements Valeur {
 		int vraimax = Math.max(Math.max(minmin, minmax), Math.max(maxmin, maxmax));
 
 		return new int[] { vraimin, vraimax };
-	}
-
-	@Override
-	public Valeur evaluationPartielle(Affectation affectation) {
-		//Calcul calcul = new Calcul(gauche.evaluationPartielle(affectation), operateur, droite.evaluationPartielle(affectation));
-
-		//return NewValeur.Numerique(valeurMin, valeurMax);
-		return null;
 	}
 
 	@Override

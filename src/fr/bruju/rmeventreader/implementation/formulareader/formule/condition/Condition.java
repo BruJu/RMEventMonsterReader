@@ -5,8 +5,6 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
-import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
 
 /**
  * Condition sur des valeurs
@@ -26,14 +24,6 @@ public interface Condition {
 	 * @return La condition inversée
 	 */
 	public Condition revert();
-	
-	/**
-	 * Evalue la condition avec l'affectation donnée
-	 * @param affectation L'affectation
-	 * @return null si l'affectation ne permet pas de déduire si la condition est respectée ou non, vrai si elle est
-	 * respectée, faux sinon.
-	 */
-	public Boolean resoudre(Affectation affectation);
 
 	/**
 	 * Renvoie un tableau avec : si la conditon est respectée avec la borne inférieure et si la condition est respectée avec la borne supérieure
@@ -59,15 +49,6 @@ public interface Condition {
 		}
 	}
 	
-	/**
-	 * Transforme la condition pour avoir une condition prenant compte de l'affecation donnée
-	 * @param affectation L'affectation
-	 * @return La condition en prenant en compte les données de l'affectation
-	 */
-	public Condition evaluationPartielle(Affectation affectation);
-
-	
-	public void modifierAffectation(AffectationFlexible affectation) throws AffectationNonFaisable;
 	
 	/**
 	 * Transforme la condition afin d'intégrer le fait que les conditions de la liste donnée sont respectées

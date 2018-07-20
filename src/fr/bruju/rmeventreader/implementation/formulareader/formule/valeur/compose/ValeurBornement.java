@@ -6,7 +6,6 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeSt
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 /**
  * Valeur bornée par une autre
@@ -29,14 +28,6 @@ public class ValeurBornement implements Valeur {
 	public int getPriorite() {
 		return 0;
 	}
-	
-	@Override
-	public Valeur evaluationPartielle(Affectation affectation) {
-		Valeur nouvelleValeurBornee = valeurBornee.evaluationPartielle(affectation);
-
-		return new ValeurBornement(nouvelleValeurBornee, borneePar, borneSup);
-	}
-
 	
 	/* ==========
 	 * EVALUATION

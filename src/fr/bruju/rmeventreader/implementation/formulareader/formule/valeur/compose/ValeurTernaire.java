@@ -8,7 +8,6 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableE
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
 public class ValeurTernaire implements Valeur {
 	private Condition condition;
@@ -62,21 +61,6 @@ public class ValeurTernaire implements Valeur {
 	@Override
 	public boolean estGarantiePositive() {
 		return siVrai.estGarantiePositive() && siFaux.estGarantiePositive();
-	}
-
-	@Override
-	public Valeur evaluationPartielle(Affectation affectation) {
-		Boolean resultat = condition.resoudre(affectation);
-
-		if (resultat == null) {
-			return this;
-		} else {
-			if (resultat == Boolean.TRUE) {
-				return siVrai.evaluationPartielle(affectation);
-			} else {
-				return siFaux.evaluationPartielle(affectation);
-			}
-		}
 	}
 
 

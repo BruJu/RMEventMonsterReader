@@ -12,7 +12,6 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Con
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariableGroupees;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class ValeurConditionnelle implements Valeur {
@@ -91,33 +90,6 @@ public class ValeurConditionnelle implements Valeur {
 		return true;
 	}
 
-	@Override
-	public Valeur evaluationPartielle(Affectation affectation) {
-		List<Pair<Condition, Valeur>> liste = null;
-
-		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
-			if (liste != null) {
-				liste.add(paireCondValeur);
-			} else {
-				Condition cond = paireCondValeur.getLeft();
-
-				Boolean resultat = cond.resoudre(affectation);
-
-				if (resultat == null) {
-					liste = new ArrayList<>();
-					liste.add(paireCondValeur);
-				} else if (resultat == Boolean.TRUE) {
-					return paireCondValeur.getRight().evaluationPartielle(affectation);
-				}
-			}
-		}
-
-		if (liste == null) {
-			return new ValeurNumerique(elementNeutre);
-		}
-
-		return new ValeurConditionnelle(liste, this.elementNeutre);
-	}
 
 	@Override
 	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
