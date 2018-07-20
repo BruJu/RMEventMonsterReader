@@ -190,4 +190,53 @@ public class ValeurConditionnelle implements Valeur {
 
 		return new ValeurConditionnelle(l, elementNeutre);
 	}
+
+	@Override
+	public boolean estSimilaire(Valeur valeurAutre) {
+		if (!(valeurAutre instanceof ValeurConditionnelle)) {
+			return false;
+		}
+		
+		ValeurConditionnelle autre = (ValeurConditionnelle) valeurAutre;
+		
+		if (autre.valeursConditionnelles.size() != this.valeursConditionnelles.size())
+			return false;
+		
+		if (this.elementNeutre != autre.elementNeutre)
+			return false;
+		
+		for (int i = 0 ; i != this.valeursConditionnelles.size(); i++) {
+			Pair<Condition, Valeur> moi = this.valeursConditionnelles.get(i);
+			Pair<Condition, Valeur> aut = autre.valeursConditionnelles.get(i);
+			
+			if (!(moi.getLeft().equals(aut.getLeft()))) {
+				return false;
+			}
+			
+			if (!(moi.getRight().estSimilaire(aut.getRight()))) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	@Override
+	public Valeur similariser(Valeur valeurAutre) {
+		ValeurConditionnelle autre = (ValeurConditionnelle) valeurAutre;
+		
+		List<Pair<Condition, Valeur>> nouvelles = new ArrayList<>();
+		
+		for (int i = 0 ; i != this.valeursConditionnelles.size(); i++) {
+			Pair<Condition, Valeur> moi = this.valeursConditionnelles.get(i);
+			Pair<Condition, Valeur> aut = autre.valeursConditionnelles.get(i);
+			
+			Condition nouvelleCondition = moi.getLeft();
+			Valeur nouvelleValeur = moi.getRight().similariser(aut.getRight());
+			
+			nouvelles.add(new Pair<>(nouvelleCondition, nouvelleValeur));
+		}
+		
+		return new ValeurConditionnelle(nouvelles, this.elementNeutre);
+	}
 }

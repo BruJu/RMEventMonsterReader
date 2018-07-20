@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.formulareader.actionmaker.FormulaCalculator;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
-import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
+import fr.bruju.rmeventreader.implementation.formulareader.model.PersonnageReel;
+import fr.bruju.rmeventreader.implementation.formulareader.stock.Stockage;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class FormulaMain {
@@ -21,72 +24,32 @@ public class FormulaMain {
 	private static final String RESSOURCES_ATTAQUES = "ressources/Attaques/";
 
 	public static void main_(String[] args) {
-		List<Personnage> persos = CreateurPersonnage.creerTousLesPersonnages();
-		Map<Personnage, List<Triplet<String, List<Condition>, Valeur>>> map = new HashMap<>();
+		// Creation du stockage
+		Stockage stockage = new Stockage(CreateurPersonnage.creerTousLesPersonnages());
 
-		for (Personnage perso : persos) {
-			map.put(perso, new ArrayList<>());
-		}
-
+		// Attaques à explorer
 		File file = new File(RESSOURCES_ATTAQUES);
 
-		for (String fichiersTexte : file.list()) {
-			
-			
-			//if (!fichiersTexte.equals("Hsitaq.txt")) continue;
-			//if (!fichiersTexte.equals("Erqaam.txt")) continue;
-
-			FormulaCalculator calc = new FormulaCalculator();
-			new AutoActionMaker(calc, RESSOURCES_ATTAQUES + fichiersTexte).faire();
-
-			List<Triplet<Integer, List<Condition>, Valeur>> val = calc.getSortie();
-			String nomAttaque = fichiersTexte.substring(0, fichiersTexte.length() - 4);
-
-			if (val.isEmpty()) {
-				continue;
-			}
-
-			persos.forEach(perso -> val.forEach(valeur -> {
-				if (valeur == null)
-					return;
-
-				if (valeur.c.getString().contains(perso.getNom())) {
-					map.get(perso).add(new Triplet<>(nomAttaque + "-" + valeur.a, valeur.b, valeur.c));
-				}
-
-			}
-
-			)
-
-			);
-
+		List<Pair<String, String>> liste = new ArrayList<>();
+		
+		for (String fichier : file.list()) {
+			liste.add(new Pair<>(RESSOURCES_ATTAQUES + fichier, fichier.substring(0, fichier.length() - 4)));
 		}
 
-		for (Personnage perso : persos) {
-			if (perso.getNom().contains(MONSTRE))
-				continue;
-			if (perso.getNom().contains(MEMBRE))
-				continue;
-			
-			if (!perso.getNom().equals("Ainorie"))
-				continue;
+		// Remplissage
+		stockage.remplir(liste);
 
-			System.out.println("===== " + perso.getNom() + "=====");
-			map.get(perso).forEach(element -> {
+		// Recuperation des personnages
+		List<PersonnageReel> personnages = stockage.getVraiPersonnages();
 
-				System.out.print(element.a + " = ");
-				
-				element.b.stream().map(condition -> condition.getString())
-				.map(chaine -> (chaine.length() > 15) ? chaine.substring(0, 13) + "…" : chaine)
-				.map(chaine -> "(" + chaine + ")")
-				.forEach(chaine -> System.out.print(chaine + " "));
-				
-				
-				System.out.println(" => " + perso.subFormula(element.c.getString()));
-			});
-			
-		}
+		// Filter des personnages voulus
+		List<PersonnageReel> persoAffiches = personnages.stream().filter(p -> p.getNom().equals("Ainorie"))
+				.collect(Collectors.toList());
 
+		// Affichage des formules les concernant
+		persoAffiches.stream()
+					.flatMap(p -> stockage.getChaine(p.getNom()).stream())
+					.forEach(f -> System.out.println(f));
 	}
 
 }

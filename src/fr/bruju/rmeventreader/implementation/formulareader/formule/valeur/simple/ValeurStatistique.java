@@ -2,7 +2,9 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simpl
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
+import fr.bruju.rmeventreader.implementation.formulareader.model.PersonnageUnifie;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
 
 public class ValeurStatistique implements ValeurSimple {
@@ -58,6 +60,22 @@ public class ValeurStatistique implements ValeurSimple {
 		if (statistique != other.statistique)
 			return false;
 		return true;
+	}
+
+	@Override
+	public boolean estSimilaire(Valeur valeurAutre) {
+		if (!(valeurAutre instanceof ValeurStatistique)) {
+			return false;
+		}
+		
+		return statistique == ((ValeurStatistique) valeurAutre).statistique;
+	}
+
+	@Override
+	public Valeur similariser(Valeur valeurAutre) {
+		ValeurStatistique autre = (ValeurStatistique) valeurAutre;
+		Personnage personnage = PersonnageUnifie.getInstance().get(this.personnage, autre.personnage);
+		return new ValeurStatistique(personnage, statistique);
 	}
 	
 

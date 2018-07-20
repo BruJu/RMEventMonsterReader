@@ -139,6 +139,28 @@ public class ValeurBornement implements Valeur {
 		return true;
 	}
 
+	@Override
+	public boolean estSimilaire(Valeur valeurAutre) {
+		if (!(valeurAutre instanceof ValeurBornement))
+			return false;
+		
+		ValeurBornement autre = (ValeurBornement) valeurAutre;
+		
+		if (this.borneSup != autre.borneSup
+				|| !autre.borneePar.equals(borneePar)
+				|| !valeurBornee.estSimilaire(autre.valeurBornee))
+			return false;
+		
+		return true;
+	}
+
+	@Override
+	public Valeur similariser(Valeur valeurAutre) {
+		ValeurBornement autre = (ValeurBornement) valeurAutre;
+		
+		return new ValeurBornement(valeurBornee.similariser(autre.valeurBornee), borneePar, borneSup);
+	}
+
 
 
 

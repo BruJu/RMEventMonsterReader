@@ -199,5 +199,22 @@ public class Calcul implements Valeur {
 	public Valeur deleguerTraitement(UnaryOperator<Valeur> conversion) {
 		return new Calcul(conversion.apply(gauche), operateur, conversion.apply(droite));
 	}
+	
+	@Override
+	public boolean estSimilaire(Valeur valeurAutre) {
+		if (!(valeurAutre instanceof Calcul))
+			return false;
+		
+		Calcul autre = (Calcul) valeurAutre;
+		
+		return gauche.estSimilaire(autre.gauche) && droite.estSimilaire(autre.droite);
+	}
+
+	@Override
+	public Valeur similariser(Valeur valeurAutre) {
+		Calcul autre = (Calcul) valeurAutre;
+		
+		return new Calcul(gauche.similariser(autre.gauche), operateur, droite.similariser(autre.droite));
+	}
 
 }

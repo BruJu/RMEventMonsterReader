@@ -54,6 +54,10 @@ public class ValeurNumerique implements ValeurSimple {
 		return valeurMin;
 	}
 
+	/* ======
+	 * EQUALS
+	 * ====== */
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -78,8 +82,5 @@ public class ValeurNumerique implements ValeurSimple {
 			return false;
 		return true;
 	}
-
-
-
 
 }

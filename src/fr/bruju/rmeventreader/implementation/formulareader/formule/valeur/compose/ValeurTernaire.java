@@ -128,4 +128,30 @@ public class ValeurTernaire implements Valeur {
 			return new ValeurTernaire(c, v, f);
 		}
 	}
+
+	@Override
+	public boolean estSimilaire(Valeur valeurAutre) {
+		if(!(valeurAutre instanceof ValeurTernaire))
+			return false;
+		
+		ValeurTernaire autre = (ValeurTernaire) valeurAutre;
+		
+		if ( !(condition != autre.condition)
+				&& siVrai.estSimilaire(autre.siVrai)
+				&& siFaux.estSimilaire(autre.siFaux))
+			return false;
+		
+		return true;
+	}
+
+	@Override
+	public Valeur similariser(Valeur valeurAutre) {
+		ValeurTernaire autre = (ValeurTernaire) valeurAutre;
+		
+		Condition cond = this.condition;
+		Valeur vrai = siVrai.similariser(autre.siVrai);
+		Valeur faux = siFaux.similariser(autre.siFaux);
+		
+		return new ValeurTernaire(cond, vrai, faux);
+	}
 }

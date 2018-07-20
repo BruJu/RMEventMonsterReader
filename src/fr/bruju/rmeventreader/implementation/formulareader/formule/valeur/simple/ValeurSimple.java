@@ -15,5 +15,13 @@ interface ValeurSimple extends Valeur {
 		return this;
 	}
 	
-	
+	@Override
+	public default boolean estSimilaire(Valeur valeurAutre) {
+		return equals(valeurAutre);
+	}
+
+	@Override
+	public default Valeur similariser(Valeur valeurAutre) {
+		return this;
+	}
 }
