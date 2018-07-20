@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulareader.model.PersonnageReel;
 
 public class Formule {
 	public final String nomAttaque;
@@ -19,6 +20,10 @@ public class Formule {
 	}
 	
 	public String getString() {
+		return getString(null);
+	}
+	
+	public String getString(PersonnageReel personnage) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("{")
@@ -30,7 +35,7 @@ public class Formule {
 		conditionsRequises.forEach(cond -> sb.append("<").append(cond.getString()).append("> "));
 		
 		sb.append(" = ")
-		  .append(formule.getString());
+		  .append((personnage == null) ? formule.getString() : personnage.subFormula(formule.getString()));
 		
 		return sb.toString();
 	}

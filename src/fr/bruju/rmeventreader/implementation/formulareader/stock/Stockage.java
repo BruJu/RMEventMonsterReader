@@ -40,10 +40,10 @@ public class Stockage {
 				.collect(Collectors.toList());
 	}
 	
-	public List<String> getChaine(String nomDePersonnage) {
+	public List<String> getChaine(String nomDePersonnage, PersonnageReel personnage) {
 		return formulesAcquises.stream()
 								.filter(formule -> formule.formule.getString().contains(nomDePersonnage))
-								.map(formule -> formule.getString())
+								.map(formule -> formule.getString(personnage))
 								.collect(Collectors.toList());
 	}
 
