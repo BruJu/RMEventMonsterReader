@@ -7,15 +7,16 @@ import java.util.stream.Collectors;
 
 public class BDDReduite {
 	public List<MonstreReduit> monstresReduits = new ArrayList<>();
-	
+
 	public BDDReduite(MonsterDatabase db) {
-		db.extractMonsters()
-		  .stream()
-		  .collect(Collectors.groupingBy(m -> m.hasher()))
-		  .values()
-		  .stream()
-		  .map(monstres -> new MonstreReduit(monstres))
-		  .forEach(monstresReduits::add);
+		// MAP
+		db.extractMonsters().stream().map(monstre -> new MonstreReduit(monstre)).collect(Collectors.groupingBy(m -> m))
+		// REDUCE - FINALIZE
+				.forEach((monstre, liste) -> {
+					monstresReduits.add(monstre);
+					monstre.initierListePresence();
+					liste.forEach(mListe -> monstre.addPresence(mListe.monstre.getBattleId()));
+				});
 	}
 
 	public String getCSV() {
@@ -45,10 +46,6 @@ public class BDDReduite {
 		});
 
 		return sb.toString();
-	}
-
-	public static BDDReduite generate(MonsterDatabase baseDeDonnees) {
-		return new BDDReduite(baseDeDonnees);
 	}
 
 }

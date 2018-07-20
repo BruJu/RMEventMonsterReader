@@ -6,16 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-
 public class MonsterDatabase {
 	public final static int POS_ID_COMBAT = 435;
 
 	public static final int POS_BOSSBATTLE = 190;
-	
-	//private List<Combat> combatsConnus = new ArrayList<>();
 	
 	private Map<Integer, Combat> combats = new HashMap<>();
 	
@@ -150,12 +144,5 @@ public class MonsterDatabase {
 		return sb.toString();
 	}
 	
-	
-	
-	public static void setVariable(Collection<Combat> collection, Variable variable, Operator operator, ValeurFixe returnValue) {
-		for (Combat combat : collection) {
-			combat.applyModificator(variable.get(), operator, returnValue.get());
-		}
-	}
-	
+
 }

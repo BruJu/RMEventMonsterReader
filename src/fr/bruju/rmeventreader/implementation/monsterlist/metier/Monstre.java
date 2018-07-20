@@ -169,5 +169,9 @@ public class Monstre {
 	public void immuniserAFossile() {
 		immuniteAFossile = true;
 	}
+
+	public boolean immunite() {
+		return immuniteAFossile;
+	}
 	
 }

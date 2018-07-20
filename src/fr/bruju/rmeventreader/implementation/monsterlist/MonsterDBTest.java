@@ -59,7 +59,7 @@ public class MonsterDBTest {
 			System.out.println(baseDeDonnees.getCSVRepresentationOfMonsters());
 			break;
 		case 3:
-			BDDReduite bddR = BDDReduite.generate(baseDeDonnees);
+			BDDReduite bddR = new BDDReduite(baseDeDonnees);
 			System.out.println(bddR.getCSV());
 			break;
 		}
