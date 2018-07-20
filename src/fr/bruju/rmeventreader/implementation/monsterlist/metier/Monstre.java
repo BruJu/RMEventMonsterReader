@@ -34,6 +34,11 @@ public class Monstre {
 	 * Nom du drop
 	 */
 	String nomDrop = "";
+
+	/**
+	 * Immunité à fossile
+	 */
+	private boolean immuniteAFossile;
 	
 	public Monstre(Combat combat) {
 		stats = new int[Positions.TAILLE];
@@ -46,6 +51,8 @@ public class Monstre {
 		for (int i = 0 ; i != Positions.TAILLE ; i++) {
 			s = s + ", " + stats[i];
 		}
+		
+		s = s + ", " + (this.immuniteAFossile ? "Immunité" : "•");
 		
 		s = s + ", " + nomDrop;
 		
@@ -94,7 +101,7 @@ public class Monstre {
 			x = x + 1000;
 		}
 		
-		hash = hash + name.hashCode() * 50 + nomDrop.hashCode();
+		hash = hash + name.hashCode() * 50 + nomDrop.hashCode() + (this.immuniteAFossile ? 1 : 0);
 		
 		return hash;
 	}
@@ -127,6 +134,9 @@ public class Monstre {
 			sb.append(this.get(position));
 		}
 		
+		sb.append(";");
+		sb.append(this.immuniteAFossile ? "Immunisé" : "•");
+		
 		return sb.toString();
 	}
 
@@ -137,7 +147,7 @@ public class Monstre {
 			prefixe = "IDCOMBAT;";
 		}
 		
-		return prefixe + "IDMONSTRE;NOM;DROP;" + Positions.getCSVHeader();
+		return prefixe + "IDMONSTRE;NOM;DROP;" + Positions.getCSVHeader() + ";FOSSILE";
 	}
 
 	public String getNom() {
@@ -154,6 +164,10 @@ public class Monstre {
 
 	public void setDrop(String string) {
 		this.nomDrop = string;
+	}
+
+	public void immuniserAFossile() {
+		immuniteAFossile = true;
 	}
 	
 }

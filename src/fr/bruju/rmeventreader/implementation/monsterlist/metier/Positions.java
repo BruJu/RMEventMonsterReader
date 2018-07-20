@@ -36,6 +36,18 @@ public enum Positions {
 		
 		return null;
 	}
+	
+	public static Integer chercherFossile(int variable) {
+		int[] fossile = {537, 538, 539};
+		
+		for (int i = 0 ; i != NB_MONSTRES_MAX_PAR_COMBAT ; i++) {
+			if (fossile[i] == variable) {
+				return i;
+			}
+		}
+		
+		return null;
+	}
 
 	public String getVar(int i) {
 		return Integer.toString(ids[i]);

@@ -44,7 +44,7 @@ public class Combat {
 		if (paire == null)
 			return;
 		
-		Monstre monstre = getMonster(paire.getRight(), operator);
+		Monstre monstre = getMonstre(paire.getRight(), operator);
 		
 		if (monstre == null) {
 			return;
@@ -60,7 +60,7 @@ public class Combat {
 		return monstres[position];
 	}
 	
-	private Monstre getMonster(Integer position, Operator operator) {
+	public Monstre getMonstre(Integer position, Operator operator) {
 		if (monstres[position] == null) {
 			if (operator.estAbsorbantAGauche())
 				return null;

@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionE
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Positions;
 
 /**
  * Action Maker qui crée des combats et rempli dedans les statistiques des monstres
@@ -57,11 +58,24 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	
 	@Override
 	public void changeSwitch(Variable interrupteur, boolean value) {
-		if (interrupteur.get() != MonsterDatabase.POS_BOSSBATTLE || !value) {
+		if (!value) {
 			return;
 		}
 		
-		MonsterDatabase.setBossBattle(getElementsFiltres());
+		int numeroInterrupteur = interrupteur.get();
+		
+		if (numeroInterrupteur == MonsterDatabase.POS_BOSSBATTLE) {
+			MonsterDatabase.setBossBattle(getElementsFiltres());
+		} else {
+			Integer numeroMonstrePourFossille = Positions.chercherFossile(numeroInterrupteur);
+			
+			if (numeroMonstrePourFossille == null)
+				return;
+			
+			getElementsFiltres().forEach(combat -> combat.getMonstre(numeroMonstrePourFossille, Operator.AFFECTATION).immuniserAFossile());
+			
+			
+		}
 	}
 
 	// Variables
@@ -80,8 +94,10 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 		return true;
 	}
 	
+
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		MonsterDatabase.setVariable(getElementsFiltres(), variable, operator, returnValue);
 	}
+	
 }
