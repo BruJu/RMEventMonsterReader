@@ -77,17 +77,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			return true;
 		}
 
-		if (resultat) {
-			this.pile.empiler(cond, PileConditions.BranchesAExplorer.GAUCHE);
-		} else {
-			this.pile.empiler(cond, PileConditions.BranchesAExplorer.DROITE);
-		}
+		pile.empiler(cond, resultat);
 
 		return true;
 	}
 
 	private void entrerDansUnEtatFils(Condition cond) {
-		pile.empiler(cond, PileConditions.BranchesAExplorer.TOUTES);
+		pile.empiler(cond);
 		Pair<Etat, Etat> etatsFils = etat.creerFils(cond);
 
 		this.etat = etatsFils.getLeft();
@@ -164,7 +160,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			// System.out.println("SHOWNEXTCOND " + leftOperandValue + operatorValue + returnValue.get());
 
 			if (leftOperandValue == 519 && operatorValue == Operator.SUP && returnValue.get() == 0) {
-				pile.empiler(new ConditionFixe(true), true);
+				pile.empiler(ConditionFixe.VRAI, true);
 				return true;
 			}
 		}
@@ -189,13 +185,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			// Connaissance Metier 1 : Les statistique sont toujours positives
 			if (operatorValue == Operator.SUP && returnValue.get() == 0) {
 				if (valeurCible.estGarantiePositive()) {
-					pile.empiler(new ConditionFixe(true), true);
+					pile.empiler(ConditionFixe.VRAI, true);
 					return true;
 				}
 			}
 			if (operatorValue == Operator.INFEGAL && returnValue.get() == 0) {
 				if (valeurCible.estGarantiePositive()) {
-					pile.empiler(new ConditionFixe(false), false);
+					pile.empiler(ConditionFixe.FAUX, false);
 					return true;
 				}
 			}

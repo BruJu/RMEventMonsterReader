@@ -11,7 +11,7 @@ public class Principal {
 		int choix = 0;
 
 		if (choix == 0)
-			MonsterDBTest.main_(args, 0);
+			MonsterDBTest.main_(args, 3);
 
 		if (choix == 1)
 			FormulaMain.main_(args);

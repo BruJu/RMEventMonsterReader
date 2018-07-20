@@ -173,5 +173,9 @@ public class Monstre {
 	public boolean immunite() {
 		return immuniteAFossile;
 	}
+
+	public String getDrop() {
+		return nomDrop;
+	}
 	
 }

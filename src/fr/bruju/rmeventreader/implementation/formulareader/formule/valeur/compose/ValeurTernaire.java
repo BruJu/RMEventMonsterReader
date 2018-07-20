@@ -117,7 +117,15 @@ public class ValeurTernaire implements Valeur {
 		} else if (this.condition == ConditionFixe.FAUX) {
 			return conversion.apply(siFaux);
 		} else {
-			return new ValeurTernaire(this.condition, conversion.apply(siVrai), conversion.apply(siFaux));
+			Condition c = this.condition;
+			Valeur v = conversion.apply(siVrai);
+			Valeur f = conversion.apply(siFaux);
+			
+			if (c == null || v == null || f == null) {
+				return null;
+			}
+			
+			return new ValeurTernaire(c, v, f);
 		}
 	}
 }

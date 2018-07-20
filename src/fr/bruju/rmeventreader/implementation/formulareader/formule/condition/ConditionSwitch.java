@@ -47,16 +47,12 @@ public class ConditionSwitch implements Condition {
 		ConditionSwitch aInc = (ConditionSwitch) aInclure;
 		
 		// Concerne la même valeur
-		if (!(interrupteur == aInc.interrupteur)) {
+		if (!(interrupteur.equals(aInc.interrupteur))) {
 			return this;
 		}
 		
 		// Simplification
-		if (value == aInc.value) {
-			return ConditionFixe.VRAI;
-		} else {
-			return ConditionFixe.FAUX;
-		}
+		return ConditionFixe.get(value == aInc.value);
 	}
 
 

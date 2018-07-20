@@ -59,5 +59,9 @@ public interface Valeur {
 	
 	public Valeur deleguerTraitement(UnaryOperator<Valeur> conversion);
 	
+	
+	public default Valeur similariser() {
+		return deleguerTraitement(valeur -> valeur.similariser());
+	}
 
 }

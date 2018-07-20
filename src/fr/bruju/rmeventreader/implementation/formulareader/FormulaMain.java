@@ -80,6 +80,8 @@ public class FormulaMain {
 				.map(chaine -> (chaine.length() > 15) ? chaine.substring(0, 13) + "…" : chaine)
 				.map(chaine -> "(" + chaine + ")")
 				.forEach(chaine -> System.out.print(chaine + " "));
+				
+				
 				System.out.println(" => " + perso.subFormula(element.c.getString()));
 			});
 			

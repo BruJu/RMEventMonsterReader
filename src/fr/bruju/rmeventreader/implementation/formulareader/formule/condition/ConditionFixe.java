@@ -18,7 +18,7 @@ public class ConditionFixe implements Condition {
 	boolean valeur;
 	
 	
-	public ConditionFixe(boolean valeur) {
+	private ConditionFixe(boolean valeur) {
 		this.valeur = valeur;
 	}
 

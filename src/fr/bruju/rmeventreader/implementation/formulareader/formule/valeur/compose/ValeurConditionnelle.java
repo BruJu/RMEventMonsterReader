@@ -90,7 +90,6 @@ public class ValeurConditionnelle implements Valeur {
 		return true;
 	}
 
-
 	@Override
 	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		int valeurMin = -1;
@@ -120,9 +119,6 @@ public class ValeurConditionnelle implements Valeur {
 			return new int[] { elementNeutre, elementNeutre };
 		}
 	}
-
-
-	
 
 	@Override
 	public int hashCode() {
@@ -159,35 +155,39 @@ public class ValeurConditionnelle implements Valeur {
 		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
 			Condition cond = paireCondValeur.getLeft();
 			Condition condIncluse = cond.integrerConditions(aInclure);
-			
-			if (condIncluse == ConditionFixe.FAUX)		// Condition jamais vérifiée
+
+			if (condIncluse == ConditionFixe.FAUX) // Condition jamais vérifiée
 				continue;
 
 			// Condition pouvant être vérifiée
 			Valeur valeurIncluse = paireCondValeur.getRight().integrerCondition(aInclure);
 			liste.add(new Pair<>(condIncluse, valeurIncluse));
-			
-			if (condIncluse == ConditionFixe.VRAI)		// Condition étant vérifiée
+
+			if (condIncluse == ConditionFixe.VRAI) // Condition étant vérifiée
 				break;
 		}
 
 		if (liste.isEmpty()) {
 			return new ValeurNumerique(elementNeutre);
 		}
-		
+
 		if (liste.size() == 1) {
 			return liste.get(0).getRight();
 		}
-		
+
 		return new ValeurConditionnelle(liste, this.elementNeutre);
 	}
-	
+
 	@Override
 	public Valeur deleguerTraitement(UnaryOperator<Valeur> conversion) {
-		return new ValeurConditionnelle(
-				valeursConditionnelles.stream()
-				                      .map(paire -> new Pair<>(paire.getLeft(), conversion.apply(paire.getRight())))
-				                      .collect(Collectors.toList()),
-				elementNeutre);
+		List<Pair<Condition, Valeur>> l = valeursConditionnelles.stream()
+				.map(paire -> new Pair<>(paire.getLeft(), conversion.apply(paire.getRight())))
+				.collect(Collectors.toList());
+
+		if (l.contains(null)) {
+			return null;
+		}
+
+		return new ValeurConditionnelle(l, elementNeutre);
 	}
 }

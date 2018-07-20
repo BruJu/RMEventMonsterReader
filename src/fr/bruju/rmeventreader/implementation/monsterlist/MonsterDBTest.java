@@ -14,10 +14,10 @@ import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActi
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoCorrespondeur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.LectureAutomatique;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Remplacement;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.mapreduce.BDDReduite;
 
 public class MonsterDBTest {
 
@@ -59,7 +59,7 @@ public class MonsterDBTest {
 			System.out.println(baseDeDonnees.getCSVRepresentationOfMonsters());
 			break;
 		case 3:
-			BDDReduite bddR = new BDDReduite(baseDeDonnees);
+			BDDReduite bddR = new BDDReduite(baseDeDonnees.extractMonsters());
 			System.out.println(bddR.getCSV());
 			break;
 		}
