@@ -12,9 +12,6 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur
 import fr.bruju.rmeventreader.implementation.formulareader.model.CreateurPersonnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
-import fr.bruju.rmeventreader.rmdatabase.AffectationFlexible;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class FormulaMain {

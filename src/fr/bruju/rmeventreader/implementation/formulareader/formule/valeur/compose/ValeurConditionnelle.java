@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compo
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
@@ -148,6 +149,37 @@ public class ValeurConditionnelle implements Valeur {
 		}
 	}
 
+
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + elementNeutre;
+		result = prime * result + ((valeursConditionnelles == null) ? 0 : valeursConditionnelles.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ValeurConditionnelle other = (ValeurConditionnelle) obj;
+		if (elementNeutre != other.elementNeutre)
+			return false;
+		if (valeursConditionnelles == null) {
+			if (other.valeursConditionnelles != null)
+				return false;
+		} else if (!valeursConditionnelles.equals(other.valeursConditionnelles))
+			return false;
+		return true;
+	}
+
 	@Override
 	public Valeur integrerCondition(List<Condition> aInclure) {
 		List<Pair<Condition, Valeur>> liste = new ArrayList<>();
@@ -158,8 +190,10 @@ public class ValeurConditionnelle implements Valeur {
 			
 			if (condIncluse == ConditionFixe.FAUX)		// Condition jamais vérifiée
 				continue;
-			
-			liste.add(paireCondValeur);					// Condition pouvant être vérifiée
+
+			// Condition pouvant être vérifiée
+			Valeur valeurIncluse = paireCondValeur.getRight().integrerCondition(aInclure);
+			liste.add(new Pair<>(condIncluse, valeurIncluse));
 			
 			if (condIncluse == ConditionFixe.VRAI)		// Condition étant vérifiée
 				break;
@@ -174,5 +208,14 @@ public class ValeurConditionnelle implements Valeur {
 		}
 		
 		return new ValeurConditionnelle(liste, this.elementNeutre);
+	}
+	
+	@Override
+	public Valeur deleguerTraitement(UnaryOperator<Valeur> conversion) {
+		return new ValeurConditionnelle(
+				valeursConditionnelles.stream()
+				                      .map(paire -> new Pair<>(paire.getLeft(), conversion.apply(paire.getRight())))
+				                      .collect(Collectors.toList()),
+				elementNeutre);
 	}
 }

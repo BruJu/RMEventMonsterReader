@@ -31,6 +31,34 @@ public class ValeurStatistique implements ValeurSimple {
 	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		throw new DependantDeStatistiquesEvaluation();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((personnage == null) ? 0 : personnage.hashCode());
+		result = prime * result + ((statistique == null) ? 0 : statistique.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ValeurStatistique other = (ValeurStatistique) obj;
+		if (personnage == null) {
+			if (other.personnage != null)
+				return false;
+		} else if (!personnage.equals(other.personnage))
+			return false;
+		if (statistique != other.statistique)
+			return false;
+		return true;
+	}
 	
 
 }

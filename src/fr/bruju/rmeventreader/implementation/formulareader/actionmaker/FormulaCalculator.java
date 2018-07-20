@@ -39,9 +39,9 @@ public class FormulaCalculator implements ActionMakerDefalse {
 	 * ============ */
 
 	public FormulaCalculator() {
+		pile = new PileConditions();
 		etat = new Etat("ressources/CalculFormule.txt");
 		sortie = new ArrayList<>();
-		pile = new PileConditions();
 	}
 
 	/* =======
@@ -275,7 +275,7 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			if (operator == Operator.MINUS /*|| operator == Operator.PLUS*/) {
 				if (etat.estUneSortie(idVariableAModifier)) {
 					
-					sortie.add(new Triplet<>(idVariableAModifier, pile.getConditions(), rightValue));
+					sortie.add(new Triplet<>(idVariableAModifier, pile.getIntegration(), rightValue.integrerCondition(pile.getIntegration()).simplifier()));
 				}
 			}
 

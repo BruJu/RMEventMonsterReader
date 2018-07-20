@@ -54,6 +54,31 @@ public class ValeurNumerique implements ValeurSimple {
 		return valeurMin;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + valeurMax;
+		result = prime * result + valeurMin;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ValeurNumerique other = (ValeurNumerique) obj;
+		if (valeurMax != other.valeurMax)
+			return false;
+		if (valeurMin != other.valeurMin)
+			return false;
+		return true;
+	}
+
 
 
 

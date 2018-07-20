@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose;
 
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
@@ -78,17 +79,61 @@ public class ValeurTernaire implements Valeur {
 		}
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((condition == null) ? 0 : condition.hashCode());
+		result = prime * result + ((siFaux == null) ? 0 : siFaux.hashCode());
+		result = prime * result + ((siVrai == null) ? 0 : siVrai.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ValeurTernaire other = (ValeurTernaire) obj;
+		if (condition == null) {
+			if (other.condition != null)
+				return false;
+		} else if (!condition.equals(other.condition))
+			return false;
+		if (siFaux == null) {
+			if (other.siFaux != null)
+				return false;
+		} else if (!siFaux.equals(other.siFaux))
+			return false;
+		if (siVrai == null) {
+			if (other.siVrai != null)
+				return false;
+		} else if (!siVrai.equals(other.siVrai))
+			return false;
+		return true;
+	}
+
+
 	@Override
 	public Valeur integrerCondition(List<Condition> aInclure) {
 		Condition incluse = condition.integrerConditions(aInclure);
-
-		if (incluse == ConditionFixe.VRAI) {
-			return siVrai.integrerCondition(aInclure);
-		} else if (incluse == ConditionFixe.FAUX) {
-			return siFaux.integrerCondition(aInclure);
-		} else {
-			return new ValeurTernaire(incluse, siVrai.integrerCondition(aInclure), siFaux.integrerCondition(aInclure));
-		}
+		
+		return new ValeurTernaire(incluse, siVrai, siFaux).deleguerTraitement(v -> v.integrerCondition(aInclure));
 	}
 
+	
+	@Override
+	public Valeur deleguerTraitement(UnaryOperator<Valeur> conversion) {
+		if (this.condition == ConditionFixe.VRAI) {
+			return conversion.apply(siVrai);
+		} else if (this.condition == ConditionFixe.FAUX) {
+			return conversion.apply(siFaux);
+		} else {
+			return new ValeurTernaire(this.condition, conversion.apply(siVrai), conversion.apply(siFaux));
+		}
+	}
 }

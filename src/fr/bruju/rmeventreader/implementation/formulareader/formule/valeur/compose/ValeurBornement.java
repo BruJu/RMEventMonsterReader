@@ -1,10 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose;
 
-import java.util.List;
+import java.util.function.UnaryOperator;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
@@ -103,9 +102,52 @@ public class ValeurBornement implements Valeur {
 	}
 
 	@Override
-	public Valeur integrerCondition(List<Condition> aInclure) {
-		return new ValeurBornement(valeurBornee.integrerCondition(aInclure), (ValeurNumerique) borneePar.integrerCondition(aInclure), borneSup);
+	public Valeur deleguerTraitement(UnaryOperator<Valeur> conversion) {
+		return new ValeurBornement(conversion.apply(valeurBornee),
+				borneePar,
+				borneSup);
 	}
+	
+	
+	@Override
+	public Valeur simplifier() {
+		return this;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (borneSup ? 1231 : 1237);
+		result = prime * result + ((borneePar == null) ? 0 : borneePar.hashCode());
+		result = prime * result + ((valeurBornee == null) ? 0 : valeurBornee.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ValeurBornement other = (ValeurBornement) obj;
+		if (borneSup != other.borneSup)
+			return false;
+		if (borneePar == null) {
+			if (other.borneePar != null)
+				return false;
+		} else if (!borneePar.equals(other.borneePar))
+			return false;
+		if (valeurBornee == null) {
+			if (other.valeurBornee != null)
+				return false;
+		} else if (!valeurBornee.equals(other.valeurBornee))
+			return false;
+		return true;
+	}
+
 
 
 

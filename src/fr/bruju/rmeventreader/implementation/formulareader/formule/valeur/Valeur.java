@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur;
 
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
@@ -31,8 +32,6 @@ public interface Valeur {
 
 	public Valeur evaluationPartielle(Affectation affectation);
 
-	public Valeur integrerCondition(List<Condition> aInclure);
-	
 	// Services non garantis
 
 	/**
@@ -53,6 +52,18 @@ public interface Valeur {
 		
 		return evaluation[0];
 	}
+	
+	// applications récursives
+	
+	public default Valeur simplifier() {
+		return deleguerTraitement(valeur -> valeur.simplifier());
+	}
 
+	public default Valeur integrerCondition(List<Condition> aInclure) {
+		return deleguerTraitement(valeur -> valeur.integrerCondition(aInclure));
+	}
+	
+	public Valeur deleguerTraitement(UnaryOperator<Valeur> conversion);
+	
 
 }

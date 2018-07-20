@@ -70,4 +70,10 @@ public class PileConditions {
 	public List<Condition> getConditions() {
 		return elementsEmpiles.stream().map(element -> element.condition).collect(Collectors.toList());
 	}
+
+	public List<Condition> getIntegration() {
+		return elementsEmpiles.stream()
+				              .map(element -> element.brancheCourante == BranchesAExplorer.GAUCHE ? element.condition : element.condition.revert())
+				              .collect(Collectors.toList());
+	}
 }
