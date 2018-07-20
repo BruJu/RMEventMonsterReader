@@ -6,7 +6,7 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableE
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
-public class ValeurSwitch implements Valeur {
+public class ValeurSwitch implements ValeurSimple {
 	private int idVariable;
 	
 	public ValeurSwitch (int idVariable) {
@@ -48,5 +48,6 @@ public class ValeurSwitch implements Valeur {
 	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		throw new NonEvaluableException();
 	}
+
 
 }

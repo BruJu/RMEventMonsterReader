@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionVariableGroupees;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
@@ -145,5 +146,33 @@ public class ValeurConditionnelle implements Valeur {
 		} else {
 			return new int[] { elementNeutre, elementNeutre };
 		}
+	}
+
+	@Override
+	public Valeur integrerCondition(List<Condition> aInclure) {
+		List<Pair<Condition, Valeur>> liste = new ArrayList<>();
+
+		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
+			Condition cond = paireCondValeur.getLeft();
+			Condition condIncluse = cond.integrerConditions(aInclure);
+			
+			if (condIncluse == ConditionFixe.FAUX)		// Condition jamais vérifiée
+				continue;
+			
+			liste.add(paireCondValeur);					// Condition pouvant être vérifiée
+			
+			if (condIncluse == ConditionFixe.VRAI)		// Condition étant vérifiée
+				break;
+		}
+
+		if (liste.isEmpty()) {
+			return new ValeurNumerique(elementNeutre);
+		}
+		
+		if (liste.size() == 1) {
+			return liste.get(0).getRight();
+		}
+		
+		return new ValeurConditionnelle(liste, this.elementNeutre);
 	}
 }

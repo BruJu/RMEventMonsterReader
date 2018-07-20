@@ -1,15 +1,12 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple;
 
-import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
-
 /**
  * Valeur constante ou aléatoire entre deux bornes
  *  
  * @author Bruju
  *
  */
-public class ValeurNumerique implements Valeur {
+public class ValeurNumerique implements ValeurSimple {
 	private int valeurMin;
 	private int valeurMax;
 	
@@ -33,11 +30,6 @@ public class ValeurNumerique implements Valeur {
 	}
 
 	@Override
-	public int getPriorite() {
-		return 0;
-	}
-
-	@Override
 	public String getString() {
 		if (valeurMin == valeurMax) {
 			return Integer.toString(valeurMin);
@@ -57,14 +49,12 @@ public class ValeurNumerique implements Valeur {
 		return new int[] {valeurMin, valeurMax};
 	}
 
-	@Override
-	public Valeur evaluationPartielle(Affectation affectation) {
-		return this;
-	}
 
 	public int getValue() {
 		return valeurMin;
 	}
+
+
 
 
 }

@@ -2,12 +2,10 @@ package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simpl
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Personnage;
 import fr.bruju.rmeventreader.implementation.formulareader.model.Statistique;
-import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
-public class ValeurStatistique implements Valeur {
+public class ValeurStatistique implements ValeurSimple {
 	private Statistique statistique;
 	private Personnage personnage;
 
@@ -22,12 +20,6 @@ public class ValeurStatistique implements Valeur {
 	}
 	
 
-	
-	@Override
-	public int getPriorite() {
-		return 0;
-	}
-
 
 	@Override
 	public boolean estGarantiePositive() {
@@ -36,15 +28,9 @@ public class ValeurStatistique implements Valeur {
 	
 
 	@Override
-	public Valeur evaluationPartielle(Affectation affectation) {
-		return this;
-	}
-
-	@Override
 	public int[] evaluer() throws NonEvaluableException, DependantDeStatistiquesEvaluation {
 		throw new DependantDeStatistiquesEvaluation();
 	}
-
 	
 
 }

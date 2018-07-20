@@ -1,9 +1,12 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.compose;
 
+import java.util.List;
+
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.Utilitaire;
+import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.rmdatabase.Affectation;
 
@@ -154,6 +157,10 @@ public class Calcul implements Valeur {
 		return operateur;
 	}
 
+	@Override
+	public Valeur integrerCondition(List<Condition> aInclure) {
+		return new Calcul(gauche.integrerCondition(aInclure), operateur, droite.integrerCondition(aInclure));
+	}
 
 
 
