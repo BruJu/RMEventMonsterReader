@@ -56,7 +56,6 @@ public class Inclusion {
 		
 		Map<Operator, Integer[]> associations = new HashMap<>();
 		
-		// Identique
 		associations.put(Operator.IDENTIQUE, new Integer[] {
 				 0,   0,   1,   0,   0,	// Identique
 				 1,   1,   0,   1,   1,	// Différent
@@ -65,9 +64,52 @@ public class Inclusion {
 				 0,   0,   0,   1,   1, // Supérieur
 				 0,   0,   1,   1,   1, // Supérieur ou égal
 		});
-		
 
-		
+		associations.put(Operator.DIFFERENT, new Integer[] {
+				 1,   1,   0,   1,   1,	// Identique
+				 1,   1,   1,   1,   1,	// Différent
+				 1,   1,   1,   1,   1, // Inférieur
+				 1,   1,   1,   1,   1, // Inférieur ou égal
+				 1,   1,   1,   1,   1, // Supérieur
+				 1,   1,   1,   1,   1, // Supérieur ou égal
+		});
+
+		associations.put(Operator.INF, new Integer[] {
+				 1,   1,   0,   0,   0,	// Identique
+				 1,   1,   1,   1,   1,	// Différent
+				 1,   1,   1,   1,   1, // Inférieur
+				 1,   1,   1,   1,   1, // Inférieur ou égal
+				 1,   0,   0,   0,   0, // Supérieur
+				 1,   1,   0,   0,   0, // Supérieur ou égal
+		});
+
+		associations.put(Operator.INFEGAL, new Integer[] {
+				 1,   1,   1,   0,   0,	// Identique
+				 1,   1,   1,   1,   1,	// Différent
+				 1,   1,   1,   1,   1, // Inférieur
+				 1,   1,   1,   1,   1, // Inférieur ou égal
+				 1,   1,   0,   0,   0, // Supérieur
+				 1,   1,   1,   0,   0, // Supérieur ou égal
+		});
+
+		associations.put(Operator.SUP, new Integer[] {
+				 0,   0,   0,   1,   1,	// Identique
+				 1,   1,   1,   1,   1,	// Différent
+				 0,   0,   0,   0,   1, // Inférieur
+				 0,   0,   0,   1,   1, // Inférieur ou égal
+				 1,   1,   1,   1,   1, // Supérieur
+				 1,   1,   1,   1,   1, // Supérieur ou égal
+		});
+
+		associations.put(Operator.SUPEGAL, new Integer[] {
+				 0,   0,   1,   1,   1,	// Identique
+				 1,   1,   1,   1,   1,	// Différent
+				 0,   0,   0,   1,   1, // Inférieur
+				 0,   0,   1,   1,   1, // Inférieur ou égal
+				 1,   1,   1,   1,   1, // Supérieur
+				 1,   1,   1,   1,   1, // Supérieur ou égal
+		});
+
 		// tests
 		associations.forEach((operateur, carte) -> testerCarte(operateur, carte) );
 	}

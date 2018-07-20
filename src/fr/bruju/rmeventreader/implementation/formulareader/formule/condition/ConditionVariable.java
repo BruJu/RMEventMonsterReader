@@ -149,34 +149,36 @@ public class ConditionVariable implements Condition {
 		}
 
 		// N'intègre que les conditions de la forme Valeur • Constante 
-
-		if (aInc.operateur == Operator.IDENTIQUE || operateur == Operator.IDENTIQUE) {
-			try {
-				boolean res = operateur.test(aInc.droite.evaluerUnique(), droite.evaluerUnique());
-				return ConditionFixe.get(res);
-			} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
-				return this;
-			}
-		}
-
-		if (aInc.operateur == Operator.DIFFERENT || operateur == Operator.DIFFERENT) {
-			return ConditionFixe.VRAI;
-		}
-
-		ConditionVariable sousConditionAInclude = aInc.sansEgal();
-		ConditionVariable sousConditionthis = sansEgal();
-
 		try {
+
+			if (aInc.operateur == Operator.IDENTIQUE) {
+				boolean res = operateur.test(droite.evaluerUnique(), aInc.droite.evaluerUnique());
+				return ConditionFixe.get(res);
+
+			}
+
+			if (operateur == Operator.IDENTIQUE) {
+				return ConditionFixe.get(aInc.operateur.test(droite.evaluerUnique(), aInc.droite.evaluerUnique()));
+			}
+
+			if (aInc.operateur == Operator.DIFFERENT || operateur == Operator.DIFFERENT) {
+				return ConditionFixe.VRAI;
+			}
+
+			ConditionVariable sousConditionAInclude = aInc.sansEgal();
+			ConditionVariable sousConditionthis = sansEgal();
 
 			if (sousConditionAInclude.operateur == sousConditionthis.operateur) {
 				return ConditionFixe.VRAI;
 			} else {
 				if (sousConditionAInclude.operateur == Operator.INF) {
-					return ConditionFixe.get(operateur.test(sousConditionAInclude.droite.evaluer()[1],
-							sousConditionthis.droite.evaluer()[0]));
+					return ConditionFixe.get(sousConditionAInclude.operateur.test(
+							sousConditionthis.droite.evaluer()[0], sousConditionAInclude.droite.evaluer()[1] - 1
+
+					));
 				} else {
-					return ConditionFixe.get(operateur.test(sousConditionAInclude.droite.evaluer()[0],
-							sousConditionthis.droite.evaluer()[1]));
+					return ConditionFixe.get(sousConditionAInclude.operateur.test(
+							sousConditionthis.droite.evaluer()[1], sousConditionAInclude.droite.evaluer()[0] + 1));
 				}
 			}
 		} catch (NonEvaluableException | DependantDeStatistiquesEvaluation e) {
