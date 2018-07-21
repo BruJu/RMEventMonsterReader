@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.monsterlist.metier.mapreduce;
+package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.util.similaire.Cle;
 import fr.bruju.util.similaire.GroupeurDeSimilaires;
 

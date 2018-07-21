@@ -1,10 +1,9 @@
-package fr.bruju.rmeventreader.implementation.monsterlist.metier.mapreduce;
+package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.util.similaire.Cle;
 
 public class ComparateurCles implements Comparator<Entry<Cle<Monstre>, List<Monstre>>> {
