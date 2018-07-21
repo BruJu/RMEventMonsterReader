@@ -50,7 +50,7 @@ public class PersonnageUnifie {
 			sb.append("Monstre[");
 			
 			personnages.stream()
-						.map(p -> p.getNom().substring(6, p.getNom().length()))
+						.map(p -> p.getNom().substring(7, p.getNom().length()))
 						.sorted()
 						.forEach(numero -> sb.append(numero));
 								

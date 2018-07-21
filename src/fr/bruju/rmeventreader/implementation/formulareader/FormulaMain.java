@@ -34,13 +34,15 @@ public class FormulaMain {
 		List<PersonnageReel> personnages = stockage.getVraiPersonnages();
 
 		// Filter des personnages voulus
-		List<PersonnageReel> persoAffiches = personnages.stream().filter(p -> p.getNom().equals("Ainorie"))
+		List<PersonnageReel> persoAffiches = personnages.stream() //.filter(p -> p.getNom().equals("Ainorie"))
 				.collect(Collectors.toList());
 
 		// Affichage des formules les concernant
 		persoAffiches.stream()
-					.flatMap(p -> stockage.getChaine(p.getNom(), p).stream())
-					.forEach(f -> System.out.println(f));
+					.forEach(p -> {
+						System.out.println("=== " + p.getNom() + " ===");
+						stockage.getChaine(p.getNom(), p).stream().forEach(f -> System.out.println(f));
+					});
 	}
 
 }

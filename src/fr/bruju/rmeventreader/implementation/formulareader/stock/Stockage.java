@@ -30,21 +30,50 @@ public class Stockage {
 		new AutoActionMaker(calc, nomDeFichier).faire();
 		List<Triplet<Integer, List<Condition>, Valeur>> valeursTrouvees = calc.getSortie();
 
-		valeursTrouvees.forEach(v -> formulesAcquises.add(new Formule(nomAttaque, v.a, v.b, v.c)));
+		valeursTrouvees.forEach(v -> ajouterUneFormule(nomAttaque, v));
 	}
-	
+
+	private void ajouterUneFormule(String nomAttaque, Triplet<Integer, List<Condition>, Valeur> v) {
+		if (formulesAcquises.isEmpty()) {
+			formulesAcquises.add(new Formule(nomAttaque, v.a, v.b, v.c));
+			return;
+		}
+
+		Formule derniereFormuleEmpilee = formulesAcquises.get(formulesAcquises.size() - 1);
+
+		if (sontUnifiables(derniereFormuleEmpilee, v, nomAttaque)) {
+			unifier(derniereFormuleEmpilee, v);
+		} else {
+			formulesAcquises.add(new Formule(nomAttaque, v.a, v.b, v.c));
+		}
+	}
+
+	private void unifier(Formule derniereFormuleEmpilee, Triplet<Integer, List<Condition>, Valeur> v) {
+		formulesAcquises.remove(derniereFormuleEmpilee);
+		
+		String nomAttaque = derniereFormuleEmpilee.nomAttaque;
+		Valeur valeurUnifiee = derniereFormuleEmpilee.formule.similariser(v.c);
+		List<Integer> variablesTouchees = derniereFormuleEmpilee.variableTouchee;
+		variablesTouchees.add(v.a);
+		List<Condition> conditions = derniereFormuleEmpilee.conditionsRequises;
+		
+		formulesAcquises.add(new Formule(nomAttaque, variablesTouchees, conditions, valeurUnifiee));
+	}
+
+	private boolean sontUnifiables(Formule derniereFormuleEmpilee, Triplet<Integer, List<Condition>, Valeur> v,
+			String nomAttaque) {
+		return derniereFormuleEmpilee.nomAttaque.equals(nomAttaque) && derniereFormuleEmpilee.formule.estSimilaire(v.c);
+	}
+
 	public List<PersonnageReel> getVraiPersonnages() {
 		return personnages.stream().filter(p -> !p.getNom().contains("Membre"))
-				.filter(p -> !p.getNom().contains("Monstre"))
-				.sorted((p, q) -> p.getNom().compareTo(q.getNom()))
+				.filter(p -> !p.getNom().contains("Monstre")).sorted((p, q) -> p.getNom().compareTo(q.getNom()))
 				.collect(Collectors.toList());
 	}
-	
+
 	public List<String> getChaine(String nomDePersonnage, PersonnageReel personnage) {
-		return formulesAcquises.stream()
-								.filter(formule -> formule.formule.getString().contains(nomDePersonnage))
-								.map(formule -> formule.getString(personnage))
-								.collect(Collectors.toList());
+		return formulesAcquises.stream().filter(formule -> formule.formule.getString().contains(nomDePersonnage))
+				.map(formule -> formule.getString(personnage)).collect(Collectors.toList());
 	}
 
 }
