@@ -1,5 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 
-public class ConditionVariable implements Condition {
+public class CVariable implements Condition {
 
 }
