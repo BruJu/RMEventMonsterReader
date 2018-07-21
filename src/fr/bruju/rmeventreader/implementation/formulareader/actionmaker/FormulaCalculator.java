@@ -19,6 +19,8 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeSt
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
+import fr.bruju.util.similaire.GroupeurDeSimilaires;
+import fr.bruju.util.similaire.StockeurDeSimilaires;
 
 public class FormulaCalculator implements ActionMakerDefalse {
 	/* ===========================
@@ -271,7 +273,13 @@ public class FormulaCalculator implements ActionMakerDefalse {
 			if (operator == Operator.MINUS /*|| operator == Operator.PLUS*/) {
 				if (etat.estUneSortie(idVariableAModifier)) {
 					
-					sortie.add(new Triplet<>(idVariableAModifier, pile.getIntegration(), rightValue.integrerCondition(pile.getIntegration()).simplifier()));
+					StockeurDeSimilaires<Condition> stockage = pile.getIntegration().stream()
+									     .collect(new GroupeurDeSimilaires<Condition>(Condition::getSimiliHash, Condition::sontSimilaires));
+
+					//sortie.add(new Triplet<>(idVariableAModifier, pile.getIntegration(), rightValue));
+
+					//sortie.add(new Triplet<>(idVariableAModifier, pile.getIntegration(), rightValue.integrerCondition(pile.getIntegration()).simplifier()));
+					sortie.add(new Triplet<>(idVariableAModifier, pile.getIntegration(), rightValue.nouvelleIntegrationCondition(stockage).simplifier()));
 				}
 			}
 

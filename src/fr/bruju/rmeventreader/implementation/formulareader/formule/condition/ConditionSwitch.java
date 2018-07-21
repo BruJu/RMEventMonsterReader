@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
 
+import java.util.Objects;
+
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
@@ -53,6 +55,22 @@ public class ConditionSwitch implements Condition {
 		
 		// Simplification
 		return ConditionFixe.get(value == aInc.value);
+	}
+
+	@Override
+	public int getSimiliHash() {
+		return Objects.hash("SWI", interrupteur);
+	}
+
+	@Override
+	public boolean estSimilaire(Condition autreCondition) {
+		if (!(autreCondition instanceof ConditionSwitch)) {
+			return false;
+		}
+		
+		ConditionSwitch autre = (ConditionSwitch) autreCondition;
+		
+		return this.interrupteur.estSimilaire(autre.interrupteur);
 	}
 
 

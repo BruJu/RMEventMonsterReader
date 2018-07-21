@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
 
+import java.util.Objects;
+
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
@@ -118,6 +120,24 @@ public class ConditionVariable implements Condition {
 		} else {
 			return this;
 		}
+	}
+
+	
+	@Override
+	public int getSimiliHash() {
+		return Objects.hash("VAR", gauche);
+	}
+	
+
+	@Override
+	public boolean estSimilaire(Condition autreCondition) {
+		if (!(autreCondition instanceof ConditionVariable)) {
+			return false;
+		}
+		
+		ConditionVariable autre = (ConditionVariable) autreCondition;
+		
+		return this.gauche.estSimilaire(autre.gauche);
 	}
 
 }

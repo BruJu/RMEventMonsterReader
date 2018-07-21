@@ -13,6 +13,7 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Con
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.similaire.StockeurDeSimilaires;
 
 public class ValeurConditionnelle implements Valeur {
 	private List<Pair<Condition, Valeur>> valeursConditionnelles;
@@ -66,7 +67,8 @@ public class ValeurConditionnelle implements Valeur {
 				sb.append(" | ");
 			}
 
-			sb.append(cond.getString()).append(" -> ").append(valeur.getString());
+			sb.append(cond.getString());
+			sb.append(" -> ").append(valeur.getString());
 		}
 
 		sb.append("}");
@@ -239,4 +241,40 @@ public class ValeurConditionnelle implements Valeur {
 		
 		return new ValeurConditionnelle(nouvelles, this.elementNeutre);
 	}
+
+	
+	@Override
+	public Valeur nouvelleIntegrationCondition(StockeurDeSimilaires<Condition> stockConditions) {
+		List<Pair<Condition, Valeur>> liste = new ArrayList<>();
+
+		for (Pair<Condition, Valeur> paireCondValeur : valeursConditionnelles) {
+			Condition cond = paireCondValeur.getLeft();
+			Condition condIncluse = cond.estIntegrable(stockConditions);
+			if (condIncluse == ConditionFixe.FAUX) // Condition jamais vérifiée
+				continue;
+
+			// Condition pouvant être vérifiée
+			Valeur valeurIncluse = paireCondValeur.getRight().nouvelleIntegrationCondition(stockConditions);
+			
+			if (condIncluse == null) {
+				condIncluse = cond;
+			}
+			
+			liste.add(new Pair<>(condIncluse, valeurIncluse));
+
+			if (condIncluse == ConditionFixe.VRAI) // Condition étant vérifiée
+				break;
+		}
+
+		if (liste.isEmpty()) {
+			return new ValeurNumerique(elementNeutre);
+		}
+
+		if (liste.size() == 1) {
+			return liste.get(0).getRight();
+		}
+
+		return new ValeurConditionnelle(liste, this.elementNeutre);
+	}
+
 }

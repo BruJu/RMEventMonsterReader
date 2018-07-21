@@ -8,6 +8,7 @@ import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableE
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
+import fr.bruju.util.similaire.StockeurDeSimilaires;
 
 public class ValeurTernaire implements Valeur {
 	private Condition condition;
@@ -153,5 +154,18 @@ public class ValeurTernaire implements Valeur {
 		Valeur faux = siFaux.similariser(autre.siFaux);
 		
 		return new ValeurTernaire(cond, vrai, faux);
+	}
+
+	@Override
+	public Valeur nouvelleIntegrationCondition(StockeurDeSimilaires<Condition> stockConditions) {
+		Condition cond = this.condition.estIntegrable(stockConditions);
+		
+		if (cond == null) {
+			return Valeur.super.nouvelleIntegrationCondition(stockConditions);
+		} else if (cond == ConditionFixe.FAUX) {
+			return siFaux.nouvelleIntegrationCondition(stockConditions);
+		} else {
+			return siVrai.nouvelleIntegrationCondition(stockConditions);
+		}
 	}
 }

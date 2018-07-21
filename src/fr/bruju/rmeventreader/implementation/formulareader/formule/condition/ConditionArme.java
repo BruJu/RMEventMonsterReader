@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulareader.formule.condition;
 
+import java.util.Objects;
+
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 
@@ -54,6 +56,23 @@ public class ConditionArme implements Condition {
 		} else {
 			return ConditionFixe.FAUX;
 		}
+	}
+
+
+	@Override
+	public int getSimiliHash() {
+		return Objects.hash(numeroPersonnage, numeroArme);
+	}
+
+
+	@Override
+	public boolean estSimilaire(Condition autreCondition) {
+		if (!(autreCondition instanceof ConditionArme)) {
+			return false;
+		}
+		ConditionArme autre = (ConditionArme) autreCondition;
+		
+		return autre.numeroArme == numeroArme && autre.numeroPersonnage == numeroPersonnage;
 	}
 
 

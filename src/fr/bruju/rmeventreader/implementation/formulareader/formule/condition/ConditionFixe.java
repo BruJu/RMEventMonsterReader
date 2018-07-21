@@ -60,6 +60,16 @@ public class ConditionFixe implements Condition {
 		return valeur;
 	}
 
+	@Override
+	public int getSimiliHash() {
+		return (valeur) ? 71 : 12474865;
+	}
+
+	@Override
+	public boolean estSimilaire(Condition autreCondition) {
+		return autreCondition == this;
+	}
+
 
 
 }

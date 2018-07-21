@@ -6,6 +6,7 @@ import java.util.function.UnaryOperator;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.condition.Condition;
+import fr.bruju.util.similaire.StockeurDeSimilaires;
 
 /**
  * 
@@ -64,4 +65,8 @@ public interface Valeur {
 	
 	public Valeur similariser(Valeur valeurAutre);
 
+	public default Valeur nouvelleIntegrationCondition(StockeurDeSimilaires<Condition> stockConditions) {
+		return deleguerTraitement(valeur -> valeur.nouvelleIntegrationCondition(stockConditions));
+	}
+	
 }

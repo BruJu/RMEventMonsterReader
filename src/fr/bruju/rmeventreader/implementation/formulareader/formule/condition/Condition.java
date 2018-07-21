@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
+import fr.bruju.util.similaire.StockeurDeSimilaires;
 
 /**
  * Condition sur des valeurs
@@ -89,4 +90,37 @@ public interface Condition {
 	public default Boolean fastEval() {
 		return null;
 	}
+	
+	public int getSimiliHash();
+	
+	public static boolean sontSimilaires(Condition c1, Condition c2) {
+		return c1.estSimilaire(c2);
+	}
+	
+	public boolean estSimilaire(Condition autreCondition);
+	
+	
+	public default Condition estIntegrable(StockeurDeSimilaires<Condition> conditions) {
+		List<Condition> conditionsAIntegrer = conditions.getSimilaires(this);
+		
+		if (conditionsAIntegrer == null) {
+			return null;
+		}
+		
+		for (Condition condAIntegrer : conditionsAIntegrer) {
+			Condition resultat = integrerCondition(condAIntegrer);
+			
+			if (resultat == this || resultat == null)
+				throw new RuntimeException("Condition-estIntegrable-resultat = this ou null");
+			
+			if (resultat == ConditionFixe.VRAI) {
+				// ok
+			} else {
+				return resultat;
+			}
+		}
+		
+		return ConditionFixe.VRAI;
+	}
+	
 }
