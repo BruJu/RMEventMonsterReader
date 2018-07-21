@@ -24,6 +24,11 @@ interpreter.inputFile(new File(cheminVersLeFichier));
 ~~~~
 
 
+## Dépendances
+
+### CollectorsSimilaire
+
+Ce projet a une dépendance à ![CollectorsSimilaire](https://github.com/BruJu/CollectorsSimilaire/releases/tag/Chaton) afin de gérer plus facilement le regroupement d'éléments similaires.
 
 
 ## Reconnaissance de lettres

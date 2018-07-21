@@ -90,7 +90,7 @@ public class Monstre {
 	}
 	
 	
-	public Long hasher() {
+	public int hasher() {
 		long hash = 0;
 		
 		int x = 3;
@@ -103,9 +103,21 @@ public class Monstre {
 		
 		hash = hash + name.hashCode() * 50 + nomDrop.hashCode() + (this.immuniteAFossile ? 1 : 0);
 		
-		return hash;
+		return (int) hash;
 	}
 	
+	
+	public static boolean sontSimilaires(Monstre a, Monstre b) {
+		for (Positions pos : Positions.values()) {
+			if (a.get(pos) != b.get(pos)) {
+				return false;
+			}
+			
+		}
+		
+		return a.getNom().equals(b.getNom())
+				&& a.getDrop().equals(b.getDrop()) && a.immunite() == b.immunite();
+	}
 	
 	
 	/* =============
@@ -176,6 +188,21 @@ public class Monstre {
 
 	public String getDrop() {
 		return nomDrop;
+	}
+	
+	
+	// MAP REDUCE
+	
+	public static String getCSVHeader() {
+		return Monstre.getCSVHeader(false) + ";" + "Combats";
+	}
+
+	public String getCSV() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(getCSV(false));
+		
+		return sb.toString();
 	}
 	
 }

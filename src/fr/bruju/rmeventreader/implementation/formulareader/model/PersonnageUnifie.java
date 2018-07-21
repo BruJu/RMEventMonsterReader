@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class PersonnageUnifie {
 	
@@ -56,11 +57,9 @@ public class PersonnageUnifie {
 								
 			sb.append("]");
 		} else {
-			personnages.stream()
+			sb.append(personnages.stream()
 						.map(p -> p.getNom())
-						.forEach(p -> sb.append("/").append(p));
-			
-			sb.deleteCharAt(0);
+						.collect(Collectors.joining("/")));
 		}
 		
 		return new PersonnageGroupe(sb.toString(), personnages);
