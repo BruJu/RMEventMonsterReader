@@ -11,12 +11,12 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Personnages;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Resultat;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.ConditionVersValeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.Resultat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 

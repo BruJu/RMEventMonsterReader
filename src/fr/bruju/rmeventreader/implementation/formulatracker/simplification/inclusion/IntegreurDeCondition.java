@@ -1,88 +1,60 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.ConstructeurDeComposant;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions.CreateurDeGestionnaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions.GestionnaireDeCondition;
 
 public class IntegreurDeCondition extends ConstructeurDeComposant {	
-	private Condition conditionEnCours;
-	private CArme enCoursA;
-	private CSwitch enCoursS;
-	private CVariable enCoursV;
+	private GestionnaireDeCondition gestionnaire;
 	
 	public IntegreurDeCondition() {
 		super();
 	}
 	
 	public Valeur integrerCondition(Condition condition, Valeur valeur) {
-		conditionEnCours = condition;
-		detecterInstanceof();
+		gestionnaire = new CreateurDeGestionnaire().getGestionnaire(this, condition);
+		if (gestionnaire == null) {
+			return valeur;
+		}
+		
 		valeur.accept(this);
 		return (Valeur) pile.pop();
 	}
 	
-
-	private void detecterInstanceof() {
-		enCoursA = null;
-		enCoursS = null;
-		enCoursV = null;
-		
-		if (conditionEnCours instanceof CArme) {
-			enCoursA = (CArme) conditionEnCours;
-		} else if (conditionEnCours instanceof CSwitch) {
-			enCoursS = (CSwitch) conditionEnCours;
-		} else if (conditionEnCours instanceof CVariable) {
-			enCoursV = (CVariable) conditionEnCours;
-		}
+	public void gestionnairePush(Condition condition, boolean reponse) {
+		pile.push(condition);
+		conditionFlag = reponse;
 	}
 
 	@Override
 	public void visit(CArme cArme) {
-		if (enCoursA == null
-				|| cArme.heros != enCoursA.heros
-				|| cArme.objet != enCoursA.objet) {
-			super.visit(cArme);
-			return;
-		}
-		
-		// Resolution de la condition
-		this.pile.push(null);
-		this.conditionFlag = enCoursA.haveToOwn == cArme.haveToOwn;
+		gestionnaire.conditionArme(cArme);
 	}
 
 	@Override
 	public void visit(CSwitch cSwitch) {
-		if (enCoursS == null
-				|| !enCoursS.interrupteur.equals(cSwitch.interrupteur)) {
-			super.visit(cSwitch);
-			return;
-		}
-
-		// Resolution de la condition
-		this.pile.push(null);
-		this.conditionFlag = cSwitch.valeur == enCoursS.valeur;
-		
+		gestionnaire.conditionSwitch(cSwitch);
 	}
 
 	@Override
 	public void visit(CVariable cVariable) {
-		if (enCoursV == null) {
-			super.visit(cVariable);
-			return;
-		}
-		
-		
+		gestionnaire.conditionVariable(cVariable);
 	}
 
-	
-	
+	public void refuse(CArme cArme) {
+		super.visit(cArme);
+	}
 
-
+	public void refuse(CSwitch cSwitch) {
+		super.visit(cSwitch);
+	}
 	
+	public void refuse(CVariable cVariable) {
+		super.visit(cVariable);
+	}	
 }

@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.Resultat;
 
 public class Attaque {
 	private final String nom;

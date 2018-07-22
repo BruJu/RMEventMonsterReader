@@ -6,10 +6,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeu
 public class ValeurDegats implements FormuleDeDegats {
 	public final Operator operator;
 	public final Valeur formule;
-	
-	
-	
-	
+
 	public ValeurDegats(Operator operator, Valeur formule) {
 		this.operator = operator;
 		this.formule = formule;
