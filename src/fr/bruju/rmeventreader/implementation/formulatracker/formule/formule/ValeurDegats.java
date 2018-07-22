@@ -29,4 +29,9 @@ public class ValeurDegats implements FormuleDeDegats {
 		return operator;
 	}
 
+	@Override
+	public Valeur getFormule() {
+		return formule;
+	}
+
 }

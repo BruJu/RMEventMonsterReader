@@ -1,10 +1,10 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.ConstructeurDeComposant;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions.GestionnaireDeCondition;
@@ -16,14 +16,14 @@ public class IntegreurDeCondition extends ConstructeurDeComposant {
 		super();
 	}
 	
-	public Valeur integrerCondition(Condition condition, Valeur valeur) {
+	public Composant integrerCondition(Condition condition, Composant valeur) {
 		gestionnaire = new CreateurDeGestionnaire().getGestionnaire(this, condition);
 		if (gestionnaire == null) {
 			return valeur;
 		}
 		
 		valeur.accept(this);
-		return (Valeur) pile.pop();
+		return pile.pop();
 	}
 	
 	public void gestionnairePush(Condition condition, boolean reponse) {

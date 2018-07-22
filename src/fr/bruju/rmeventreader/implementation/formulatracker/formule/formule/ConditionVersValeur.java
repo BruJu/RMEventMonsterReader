@@ -39,4 +39,9 @@ public class ConditionVersValeur implements FormuleDeDegats {
 		return operator;
 	}
 
+	@Override
+	public Valeur getFormule() {
+		return formule;
+	}
+
 }

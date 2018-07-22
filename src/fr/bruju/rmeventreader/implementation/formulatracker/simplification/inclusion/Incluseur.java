@@ -29,7 +29,7 @@ public class Incluseur {
 		for (int i = conditions.size() - 1 ; i >= 0 ; i --) {
 			Condition c = conditions.get(i);
 			
-			v = integreur.integrerCondition(c, v);
+			v = (Valeur) integreur.integrerCondition(c, v);
 			
 			if (v == null) {
 				return null;
