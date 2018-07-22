@@ -10,4 +10,10 @@ public class VAleatoire implements Valeur {
 		this.max = max;
 	}
 
+
+	@Override
+	public String getString() {
+		return min + "~" + max;
+	}
+
 }

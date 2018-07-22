@@ -9,4 +9,9 @@ public class VBase implements Valeur {
 		
 	}
 
+	@Override
+	public String getString() {
+		return "V[" + idVariable + "]";
+	}
+
 }

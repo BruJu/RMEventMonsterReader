@@ -6,11 +6,16 @@ public class VStatistique implements Valeur {
 	private Personnage possesseur;
 	private String statistique;
 	
-	
-	
 	public VStatistique(Personnage personnage, String nomStat) {
 		this.possesseur = personnage;
 		this.statistique = nomStat;
+	}
+
+
+
+	@Override
+	public String getString() {
+		return possesseur.getNom() + "." + statistique;
 	}
 
 }

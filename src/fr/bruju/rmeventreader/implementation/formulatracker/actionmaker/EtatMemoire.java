@@ -141,7 +141,9 @@ public class EtatMemoire {
 	}
 
 	public List<Condition> construireListeDeConditions() {
-		List<Condition> conditions = construireListe(this, etat -> etat.condition, etat -> etat.condition.revert());
+		List<Condition> conditions = construireListe(this,
+				etat -> etat.condition,
+				etat -> etat.condition.revert());
 		Collections.reverse(conditions);
 		return conditions;
 	}

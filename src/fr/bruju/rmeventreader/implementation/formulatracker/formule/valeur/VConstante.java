@@ -7,4 +7,9 @@ public class VConstante implements Valeur {
 		this.valeur = valeur;
 	}
 
+	@Override
+	public String getString() {
+		return Integer.toString(valeur);
+	}
+
 }
