@@ -10,37 +10,60 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Resultat;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 
 public class FormulaMaker implements ActionMakerDefalse {
 
 	private Traducteur traducteur;
-	private Map<Integer, Valeur> variablesExistantes;
+	private Traiteur traiteurParDefaut;
+	private Map<Integer, Traiteur> traiteursSpeciaux;
+	private EtatMemoire etat;
 
-	public FormulaMaker() {
-		variablesExistantes = new HashMap<Integer, Valeur>();
-		traducteur = new Traducteur(variablesExistantes);
+	public FormulaMaker(Personnages contexte) {
+		Map<Integer, Valeur> variablesExistantes = new HashMap<>();
+		Map<Integer, Bouton> interrupteursExistants = new HashMap<>();
+
+		traiteursSpeciaux = fixerPersonnages(contexte, variablesExistantes, interrupteursExistants);
+
+		etat = new EtatMemoire(variablesExistantes, interrupteursExistants);
+
+		traducteur = new Traducteur(this);
+		traiteurParDefaut = new Traiteur(this);
 	}
-
+	
+	private Map<Integer, Traiteur> fixerPersonnages(Personnages contexte, Map<Integer, Valeur> variablesExistantes,
+			Map<Integer, Bouton> interrupteursExistants) {
+		Map<Integer, Traiteur> traiteursSpeciaux = new HashMap<>();
+		
+		contexte.getPersonnages().stream().flatMap(p -> p.getStatistiques().values().stream()).forEach(stat -> {
+			variablesExistantes.put(stat.getPosition(), new VStatistique(stat.getPossesseur(), stat.getNom()));
+			traiteursSpeciaux.put(stat.getPosition(), new TraiteurEnregistreur(this, stat));
+		});
+		
+		return traiteursSpeciaux;
+	}
+	
 	// Entrées / Sorties
 
-	public void fixerPersonnages(Personnages contexte) {
-		contexte.getPersonnages().stream()
-				.flatMap(p -> p.getStatistiques().values().stream())
-				.forEach(stat -> {
-				variablesExistantes.put(stat.getPosition(), 
-							new VStatistique(stat.getPossesseur(), stat.getNom()));
-				});
+
+
+	public EtatMemoire getEtat() {
+		return this.etat;
 	}
 
 	public Resultat getResultat() {
 		return null;
 	}
 
-	// Traiteur traiteurParDefaut = new TraiteurDefaut(this);
-	Map<Integer, Traiteur> variablesSpeciales = new HashMap<>();
+	private Traiteur getTraiteur(int numVariable) {
+		return traiteursSpeciaux.getOrDefault(numVariable, traiteurParDefaut);
+	}
+
+	/* ============
+	 * ACTION MAKER
+	 * ============ */
 
 	// CHANGEMENTS DE VALEUR
 
@@ -48,53 +71,61 @@ public class FormulaMaker implements ActionMakerDefalse {
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
-		ActionMakerDefalse.super.changeVariable(variable, operator, returnValue);
+		Valeur vGauche = traducteur.getValue(variable);
+		Valeur vDroite = traducteur.getValue(returnValue);
+		Traiteur traiteur = getTraiteur(variable.get());
+
+		traiteur.changeVariable(vGauche, operator, vDroite);
 	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire returnValue) {
-		Valeur rightValue = Traducteur.getInstance().getValue(returnValue);
+		Valeur vGauche = traducteur.getValue(variable);
+		Valeur vDroite = traducteur.getValue(returnValue);
+		Traiteur traiteur = getTraiteur(variable.get());
 
-		ActionMakerDefalse.super.changeVariable(variable, operator, returnValue);
+		traiteur.changeVariable(vGauche, operator, vDroite);
 	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, Variable returnValue) {
-		Valeur rightValue = Traducteur.getInstance().getValue(returnValue);
+		Valeur vGauche = traducteur.getValue(variable);
+		Valeur vDroite = traducteur.getValue(returnValue);
+		Traiteur traiteur = getTraiteur(variable.get());
 
-		ActionMakerDefalse.super.changeVariable(variable, operator, returnValue);
+		traiteur.changeVariable(vGauche, operator, vDroite);
 	}
 
 	// CONDITIONS
 
 	@Override
 	public boolean condOnSwitch(int number, boolean value) {
-		return ActionMakerDefalse.super.condOnSwitch(number, value);
+		Bouton interrupteur = traducteur.getInterrupteur(number);
+		Bouton valeur = traducteur.getValue(value);
+		
+		return traiteurParDefaut.condOnSwitch(interrupteur, valeur);
 	}
 
 	@Override
 	public boolean condOnEquippedItem(int heroId, int itemId) {
-		return ActionMakerDefalse.super.condOnEquippedItem(heroId, itemId);
+		return traiteurParDefaut.condOnEquippedItem(heroId, itemId);
 	}
 
 	@Override
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		Valeur rightValue = Traducteur.getInstance().getValue(returnValue);
-
-		return ActionMakerDefalse.super.condOnVariable(leftOperandValue, operatorValue, returnValue);
+		Valeur vGauche = traducteur.getValeurVariable(leftOperandValue);
+		Valeur vDroite = traducteur.getValue(returnValue);
+		
+		return traiteurParDefaut.condOnVariable(vGauche, operatorValue, vDroite);
 	}
 
 	@Override
 	public void condElse() {
+		traiteurParDefaut.condElse();
 	}
 
 	@Override
 	public void condEnd() {
+		traiteurParDefaut.condEnd();
 	}
-
-	public Traiteur getTraiteurParDefaut() {
-		return null;
-		//return this.traiteurParDefaut;
-	}
-
 }
