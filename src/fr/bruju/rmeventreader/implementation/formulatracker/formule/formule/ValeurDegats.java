@@ -24,4 +24,9 @@ public class ValeurDegats implements FormuleDeDegats {
 		return sb.toString();
 	}
 
+	@Override
+	public Operator getOperator() {
+		return operator;
+	}
+
 }

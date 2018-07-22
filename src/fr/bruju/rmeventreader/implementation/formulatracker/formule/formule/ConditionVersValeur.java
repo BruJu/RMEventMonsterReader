@@ -34,4 +34,9 @@ public class ConditionVersValeur implements FormuleDeDegats {
 		return sb.toString();
 	}
 
+	@Override
+	public Operator getOperator() {
+		return operator;
+	}
+
 }
