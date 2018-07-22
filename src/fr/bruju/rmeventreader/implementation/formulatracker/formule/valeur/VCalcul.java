@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class VCalcul implements Valeur {
@@ -36,6 +37,12 @@ public class VCalcul implements Valeur {
 
 	private int getPriorite() {
 		return Utilitaire.getPriorite(operateur);
+	}
+	
+
+	@Override
+	public void accept(VisiteurDeComposants visiteurDeComposant) {
+		visiteurDeComposant.visit(this);
 	}
 
 }

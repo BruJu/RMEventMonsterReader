@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+
 public class CArme implements Condition {
 	public final int heros;
 	public final int objet;
@@ -27,4 +29,8 @@ public class CArme implements Condition {
 		return "Heros #" + heros + " " + ( haveToOwn ? "∋" : "∌") + " Objet " + objet;
 	}
 
+	@Override
+	public void accept(VisiteurDeComposants visiteurDeComposant) {
+		visiteurDeComposant.visit(this);
+	}
 }

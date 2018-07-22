@@ -1,8 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 
-public class CSwitch implements ConditionGauche<Bouton> {
+public class CSwitch implements Condition {
 	public final Bouton interrupteur;
 	public final boolean valeur;
 
@@ -29,13 +30,9 @@ public class CSwitch implements ConditionGauche<Bouton> {
 	}
 
 	@Override
-	public Bouton getGauche() {
-		return interrupteur;
+	public void accept(VisiteurDeComposants visiteurDeComposant) {
+		visiteurDeComposant.visit(this);
 	}
 
-	@Override
-	public String getStringSansGauche() {
-		return getString();
-	}
-
+	
 }

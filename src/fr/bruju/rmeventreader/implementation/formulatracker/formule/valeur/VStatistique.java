@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Personnage;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 
 public class VStatistique implements Valeur {
 	public final Personnage possesseur;
@@ -18,4 +19,9 @@ public class VStatistique implements Valeur {
 		return possesseur.getNom() + "." + statistique;
 	}
 
+
+	@Override
+	public void accept(VisiteurDeComposants visiteurDeComposant) {
+		visiteurDeComposant.visit(this);
+	}
 }

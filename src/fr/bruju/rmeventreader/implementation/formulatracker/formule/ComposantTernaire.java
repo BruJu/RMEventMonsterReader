@@ -3,9 +3,9 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
 
 public abstract class ComposantTernaire<T extends Composant> implements Composant {
-	private Condition condition;
-	private T siVrai;
-	private T siFaux;
+	public final Condition condition;
+	public final T siVrai;
+	public final T siFaux;
 
 	public ComposantTernaire(Condition condition, T v1, T v2) {
 		this.condition = condition;

@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+
 public class BConstant implements Bouton {
 	private static Bouton[] boutons = new Bouton[] {new BConstant(true), new BConstant(false)};
 	
@@ -18,5 +20,9 @@ public class BConstant implements Bouton {
 		return (value) ? "ON" : "OFF";
 	}
 	
-	
+
+	@Override
+	public void accept(VisiteurDeComposants visiteurDeComposant) {
+		visiteurDeComposant.visit(this);
+	}
 }

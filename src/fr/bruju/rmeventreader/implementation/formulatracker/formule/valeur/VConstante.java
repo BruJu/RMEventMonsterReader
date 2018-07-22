@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+
 public class VConstante implements Valeur {
 	public final int valeur;
 	
@@ -12,4 +14,9 @@ public class VConstante implements Valeur {
 		return Integer.toString(valeur);
 	}
 
+
+	@Override
+	public void accept(VisiteurDeComposants visiteurDeComposant) {
+		visiteurDeComposant.visit(this);
+	}
 }
