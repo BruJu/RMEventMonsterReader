@@ -6,9 +6,9 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class CVariable implements ConditionGauche<Valeur> {
 
-	private Valeur gauche;
-	private Operator operateur;
-	private Valeur droite;
+	public final Valeur gauche;
+	public final Operator operateur;
+	public final Valeur droite;
 
 	public CVariable(Valeur gauche, Operator operateur, Valeur vDroite) {
 		this.gauche = gauche;

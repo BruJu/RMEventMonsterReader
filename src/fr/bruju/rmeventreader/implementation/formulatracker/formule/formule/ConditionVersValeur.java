@@ -9,10 +9,9 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeu
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class ConditionVersValeur implements FormuleDeDegats {
-
-	private Operator operator;
-	private List<Condition> conditions;
-	private Valeur formule;
+	public final Operator operator;
+	public final List<Condition> conditions;
+	public final Valeur formule;
 
 	public ConditionVersValeur(Operator operator, List<Condition> conditions, Valeur vDroite) {
 		this.operator=  operator;

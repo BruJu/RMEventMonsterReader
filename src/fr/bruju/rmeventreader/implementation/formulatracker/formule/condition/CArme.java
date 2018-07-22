@@ -1,9 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 
 public class CArme implements Condition {
-	private int heros;
-	private int objet;
-	private boolean haveToOwn;
+	public final int heros;
+	public final int objet;
+	public final boolean haveToOwn;
 	
 	public CArme(int heros, int objet) {
 		this.heros = heros;

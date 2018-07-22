@@ -12,11 +12,9 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BBase
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.ConditionGauche;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaireAb;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.IntBiObjOperator;
@@ -107,18 +105,9 @@ public class EtatMemoire {
 		return pere;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void integrerFils() {
 		// Combinaisons
-		combinerDonnees(this, etat -> etat.variables, (id, v1, v2) ->
-/*
-		(v2 == null && condition instanceof ConditionGauche
-				&& ((ConditionGauche<Valeur>) condition).getGauche() instanceof Valeur)
-						? (VTernaireAb) new VTernaireAb((ConditionGauche<Valeur>) condition, v1)
-						: 
-							(v2 == null) ? new VTernaire(condition, v1, getVariable(id)) :
-							(v1 == null) ? new VTernaire(condition, getVariable(id), v2) :*/
-							new VTernaire(condition, v1, v2),
+		combinerDonnees(this, etat -> etat.variables, (id, v1, v2) -> new VTernaire(condition, v1, v2),
 				id -> getVariable(id));
 		combinerDonnees(this, etat -> etat.interrupteurs, (id, v1, v2) -> new BTernaire(condition, v1, v2),
 				id -> getInterrupteur(id));
@@ -136,8 +125,8 @@ public class EtatMemoire {
 		// Combinaison des deux fils
 		Map<Integer, Pair<T, T>> nouvellesDonnees = new HashMap<>();
 
-		fonctionDacces.apply(pere.filsGauche)
-				.forEach((idVariable, valeur) -> nouvellesDonnees.put(idVariable, new Pair<>(valeur, getElementPere.apply(idVariable))));
+		fonctionDacces.apply(pere.filsGauche).forEach((idVariable, valeur) -> nouvellesDonnees.put(idVariable,
+				new Pair<>(valeur, getElementPere.apply(idVariable))));
 
 		fonctionDacces.apply(pere.filsDroit)
 				.forEach((idVariable, valeur) -> nouvellesDonnees.merge(idVariable,

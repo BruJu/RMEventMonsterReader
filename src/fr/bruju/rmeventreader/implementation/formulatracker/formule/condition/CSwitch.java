@@ -3,8 +3,8 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 
 public class CSwitch implements ConditionGauche<Bouton> {
-	private Bouton interrupteur;
-	private boolean valeur;
+	public final Bouton interrupteur;
+	public final boolean valeur;
 
 	public CSwitch(Bouton interrupteur, boolean valeur) {
 		this.interrupteur = interrupteur;

@@ -4,9 +4,9 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class VCalcul implements Valeur {
-	private Valeur gauche;
-	private Operator operateur;
-	private Valeur droite;
+	public final Valeur gauche;
+	public final Operator operateur;
+	public final Valeur droite;
 
 	public VCalcul(Valeur vGauche, Operator operateur, Valeur vDroite) {
 		gauche = vGauche;

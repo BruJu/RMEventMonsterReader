@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton;
 public class BConstant implements Bouton {
 	private static Bouton[] boutons = new Bouton[] {new BConstant(true), new BConstant(false)};
 	
-	private boolean value;
+	public final boolean value;
 	
 	private BConstant(boolean value) {
 		this.value = value;

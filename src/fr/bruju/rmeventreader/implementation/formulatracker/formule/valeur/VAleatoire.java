@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 
 public class VAleatoire implements Valeur {
-	private int min;
-	private int max;
+	public final int min;
+	public final int max;
 	
 	
 	public VAleatoire(int min, int max) {
