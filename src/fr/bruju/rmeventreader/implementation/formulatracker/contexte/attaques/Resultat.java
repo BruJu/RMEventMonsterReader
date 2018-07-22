@@ -8,4 +8,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.Form
 
 public class Resultat {
 	public Map<Statistique, List<FormuleDeDegats>> map;
+
+	public void integrer(Statistique stat, List<FormuleDeDegats> formules) {
+	}
 }

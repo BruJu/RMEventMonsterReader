@@ -1,9 +1,11 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
@@ -89,6 +91,18 @@ public class EtatMemoire {
 				return donnee;
 			}
 		}
+	}
+
+	public EtatMemoire revenirAuPere() {
+		return null;
+	}
+
+	public List<Condition> construireListeDeConditions() {
+		return null;
+	}
+
+	public void affecterVariable(Integer variable, Operator operator, Valeur vDroite) {
+		
 	}
 
 
