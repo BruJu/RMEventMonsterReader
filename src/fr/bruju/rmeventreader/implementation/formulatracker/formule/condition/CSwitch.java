@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 
-public class CSwitch implements Condition {
+public class CSwitch implements ConditionGauche<Bouton> {
 	private Bouton interrupteur;
 	private boolean valeur;
 
@@ -26,6 +26,16 @@ public class CSwitch implements Condition {
 		s += interrupteur.getString();
 		
 		return s;
+	}
+
+	@Override
+	public Bouton getGauche() {
+		return interrupteur;
+	}
+
+	@Override
+	public String getStringSansGauche() {
+		return getString();
 	}
 
 }

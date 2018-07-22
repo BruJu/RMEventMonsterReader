@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -13,11 +12,14 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BBase
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.ConditionGauche;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaireAb;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.lambda.IntBiObjOperator;
 
 public class EtatMemoire {
 	/* ==================
@@ -105,10 +107,21 @@ public class EtatMemoire {
 		return pere;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void integrerFils() {
 		// Combinaisons
-		combinerDonnees(this, etat -> etat.variables, (v1, v2) -> new VTernaire(condition, v1, v2));
-		combinerDonnees(this, etat -> etat.interrupteurs, (v1, v2) -> new BTernaire(condition, v1, v2));
+		combinerDonnees(this, etat -> etat.variables, (id, v1, v2) ->
+/*
+		(v2 == null && condition instanceof ConditionGauche
+				&& ((ConditionGauche<Valeur>) condition).getGauche() instanceof Valeur)
+						? (VTernaireAb) new VTernaireAb((ConditionGauche<Valeur>) condition, v1)
+						: 
+							(v2 == null) ? new VTernaire(condition, v1, getVariable(id)) :
+							(v1 == null) ? new VTernaire(condition, getVariable(id), v2) :*/
+							new VTernaire(condition, v1, v2),
+				id -> getVariable(id));
+		combinerDonnees(this, etat -> etat.interrupteurs, (id, v1, v2) -> new BTernaire(condition, v1, v2),
+				id -> getInterrupteur(id));
 
 		// Supression des enfants
 		this.condition = null;
@@ -117,33 +130,38 @@ public class EtatMemoire {
 	}
 
 	private static <T> void combinerDonnees(EtatMemoire pere, Function<EtatMemoire, Map<Integer, T>> fonctionDacces,
-			BinaryOperator<T> fonctionDeFusion) {
+			IntBiObjOperator<T> fonctionDeFusion, Function<Integer, T> getElementPere) {
 		Map<Integer, T> mapPere = fonctionDacces.apply(pere);
 
 		// Combinaison des deux fils
 		Map<Integer, Pair<T, T>> nouvellesDonnees = new HashMap<>();
 
-		fonctionDacces.apply(pere.filsGauche).forEach(
-				(idVariable, valeur) -> nouvellesDonnees.put(idVariable, new Pair<>(valeur, mapPere.get(idVariable))));
+		fonctionDacces.apply(pere.filsGauche)
+				.forEach((idVariable, valeur) -> nouvellesDonnees.put(idVariable, new Pair<>(valeur, getElementPere.apply(idVariable))));
 
-		fonctionDacces.apply(pere.filsDroit).forEach((idVariable, valeur) -> nouvellesDonnees.merge(idVariable,
-				new Pair<>(mapPere.get(idVariable), valeur), (v1, v2) -> new Pair<>(v1.getLeft(), v2.getRight())));
+		fonctionDacces.apply(pere.filsDroit)
+				.forEach((idVariable, valeur) -> nouvellesDonnees.merge(idVariable,
+						new Pair<>(getElementPere.apply(idVariable), valeur),
+						(v1, v2) -> new Pair<>(v1.getLeft(), v2.getRight())));
 
 		// Modification du père
 		nouvellesDonnees.forEach(
-				(idVar, paire) -> mapPere.put(idVar, fonctionDeFusion.apply(paire.getLeft(), paire.getRight())));
+				(idVar, paire) -> mapPere.put(idVar, fonctionDeFusion.apply(idVar, paire.getLeft(), paire.getRight())));
 	}
 
 	public void affecterVariable(Integer variable, Operator operateur, Valeur vDroite) {
 		Valeur vGauche = getVariable(variable);
 
-		variables.put(variable, new VCalcul(vGauche, operateur, vDroite));
+		if (operateur == Operator.AFFECTATION) {
+			variables.put(variable, vDroite);
+		} else {
+			variables.put(variable, new VCalcul(vGauche, operateur, vDroite));
+		}
 	}
 
 	public List<Condition> construireListeDeConditions() {
-		List<Condition> conditions = construireListe(this,
-				etat -> etat.condition,
-				etat -> etat.condition.revert());
+		List<Condition> conditions = construireListe(this, etat -> etat.pere.condition,
+				etat -> etat.pere.condition.revert());
 		Collections.reverse(conditions);
 		return conditions;
 	}
@@ -153,6 +171,7 @@ public class EtatMemoire {
 		List<T> conditions = new ArrayList<>();
 
 		while (etat.pere != null) {
+
 			conditions
 					.add(etat.estFilsGauche() ? elementAjouteSiGauche.apply(etat) : elementAjouteSiDroite.apply(etat));
 

@@ -186,6 +186,7 @@ public class FormulaMaker implements ActionMakerDefalse {
 		private List<FormuleDeDegats> formules;
 
 		public TraiteurEnregistreur(Statistique stat) {
+			this.stat = stat;
 			formules = new ArrayList<>();
 		}
 
@@ -200,7 +201,6 @@ public class FormulaMaker implements ActionMakerDefalse {
 		@Override
 		public void changeVariable(Integer variable, Operator operator, Valeur vDroite) {
 			formules.add(new ConditionVersValeur(operator, etat.construireListeDeConditions(), vDroite));
-
 			super.changeVariable(variable, operator, vDroite);
 		}
 

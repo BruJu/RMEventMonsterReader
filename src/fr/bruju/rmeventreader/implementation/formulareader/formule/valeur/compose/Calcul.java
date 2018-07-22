@@ -6,9 +6,9 @@ import java.util.function.UnaryOperator;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.DependantDeStatistiquesEvaluation;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NonEvaluableException;
-import fr.bruju.rmeventreader.implementation.formulareader.formule.Utilitaire;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.simple.ValeurNumerique;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Valeur qui est un calcul entre deux valeurs

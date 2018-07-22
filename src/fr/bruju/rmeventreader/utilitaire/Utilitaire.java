@@ -6,7 +6,7 @@ public class Utilitaire {
 	public static String getSymbole(Operator operateur) {
 		switch (operateur) {
 		case AFFECTATION:
-			return "<-";
+			return "←";
 		case DIFFERENT:
 			return "≠";
 		case DIVIDE:

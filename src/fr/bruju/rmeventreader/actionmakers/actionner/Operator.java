@@ -1,7 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
-import java.util.function.BiPredicate;
 import java.util.function.IntBinaryOperator;
+
+import fr.bruju.rmeventreader.utilitaire.lambda.IntBinaryPredicate;
 
 /**
  * Enumération des opérateurs existants de comparaison et de calculs
@@ -37,7 +38,7 @@ public enum Operator {
 	/**
 	 * Identique
 	 */
-	IDENTIQUE((l, r) -> l.intValue() == r.intValue()),
+	IDENTIQUE((l, r) -> l == r),
 	/**
 	 * Différent
 	 */
@@ -45,11 +46,11 @@ public enum Operator {
 	/**
 	 * Inférieur strict
 	 */
-	INF((l, r) -> l.intValue() < r.intValue()),
+	INF((l, r) -> l < r),
 	/**
 	 * Supérieur strict
 	 */
-	SUP((l, r) -> l.intValue() > r.intValue()),
+	SUP((l, r) -> l > r),
 	/**
 	 * Inférieur ou égal
 	 */
@@ -67,7 +68,7 @@ public enum Operator {
 	private Operator oppose = null;
 
 	/** Fonction de test */
-	private BiPredicate<Integer, Integer> testFunction = null;
+	private IntBinaryPredicate testFunction = null;
 
 	/** Fonction de calcul */
 	private IntBinaryOperator compFunc = null;
@@ -82,7 +83,7 @@ public enum Operator {
 	 * Construit un opérateur de test
 	 * @param fonctionTest La fonction qui teste l'opérateur à partir de deux entiers
 	 */
-	Operator(BiPredicate<Integer, Integer> fonctionTest) {
+	Operator(IntBinaryPredicate fonctionTest) {
 		this.testFunction = fonctionTest;
 	}
 	

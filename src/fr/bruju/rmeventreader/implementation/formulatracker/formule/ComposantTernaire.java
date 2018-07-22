@@ -26,7 +26,7 @@ public abstract class ComposantTernaire<T extends Composant> implements Composan
 	}
 
 	@Override
-	public String getString() {
+	public String getString() {		
 		return "(" + getCondition().getString() + ") ? " + getVrai().getString() + " : " + getFaux().getString(); 
 	}
 }

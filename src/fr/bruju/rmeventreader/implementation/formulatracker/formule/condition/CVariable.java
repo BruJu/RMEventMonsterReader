@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-public class CVariable implements Condition {
+public class CVariable implements ConditionGauche<Valeur> {
 
 	private Valeur gauche;
 	private Operator operateur;
@@ -23,7 +23,17 @@ public class CVariable implements Condition {
 
 	@Override
 	public String getString() {
-		return gauche.getString() + " " + Utilitaire.getSymbole(operateur) + " " + droite.getString();
+		return gauche.getString() + " " + getStringSansGauche();
+	}
+
+	@Override
+	public Valeur getGauche() {
+		return gauche;
+	}
+
+	@Override
+	public String getStringSansGauche() {
+		return Utilitaire.getSymbole(operateur) + " " + droite.getString();
 	}
 	
 	
