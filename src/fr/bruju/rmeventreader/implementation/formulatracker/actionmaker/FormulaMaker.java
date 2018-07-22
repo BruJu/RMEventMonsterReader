@@ -53,15 +53,13 @@ public class FormulaMaker implements ActionMakerDefalse {
 
 	// Entrées / Sorties
 
-
 	public Resultat getResultat() {
 		Resultat resultat = new Resultat();
-		
+
 		traiteursSpeciaux.forEach((numeroVariable, traiteur) -> {
 			resultat.integrer(traiteur.getStat(), traiteur.getFormules());
 		});
-		
-		
+
 		return resultat;
 	}
 
@@ -190,11 +188,11 @@ public class FormulaMaker implements ActionMakerDefalse {
 		public TraiteurEnregistreur(Statistique stat) {
 			formules = new ArrayList<>();
 		}
-		
+
 		public Statistique getStat() {
 			return stat;
 		}
-		
+
 		public List<FormuleDeDegats> getFormules() {
 			return formules;
 		}
