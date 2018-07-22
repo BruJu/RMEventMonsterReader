@@ -3,6 +3,8 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.formule;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 
@@ -17,4 +19,9 @@ public class Resultat {
 		map.put(stat, formules);
 		return this;
 	}
+	
+	public void transformerFormules(UnaryOperator<FormuleDeDegats> fonctionDeTransformation) {
+		map.replaceAll((k, v) -> v.stream().map(fonctionDeTransformation).collect(Collectors.toList()));		
+	}
+	
 }

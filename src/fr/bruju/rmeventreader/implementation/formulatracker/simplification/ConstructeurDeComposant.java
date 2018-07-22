@@ -91,7 +91,6 @@ public abstract class ConstructeurDeComposant implements VisiteurDeComposants {
 	public void visit(VTernaire vTernaire) {
 		visitePar(vTernaire, (condition, vrai, faux) -> new VTernaire(condition, vrai, faux));
 	}
-	
 
 	@Override
 	public void visit(BTernaire bTernaire) {
@@ -113,11 +112,15 @@ public abstract class ConstructeurDeComposant implements VisiteurDeComposants {
 			}
 		} else {
 			visit(ternaire.siVrai);
-			visit(ternaire.siFaux);
-
-			T faux = (T) pile.pop();
-			T vrai = (T) pile.pop();
+			T faux = null;
 			
+			if (ternaire.siFaux != null) {
+				visit(ternaire.siFaux);
+				faux = (T) pile.pop();
+			}
+			
+			T vrai = (T) pile.pop();
+
 			if (condition == ternaire.condition && faux == ternaire.siFaux && vrai == ternaire.siVrai) {
 				pile.push(ternaire);
 			} else {
@@ -138,9 +141,9 @@ public abstract class ConstructeurDeComposant implements VisiteurDeComposants {
 	@Override
 	public void visit(CSwitch cSwitch) {
 		visit(cSwitch.interrupteur);
-		
+
 		Bouton interrupteur = (Bouton) pile.pop();
-		
+
 		if (interrupteur == null) {
 			// TODO : on trouvera jamias null ici. Il faut faire un évaluateur de bouton
 			pile.push(null);
@@ -156,17 +159,17 @@ public abstract class ConstructeurDeComposant implements VisiteurDeComposants {
 	public void visit(CVariable cVariable) {
 		visit(cVariable.gauche);
 		visit(cVariable.droite);
-		
+
 		Valeur droite = (Valeur) pile.pop();
 		Valeur gauche = (Valeur) pile.pop();
-		
+
 		if (gauche == cVariable.gauche && droite == cVariable.droite) {
 			pile.push(cVariable);
 		} else {
 			CVariable condition = new CVariable(gauche, cVariable.operateur, droite);
 			Boolean r = tenterDEvaluer(condition);
-			
-			if (r) {
+
+			if (r != null) {
 				pile.push(null);
 				conditionFlag = r;
 			} else {
@@ -178,20 +181,20 @@ public abstract class ConstructeurDeComposant implements VisiteurDeComposants {
 	private Boolean tenterDEvaluer(CVariable condition) {
 		Valeur gauche = condition.gauche;
 		Valeur droite = condition.droite;
-		
+
 		EvaluateurSimple evaluateur = new EvaluateurSimple();
-		
+
 		Integer gVal = evaluateur.evaluer(gauche);
 		if (gVal == null) {
 			return null;
 		}
-		
+
 		Integer dVal = evaluateur.evaluer(droite);
-		
+
 		if (dVal == null) {
 			return null;
 		}
-		
+
 		return condition.operateur.test(gVal, dVal);
 	}
 }

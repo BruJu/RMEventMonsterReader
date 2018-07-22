@@ -19,6 +19,7 @@ public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
 	}
 
 	public GestionnaireDeCondition getGestionnaire(IntegreurDeCondition integreurDeCondition, Condition condition) {
+		this.integreur = integreurDeCondition;
 		condition.accept(this);
 		return gestionnaire;
 	}

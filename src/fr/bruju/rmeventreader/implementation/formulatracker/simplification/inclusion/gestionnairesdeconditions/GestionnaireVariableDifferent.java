@@ -5,12 +5,17 @@ import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclu
 
 public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 
+	private IntegreurDeCondition integreur;
+	private CVariable base;
+
 	public GestionnaireVariableDifferent(IntegreurDeCondition integreur, CVariable cVariable) {
+		this.integreur = integreur;
+		this.base = cVariable;
 	}
 
 	@Override
 	public IntegreurDeCondition getIntegreur() {
-		return null;
+		return integreur;
 	}
 
 }

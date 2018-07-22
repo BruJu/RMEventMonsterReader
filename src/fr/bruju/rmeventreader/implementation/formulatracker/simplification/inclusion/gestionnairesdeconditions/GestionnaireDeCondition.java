@@ -14,27 +14,10 @@ public interface GestionnaireDeCondition {
 	public default void conditionSwitch(CSwitch cSwitch) {
 		getIntegreur().refuse(cSwitch);
 	}
-	/*
-	 * 		if (enCoursS == null
-				|| !enCoursS.interrupteur.equals(cSwitch.interrupteur)) {
-			super.visit(cSwitch);
-			return;
-		}
-
-		// Resolution de la condition
-		this.pile.push(null);
-		this.conditionFlag = cSwitch.valeur == enCoursS.valeur;
-	 * 
-	 */
 	
 	public default void conditionVariable(CVariable cVariable) {
 		getIntegreur().refuse(cVariable);
 	}
 
 	public IntegreurDeCondition getIntegreur();
-	
-
-	
-	
-	
 }

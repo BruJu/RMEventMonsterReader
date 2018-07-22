@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.formule;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class ValeurDegats implements FormuleDeDegats {
 	public final Operator operator;
@@ -12,12 +13,15 @@ public class ValeurDegats implements FormuleDeDegats {
 		this.formule = formule;
 	}
 
-
-
-
 	@Override
 	public String getString() {
-		return null;
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(Utilitaire.getSymbole(operator));
+		sb.append(" ");
+		sb.append(formule.getString());
+
+		return sb.toString();
 	}
 
 }
