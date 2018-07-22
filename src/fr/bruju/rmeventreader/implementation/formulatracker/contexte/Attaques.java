@@ -10,7 +10,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.At
 public class Attaques {
 	private List<Attaque> liste = new ArrayList<>();
 	
-	
 	public void ajouterRepertoire(String cheminRepertoire) {
 		File repertoire = new File(cheminRepertoire);
 		
