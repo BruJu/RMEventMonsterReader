@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 
-public interface Valeur {
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
+
+public interface Valeur extends Composant {
 
 }

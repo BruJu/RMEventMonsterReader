@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton;
 
-public interface Bouton {
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
 
+public interface Bouton extends Composant {
 }
