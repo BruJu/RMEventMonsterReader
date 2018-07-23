@@ -8,13 +8,15 @@ import java.util.stream.Collectors;
 public class PersonnageUnifie implements Personnage {
 	private final String nom;
 	private Map<String, Statistique> statistiques;
+	private Set<PersonnageReel> personnages;
 
 	public PersonnageUnifie(Set<PersonnageReel> personnages) {
-		this.nom = deduireNom(personnages);
-		deduireStatistiques(personnages);
+		this.personnages = personnages;
+		this.nom = deduireNom();
+		deduireStatistiques();
 	}
 
-	private void deduireStatistiques(Set<PersonnageReel> personnages) {
+	private void deduireStatistiques() {
 		statistiques = new HashMap<>();
 
 		personnages.stream().map(personnageReel -> personnageReel.getStatistiques())
@@ -31,7 +33,7 @@ public class PersonnageUnifie implements Personnage {
 		return statistiques;
 	}
 
-	private static String deduireNom(Set<PersonnageReel> personnages) {
+	private String deduireNom() {
 		StringBuilder sb = new StringBuilder();
 
 		if (commencentTousPar(personnages, "Monstre")) {
@@ -56,5 +58,10 @@ public class PersonnageUnifie implements Personnage {
 		}
 
 		return true;
+	}
+
+	@Override
+	public Set<PersonnageReel> getPersonnagesReels() {
+		return personnages;
 	}
 }

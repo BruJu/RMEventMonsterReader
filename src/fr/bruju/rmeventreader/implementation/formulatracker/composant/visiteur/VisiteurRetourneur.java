@@ -30,6 +30,11 @@ public abstract class VisiteurRetourneur<Intermediaire, Retour> implements Visit
 		visit(composant);
 		return transformer(this.composant);
 	}
+	
+	protected Intermediaire traiter(Composant composant) {
+		visit(composant);
+		return this.composant;
+	}
 
 	protected abstract Retour transformer(Intermediaire composant);
 

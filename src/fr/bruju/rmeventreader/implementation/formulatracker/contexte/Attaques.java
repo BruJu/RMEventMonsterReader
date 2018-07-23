@@ -43,7 +43,7 @@ public class Attaques {
 		liste.stream().map(attaque -> attaque.getResultat()).map(resultat -> resultat.map).forEach(map -> map
 				.forEach((k, v) -> map.put(k, v.stream().map(modificateurDeFormule).collect(Collectors.toList()))));
 	}
-
+	
 	public void transformerComposants(UnaryOperator<Composant> transformation) {
 		liste.stream().map(attaque -> attaque.getResultat().map)
 				.forEach(map -> map.replaceAll((cle, valeur) -> valeur.stream()
