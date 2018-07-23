@@ -1,20 +1,20 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.IntegreurDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 
 public class GestionnaireSwitch implements GestionnaireDeCondition {
 
-	private IntegreurDeCondition integreur;
+	private Integreur integreur;
 	private CSwitch base;
 
-	public GestionnaireSwitch(IntegreurDeCondition integreur, CSwitch cSwitch) {
+	public GestionnaireSwitch(Integreur integreur, CSwitch cSwitch) {
 		this.integreur = integreur;
 		this.base = cSwitch;
 	}
 
 	@Override
-	public IntegreurDeCondition getIntegreur() {
+	public Integreur getIntegreur() {
 		return integreur;
 	}
 

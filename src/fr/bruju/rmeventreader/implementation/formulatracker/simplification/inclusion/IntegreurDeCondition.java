@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.simplification.Const
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions.GestionnaireDeCondition;
 
-public class IntegreurDeCondition extends ConstructeurDeComposant {	
+public class IntegreurDeCondition extends ConstructeurDeComposant implements Integreur {	
 	private GestionnaireDeCondition gestionnaire;
 	
 	public IntegreurDeCondition() {
@@ -26,6 +26,7 @@ public class IntegreurDeCondition extends ConstructeurDeComposant {
 		return pile.pop();
 	}
 	
+	@Override
 	public void gestionnairePush(Condition condition, boolean reponse) {
 		pile.push(condition);
 		conditionFlag = reponse;
@@ -46,15 +47,18 @@ public class IntegreurDeCondition extends ConstructeurDeComposant {
 		gestionnaire.conditionVariable(cVariable);
 	}
 
+	@Override
 	public void refuse(CArme cArme) {
 		super.visit(cArme);
 	}
 
+	@Override
 	public void refuse(CSwitch cSwitch) {
 		super.visit(cSwitch);
 	}
 	
+	@Override
 	public void refuse(CVariable cVariable) {
 		super.visit(cVariable);
-	}	
+	}
 }

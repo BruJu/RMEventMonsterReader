@@ -144,15 +144,28 @@ public abstract class ConstructeurDeComposant implements VisiteurDeComposants {
 
 		Bouton interrupteur = (Bouton) pile.pop();
 
-		if (interrupteur == null) {
-			// TODO : on trouvera jamias null ici. Il faut faire un évaluateur de bouton
-			pile.push(null);
-			// (nouveau)conditionFlag = (ancien)conditionFlag;
-		} else if (interrupteur == cSwitch) {
+		if (interrupteur == cSwitch) {
 			pile.push(cSwitch);
 		} else {
-			pile.push(new CSwitch(interrupteur, cSwitch.valeur));
+			Boolean evaluation = evaluer(interrupteur, cSwitch.valeur);
+			
+			if (evaluation == null) {
+				pile.push(new CSwitch(interrupteur, cSwitch.valeur));
+			} else {
+				pile.push(null);
+				this.conditionFlag = evaluation;
+			}
 		}
+	}
+
+	private Boolean evaluer(Bouton interrupteur, boolean valeur) {
+		if (interrupteur == BConstant.get(true)) {
+			return valeur;
+		} else if (interrupteur == BConstant.get(false)) {
+			return !valeur;
+		}
+		
+		return null;
 	}
 
 	@Override

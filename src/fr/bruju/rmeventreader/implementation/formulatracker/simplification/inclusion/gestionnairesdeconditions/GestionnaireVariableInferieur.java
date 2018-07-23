@@ -4,11 +4,11 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.IntegreurDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 
 public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 
-	private IntegreurDeCondition integreur;
+	private Integreur integreur;
 	private CVariable base;
 	
 	private Operator op;
@@ -16,7 +16,7 @@ public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 	
 	private EvaluateurSimple eval;
 
-	public GestionnaireVariableInferieur(IntegreurDeCondition integreur, CVariable cVariable, boolean b) {
+	public GestionnaireVariableInferieur(Integreur integreur, CVariable cVariable, boolean b) {
 		this.integreur = integreur;
 		this.base = cVariable;
 		eval = new EvaluateurSimple();
@@ -30,7 +30,7 @@ public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 	}
 
 	@Override
-	public IntegreurDeCondition getIntegreur() {
+	public Integreur getIntegreur() {
 		return integreur;
 	}
 	

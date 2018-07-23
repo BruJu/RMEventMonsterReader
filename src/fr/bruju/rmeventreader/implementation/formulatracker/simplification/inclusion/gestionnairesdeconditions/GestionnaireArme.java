@@ -1,20 +1,20 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.IntegreurDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 
 public class GestionnaireArme implements GestionnaireDeCondition {
-	private IntegreurDeCondition integreur;
+	private Integreur integreur;
 	
 	private CArme base;
 	
-	public GestionnaireArme(IntegreurDeCondition integreur, CArme base) {
+	public GestionnaireArme(Integreur integreur, CArme base) {
 		this.integreur = integreur;
 		this.base = base;
 	}
 	
 	@Override
-	public IntegreurDeCondition getIntegreur() {
+	public Integreur getIntegreur() {
 		return integreur;
 	}
 

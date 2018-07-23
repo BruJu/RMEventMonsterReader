@@ -41,5 +41,4 @@ public class Injection {
 	public Integer getVariable(int numero) {
 		return variables.get(numero);
 	}
-	
 }

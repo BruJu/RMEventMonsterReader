@@ -26,6 +26,7 @@ public class Incluseur {
 		Valeur v = formuleBase;
 		
 		for (int i = conditions.size() - 1 ; i >= 0 ; i --) {
+		//for (int i = 0 ; i != conditions.size(); i ++) {
 			Condition c = conditions.get(i);
 			
 			v = (Valeur) integreur.integrerCondition(c, v);
@@ -40,6 +41,20 @@ public class Incluseur {
 		return new FormuleDeDegats(operateur, null, v);
 	}
 	
+	public FormuleDeDegats inclureV(FormuleDeDegats conditionValeur) {
+		Operator operateur = conditionValeur.operator;
+		
+		List<Condition> conditions = conditionValeur.conditions;
+		Valeur formuleBase = conditionValeur.formule;
+		
+		SimplifieurViaIntegration integreur = new SimplifieurViaIntegration();
+		Valeur v = formuleBase;
+
+		v = (Valeur) integreur.integerer(formuleBase);
+
+		
+		return new FormuleDeDegats(operateur, conditions, v);
+	}
 	
 
 }

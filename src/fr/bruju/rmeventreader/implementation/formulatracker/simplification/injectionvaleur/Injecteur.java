@@ -34,6 +34,7 @@ public class Injecteur extends ConstructeurDeComposant {
 		if (valeur == null) {
 			pile.push(composant);
 		} else {
+			System.out.println("Injecte" + numero + " " + valeur);
 			pile.push(BConstant.get(valeur));
 		}
 	}

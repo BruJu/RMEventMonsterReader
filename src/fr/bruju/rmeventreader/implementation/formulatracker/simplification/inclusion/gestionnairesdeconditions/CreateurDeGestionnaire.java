@@ -6,11 +6,11 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CV
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposantsADefaut;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.IntegreurDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 
 public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
 
-	private IntegreurDeCondition integreur;
+	private Integreur integreur;
 	private GestionnaireDeCondition gestionnaire;
 
 	@Override
@@ -18,7 +18,7 @@ public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
 		gestionnaire = null;
 	}
 
-	public GestionnaireDeCondition getGestionnaire(IntegreurDeCondition integreurDeCondition, Condition condition) {
+	public GestionnaireDeCondition getGestionnaire(Integreur integreurDeCondition, Condition condition) {
 		this.integreur = integreurDeCondition;
 		condition.accept(this);
 		return gestionnaire;

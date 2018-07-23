@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.simplification.incl
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.IntegreurDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 
 public interface GestionnaireDeCondition {
 
@@ -19,5 +19,5 @@ public interface GestionnaireDeCondition {
 		getIntegreur().refuse(cVariable);
 	}
 
-	public IntegreurDeCondition getIntegreur();
+	public Integreur getIntegreur();
 }

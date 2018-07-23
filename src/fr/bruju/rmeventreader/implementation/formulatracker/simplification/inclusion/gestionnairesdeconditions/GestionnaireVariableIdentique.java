@@ -3,17 +3,17 @@ package fr.bruju.rmeventreader.implementation.formulatracker.simplification.incl
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.IntegreurDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 
 public class GestionnaireVariableIdentique implements GestionnaireDeCondition {
 
-	private IntegreurDeCondition integreur;
+	private Integreur integreur;
 	private CVariable base;
 	private int maDroite;
 	
 	private EvaluateurSimple eval;
 	
-	public GestionnaireVariableIdentique(IntegreurDeCondition integreur, CVariable cVariable) {
+	public GestionnaireVariableIdentique(Integreur integreur, CVariable cVariable) {
 		this.integreur = integreur;
 		this.base = cVariable;
 		eval = new EvaluateurSimple();
@@ -21,7 +21,7 @@ public class GestionnaireVariableIdentique implements GestionnaireDeCondition {
 	}
 
 	@Override
-	public IntegreurDeCondition getIntegreur() {
+	public Integreur getIntegreur() {
 		return integreur;
 	}
 

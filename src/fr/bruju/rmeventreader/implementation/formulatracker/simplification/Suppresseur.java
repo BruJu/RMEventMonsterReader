@@ -89,10 +89,4 @@ public class Suppresseur implements VisiteurDeComposantsADefaut {
 	public void comportementParDefaut() {
 		throw new RuntimeException("invalid state");
 	}
-
-
-
-	
-	
-
 }
