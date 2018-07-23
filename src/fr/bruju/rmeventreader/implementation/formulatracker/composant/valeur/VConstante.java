@@ -1,27 +1,23 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
 
 /**
- * Variable dans la base de données.
- * 
+ * Valeur constante 
  * @author Bruju
  *
  */
-public class VBase implements Valeur {	
+public class VConstante implements Valeur {	
 	/* =========
 	 * COMPOSANT
 	 * ========= */
-	/** Numéro de la variable */
-	public final int idVariable;
+	/** Valeur contenue dans la constante */
+	public final int valeur;
 	
-	/**
-	 * Construit une variable ayant le numéro donné
-	 * @param idVariable Le numéro de la variable
-	 */
-	public VBase(Integer idVariable) {
-		this.idVariable = idVariable;
+	/** Crée une valeur constante */
+	public VConstante(int valeur) {
+		this.valeur = valeur;
 	}
 	
 	/* ================
@@ -30,7 +26,7 @@ public class VBase implements Valeur {
 
 	@Override
 	public String getString() {
-		return "V[" + idVariable + "]";
+		return Integer.toString(valeur);
 	}
 
 	/* ========
@@ -45,18 +41,18 @@ public class VBase implements Valeur {
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */
-
+	
 	@Override
 	public boolean equals(final Object other) {
-		if (!(other instanceof VBase)) {
+		if (!(other instanceof VConstante)) {
 			return false;
 		}
-		VBase castOther = (VBase) other;
-		return Objects.equals(idVariable, castOther.idVariable);
+		VConstante castOther = (VConstante) other;
+		return Objects.equals(valeur, castOther.valeur);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idVariable) * 6397;
+		return Objects.hash(valeur) * 8233;
 	}
 }

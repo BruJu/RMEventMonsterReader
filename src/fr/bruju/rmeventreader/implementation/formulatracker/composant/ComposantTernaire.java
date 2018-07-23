@@ -1,7 +1,8 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
 import java.util.Objects;
+
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 
 /**
  * Composant dont la valeur est déterminée par une condition

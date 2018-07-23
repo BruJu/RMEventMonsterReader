@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 
 /**
  * Valeur pouvant être évaluer numériquement. Une valeur est contenue dans une variable dans RPG Maker. Dans RPG Maker,

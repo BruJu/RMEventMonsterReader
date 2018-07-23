@@ -1,11 +1,11 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.formule;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class FormuleDeDegats {

@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.condition;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 
 /**
  * Représente une condition

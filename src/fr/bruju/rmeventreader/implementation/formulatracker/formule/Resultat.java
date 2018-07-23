@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.formule;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 
 public class Resultat {
 	public Map<Statistique, List<FormuleDeDegats>> map;

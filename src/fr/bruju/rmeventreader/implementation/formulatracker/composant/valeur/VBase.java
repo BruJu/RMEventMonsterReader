@@ -1,40 +1,38 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
 
 /**
- * Interrupteur dont la valeur est inconnue
+ * Variable dans la base de données.
  * 
  * @author Bruju
  *
  */
-public class BBase implements Bouton {
+public class VBase implements Valeur {	
 	/* =========
 	 * COMPOSANT
 	 * ========= */
+	/** Numéro de la variable */
+	public final int idVariable;
 	
-	/** Numéro de l'interrupteur */
-	public final int numero;
-
 	/**
-	 * Construit un interrupteur avec le numéro donné 
-	 * @param numero Le numéro de l'interrupteur
+	 * Construit une variable ayant le numéro donné
+	 * @param idVariable Le numéro de la variable
 	 */
-	public BBase(int numero) {
-		this.numero = numero;
+	public VBase(Integer idVariable) {
+		this.idVariable = idVariable;
 	}
-
-
+	
 	/* ================
 	 * AFFICHAGE SIMPLE
 	 * ================ */
 
 	@Override
 	public String getString() {
-		return "S[" + numero + "]";
+		return "V[" + idVariable + "]";
 	}
-	
+
 	/* ========
 	 * VISITEUR
 	 * ======== */
@@ -43,23 +41,22 @@ public class BBase implements Bouton {
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
-
+	
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */
 
 	@Override
 	public boolean equals(final Object other) {
-		if (!(other instanceof BBase)) {
+		if (!(other instanceof VBase)) {
 			return false;
 		}
-		BBase castOther = (BBase) other;
-		return Objects.equals(numero, castOther.numero);
+		VBase castOther = (VBase) other;
+		return Objects.equals(idVariable, castOther.idVariable);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(numero) * 1409;
+		return Objects.hash(idVariable) * 6397;
 	}
-
 }

@@ -1,7 +1,7 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.ComposantTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 
 /**

@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.condition;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
 

@@ -1,34 +1,40 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
 
 /**
- * Valeur constante 
+ * Interrupteur dont la valeur est inconnue
+ * 
  * @author Bruju
  *
  */
-public class VConstante implements Valeur {	
+public class BBase implements Bouton {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
-	/** Valeur contenue dans la constante */
-	public final int valeur;
 	
-	/** Crée une valeur constante */
-	public VConstante(int valeur) {
-		this.valeur = valeur;
+	/** Numéro de l'interrupteur */
+	public final int numero;
+
+	/**
+	 * Construit un interrupteur avec le numéro donné 
+	 * @param numero Le numéro de l'interrupteur
+	 */
+	public BBase(int numero) {
+		this.numero = numero;
 	}
-	
+
+
 	/* ================
 	 * AFFICHAGE SIMPLE
 	 * ================ */
 
 	@Override
 	public String getString() {
-		return Integer.toString(valeur);
+		return "S[" + numero + "]";
 	}
-
+	
 	/* ========
 	 * VISITEUR
 	 * ======== */
@@ -37,22 +43,23 @@ public class VConstante implements Valeur {
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
-	
+
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */
-	
+
 	@Override
 	public boolean equals(final Object other) {
-		if (!(other instanceof VConstante)) {
+		if (!(other instanceof BBase)) {
 			return false;
 		}
-		VConstante castOther = (VConstante) other;
-		return Objects.equals(valeur, castOther.valeur);
+		BBase castOther = (BBase) other;
+		return Objects.equals(numero, castOther.numero);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(valeur) * 8233;
+		return Objects.hash(numero) * 1409;
 	}
+
 }
