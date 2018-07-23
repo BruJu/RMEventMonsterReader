@@ -97,12 +97,9 @@ public class Factoriseur implements VisiteurDeComposants {
 				Valeur nouvelleGauche = rg.convertirEnCalcul();
 				Valeur nouvelleDroite = rd.convertirEnCalcul();
 				Valeur elementsCommuns = f.convertirEnCalcul();
-				// TODO : vcg.operateur est faux avec la division
 				return new VCalcul(elementsCommuns, vcg.operateur,
 						fonctionDeCreation.apply(that, nouvelleGauche, nouvelleDroite));
 			}
-
-			//VCalcul nouveauComposant = creerComposant(that, vcg, vcd, fonctionDeCreation);
 		}
 
 		if (gaucheAChange || droiteAChange) {

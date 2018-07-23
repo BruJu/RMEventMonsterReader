@@ -6,6 +6,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
@@ -65,5 +66,11 @@ public class RepresentationVariadique {
 
 	public boolean isEmpty() {
 		return facteurs.isEmpty();
+	}
+
+
+	public boolean possedeHP() {		
+		return this.facteurs.stream().map(p -> p.getLeft()).filter(v -> v instanceof VStatistique)
+		.anyMatch(v -> ((VStatistique) v).statistique.nom.equals("HP"));
 	}
 }

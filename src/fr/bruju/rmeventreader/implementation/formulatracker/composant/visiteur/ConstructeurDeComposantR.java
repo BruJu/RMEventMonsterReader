@@ -206,11 +206,11 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 		}
 	}
 
-	private Composant getComposant(boolean b) {
+	protected Composant getComposant(boolean b) {
 		return b ? new ComposantVrai() : new ComposantFaux();
 	}
 
-	private Boolean testerComposantBooleen(Composant composant) {
+	protected Boolean testerComposantBooleen(Composant composant) {
 		if (composant.equals(new ComposantVrai())) {
 			return Boolean.TRUE;
 		} else if (composant.equals(new ComposantFaux())) {
@@ -220,7 +220,7 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 		}
 	}
 
-	private static class ComposantVrai implements Composant, Condition {
+	protected static class ComposantVrai implements Composant, Condition {
 		@Override
 		public String getString() {
 			return null;
@@ -242,7 +242,7 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 		}
 	}
 
-	private static class ComposantFaux implements Composant, Condition {
+	protected static class ComposantFaux implements Composant, Condition {
 		@Override
 		public String getString() {
 			return null;
@@ -264,7 +264,7 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 		}
 	}
 
-	private static class ErreurDeVisiteException extends RuntimeException {
+	protected static class ErreurDeVisiteException extends RuntimeException {
 		private static final long serialVersionUID = 3397659550907296945L;
 	}
 

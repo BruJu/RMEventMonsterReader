@@ -22,6 +22,8 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposants {
 	
+	private Operator base;
+	
 	private List<Valeur> facteurs;
 	private List<Operator> operateurs;
 	
@@ -29,6 +31,7 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 	public RepresentationVariadique creerRepresentationVariadique(VCalcul calcul, Operator operateur) {
 		facteurs = new ArrayList<>();
 		operateurs = new ArrayList<>();
+		this.base = operateur;
 		
 		operateurs.add(operateur);
 		visit(calcul);
@@ -38,7 +41,7 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 	
 	@Override
 	public void visit(VCalcul vCalcul) {
-		if (vCalcul.operateur == Operator.TIMES || vCalcul.operateur == Operator.DIVIDE) {
+		if (vCalcul.operateur == base || vCalcul.operateur == base.revert()) {
 			visit(vCalcul.gauche);
 			operateurs.add(vCalcul.operateur);
 			visit(vCalcul.droite);
