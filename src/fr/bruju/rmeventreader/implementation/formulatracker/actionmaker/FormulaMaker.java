@@ -14,7 +14,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Personnages
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.ConditionVersValeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.Resultat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VStatistique;
@@ -200,7 +199,7 @@ public class FormulaMaker implements ActionMakerDefalse {
 
 		@Override
 		public void changeVariable(Integer variable, Operator operator, Valeur vDroite) {
-			formules.add(new ConditionVersValeur(operator, etat.construireListeDeConditions(), vDroite));
+			formules.add(new FormuleDeDegats(operator, etat.construireListeDeConditions(), vDroite));
 			super.changeVariable(variable, operator, vDroite);
 		}
 

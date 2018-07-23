@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.At
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
 
 public class Attaques {
-	private List<Attaque> liste = new ArrayList<>();
+	public List<Attaque> liste = new ArrayList<>();
 
 	public void ajouterRepertoire(String cheminRepertoire) {
 		File repertoire = new File(cheminRepertoire);

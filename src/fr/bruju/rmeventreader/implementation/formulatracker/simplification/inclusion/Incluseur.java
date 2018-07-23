@@ -4,8 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.ConditionVersValeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.ValeurDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 
@@ -17,7 +16,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeu
  */
 public class Incluseur {
 	
-	public ValeurDegats inclure(ConditionVersValeur conditionValeur) {
+	public FormuleDeDegats inclure(FormuleDeDegats conditionValeur) {
 		Operator operateur = conditionValeur.operator;
 		
 		List<Condition> conditions = conditionValeur.conditions;
@@ -38,7 +37,7 @@ public class Incluseur {
 			v = new VTernaire(c, v, null);
 		}
 		
-		return new ValeurDegats(operateur, v);
+		return new FormuleDeDegats(operateur, null, v);
 	}
 	
 	
