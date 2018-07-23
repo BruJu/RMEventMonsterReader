@@ -4,6 +4,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import java.util.Objects;
 
 public class CVariable implements Condition {
 
@@ -38,4 +39,20 @@ public class CVariable implements Condition {
 		visiteurDeComposant.visit(this);
 	}
 
+	@Override
+	public boolean equals(final Object other) {
+		if (!(other instanceof CVariable)) {
+			return false;
+		}
+		CVariable castOther = (CVariable) other;
+		return Objects.equals(gauche, castOther.gauche) && Objects.equals(operateur, castOther.operateur)
+				&& Objects.equals(droite, castOther.droite);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gauche, operateur, droite);
+	}
+
+	
 }

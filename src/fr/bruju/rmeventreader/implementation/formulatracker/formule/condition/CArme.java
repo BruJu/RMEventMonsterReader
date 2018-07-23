@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import java.util.Objects;
 
 public class CArme implements Condition {
 	public final int heros;
@@ -33,4 +34,21 @@ public class CArme implements Condition {
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
+
+	@Override
+	public boolean equals(final Object other) {
+		if (!(other instanceof CArme)) {
+			return false;
+		}
+		CArme castOther = (CArme) other;
+		return Objects.equals(heros, castOther.heros) && Objects.equals(objet, castOther.objet)
+				&& Objects.equals(haveToOwn, castOther.haveToOwn);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(heros, objet, haveToOwn);
+	}
+	
+	
 }

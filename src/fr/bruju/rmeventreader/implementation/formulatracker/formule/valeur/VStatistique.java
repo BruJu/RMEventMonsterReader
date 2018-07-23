@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import java.util.Objects;
 
 public class VStatistique implements Valeur {
 	public final Personnage possesseur;
@@ -29,4 +30,20 @@ public class VStatistique implements Valeur {
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
+
+	@Override
+	public boolean equals(final Object other) {
+		if (!(other instanceof VStatistique)) {
+			return false;
+		}
+		VStatistique castOther = (VStatistique) other;
+		return Objects.equals(idVariable, castOther.idVariable);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(idVariable) * 10133;
+	}
+	
+	
 }

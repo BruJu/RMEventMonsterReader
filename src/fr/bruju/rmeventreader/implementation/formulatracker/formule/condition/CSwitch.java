@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.condition;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import java.util.Objects;
 
 public class CSwitch implements Condition {
 	public final Bouton interrupteur;
@@ -32,6 +33,20 @@ public class CSwitch implements Condition {
 	@Override
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
+	}
+
+	@Override
+	public boolean equals(final Object other) {
+		if (!(other instanceof CSwitch)) {
+			return false;
+		}
+		CSwitch castOther = (CSwitch) other;
+		return Objects.equals(interrupteur, castOther.interrupteur) && Objects.equals(valeur, castOther.valeur);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(interrupteur, valeur) * 2953;
 	}
 
 	

@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import java.util.Objects;
 
 public class BConstant implements Bouton {
 	private static Bouton[] boutons = new Bouton[] {new BConstant(true), new BConstant(false)};
@@ -25,4 +26,17 @@ public class BConstant implements Bouton {
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
+
+	@Override
+	public boolean equals(final Object other) {
+		// Seules deux instances uniques sont créées
+		return this == other;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(value)*1613;
+	}
+	
+	
 }

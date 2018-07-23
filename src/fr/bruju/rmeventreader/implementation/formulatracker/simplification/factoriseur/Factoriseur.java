@@ -112,46 +112,6 @@ public class Factoriseur implements VisiteurDeComposants {
 		}
 	}
 
-	// Converti (a * b) + (a * c) en a * (b + c)
-
-	private <T extends Valeur> VCalcul creerComposant(T that, VCalcul gauche, VCalcul droite,
-			TriFunction<T, Valeur, Valeur, T> fonctionDeCreation) {
-		Valeur a;
-		Valeur b;
-		Valeur c;
-
-		if (gauche.operateur != droite.operateur) {
-			return null;
-		}
-
-		if (gauche.gauche.equals(droite.gauche)) {
-			// a*b + a*c
-			a = gauche.gauche;
-			b = gauche.droite;
-			c = droite.droite;
-		} else if (gauche.gauche.equals(droite.droite)) {
-			// a*b + c*a
-			a = gauche.gauche;
-			b = gauche.droite;
-			c = droite.gauche;
-		} else if (gauche.droite.equals(droite.gauche)) {
-			// b*a + a*c
-			a = gauche.droite;
-			b = gauche.gauche;
-			c = droite.droite;
-		} else if (gauche.droite.equals(droite.droite)) {
-			// b*a + c*a
-			a = gauche.droite;
-			b = gauche.gauche;
-			c = droite.gauche;
-		} else {
-			return null;
-		}
-
-		// a * (b + c)
-		return new VCalcul(a, gauche.operateur, fonctionDeCreation.apply(that, b, c));
-	}
-
 	@Override
 	public void visit(VTernaire vTernaire) {
 		TriFunction<VTernaire, Valeur, Valeur, VTernaire> fonctionDeCreation = (base, g,

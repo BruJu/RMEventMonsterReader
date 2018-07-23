@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
-
 public class Pair<T1, T2> {
 	private final T1 t1;
 	private final T2 t2;

@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
+import java.util.Objects;
 
 public abstract class ComposantTernaire<T extends Composant> implements Composant {
 	public final Condition condition;
@@ -33,4 +34,22 @@ public abstract class ComposantTernaire<T extends Composant> implements Composan
 			return "(" + getCondition().getString() + ") ? " + getVrai().getString() + " : " + getFaux().getString();
 		}
 	}
+
+	@Override
+	public boolean equals(final Object other) {
+		if (!(other instanceof ComposantTernaire)) {
+			return false;
+		}
+		ComposantTernaire<?> castOther = (ComposantTernaire<?>) other;
+		return Objects.equals(condition, castOther.condition) && Objects.equals(siVrai, castOther.siVrai)
+				&& Objects.equals(siFaux, castOther.siFaux);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(condition, siVrai, siFaux);
+	}
+	
+	
+	
 }
