@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VCalcul;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class RepresentationVariadique {

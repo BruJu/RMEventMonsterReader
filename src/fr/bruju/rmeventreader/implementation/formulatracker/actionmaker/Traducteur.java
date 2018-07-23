@@ -3,15 +3,15 @@ package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BConstant;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VAleatoire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
 public class Traducteur {
 	public Valeur getValue(ValeurFixe returnValue) {

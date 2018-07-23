@@ -3,17 +3,17 @@ package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VAleatoire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VCalcul;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VStatistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
 public class Suppresseur implements VisiteurDeComposantsADefaut {
 

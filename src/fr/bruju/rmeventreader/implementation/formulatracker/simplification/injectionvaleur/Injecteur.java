@@ -1,12 +1,12 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification.injectionvaleur;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BConstant;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VStatistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.ConstructeurDeComposant;
 
 public class Injecteur extends ConstructeurDeComposant {
@@ -60,7 +60,7 @@ public class Injecteur extends ConstructeurDeComposant {
 	
 	@Override
 	public void visit(VStatistique composant) {
-		int numero = composant.idVariable;
+		int numero = composant.statistique.position;
 		injecterVariable(composant, numero);
 	}
 	

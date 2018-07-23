@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VCalcul;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.IntBiObjOperator;
 

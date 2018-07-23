@@ -2,9 +2,9 @@ package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
 
 import java.util.Stack;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VCalcul;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
 public class EvaluateurSimple implements VisiteurDeComposantsADefaut {
 	private Stack<Integer> pile = new Stack<>();

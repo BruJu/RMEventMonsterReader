@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.Resultat;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Resultat;
 
 public class Attaque {
 	private final String nom;

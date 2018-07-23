@@ -1,9 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage;
 
 public class Statistique {
-	private final Personnage possesseur;
-	private final String nom;
-	private final int position;
+	public final Personnage possesseur;
+	public final String nom;
+	public final int position;
 	
 	public Statistique(Personnage possesseur, String nom, int position) {
 		this.possesseur = possesseur;

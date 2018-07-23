@@ -1,10 +1,10 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposantsADefaut;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 

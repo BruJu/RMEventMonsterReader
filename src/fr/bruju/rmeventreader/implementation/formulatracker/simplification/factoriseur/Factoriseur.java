@@ -3,20 +3,20 @@ package fr.bruju.rmeventreader.implementation.formulatracker.simplification.fact
 import java.util.function.Predicate;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BConstant;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.BTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CArme;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CVariable;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VAleatoire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VCalcul;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VStatistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 

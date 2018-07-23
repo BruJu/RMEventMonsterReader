@@ -8,11 +8,11 @@ import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Attaque;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Composant;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 
 public class Attaques {
 	private static BiFunction<List<Condition>, UnaryOperator<Composant>, List<Condition>> transListeConditions = (liste,

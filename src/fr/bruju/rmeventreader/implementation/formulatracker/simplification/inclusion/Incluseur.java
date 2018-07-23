@@ -3,10 +3,10 @@ package fr.bruju.rmeventreader.implementation.formulatracker.simplification.incl
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VTernaire;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 
 /**
  * Cette classe a pour but de transformer les formules de la classe ConditionVersValeur vers ValeurDegats

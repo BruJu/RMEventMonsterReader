@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.CSwitch;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
 
 public class GestionnaireSwitch implements GestionnaireDeCondition {

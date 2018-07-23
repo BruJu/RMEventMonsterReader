@@ -10,14 +10,14 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.bouton.Bouton;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.FormuleDeDegats;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.formule.Resultat;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.VStatistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Resultat;
 
 public class FormulaMaker implements ActionMakerDefalse {
 
