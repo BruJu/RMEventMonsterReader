@@ -60,7 +60,7 @@ public abstract class VisiteurRetourneur<Intermediaire, Retour> implements Visit
 
 	protected abstract Intermediaire traiter(VStatistique variableStatistique);
 
-	protected abstract Intermediaire traiter(VTernaire varaibleTernaire);
+	protected abstract Intermediaire traiter(VTernaire variableTernaire);
 
 	// Visiteurs
 
