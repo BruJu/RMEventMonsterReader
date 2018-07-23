@@ -1,7 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+
 import java.util.Objects;
 
 /**
@@ -27,7 +28,7 @@ public class VStatistique implements Valeur {
 
 	@Override
 	public String getString() {
-		return statistique.possesseur.getNom() + "." + statistique;
+		return statistique.possesseur.getNom() + "." + statistique.nom;
 	}
 
 	/* ========

@@ -1,7 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.condition;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
+
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
  * Condition sur la possession d'un équipement par un personnage

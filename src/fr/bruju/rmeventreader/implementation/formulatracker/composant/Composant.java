@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
  * Un composant est un élément qui permet de constituer des formules et représente une donnée quelconque.

@@ -7,7 +7,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.ConstructeurDeComposant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposant;
 
 public class Injecteur extends ConstructeurDeComposant {
 

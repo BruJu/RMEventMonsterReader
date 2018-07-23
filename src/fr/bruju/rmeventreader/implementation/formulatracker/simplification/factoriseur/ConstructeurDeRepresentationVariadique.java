@@ -17,7 +17,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposants {

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
@@ -14,37 +14,48 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 
-public abstract class VisiteurRetourneur implements VisiteurDeComposants {
-	private Composant composant;
+/**
+ * Classse abstraite offrant une base pour traiter les composants en utilisant des valeurs retournées par les fonctions
+ * de traitement.
+ * 
+ * @author Bruju
+ *
+ * @param <Intermediaire> Type intermédiaire au traitement
+ * @param <Retour> Type de retour
+ */
+public abstract class VisiteurRetourneur<Intermediaire, Retour> implements VisiteurDeComposants {
+	private Intermediaire composant;
 
-	public Composant get(Composant composant) {
+	public Retour get(Composant composant) {
 		visit(composant);
-		return this.composant;
+		return transformer(this.composant);
 	}
 
-	protected abstract Composant traiter(BBase boutonBase);
+	protected abstract Retour transformer(Intermediaire composant);
 
-	protected abstract Composant traiter(BConstant boutonConstant);
+	protected abstract Intermediaire traiter(BBase boutonBase);
 
-	protected abstract Composant traiter(BTernaire boutonTernaire);
+	protected abstract Intermediaire traiter(BConstant boutonConstant);
 
-	protected abstract Composant traiter(CArme conditionArme);
+	protected abstract Intermediaire traiter(BTernaire boutonTernaire);
 
-	protected abstract Composant traiter(CSwitch conditionSwitch);
+	protected abstract Intermediaire traiter(CArme conditionArme);
 
-	protected abstract Composant traiter(CVariable conditionVariable);
+	protected abstract Intermediaire traiter(CSwitch conditionSwitch);
 
-	protected abstract Composant traiter(VAleatoire variableAleatoire);
+	protected abstract Intermediaire traiter(CVariable conditionVariable);
 
-	protected abstract Composant traiter(VBase variableBase);
+	protected abstract Intermediaire traiter(VAleatoire variableAleatoire);
 
-	protected abstract Composant traiter(VCalcul variableCalcul);
+	protected abstract Intermediaire traiter(VBase variableBase);
 
-	protected abstract Composant traiter(VConstante variableConstante);
+	protected abstract Intermediaire traiter(VCalcul variableCalcul);
 
-	protected abstract Composant traiter(VStatistique variableStatistique);
+	protected abstract Intermediaire traiter(VConstante variableConstante);
 
-	protected abstract Composant traiter(VTernaire varaibleTernaire);
+	protected abstract Intermediaire traiter(VStatistique variableStatistique);
+
+	protected abstract Intermediaire traiter(VTernaire varaibleTernaire);
 
 	// Visiteurs
 

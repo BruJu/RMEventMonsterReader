@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
 import java.util.Stack;
 
@@ -19,6 +19,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 public abstract class ConstructeurDeComposant implements VisiteurDeComposants {

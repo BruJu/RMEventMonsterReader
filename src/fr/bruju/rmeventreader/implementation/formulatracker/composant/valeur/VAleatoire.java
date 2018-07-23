@@ -1,7 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
+
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
  * Valeur aléatoire, entre min et max compris avec un pas de 1.

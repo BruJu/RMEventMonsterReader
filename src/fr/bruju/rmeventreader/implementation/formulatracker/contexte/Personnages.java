@@ -5,14 +5,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageReel;
+import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageUnifie;
 
 public class Personnages {
 	Map<String, PersonnageReel> personnagesReels = new HashMap<>();
+	Map<Set<PersonnageReel>, PersonnageUnifie> personnagesUnifies = new HashMap<>();
 
 	public void lirePersonnagesDansFichier(String chemin) throws IOException {
 		String pattern = "_ _ _";

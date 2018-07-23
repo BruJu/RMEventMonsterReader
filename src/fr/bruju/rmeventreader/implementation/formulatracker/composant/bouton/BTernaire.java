@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
  * Etat d'un bouton dépendant d'une condition

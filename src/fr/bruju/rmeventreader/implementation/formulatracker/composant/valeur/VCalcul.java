@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
 

@@ -1,7 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
+
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
  * Etat constant d'un interrupteur, c'est-à-dire soit activé soit désactivé. Les valeurs retournées par cette classe

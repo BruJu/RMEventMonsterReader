@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;

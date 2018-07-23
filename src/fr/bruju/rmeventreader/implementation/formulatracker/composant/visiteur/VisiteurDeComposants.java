@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
@@ -14,57 +14,98 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 
+/**
+ * Interface permettant de visiter les composants
+ * 
+ * @author Bruju
+ *
+ */
 public interface VisiteurDeComposants {
-
 	/* ========
 	 * VISITEUR
 	 * ======== */
 
+	/**
+	 * Visite de composant
+	 */
 	public default void visit(Composant composant) {
 		composant.accept(this);
 	}
-	
+
 	/* ========
 	 * FEUILLES
 	 * ======== */
 
+	/**
+	 * Visite de composant
+	 */
 	void visit(BBase composant);
 
+	/**
+	 * Visite de composant
+	 */
 	void visit(BConstant composant);
 
+	/**
+	 * Visite de composant
+	 */
 	void visit(VAleatoire composant);
 
+	/**
+	 * Visite de composant
+	 */
 	void visit(VBase composant);
 
+	/**
+	 * Visite de composant
+	 */
 	void visit(VConstante composant);
-	
+
+	/**
+	 * Visite de composant
+	 */
 	void visit(VStatistique composant);
-	
-	
+
 	/* ======
 	 * CALCUL
 	 * ====== */
 
-	void visit(VCalcul vCalcul);
+	/**
+	 * Visite de composant
+	 */
+	void visit(VCalcul composant);
 
-	
 	/* =========
 	 * TERNAIRES
 	 * ========= */
 
-	void visit(VTernaire vTernaire);
+	/**
+	 * Visite de composant
+	 */
+	void visit(VTernaire composant);
 
-	void visit(BTernaire bTernaire);
-	
-	
+	/**
+	 * Visite de composant
+	 */
+	void visit(BTernaire composant);
+
 	/* ==========
 	 * CONDITIONS
 	 * ========== */
-	
-	void visit(CArme cArme);
 
-	void visit(CSwitch cSwitch);
+	/**
+	 * Visite de composant
+	 */
+	void visit(CArme composant);
 
-	void visit(CVariable cVariable);
+	/**
+	 * Visite de composant
+	 */
+	void visit(CSwitch composant);
+
+	/**
+	 * Visite de composant
+	 */
+	void visit(CVariable composant);
 
 }

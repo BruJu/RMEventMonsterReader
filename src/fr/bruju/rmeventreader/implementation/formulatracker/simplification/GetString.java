@@ -14,6 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 public class GetString implements VisiteurDeComposants {
 	

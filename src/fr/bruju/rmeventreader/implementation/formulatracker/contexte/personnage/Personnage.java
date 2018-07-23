@@ -1,9 +1,12 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage;
 
 import java.util.Comparator;
+import java.util.Map;
 
 public interface Personnage extends Comparator<Personnage> {
-
+	
+	public Map<String, Statistique> getStatistiques();
+	
 	@Override
 	default int compare(Personnage p1, Personnage p2) {
 		if (p1 instanceof PersonnageReel) {
