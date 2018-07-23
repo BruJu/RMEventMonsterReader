@@ -3,37 +3,59 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.condition.Condition;
 import java.util.Objects;
 
+/**
+ * Composant dont la valeur est déterminée par une condition
+ * 
+ * @author Bruju
+ *
+ * @param <T> Le type du composant final lorsque la condition est résolue
+ */
 public abstract class ComposantTernaire<T extends Composant> implements Composant {
+	/* =========
+	 * COMPOSANT
+	 * ========= */
+
+	/** Condition */
 	public final Condition condition;
+	/** Valeur si la condition est vérifiée */
 	public final T siVrai;
+	/** Valeur si la condition n'est pas vérifiée */
 	public final T siFaux;
 
+	/**
+	 * Crée un composant dont la valeur dépend de la condition
+	 * @param condition La condition
+	 * @param v1 La valeur si la condition est vérifiée
+	 * @param v2 La valeur si la condition n'est pas vérifiée
+	 */
 	public ComposantTernaire(Condition condition, T v1, T v2) {
 		this.condition = condition;
 		this.siVrai = v1;
 		this.siFaux = v2;
 	}
 
-	public Condition getCondition() {
-		return condition;
-	}
-
-	public T getVrai() {
-		return siVrai;
-	}
-
-	public T getFaux() {
-		return siFaux;
-	}
+	/* ================
+	 * AFFICHAGE SIMPLE
+	 * ================ */
 
 	@Override
 	public String getString() {
-		if (siFaux == null) {
-			return "(" + getCondition().getString() + ") ? " + getVrai().getString();
-		} else {
-			return "(" + getCondition().getString() + ") ? " + getVrai().getString() + " : " + getFaux().getString();
-		}
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("[(")
+		  .append(condition.getString())
+		  .append(") ?")
+		  .append(siVrai.getString())
+		  .append(" : ")
+		  .append(siFaux == null ? "X" : siFaux.getString())
+		  .append("]");
+
+		return sb.toString();
 	}
+
+	/* =================
+	 * EQUALS / HASHCODE
+	 * ================= */
 
 	@Override
 	public boolean equals(final Object other) {
@@ -49,7 +71,4 @@ public abstract class ComposantTernaire<T extends Composant> implements Composan
 	public int hashCode() {
 		return Objects.hash(condition, siVrai, siFaux);
 	}
-	
-	
-	
 }

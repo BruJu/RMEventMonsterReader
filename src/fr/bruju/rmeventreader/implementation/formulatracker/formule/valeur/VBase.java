@@ -3,24 +3,48 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
 
-public class VBase implements Valeur {
+/**
+ * Variable dans la base de données.
+ * 
+ * @author Bruju
+ *
+ */
+public class VBase implements Valeur {	
+	/* =========
+	 * COMPOSANT
+	 * ========= */
+	/** Numéro de la variable */
 	public final int idVariable;
 	
+	/**
+	 * Construit une variable ayant le numéro donné
+	 * @param idVariable Le numéro de la variable
+	 */
 	public VBase(Integer idVariable) {
 		this.idVariable = idVariable;
-		
 	}
+	
+	/* ================
+	 * AFFICHAGE SIMPLE
+	 * ================ */
 
 	@Override
 	public String getString() {
 		return "V[" + idVariable + "]";
 	}
 
+	/* ========
+	 * VISITEUR
+	 * ======== */
 
 	@Override
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
+	
+	/* =================
+	 * EQUALS / HASHCODE
+	 * ================= */
 
 	@Override
 	public boolean equals(final Object other) {
@@ -35,6 +59,4 @@ public class VBase implements Valeur {
 	public int hashCode() {
 		return Objects.hash(idVariable) * 6397;
 	}
-	
-	
 }

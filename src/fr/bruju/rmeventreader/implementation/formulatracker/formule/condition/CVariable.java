@@ -6,12 +6,31 @@ import fr.bruju.rmeventreader.implementation.formulatracker.simplification.Visit
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
 
+/**
+ * Condition portant sur une variable
+ * 
+ * @author Bruju
+ *
+ */
 public class CVariable implements Condition {
+	/* =========
+	 * COMPOSANT
+	 * ========= */
 
+	/** Opérande de gauche */
 	public final Valeur gauche;
+	/** Opérateur de comparaison */
 	public final Operator operateur;
+	/** Opérande de droite */
 	public final Valeur droite;
 
+	/**
+	 * Construit une condition portant sur des valeurs
+	 * 
+	 * @param gauche Opérande de gauche
+	 * @param operateur Opérateur de test
+	 * @param vDroite Opérande de droite
+	 */
 	public CVariable(Valeur gauche, Operator operateur, Valeur vDroite) {
 		this.gauche = gauche;
 		this.operateur = operateur;
@@ -23,21 +42,27 @@ public class CVariable implements Condition {
 		return new CVariable(gauche, operateur.revert(), droite);
 	}
 
+	/* ================
+	 * AFFICHAGE SIMPLE
+	 * ================ */
+
 	@Override
 	public String getString() {
-		return gauche.getString() + " " + getStringSansGauche();
+		return gauche.getString() + " " + Utilitaire.getSymbole(operateur) + " " + droite.getString();
 	}
 
-	public String getStringSansGauche() {
-		return Utilitaire.getSymbole(operateur) + " " + droite.getString();
-	}
-	
-	
+	/* ========
+	 * VISITEUR
+	 * ======== */
 
 	@Override
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
+
+	/* =================
+	 * EQUALS / HASHCODE
+	 * ================= */
 
 	@Override
 	public boolean equals(final Object other) {
@@ -54,5 +79,4 @@ public class CVariable implements Condition {
 		return Objects.hash(gauche, operateur, droite);
 	}
 
-	
 }

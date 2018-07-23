@@ -3,24 +3,45 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
 
-public class VConstante implements Valeur {
+/**
+ * Valeur constante 
+ * @author Bruju
+ *
+ */
+public class VConstante implements Valeur {	
+	/* =========
+	 * COMPOSANT
+	 * ========= */
+	/** Valeur contenue dans la constante */
 	public final int valeur;
 	
+	/** Crée une valeur constante */
 	public VConstante(int valeur) {
 		this.valeur = valeur;
 	}
+	
+	/* ================
+	 * AFFICHAGE SIMPLE
+	 * ================ */
 
 	@Override
 	public String getString() {
 		return Integer.toString(valeur);
 	}
 
+	/* ========
+	 * VISITEUR
+	 * ======== */
 
 	@Override
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
-
+	
+	/* =================
+	 * EQUALS / HASHCODE
+	 * ================= */
+	
 	@Override
 	public boolean equals(final Object other) {
 		if (!(other instanceof VConstante)) {
@@ -34,6 +55,4 @@ public class VConstante implements Valeur {
 	public int hashCode() {
 		return Objects.hash(valeur) * 8233;
 	}
-
-
 }

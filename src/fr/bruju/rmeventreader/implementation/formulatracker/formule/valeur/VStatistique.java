@@ -1,35 +1,47 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.valeur;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.VisiteurDeComposants;
 import java.util.Objects;
 
+/**
+ * Variable contenant une statistique
+ * @author Bruju
+ *
+ */
 public class VStatistique implements Valeur {
-	public final Personnage possesseur;
-	public final String statistique;
-	public final int idVariable;
-	
-	public VStatistique(Personnage personnage, String nomStat, int idVar) {
-		this.possesseur = personnage;
-		this.statistique = nomStat;
-		this.idVariable = idVar;
+	/* =========
+	 * COMPOSANT
+	 * ========= */
+	/** Statistique visée */
+	public final Statistique statistique; 
+
+	/** Crée une variable pour la statistique donnée */
+	public VStatistique(Statistique stat) {
+		this.statistique = stat;
 	}
 
-	public VStatistique(Statistique stat) {
-		this(stat.getPossesseur(), stat.getNom(), stat.getPosition());
-	}
+	/* ================
+	 * AFFICHAGE SIMPLE
+	 * ================ */
 
 	@Override
 	public String getString() {
-		return possesseur.getNom() + "." + statistique;
+		return statistique.possesseur.getNom() + "." + statistique;
 	}
 
+	/* ========
+	 * VISITEUR
+	 * ======== */
 
 	@Override
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
 	}
+
+	/* =================
+	 * EQUALS / HASHCODE
+	 * ================= */
 
 	@Override
 	public boolean equals(final Object other) {
@@ -37,13 +49,11 @@ public class VStatistique implements Valeur {
 			return false;
 		}
 		VStatistique castOther = (VStatistique) other;
-		return Objects.equals(idVariable, castOther.idVariable);
+		return Objects.equals(statistique.position, castOther.statistique.position);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idVariable) * 10133;
+		return Objects.hash(statistique.position) * 10133;
 	}
-	
-	
 }
