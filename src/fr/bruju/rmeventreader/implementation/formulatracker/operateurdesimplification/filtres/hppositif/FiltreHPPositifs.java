@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
@@ -48,7 +49,7 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR {
 		if (cVariable.gauche instanceof VStatistique) {
 			VStatistique vStat = (VStatistique) cVariable.gauche;
 			if (vStat.statistique.nom.equals("HP")) {
-				return this.getComposant(sens);
+				return CFixe.get(sens);
 			}
 		}
 		
@@ -64,7 +65,7 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR {
 			RepresentationVariadique rep = cdrv.creerRepresentationVariadique(vCalc, Operator.PLUS);
 			
 			if (rep.possedeHP()) {
-				return this.getComposant(sens);
+				return CFixe.get(sens);
 			}
 			
 			

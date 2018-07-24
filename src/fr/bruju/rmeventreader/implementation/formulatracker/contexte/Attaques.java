@@ -8,7 +8,9 @@ import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Attaque;
@@ -40,18 +42,42 @@ public class Attaques {
 	}
 
 	public void apply(UnaryOperator<FormuleDeDegats> modificateurDeFormule) {
-		liste.stream().map(attaque -> attaque.getResultat()).map(resultat -> resultat.map).forEach(map -> map
-				.forEach((k, v) -> map.put(k, v.stream().map(modificateurDeFormule).collect(Collectors.toList()))));
+		liste.stream().map(attaque -> attaque.getResultat()).map(resultat -> resultat.map)
+				.forEach(map -> map.forEach((k, v) -> map.put(k,
+						v.stream().map(modificateurDeFormule).filter(f -> f != null).collect(Collectors.toList()))));
 	}
-	
+
 	public void transformerComposants(UnaryOperator<Composant> transformation) {
+		UnaryOperator<FormuleDeDegats> transformationDeFormule = formule -> {
+			Operator operateur = formule.operator;
+			List<Condition> conditions = formule.conditions.stream().map(transformation)
+					.map(composant -> (Condition) composant)
+					.filter(composant -> composant != CFixe.get(true))
+					.collect(Collectors.toList());
+			
+			if (conditions.contains(CFixe.get(false))) {
+				return null;
+			}
+			
+			Valeur v = (Valeur) transformation.apply(formule.formule);
+
+			return new FormuleDeDegats(operateur, conditions, v);
+		};
+
+		apply(transformationDeFormule);
+
+		/*
 		liste.stream().map(attaque -> attaque.getResultat().map)
 				.forEach(map -> map.replaceAll((cle, valeur) -> valeur.stream()
 						.map(formule -> new FormuleDeDegats(formule.operator,
 								transListeConditions.apply(formule.conditions, transformation),
 								(Valeur) transformation.apply(formule.formule)))
 						.collect(Collectors.toList())
-						));
+						))
+						
+				;
+				
+				*/
 	}
 
 }

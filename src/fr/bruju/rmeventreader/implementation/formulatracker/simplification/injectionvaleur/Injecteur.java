@@ -7,63 +7,39 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
 
-public class Injecteur extends ConstructeurDeComposant {
-
-	
-	
+public class Injecteur extends ConstructeurDeComposantR {
 	private Injection injection;
-
-
+	
 	public Composant substituer(Injection injection, Composant valeur) {
 		this.injection = injection;
 		
-		visit(valeur);
-		
-		return pile.pop();
+		return traiter(valeur);
 	}
 	
-	
-	
 	@Override
-	public void visit(BBase composant) {
+	protected Composant traiter(BBase composant) {
 		int numero = composant.numero;
 		Boolean valeur = injection.getInterrupteur(numero);
 		
-		if (valeur == null) {
-			pile.push(composant);
-		} else {
-			System.out.println("Injecte" + numero + " " + valeur);
-			pile.push(BConstant.get(valeur));
-		}
+		return (valeur == null) ? composant : BConstant.get(valeur);
 	}
 
 	@Override
-	public void visit(VBase composant) {
-		int numero = composant.idVariable;
-		injecterVariable(composant, numero);
-	}
-
-
-
-	private void injecterVariable(Valeur composant, int numero) {
-		Integer valeur = injection.getVariable(numero);
-		
-		if (valeur == null) {
-			pile.push(composant);
-		} else {
-			pile.push(new VConstante(valeur));
-		}
-	}
-	
-	
-	@Override
-	public void visit(VStatistique composant) {
+	protected Composant traiter(VStatistique composant) {
 		int numero = composant.statistique.position;
-		injecterVariable(composant, numero);
+		return injecterVariable(composant, numero);
 	}
-	
-	
 
+	@Override
+	protected Composant traiter(VBase composant) {
+		int numero = composant.idVariable;
+		return injecterVariable(composant, numero);
+	}
+
+	private Valeur injecterVariable(Valeur composant, int numero) {
+		Integer valeur = injection.getVariable(numero);
+		return (valeur == null) ? composant : new VConstante(valeur);
+	}
 }

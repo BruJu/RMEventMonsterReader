@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
@@ -85,13 +86,13 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 
 		if (b == null)
 			return null;
-
+		
 		Boolean evaluation = evaluer(b, cSwitch.valeur);
 
 		if (evaluation == null) {
-			return null;
+			return new CSwitch(b, cSwitch.valeur);
 		} else {
-			return getComposant(cSwitch.valeur == evaluation);
+			return CFixe.get(cSwitch.valeur == evaluation);
 		}
 	}
 
@@ -115,27 +116,23 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 			TriFunction<Condition, T, T, T> creation) {
 		Condition condition = (Condition) traiter(ternaire.condition);
 
-		Boolean composantBooleen = testerComposantBooleen(condition);
+		Boolean composantBooleen = CFixe.identifier(condition);
 
 		if (composantBooleen != null) {
 			return composantBooleen ? traiter(ternaire.siVrai) : traiter(ternaire.siFaux);
 		}
 
-		T vrai = null;
-		T faux = null;
+		T vrai;
+		T faux;
 
-		if (ternaire.siVrai != null) {
-			vrai = (T) traiter(ternaire.siVrai);
-			if (vrai == null) {
-				return null;
-			}
+		vrai = (T) traiter(ternaire.siVrai);
+		if (vrai == null) {
+			return null;
 		}
 
-		if (ternaire.siFaux != null) {
-			faux = (T) traiter(ternaire.siFaux);
-			if (faux == null) {
-				return null;
-			}
+		faux = (T) traiter(ternaire.siFaux);
+		if (faux == null) {
+			return null;
 		}
 
 		if (ternaire.condition == condition && ternaire.siVrai == vrai && ternaire.siFaux == faux) {
@@ -162,7 +159,7 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 			Boolean r = tenterDEvaluer(condition);
 
 			if (r != null) {
-				return this.getComposant(r);
+				return CFixe.get(r);
 			} else {
 				return condition;
 			}
@@ -205,67 +202,4 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 			return new VCalcul(gauche, vCalcul.operateur, droite);
 		}
 	}
-
-	protected Composant getComposant(boolean b) {
-		return b ? new ComposantVrai() : new ComposantFaux();
-	}
-
-	protected Boolean testerComposantBooleen(Composant composant) {
-		if (composant.equals(new ComposantVrai())) {
-			return Boolean.TRUE;
-		} else if (composant.equals(new ComposantFaux())) {
-			return Boolean.FALSE;
-		} else {
-			return null;
-		}
-	}
-
-	protected static class ComposantVrai implements Composant, Condition {
-		@Override
-		public String getString() {
-			return null;
-		}
-
-		@Override
-		public void accept(VisiteurDeComposants visiteurDeComposants) {
-			throw new ErreurDeVisiteException();
-		}
-
-		@Override
-		public boolean equals(Object autre) {
-			return autre instanceof ComposantVrai;
-		}
-
-		@Override
-		public Condition revert() {
-			return new ComposantFaux();
-		}
-	}
-
-	protected static class ComposantFaux implements Composant, Condition {
-		@Override
-		public String getString() {
-			return null;
-		}
-
-		@Override
-		public void accept(VisiteurDeComposants visiteurDeComposants) {
-			throw new ErreurDeVisiteException();
-		}
-
-		@Override
-		public boolean equals(Object autre) {
-			return autre instanceof ComposantFaux;
-		}
-
-		@Override
-		public Condition revert() {
-			return new ComposantVrai();
-		}
-	}
-
-	protected static class ErreurDeVisiteException extends RuntimeException {
-		private static final long serialVersionUID = 3397659550907296945L;
-	}
-
 }

@@ -20,8 +20,9 @@ public class Injection {
 		List<Pair<String, String>> ressources = Utilitaire.lireFichierRessource(chemin);
 		
 		ressources.forEach(paire -> {
+			
 			String idStr = paire.getLeft();
-			Integer idInt = Integer.getInteger(idStr);
+			Integer idInt = Integer.parseInt(idStr);
 			String valeur = paire.getRight();
 			
 			if (valeur.equals("ON")) {
