@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 public class Correspondeur {

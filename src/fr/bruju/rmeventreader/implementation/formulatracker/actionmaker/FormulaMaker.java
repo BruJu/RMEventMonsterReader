@@ -25,8 +25,10 @@ public class FormulaMaker implements ActionMakerDefalse {
 	private Traiteur traiteurParDefaut;
 	private Map<Integer, TraiteurEnregistreur> traiteursSpeciaux;
 	private EtatMemoire etat;
+	private boolean affecterLesAffichage;
 
-	public FormulaMaker(Personnages contexte) {
+	public FormulaMaker(Personnages contexte, boolean affecterLesAffichage) {
+		this.affecterLesAffichage = affecterLesAffichage;
 		Map<Integer, Valeur> variablesExistantes = new HashMap<>();
 		Map<Integer, Bouton> interrupteursExistants = new HashMap<>();
 
@@ -200,7 +202,9 @@ public class FormulaMaker implements ActionMakerDefalse {
 		@Override
 		public void changeVariable(Integer variable, Operator operator, Valeur vDroite) {
 			formules.add(new FormuleDeDegats(operator, etat.construireListeDeConditions(), vDroite));
-			super.changeVariable(variable, operator, vDroite);
+			if (affecterLesAffichage) {
+				super.changeVariable(variable, operator, vDroite);
+			}
 		}
 
 	}

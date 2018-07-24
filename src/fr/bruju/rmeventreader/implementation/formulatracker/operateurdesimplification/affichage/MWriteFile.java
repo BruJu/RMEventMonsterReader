@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;

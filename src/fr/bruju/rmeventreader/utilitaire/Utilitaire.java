@@ -1,5 +1,9 @@
 package fr.bruju.rmeventreader.utilitaire;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
 public class Utilitaire {
@@ -59,6 +63,18 @@ public class Utilitaire {
 			return 5;
 		default:
 			return Integer.MAX_VALUE;
+		}
+	}
+	
+	
+	public static <K, V> void mapAjouterElementAListe(Map<K, List<V>> map, K cle, V element) {
+		List<V> liste = map.get(cle);
+		if (liste == null) {
+			liste = new ArrayList<V>();
+			liste.add(element);
+			map.put(cle, liste);
+		} else {
+			liste.add(element);
 		}
 	}
 }

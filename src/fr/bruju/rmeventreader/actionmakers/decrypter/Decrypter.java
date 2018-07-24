@@ -5,6 +5,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.filereader.Recognizer;
 
 /**
  * Classe permettant de décrypter des lignes et de déclencher les actions

@@ -3,9 +3,9 @@ package fr.bruju.rmeventreader.implementation.formulareader.actionmaker;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.NewValeur;
 import fr.bruju.rmeventreader.implementation.formulareader.formule.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;

@@ -2,10 +2,10 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.toolbox;
 
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
+import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.actionmakers.donnees.LeftValue;
 
 public class IdIdentifier {

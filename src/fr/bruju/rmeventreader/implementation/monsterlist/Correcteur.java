@@ -3,9 +3,9 @@ package fr.bruju.rmeventreader.implementation.monsterlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;

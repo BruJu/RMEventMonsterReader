@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageReel;
 
 public class Personnages {

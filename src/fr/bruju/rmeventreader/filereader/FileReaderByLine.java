@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileReaderByLine {
 	private static final String COMMENTAIRE_STARTS_WITH = "//";
@@ -47,5 +49,22 @@ public class FileReaderByLine {
 		}
 
 		buffer.close();
+	}
+	
+	
+	public static List<String[]> lireFichier(String chemin, int nbArguments) throws IOException {
+		List<String[]> valeursLues = new ArrayList<>();
+		
+		lireLeFichierSansCommentaires(chemin, donnee -> {
+			String[] split = donnee.split(" ");
+			
+			if (split.length != nbArguments) {
+				throw new LigneNonReconnueException("Fichier non valide " + donnee);
+			}
+			
+			valeursLues.add(split);
+		});
+		
+		return valeursLues;
 	}
 }

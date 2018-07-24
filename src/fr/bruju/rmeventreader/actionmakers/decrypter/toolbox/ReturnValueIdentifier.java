@@ -2,12 +2,12 @@ package fr.bruju.rmeventreader.actionmakers.decrypter.toolbox;
 
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.decrypter.Recognizer;
 import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
 import fr.bruju.rmeventreader.actionmakers.donnees.RightValue;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.filereader.Recognizer;
 
 public class ReturnValueIdentifier {
 	private static ReturnValueIdentifier instance = null;

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.decrypter;
+package fr.bruju.rmeventreader.filereader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +50,14 @@ public class Recognizer {
 	 */
 	private Recognizer() {
 	}
-
+	
 	/**
 	 * Extrait de la ligne deux valeurs séparées par un espace
 	 * @param data La ligne contenant les données
 	 * @return Une paire avec les deux valeurs
 	 */
 	public static Pair<String, String> extractValues(String data) {
+		// TODO : renvoyer un tableau
 		List<String> str = tryPattern(PATTERN_DOUBLEVALUE, data);
 		
 		if (str == null) {
