@@ -1,10 +1,11 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.Integreur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class GestionnaireVariableIdentique implements GestionnaireDeCondition {
 
@@ -27,11 +28,11 @@ public class GestionnaireVariableIdentique implements GestionnaireDeCondition {
 	}
 
 	@Override
-	public Pair<CVariable, Boolean> conditionVariable(CVariable cond) {
+	public Condition conditionVariable(CVariable cond) {
 		if(!(base.gauche == cond.gauche
 				&& cond.droite instanceof VConstante)) {
 			integreur.refuse(cond);
-			return new Pair<>(cond, null);
+			return cond;
 		}
 		
 		int saDroite = eval.evaluer(cond.droite);
@@ -39,7 +40,7 @@ public class GestionnaireVariableIdentique implements GestionnaireDeCondition {
 		boolean r = cond.operateur.test(maDroite, saDroite);
 		
 		integreur.gestionnairePush(null, r);
-		return new Pair<>(null, r);
+		return CFixe.get(r);
 	}
 	
 	

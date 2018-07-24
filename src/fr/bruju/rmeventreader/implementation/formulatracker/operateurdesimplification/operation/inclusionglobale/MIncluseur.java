@@ -1,22 +1,14 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 
 public class MIncluseur implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
 		Incluseur incluseur = new Incluseur();
-		attaques.getAttaques().forEach(action -> action.faireOperation(degats -> {
-			List<FormuleDeDegats> nouvelleListe = new ArrayList<>();
-			nouvelleListe.add(incluseur.inclure(degats));
-			return nouvelleListe;
-		}));
+		attaques.apply(incluseur::inclusionGenerale);
 	}
 
 }

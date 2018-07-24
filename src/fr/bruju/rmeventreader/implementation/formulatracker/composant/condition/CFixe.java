@@ -26,6 +26,20 @@ public class CFixe implements Condition {
 		return (value) ? conditionsFixes[0] : conditionsFixes[1];
 	}
 	
+	/**
+	 * Renvoie vrai ou faux si la condition donnée est une condition fixe.
+	 * Renvoie null sinon.
+	 */
+	public static Boolean identifier(Condition c) {
+		if (c == conditionsFixes[0]) {
+			return Boolean.TRUE;
+		} else if (c == conditionsFixes[1]) {
+			return Boolean.FALSE;
+		} else {
+			return null;
+		}
+	}
+	
 	/* =========
 	 * COMPOSANT
 	 * ========= */

@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
@@ -20,8 +20,7 @@ public class Incluseur {
 	
 	public FormuleDeDegats inclusionGenerale(FormuleDeDegats formuleBase) {
 		// Récupération des valeurs
-		List<Condition> conditions = new ArrayList<>(); 
-		Collections.copy(formuleBase.conditions, conditions);
+		List<Condition> conditions = formuleBase.conditions.stream().collect(Collectors.toList());
 		Valeur formule = formuleBase.formule;
 		IntegreurGeneral integreur = new IntegreurGeneral();
 		
@@ -35,7 +34,7 @@ public class Incluseur {
 		formule = integreur.integrer(formule);
 		conditions = integreur.recupererConditions();
 		
-		// ???
+		// Formule de dégâts jamais explorée
 		if (formule == null) {
 			return null;
 		}

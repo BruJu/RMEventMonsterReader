@@ -1,8 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.Integreur;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class GestionnaireArme implements GestionnaireDeCondition {
 	private Integreur integreur;
@@ -20,13 +21,13 @@ public class GestionnaireArme implements GestionnaireDeCondition {
 	}
 
 	@Override
-	public Pair<CArme, Boolean> conditionArme(CArme cArme) {
+	public Condition conditionArme(CArme cArme) {
 		if (cArme.heros != base.heros || cArme.objet != base.objet) {
 			integreur.refuse(cArme);
-			return new Pair<>(cArme, null);
+			return cArme;
 		}
 		
 		integreur.gestionnairePush(null, base.haveToOwn == cArme.haveToOwn);
-		return new Pair<>(null, base.haveToOwn == cArme.haveToOwn);
+		return CFixe.get(base.haveToOwn == cArme.haveToOwn);
 	}
 }
