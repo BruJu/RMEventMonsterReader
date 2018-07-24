@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Incluseur;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.Incluseur;
 
 public class MIncluseurInterne implements Maillon {
 

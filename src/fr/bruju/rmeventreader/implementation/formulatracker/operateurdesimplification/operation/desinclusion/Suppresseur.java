@@ -1,11 +1,8 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.desinclusion;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
@@ -14,9 +11,21 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteIllegale;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposantsADefaut;
 
+/**
+ * Transforme une valeur avec des ternaires dont la condition fausse est vide en une liste de conditions et une
+ * valeur.
+ * 
+ * @author Bruju
+ *
+ */
 public class Suppresseur implements VisiteurDeComposantsADefaut {
+	/*
+	 * Algorithme : Visite une valeur. Continue à visiter jusqu'à qu'il trouve une valeur qui n'est pas une ternaire
+	 * ou une ternaire ayant deux fils.
+	 */
 
 	private List<Condition> liste = new ArrayList<>();
 	private Valeur valeur;
@@ -28,12 +37,10 @@ public class Suppresseur implements VisiteurDeComposantsADefaut {
 	public Valeur getFormule() {
 		return valeur;
 	}
-	
 
 	public void traiter(Valeur formule) {
 		visit(formule);
 	}
-
 	
 	@Override
 	public void visit(VTernaire vTernaire) {
@@ -44,22 +51,6 @@ public class Suppresseur implements VisiteurDeComposantsADefaut {
 			valeur = vTernaire;
 		}
 	}
-
-	@Override
-	public void visit(CArme cArme) {
-		return;
-	}
-
-	@Override
-	public void visit(CSwitch cSwitch) {
-		return;
-	}
-
-	@Override
-	public void visit(CVariable cVariable) {
-		return;
-	}
-	
 
 	@Override
 	public void visit(VAleatoire composant) {
@@ -88,6 +79,6 @@ public class Suppresseur implements VisiteurDeComposantsADefaut {
 
 	@Override
 	public void comportementParDefaut() {
-		throw new RuntimeException("invalid state");
+		throw new VisiteIllegale();
 	}
 }

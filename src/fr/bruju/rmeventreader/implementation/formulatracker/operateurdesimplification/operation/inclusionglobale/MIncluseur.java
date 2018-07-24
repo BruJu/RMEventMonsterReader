@@ -1,11 +1,11 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.exploitation;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Incluseur;
 
 public class MIncluseur implements Maillon {
 

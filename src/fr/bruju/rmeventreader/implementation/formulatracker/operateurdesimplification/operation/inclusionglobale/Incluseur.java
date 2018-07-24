@@ -1,5 +1,7 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -15,6 +17,34 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDeg
  *
  */
 public class Incluseur {
+	
+	public FormuleDeDegats inclusionGenerale(FormuleDeDegats formuleBase) {
+		// Récupération des valeurs
+		List<Condition> conditions = new ArrayList<>(); 
+		Collections.copy(formuleBase.conditions, conditions);
+		Valeur formule = formuleBase.formule;
+		IntegreurGeneral integreur = new IntegreurGeneral();
+		
+		// Integration des conditions
+		conditions.sort(new ComparateurCondVar());
+		for (Condition condition : conditions) {
+			integreur.ajouterCondition(condition);
+		}
+
+		// Integration de la valeur
+		formule = integreur.integrer(formule);
+		conditions = integreur.recupererConditions();
+		
+		// ???
+		if (formule == null) {
+			return null;
+		}
+		
+		// Retour
+		Operator operateur = formuleBase.operator;
+		return new FormuleDeDegats(operateur, conditions, formule);
+	}
+	
 	
 	public FormuleDeDegats inclure(FormuleDeDegats conditionValeur) {
 		Operator operateur = conditionValeur.operator;

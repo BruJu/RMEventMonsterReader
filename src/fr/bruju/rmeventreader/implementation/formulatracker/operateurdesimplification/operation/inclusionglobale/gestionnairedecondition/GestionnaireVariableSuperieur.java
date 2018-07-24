@@ -1,10 +1,11 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.Integreur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class GestionnaireVariableSuperieur implements GestionnaireDeCondition {
 
@@ -36,11 +37,11 @@ public class GestionnaireVariableSuperieur implements GestionnaireDeCondition {
 	}
 	
 	@Override
-	public void conditionVariable(CVariable cond) {
+	public Pair<CVariable, Boolean> conditionVariable(CVariable cond) {
 		if(!(base.gauche == cond.gauche
 				&& cond.droite instanceof VConstante)) {
 			integreur.refuse(cond);
-			return;
+			return new Pair<>(cond, null);
 		}
 		
 		// TODO : si on a x != 4 et qu'on voit x <= 4, on devrait push x < 4
@@ -51,12 +52,12 @@ public class GestionnaireVariableSuperieur implements GestionnaireDeCondition {
 			boolean r = op.test(saDroite, maDroite);
 			
 			integreur.gestionnairePush(null, r);
-			return;
+			return new Pair<>(null, r);
 		}
 		
 		if (cond.operateur == Operator.DIFFERENT) {
 			integreur.refuse(cond);
-			return;
+			return new Pair<>(cond, null);
 		}
 		
 		if (cond.operateur == Operator.SUP || cond.operateur == Operator.SUPEGAL) {
@@ -68,10 +69,11 @@ public class GestionnaireVariableSuperieur implements GestionnaireDeCondition {
 			
 			if (r) {
 				integreur.gestionnairePush(null, true);
+				return new Pair<>(null, true);
 			} else {
 				integreur.refuse(cond);
+				return new Pair<>(cond, null);
 			}
-			return;
 		}
 		
 		if (cond.operateur == Operator.INF || cond.operateur == Operator.INFEGAL) {
@@ -83,13 +85,15 @@ public class GestionnaireVariableSuperieur implements GestionnaireDeCondition {
 			
 			if (!r) {
 				integreur.gestionnairePush(null, false);
+				return new Pair<>(null, false);
 			} else {
 				integreur.refuse(cond);
+				return new Pair<>(cond, null);
 			}
-			return;
 		}
 
 		integreur.refuse(cond);
+		return new Pair<>(cond, null);
 	}
 
 }

@@ -61,7 +61,6 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 		traitementFeuille(composant);
 	}
 
-
 	@Override
 	public void visit(VConstante composant) {
 		traitementFeuille(composant);
@@ -76,7 +75,6 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 	public void visit(VAleatoire composant) {
 		traitementFeuille(composant);
 	}
-
 
 	@Override
 	public void visit(VTernaire composant) {

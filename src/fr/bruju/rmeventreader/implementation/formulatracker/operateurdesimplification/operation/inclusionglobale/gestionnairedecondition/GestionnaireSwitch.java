@@ -1,7 +1,8 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.gestionnairesdeconditions;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.inclusion.Integreur;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.Integreur;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class GestionnaireSwitch implements GestionnaireDeCondition {
 
@@ -19,13 +20,14 @@ public class GestionnaireSwitch implements GestionnaireDeCondition {
 	}
 
 	@Override
-	public void conditionSwitch(CSwitch cond) {
+	public Pair<CSwitch, Boolean> conditionSwitch(CSwitch cond) {
 		if (!base.interrupteur.equals(cond.interrupteur)) {
 			integreur.refuse(cond);
-			return;
+			return new Pair<>(cond, null);
 		}
 		
 		integreur.gestionnairePush(null, base.interrupteur == cond.interrupteur);
+		return new Pair<>(null, base.interrupteur == cond.interrupteur);
 	}
 
 }
