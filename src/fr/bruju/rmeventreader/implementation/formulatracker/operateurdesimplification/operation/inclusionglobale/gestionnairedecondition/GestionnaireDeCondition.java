@@ -5,6 +5,15 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 
+/**
+ * 
+ * 
+ * Un gestionnaire de condition renvoie :
+ * - CondVrai si la condition est moins restrictive que soit et qu'elle est toujours vérifiée
+ * - CondFaux si la condition ne peut jamais être vérifiée
+ * - La condition reçue si 
+ * 
+ */
 public interface GestionnaireDeCondition {
 	public default Condition conditionArme(CArme cArme) {
 		return cArme;

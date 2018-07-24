@@ -46,16 +46,10 @@ public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
 			gestionnaire = new GestionnaireVariableDifferent(cVariable);
 			break;
 		case INF:
-			gestionnaire = new GestionnaireVariableInferieur(cVariable, false);
-			break;
 		case INFEGAL:
-			gestionnaire = new GestionnaireVariableInferieur(cVariable, true);
-			break;
 		case SUP:
-			gestionnaire = new GestionnaireVariableSuperieur(cVariable, false);
-			break;
 		case SUPEGAL:
-			gestionnaire = new GestionnaireVariableSuperieur(cVariable, true);
+			gestionnaire = new GestionnaireVariableInegal(cVariable);
 			break;
 		default:
 			gestionnaire = null;
