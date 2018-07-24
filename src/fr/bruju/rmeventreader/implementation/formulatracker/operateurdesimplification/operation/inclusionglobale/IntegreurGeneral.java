@@ -21,10 +21,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantR implements Integr
 	
 	
 	public void ajouterCondition(Condition condition) {
-		for (GestionnaireDeCondition gestionnaireExistant : gestionnairesAssocies) {
-			
-			
-		}
+		
 		
 		
 	}
@@ -34,7 +31,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantR implements Integr
 	}
 
 	public List<Condition> recupererConditions() {
-		return null;
+		return conditionsGeree;
 	}
 	
 	

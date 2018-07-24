@@ -5,6 +5,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
@@ -92,6 +93,14 @@ public interface VisiteurDeComposants {
 	/* ==========
 	 * CONDITIONS
 	 * ========== */
+
+	/**
+	 * Visite de composant
+	 * @return 
+	 */
+	default void visit(CFixe composant) {
+		throw new VisiteIllegale();
+	}
 
 	/**
 	 * Visite de composant
