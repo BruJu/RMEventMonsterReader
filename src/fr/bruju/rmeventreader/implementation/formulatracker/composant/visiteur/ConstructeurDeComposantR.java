@@ -87,20 +87,20 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 		if (b == null)
 			return null;
 		
-		Boolean evaluation = evaluer(b, cSwitch.valeur);
+		Boolean evaluation = evaluer(b);
 
 		if (evaluation == null) {
 			return new CSwitch(b, cSwitch.valeur);
 		} else {
-			return CFixe.get(cSwitch.valeur == evaluation);
+			return CFixe.get(evaluation == cSwitch.valeur);
 		}
 	}
 
-	private Boolean evaluer(Bouton interrupteur, boolean valeur) {
+	private Boolean evaluer(Bouton interrupteur) {
 		if (interrupteur == BConstant.get(true)) {
-			return valeur;
+			return true;
 		} else if (interrupteur == BConstant.get(false)) {
-			return !valeur;
+			return false;
 		}
 
 		return null;

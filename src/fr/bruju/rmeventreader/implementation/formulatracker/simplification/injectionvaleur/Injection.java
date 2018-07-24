@@ -30,7 +30,7 @@ public class Injection {
 			} else if (valeur.equals("OFF")) {
 				interrupteurs.put(idInt, false);
 			} else {
-				variables.put(idInt, Integer.getInteger(valeur));
+				variables.put(idInt, Integer.parseInt(valeur));
 			}
 		});
 	}

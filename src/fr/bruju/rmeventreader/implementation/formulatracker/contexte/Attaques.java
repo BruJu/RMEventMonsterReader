@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
@@ -14,12 +14,10 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Attaque;
+import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 
 public class Attaques {
-	private static BiFunction<List<Condition>, UnaryOperator<Composant>, List<Condition>> transListeConditions = (liste,
-			func) -> liste.stream().map(func).map(c -> (Condition) c).collect(Collectors.toList());
-
 	public List<Attaque> liste = new ArrayList<>();
 
 	public void ajouterRepertoire(String cheminRepertoire) {
@@ -48,36 +46,57 @@ public class Attaques {
 	}
 
 	public void transformerComposants(UnaryOperator<Composant> transformation) {
-		UnaryOperator<FormuleDeDegats> transformationDeFormule = formule -> {
-			Operator operateur = formule.operator;
-			List<Condition> conditions = formule.conditions.stream().map(transformation)
-					.map(composant -> (Condition) composant)
-					.filter(composant -> composant != CFixe.get(true))
-					.collect(Collectors.toList());
-			
-			if (conditions.contains(CFixe.get(false))) {
-				return null;
-			}
-			
-			Valeur v = (Valeur) transformation.apply(formule.formule);
+		apply(f -> transformationDeFormule(f, transformation));
+	}
 
-			return new FormuleDeDegats(operateur, conditions, v);
-		};
+	/**
+	 * Transforme la formule donnée en utilisant la fonction de transformation de composants fournie. Transforme toutes
+	 * les conditions en enlevant les conditions devenues vraies. Si une devient fausse, renvoie null. Transforme la
+	 * formule en utilisant la fonction de transformation.
+	 * 
+	 * @param formule Formule globale à transformer
+	 * @param transformation Fonction de transformation d'un composant
+	 * @return La formule sur laquelle on a appliqué la fonction de transformation. null si une des conditions était
+	 *         devenue fausse.
+	 */
+	private FormuleDeDegats transformationDeFormule(FormuleDeDegats formule, UnaryOperator<Composant> transformation) {
+		Operator operateur = formule.operator;
+		List<Condition> conditions = formule.conditions.stream().map(transformation)
+				.map(composant -> (Condition) composant).filter(composant -> composant != CFixe.get(true))
+				.collect(Collectors.toList());
 
-		apply(transformationDeFormule);
+		if (conditions.contains(CFixe.get(false))) {
+			return null;
+		}
 
-		/*
-		liste.stream().map(attaque -> attaque.getResultat().map)
-				.forEach(map -> map.replaceAll((cle, valeur) -> valeur.stream()
-						.map(formule -> new FormuleDeDegats(formule.operator,
-								transListeConditions.apply(formule.conditions, transformation),
-								(Valeur) transformation.apply(formule.formule)))
-						.collect(Collectors.toList())
-						))
-						
-				;
-				
-				*/
+		Valeur v = (Valeur) transformation.apply(formule.formule);
+
+		return new FormuleDeDegats(operateur, conditions, v);
+	}
+
+	public void determinerAffichage(Function<Attaque, String> determineurDeChaine) {
+		liste.stream().forEach(attaque -> attaque.chaineAAfficher = determineurDeChaine.apply(attaque));
+	}
+
+	public void determinerAffichage(Function<FormuleDeDegats, String> detChaine, Function<Attaque, String> detHeader) {
+		determinerAffichage(attaque -> {
+			List<String> sousChaines = new ArrayList<>();
+
+			attaque.getResultat().map.forEach((stat, listeDeFormules) -> {
+				listeDeFormules.stream().map(formule -> detChaine.apply(formule)).filter(c -> !c.equals(""))
+
+						.map(c -> getStatAffichage(stat) + " " + c).forEach(sousChaines::add);
+			});
+
+			if (sousChaines.isEmpty())
+				return "";
+
+			return detHeader.apply(attaque) + "\n" + sousChaines.stream().collect(Collectors.joining("\n"));
+		});
+	}
+
+	private String getStatAffichage(Statistique stat) {
+		return stat.getPossesseur().getNom() + "." + stat.getNom();
 	}
 
 }

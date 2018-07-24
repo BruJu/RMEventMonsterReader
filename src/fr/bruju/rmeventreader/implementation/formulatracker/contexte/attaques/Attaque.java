@@ -11,6 +11,8 @@ public class Attaque {
 	private final String nom;
 	private final String cheminFichier;
 	private Resultat resultat;
+	public String chaineAAfficher;
+	
 
 	public Attaque(String nom, String cheminFichier) {
 		this.nom = nom;

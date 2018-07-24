@@ -39,7 +39,7 @@ public class Injecteur extends ConstructeurDeComposantR {
 	}
 
 	private Valeur injecterVariable(Valeur composant, int numero) {
-		Integer valeur = injection.getVariable(numero);
+		Integer valeur = injection.getVariable(numero);		
 		return (valeur == null) ? composant : new VConstante(valeur);
 	}
 }
