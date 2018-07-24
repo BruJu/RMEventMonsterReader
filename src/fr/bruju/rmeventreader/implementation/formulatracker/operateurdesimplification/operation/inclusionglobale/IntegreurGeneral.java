@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
@@ -17,7 +18,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition.GestionnaireDeCondition;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
-public class IntegreurGeneral extends ConstructeurDeComposantR implements Integreur {
+public class IntegreurGeneral extends ConstructeurDeComposantR {
 	private boolean estVivant = true;
 	private CreateurDeGestionnaire createur = new CreateurDeGestionnaire();
 	
@@ -43,7 +44,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantR implements Integr
 			}
 		} else {
 			conditionsGeree.add(condition);
-			gestionnairesAssocies.add(createur.getGestionnaire(this, condition));
+			gestionnairesAssocies.add(createur.getGestionnaire(condition));
 		}
 	}
 
@@ -73,11 +74,26 @@ public class IntegreurGeneral extends ConstructeurDeComposantR implements Integr
 
 	@Override
 	protected Composant traiter(CSwitch cSwitch) {
+		
+		Bouton nouveauBouton = (Bouton) traiter(cSwitch.interrupteur);
+		
+		if (nouveauBouton != cSwitch.interrupteur) {
+			cSwitch = new CSwitch(nouveauBouton, cSwitch.valeur);
+		}
+		
 		return traiterCondition(cSwitch, (g, c) -> g.conditionSwitch(c));
 	}
 
 	@Override
 	protected Composant traiter(CVariable cVariable) {
+		
+		Valeur gauche = (Valeur) traiter(cVariable.gauche);
+		Valeur droite = (Valeur) traiter(cVariable.droite);
+		
+		if (gauche != cVariable.gauche || droite != cVariable.droite) {
+			cVariable = new CVariable(gauche, cVariable.operateur, droite);
+		}
+		
 		return traiterCondition(cVariable, (g, c) -> g.conditionVariable(c));
 	}
 	
@@ -109,13 +125,13 @@ public class IntegreurGeneral extends ConstructeurDeComposantR implements Integr
 		if (fixe != null) {
 			return fixe ? traiter(ternaire.siVrai) : traiter(ternaire.siFaux);
 		} else {
-			gestionnairesAssocies.add(createur.getGestionnaire(this, cond));
+			gestionnairesAssocies.add(createur.getGestionnaire(cond));
 			
 			T vrai = (T) traiter(ternaire.siVrai);
 			
-			gestionnairesAssocies.set(gestionnairesAssocies.size() - 1, createur.getGestionnaire(this, cond.revert()));
+			gestionnairesAssocies.set(gestionnairesAssocies.size() - 1, createur.getGestionnaire(cond.revert()));
 			
-			T faux = (ternaire.siFaux != null) ? (T) traiter(ternaire.siFaux) : null;
+			T faux = (T) traiter(ternaire.siFaux);
 			
 			gestionnairesAssocies.remove(gestionnairesAssocies.size() - 1);
 
@@ -125,26 +141,6 @@ public class IntegreurGeneral extends ConstructeurDeComposantR implements Integr
 				return creation.apply(cond, vrai, faux);
 			}
 		}
-	}
-	
-	/* ============================================================================
-	 * Utilisation de sous gestionnaires pour déléguer le traîtement des conditions
-	 * ============================================================================ */
-
-	@Override
-	public void gestionnairePush(Condition condition, boolean reponse) {
-	}
-
-	@Override
-	public void refuse(CArme cArme) {
-	}
-
-	@Override
-	public void refuse(CSwitch cSwitch) {
-	}
-
-	@Override
-	public void refuse(CVariable cVariable) {
 	}
 
 }

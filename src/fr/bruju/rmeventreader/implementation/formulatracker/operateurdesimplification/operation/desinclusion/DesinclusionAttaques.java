@@ -6,8 +6,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon
 import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.maillon.template.MaillonSurFormule;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 
-// TODO : enlever la desinclusion
-
 public class DesinclusionAttaques implements UnaryOperator<FormuleDeDegats> {
 	public static Maillon getMaillon() {
 		return new MaillonSurFormule(new DesinclusionAttaques());

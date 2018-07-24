@@ -6,11 +6,9 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposantsADefaut;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.Integreur;
 
 public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
 
-	private Integreur integreur;
 	private GestionnaireDeCondition gestionnaire;
 
 	@Override
@@ -18,20 +16,19 @@ public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
 		gestionnaire = null;
 	}
 
-	public GestionnaireDeCondition getGestionnaire(Integreur integreurDeCondition, Condition condition) {
-		this.integreur = integreurDeCondition;
+	public GestionnaireDeCondition getGestionnaire(Condition condition) {
 		condition.accept(this);
 		return gestionnaire;
 	}
 
 	@Override
 	public void visit(CArme cArme) {
-		gestionnaire = new GestionnaireArme(integreur, cArme);
+		gestionnaire = new GestionnaireArme(cArme);
 	}
 
 	@Override
 	public void visit(CSwitch cSwitch) {
-		gestionnaire = new GestionnaireSwitch(integreur, cSwitch);
+		gestionnaire = new GestionnaireSwitch(cSwitch);
 	}
 
 	@Override
@@ -43,22 +40,22 @@ public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
 		
 		switch (cVariable.operateur) {
 		case IDENTIQUE:
-			gestionnaire = new GestionnaireVariableIdentique(integreur, cVariable);
+			gestionnaire = new GestionnaireVariableIdentique(cVariable);
 			break;
 		case DIFFERENT:
-			gestionnaire = new GestionnaireVariableDifferent(integreur, cVariable);
+			gestionnaire = new GestionnaireVariableDifferent(cVariable);
 			break;
 		case INF:
-			gestionnaire = new GestionnaireVariableInferieur(integreur, cVariable, false);
+			gestionnaire = new GestionnaireVariableInferieur(cVariable, false);
 			break;
 		case INFEGAL:
-			gestionnaire = new GestionnaireVariableInferieur(integreur, cVariable, true);
+			gestionnaire = new GestionnaireVariableInferieur(cVariable, true);
 			break;
 		case SUP:
-			gestionnaire = new GestionnaireVariableSuperieur(integreur, cVariable, false);
+			gestionnaire = new GestionnaireVariableSuperieur(cVariable, false);
 			break;
 		case SUPEGAL:
-			gestionnaire = new GestionnaireVariableSuperieur(integreur, cVariable, true);
+			gestionnaire = new GestionnaireVariableSuperieur(cVariable, true);
 			break;
 		default:
 			gestionnaire = null;

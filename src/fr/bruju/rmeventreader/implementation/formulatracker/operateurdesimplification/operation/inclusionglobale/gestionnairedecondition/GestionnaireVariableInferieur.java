@@ -5,12 +5,10 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.Integreur;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
 
 public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 
-	private Integreur integreur;
 	private CVariable base;
 	
 	private Operator op;
@@ -18,8 +16,7 @@ public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 	
 	private EvaluateurSimple eval;
 
-	public GestionnaireVariableInferieur(Integreur integreur, CVariable cVariable, boolean b) {
-		this.integreur = integreur;
+	public GestionnaireVariableInferieur( CVariable cVariable, boolean b) {
 		this.base = cVariable;
 		eval = new EvaluateurSimple();
 		maDroite = eval.evaluer(base.droite);
@@ -31,16 +28,11 @@ public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 		}
 	}
 
-	@Override
-	public Integreur getIntegreur() {
-		return integreur;
-	}
 	
 	@Override
 	public Condition conditionVariable(CVariable cond) {
-		if(!(base.gauche == cond.gauche
+		if(!(base.gauche.equals(cond.gauche)
 				&& cond.droite instanceof VConstante)) {
-			integreur.refuse(cond);
 			return cond;
 		}
 		
@@ -51,12 +43,10 @@ public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 		if (cond.operateur == Operator.IDENTIQUE) {
 			boolean r = op.test(saDroite, maDroite);
 			
-			integreur.gestionnairePush(null, r);
 			return CFixe.get(r);
 		}
 		
 		if (cond.operateur == Operator.DIFFERENT) {
-			integreur.refuse(cond);
 			return cond;
 		}
 		
@@ -68,10 +58,8 @@ public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 			boolean r = op.test(maDroite, saDroite);
 			
 			if (r) {
-				integreur.gestionnairePush(null, true);
 				return CFixe.get(true);
 			} else {
-				integreur.refuse(cond);
 				return cond;
 			}
 		}
@@ -84,15 +72,12 @@ public class GestionnaireVariableInferieur implements GestionnaireDeCondition {
 			boolean r = Operator.SUP.test(saDroite, maDroite);
 			
 			if (!r) {
-				integreur.gestionnairePush(null, false);
 				return CFixe.get(false);
 			} else {
-				integreur.refuse(cond);
 				return cond;
 			}
 		}
 
-		integreur.refuse(cond);
 		return cond;
 	}
 
