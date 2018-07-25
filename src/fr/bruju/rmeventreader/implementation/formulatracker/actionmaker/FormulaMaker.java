@@ -14,10 +14,10 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bou
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Personnages;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.Resultat;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 
 public class FormulaMaker implements ActionMakerDefalse {
 

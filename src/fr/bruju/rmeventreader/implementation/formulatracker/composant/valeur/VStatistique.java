@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 
 import java.util.Objects;
 

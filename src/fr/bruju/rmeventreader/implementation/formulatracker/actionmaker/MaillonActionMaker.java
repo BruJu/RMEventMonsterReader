@@ -1,13 +1,13 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.exploitation;
+package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.actionmaker.FormulaMaker;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Personnages;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Personnages;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
 
-public class Initialisateur implements Maillon {
+public class MaillonActionMaker implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {

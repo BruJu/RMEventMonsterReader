@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques;
 
 import java.util.List;
 import java.util.function.Function;

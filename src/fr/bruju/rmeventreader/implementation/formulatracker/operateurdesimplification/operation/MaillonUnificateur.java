@@ -1,10 +1,9 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.unification;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -30,13 +29,13 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Personnage;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageReel;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageUnifie;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnage;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageReel;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageUnifie;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -50,8 +49,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  * @author Bruju
  *
  */
-@SuppressWarnings("unused")
-public class Unificateur extends ConstructeurDeComposantR implements Maillon {
+public class MaillonUnificateur extends ConstructeurDeComposantR implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================

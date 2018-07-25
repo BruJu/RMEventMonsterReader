@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.contexte;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,9 +15,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Attaque;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /*

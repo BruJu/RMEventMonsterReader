@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 
 public class Resultat {
 	public Map<Statistique, List<FormuleDeDegats>> map;

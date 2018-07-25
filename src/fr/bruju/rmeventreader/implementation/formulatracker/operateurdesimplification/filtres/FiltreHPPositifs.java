@@ -1,12 +1,21 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.filtres.hppositif;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.filtres;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation.ConstructeurDeRepresentationVariadique;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation.RepresentationVariadique;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
@@ -18,7 +27,33 @@ import fr.bruju.rmeventreader.implementation.formulatracker.simplification.Evalu
  * @author Bruju
  *
  */
-public class FiltreHPPositifs extends ConstructeurDeComposantR {
+public class FiltreHPPositifs extends ConstructeurDeComposantR implements Maillon {
+	
+	// TODO : rework cette classe
+	
+	@Override
+	public void traiter(Attaques attaques) {
+		
+		attaques.apply(formuleDeDegats -> {
+			List<Condition> conditions = formuleDeDegats.conditions;
+			
+			for (Condition condition : conditions) {
+				boolean b = traiter(condition) != null;
+				
+				if (!b) {
+					return new FormuleDeDegats(Operator.DIFFERENT, new ArrayList<>(), new VConstante(0));
+				}
+			}
+			
+			return new FormuleDeDegats(formuleDeDegats.operator, conditions, (Valeur) traiter(formuleDeDegats.formule));
+		}
+		
+				
+				);
+		
+	}
+	
+	
 	private EvaluateurSimple eval = new EvaluateurSimple();
 
 	@Override

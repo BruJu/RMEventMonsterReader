@@ -9,8 +9,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
-import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
 public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 	@Override

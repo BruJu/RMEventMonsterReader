@@ -6,17 +6,29 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
 /**
- * Cette classe a pour but de transformer les formules de la classe ConditionVersValeur vers ValeurDegats
+ * Résout les conditions dans les formules en utilisant les connaissances apportées par les préconditions. Ce procédé
+ * est désigné comme étant l'intégration.
  * 
  * @author Bruju
  *
  */
-public class Incluseur {
+public class MaillonIntegration implements Maillon {
+	@Override
+	public void traiter(Attaques attaques) {
+		attaques.apply(this::inclusionGenerale);
+	}
 	
-	public FormuleDeDegats inclusionGenerale(FormuleDeDegats formuleBase) {
+	/**
+	 * Converti la formule pour intégrer les conditions
+	 * @param formuleBase La formule de départ
+	 * @return La formule avec les conditions intégrées
+	 */
+	private FormuleDeDegats inclusionGenerale(FormuleDeDegats formuleBase) {
 		// Récupération des valeurs
 		List<Condition> conditions = formuleBase.conditions.stream().collect(Collectors.toList());
 		Valeur formule = formuleBase.formule;

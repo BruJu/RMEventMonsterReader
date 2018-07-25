@@ -1,9 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
-import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
-public class MSystemOut implements Maillon {
+public class MaillonSystemOut implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {

@@ -1,32 +1,28 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.contexte;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
-import fr.bruju.rmeventreader.filereader.Recognizer;
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageReel;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageReel;
 
 public class Personnages {
 	Map<String, PersonnageReel> personnagesReels = new HashMap<>();
 
 	public void lirePersonnagesDansFichier(String chemin) throws IOException {
-		String pattern = "_ _ _";
-
 		FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
-			List<String> donnees = Recognizer.tryPattern(pattern, ligne);
+			String[] donnees = ligne.split(" ");
 
-			if (donnees == null) {
+			if (donnees == null || donnees.length != 3) {
 				throw new LigneNonReconnueException("");
 			}
 
-			String nomPersonnage = donnees.get(0);
-			String nomStatistique = donnees.get(1);
-			Integer numeroVariable = Integer.decode(donnees.get(2));
+			String nomPersonnage = donnees[0];
+			String nomStatistique = donnees[1];
+			Integer numeroVariable = Integer.decode(donnees[2]);
 
 			injecter(nomPersonnage, nomStatistique, numeroVariable);
 		});

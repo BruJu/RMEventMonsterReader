@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
-import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
-public class MWriteFile implements Maillon {
+public class MaillonEcritureFichier implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {

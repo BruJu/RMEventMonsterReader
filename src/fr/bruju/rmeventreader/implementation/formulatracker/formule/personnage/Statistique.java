@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage;
 
 public class Statistique {
 	public final Personnage possesseur;

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage;
 
 import java.util.Map;
 import java.util.Set;
