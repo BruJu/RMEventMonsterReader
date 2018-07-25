@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
@@ -30,19 +34,23 @@ import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageReel;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageUnifie;
+import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
-
+import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * En tant que constructeur de composants : unifie les composants en utilisant une base de personnages unifiés et le
  * personnage unifié actuellement. On dit qu'un composant est unifiable avec un autre si il est identique à cet autre
  * composant, avec pour seule exception que les statistiques peuvent être appartenues par des personnages différents.
- * <p> En tant que maillon, applique le processus d'unification à toutes les formules.
+ * <p>
+ * En tant que maillon, applique le processus d'unification à toutes les formules.
  * 
  * @author Bruju
  *
  */
+@SuppressWarnings("unused")
 public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
@@ -51,38 +59,91 @@ public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.appliquerJusquaStabilite((f1, f2) -> {
-			if (f1.operator != f2.operator
-					|| f1.conditions.size() != f2.conditions.size()) {
-				return null;
-			}
-			
-			List<Condition> conditionsUnifiees = new ArrayList<>(f1.conditions.size());
-			Valeur valeurUnifiee;
-			
-			viderPersonnageUnifieActuel();
-			
-			for (int i = 0 ; i != f1.conditions.size(); i++) {
-				Condition cU = (Condition) unifier(f1.conditions.get(i), f2.conditions.get(i));
-				
-				if (cU == null)
-					return null;
-				
-				conditionsUnifiees.add(cU);
-			}
-			
-			valeurUnifiee = (Valeur) unifier(f1.formule, f2.formule);
-			
-			return (valeurUnifiee == null) ? null : new FormuleDeDegats(f1.operator, conditionsUnifiees, valeurUnifiee);
-		});
+		attaques.liste.stream().map(attaque -> attaque.getResultat()).forEach(resultat ->
+		
+				resultat.map = convertirMap(resultat.map)
+				);
+	}
+	
+	
+	private Map<Statistique, List<FormuleDeDegats>> convertirMap(Map<Statistique, List<FormuleDeDegats>> base) {
+		Map<String, List<Pair<Statistique, FormuleDeDegats>>> transformerFormules = transformerFormules(base);
+		
+		transformerFormules.replaceAll((cle, valeur) -> unifierListe(valeur));
+		
+		Map<Statistique, List<FormuleDeDegats>> map = new HashMap<>();
+		
+		transformerFormules
+				.values()
+				.stream()
+				.flatMap(liste -> liste.stream())
+				.forEach(paire -> Utilitaire.mapAjouterElementAListe(map, paire.getLeft(), paire.getRight()));
+
+		return map;
 	}
 
+
+	private Map<String, List<Pair<Statistique, FormuleDeDegats>>> transformerFormules(
+			Map<Statistique, List<FormuleDeDegats>> formulesExistantes) {
+		return formulesExistantes.entrySet().stream().flatMap(this::applatir)
+				.collect(Collectors.groupingBy(paire -> paire.getLeft().nom));
+	}
+
+	private Stream<Pair<Statistique, FormuleDeDegats>> applatir(Map.Entry<Statistique, List<FormuleDeDegats>> e) {
+		return e.getValue().stream().map(formule -> new Pair<>(e.getKey(), formule));
+	}
+
+	private List<Pair<Statistique, FormuleDeDegats>> unifierListe(List<Pair<Statistique, FormuleDeDegats>> list) {
+		BinaryOperator<Pair<Statistique, FormuleDeDegats>> unification = (paire1, paire2) -> {
+			personnageUnifie = getPersonnageUnifie(paire1.getLeft().possesseur, paire2.getLeft().possesseur);
+			
+			FormuleDeDegats f = unifierDeuxFormules(paire1.getRight(), paire2.getRight());
+			
+			if (f == null) {
+				return null;
+			}
+
+			return new Pair<>(personnageUnifie.getStatistiques().get(paire1.getLeft().nom), f);
+		};
+
+		return Utilitaire.fusionnerJusquaStabilite(list, unification);
+	}
+	
+	public FormuleDeDegats unifierDeuxFormules(FormuleDeDegats f1, FormuleDeDegats f2) {
+		if (f1.operator != f2.operator || f1.conditions.size() != f2.conditions.size()) {
+			return null;
+		}
+
+		List<Condition> conditionsUnifiees = new ArrayList<>(f1.conditions.size());
+		Valeur valeurUnifiee;
+		
+		for (int i = 0; i != f1.conditions.size(); i++) {
+			Condition cU = (Condition) unifier(f1.conditions.get(i), f2.conditions.get(i));
+
+			if (cU == null)
+				return null;
+
+			conditionsUnifiees.add(cU);
+		}
+
+		valeurUnifiee = (Valeur) unifier(f1.formule, f2.formule);
+
+		return (valeurUnifiee == null) ? null : new FormuleDeDegats(f1.operator, conditionsUnifiees, valeurUnifiee);
+	}
+
+	public void traiterNOT(Attaques attaques) {
+		attaques.appliquerJusquaStabilite((f1, f2) -> {
+			viderPersonnageUnifieActuel();
+			
+			return unifierDeuxFormules(f1, f2);
+		});
+	}
 
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
 	//              - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT -
-	
+
 	Map<Set<PersonnageReel>, PersonnageUnifie> personnagesUnifies = new HashMap<>();
 
 	private Composant second;
@@ -91,7 +152,7 @@ public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 	public void viderPersonnageUnifieActuel() {
 		personnageUnifie = null;
 	}
-	
+
 	public Composant unifier(Composant premier, Composant second) {
 		this.second = second;
 
@@ -104,46 +165,48 @@ public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 			return null;
 
 		VStatistique s = (VStatistique) second;
-		
+
 		// Cas 1 : il s'agit de la même statistique chez le même personnage. L'unification est inutile
 		if (p.equals(s)) {
 			return p;
 		}
-		
+
 		// Cas 2 : La statistique n'est pas la même chez des personnages différents. L'unification est impossible
-		if (p.statistique.nom.equals(s.statistique.nom)) {
+		if (!p.statistique.nom.equals(s.statistique.nom)) {
 			return null;
 		}
-		
+
 		// Cas 3 : La statistique est identique
 
 		// Détermination du personnage unifié
 		Personnage p1 = p.statistique.possesseur;
-		Personnage p2 = p.statistique.possesseur;
-		
+		Personnage p2 = s.statistique.possesseur;
+
+		PersonnageUnifie unifie = getPersonnageUnifie(p1, p2);
+
+
+		if (unifie.equals(personnageUnifie)) {
+			// ok
+			return new VStatistique(personnageUnifie.getStatistiques().get(p.statistique.nom));
+		} else {
+			// échec de l'unification
+			return null;
+		}
+	}
+
+	private PersonnageUnifie getPersonnageUnifie(Personnage p1, Personnage p2) {
 		Set<PersonnageReel> personnagesReels = new TreeSet<>();
 		personnagesReels.addAll(p1.getPersonnagesReels());
 		personnagesReels.addAll(p2.getPersonnagesReels());
 
-		if (personnageUnifie == null) {
-			// Première unification rencontrée. On la réalise
-			PersonnageUnifie pU = personnagesUnifies.get(personnagesReels);
-			
-			if (pU == null) {
-				pU = new PersonnageUnifie(personnagesReels);
-				personnagesUnifies.put(personnagesReels, pU);
-			}
-			
-			return new VStatistique(pU.getStatistiques().get(p.statistique.nom));
-		} else {
-			if (personnageUnifie.getPersonnagesReels().equals(personnagesReels)) {
-				// ok
-				return new VStatistique(personnageUnifie.getStatistiques().get(p.statistique.nom));
-			} else {
-				// échec de l'unification
-				return null;
-			}
+		PersonnageUnifie pU = personnagesUnifies.get(personnagesReels);
+
+		if (pU == null) {
+			pU = new PersonnageUnifie(personnagesReels);
+			personnagesUnifies.put(personnagesReels, pU);
 		}
+
+		return pU;
 	}
 
 	/* ===============
@@ -151,8 +214,9 @@ public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 	 * =============== */
 
 	/**
-	 * Fonction permettant de traiter les fils d'un noeuds dont on a déterminé que si ses noeuds fils sont unifiables, alors
-	 * le noeud est unifiable.
+	 * Fonction permettant de traiter les fils d'un noeuds dont on a déterminé que si ses noeuds fils sont unifiables,
+	 * alors le noeud est unifiable.
+	 * 
 	 * @param p Le premier noeud à unifier
 	 * @param s Le second noeud à unifier
 	 * @param accesFils Une liste donnant les fonctions permettant d'accéder aux fils des noeuds
@@ -163,16 +227,16 @@ public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 			Function<List<Composant>, T> fonctionDeCreation) {
 		List<Composant> composantsUnifies = new ArrayList<>();
 		boolean aBesoinDeCreerUnNouveauNoeud = false;
-		
+
 		for (Function<T, Composant> getFils : accesFils) {
 			// Récupération des deux fils
 			Composant cp = getFils.apply(p);
 			Composant cs = getFils.apply(s);
-			
+
 			// Visite des fils
 			this.second = cs;
 			Composant filsUnifies = traiter(cp);
-			
+
 			if (filsUnifies == null) {
 				return null;
 			} else {
@@ -180,7 +244,7 @@ public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 				aBesoinDeCreerUnNouveauNoeud |= cs != filsUnifies;
 			}
 		}
-		
+
 		// Ne pas créer des noeuds inutiles
 		if (aBesoinDeCreerUnNouveauNoeud) {
 			return fonctionDeCreation.apply(composantsUnifies);

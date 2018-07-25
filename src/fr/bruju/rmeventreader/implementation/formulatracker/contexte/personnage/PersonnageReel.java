@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class PersonnageReel implements Personnage {
+public class PersonnageReel implements Personnage, Comparable<PersonnageReel> {
 	private final String nom;
 	private Map<String, Statistique> statistiques;
 	
@@ -33,4 +33,8 @@ public class PersonnageReel implements Personnage {
 		return set;
 	}
 	
+	@Override
+	public int compareTo(PersonnageReel p2) {
+		return getNom().compareTo(p2.getNom());
+	}
 }

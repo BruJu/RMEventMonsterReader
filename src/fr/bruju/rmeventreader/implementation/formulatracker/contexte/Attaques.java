@@ -18,6 +18,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /*
  * TODO : Reorganiser la structure pour ne plus avoir besoin de faire des lambda dans des lambda qui bouclent sur
@@ -105,61 +106,21 @@ public class Attaques {
 	}
 
 	public void modifierFormules(BiFunction<Statistique, FormuleDeDegats, FormuleDeDegats> transformation) {
-		transformerListeDeformules((statistique, listeDeFormules) ->
-			listeDeFormules
-				.stream()
-				.map(formule -> transformation.apply(statistique, formule))
-				.filter(f -> f != null)
+		transformerListeDeformules((statistique, listeDeFormules) -> listeDeFormules.stream()
+				.map(formule -> transformation.apply(statistique, formule)).filter(f -> f != null)
 				.collect(Collectors.toList()));
 	}
 
 	public void transformerListeDeformules(
 			BiFunction<Statistique, List<FormuleDeDegats>, List<FormuleDeDegats>> transformationListe) {
-		liste.stream()
-			.map(attaque -> attaque.getResultat())
-			.map(resultat -> resultat.map)
-			.forEach(map -> map.forEach(
-		(statistique, listeDeFormules) -> map.put(statistique, transformationListe.apply(statistique, listeDeFormules)))
-					);
+		liste.stream().map(attaque -> attaque.getResultat()).map(resultat -> resultat.map)
+				.forEach(map -> map.forEach((statistique, listeDeFormules) -> map.put(statistique,
+						transformationListe.apply(statistique, listeDeFormules))));
 
 	}
 
 	public void appliquerJusquaStabilite(BinaryOperator<FormuleDeDegats> unification) {
-		UnaryOperator<List<FormuleDeDegats>> transformationDeListe = liste -> {
-				List<FormuleDeDegats> base;
-				List<FormuleDeDegats> transformee = liste;
-				boolean stable = false;
-				
-				while (!stable) {
-					stable = true;
-					base = transformee;
-					transformee = new ArrayList<>();
-					
-					boucleorig:
-					for (int i = 0 ; i != base.size(); i++) {
-						FormuleDeDegats p = base.get(i);
-						
-						for (int j = i+1 ; j!= base.size() ; j++) {
-							FormuleDeDegats s = base.get(j);
-							
-							FormuleDeDegats u = unification.apply(p, s);
-							
-							if (u != null) {
-								stable = false;
-								base.remove(s);
-								transformee.add(u);
-								continue boucleorig;
-							}
-						}
-						
-						transformee.add(p);
-					}
-				}
-
-				return transformee;
-		};
-		
-		transformerListeDeformules((stat, liste) -> transformationDeListe.apply(liste));
+		transformerListeDeformules((stat, liste) -> Utilitaire.fusionnerJusquaStabilite(liste, unification));
 	}
 
 }

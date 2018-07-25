@@ -22,6 +22,11 @@ public class Pair<T1, T2> {
 	}
 
 	@Override
+	public String toString() {
+		return "{" + t1 + ", " + t2 + "}";
+	}
+	
+	@Override
 	public int hashCode() {
 		return Objects.hash(t1, t2);
 	}

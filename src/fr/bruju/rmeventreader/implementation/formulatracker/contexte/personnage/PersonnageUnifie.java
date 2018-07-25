@@ -46,6 +46,17 @@ public class PersonnageUnifie implements Personnage {
 		} else {
 			sb.append(personnages.stream().map(p -> p.getNom()).collect(Collectors.joining("/")));
 		}
+		
+		// TODO : Fichier ressource pour les alias
+		if (sb.toString().equals("Monstre[123]")) {
+			return "Monstre";
+		}
+		if (sb.toString().equals("Irzyka/Membre2/Membre3/Membre4")) {
+			return "Allié";
+		}
+		if (sb.toString().equals("Membre2/Membre3/Membre4")) {
+			return "Allié";
+		}
 
 		return sb.toString();
 	}

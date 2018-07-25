@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.utilitaire;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
@@ -76,5 +77,43 @@ public class Utilitaire {
 		} else {
 			liste.add(element);
 		}
+	}
+	
+	
+	public static <T> List<T> fusionnerJusquaStabilite(List<T> listeDeBase, BinaryOperator<T> fonctionFusion) {
+		List<T> base;
+		List<T> transformee = listeDeBase;
+		boolean stable = false;
+		
+		while (!stable) {
+			stable = true;
+			base = transformee;
+			transformee = new ArrayList<>();
+			
+			boucleorig:
+			for (int i = 0 ; i != base.size(); i++) {
+				T p = base.get(i);
+				
+				for (int j = i+1 ; j!= base.size() ; j++) {
+					T s = base.get(j);
+					
+					T u = fonctionFusion.apply(p, s);
+					
+					if (u != null) {
+						stable = false;
+						base.remove(s);
+						transformee.add(u);
+						continue boucleorig;
+					} else {
+						System.out.println("Echec pour unifier " + i + " et " + j);
+						
+					}
+				}
+				
+				transformee.add(p);
+			}
+		}
+
+		return transformee;
 	}
 }

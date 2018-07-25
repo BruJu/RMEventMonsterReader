@@ -19,7 +19,7 @@ public interface Composant {
 	 * @return Une représentation texuelle du composant
 	 */
 	public String getString();
-	
+
 	/* ========
 	 * VISITEUR
 	 * ======== */
