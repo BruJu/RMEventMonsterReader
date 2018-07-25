@@ -30,12 +30,7 @@ import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
  * @author Bruju
  *
  */
-public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Composant, Composant> {
-
-	@Override
-	protected final Composant transformer(Composant composant) {
-		return composant;
-	}
+public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Composant> {
 
 	// Feuilles
 

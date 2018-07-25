@@ -1,8 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.injection.desinjectioncomposant;
 
-import java.util.Collection;
-
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
 

@@ -27,7 +27,7 @@ public class VTernaire extends ComposantTernaire<Valeur> implements Valeur {
 	/* ========
 	 * VISITEUR
 	 * ======== */
-
+	
 	@Override
 	public void accept(VisiteurDeComposants visiteurDeComposant) {
 		visiteurDeComposant.visit(this);

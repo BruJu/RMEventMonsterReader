@@ -52,7 +52,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantR {
 		if (!estVivant)
 			return null;
 		
-		return (Valeur) get(formule);
+		return (Valeur) traiter(formule);
 	}
 
 	public List<Condition> recupererConditions() {

@@ -21,14 +21,14 @@ public class MFiltreHPPositif implements Maillon {
 			List<Condition> conditions = formuleDeDegats.conditions;
 			
 			for (Condition condition : conditions) {
-				boolean b = filtre.get(condition) != null;
+				boolean b = filtre.traiter(condition) != null;
 				
 				if (!b) {
 					return new FormuleDeDegats(Operator.DIFFERENT, new ArrayList<>(), new VConstante(0));
 				}
 			}
 			
-			return new FormuleDeDegats(formuleDeDegats.operator, conditions, (Valeur) filtre.get(formuleDeDegats.formule));
+			return new FormuleDeDegats(formuleDeDegats.operator, conditions, (Valeur) filtre.traiter(formuleDeDegats.formule));
 		}
 		
 				

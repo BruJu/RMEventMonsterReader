@@ -30,19 +30,17 @@ import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageUnifie;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
-public class Unificateur extends VisiteurRetourneur<Composant, Composant> {
+public class Unificateur extends VisiteurRetourneur<Composant> {
 	private Composant secondComposant;
-	Map<Set<PersonnageReel>, PersonnageUnifie> personnagesUnifies;
-
+	Map<Set<PersonnageReel>, PersonnageUnifie> personnagesUnifies = new HashMap<>();
+	
+	
+	
+	
 	public void exploiter(Composant second) {
 		this.secondComposant = second;
-		personnagesUnifies = new HashMap<>();
 	}
 
-	@Override
-	protected Composant transformer(Composant composant) {
-		return composant;
-	}
 
 	/* ======
 	 * NOEUDS

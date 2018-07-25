@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -112,6 +113,9 @@ public class Attaques {
 					                                 )
 			                   )
 			);
+	}
+
+	public void appliquerJusquaStabilite(BinaryOperator<FormuleDeDegats> unification) {
 	}
 
 }
