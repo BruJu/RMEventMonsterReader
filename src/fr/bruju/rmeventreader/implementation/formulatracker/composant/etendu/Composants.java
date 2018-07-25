@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.composant;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 

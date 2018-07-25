@@ -30,63 +30,6 @@ public class RepresentationVariadique {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 * @param secondTerme
-	 * @param niveauDOperateur
-	 * @return La factorisation des deux représentations
-	 */
-	private RepresentationVariadique factoriserz(RepresentationVariadique secondTerme, int niveauDOperateur) {
-
-		int nivGauche = Factorisation.getNiveau(facteurs.get(0).getRight());
-		int nivDroite = Factorisation.getNiveau(secondTerme.facteurs.get(0).getRight());
-
-		int niveauMax = Math.max(nivGauche, nivDroite);
-
-		if (Math.min(nivGauche, nivDroite) != niveauMax || niveauMax == -1 || niveauDOperateur <= niveauMax) {
-			return null;
-		}
-
-		// Récupération de l'opérateur sur lequel on va factoriser
-		Operator operateurDeFactorisation = facteurs.get(0).getRight();
-
-		if (Factorisation.getNiveau(operateurDeFactorisation) != niveauMax) {
-			operateurDeFactorisation = secondTerme.facteurs.get(0).getRight();
-		}
-
-		int elementNeutre = operateurDeFactorisation.getNeutre();
-		operateurDeFactorisation = Operator.sensConventionnel(operateurDeFactorisation);
-
-		List<Pair<Valeur, Operator>> factorisation = new ArrayList<>();
-
-		int i = 0;
-		while (i != facteurs.size()) {
-			Pair<Valeur, Operator> paire = facteurs.get(i);
-
-			if (secondTerme.facteurs.remove(paire)) {
-				facteurs.remove(paire);
-				factorisation.add(paire);
-			} else {
-				i++;
-			}
-		}
-
-		if (factorisation.isEmpty()) {
-			return null;
-		}
-
-		if (facteurs.isEmpty()) {
-			facteurs.add(new Pair<>(new VConstante(elementNeutre), operateurDeFactorisation));
-		}
-
-		if (secondTerme.facteurs.isEmpty()) {
-			secondTerme.facteurs.add(new Pair<>(new VConstante(elementNeutre), operateurDeFactorisation));
-		}
-
-		return new RepresentationVariadique(factorisation);
-	}
-
 	public Valeur convertirEnCalcul() {
 		Valeur v = facteurs.get(0).getLeft();
 
@@ -162,15 +105,6 @@ public class RepresentationVariadique {
 			}
 		} 
 		f.preOperator = rg.facteurs.get(0).getRight();
-	}
-	private static void afficherRep(RepresentationVariadique rg) {
-		
-		rg.facteurs.forEach( paire ->
-				System.out.print("<" + paire.getLeft().getString() + " ; " + paire.getRight() + "> ")
-				
-				);
-		System.out.println();
-		
 	}
 
 	public RepresentationVariadique factoriserDroite(RepresentationVariadique rd) {

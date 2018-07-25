@@ -1,5 +1,7 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.composant;
+package fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.visiteur.VisiteurEtendu;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 public interface ComposantEtendu extends Composants {
@@ -12,6 +14,8 @@ public interface ComposantEtendu extends Composants {
 	public default void accept(VisiteurDeComposants visiteurDeComposants) {
 		getComposantNormal().accept(visiteurDeComposants);
 	}
+	
+	public void acceptEtendu(VisiteurEtendu visiteurEtendu);
 
 	/* =========
 	 * EXTENSION

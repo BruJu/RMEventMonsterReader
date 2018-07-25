@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.Composants;
+
 /**
  * Un composant est un élément qui permet de constituer des formules et représente une donnée quelconque.
  * 

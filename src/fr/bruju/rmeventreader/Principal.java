@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.rmdatabase.RMEventDatabaseMain;
 
 public class Principal {
 	public static void main(String[] args) throws IOException {
-		int choix = 3;
+		int choix = 1;
 
 		if (choix == 0)
 			MonsterDBTest.main_(args, 3);

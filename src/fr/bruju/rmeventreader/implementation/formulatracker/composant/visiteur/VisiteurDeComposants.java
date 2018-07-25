@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantEtendu;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composants;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
@@ -9,6 +7,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.Composants;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;

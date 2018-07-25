@@ -129,14 +129,6 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 		return (valeurUnifiee == null) ? null : new FormuleDeDegats(f1.operator, conditionsUnifiees, valeurUnifiee);
 	}
 
-	public void traiterNOT(Attaques attaques) {
-		attaques.appliquerJusquaStabilite((f1, f2) -> {
-			viderPersonnageUnifieActuel();
-			
-			return unifierDeuxFormules(f1, f2);
-		});
-	}
-
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
