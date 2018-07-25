@@ -71,6 +71,7 @@ public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 	private Valeur factoriser(Valeur base, BinaryOperator<Valeur> fonctionDeCreation, Operator operateurBase,
 			Valeur gauche, Valeur droite) {
 
+		
 		Valeur gaucheFact = (Valeur) traiter(gauche);
 		Valeur droiteFact = (Valeur) traiter(droite);
 
@@ -102,8 +103,9 @@ public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 			}
 		} else {
 			if (rfactoD == null) {
-				return new VCalcul(rfactoG.convertirEnCalcul(), rfactoG.getPreOperateur(),
+				Valeur c = new VCalcul(rfactoG.convertirEnCalcul(), rfactoG.getPreOperateur(),
 						fonctionDeCreation.apply(rg.convertirEnCalcul(), rd.convertirEnCalcul()));
+				return c;
 			} else {
 				throw new UnsupportedOperationException();
 			}

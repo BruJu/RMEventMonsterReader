@@ -14,7 +14,7 @@ public class RepresentationVariadique {
 	private List<Pair<Valeur, Operator>> facteurs;
 	
 	private Operator preOperator;
-	private Operator postOperator;
+	//private Operator postOperator;
 
 	public RepresentationVariadique(List<Pair<Valeur, Operator>> facteurs) {
 		this.facteurs = facteurs;
@@ -37,7 +37,7 @@ public class RepresentationVariadique {
 	 * @param niveauDOperateur
 	 * @return La factorisation des deux représentations
 	 */
-	public RepresentationVariadique factoriser(RepresentationVariadique secondTerme, int niveauDOperateur) {
+	private RepresentationVariadique factoriserz(RepresentationVariadique secondTerme, int niveauDOperateur) {
 
 		int nivGauche = Factorisation.getNiveau(facteurs.get(0).getRight());
 		int nivDroite = Factorisation.getNiveau(secondTerme.facteurs.get(0).getRight());

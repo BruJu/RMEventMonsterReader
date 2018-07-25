@@ -50,7 +50,7 @@ public class VStatistique implements Valeur {
 			return false;
 		}
 		VStatistique castOther = (VStatistique) other;
-		return Objects.equals(statistique.position, castOther.statistique.position);
+		return Objects.equals(statistique, castOther.statistique);
 	}
 
 	@Override
