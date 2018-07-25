@@ -97,7 +97,7 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR implements Maillo
 				return super.traiter(cVariable);
 			}
 			
-			RepresentationVariadique rep = cdrv.creerRepresentationVariadique(vCalc);
+			RepresentationVariadique rep = cdrv.creerRepresentationVariadique(vCalc, Operator.PLUS);
 			
 			if (rep.possedeHP()) {
 				return CFixe.get(sens);

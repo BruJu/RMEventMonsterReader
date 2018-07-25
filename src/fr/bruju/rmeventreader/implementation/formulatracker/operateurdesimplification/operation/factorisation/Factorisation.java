@@ -13,10 +13,20 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
 public class Factorisation extends ConstructeurDeComposantR implements Maillon {
+	// =================================================================================================================
+	// =================================================================================================================
+	// =================================================================================================================
+	//  - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON -
+
 	@Override
 	public void traiter(Attaques attaques) {
 		attaques.transformerComposants(this::traiter);
 	}
+
+	// =================================================================================================================
+	// =================================================================================================================
+	// =================================================================================================================
+	//              - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT -
 
 	private ConstructeurDeRepresentationVariadique builder = new ConstructeurDeRepresentationVariadique();
 
@@ -24,7 +34,7 @@ public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 	protected Composant traiter(VTernaire variableTernaire) {
 		Condition cFacto = (Condition) traiter(variableTernaire.condition);
 
-		return factoriser(variableTernaire, (v, f) -> new VTernaire(cFacto, v, f), 2, variableTernaire.siVrai,
+		return factoriser(variableTernaire, (v, f) -> new VTernaire(cFacto, v, f), null, variableTernaire.siVrai,
 				variableTernaire.siFaux);
 	}
 
@@ -36,11 +46,16 @@ public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 			return vCalcul;
 		}
 
-		return factoriser(vCalcul, (v, f) -> new VCalcul(v, vCalcul.operateur, f), niveau, vCalcul.gauche,
+		Operator operateurNormalise = Operator.sensConventionnel(vCalcul.operateur);
+
+		return factoriser(vCalcul, (v, f) -> new VCalcul(v, vCalcul.operateur, f), operateurNormalise, vCalcul.gauche,
 				vCalcul.droite);
 	}
 
 	public static int getNiveau(Operator operateur) {
+		if (operateur == null)
+			return 2;
+
 		switch (operateur) {
 		case MINUS:
 		case PLUS:
@@ -53,26 +68,69 @@ public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 		}
 	}
 
-	private Valeur factoriser(Valeur base, BinaryOperator<Valeur> fonctionDeCreation, int niveauDOperateur,
+	private Valeur factoriser(Valeur base, BinaryOperator<Valeur> fonctionDeCreation, Operator operateurBase,
 			Valeur gauche, Valeur droite) {
 
 		Valeur gaucheFact = (Valeur) traiter(gauche);
 		Valeur droiteFact = (Valeur) traiter(droite);
 
-		RepresentationVariadique rg = builder.creerRepresentationVariadique(gaucheFact);
-		RepresentationVariadique rd = builder.creerRepresentationVariadique(droiteFact);
+		Operator operateurGauche = connaitreOperateur(gaucheFact);
+		Operator operateurDroite = connaitreOperateur(gaucheFact);
 
-		RepresentationVariadique rfacto = rg.factoriser(rd, niveauDOperateur);
+		Operator operateurMax = operateurMax(operateurGauche, operateurDroite);
 
-		if (rfacto == null) {
+		if (operateurMax == null || (operateurBase != null && operateurBase == operateurMax)) {
+			// Pas de factorisation possible
+			if (gaucheFact == gauche && droiteFact == droite) {
+				return base;
+			} else {
+				return fonctionDeCreation.apply(gaucheFact, droiteFact);
+			}
+		}
+
+		RepresentationVariadique rg = builder.creerRepresentationVariadique(gaucheFact, operateurMax);
+		RepresentationVariadique rd = builder.creerRepresentationVariadique(droiteFact, operateurMax);
+
+		RepresentationVariadique rfactoG = rg.factoriserGauche(rd);
+		RepresentationVariadique rfactoD = rg.factoriserDroite(rd);
+
+		if (rfactoG == null && rfactoD == null) {
 			if (gaucheFact == gauche && droiteFact == droite) {
 				return base;
 			} else {
 				return fonctionDeCreation.apply(gaucheFact, droiteFact);
 			}
 		} else {
-			return new VCalcul(fonctionDeCreation.apply(rg.convertirEnCalcul(), rd.convertirEnCalcul()),
-					rfacto.getOperateur(), rfacto.convertirEnCalcul());
+			if (rfactoD == null) {
+				return new VCalcul(rfactoG.convertirEnCalcul(), rfactoG.getPreOperateur(),
+						fonctionDeCreation.apply(rg.convertirEnCalcul(), rd.convertirEnCalcul()));
+			} else {
+				throw new UnsupportedOperationException();
+			}
+		}
+	}
+
+	private Operator operateurMax(Operator operateurGauche, Operator operateurDroite) {
+		if (operateurGauche == Operator.PLUS || operateurDroite == Operator.PLUS) {
+			return Operator.PLUS;
+		}
+
+		if (operateurGauche == Operator.TIMES || operateurDroite == Operator.TIMES) {
+			return Operator.TIMES;
+		}
+
+		return null;
+	}
+
+	private Operator connaitreOperateur(Valeur v) {
+		if (v instanceof VCalcul) {
+			Operator op = ((VCalcul) v).operateur;
+
+			op = Operator.sensConventionnel(op);
+
+			return op;
+		} else {
+			return null;
 		}
 	}
 }

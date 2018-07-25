@@ -23,32 +23,18 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 	
 	private List<Valeur> facteurs;
 	private List<Operator> operateurs;
-	private Operator operateurFacteur;
+	private Operator operateur;
 
-	public RepresentationVariadique creerRepresentationVariadique(Valeur valeur) {
+	public RepresentationVariadique creerRepresentationVariadique(Valeur valeur, Operator operateur) {
 		// Recherche des paramètres
 		facteurs = new ArrayList<>();
 		operateurs = new ArrayList<>();
+		this.operateur = operateur;
 		
 		visit(valeur);
 		
-		return new RepresentationVariadique(facteurs, operateurs, operateurFacteur);
+		return new RepresentationVariadique(facteurs, operateurs, operateur);
 	}
-
-	private void remplirOperateurFacteurSiVide(VCalcul vCalcul) {
-		if (operateurFacteur != null) {
-			return;
-		}
-		
-		operateurFacteur = vCalcul.operateur;
-		
-		if (operateurFacteur == Operator.MINUS) {
-			operateurFacteur = Operator.PLUS;
-		} else if (operateurFacteur == Operator.TIMES) {
-			operateurFacteur = Operator.DIVIDE;
-		}
-	}
-	
 
 	@Override
 	public void visit(VCalcul vCalcul) {
@@ -57,9 +43,8 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 			return;
 		}
 		
-		remplirOperateurFacteurSiVide(vCalcul);
 		
-		if (vCalcul.operateur == operateurFacteur || vCalcul.operateur == operateurFacteur.revert()) {
+		if (vCalcul.operateur == operateur || vCalcul.operateur == operateur.revert()) {
 			visit(vCalcul.gauche);
 			operateurs.add(vCalcul.operateur);
 			visit(vCalcul.droite);
