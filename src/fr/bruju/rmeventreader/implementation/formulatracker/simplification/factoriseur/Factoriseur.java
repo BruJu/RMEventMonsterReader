@@ -18,9 +18,19 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
+import fr.bruju.rmeventreader.implementation.formulatracker.contexte.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
-public class Factoriseur implements VisiteurDeComposants {
+public class Factoriseur implements VisiteurDeComposants, Maillon {
+	
+	
+	@Override
+	public void traiter(Attaques attaques) {
+		attaques.transformerComposants(this::factoriser);
+	}
+
+	
 	/*
 	 * Conventions :
 	 * - Quand on visite, on modifie composantReponse
@@ -35,7 +45,7 @@ public class Factoriseur implements VisiteurDeComposants {
 	private Composant composantReponse;
 	private boolean estMultiplication;
 
-	public Composant favoriser(Composant composant) {
+	public Composant factoriser(Composant composant) {
 
 		visit(composant);
 
@@ -179,5 +189,6 @@ public class Factoriseur implements VisiteurDeComposants {
 	public void visit(VAleatoire composant) {
 		feuilleNonExploitable(composant);
 	}
+
 
 }

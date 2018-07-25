@@ -18,6 +18,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+
 /*
  * TODO : Reorganiser la structure pour ne plus avoir besoin de faire des lambda dans des lambda qui bouclent sur
  * des map dans des listes dans la blockchain dans un datacenter situé au Pérou
@@ -62,7 +63,8 @@ public class Attaques {
 	 * @return La formule sur laquelle on a appliqué la fonction de transformation. null si une des conditions était
 	 *         devenue fausse.
 	 */
-	public static FormuleDeDegats transformationDeFormule(FormuleDeDegats formule, UnaryOperator<Composant> transformation) {
+	public static FormuleDeDegats transformationDeFormule(FormuleDeDegats formule,
+			UnaryOperator<Composant> transformation) {
 		Operator operateur = formule.operator;
 		List<Condition> conditions = formule.conditions.stream().map(transformation)
 				.map(composant -> (Condition) composant).filter(composant -> composant != CFixe.get(true))
@@ -101,21 +103,63 @@ public class Attaques {
 	private String getStatAffichage(Statistique stat) {
 		return stat.getPossesseur().getNom() + "." + stat.getNom();
 	}
-	
-	
-	public void modifierFormules(BiFunction<Statistique, FormuleDeDegats, FormuleDeDegats> transformation) {		
-		liste.stream().map(attaque -> attaque.getResultat()).map(resultat -> resultat.map).forEach(map -> map.forEach(
-			(statistique, listeDeFormules) -> map.put(statistique,
-								listeDeFormules.stream()
-												.map(formule -> transformation.apply(statistique, formule))
-												.filter(f -> f != null)
-												.collect(Collectors.toList())
-					                                 )
-			                   )
-			);
+
+	public void modifierFormules(BiFunction<Statistique, FormuleDeDegats, FormuleDeDegats> transformation) {
+		transformerListeDeformules((statistique, listeDeFormules) ->
+			listeDeFormules
+				.stream()
+				.map(formule -> transformation.apply(statistique, formule))
+				.filter(f -> f != null)
+				.collect(Collectors.toList()));
+	}
+
+	public void transformerListeDeformules(
+			BiFunction<Statistique, List<FormuleDeDegats>, List<FormuleDeDegats>> transformationListe) {
+		liste.stream()
+			.map(attaque -> attaque.getResultat())
+			.map(resultat -> resultat.map)
+			.forEach(map -> map.forEach(
+		(statistique, listeDeFormules) -> map.put(statistique, transformationListe.apply(statistique, listeDeFormules)))
+					);
+
 	}
 
 	public void appliquerJusquaStabilite(BinaryOperator<FormuleDeDegats> unification) {
+		UnaryOperator<List<FormuleDeDegats>> transformationDeListe = liste -> {
+				List<FormuleDeDegats> base;
+				List<FormuleDeDegats> transformee = liste;
+				boolean stable = false;
+				
+				while (!stable) {
+					stable = true;
+					base = transformee;
+					transformee = new ArrayList<>();
+					
+					boucleorig:
+					for (int i = 0 ; i != base.size(); i++) {
+						FormuleDeDegats p = base.get(i);
+						
+						for (int j = i+1 ; j!= base.size() ; j++) {
+							FormuleDeDegats s = base.get(j);
+							
+							FormuleDeDegats u = unification.apply(p, s);
+							
+							if (u != null) {
+								stable = false;
+								base.remove(s);
+								transformee.add(u);
+								continue boucleorig;
+							}
+						}
+						
+						transformee.add(p);
+					}
+				}
+
+				return transformee;
+		};
+		
+		transformerListeDeformules((stat, liste) -> transformationDeListe.apply(liste));
 	}
 
 }

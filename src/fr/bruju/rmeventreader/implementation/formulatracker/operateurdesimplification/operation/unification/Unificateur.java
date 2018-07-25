@@ -31,6 +31,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageReel;
 import fr.bruju.rmeventreader.implementation.formulatracker.contexte.personnage.PersonnageUnifie;
 import fr.bruju.rmeventreader.implementation.formulatracker.exploitation.Maillon;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 
 
 /**
@@ -51,12 +52,29 @@ public class Unificateur extends ConstructeurDeComposantR implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
 		attaques.appliquerJusquaStabilite((f1, f2) -> {
-			return null;
+			if (f1.operator != f2.operator
+					|| f1.conditions.size() != f2.conditions.size()) {
+				return null;
+			}
 			
+			List<Condition> conditionsUnifiees = new ArrayList<>(f1.conditions.size());
+			Valeur valeurUnifiee;
 			
+			viderPersonnageUnifieActuel();
+			
+			for (int i = 0 ; i != f1.conditions.size(); i++) {
+				Condition cU = (Condition) unifier(f1.conditions.get(i), f2.conditions.get(i));
+				
+				if (cU == null)
+					return null;
+				
+				conditionsUnifiees.add(cU);
+			}
+			
+			valeurUnifiee = (Valeur) unifier(f1.formule, f2.formule);
+			
+			return (valeurUnifiee == null) ? null : new FormuleDeDegats(f1.operator, conditionsUnifiees, valeurUnifiee);
 		});
-		
-		
 	}
 
 
