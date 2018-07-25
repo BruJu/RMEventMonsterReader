@@ -35,6 +35,11 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 	// Feuilles
 
 	@Override
+	protected Composant comportementParDefaut(Composant composant) {
+		throw new VisiteIllegale();
+	}
+
+	@Override
 	protected Composant traiter(BBase boutonBase) {
 		return boutonBase;
 	}

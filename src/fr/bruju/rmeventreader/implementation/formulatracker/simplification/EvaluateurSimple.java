@@ -1,42 +1,35 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
 
-import java.util.Stack;
-
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposantsADefaut;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurRetourneur;
 
-public class EvaluateurSimple implements VisiteurDeComposantsADefaut {
-	private Stack<Integer> pile = new Stack<>();
-	
+public class EvaluateurSimple extends VisiteurRetourneur<Integer> {
 	public Integer evaluer(Valeur valeur) {
-		visit(valeur);
-		return pile.pop();
+		return traiter(valeur);
 	}
-	
+
 	@Override
-	public void visit(VCalcul vCalcul) {
-		visit(vCalcul.gauche);
-		visit(vCalcul.droite);
-		
-		Integer droite = pile.pop();
-		Integer gauche = pile.pop();
+	protected Integer traiter(VCalcul variableCalcul) {
+		Integer droite = traiter(variableCalcul.gauche);
+		Integer gauche = traiter(variableCalcul.droite);
 		
 		if (gauche == null || droite == null) {
-			pile.push(null);
+			return null;
 		} else {
-			pile.push(vCalcul.operateur.compute(gauche, droite));
+			return variableCalcul.operateur.compute(gauche, droite);
 		}
 	}
 
 	@Override
-	public void visit(VConstante composant) {
-		pile.push(composant.valeur);
+	protected Integer traiter(VConstante variableConstante) {
+		return variableConstante.valeur;
 	}
-	
+
 	@Override
-	public void comportementParDefaut() {
-		pile.push(null);
+	protected Integer comportementParDefaut(Composant composant) {
+		return null;
 	}
 }

@@ -1,58 +1,53 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposantsADefaut;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurRetourneur;
 
-public class CreateurDeGestionnaire implements VisiteurDeComposantsADefaut {
-
-	private GestionnaireDeCondition gestionnaire;
-
-	@Override
-	public void comportementParDefaut() {
-		gestionnaire = null;
-	}
-
+public class CreateurDeGestionnaire extends VisiteurRetourneur<GestionnaireDeCondition> {
 	public GestionnaireDeCondition getGestionnaire(Condition condition) {
-		condition.accept(this);
-		return gestionnaire;
+		return traiter(condition);
 	}
 
 	@Override
-	public void visit(CArme cArme) {
-		gestionnaire = new GestionnaireArme(cArme);
+	protected GestionnaireDeCondition comportementParDefaut(Composant composant) {
+		return null;
+	}
+	
+	@Override
+	protected GestionnaireDeCondition traiter(CArme cArme) {
+		return new GestionnaireArme(cArme);
+	}
+	
+	@Override
+	protected GestionnaireDeCondition traiter(CSwitch cSwitch) {
+		return new GestionnaireSwitch(cSwitch);
 	}
 
 	@Override
-	public void visit(CSwitch cSwitch) {
-		gestionnaire = new GestionnaireSwitch(cSwitch);
-	}
-
-	@Override
-	public void visit(CVariable cVariable) {
+	protected GestionnaireDeCondition traiter(CVariable cVariable) {
 		if (!(cVariable.droite instanceof VConstante)) {
-			gestionnaire = null;
-			return;
+			return null;
 		}
-		
+
 		switch (cVariable.operateur) {
 		case IDENTIQUE:
-			gestionnaire = new GestionnaireVariableIdentique(cVariable);
-			break;
+			return new GestionnaireVariableIdentique(cVariable);
 		case DIFFERENT:
-			gestionnaire = new GestionnaireVariableDifferent(cVariable);
-			break;
+			return new GestionnaireVariableDifferent(cVariable);
 		case INF:
 		case INFEGAL:
 		case SUP:
 		case SUPEGAL:
-			gestionnaire = new GestionnaireVariableInegal(cVariable);
-			break;
+			return new GestionnaireVariableInegal(cVariable);
 		default:
-			gestionnaire = null;
+			return null;
 		}
 	}
+
+
 }

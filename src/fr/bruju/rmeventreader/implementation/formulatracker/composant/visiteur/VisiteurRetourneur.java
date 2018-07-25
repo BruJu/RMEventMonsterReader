@@ -32,30 +32,57 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 		return this.composant;
 	}
 
-	protected abstract Intermediaire traiter(BBase boutonBase);
+	protected Intermediaire traiter(BBase boutonBase) {
+		return comportementParDefaut(boutonBase);
+	}
 
-	protected abstract Intermediaire traiter(BConstant boutonConstant);
+	protected Intermediaire traiter(BConstant boutonConstant) {
+		return comportementParDefaut(boutonConstant);
+	}
 
-	protected abstract Intermediaire traiter(BTernaire boutonTernaire);
+	protected Intermediaire traiter(BTernaire boutonTernaire) {
+		return comportementParDefaut(boutonTernaire);
+	}
 
-	protected abstract Intermediaire traiter(CArme conditionArme);
+	protected Intermediaire traiter(CArme conditionArme) {
+		return comportementParDefaut(conditionArme);
+	}
 
-	protected abstract Intermediaire traiter(CSwitch conditionSwitch);
+	protected Intermediaire traiter(CSwitch conditionSwitch) {
+		return comportementParDefaut(conditionSwitch);
+	}
 
-	protected abstract Intermediaire traiter(CVariable conditionVariable);
+	protected Intermediaire traiter(CVariable conditionVariable) {
+		return comportementParDefaut(conditionVariable);
+	}
 
-	protected abstract Intermediaire traiter(VAleatoire variableAleatoire);
+	protected Intermediaire traiter(VAleatoire variableAleatoire) {
+		return comportementParDefaut(variableAleatoire);
+	}
 
-	protected abstract Intermediaire traiter(VBase variableBase);
+	protected Intermediaire traiter(VBase variableBase) {
+		return comportementParDefaut(variableBase);
+	}
 
-	protected abstract Intermediaire traiter(VCalcul variableCalcul);
+	protected Intermediaire traiter(VCalcul variableCalcul) {
+		return comportementParDefaut(variableCalcul);
+	}
 
-	protected abstract Intermediaire traiter(VConstante variableConstante);
+	protected Intermediaire traiter(VConstante variableConstante) {
+		return comportementParDefaut(variableConstante);
+	}
 
-	protected abstract Intermediaire traiter(VStatistique variableStatistique);
+	protected Intermediaire traiter(VStatistique variableStatistique) {
+		return comportementParDefaut(variableStatistique);
+		
+	}
 
-	protected abstract Intermediaire traiter(VTernaire variableTernaire);
+	protected Intermediaire traiter(VTernaire variableTernaire) {
+		return comportementParDefaut(variableTernaire);
+	}
 
+	protected abstract Intermediaire comportementParDefaut(Composant composant);
+	
 	// Visiteurs
 
 	@Override

@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantEtendu;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composants;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
@@ -30,7 +30,7 @@ public interface VisiteurDeComposants {
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(Composant composant) {
+	public default void visit(Composants composant) {
 		composant.accept(this);
 	}
 
