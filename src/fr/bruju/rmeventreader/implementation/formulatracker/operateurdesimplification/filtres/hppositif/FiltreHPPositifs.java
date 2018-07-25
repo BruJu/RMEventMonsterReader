@@ -7,9 +7,9 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation.ConstructeurDeRepresentationVariadique;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation.RepresentationVariadique;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.factoriseur.ConstructeurDeRepresentationVariadique;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.factoriseur.RepresentationVariadique;
 
 /**
  * Cette classe a pour but de filtrer toutes les conditions du type HP - [VALEUR] < 1 en disant qu'elles ne sont
@@ -62,7 +62,7 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR {
 				return super.traiter(cVariable);
 			}
 			
-			RepresentationVariadique rep = cdrv.creerRepresentationVariadique(vCalc, Operator.PLUS);
+			RepresentationVariadique rep = cdrv.creerRepresentationVariadique(vCalc);
 			
 			if (rep.possedeHP()) {
 				return CFixe.get(sens);

@@ -228,4 +228,32 @@ public enum Operator {
 	public int getNeutre() {
 		return this.elementNeutre;
 	}
+
+	/**
+	 * Renvoie le sens dit conventionnel de l'opérateur.
+	 * @param operateur L'opérateur dont on souhaite connaître le sens conventionnel
+	 * @return Plus et Moins -> Plus. Fois et Diviser -> Fois. Différent et Identique -> Identique. Opérateur de
+	 * comparaison d'inégalité avec un égal -> son opposé. 
+	 */
+	public static Operator sensConventionnel(Operator operateur) {
+		switch (operateur) {
+		case DIFFERENT:
+		case IDENTIQUE:
+			return IDENTIQUE;
+		case INFEGAL:
+		case SUP:
+			return SUP;
+		case PLUS:
+		case MINUS:
+			return PLUS;
+		case SUPEGAL:
+		case INF:
+			return INF;
+		case TIMES:
+		case DIVIDE:
+			return TIMES;
+		default:
+			return operateur;
+		}
+	}
 }

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.simplification.factoriseur;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,30 +18,48 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposants {
 	
-	private Operator base;
-	
 	private List<Valeur> facteurs;
 	private List<Operator> operateurs;
-	
-	
-	public RepresentationVariadique creerRepresentationVariadique(VCalcul calcul, Operator operateur) {
+	private Operator operateurFacteur;
+
+	public RepresentationVariadique creerRepresentationVariadique(Valeur valeur) {
+		// Recherche des paramètres
 		facteurs = new ArrayList<>();
 		operateurs = new ArrayList<>();
-		this.base = operateur;
 		
-		operateurs.add(operateur);
-		visit(calcul);
+		visit(valeur);
 		
-		return new RepresentationVariadique(Pair.combiner(facteurs, operateurs), operateur.getNeutre());
+		return new RepresentationVariadique(facteurs, operateurs, operateurFacteur);
+	}
+
+	private void remplirOperateurFacteurSiVide(VCalcul vCalcul) {
+		if (operateurFacteur != null) {
+			return;
+		}
+		
+		operateurFacteur = vCalcul.operateur;
+		
+		if (operateurFacteur == Operator.MINUS) {
+			operateurFacteur = Operator.PLUS;
+		} else if (operateurFacteur == Operator.TIMES) {
+			operateurFacteur = Operator.DIVIDE;
+		}
 	}
 	
+
 	@Override
 	public void visit(VCalcul vCalcul) {
-		if (vCalcul.operateur == base || vCalcul.operateur == base.revert()) {
+		if (vCalcul.operateur == Operator.MODULO) {
+			traitementFeuille(vCalcul);
+			return;
+		}
+		
+		remplirOperateurFacteurSiVide(vCalcul);
+		
+		if (vCalcul.operateur == operateurFacteur || vCalcul.operateur == operateurFacteur.revert()) {
 			visit(vCalcul.gauche);
 			operateurs.add(vCalcul.operateur);
 			visit(vCalcul.droite);
@@ -51,6 +69,7 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 	}
 	
 	// Feuilles
+
 
 	private void traitementFeuille(Valeur composant) {
 		facteurs.add(composant);

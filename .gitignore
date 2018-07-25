@@ -16,3 +16,8 @@ ressources/
 sorties/
 diff*
 lib/
+
+# IntelliJ
+.idea/*
+*.iml
+out/

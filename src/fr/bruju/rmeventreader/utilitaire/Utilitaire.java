@@ -104,9 +104,6 @@ public class Utilitaire {
 						base.remove(s);
 						transformee.add(u);
 						continue boucleorig;
-					} else {
-						System.out.println("Echec pour unifier " + i + " et " + j);
-						
 					}
 				}
 				
