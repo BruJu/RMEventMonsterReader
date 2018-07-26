@@ -25,34 +25,6 @@ public class Pair<T1, T2> {
 	public String toString() {
 		return "{" + t1 + ", " + t2 + "}";
 	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(t1, t2);
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pair other = (Pair) obj;
-		if (t1 == null) {
-			if (other.t1 != null)
-				return false;
-		} else if (!t1.equals(other.t1))
-			return false;
-		if (t2 == null) {
-			if (other.t2 != null)
-				return false;
-		} else if (!t2.equals(other.t2))
-			return false;
-		return true;
-	}
 
 	public static <T1, T2> List<Pair<T1, T2>> combiner(List<T1> gauches, List<T2> droites) {
 		if (gauches.size() != droites.size()) {
@@ -66,6 +38,20 @@ public class Pair<T1, T2> {
 		}
 		
 		return liste;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(t1, t2);
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Pair) {
+			Pair that = (Pair) object;
+			return Objects.equals(this.t1, that.t1) && Objects.equals(this.t2, that.t2);
+		}
+		return false;
 	}
 	
 	

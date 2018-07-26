@@ -106,7 +106,7 @@ public class Utilitaire {
 						continue boucleorig;
 					}
 				}
-				
+
 				transformee.add(p);
 			}
 		}
