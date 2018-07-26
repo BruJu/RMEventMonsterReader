@@ -166,7 +166,7 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 		}
 	}
 
-	private Boolean tenterDEvaluer(CVariable condition) {
+	protected Boolean tenterDEvaluer(CVariable condition) {
 		Valeur gauche = condition.gauche;
 		Valeur droite = condition.droite;
 

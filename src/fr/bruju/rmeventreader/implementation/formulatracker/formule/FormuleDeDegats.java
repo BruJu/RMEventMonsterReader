@@ -30,7 +30,8 @@ public class FormuleDeDegats {
 			sb.append(conditions.stream().map(c -> c.getString()).collect(Collectors.joining(" ")));
 			sb.append("] ");
 		}
-		sb.append("⇒ ");
+		sb.append("=>");
+		sb.append(" ");
 		sb.append(formule.getString());
 
 		return sb.toString();

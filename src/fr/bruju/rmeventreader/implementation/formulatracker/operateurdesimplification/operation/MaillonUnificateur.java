@@ -118,8 +118,9 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 		for (int i = 0; i != f1.conditions.size(); i++) {
 			Condition cU = (Condition) unifier(f1.conditions.get(i), f2.conditions.get(i));
 
-			if (cU == null)
+			if (cU == null) {
 				return null;
+			}
 
 			conditionsUnifiees.add(cU);
 		}
@@ -151,8 +152,9 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	protected Composant traiter(VStatistique p) {
-		if (!(second instanceof VStatistique))
+		if (!(second instanceof VStatistique)) {
 			return null;
+		}
 
 		VStatistique s = (VStatistique) second;
 
@@ -266,8 +268,10 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	protected Composant traiter(BTernaire p) {
-		if (!(second instanceof BTernaire))
+		if (!(second instanceof BTernaire)) {
+
 			return null;
+		}
 
 		// Vérification des éléments propres au composant
 		BTernaire s = (BTernaire) second;
@@ -286,8 +290,9 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	protected Composant traiter(VTernaire p) {
-		if (!(second instanceof VTernaire))
+		if (!(second instanceof VTernaire)) {
 			return null;
+		}
 
 		// Vérification des éléments propres au composant
 		VTernaire s = (VTernaire) second;
@@ -306,8 +311,9 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	protected Composant traiter(CVariable p) {
-		if (!(second instanceof CVariable))
+		if (!(second instanceof CVariable)) {
 			return null;
+		}
 
 		// Vérification des éléments propres au composant
 		CVariable s = (CVariable) second;
@@ -329,8 +335,9 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	protected Composant traiter(VCalcul p) {
-		if (!(second instanceof VCalcul))
+		if (!(second instanceof VCalcul)) {
 			return null;
+		}
 
 		// Vérification des éléments propres au composant
 		VCalcul s = (VCalcul) second;
