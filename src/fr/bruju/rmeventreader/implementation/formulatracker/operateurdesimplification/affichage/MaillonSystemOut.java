@@ -7,7 +7,6 @@ public class MaillonSystemOut implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.liste.forEach(a -> System.out.println(a.getChaineAAfficher()));
+		attaques.forEach(attaque -> System.out.println(attaque.getChaineAAfficher()));
 	}
-
 }

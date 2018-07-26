@@ -23,7 +23,7 @@ public class MaillonEcritureFichier implements Maillon {
 		try {
 			f.createNewFile();
 			FileWriter ff = new FileWriter(f);
-			attaques.liste.forEach(a -> {
+			attaques.forEach(a -> {
 				try {
 					ff.write(a.getChaineAAfficher() + "\n");
 				} catch (IOException e) {

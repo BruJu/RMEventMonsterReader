@@ -38,9 +38,9 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantR implements Mai
 	@Override
 	public void traiter(Attaques attaques) {
 		remplirAvecFichier("ressources/formulatracker/desinjection.txt");
-
-		attaques.modifierFormules((stat, formule) -> Attaques.transformationDeFormule(formule,
-				composant -> desinjecter(composant, conditionsADesinjecter.get(stat.possesseur.getNom()))));
+		
+		attaques.modifierFormules((stat, formule) -> Attaques.generalisationDeLaTransformationDeComposants(formule,
+				composant -> desinjecter(composant, conditionsADesinjecter.get(stat.stat.possesseur.getNom()))));
 	}
 
 	// =================================================================================================================

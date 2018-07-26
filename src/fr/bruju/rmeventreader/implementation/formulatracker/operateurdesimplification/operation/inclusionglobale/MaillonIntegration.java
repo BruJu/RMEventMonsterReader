@@ -19,7 +19,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class MaillonIntegration implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.apply(this::inclusionGenerale);
+		attaques.transformerFormules(this::inclusionGenerale);
 	}
 	
 	/**

@@ -30,7 +30,7 @@ public class MaillonActionMaker implements Maillon {
 
 		att.stream()
 		   .map(donnees -> creerAttaque(contexte, donnees[0], donnees[1]))
-		   .forEach(attaques.liste::add);
+		   .forEach(attaques::ajouterAttaque);
 		
 	}
 	

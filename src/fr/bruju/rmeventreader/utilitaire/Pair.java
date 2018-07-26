@@ -45,6 +45,7 @@ public class Pair<T1, T2> {
 		return Objects.hash(t1, t2);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof Pair) {

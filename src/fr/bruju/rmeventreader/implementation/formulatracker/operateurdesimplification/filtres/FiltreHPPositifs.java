@@ -34,7 +34,7 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR implements Maillo
 	@Override
 	public void traiter(Attaques attaques) {
 		
-		attaques.apply(formuleDeDegats -> {
+		attaques.transformerFormules(formuleDeDegats -> {
 			List<Condition> conditions = formuleDeDegats.conditions;
 			
 			for (Condition condition : conditions) {

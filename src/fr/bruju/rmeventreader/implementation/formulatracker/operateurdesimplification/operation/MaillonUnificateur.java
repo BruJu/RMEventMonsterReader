@@ -9,10 +9,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
@@ -39,7 +36,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.P
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * En tant que constructeur de composants : unifie les composants en utilisant une base de personnages unifiés et le
@@ -59,28 +55,12 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.liste.stream().forEach(attaque -> attaque.resultat = convertirMap(attaque.resultat));
-	}
-
-	private Map<ModifStat, List<FormuleDeDegats>> convertirMap(Map<ModifStat, List<FormuleDeDegats>> base) {
-
-		Map<Pair<String, Operator>, List<Pair<ModifStat, FormuleDeDegats>>> fusionnables = base.entrySet().stream()
-				.flatMap(this::applatir).collect(Collectors.groupingBy( // Grouper par nom de stat x opérateur de modification
-						paire -> new Pair<>(paire.getLeft().stat.nom, paire.getLeft().operateur)));
-		
-		fusionnables.replaceAll(this::fusionnerListe);
-
-		Map<ModifStat, List<FormuleDeDegats>> groupes = new HashMap<>();
-
-		fusionnables.values().stream().flatMap(liste -> liste.stream())
-				.forEach(paire -> Utilitaire.mapAjouterElementAListe(groupes, paire.getLeft(), paire.getRight()));
-
-		return groupes;
-	}
-
-	private List<Pair<ModifStat, FormuleDeDegats>> fusionnerListe(Object cle,
-			List<Pair<ModifStat, FormuleDeDegats>> liste) {
 		BinaryOperator<Pair<ModifStat, FormuleDeDegats>> fonctionFusion = (f1, f2) -> {
+			if (!(f1.getLeft().stat.nom.equals(f2.getLeft().stat.nom)
+					&& f1.getLeft().operateur == f2.getLeft().operateur))
+				return null;
+			
+			
 			personnageUnifie = getPersonnageUnifie(f1.getLeft().stat.possesseur, f2.getLeft().stat.possesseur);
 
 			FormuleDeDegats f = unifierDeuxFormules(f1.getRight(), f2.getRight());
@@ -96,14 +76,10 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 			return new Pair<>(m, f);
 		};
-
-		return Utilitaire.fusionnerJusquaStabilite(liste, fonctionFusion);
+		
+		attaques.fusionner(fonctionFusion);
 	}
-
-	private <K, V> Stream<Pair<K, V>> applatir(Map.Entry<K, List<V>> e) {
-		return e.getValue().stream().map(formule -> new Pair<>(e.getKey(), formule));
-	}
-
+	
 	public FormuleDeDegats unifierDeuxFormules(FormuleDeDegats f1, FormuleDeDegats f2) {
 		if (f1.conditions.size() != f2.conditions.size()) {
 			return null;
@@ -126,6 +102,8 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 		return (valeurUnifiee == null) ? null : new FormuleDeDegats(conditionsUnifiees, valeurUnifiee);
 	}
+
+
 
 	// =================================================================================================================
 	// =================================================================================================================
