@@ -5,7 +5,7 @@
  * Les utilisateurs sont invités à implémenter l'interface ActionMaker ou ActionMakerDefalse, puis à utiliser la classe
  * Interpreter pour faire le lien entre lignes lues et les actions déclenchées par l'interface.
  * <p>
- * Requis : Ce package a besoin du package fr.bruju.rmeventreader.filereader pour fonctionner.
+ * Dépendances : fr.bruju.rmeventreader.filereader
  * <p>
  * Usage :
  * <code>

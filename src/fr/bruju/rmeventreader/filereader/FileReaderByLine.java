@@ -7,9 +7,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe utilitaire permettant de lire des fichiers
+ *  
+ * @author Bruju
+ *
+ */
 public class FileReaderByLine {
 	private static final String COMMENTAIRE_STARTS_WITH = "//";
 	
+	/**
+	 * Lit un fichier en utilisant l'actionneur utilisé
+	 * @param file Le fichier
+	 * @param actionOnLine L'actionneur
+	 * @throws IOException
+	 */
 	public static void lireLeFichier(File file, ActionOnLine actionOnLine) throws IOException {
 		FileReader fileReader = new FileReader(file);
 		BufferedReader buffer = new BufferedReader(fileReader);
@@ -31,6 +43,12 @@ public class FileReaderByLine {
 	}
 	
 
+	/**
+	 * Lit un fichier en utilisant l'actionneur donné. Considère que les lignes commençant par // sont des commentaires
+	 * @param chemin Le chemin vers le fichier
+	 * @param actionOnLine L'actionneur
+	 * @throws IOException
+	 */
 	public static void lireLeFichierSansCommentaires(String chemin, ActionOnLine actionOnLine) throws IOException {
 		FileReader fileReader = new FileReader(new File(chemin));
 		BufferedReader buffer = new BufferedReader(fileReader);
@@ -52,6 +70,13 @@ public class FileReaderByLine {
 	}
 	
 	
+	/**
+	 * Lit un fichier ressource (constitué de lignes avec des mots séparés par des espaces)
+	 * @param chemin Le chemin vers le fichier
+	 * @param nbArguments Le nombre de mots par ligne
+	 * @return Une liste des mots de chaques lignes. Les mots sont stockés dans un tableau de String.
+	 * @throws IOException
+	 */
 	public static List<String[]> lireFichier(String chemin, int nbArguments) throws IOException {
 		List<String[]> valeursLues = new ArrayList<>();
 		

@@ -1,10 +1,11 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.injection;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.Utilitaire;
+import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
@@ -15,7 +16,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
  * Injecte des valeurs lues dans un fichier du type "30 ON", "170 7" pour dire que l'interrupteur 30 est activé et que
@@ -59,13 +59,19 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantR impleme
 		interrupteurs = new HashMap<>();
 		variables = new HashMap<>();
 		
-		List<Pair<String, String>> ressources = Utilitaire.lireFichierRessource(chemin);
+		List<String[]> ressources;
+		
+		try {
+			ressources = FileReaderByLine.lireFichier(chemin, 2);
+		} catch (IOException e) {
+			return;
+		}
 		
 		ressources.forEach(paire -> {
 			
-			String idStr = paire.getLeft();
+			String idStr = paire[0];
 			Integer idInt = Integer.parseInt(idStr);
-			String valeur = paire.getRight();
+			String valeur = paire[1];
 			
 			if (valeur.equals("ON")) {
 				interrupteurs.put(idInt, true);

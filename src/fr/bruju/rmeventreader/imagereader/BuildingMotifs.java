@@ -13,17 +13,19 @@ import fr.bruju.rmeventreader.imagereader.traitement.ImageReader;
 
 /**
  * L'objectif de cette classe est de prendre une liste de monstres et de tenter de reconnaître leurs noms.
- * 
+ * <p>
  * Pour cela, on suppose que le nom actuel du monstre est le nom de l'image où est écrit son nom.
- * 
- * 
+ * <p>
+ * <p>
  * Usage à partir d'une MonsterDatabase nommée db pour obtenir le fichier avec la liste des noms des monstres
- * 
+ * <p>
+ * <code>
  * List<String> nomDesImages = new ArrayList<>();
  * db.extractMonsters().forEach(m -> nomDesImages.add(m.getNom()));
  * BuildingMotifs chercheurDeMotifs = new BuildingMotifs(nomDesImages);
  * chercheurDeMotifs.lancer();
  * chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
+ * </code>
  */
 public class BuildingMotifs {
 	private static String IGNORE_NAME = "UNKNOWN_NAME"; // Monstres dont l'image contenant le nom n'a pas pu être obtenue

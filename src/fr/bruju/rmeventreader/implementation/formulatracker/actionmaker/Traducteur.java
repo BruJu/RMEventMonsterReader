@@ -13,31 +13,40 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAl
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
+/**
+ * Convertisseur de variables de type ActionMaker en variables de type FormulaTracker
+ * 
+ * @author Bruju
+ *
+ */
 public class Traducteur {
+	/** Valeur constante */
 	public Valeur getValue(ValeurFixe returnValue) {
 		return new VConstante(returnValue.get());
 	}
 
+	/** Valeur aléatoire */
 	public Valeur getValue(ValeurAleatoire returnValue) {
 		return new VAleatoire(returnValue.getMin(), returnValue.getMax());
 	}
-	
+
+	/** Booléen */
 	public Bouton getValue(boolean value) {
 		return BConstant.get(value);
 	}
-	
+
+	/** Condition sur une variable */
 	public Condition getConditionVariable(Valeur gauche, Operator operateur, Valeur vDroite) {
 		return new CVariable(gauche, operateur, vDroite);
 	}
-	
+
+	/** Condition sur un switch */
 	public Condition getConditionSwitch(Bouton interrupteur, boolean valeur) {
 		return new CSwitch(interrupteur, valeur);
 	}
-	
+
+	/** Condition sur un objet équipé */
 	public Condition getConditionObjetEquipe(int heros, int objet) {
 		return new CArme(heros, objet);
 	}
-	
-	
-	
 }
