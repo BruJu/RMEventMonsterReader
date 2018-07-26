@@ -7,7 +7,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Personnages;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
 

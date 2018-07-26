@@ -19,7 +19,7 @@ public class MaillonFiltreOperateur implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.getAttaques().forEach(attaque -> {
+		attaques.liste.forEach(attaque -> {
 			Map<ModifStat, List<FormuleDeDegats>> map = new HashMap<>();
 			attaque.resultat.entrySet().stream()
 							.filter(entry -> entry.getKey().operateur != operateurFiltre)

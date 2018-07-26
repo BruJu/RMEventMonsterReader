@@ -25,7 +25,7 @@ public class MaillonEcritureFichier implements Maillon {
 			FileWriter ff = new FileWriter(f);
 			attaques.liste.forEach(a -> {
 				try {
-					ff.write(a.chaineAAfficher + "\n");
+					ff.write(a.getChaineAAfficher() + "\n");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

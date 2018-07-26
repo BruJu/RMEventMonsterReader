@@ -1,21 +1,17 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /*
  * TODO : Reorganiser la structure pour ne plus avoir besoin de faire des lambda dans des lambda qui bouclent sur
@@ -24,13 +20,6 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 public class Attaques {
 	public List<Attaque> liste = new ArrayList<>();
 
-
-
-
-
-	public Collection<Attaque> getAttaques() {
-		return liste;
-	}
 
 	public void apply(UnaryOperator<FormuleDeDegats> modificateurDeFormule) {
 		modifierFormules((stat, formule) -> modificateurDeFormule.apply(formule));
@@ -65,30 +54,6 @@ public class Attaques {
 		return new FormuleDeDegats(conditions, v);
 	}
 
-	public void determinerAffichage(Function<Attaque, String> determineurDeChaine) {
-		liste.stream().forEach(attaque -> attaque.chaineAAfficher = determineurDeChaine.apply(attaque));
-	}
-
-	public void determinerAffichage(Function<FormuleDeDegats, String> detChaine, Function<Attaque, String> detHeader) {
-		determinerAffichage(attaque -> {
-			List<String> sousChaines = new ArrayList<>();
-
-			attaque.resultat.forEach((stat, listeDeFormules) -> {
-				listeDeFormules.stream().map(formule -> detChaine.apply(formule)).filter(c -> !c.equals(""))
-
-						.map(c -> getStatAffichage(stat.stat) + " " + Utilitaire.getSymbole(stat.operateur) + " " + c).forEach(sousChaines::add);
-			});
-
-			if (sousChaines.isEmpty())
-				return "";
-
-			return detHeader.apply(attaque) + "\n" + sousChaines.stream().collect(Collectors.joining("\n"));
-		});
-	}
-
-	private String getStatAffichage(Statistique stat) {
-		return stat.possesseur.getNom() + "." + stat.nom;
-	}
 
 	public void modifierFormules(BiFunction<Statistique, FormuleDeDegats, FormuleDeDegats> transformation) {
 		transformerListeDeformules((statistique, listeDeFormules) -> listeDeFormules.stream()
@@ -104,8 +69,21 @@ public class Attaques {
 
 	}
 
-	public void appliquerJusquaStabilite(BinaryOperator<FormuleDeDegats> unification) {
-		transformerListeDeformules((stat, liste) -> Utilitaire.fusionnerJusquaStabilite(liste, unification));
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public void determinerAffichage(Function<FormuleDeDegats, String> detChaine, Function<Attaque, String> detHeader) {
+		liste.stream().forEach(attaque -> attaque.detChaine(detHeader, detChaine));
 	}
+
+	
+	
 
 }

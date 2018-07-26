@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -7,7 +7,6 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageReel;
 
 public class Personnages {
 	Map<String, PersonnageReel> personnagesReels = new HashMap<>();

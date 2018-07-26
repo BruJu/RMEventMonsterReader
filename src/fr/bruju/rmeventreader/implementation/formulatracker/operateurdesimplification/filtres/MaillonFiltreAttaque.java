@@ -14,7 +14,7 @@ public class MaillonFiltreAttaque implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.liste = attaques.getAttaques().stream().filter(attaque -> attaque.nom.equals(attaqueConservee))
+		attaques.liste = attaques.liste.stream().filter(attaque -> attaque.nom.equals(attaqueConservee))
 				.collect(Collectors.toList());
 	}
 

@@ -16,7 +16,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.ModifStat;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Personnages;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
