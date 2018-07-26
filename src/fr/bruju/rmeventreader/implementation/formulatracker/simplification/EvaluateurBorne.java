@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.simplification;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
@@ -14,139 +13,97 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurRetourneur;
 
-public class EvaluateurBorne extends VisiteurRetourneur<int[]> {
+public class EvaluateurBorne extends VisiteurRetourneur<Ensemble> {
+
+	public Integer evaluer(Valeur v) {
+		Ensemble e = traiter(v);
+		
+		if (e == null)
+			return null;
+		
+		if (e.aUneValeur()) {
+			return e.min;
+		}
+		
+		return null;
+	}
+	
 
 	// Booléens
 
 	@Override
-	protected int[] traiter(BConstant boutonConstant) {
-		return boutonConstant.value ? new int[] { 1 } : new int[] { 0 };
+	protected Ensemble traiter(BConstant boutonConstant) {
+		return new Ensemble(boutonConstant.value);
 	}
 
 	@Override
-	protected int[] traiter(BTernaire boutonTernaire) {
-		int[] condi = traiter(boutonTernaire.condition);
-
-		if (condi == null) {
-			return null;
-		} else {
-			return condi[0] == 1 ? traiter(boutonTernaire.siVrai) : traiter(boutonTernaire.siFaux);
-		}
-	}
-
-	@Override
-	protected int[] traiter(CSwitch conditionSwitch) {
-		int[] v = traiter(conditionSwitch.interrupteur);
-
+	protected Ensemble traiter(BTernaire boutonTernaire) {
+		Ensemble v = traiter(boutonTernaire.condition);
+		
 		if (v == null)
 			return null;
-
-		boolean vb = v[0] == 1;
-
-		return vb == conditionSwitch.valeur ? new int[] { 1 } : new int[] { 0 };
+		
+		return (v.valeur) ? traiter(boutonTernaire.siVrai) : traiter(boutonTernaire.siFaux);
 	}
 
 	@Override
-	protected int[] traiter(CVariable conditionVariable) {
-		int[] gauche = traiter(conditionVariable.gauche);
-		if (gauche == null)
-			return null;
-
-		int[] droite = traiter(conditionVariable.droite);
-		if (droite == null)
-			return null;
-
-		int valeurMin = Math.min(gauche[0], droite[0]);
-		int valeurMax = Math.max(gauche[1], droite[1]);
-
-		switch (conditionVariable.operateur) {
-		case IDENTIQUE:
-			if (gauche[0] == droite[0] && gauche[1] == droite[1] && gauche[0] == gauche[1]) {
-				return new int[] { 1 };
-			} else {
-				return new int[] { 0 };
-			}
-		case DIFFERENT:
-			return null;
-		case INF:
-			break;
-		case INFEGAL:
-			break;
-		case SUP:
-			break;
-		case SUPEGAL:
-			break;
-		default:
-			return null;
-		}
-
-		// TODO
-		return null;
-	}
-
-	@Override
-	protected int[] traiter(VAleatoire variableAleatoire) {
-		return new int[] { variableAleatoire.min, variableAleatoire.max,
-				variableAleatoire.max - variableAleatoire.min + 1 };
-	}
-
-	@Override
-	protected int[] traiter(VCalcul variableCalcul) {
-		int[] gauche = traiter(variableCalcul.gauche);
-		int[] droite = traiter(variableCalcul.droite);
-
-		if (gauche == null || droite == null)
-			return null;
-
-		int v00, v01, v10, v11;
-
-		switch (variableCalcul.operateur) {
-		case PLUS:
-			return new int[] { gauche[0] + droite[0], gauche[0] + droite[0] };
-		case MINUS:
-			return new int[] { gauche[0] - droite[1], gauche[1] - droite[0] };
-		case TIMES:
-			v00 = gauche[0] * droite[0];
-			v01 = gauche[0] * droite[1];
-			v10 = gauche[1] * droite[0];
-			v11 = gauche[1] * droite[1];
-
-			return new int[] { Math.min(Math.min(v00, v01), Math.min(v10, v11)),
-					Math.max(Math.max(v00, v01), Math.max(v10, v11)) };
-		case DIVIDE:
-			if (droite[0] == 0 || droite[1] == 0)
+	protected Ensemble traiter(CSwitch conditionSwitch) {
+		Ensemble v = traiter(conditionSwitch.interrupteur);
+		
+		if (conditionSwitch.valeur) {
+			return v;
+		} else {
+			if (v == null)
 				return null;
 			
-			v00 = gauche[0] / droite[0];
-			v01 = gauche[0] / droite[1];
-			v10 = gauche[1] / droite[0];
-			v11 = gauche[1] / droite[1];
-
-			return new int[] { Math.min(Math.min(v00, v01), Math.min(v10, v11)),
-					Math.max(Math.max(v00, v01), Math.max(v10, v11)) };
-		case MODULO:
-			if (gauche[0] != gauche[1] || droite[0] != droite[1]) {
-				return null;
-			}
-
-			return new int[] { gauche[0] % droite[0], gauche[1] % droite[1] };
-		default:
-			return null;
+			return new Ensemble(!v.valeur);
 		}
 	}
 
 	@Override
-	protected int[] traiter(VConstante variableConstante) {
-		return new int[] {variableConstante.valeur, variableConstante.valeur};
+	protected Ensemble traiter(CVariable conditionVariable) {
+		Ensemble gauche = traiter(conditionVariable.gauche);
+		Ensemble droite = traiter(conditionVariable.droite);
+		
+		if (gauche == null || droite == null)
+			return null;
+		
+		return gauche.appliquerOperation(conditionVariable.operateur, droite);
 	}
 
 	@Override
-	protected int[] traiter(VTernaire variableTernaire) {
-		int[] c = traiter(variableTernaire.condition);
+	protected Ensemble traiter(VAleatoire variableAleatoire) {
+		return new Ensemble(variableAleatoire.min, variableAleatoire.max);
+	}
+
+	@Override
+	protected Ensemble traiter(VCalcul variableCalcul) {
+		Ensemble gauche = traiter(variableCalcul.gauche);
+		Ensemble droite = traiter(variableCalcul.droite);
 		
-		if (c[0] == 1) {
+		if (gauche == null || droite == null)
+			return null;
+		
+		return gauche.appliquerOperation(variableCalcul.operateur, droite);
+	}
+
+	@Override
+	protected Ensemble traiter(VConstante variableConstante) {
+		return new Ensemble(variableConstante.valeur);
+	}
+
+	@Override
+	protected Ensemble traiter(VTernaire variableTernaire) {
+		Ensemble c = traiter(variableTernaire.condition);
+		
+		if (c == null) {
+			return null;
+		}
+		
+		if (c.valeur) {
 			return traiter(variableTernaire.siVrai);
 		} else {
 			return traiter(variableTernaire.siFaux);
@@ -156,27 +113,27 @@ public class EvaluateurBorne extends VisiteurRetourneur<int[]> {
 	// Non valuable
 
 	@Override
-	protected int[] traiter(CArme composant) {
+	protected Ensemble traiter(CArme composant) {
 		return comportementParDefaut(composant);
 	}
 
 	@Override
-	protected int[] traiter(VStatistique composant) {
+	protected Ensemble traiter(VStatistique composant) {
 		return comportementParDefaut(composant);
 	}
 
 	@Override
-	protected int[] traiter(VBase composant) {
+	protected Ensemble traiter(VBase composant) {
 		return comportementParDefaut(composant);
 	}
 
 	@Override
-	protected int[] traiter(BBase composant) {
+	protected Ensemble traiter(BBase composant) {
 		return comportementParDefaut(composant);
 	}
 
 	@Override
-	protected int[] comportementParDefaut(Composant composant) {
+	protected Ensemble comportementParDefaut(Composant composant) {
 		return null;
 	}
 

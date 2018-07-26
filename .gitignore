@@ -21,3 +21,9 @@ lib/
 .idea/*
 *.iml
 out/
+/nbproject/private/
+
+# Netbeans
+build.xml
+manifest.mf
+nbproject/
