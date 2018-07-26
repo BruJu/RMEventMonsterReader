@@ -9,21 +9,16 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class FormuleDeDegats {
-	public final Operator operator;
 	public final List<Condition> conditions;
 	public final Valeur formule;
 
-	public FormuleDeDegats(Operator operator, List<Condition> conditions, Valeur vDroite) {
-		this.operator = operator;
+	public FormuleDeDegats(List<Condition> conditions, Valeur vDroite) {
 		this.conditions = conditions;
 		this.formule = vDroite;
 	}
 
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
-
-		sb.append(Utilitaire.getSymbole(operator));
-		sb.append(" ");
 
 		if (conditions != null) {
 			sb.append("[");
@@ -35,10 +30,6 @@ public class FormuleDeDegats {
 		sb.append(formule.getString());
 
 		return sb.toString();
-	}
-
-	public Operator getOperator() {
-		return operator;
 	}
 
 	public Valeur getFormule() {

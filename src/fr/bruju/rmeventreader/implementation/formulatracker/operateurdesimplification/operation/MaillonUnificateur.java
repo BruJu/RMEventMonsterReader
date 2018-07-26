@@ -111,7 +111,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 
 	public FormuleDeDegats unifierDeuxFormules(FormuleDeDegats f1, FormuleDeDegats f2) {
-		if (f1.operator != f2.operator || f1.conditions.size() != f2.conditions.size()) {
+		if (f1.conditions.size() != f2.conditions.size()) {
 			return null;
 		}
 
@@ -130,7 +130,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 		valeurUnifiee = (Valeur) unifier(f1.formule, f2.formule);
 
-		return (valeurUnifiee == null) ? null : new FormuleDeDegats(f1.operator, conditionsUnifiees, valeurUnifiee);
+		return (valeurUnifiee == null) ? null : new FormuleDeDegats(conditionsUnifiees, valeurUnifiee);
 	}
 
 	// =================================================================================================================

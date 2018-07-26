@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class Attaque {
 	public final String nom;
 	
-	public final Map<ModifStat, List<FormuleDeDegats>> resultat;
+	public Map<ModifStat, List<FormuleDeDegats>> resultat;
 	public String chaineAAfficher;
 	
 

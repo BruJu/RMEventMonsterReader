@@ -34,7 +34,7 @@ public class MaillonSuppresseur extends ConstructeurDeComposantR implements Mail
 	public void traiter(Attaques attaques) {
 		extraireValeursASupprimer("ressources/formulatracker/Suppresseur.txt");
 		
-		attaques.apply(formule -> new FormuleDeDegats(formule.operator,
+		attaques.apply(formule -> new FormuleDeDegats(
 				formule.conditions.stream()
 						.map(this::traiter)
 						.map(composant -> (Condition) composant)

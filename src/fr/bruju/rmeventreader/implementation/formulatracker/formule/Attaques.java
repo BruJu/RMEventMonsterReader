@@ -52,7 +52,6 @@ public class Attaques {
 	 */
 	public static FormuleDeDegats transformationDeFormule(FormuleDeDegats formule,
 			UnaryOperator<Composant> transformation) {
-		Operator operateur = formule.operator;
 		List<Condition> conditions = formule.conditions.stream().map(transformation)
 				.map(composant -> (Condition) composant).filter(composant -> composant != CFixe.get(true))
 				.collect(Collectors.toList());
@@ -63,7 +62,7 @@ public class Attaques {
 
 		Valeur v = (Valeur) transformation.apply(formule.formule);
 
-		return new FormuleDeDegats(operateur, conditions, v);
+		return new FormuleDeDegats(conditions, v);
 	}
 
 	public void determinerAffichage(Function<Attaque, String> determineurDeChaine) {
@@ -77,7 +76,7 @@ public class Attaques {
 			attaque.resultat.forEach((stat, listeDeFormules) -> {
 				listeDeFormules.stream().map(formule -> detChaine.apply(formule)).filter(c -> !c.equals(""))
 
-						.map(c -> getStatAffichage(stat.stat) + " " + c).forEach(sousChaines::add);
+						.map(c -> getStatAffichage(stat.stat) + " " + Utilitaire.getSymbole(stat.operateur) + " " + c).forEach(sousChaines::add);
 			});
 
 			if (sousChaines.isEmpty())

@@ -41,11 +41,11 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR implements Maillo
 				boolean b = traiter(condition) != null;
 				
 				if (!b) {
-					return new FormuleDeDegats(Operator.DIFFERENT, new ArrayList<>(), new VConstante(0));
+					return new FormuleDeDegats(new ArrayList<>(), new VConstante(0));
 				}
 			}
 			
-			return new FormuleDeDegats(formuleDeDegats.operator, conditions, (Valeur) traiter(formuleDeDegats.formule));
+			return new FormuleDeDegats(conditions, (Valeur) traiter(formuleDeDegats.formule));
 		}
 		
 				

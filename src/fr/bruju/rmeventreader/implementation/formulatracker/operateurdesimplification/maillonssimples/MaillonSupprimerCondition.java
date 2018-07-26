@@ -10,7 +10,7 @@ public class MaillonSupprimerCondition implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.apply(f -> new FormuleDeDegats(f.operator, new ArrayList<>(), f.formule));
+		attaques.apply(f -> new FormuleDeDegats(new ArrayList<>(), f.formule));
 	}
 
 }

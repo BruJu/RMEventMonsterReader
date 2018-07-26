@@ -50,7 +50,6 @@ public class MaillonIntegration implements Maillon {
 		}
 		
 		// Retour
-		Operator operateur = formuleBase.operator;
-		return new FormuleDeDegats(operateur, conditions, formule);
+		return new FormuleDeDegats(conditions, formule);
 	}
 }

@@ -268,7 +268,7 @@ public class FormulaMaker implements ActionMakerDefalse {
 		@Override
 		public void changeVariable(Integer variable, Operator operator, Valeur vDroite) {
 			formules.add(new Pair<>(operator, 
-					new FormuleDeDegats(operator, etat.construireListeDeConditions(), vDroite)));
+					new FormuleDeDegats(etat.construireListeDeConditions(), vDroite)));
 			
 			if (affecterLesAffichage) {
 				super.changeVariable(variable, operator, vDroite);
