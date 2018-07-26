@@ -28,7 +28,7 @@ public class FormuleDeDegats {
 		if (conditions != null) {
 			sb.append("[");
 			sb.append(conditions.stream().map(c -> c.getString()).collect(Collectors.joining(" ")));
-			sb.append("] ");
+			sb.append("] ");  
 		}
 		sb.append("=>");
 		sb.append(" ");

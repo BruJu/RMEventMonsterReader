@@ -15,9 +15,11 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.Personnages;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Resultat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
+import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
@@ -85,13 +87,9 @@ public class FormulaMaker implements ActionMakerDefalse {
 	/**
 	 * Donne un objet résultat contenant les résultats de l'exécution du FormulaMaker
 	 */
-	public Resultat getResultat() {
-		Resultat resultat = new Resultat();
-
-		traiteursSpeciaux.forEach((numeroVariable, traiteur) -> {
-			resultat.integrer(traiteur.getStat(), traiteur.getFormules());
-		});
-
+	public Map<ModifStat, List<FormuleDeDegats>> getResultat() {
+		Map<ModifStat, List<FormuleDeDegats>> resultat = new HashMap<>();
+		traiteursSpeciaux.values().forEach(traiteur -> traiteur.remplir(resultat));
 		return resultat;
 	}
 
@@ -255,7 +253,7 @@ public class FormulaMaker implements ActionMakerDefalse {
 		private Statistique stat;
 
 		/** Liste des formules enregistrées */
-		private List<FormuleDeDegats> formules;
+		private List<Pair<Operator, FormuleDeDegats>> formules;
 
 		/**
 		 * Crée un traiteur enregistreur pour la statistique
@@ -267,22 +265,24 @@ public class FormulaMaker implements ActionMakerDefalse {
 			formules = new ArrayList<>();
 		}
 
-		/** Donne la statistique concernée par ce traiteur */
-		public Statistique getStat() {
-			return stat;
-		}
-
-		/** Donne les formules trouvées */
-		public List<FormuleDeDegats> getFormules() {
-			return formules;
-		}
-
 		@Override
 		public void changeVariable(Integer variable, Operator operator, Valeur vDroite) {
-			formules.add(new FormuleDeDegats(operator, etat.construireListeDeConditions(), vDroite));
+			formules.add(new Pair<>(operator, 
+					new FormuleDeDegats(operator, etat.construireListeDeConditions(), vDroite)));
+			
 			if (affecterLesAffichage) {
 				super.changeVariable(variable, operator, vDroite);
 			}
+		}
+		
+		/**
+		 * Rempli la map de resultats avec les formules trouvées par ce traiteur
+		 * @param resultat La carte de résultats
+		 */
+		public void remplir(Map<ModifStat, List<FormuleDeDegats>> resultat) {
+			formules.forEach(paire ->
+				Utilitaire.mapAjouterElementAListe(resultat, new ModifStat(stat, paire.getLeft()), paire.getRight())
+							);
 		}
 	}
 }

@@ -74,10 +74,10 @@ public class Attaques {
 		determinerAffichage(attaque -> {
 			List<String> sousChaines = new ArrayList<>();
 
-			attaque.resultat.map.forEach((stat, listeDeFormules) -> {
+			attaque.resultat.forEach((stat, listeDeFormules) -> {
 				listeDeFormules.stream().map(formule -> detChaine.apply(formule)).filter(c -> !c.equals(""))
 
-						.map(c -> getStatAffichage(stat) + " " + c).forEach(sousChaines::add);
+						.map(c -> getStatAffichage(stat.stat) + " " + c).forEach(sousChaines::add);
 			});
 
 			if (sousChaines.isEmpty())
@@ -99,9 +99,9 @@ public class Attaques {
 
 	public void transformerListeDeformules(
 			BiFunction<Statistique, List<FormuleDeDegats>, List<FormuleDeDegats>> transformationListe) {
-		liste.stream().map(attaque -> attaque.resultat).map(resultat -> resultat.map)
+		liste.stream().map(attaque -> attaque.resultat)
 				.forEach(map -> map.forEach((statistique, listeDeFormules) -> map.put(statistique,
-						transformationListe.apply(statistique, listeDeFormules))));
+						transformationListe.apply(statistique.stat, listeDeFormules))));
 
 	}
 

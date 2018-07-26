@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
@@ -31,6 +32,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageReel;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageUnifie;
@@ -57,56 +59,57 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.liste.stream().map(attaque -> attaque.resultat).forEach(resultat ->
-		
-				resultat.map = convertirMap(resultat.map)
-				);
+		attaques.liste.stream().map(a -> a.resultat).forEach(resultat -> resultat = convertirMap(resultat));
 	}
+
+	private Map<ModifStat, List<FormuleDeDegats>> convertirMap(Map<ModifStat, List<FormuleDeDegats>> base) {
+
+		Map<Pair<String, Operator>, List<Pair<ModifStat, FormuleDeDegats>>> fusionnables = base.entrySet().stream()
+				.flatMap(this::applatir).collect(Collectors.groupingBy( // Grouper par nom de stat x opérateur de modification
+						paire -> new Pair<>(paire.getLeft().stat.nom, paire.getLeft().operateur)));
+
+		fusionnables.replaceAll(this::fusionnerListe);
+
+		Map<ModifStat, List<FormuleDeDegats>> groupes = new HashMap<>();
 	
-	
-	private Map<Statistique, List<FormuleDeDegats>> convertirMap(Map<Statistique, List<FormuleDeDegats>> base) {
-		Map<String, List<Pair<Statistique, FormuleDeDegats>>> transformerFormules = transformerFormules(base);
-		
-		transformerFormules.replaceAll((cle, valeur) -> unifierListe(valeur));
-		
-		Map<Statistique, List<FormuleDeDegats>> map = new HashMap<>();
-		
-		transformerFormules
-				.values()
-				.stream()
-				.flatMap(liste -> liste.stream())
-				.forEach(paire -> Utilitaire.mapAjouterElementAListe(map, paire.getLeft(), paire.getRight()));
+		fusionnables.values()
+					.stream()
+					.flatMap(liste -> liste.stream())
+					.forEach(paire -> Utilitaire.mapAjouterElementAListe(groupes, paire.getLeft(), paire.getRight()));
 
-		return map;
+		return groupes;
 	}
 
+	private List<Pair<ModifStat, FormuleDeDegats>> fusionnerListe(Object cle,
+			List<Pair<ModifStat, FormuleDeDegats>> liste) {
 
-	private Map<String, List<Pair<Statistique, FormuleDeDegats>>> transformerFormules(
-			Map<Statistique, List<FormuleDeDegats>> formulesExistantes) {
-		return formulesExistantes.entrySet().stream().flatMap(this::applatir)
-				.collect(Collectors.groupingBy(paire -> paire.getLeft().nom));
-	}
+		BinaryOperator<Pair<ModifStat, FormuleDeDegats>> fonctionFusion = (f1, f2) -> {
+			personnageUnifie = getPersonnageUnifie(f1.getLeft().stat.possesseur, f2.getLeft().stat.possesseur);
 
-	private Stream<Pair<Statistique, FormuleDeDegats>> applatir(Map.Entry<Statistique, List<FormuleDeDegats>> e) {
-		return e.getValue().stream().map(formule -> new Pair<>(e.getKey(), formule));
-	}
+			FormuleDeDegats f = unifierDeuxFormules(f1.getRight(), f2.getRight());
 
-	private List<Pair<Statistique, FormuleDeDegats>> unifierListe(List<Pair<Statistique, FormuleDeDegats>> list) {
-		BinaryOperator<Pair<Statistique, FormuleDeDegats>> unification = (paire1, paire2) -> {
-			personnageUnifie = getPersonnageUnifie(paire1.getLeft().possesseur, paire2.getLeft().possesseur);
-			
-			FormuleDeDegats f = unifierDeuxFormules(paire1.getRight(), paire2.getRight());
-			
 			if (f == null) {
 				return null;
 			}
+			
+			String nomStatistique = f1.getLeft().stat.nom;
+			Statistique statChezPersoUnifie = personnageUnifie.getStatistiques().get(nomStatistique);
+			
+			ModifStat m = new ModifStat(statChezPersoUnifie, f1.getLeft().operateur);
 
-			return new Pair<>(personnageUnifie.getStatistiques().get(paire1.getLeft().nom), f);
+			return new Pair<>(m, f);
 		};
 
-		return Utilitaire.fusionnerJusquaStabilite(list, unification);
+		return Utilitaire.fusionnerJusquaStabilite(liste, fonctionFusion);
 	}
-	
+
+
+	private <K, V> Stream<Pair<K, V>> applatir(Map.Entry<K, List<V>> e) {
+		return e.getValue().stream().map(formule -> new Pair<>(e.getKey(), formule));
+	}
+
+
+
 	public FormuleDeDegats unifierDeuxFormules(FormuleDeDegats f1, FormuleDeDegats f2) {
 		if (f1.operator != f2.operator || f1.conditions.size() != f2.conditions.size()) {
 			return null;
@@ -114,7 +117,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 		List<Condition> conditionsUnifiees = new ArrayList<>(f1.conditions.size());
 		Valeur valeurUnifiee;
-		
+
 		for (int i = 0; i != f1.conditions.size(); i++) {
 			Condition cU = (Condition) unifier(f1.conditions.get(i), f2.conditions.get(i));
 
@@ -175,7 +178,6 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 		Personnage p2 = s.statistique.possesseur;
 
 		PersonnageUnifie unifie = getPersonnageUnifie(p1, p2);
-
 
 		if (unifie.equals(personnageUnifie)) {
 			// ok
