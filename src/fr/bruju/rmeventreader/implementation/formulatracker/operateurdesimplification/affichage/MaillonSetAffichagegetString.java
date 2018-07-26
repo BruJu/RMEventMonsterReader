@@ -28,7 +28,7 @@ public class MaillonSetAffichagegetString implements Maillon {
 					return chaine;
 				},
 
-				attaque -> "===" + attaque.getNom() + "===");
+				attaque -> "===" + attaque.nom + "===");
 	}
 
 }

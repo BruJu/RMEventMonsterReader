@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +14,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -26,20 +24,9 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 public class Attaques {
 	public List<Attaque> liste = new ArrayList<>();
 
-	public void ajouterRepertoire(String cheminRepertoire) {
-		File repertoire = new File(cheminRepertoire);
 
-		for (String fichier : repertoire.list()) {
-			liste.add(getNewAttaque(cheminRepertoire, fichier));
-		}
-	}
 
-	private Attaque getNewAttaque(String chemin, String fichier) {
-		String cheminComplet = chemin + fichier;
-		String nomAttaque = fichier.substring(0, fichier.length() - 4);
 
-		return new Attaque(nomAttaque, cheminComplet);
-	}
 
 	public Collection<Attaque> getAttaques() {
 		return liste;
@@ -87,7 +74,7 @@ public class Attaques {
 		determinerAffichage(attaque -> {
 			List<String> sousChaines = new ArrayList<>();
 
-			attaque.getResultat().map.forEach((stat, listeDeFormules) -> {
+			attaque.resultat.map.forEach((stat, listeDeFormules) -> {
 				listeDeFormules.stream().map(formule -> detChaine.apply(formule)).filter(c -> !c.equals(""))
 
 						.map(c -> getStatAffichage(stat) + " " + c).forEach(sousChaines::add);
@@ -101,7 +88,7 @@ public class Attaques {
 	}
 
 	private String getStatAffichage(Statistique stat) {
-		return stat.getPossesseur().getNom() + "." + stat.getNom();
+		return stat.possesseur.getNom() + "." + stat.nom;
 	}
 
 	public void modifierFormules(BiFunction<Statistique, FormuleDeDegats, FormuleDeDegats> transformation) {
@@ -112,7 +99,7 @@ public class Attaques {
 
 	public void transformerListeDeformules(
 			BiFunction<Statistique, List<FormuleDeDegats>, List<FormuleDeDegats>> transformationListe) {
-		liste.stream().map(attaque -> attaque.getResultat()).map(resultat -> resultat.map)
+		liste.stream().map(attaque -> attaque.resultat).map(resultat -> resultat.map)
 				.forEach(map -> map.forEach((statistique, listeDeFormules) -> map.put(statistique,
 						transformationListe.apply(statistique, listeDeFormules))));
 

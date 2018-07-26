@@ -49,9 +49,9 @@ public class Personnages {
 
 	public void afficherToutsLesStatistiques() {
 		personnagesReels.values().stream().flatMap(personnage -> personnage.getStatistiques().values().stream())
-				.forEach(stat -> System.out.println(stat.getPossesseur().getNom()
-											+ " " + stat.getNom()
-											+ " " + stat.getPosition()));
+				.forEach(stat -> System.out.println(stat.possesseur.getNom()
+											+ " " + stat.nom
+											+ " " + stat.position));
 	}
 
 }

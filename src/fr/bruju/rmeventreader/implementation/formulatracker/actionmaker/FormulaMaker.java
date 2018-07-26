@@ -73,8 +73,8 @@ public class FormulaMaker implements ActionMakerDefalse {
 		Map<Integer, TraiteurEnregistreur> traiteursSpeciaux = new HashMap<>();
 
 		contexte.getPersonnages().stream().flatMap(p -> p.getStatistiques().values().stream()).forEach(stat -> {
-			variablesExistantes.put(stat.getPosition(), new VStatistique(stat));
-			traiteursSpeciaux.put(stat.getPosition(), new TraiteurEnregistreur(stat));
+			variablesExistantes.put(stat.position, new VStatistique(stat));
+			traiteursSpeciaux.put(stat.position, new TraiteurEnregistreur(stat));
 		});
 
 		this.traiteursSpeciaux = traiteursSpeciaux;

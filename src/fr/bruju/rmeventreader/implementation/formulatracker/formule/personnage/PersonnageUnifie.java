@@ -5,17 +5,36 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Représente un ensemble de personnages représenté par un meta personnage
+ * @author Bruju
+ *
+ */
 public class PersonnageUnifie implements Personnage {
+	/* =================
+	 * PERSONNAGE UNIFIE
+	 * ================= */
+	
+	/** Nom du personnage */
 	private final String nom;
+	/** Association statistiques */
 	private Map<String, Statistique> statistiques;
+	/** Liste des personnages représentés */
 	private Set<PersonnageReel> personnages;
 
+	/**
+	 * Crée un personnage unifié à partir d'un ensemble de personnages réels
+	 * @param personnages L'ensemble des personnages à représenter
+	 */
 	public PersonnageUnifie(Set<PersonnageReel> personnages) {
 		this.personnages = personnages;
 		this.nom = deduireNom();
 		deduireStatistiques();
 	}
 
+	/**
+	 * Déduit les statistiques nécessaires pour ce meta personnage
+	 */
 	private void deduireStatistiques() {
 		statistiques = new HashMap<>();
 
@@ -23,16 +42,11 @@ public class PersonnageUnifie implements Personnage {
 				.flatMap(map -> map.keySet().stream())
 				.forEach(nomStat -> statistiques.putIfAbsent(nomStat, new Statistique(this, nomStat, -1)));
 	}
-
-	@Override
-	public String getNom() {
-		return nom;
-	}
-
-	public Map<String, Statistique> getStatistiques() {
-		return statistiques;
-	}
-
+	
+	/**
+	 * Déduit le nom du personnage unifié
+	 * @return Le nom du personnage unifié
+	 */
 	private String deduireNom() {
 		StringBuilder sb = new StringBuilder();
 
@@ -60,7 +74,10 @@ public class PersonnageUnifie implements Personnage {
 
 		return sb.toString();
 	}
-
+	
+	/**
+	 * Renvoie vrai si tous les personnages de l'ensemble commencent par le mot début
+	 */
 	private static boolean commencentTousPar(Set<PersonnageReel> personnages, String debut) {
 		for (PersonnageReel personnage : personnages) {
 			if (!personnage.getNom().startsWith(debut)) {
@@ -69,6 +86,20 @@ public class PersonnageUnifie implements Personnage {
 		}
 
 		return true;
+	}
+
+	/* ==========
+	 * PERSONNAGE
+	 * ========== */
+	
+	@Override
+	public String getNom() {
+		return nom;
+	}
+
+	@Override
+	public Map<String, Statistique> getStatistiques() {
+		return statistiques;
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.liste.stream().map(attaque -> attaque.getResultat()).forEach(resultat ->
+		attaques.liste.stream().map(attaque -> attaque.resultat).forEach(resultat ->
 		
 				resultat.map = convertirMap(resultat.map)
 				);
