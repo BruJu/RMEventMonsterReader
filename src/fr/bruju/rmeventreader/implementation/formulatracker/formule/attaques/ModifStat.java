@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;

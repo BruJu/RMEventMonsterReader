@@ -1,8 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.filtres;
 
-import java.util.stream.Collectors;
-
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
 public class MaillonFiltreAttaque implements Maillon {

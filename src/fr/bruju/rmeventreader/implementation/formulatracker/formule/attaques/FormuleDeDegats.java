@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.formule;
+package fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,15 +6,32 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
+/**
+ * Représenté une formule de dégâts avec des conditions pour appliquer cette formule et la formule en elle-même
+ * 
+ * @author Bruju
+ *
+ */
 public class FormuleDeDegats {
+	/** Conditions pour appliquer cette formule */
 	public final List<Condition> conditions;
+	/** Quantité de dégâts infligés */
 	public final Valeur formule;
 
-	public FormuleDeDegats(List<Condition> conditions, Valeur vDroite) {
+	/**
+	 * Construit une formule de dégâts
+	 * @param conditions Conditions d'application
+	 * @param valeur La formule de dégâts
+	 */
+	public FormuleDeDegats(List<Condition> conditions, Valeur valeur) {
 		this.conditions = conditions;
-		this.formule = vDroite;
+		this.formule = valeur;
 	}
 
+	/**
+	 * Renvoie une représentation basique de la formule de dégâts
+	 * @return Une représentation basique de la formule de dégâts
+	 */
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
 
@@ -29,6 +46,4 @@ public class FormuleDeDegats {
 
 		return sb.toString();
 	}
-
-
 }

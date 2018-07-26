@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
 public class MaillonFiltreOperateur implements Maillon {

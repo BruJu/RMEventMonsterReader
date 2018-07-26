@@ -14,8 +14,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bou
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.ModifStat;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.utilitaire.Pair;

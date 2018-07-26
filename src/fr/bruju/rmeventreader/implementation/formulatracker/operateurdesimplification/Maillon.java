@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 
 /**
  * Un maillon est un élément qui est exécuté pour transformer la liste des attaques.

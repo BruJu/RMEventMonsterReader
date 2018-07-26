@@ -27,9 +27,9 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.Attaques;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.FormuleDeDegats;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.ModifStat;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageReel;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.PersonnageUnifie;
