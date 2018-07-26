@@ -1,4 +1,5 @@
-package fr.bruju.rmeventreader.rmdatabase;
+package fr.bruju.rmeventreader;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
