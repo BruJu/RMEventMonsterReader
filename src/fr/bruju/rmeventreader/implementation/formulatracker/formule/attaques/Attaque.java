@@ -67,6 +67,7 @@ public class Attaque {
 		resultat.replaceAll((cle, liste) -> 
 		 liste.stream()
 				.map(formule -> transformation.apply(cle, formule))
+				.filter(formule -> formule != null)
 				.collect(Collectors.toList())
 			);
 	}

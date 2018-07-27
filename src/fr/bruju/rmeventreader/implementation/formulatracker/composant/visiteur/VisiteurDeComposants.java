@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_BorneSuperieure;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
@@ -128,7 +128,7 @@ public interface VisiteurDeComposants {
 	 * 
 	 * @return
 	 */
-	default void visit(E_BorneSuperieure composant) {
+	default void visit(E_Borne composant) {
 		visiterComposantNormal(composant);
 	}
 
