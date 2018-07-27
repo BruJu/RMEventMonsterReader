@@ -12,7 +12,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
@@ -27,7 +27,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.simplification.Evalu
  * @author Bruju
  *
  */
-public class FiltreHPPositifs extends ConstructeurDeComposantR implements Maillon {
+public class FiltreHPPositifs extends ConstructeurDeComposantsRecursif implements Maillon {
 	
 	// TODO : rework cette classe
 	
@@ -55,7 +55,7 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR implements Maillo
 	
 	
 	private EvaluateurSimple eval = new EvaluateurSimple();
-
+/*
 	@Override
 	protected Composant traiter(CVariable cVariable) {
 		if (cVariable.operateur == Operator.IDENTIQUE || cVariable.operateur == Operator.DIFFERENT) {
@@ -108,5 +108,5 @@ public class FiltreHPPositifs extends ConstructeurDeComposantR implements Maillo
 		
 		return super.traiter(cVariable);
 	}
-
+*/
 }

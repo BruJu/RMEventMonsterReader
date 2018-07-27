@@ -6,19 +6,21 @@ import java.util.function.BiFunction;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition.GestionnaireDeCondition;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
-public class IntegreurGeneral extends ConstructeurDeComposantR {
+public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 	private boolean estVivant = true;
 	private CreateurDeGestionnaire createur = new CreateurDeGestionnaire();
 	
@@ -68,12 +70,12 @@ public class IntegreurGeneral extends ConstructeurDeComposantR {
 	
 
 	@Override
-	protected Composant traiter(CArme cArme) {
+	protected Composant modifier(CArme cArme) {
 		return traiterCondition(cArme, (g, c) -> g.conditionArme(c));
 	}
 
 	@Override
-	protected Composant traiter(CSwitch cSwitch) {
+	protected Composant modifier(CSwitch cSwitch) {
 		
 		Bouton nouveauBouton = (Bouton) traiter(cSwitch.interrupteur);
 		
@@ -85,7 +87,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantR {
 	}
 
 	@Override
-	protected Composant traiter(CVariable cVariable) {
+	protected Composant modifier(CVariable cVariable) {
 		
 		Valeur gauche = (Valeur) traiter(cVariable.gauche);
 		Valeur droite = (Valeur) traiter(cVariable.droite);
@@ -114,17 +116,24 @@ public class IntegreurGeneral extends ConstructeurDeComposantR {
 		return condActuelle;
 	}
 	
-	@SuppressWarnings("unchecked")
+	
+	
+	
 	@Override
-	protected <T extends Composant> Composant visitePar(ComposantTernaire<T> ternaire,
-			TriFunction<Condition, T, T, T> creation) {
-		Condition cond = (Condition) traiter(ternaire.condition);
+	protected Composant modifier(BTernaire boutonTernaire) {
+		return ternaire(boutonTernaire, (c, v, v2) -> new BTernaire(c,v,v2));
+	}
 
-		Boolean fixe = CFixe.identifier(cond);
-		
-		if (fixe != null) {
-			return fixe ? traiter(ternaire.siVrai) : traiter(ternaire.siFaux);
-		} else {
+	@Override
+	protected Composant modifier(VTernaire variableTernaire) {
+		return ternaire(variableTernaire, (c, v, v2) -> new VTernaire(c,v,v2));
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T extends Composant> Composant ternaire(ComposantTernaire<T> ternaire,
+			TriFunction<Condition, T, T, T> creation) {
+		Condition cond = ternaire.condition;
+
 			gestionnairesAssocies.add(createur.getGestionnaire(cond));
 			
 			T vrai = (T) traiter(ternaire.siVrai);
@@ -140,7 +149,6 @@ public class IntegreurGeneral extends ConstructeurDeComposantR {
 			} else {
 				return creation.apply(cond, vrai, faux);
 			}
-		}
 	}
 
 }

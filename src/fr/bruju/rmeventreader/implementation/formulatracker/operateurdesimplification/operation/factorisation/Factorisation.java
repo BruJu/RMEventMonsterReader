@@ -8,11 +8,11 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
-public class Factorisation extends ConstructeurDeComposantR implements Maillon {
+public class Factorisation extends ConstructeurDeComposantsRecursif implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
@@ -31,7 +31,7 @@ public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 	private ConstructeurDeRepresentationVariadique builder = new ConstructeurDeRepresentationVariadique();
 
 	@Override
-	protected Composant traiter(VTernaire variableTernaire) {
+	protected Composant modifier(VTernaire variableTernaire) {
 		Condition cFacto = (Condition) traiter(variableTernaire.condition);
 
 		return factoriser(variableTernaire, (v, f) -> new VTernaire(cFacto, v, f), null, variableTernaire.siVrai,
@@ -39,7 +39,7 @@ public class Factorisation extends ConstructeurDeComposantR implements Maillon {
 	}
 
 	@Override
-	protected Composant traiter(VCalcul vCalcul) {
+	protected Composant modifier(VCalcul vCalcul) {
 		int niveau = getNiveau(vCalcul.operateur);
 
 		if (niveau <= 0) {

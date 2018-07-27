@@ -6,11 +6,11 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bou
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
-public class MaillonRetirerSiInutile extends ConstructeurDeComposantR implements Maillon {
+public class MaillonRetirerSiInutile extends ConstructeurDeComposantsRecursif implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
@@ -18,36 +18,26 @@ public class MaillonRetirerSiInutile extends ConstructeurDeComposantR implements
 	}
 
 	@Override
-	protected Composant traiter(BTernaire boutonTernaire) {
-		Condition bc = (Condition) traiter(boutonTernaire.condition);
-		Bouton bf = (Bouton) traiter(boutonTernaire.siFaux);
-		Bouton bv = (Bouton) traiter(boutonTernaire.siVrai);
+	protected Composant modifier(BTernaire boutonTernaire) {
+		Bouton bf = boutonTernaire.siFaux;
+		Bouton bv = boutonTernaire.siVrai;
 		
 		if (bv.equals(bf)) {
 			return bf;
 		} else {
-			if (bc == boutonTernaire.condition && bv == boutonTernaire.siVrai && bf == boutonTernaire.siFaux) {
-				return boutonTernaire;
-			} else {
-				return new BTernaire(bc, bv, bf);
-			}
+			return boutonTernaire;
 		}
 	}
 
 	@Override
-	protected Composant traiter(VTernaire variableTernaire) {
-		Condition bc = (Condition) traiter(variableTernaire.condition);
-		Valeur bf = (Valeur) traiter(variableTernaire.siFaux);
-		Valeur bv = (Valeur) traiter(variableTernaire.siVrai);
+	protected Composant modifier(VTernaire variableTernaire) {
+		Valeur bf = (variableTernaire.siFaux);
+		Valeur bv = (variableTernaire.siVrai);
 		
 		if (bv.equals(bf)) {
 			return bf;
 		} else {
-			if (bc == variableTernaire.condition && bv == variableTernaire.siVrai && bf == variableTernaire.siFaux) {
-				return variableTernaire;
-			} else {
-				return new VTernaire(bc, bv, bf);
-			}
+			return variableTernaire;
 		}
 	}
 

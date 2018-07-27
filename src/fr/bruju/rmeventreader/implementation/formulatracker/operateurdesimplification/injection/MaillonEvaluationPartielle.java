@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
@@ -23,7 +23,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
  * @author Bruju
  *
  */
-public class MaillonEvaluationPartielle extends ConstructeurDeComposantR implements Maillon {
+public class MaillonEvaluationPartielle extends ConstructeurDeComposantsRecursif implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
@@ -90,22 +90,22 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantR impleme
 	//              - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT -
 
 	@Override
-	protected Composant traiter(BBase composant) {
+	protected Composant modifier(BBase composant) {
 		int numero = composant.numero;
 		Boolean valeur = interrupteurs.get(numero);
 		
 		return (valeur == null) ? composant : BConstant.get(valeur);
 	}
-
+	
 	@Override
-	protected Composant traiter(VStatistique composant) {
-		int numero = composant.statistique.position;
+	protected Composant modifier(VBase composant) {
+		int numero = composant.idVariable;
 		return injecterVariable(composant, numero);
 	}
 
 	@Override
-	protected Composant traiter(VBase composant) {
-		int numero = composant.idVariable;
+	protected Composant modifier(VStatistique composant) {
+		int numero = composant.statistique.position;
 		return injecterVariable(composant, numero);
 	}
 

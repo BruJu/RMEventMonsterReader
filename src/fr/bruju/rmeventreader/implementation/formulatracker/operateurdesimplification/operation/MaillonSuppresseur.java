@@ -12,7 +12,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
@@ -24,7 +24,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
  * @author Bruju
  *
  */
-public class MaillonSuppresseur extends ConstructeurDeComposantR implements Maillon {
+public class MaillonSuppresseur extends ConstructeurDeComposantsRecursif implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
@@ -75,7 +75,7 @@ public class MaillonSuppresseur extends ConstructeurDeComposantR implements Mail
 	private Collection<? extends Valeur> valeursRetirees;
 
 	@Override
-	protected Composant traiter(CVariable cVariable) {
+	protected Composant modifier(CVariable cVariable) {
 		for (Valeur v : valeursRetirees) {
 			if (cVariable.gauche.equals(v)) {
 				return CFixe.get(true);

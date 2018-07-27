@@ -27,7 +27,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTe
  * @param <Intermediaire> Type intermédiaire au traitement
  */
 public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeComposants {
-	private Intermediaire composant;
+	protected Intermediaire composant;
 
 	
 	public Intermediaire traiter(Composant composant) {

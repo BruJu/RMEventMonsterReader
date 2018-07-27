@@ -3,24 +3,28 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Entre;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
-public class Encadrer extends ConstructeurDeComposantR implements Maillon {
+public class Encadrer extends ConstructeurDeComposantsRecursif implements Maillon {
+	// =================================================================================================================
+	// =================================================================================================================
+	// =================================================================================================================
+	//  - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON - MAILLON -
 
 	@Override
 	public void traiter(Attaques attaques) {
 		attaques.transformerComposants(this::traiter);
 	}
 
+	// =================================================================================================================
+	// =================================================================================================================
+	// =================================================================================================================
+	//            - CONSTRUCTEUR DE COMPOSANTS - CONSTRUCTEUR DE COMPOSANTS - CONSTRUCTEUR DE COMPOSANTS -
+
 	@Override
-	protected Composant traiter(E_Borne borne) {
-		
-		borne = new E_Borne((Valeur) traiter(borne.valeur), (Valeur) traiter(borne.borne), borne.estBorneSup);
-		
-		
+	protected Composant modifier(E_Borne borne) {
 		if (borne.valeur instanceof E_Borne) {
 			E_Borne autreBorne = (E_Borne) (borne.valeur);
 			
@@ -33,11 +37,6 @@ public class Encadrer extends ConstructeurDeComposantR implements Maillon {
 			}
 		}
 		
-		
-		return super.traiter(borne);
+		return borne;
 	}
-	
-	
-	
-
 }

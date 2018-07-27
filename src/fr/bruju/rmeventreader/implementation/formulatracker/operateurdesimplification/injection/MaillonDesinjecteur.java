@@ -15,7 +15,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition.CreateurDeGestionnaire;
@@ -29,7 +29,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  * @author Bruju
  *
  */
-public class MaillonDesinjecteur extends ConstructeurDeComposantR implements Maillon {
+public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
@@ -115,8 +115,8 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantR implements Mai
 	}
 
 	@Override
-	protected Composant traiter(CVariable cVariable) {
-		CVariable c = cVariable;
+	protected Composant modifier(CVariable conditionVariable) {
+		CVariable c = conditionVariable;
 		Condition r;
 
 		for (GestionnaireDeCondition gestionnaire : gestionnaires) {

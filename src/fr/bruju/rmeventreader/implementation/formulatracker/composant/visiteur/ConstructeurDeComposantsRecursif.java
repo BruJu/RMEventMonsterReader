@@ -31,59 +31,59 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		return boutonBase;
 	}
 
-	private Composant modifier(VBase variableBase) {
+	protected Composant modifier(VBase variableBase) {
 		return variableBase;
 	}
 
-	private Composant modifier(VAleatoire variableAleatoire) {
+	protected Composant modifier(VAleatoire variableAleatoire) {
 		return variableAleatoire;
 	}
 
-	private Composant modifier(VConstante variableConstante) {
+	protected Composant modifier(VConstante variableConstante) {
 		return variableConstante;
 	}
 
-	private Composant modifier(VStatistique variableStatistique) {
+	protected Composant modifier(VStatistique variableStatistique) {
 		return variableStatistique;
 	}
 
-	private Composant modifier(BConstant boutonConstant) {
+	protected Composant modifier(BConstant boutonConstant) {
 		return boutonConstant;
 	}
 	
-	private Composant modifier(BStatistique boutonTernaire) {
+	protected Composant modifier(BStatistique boutonTernaire) {
 		return boutonTernaire;
 	}
 
-	private Composant modifier(CArme conditionArme) {
+	protected Composant modifier(CArme conditionArme) {
 		return conditionArme;
 	}
 	
-	private Composant modifier(BTernaire boutonTernaire) {
+	protected Composant modifier(BTernaire boutonTernaire) {
 		return boutonTernaire;
 	}
 
-	private Composant modifier(VTernaire variableTernaire) {
+	protected Composant modifier(VTernaire variableTernaire) {
 		return variableTernaire;
 	}
 
-	private Composant modifier(VCalcul variableCalcul) {
+	protected Composant modifier(VCalcul variableCalcul) {
 		return variableCalcul;
 	}
 
-	private Composant modifier(CVariable conditionVariable) {
+	protected Composant modifier(CVariable conditionVariable) {
 		return conditionVariable;
 	}
 
-	private Composant modifier(CSwitch conditionSwitch) {
+	protected Composant modifier(CSwitch conditionSwitch) {
 		return conditionSwitch;
 	}
 
-	private Composant modifier(E_Borne borne) {
+	protected Composant modifier(E_Borne borne) {
 		return borne;
 	}
 	
-	private Composant modifier(E_Entre entre) {
+	protected Composant modifier(E_Entre entre) {
 		return entre;
 	}
 	
@@ -179,6 +179,11 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		
 		if (ct == null)
 			return null;
+		
+		Integer evalct = EvaluationSimple.getInstance().traiter(ct);
+		
+		if (evalct != null)
+			ct = CFixe.get(evalct.equals(1));
 		
 		Boolean id = CFixe.identifier(ct);
 		
