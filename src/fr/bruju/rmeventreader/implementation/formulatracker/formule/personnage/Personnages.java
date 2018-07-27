@@ -21,9 +21,12 @@ public class Personnages {
 
 			String nomPersonnage = donnees[0];
 			String nomStatistique = donnees[1];
-			Integer numeroVariable = Integer.decode(donnees[2]);
+			
+			boolean estPropriete = donnees[2].charAt(0) == 'S';
+			
+			Integer numeroVariable = Integer.decode((estPropriete ? donnees[2].substring(1) : donnees[2]));
 
-			injecter(nomPersonnage, nomStatistique, numeroVariable);
+			injecter(nomPersonnage, nomStatistique, numeroVariable, !estPropriete);
 		});
 	}
 
@@ -31,7 +34,7 @@ public class Personnages {
 		return personnagesReels.values();
 	}
 
-	private void injecter(String nomPersonnage, String nomStatistique, Integer numeroVariable) {
+	private void injecter(String nomPersonnage, String nomStatistique, Integer numeroVariable, boolean estStat) {
 		PersonnageReel perso = personnagesReels.get(nomPersonnage);
 
 		if (perso == null) {
@@ -39,7 +42,10 @@ public class Personnages {
 			personnagesReels.put(nomPersonnage, perso);
 		}
 
-		perso.addStatistique(nomStatistique, numeroVariable);
+		if (estStat)
+			perso.addStatistique(nomStatistique, numeroVariable);
+		else
+			perso.addPropriete(nomStatistique, numeroVariable);
 	}
 
 	/* =================

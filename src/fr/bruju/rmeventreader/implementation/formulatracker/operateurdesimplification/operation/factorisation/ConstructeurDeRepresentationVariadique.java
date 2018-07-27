@@ -6,6 +6,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
@@ -86,7 +87,12 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 	}
 	
 	// Cas illégaux
-	
+
+	@Override
+	public void visit(BStatistique composant) {
+		visiteIllegale();
+	}
+
 	@Override
 	public void visit(BBase composant) {
 		visiteIllegale();

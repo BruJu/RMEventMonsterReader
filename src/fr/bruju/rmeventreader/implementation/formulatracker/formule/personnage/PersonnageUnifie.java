@@ -19,6 +19,8 @@ public class PersonnageUnifie implements Personnage {
 	private final String nom;
 	/** Association statistiques */
 	private Map<String, Statistique> statistiques;
+	/** Association propriétés */
+	private Map<String, Statistique> proprietes;
 	/** Liste des personnages représentés */
 	private Set<PersonnageReel> personnages;
 
@@ -37,10 +39,16 @@ public class PersonnageUnifie implements Personnage {
 	 */
 	private void deduireStatistiques() {
 		statistiques = new HashMap<>();
+		proprietes = new HashMap<>();
 
 		personnages.stream().map(personnageReel -> personnageReel.getStatistiques())
 				.flatMap(map -> map.keySet().stream())
 				.forEach(nomStat -> statistiques.putIfAbsent(nomStat, new Statistique(this, nomStat, -1)));
+		
+
+		personnages.stream().map(personnageReel -> personnageReel.getProprietes())
+				.flatMap(map -> map.keySet().stream())
+				.forEach(nomStat -> proprietes.putIfAbsent(nomStat, new Statistique(this, nomStat, -1)));
 	}
 	
 	/**
@@ -100,6 +108,11 @@ public class PersonnageUnifie implements Personnage {
 	@Override
 	public Map<String, Statistique> getStatistiques() {
 		return statistiques;
+	}
+
+	@Override
+	public Map<String, Statistique> getProprietes() {
+		return proprietes;
 	}
 
 	@Override

@@ -19,6 +19,8 @@ public class PersonnageReel implements Personnage, Comparable<PersonnageReel> {
 	private final String nom;
 	/** Association nom de statistiques - statistiques du personnage */
 	private Map<String, Statistique> statistiques;
+	/** Association nom de propriété - propriété du personnage */
+	private Map<String, Statistique> proprietes;
 	
 	/**
 	 * Crée le personnage avec le nom donné
@@ -27,6 +29,7 @@ public class PersonnageReel implements Personnage, Comparable<PersonnageReel> {
 	public PersonnageReel(String nom) {
 		this.nom = nom;
 		statistiques = new HashMap<>();
+		proprietes = new HashMap<>();
 	}
 	
 	/**
@@ -38,6 +41,15 @@ public class PersonnageReel implements Personnage, Comparable<PersonnageReel> {
 		statistiques.put(nom, new Statistique(this, nom, position));
 	}
 
+	/**
+	 * Ajoute une propriété au personnage
+	 * @param nom Le nom de la propriété
+	 * @param position Le numéro de son interrupteur
+	 */
+	public void addPropriete(String nom, int position) {
+		proprietes.put(nom, new Statistique(this, nom, position));
+	}
+	
 	/* ==========
 	 * PERSONNAGE
 	 * ========== */
@@ -51,7 +63,11 @@ public class PersonnageReel implements Personnage, Comparable<PersonnageReel> {
 	public Map<String, Statistique> getStatistiques() {
 		return statistiques;
 	}
-	
+
+	@Override
+	public Map<String, Statistique> getProprietes() {
+		return proprietes;
+	}
 
 	@Override
 	public Set<PersonnageReel> getPersonnagesReels() {

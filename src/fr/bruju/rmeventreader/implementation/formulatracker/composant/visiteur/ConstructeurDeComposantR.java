@@ -6,6 +6,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
@@ -57,6 +58,11 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 		return variableConstante;
 	}
 
+	@Override
+	protected Composant traiter(BStatistique variableStatistique) {
+		return variableStatistique;
+	}
+	
 	@Override
 	protected Composant traiter(VStatistique variableStatistique) {
 		return variableStatistique;

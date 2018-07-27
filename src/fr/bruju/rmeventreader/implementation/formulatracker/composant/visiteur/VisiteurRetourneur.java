@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
@@ -42,6 +43,10 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 	}
 
 	protected Intermediaire traiter(BTernaire boutonTernaire) {
+		return comportementParDefaut(boutonTernaire);
+	}
+
+	protected Intermediaire traiter(BStatistique boutonTernaire) {
 		return comportementParDefaut(boutonTernaire);
 	}
 
@@ -98,6 +103,11 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 
 	@Override
 	public void visit(BTernaire composant) {
+		this.composant = traiter(composant);
+	}
+
+	@Override
+	public void visit(BStatistique composant) {
 		this.composant = traiter(composant);
 	}
 

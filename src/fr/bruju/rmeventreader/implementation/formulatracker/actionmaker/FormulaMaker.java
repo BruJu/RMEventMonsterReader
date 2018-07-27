@@ -10,6 +10,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
@@ -78,6 +79,9 @@ public class FormulaMaker implements ActionMakerDefalse {
 			variablesExistantes.put(stat.position, new VStatistique(stat));
 			traiteursSpeciaux.put(stat.position, new TraiteurEnregistreur(stat));
 		});
+		
+		contexte.getPersonnages().stream().flatMap(p -> p.getProprietes().values().stream()).forEach(stat -> 
+			interrupteursExistants.put(stat.position, new BStatistique(stat)));
 
 		this.traiteursSpeciaux = traiteursSpeciaux;
 	}

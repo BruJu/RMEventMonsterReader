@@ -4,6 +4,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
@@ -108,6 +109,11 @@ public class GetString implements VisiteurDeComposants {
 	@Override
 	public void visit(CVariable cVariable) {
 		sb.append(cVariable.getString());
+	}
+
+	@Override
+	public void visit(BStatistique composant) {
+		sb.append(composant.getString());
 	}
 
 }

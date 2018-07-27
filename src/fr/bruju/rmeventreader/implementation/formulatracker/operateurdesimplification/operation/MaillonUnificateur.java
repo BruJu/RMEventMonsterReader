@@ -13,6 +13,7 @@ import java.util.function.Function;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
@@ -125,39 +126,52 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 		return traiter(premier);
 	}
 
-	@Override
-	protected Composant traiter(VStatistique p) {
-		if (!(second instanceof VStatistique)) {
+	protected Composant traiter(BStatistique p) {
+		if (!(second instanceof BStatistique)) {
 			return null;
 		}
-
-		VStatistique s = (VStatistique) second;
-
-		// Cas 1 : il s'agit de la même statistique chez le même personnage. L'unification est inutile
-		if (p.equals(s)) {
+		
+		if (Objects.equals(p, second)) {
 			return p;
 		}
-
+		
+		return unifier(p.statistique, ((BStatistique) second).statistique, stat -> new BStatistique(stat));
+	}
+	
+	private Composant unifier(Statistique premier, Statistique second, Function<Statistique, Composant> creation) {
 		// Cas 2 : La statistique n'est pas la même chez des personnages différents. L'unification est impossible
-		if (!p.statistique.nom.equals(s.statistique.nom)) {
+		if (!premier.nom.equals(second.nom)) {
 			return null;
 		}
 
 		// Cas 3 : La statistique est identique
 
 		// Détermination du personnage unifié
-		Personnage p1 = p.statistique.possesseur;
-		Personnage p2 = s.statistique.possesseur;
+		Personnage p1 = premier.possesseur;
+		Personnage p2 = second.possesseur;
 
 		PersonnageUnifie unifie = getPersonnageUnifie(p1, p2);
 
 		if (unifie.equals(personnageUnifie)) {
 			// ok
-			return new VStatistique(personnageUnifie.getStatistiques().get(p.statistique.nom));
+			return creation.apply(personnageUnifie.getStatistiques().get(premier.nom));
 		} else {
 			// échec de l'unification
 			return null;
 		}
+	}
+
+	@Override
+	protected Composant traiter(VStatistique p) {
+		if (!(second instanceof VStatistique)) {
+			return null;
+		}
+		
+		if (Objects.equals(p, second)) {
+			return p;
+		}
+
+		return unifier(p.statistique, ((VStatistique) second).statistique, stat -> new VStatistique(stat));
 	}
 
 	private PersonnageUnifie getPersonnageUnifie(Personnage p1, Personnage p2) {
@@ -347,7 +361,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 	protected Composant traiter(BBase boutonBase) {
 		return siIdentiques(boutonBase);
 	}
-
+	
 	@Override
 	protected Composant traiter(BConstant boutonConstant) {
 		return siIdentiques(boutonConstant);

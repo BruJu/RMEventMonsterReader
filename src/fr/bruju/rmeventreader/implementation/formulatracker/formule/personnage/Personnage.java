@@ -15,6 +15,12 @@ public interface Personnage {
 	 * @return La carte associant nom de statistiques et objet statistiques
 	 */
 	public Map<String, Statistique> getStatistiques();
+
+	/**
+	 * Donne la carte associant nom de propriétés et objet statistiques
+	 * @return La carte associant nom de propriétés et objet statistiques
+	 */
+	public Map<String, Statistique> getProprietes();
 	
 	/**
 	 * Donne le nom du personnage
