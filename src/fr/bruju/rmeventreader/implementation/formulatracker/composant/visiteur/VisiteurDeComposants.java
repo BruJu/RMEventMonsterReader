@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
@@ -8,7 +9,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.Composants;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_BorneSuperieure;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
@@ -17,7 +18,11 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 
 /**
- * Interface permettant de visiter les composants
+ * Interface permettant de visiter les composants.
+ * <p>
+ * Par défaut, toutes les méthodes de visite des composants "normaux" doivent être implémentés. Il est possible
+ * d'implémenter également des traitements spécifiques pour les composants dit étendus (préfixés par E_). En cas de non
+ * implémentation, la méthode getComposantNormal sera appelée pour faire le traitement.
  * 
  * @author Bruju
  *
@@ -30,7 +35,7 @@ public interface VisiteurDeComposants {
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(Composants composant) {
+	public default void visit(Composant composant) {
 		composant.accept(this);
 	}
 
@@ -97,22 +102,6 @@ public interface VisiteurDeComposants {
 
 	/**
 	 * Visite de composant
-	 * @return 
-	 */
-	default void visit(ComposantEtendu composant) {
-		throw new VisiteIllegale();
-	}
-
-	/**
-	 * Visite de composant
-	 * @return 
-	 */
-	default void visit(CFixe composant) {
-		throw new VisiteIllegale();
-	}
-
-	/**
-	 * Visite de composant
 	 */
 	void visit(CArme composant);
 
@@ -125,5 +114,31 @@ public interface VisiteurDeComposants {
 	 * Visite de composant
 	 */
 	void visit(CVariable composant);
+
+	/* ==================
+	 * COMPOSANTS ETENDUS
+	 * ================== */
+	
+	default void visiterComposantNormal(ComposantEtendu composant) {
+		visit(composant.getComposantNormal());
+	}
+	
+	/**
+	 * Visite de composant
+	 * 
+	 * @return
+	 */
+	default void visit(E_BorneSuperieure composant) {
+		visiterComposantNormal(composant);
+	}
+
+	/**
+	 * Visite de composant
+	 * 
+	 * @return
+	 */
+	default void visit(CFixe composant) {
+		throw new VisiteIllegale();
+	}
 
 }

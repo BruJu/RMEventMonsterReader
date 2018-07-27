@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
+import java.util.Objects;
+
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
@@ -11,6 +13,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
@@ -202,4 +205,25 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 			return new VCalcul(gauche, vCalcul.operateur, droite);
 		}
 	}
+	
+	/*
+	 * COMPOSANTS ETENDUS
+	 */
+
+	@Override
+	protected Composant composantEtenduNonGere(ComposantEtendu composant) {
+		Composant composantNormalise = composant.getComposantNormal();
+		
+		Composant nouveauComposant = traiter(composantNormalise);
+		
+		if (Objects.equals(nouveauComposant, composantNormalise)) {
+			return composant;
+		} else {
+			return nouveauComposant;
+		}
+	}
+	
+	
+	
+	
 }

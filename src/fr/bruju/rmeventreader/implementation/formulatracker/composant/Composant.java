@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.Composants;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
  * Un composant est un élément qui permet de constituer des formules et représente une donnée quelconque.
@@ -8,7 +8,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.Com
  * @author Bruju
  *
  */
-public interface Composant extends Composants {
+public interface Composant {
 
 	/* ================
 	 * AFFICHAGE SIMPLE
@@ -19,4 +19,15 @@ public interface Composant extends Composants {
 	 * @return Une représentation texuelle du composant
 	 */
 	public String getString();
+	
+	/* ========
+	 * VISITEUR
+	 * ======== */
+
+	/**
+	 * Accepte d'être visité par le composant. (Patron de conception Visiteur)
+	 * @param visiteurDeComposants Le visiteur souhaitant explorer le composant
+	 */
+	void accept(VisiteurDeComposants visiteurDeComposants);
+
 }
