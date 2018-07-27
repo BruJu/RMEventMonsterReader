@@ -21,6 +21,9 @@ public final class BStatistique implements Bouton {
 	/** Crée une variable pour la statistique donnée */
 	public BStatistique(Statistique stat) {
 		this.statistique = stat;
+		
+		if (statistique == null)
+			throw new RuntimeException();
 	}
 
 	/* ================

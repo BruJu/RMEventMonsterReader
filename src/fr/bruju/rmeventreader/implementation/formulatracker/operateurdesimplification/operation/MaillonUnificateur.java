@@ -60,8 +60,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 			if (!(f1.getLeft().stat.nom.equals(f2.getLeft().stat.nom)
 					&& f1.getLeft().operateur == f2.getLeft().operateur))
 				return null;
-			
-			
+
 			personnageUnifie = getPersonnageUnifie(f1.getLeft().stat.possesseur, f2.getLeft().stat.possesseur);
 
 			FormuleDeDegats f = unifierDeuxFormules(f1.getRight(), f2.getRight());
@@ -77,10 +76,10 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 			return new Pair<>(m, f);
 		};
-		
+
 		attaques.fusionner(fonctionFusion);
 	}
-	
+
 	public FormuleDeDegats unifierDeuxFormules(FormuleDeDegats f1, FormuleDeDegats f2) {
 		if (f1.conditions.size() != f2.conditions.size()) {
 			return null;
@@ -103,8 +102,6 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 		return (valeurUnifiee == null) ? null : new FormuleDeDegats(conditionsUnifiees, valeurUnifiee);
 	}
-
-
 
 	// =================================================================================================================
 	// =================================================================================================================
@@ -130,15 +127,16 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 		if (!(second instanceof BStatistique)) {
 			return null;
 		}
-		
+
 		if (Objects.equals(p, second)) {
 			return p;
 		}
-		
-		return unifier(p.statistique, ((BStatistique) second).statistique, stat -> new BStatistique(stat));
+
+		return zunifier(p.statistique, ((BStatistique) second).statistique,
+				personnage -> new BStatistique(personnage.getProprietes().get(p.statistique.nom)));
 	}
-	
-	private Composant unifier(Statistique premier, Statistique second, Function<Statistique, Composant> creation) {
+
+	private Composant zunifier(Statistique premier, Statistique second, Function<Personnage, Composant> creation) {
 		// Cas 2 : La statistique n'est pas la même chez des personnages différents. L'unification est impossible
 		if (!premier.nom.equals(second.nom)) {
 			return null;
@@ -154,7 +152,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 
 		if (unifie.equals(personnageUnifie)) {
 			// ok
-			return creation.apply(personnageUnifie.getStatistiques().get(premier.nom));
+			return creation.apply(personnageUnifie);
 		} else {
 			// échec de l'unification
 			return null;
@@ -166,12 +164,13 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 		if (!(second instanceof VStatistique)) {
 			return null;
 		}
-		
+
 		if (Objects.equals(p, second)) {
 			return p;
 		}
 
-		return unifier(p.statistique, ((VStatistique) second).statistique, stat -> new VStatistique(stat));
+		return zunifier(p.statistique, ((VStatistique) second).statistique,
+				personnage -> new VStatistique(personnage.getStatistiques().get(p.statistique.nom)));
 	}
 
 	private PersonnageUnifie getPersonnageUnifie(Personnage p1, Personnage p2) {
@@ -361,7 +360,7 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 	protected Composant traiter(BBase boutonBase) {
 		return siIdentiques(boutonBase);
 	}
-	
+
 	@Override
 	protected Composant traiter(BConstant boutonConstant) {
 		return siIdentiques(boutonConstant);
