@@ -14,6 +14,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Entre;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
@@ -76,7 +78,14 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	private Composant modifier(CSwitch conditionSwitch) {
 		return conditionSwitch;
 	}
+
+	private Composant modifier(E_Borne borne) {
+		return borne;
+	}
 	
+	private Composant modifier(E_Entre entre) {
+		return entre;
+	}
 	
 	/* ========
 	 * FEUILLES
@@ -230,6 +239,25 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 				this::modifier);
 	}
 	
+	
+	@Override
+	protected final Composant traiter(E_Borne borne) {
+		return transformerElementCompose(
+				c -> new Composant[]{c.valeur, c.borne},
+				tableau -> new E_Borne((Valeur) tableau[0], (Valeur) tableau[1], borne.estBorneSup),
+				borne,
+				this::modifier);
+	}
+	
+
+	@Override
+	protected final Composant traiter(E_Entre borne) {
+		return transformerElementCompose(
+				c -> new Composant[]{c.borneInf, c.valeur, c.borneSup},
+				tableau -> new E_Entre((Valeur) tableau[0], (Valeur) tableau[1], (Valeur) tableau[2]),
+				borne,
+				this::modifier);
+	}
 
 	/* ===============
 	 * JAMAIS APPELEES
@@ -237,12 +265,12 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 
 	@Override
 	protected Composant composantEtenduNonGere(ComposantEtendu composant) {
-		return super.composantEtenduNonGere(composant);
+		throw new VisiteIllegale();
 	}
 	
 	@Override
 	protected Composant comportementParDefaut(Composant composant) {
-		return null;
+		throw new VisiteIllegale();
 	}
 
 }

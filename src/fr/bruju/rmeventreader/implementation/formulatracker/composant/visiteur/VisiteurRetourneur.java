@@ -10,6 +10,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Entre;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
@@ -174,6 +175,15 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 
 	protected Intermediaire traiter(E_Borne composant) {
 		return composantEtenduNonGere(composant);
+	}
+
+	@Override
+	public void visit(E_Entre composant) {
+		this.composant = traiter(composant);
+	}
+
+	protected Intermediaire traiter(E_Entre borne) {
+		return composantEtenduNonGere(borne);
 	}
 	
 	

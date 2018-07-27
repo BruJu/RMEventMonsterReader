@@ -34,7 +34,7 @@ import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
  * @author Bruju
  *
  */
-public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Composant> {
+abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Composant> {
 
 	// Feuilles
 
