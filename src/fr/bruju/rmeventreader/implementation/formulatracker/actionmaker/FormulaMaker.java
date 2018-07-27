@@ -82,6 +82,8 @@ public class FormulaMaker implements ActionMakerDefalse {
 		
 		contexte.getPersonnages().stream().flatMap(p -> p.getProprietes().values().stream()).forEach(stat -> 
 			interrupteursExistants.put(stat.position, new BStatistique(stat)));
+		
+		contexte.remplirVariablesNommees(variablesExistantes, interrupteursExistants);
 
 		this.traiteursSpeciaux = traiteursSpeciaux;
 	}

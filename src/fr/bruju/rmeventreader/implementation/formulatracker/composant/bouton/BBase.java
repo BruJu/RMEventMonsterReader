@@ -17,15 +17,25 @@ public class BBase implements Bouton {
 	
 	/** Numéro de l'interrupteur */
 	public final int numero;
+	/** Nom de l'interrupteur */
+	public final String nom;
 
 	/**
 	 * Construit un interrupteur avec le numéro donné 
 	 * @param numero Le numéro de l'interrupteur
 	 */
 	public BBase(int numero) {
-		this.numero = numero;
+		this(numero, "S[" + numero + "]");
 	}
 
+	/**
+	 * Construit un interrupteur avec le numéro donné 
+	 * @param numero Le numéro de l'interrupteur
+	 */
+	public BBase(int numero, String nom) {
+		this.numero = numero;
+		this.nom = nom;
+	}
 
 	/* ================
 	 * AFFICHAGE SIMPLE
@@ -33,7 +43,7 @@ public class BBase implements Bouton {
 
 	@Override
 	public String getString() {
-		return "S[" + numero + "]";
+		return nom;
 	}
 	
 	/* ========

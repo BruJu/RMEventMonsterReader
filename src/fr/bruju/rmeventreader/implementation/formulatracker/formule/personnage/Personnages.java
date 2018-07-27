@@ -7,14 +7,19 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
 public class Personnages {
+	private static String cheminNommes = "ressources/formulatracker/Nommes.txt";
 	Map<String, PersonnageReel> personnagesReels = new HashMap<>();
 
 	public void lirePersonnagesDansFichier(String chemin) throws IOException {
 		FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
 			String[] donnees = ligne.split(" ");
-
+			
 			if (donnees == null || donnees.length != 3) {
 				throw new LigneNonReconnueException("");
 			}
@@ -28,6 +33,33 @@ public class Personnages {
 
 			injecter(nomPersonnage, nomStatistique, numeroVariable, !estPropriete);
 		});
+	}
+	
+
+	public void remplirVariablesNommees(Map<Integer, Valeur> variablesExistantes,
+			Map<Integer, Bouton> interrupteursExistants) {
+		
+		try {
+			FileReaderByLine.lireLeFichierSansCommentaires(cheminNommes, ligne -> {
+				String[] donnees = ligne.split(" ");
+				
+				if (donnees == null || donnees.length != 3) {
+					throw new LigneNonReconnueException("");
+				}
+				
+				Integer numero = Integer.decode(donnees[0]);
+				boolean estVariable = donnees[1].equals("V");
+				String nom = donnees[2];
+				
+				if (estVariable) {
+					variablesExistantes.put(numero, new VBase(numero, nom));
+				} else {
+					interrupteursExistants.put(numero, new BBase(numero, nom));
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Collection<PersonnageReel> getPersonnages() {
@@ -58,5 +90,6 @@ public class Personnages {
 											+ " " + stat.nom
 											+ " " + stat.position));
 	}
+
 
 }

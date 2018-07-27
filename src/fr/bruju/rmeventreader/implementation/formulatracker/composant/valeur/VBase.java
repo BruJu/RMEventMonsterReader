@@ -16,13 +16,25 @@ public class VBase implements Valeur {
 	 * ========= */
 	/** Numéro de la variable */
 	public final int idVariable;
+	/** Nom de la variable */
+	public final String nom;
 	
 	/**
 	 * Construit une variable ayant le numéro donné
 	 * @param idVariable Le numéro de la variable
 	 */
 	public VBase(Integer idVariable) {
+		this(idVariable, "V[" + idVariable + "]");
+	}
+
+	/**
+	 * Construit une variable avec le numéro donné et le nom donné
+	 * @param idVariable Le numéro de la variable
+	 * @param nom Son nom
+	 */
+	public VBase(Integer idVariable, String nom) {
 		this.idVariable = idVariable;
+		this.nom = nom;
 	}
 	
 	/* ================
@@ -31,7 +43,7 @@ public class VBase implements Valeur {
 
 	@Override
 	public String getString() {
-		return "V[" + idVariable + "]";
+		return nom;
 	}
 
 	/* ========
