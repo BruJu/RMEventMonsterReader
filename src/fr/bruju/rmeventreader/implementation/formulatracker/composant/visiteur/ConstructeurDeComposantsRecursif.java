@@ -26,8 +26,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composant> {
-	private static EvaluationRapide fastEval = EvaluationRapide.getInstance();
-
 	protected Composant modifier(BBase boutonBase) {
 		return boutonBase;
 	}
@@ -152,7 +150,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		boolean sontIdentiques = true;
 		
 		for (int i = 0 ; i != fils.length ; i++) {
-			resultats[i] = fastEval.traiter(traiter(fils[i]));
+			resultats[i] = traiter(fils[i]).evaluationRapide();
 			
 			if (resultats[i] == null) {
 				return null;
@@ -175,8 +173,8 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	private <T extends Composant, U extends Composant> Composant transformerTernaire(
 			TriFunction<Condition, U, U, T> getPere,
 			T elementBase, Condition condition, U vrai, U faux,
-			Function<T, Composant> transformation) {		
-		Condition ct = (Condition) fastEval.traiter(traiter(condition));
+			Function<T, Composant> transformation) {
+		Condition ct = (Condition) traiter(condition).evaluationRapide();
 		
 		if (ct == null)
 			return null;
@@ -184,7 +182,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		Boolean id = CFixe.identifier(ct);
 		
 		if (id != null) {
-			return id ? fastEval.traiter(traiter(vrai)) : fastEval.traiter(traiter(faux));
+			return id ? traiter(vrai).evaluationRapide() : traiter(faux).evaluationRapide();
 		}
 		
 		U vt = (U) traiter(vrai);
@@ -198,8 +196,8 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 			return transformation.apply(elementBase);
 		}
 
-		vt = (U) fastEval.traiter(vt);
-		vf = (U) fastEval.traiter(vf);
+		vt = (U) traiter(vt).evaluationRapide();
+		vf = (U) traiter(vf).evaluationRapide();
 		
 		return transformation.apply(getPere.apply(ct, vt, vf));
 	}

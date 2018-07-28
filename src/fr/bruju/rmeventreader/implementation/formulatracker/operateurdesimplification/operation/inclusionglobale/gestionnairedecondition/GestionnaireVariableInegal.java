@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.EvaluationRapide;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class GestionnaireVariableInegal implements GestionnaireDeCondition {
@@ -13,12 +13,9 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 	private Operator op;
 	private int maDroite;
 
-	private EvaluationRapide eval;
-
 	public GestionnaireVariableInegal(CVariable cVariable) {
 		this.base = cVariable;
 
-		eval = EvaluationRapide.getInstance();
 		
 		Pair<Operator, Integer> e = evaluerSansBorne(cVariable);
 		op = e.getLeft();
@@ -26,7 +23,7 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 		
 		op = cVariable.operateur;
 
-		Integer md = eval.evaluer(base.droite);
+		Integer md = VConstante.evaluer(base.droite);
 
 		if (md == null) {
 			throw new RuntimeException("Inevaluable");
@@ -36,7 +33,7 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 	}
 
 	private Pair<Operator, Integer> evaluerSansBorne(CVariable cVariable) {
-		Integer evaluation = eval.evaluer(cVariable.droite);
+		Integer evaluation = VConstante.evaluer(cVariable.droite);
 		
 		if (evaluation == null)
 			return null;

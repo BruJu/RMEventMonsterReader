@@ -5,19 +5,16 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.EvaluationRapide;
 
 public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 
 	private CVariable base;
 	private int maDroite;
 	
-	private EvaluationRapide eval;
 
 	public GestionnaireVariableDifferent(CVariable cVariable) {
 		this.base = cVariable;
-		eval = EvaluationRapide.getInstance();
-		maDroite = eval.evaluer(base.droite);
+		maDroite = VConstante.evaluer(base.droite);
 	}
 
 	@Override
@@ -34,7 +31,7 @@ public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 		}
 		
 		
-		int saDroite = eval.evaluer(cond.droite);
+		int saDroite = VConstante.evaluer(cond.droite);
 		
 		if (cond.operateur == Operator.IDENTIQUE) {
 			return CFixe.get(!cond.operateur.test(maDroite, saDroite));
