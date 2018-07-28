@@ -273,7 +273,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	@Override
 	protected final Composant traiter(E_CalculVariadique composant) {
 		return transformerElementCompose(
-				c -> c.decomposer(),
+				c -> c.getTousLesFils(),
 				tableau -> new E_CalculVariadique(composant, tableau),
 				composant,
 				this::modifier);

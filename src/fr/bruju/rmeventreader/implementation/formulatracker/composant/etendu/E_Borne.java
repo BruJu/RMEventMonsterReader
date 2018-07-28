@@ -8,16 +8,47 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import java.util.Objects;
 
+/**
+ * Valeur bornée par un autre valeur. Autrement dit, un minimum ou un maximum.
+ * 
+ * @author Bruju
+ */
 public final class E_Borne implements ComposantEtendu, Valeur {
+	/* =========
+	 * COMPOSANT
+	 * ========= */
+
+	/** Valeur bornée */
 	public final Valeur valeur;
+	/** Borne */
 	public final Valeur borne;
+	/** Si vrai, max. Sinon min entre les deux valeurs */
 	public final boolean estBorneSup;
 
-	public E_Borne(Valeur valeur, Valeur borneSuperieure, boolean estborneSup) {
+	/**
+	 * Borne une valeur par une autre
+	 * @param valeur Valeur à borner
+	 * @param borne La borne
+	 * @param estborneSup Si vrai, la borne est une borne supérieure. Sinon une borne inférieure
+	 */
+	public E_Borne(Valeur valeur, Valeur borne, boolean estborneSup) {
 		this.valeur = valeur;
-		this.borne = borneSuperieure;
+		this.borne = borne;
 		this.estBorneSup = estborneSup;
 	}
+	
+	/* ================
+	 * AFFICHAGE SIMPLE
+	 * ================ */
+
+	@Override
+	public String getString() {
+		return ((estBorneSup) ? "max" : "min") + "(" + valeur.getString() + ", " + borne.getString() + ")";
+	}
+	
+	/* ========
+	 * VISITEUR
+	 * ======== */
 
 	@Override
 	public void accept(VisiteurDeComposants visiteur) {
@@ -25,14 +56,18 @@ public final class E_Borne implements ComposantEtendu, Valeur {
 	}
 
 	@Override
+	public Composant evaluationRapide() {
+		return this;
+	}
+	
+	@Override
 	public Composant getComposantNormal() {
 		return new VTernaire(new CVariable(valeur, estBorneSup ? Operator.SUP : Operator.INF, borne), valeur, borne);
 	}
-
-	@Override
-	public String getString() {
-		return ((estBorneSup) ? "max" : "min") + "(" + valeur.getString() + ", " + borne.getString() + ")";
-	}
+	
+	/* =================
+	 * EQUALS / HASHCODE
+	 * ================= */
 
 	@Override
 	public int hashCode() {
@@ -49,10 +84,6 @@ public final class E_Borne implements ComposantEtendu, Valeur {
 		return false;
 	}
 
-	@Override
-	public Composant evaluationRapide() {
-		return this;
-	}
 	
 	
 

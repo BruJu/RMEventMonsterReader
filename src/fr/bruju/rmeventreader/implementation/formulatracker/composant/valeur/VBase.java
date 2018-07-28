@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.V
  * @author Bruju
  *
  */
-public class VBase implements Valeur, ComposantFeuille {	
+public class VBase implements Valeur, ComposantFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
