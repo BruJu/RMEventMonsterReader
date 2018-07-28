@@ -72,8 +72,8 @@ public class Factorisation extends ConstructeurDeComposantsRecursif implements M
 			Valeur gauche, Valeur droite) {
 
 		
-		Valeur gaucheFact = (Valeur) traiter(gauche);
-		Valeur droiteFact = (Valeur) traiter(droite);
+		Valeur gaucheFact = gauche;
+		Valeur droiteFact = droite;
 
 		Operator operateurGauche = connaitreOperateur(gaucheFact);
 		Operator operateurDroite = connaitreOperateur(gaucheFact);

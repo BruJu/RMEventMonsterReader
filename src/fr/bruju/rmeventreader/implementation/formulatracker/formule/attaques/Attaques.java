@@ -14,6 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.EvaluationRapide;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
@@ -113,6 +114,7 @@ public class Attaques {
 		List<Condition> conditions = formule.conditions
 										.stream()
 										.map(transformation)
+										.map(EvaluationRapide.getInstance()::traiter)
 										.map(composant -> (Condition) composant)
 										.filter(composant -> composant != CFixe.get(true))
 										.collect(Collectors.toList());

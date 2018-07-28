@@ -26,6 +26,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composant> {
+	private static EvaluationRapide fastEval = EvaluationRapide.getInstance();
 
 	protected Composant modifier(BBase boutonBase) {
 		return boutonBase;
@@ -150,7 +151,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		boolean sontIdentiques = true;
 		
 		for (int i = 0 ; i != fils.length ; i++) {
-			resultats[i] = traiter(fils[i]);
+			resultats[i] = fastEval.traiter(traiter(fils[i]));
 			
 			if (resultats[i] == null) {
 				return null;
@@ -173,26 +174,20 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	private <T extends Composant, U extends Composant> Composant transformerTernaire(
 			TriFunction<Condition, U, U, T> getPere,
 			T elementBase, Condition condition, U vrai, U faux,
-			Function<T, Composant> transformation) {
-		
-		Condition ct = (Condition) traiter(condition);
+			Function<T, Composant> transformation) {		
+		Condition ct = (Condition) fastEval.traiter(traiter(condition));
 		
 		if (ct == null)
 			return null;
 		
-		Integer evalct = EvaluationSimple.getInstance().traiter(ct);
-		
-		if (evalct != null)
-			ct = CFixe.get(evalct.equals(1));
-		
 		Boolean id = CFixe.identifier(ct);
 		
 		if (id != null) {
-			return id ? traiter(vrai) : traiter(faux);
+			return id ? fastEval.traiter(traiter(vrai)) : fastEval.traiter(traiter(faux));
 		}
 		
-		U vt = (U) traiter(vrai);
-		U vf = (U) traiter(faux);
+		U vt = (U) fastEval.traiter(traiter(vrai));
+		U vf = (U) fastEval.traiter(traiter(faux));
 		
 		if (vt == null || vf == null) {
 			return null;
