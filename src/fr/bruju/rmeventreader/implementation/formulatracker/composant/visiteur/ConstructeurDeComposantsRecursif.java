@@ -144,6 +144,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 			Function<Composant[], T> getPere,
 			T elementBase,
 			Function<T, Composant> transformation) {
+		
 		// Traiter les fils
 		Composant[] fils = getFils.apply(elementBase);
 		Composant[] resultats = new Composant[fils.length];
@@ -194,7 +195,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		}
 		
 		if (vt == vrai && vf == faux && ct == condition) {
-			return elementBase;
+			return transformation.apply(elementBase);
 		}
 
 		vt = (U) fastEval.traiter(vt);

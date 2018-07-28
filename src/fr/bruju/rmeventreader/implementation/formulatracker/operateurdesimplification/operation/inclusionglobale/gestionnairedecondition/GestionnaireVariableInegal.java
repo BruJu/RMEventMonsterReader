@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.EvaluationRapide;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class GestionnaireVariableInegal implements GestionnaireDeCondition {
@@ -13,12 +13,12 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 	private Operator op;
 	private int maDroite;
 
-	private EvaluateurSimple eval;
+	private EvaluationRapide eval;
 
 	public GestionnaireVariableInegal(CVariable cVariable) {
 		this.base = cVariable;
 
-		eval = new EvaluateurSimple();
+		eval = EvaluationRapide.getInstance();
 		
 		Pair<Operator, Integer> e = evaluerSansBorne(cVariable);
 		op = e.getLeft();

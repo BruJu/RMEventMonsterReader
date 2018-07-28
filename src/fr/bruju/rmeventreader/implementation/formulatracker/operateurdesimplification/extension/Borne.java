@@ -64,7 +64,7 @@ public class Borne extends ConstructeurDeComposantsRecursif implements Maillon {
 				return new E_Borne(vrai, faux, false); 
 			}
 		}
-		
+
 		return variableTernaire;
 	}
 	

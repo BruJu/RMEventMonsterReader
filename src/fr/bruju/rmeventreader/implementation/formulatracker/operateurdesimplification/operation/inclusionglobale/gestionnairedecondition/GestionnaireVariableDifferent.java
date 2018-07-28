@@ -5,18 +5,18 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.EvaluationRapide;
 
 public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 
 	private CVariable base;
 	private int maDroite;
 	
-	private EvaluateurSimple eval;
+	private EvaluationRapide eval;
 
 	public GestionnaireVariableDifferent(CVariable cVariable) {
 		this.base = cVariable;
-		eval = new EvaluateurSimple();
+		eval = EvaluationRapide.getInstance();
 		maDroite = eval.evaluer(base.droite);
 	}
 

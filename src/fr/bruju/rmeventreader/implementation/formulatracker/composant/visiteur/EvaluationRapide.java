@@ -6,6 +6,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Entre;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 
@@ -25,6 +27,17 @@ public final class EvaluationRapide extends VisiteurRetourneur<Composant> {
 			instance = new EvaluationRapide();
 		}
 		return instance;
+	}
+	
+	
+	public Integer evaluer(Composant c) {
+		Composant evalue = traiter(c);
+		
+		if (evalue instanceof VConstante) {
+			return ((VConstante) evalue).valeur;
+		} else {
+			return null;
+		}
 	}
 	
 	@Override
@@ -81,6 +94,16 @@ public final class EvaluationRapide extends VisiteurRetourneur<Composant> {
 		return composant;
 	}
 
+
+	@Override
+	protected Composant traiter(E_Borne composant) {
+		return composant;
+	}
+
+	@Override
+	protected Composant traiter(E_Entre borne) {
+		return borne;
+	}
 
 	@Override
 	protected Composant comportementParDefaut(Composant composant) {

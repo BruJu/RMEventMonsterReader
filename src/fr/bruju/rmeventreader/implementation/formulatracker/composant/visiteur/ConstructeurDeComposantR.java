@@ -22,7 +22,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.EvaluateurSimple;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 /**
@@ -165,34 +164,18 @@ public abstract class ConstructeurDeComposantR extends VisiteurRetourneur<Compos
 			return cVariable;
 		} else {
 			CVariable condition = new CVariable(gauche, cVariable.operateur, droite);
-			Boolean r = tenterDEvaluer(condition);
+			EvaluationRapide evaluateur = EvaluationRapide.getInstance();
+			
+			Condition c = (Condition) evaluateur.traiter(condition);
 
+			Boolean r = CFixe.identifier(c);
+			
 			if (r != null) {
 				return CFixe.get(r);
 			} else {
 				return condition;
 			}
 		}
-	}
-
-	protected Boolean tenterDEvaluer(CVariable condition) {
-		Valeur gauche = condition.gauche;
-		Valeur droite = condition.droite;
-
-		EvaluateurSimple evaluateur = new EvaluateurSimple();
-
-		Integer gVal = evaluateur.evaluer(gauche);
-		if (gVal == null) {
-			return null;
-		}
-
-		Integer dVal = evaluateur.evaluer(droite);
-
-		if (dVal == null) {
-			return null;
-		}
-
-		return condition.operateur.test(gVal, dVal);
 	}
 
 	@Override
