@@ -14,6 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import java.util.Objects;
 
 public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	public final Operator base;
@@ -25,7 +26,7 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 		this.valeurs = valeurs;
 		this.inverses = inverse;
 	}
-
+	
 	public E_CalculVariadique(List<List<Pair<Valeur, Operator>>> liste) {
 		this.base = liste.get(0).get(0).getRight();
 
@@ -39,15 +40,35 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 		this.valeurs = valeursApplaties.stream().map(paire -> paire.getLeft()).collect(Collectors.toList());
 		this.inverses = valeursApplaties.stream().map(paire -> paire.getRight() == base).collect(Collectors.toList());
 	}
+	
+	public E_CalculVariadique(E_CalculVariadique base, Composant[] composants) {
+		this.base = base.base;
+		this.inverses = base.inverses;
+		this.valeurs = new ArrayList<>();
+		
+		for (Composant composant : composants) {
+			valeurs.add((Valeur) composant);
+		}
+	}
+	
+	public Composant[] decomposer() {
+		Composant[] composants = new Composant[valeurs.size()];
+		
+		for (int i = 0 ; i != valeurs.size() ; i++) {
+			composants[i] = valeurs.get(i);
+		}
+		
+		return composants;
+	}
 
 	@Override
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
 
-		forEach(() -> sb.append(base.getNeutre()), (valeur) -> sb.append("[|").append(valeur.getString()),
+		forEach(() -> sb.append(base.getNeutre()), (valeur) -> sb.append("•[").append("("+valeur.getString()+")"),
 				(valeur, operateur) -> sb.append(" ").append(Utilitaire.getSymbole(operateur)).append(" ")
-						.append(valeur.getString()),
-				() -> sb.append("|]"));
+						.append("("+valeur.getString()+")"),
+				() -> sb.append("]"));
 
 		return sb.toString();
 	}
@@ -83,12 +104,19 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 
 	@Override
 	public Composant evaluationRapide() {
+		if (true)
+		return this;
+		
 		List<List<Pair<Valeur, Operator>>> splitter = splitter();
 
 		reduireContenu(splitter);
 
 		reduireDeGaucheADroite(splitter);
 
+		if (splitter.size() == 0) {
+			return null;
+		}
+		
 		return new E_CalculVariadique(splitter);
 	}
 
@@ -97,7 +125,7 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	 * ========================== */
 
 	private void reduireDeGaucheADroite(List<List<Pair<Valeur, Operator>>> splitter) {
-		if (splitter.get(0).size() != 1) {
+		if (splitter.size() == 0 || splitter.get(0).size() != 1) {
 			return;
 		}
 		
@@ -230,4 +258,21 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(base, valeurs, inverses);
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof E_CalculVariadique) {
+			E_CalculVariadique that = (E_CalculVariadique) object;
+			return Objects.equals(this.base, that.base) && Objects.equals(this.valeurs, that.valeurs)
+					&& Objects.equals(this.inverses, that.inverses);
+		}
+		return false;
+	}
+
+	
+	
 }

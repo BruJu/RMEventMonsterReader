@@ -15,6 +15,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_CalculVariadique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Entre;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
@@ -265,6 +266,19 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 				this::modifier);
 	}
 
+	protected Composant modifier(E_CalculVariadique composant) {
+		return composant;
+	}
+
+	@Override
+	protected final Composant traiter(E_CalculVariadique composant) {
+		return transformerElementCompose(
+				c -> c.decomposer(),
+				tableau -> new E_CalculVariadique(composant, tableau),
+				composant,
+				this::modifier);
+	}
+	
 	/* ===============
 	 * JAMAIS APPELEES
 	 * =============== */
