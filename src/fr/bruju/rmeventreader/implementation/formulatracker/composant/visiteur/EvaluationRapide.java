@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
@@ -57,6 +58,14 @@ public final class EvaluationRapide extends VisiteurRetourneur<Composant> {
 			VConstante cstg = (VConstante) variableCalcul.gauche;
 			VConstante cstd = (VConstante) variableCalcul.droite;
 			
+			if (variableCalcul.operateur == Operator.DIVIDE) {
+				int modulo = cstg.valeur % cstd.valeur;
+				
+				if (modulo != 0) {
+					return variableCalcul;
+				}
+			}
+				
 			return new VConstante(variableCalcul.operateur.compute(cstg.valeur, cstd.valeur));
 		}
 		

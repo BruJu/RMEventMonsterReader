@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
@@ -40,8 +39,4 @@ public class MaillonRetirerSiInutile extends ConstructeurDeComposantsRecursif im
 			return variableTernaire;
 		}
 	}
-
-	
-	
-	
 }

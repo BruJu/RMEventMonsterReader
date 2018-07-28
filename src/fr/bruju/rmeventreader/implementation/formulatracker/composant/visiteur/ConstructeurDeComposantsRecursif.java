@@ -186,12 +186,19 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 			return id ? fastEval.traiter(traiter(vrai)) : fastEval.traiter(traiter(faux));
 		}
 		
-		U vt = (U) fastEval.traiter(traiter(vrai));
-		U vf = (U) fastEval.traiter(traiter(faux));
+		U vt = (U) traiter(vrai);
+		U vf = (U) traiter(faux);
 		
 		if (vt == null || vf == null) {
 			return null;
 		}
+		
+		if (vt == vrai && vf == faux && ct == condition) {
+			return elementBase;
+		}
+
+		vt = (U) fastEval.traiter(vt);
+		vf = (U) fastEval.traiter(vf);
 		
 		return transformation.apply(getPere.apply(ct, vt, vf));
 	}
