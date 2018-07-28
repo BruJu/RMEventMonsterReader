@@ -42,7 +42,7 @@ public class Utilitaire {
 	public static int getPriorite(Operator operateur) {
 		switch (operateur) {
 		case MODULO:
-			return 10;
+			return 9;
 		case TIMES:
 		case DIVIDE:
 			return 9;

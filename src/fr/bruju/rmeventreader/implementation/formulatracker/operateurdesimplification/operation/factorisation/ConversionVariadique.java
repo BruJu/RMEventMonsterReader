@@ -59,7 +59,7 @@ public class ConversionVariadique extends ConstructeurDeComposantsRecursif imple
 		ajouter(valeurs, booleens, base, d);
 		booleens.set(dernierIndex, operateur == base);
 		
-		return new E_CalculVariadique(operateur, valeurs, booleens);
+		return new E_CalculVariadique(base, valeurs, booleens);
 	}
 	
 	

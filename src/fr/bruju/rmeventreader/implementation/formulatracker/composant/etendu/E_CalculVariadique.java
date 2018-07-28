@@ -11,6 +11,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -25,6 +26,12 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 		this.base = base;
 		this.valeurs = valeurs;
 		this.inverses = inverse;
+		if (this.base != Operator.sensConventionnel(this.base)) {
+			System.out.println(this.getString());
+			
+			throw new UnsupportedOperationException("1Sens conventionnel non trouvé");
+		}
+
 	}
 	
 	public E_CalculVariadique(List<List<Pair<Valeur, Operator>>> liste) {
@@ -65,10 +72,12 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
 
-		forEach(() -> sb.append(base.getNeutre()), (valeur) -> sb.append("•[").append("("+valeur.getString()+")"),
-				(valeur, operateur) -> sb.append(" ").append(Utilitaire.getSymbole(operateur)).append(" ")
-						.append("("+valeur.getString()+")"),
-				() -> sb.append("]"));
+		forEach(() -> sb.append(base.getNeutre()), (valeur) -> sb
+				.append(VCalcul.getValeurParenthesee(getPriorite(), valeur.getPriorite(), valeur.getString())),
+				(valeur, operateur) -> sb.append(" ").append(Utilitaire.getSymbole(operateur))
+				.append(" ")
+				.append(VCalcul.getValeurParenthesee(getPriorite(), valeur.getPriorite(), valeur.getString())),
+				Utilitaire::doNothing);
 
 		return sb.toString();
 	}
@@ -96,6 +105,9 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 			boolean operateurBase = inverses.get(i);
 			actionsSuivantes.accept(valeurs.get(i), operateurBase ? base : base.revert());
 		}
+		
+		
+		finSiNonVide.run();
 	}
 
 	/* ==========================
@@ -104,9 +116,6 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 
 	@Override
 	public Composant evaluationRapide() {
-		if (true)
-		return this;
-		
 		List<List<Pair<Valeur, Operator>>> splitter = splitter();
 
 		reduireContenu(splitter);
@@ -215,20 +224,20 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 
 	public List<List<Pair<Valeur, Operator>>> splitter() {
 		Operator[][] groupes = AZAFgetGroupes();
-
+		
 		List<List<Pair<Valeur, Operator>>> dejaConstruits = new ArrayList<>();
 
 		List<Pair<Valeur, Operator>> enCours = new ArrayList<>();
 
 		forEach(Utilitaire::doNothing, v -> enCours.add(new Pair<>(v, base)), (valeur, operateur) -> {
 			if (memeGroupe(enCours.get(0).getRight(), operateur, groupes)) {
-				enCours.add(new Pair<>(valeur, operateur));
 			} else {
 				dejaConstruits.add(enCours.stream().collect(Collectors.toList()));
 				enCours.clear();
 			}
+			enCours.add(new Pair<>(valeur, operateur));
 		}, () -> dejaConstruits.add(enCours));
-
+		
 		return dejaConstruits;
 	}
 
@@ -271,6 +280,16 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 					&& Objects.equals(this.inverses, that.inverses);
 		}
 		return false;
+	}
+
+	@Override
+	public int getPriorite() {
+		return Utilitaire.getPriorite(base);
+	}
+
+	@Override
+	public void accept(VisiteurDeComposants visiteurDeComposants) {
+		visiteurDeComposants.visit(this);
 	}
 
 	

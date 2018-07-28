@@ -20,6 +20,15 @@ public interface Composant {
 	 * @return Une représentation texuelle du composant
 	 */
 	public String getString();
+	
+	
+	/**
+	 * Donne la priorité du composant actuel pour l'affichage. Par
+	 * @return
+	 */
+	public default int getPriorite() {
+		return Integer.MAX_VALUE;
+	}
 
 	/* ========
 	 * VISITEUR

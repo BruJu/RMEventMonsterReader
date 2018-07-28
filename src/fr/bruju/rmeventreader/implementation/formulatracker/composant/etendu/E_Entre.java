@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 public class E_Entre implements ComposantEtendu, Valeur {
 	public final Valeur borneInf;
@@ -21,6 +22,9 @@ public class E_Entre implements ComposantEtendu, Valeur {
 
 	@Override
 	public Composant getComposantNormal() {
+		new RuntimeException().printStackTrace();
+		
+		
 		return new E_Borne(new E_Borne(valeur, borneSup, true), borneInf, false).getComposantNormal();
 	}
 
@@ -30,4 +34,9 @@ public class E_Entre implements ComposantEtendu, Valeur {
 		return this;
 	}
 	
+
+	@Override
+	public void accept(VisiteurDeComposants visiteurDeComposants) {
+		visiteurDeComposants.visit(this);
+	}
 }

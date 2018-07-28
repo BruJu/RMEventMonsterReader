@@ -9,11 +9,12 @@ public interface ComposantEtendu extends Composant {
 	 * VISITEUR
 	 * ======== */
 
+	/*
 	@Override
 	public default void accept(VisiteurDeComposants visiteurDeComposants) {
 		getComposantNormal().accept(visiteurDeComposants);
 	}
-	
+	*/
 
 	/* =========
 	 * EXTENSION

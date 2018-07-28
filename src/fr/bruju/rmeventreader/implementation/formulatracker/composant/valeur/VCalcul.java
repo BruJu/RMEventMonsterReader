@@ -42,8 +42,9 @@ public class VCalcul implements Valeur {
 
 	@Override
 	public String getString() {
-		return getValeurParenthesee(this, gauche) + " " + Utilitaire.getSymbole(operateur) + " "
-				+ getValeurParenthesee(this, droite);
+		return getValeurParenthesee(this.getPriorite(), gauche.getPriorite(), gauche.getString())
+				+ " " + operateur + " "//+ Utilitaire.getSymbole(operateur) + " "
+				+ getValeurParenthesee(this.getPriorite(), droite.getPriorite(), droite.getString());
 	}
 
 	/**
@@ -52,17 +53,11 @@ public class VCalcul implements Valeur {
 	 * @param fils Le fils
 	 * @return La représentation du fils, entourée de parenthèse si le père est moins prioritaire
 	 */
-	private static String getValeurParenthesee(VCalcul pere, Valeur fils) {
-		if (fils instanceof VCalcul) {
-			VCalcul sousCalcul = (VCalcul) fils;
-
-			if (sousCalcul.getPriorite() < pere.getPriorite()) {
-				return "(" + fils.getString() + ")";
-			} else {
-				return fils.getString();
-			}
+	public static String getValeurParenthesee(int prioritePere, int prioriteFils, String chaineFils) {
+		if (prioriteFils < prioritePere) {
+			return "(" + chaineFils + ")";
 		} else {
-			return fils.getString();
+			return chaineFils;
 		}
 	}
 	
@@ -70,7 +65,8 @@ public class VCalcul implements Valeur {
 	 * Donne la priorité de l'opération de ce calcul
 	 * @return La priorité de l'opérateur de ce calcul
 	 */
-	private int getPriorite() {
+	@Override
+	public int getPriorite() {
 		return Utilitaire.getPriorite(operateur);
 	}
 	
