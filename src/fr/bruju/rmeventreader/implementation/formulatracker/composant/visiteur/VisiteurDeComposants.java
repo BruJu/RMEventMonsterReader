@@ -25,6 +25,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTe
  * Par défaut, toutes les méthodes de visite des composants "normaux" doivent être implémentés. Il est possible
  * d'implémenter également des traitements spécifiques pour les composants dit étendus (préfixés par E_). En cas de non
  * implémentation, la méthode getComposantNormal sera appelée pour faire le traitement.
+ * <p>
+ * Le plus souvent, utiliser VisiteurRetourneur et ConstructeurDeComposantsRecursifs est plus simple.
  * 
  * @author Bruju
  *

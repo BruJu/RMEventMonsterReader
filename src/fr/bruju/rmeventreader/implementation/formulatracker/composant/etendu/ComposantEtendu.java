@@ -44,11 +44,11 @@ la méthode par défaut.
 == VISITEUR RETOURNEUR ==
 
 	@Override
-	public void visit(E_BorneSuperieure composant) {
+	public void visit(E_NouveauComposantEtendu composant) {
 		this.composant = traiter(composant);
 	}
 
-	protected Intermediaire traiter(E_BorneSuperieure composant) {
+	protected Intermediaire traiter(E_NouveauComposantEtendu composant) {
 		return composantEtenduNonGere(composant);
 	}
 	
@@ -56,16 +56,24 @@ la méthode par défaut.
 -> Permet d'appeler le traitement du composant normalisé
 
 
-== CONSTRUCTEUR DE COMPOSANT R ==
+== CONSTRUCTEUR DE COMPOSANTS RECURSIF ==
 
+	protected Composant modifier(E_NouveauComposantEtendu composant) {
+		return composant;
+	}
 
-Rien à modifier
+	@Override
+	protected final Composant traiter(E_NouveauComposantEtendu composant) {
+		return transformerElementCompose(
+				c -> new Composant[]{liste des fils},
+				tableau -> new E_Entre(nouveaux fils renvoyés dans le même ordre),
+				composant,
+				this::modifier);
+	}
 
-Par défaut, traiter() renvoie une valeur, que le constructeur compare avec la forme normalisée du composant appelant.
-Si la forme normalisée et la valeur de retour sont identiques, la forme étendue est conservée.
-Sinon elle est remplacée.
-
-
+	La méthode modifier est mise de manière à ce que les visiteurs visitent bien ce nouveau composant. Le traitement
+par défaut de ce nouveau composant étant de ne rien faire.
+	La méthode traiter est redéfinie pour que l'on traite les fils.
 
 
 
