@@ -113,4 +113,11 @@ public class Utilitaire {
 
 		return transformee;
 	}
+	
+	/**
+	 * Fonction en faisant rien. Remplace () -> {} par Utilitaire::doNothing dans les lambda
+	 */
+	public static void doNothing() {
+		
+	}
 }
