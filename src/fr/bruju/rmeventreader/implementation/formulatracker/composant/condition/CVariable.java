@@ -1,6 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.condition;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -42,9 +44,9 @@ public class CVariable implements Condition {
 		return new CVariable(gauche, operateur.revert(), droite);
 	}
 
-	/* ================
-	 * AFFICHAGE SIMPLE
-	 * ================ */
+	/* ===============
+	 * IMPLEMENTATIONS
+	 * =============== */
 
 	@Override
 	public String getString() {
@@ -60,6 +62,19 @@ public class CVariable implements Condition {
 		visiteurDeComposant.visit(this);
 	}
 
+	@Override
+	public Composant evaluationRapide() {
+		if (gauche instanceof VConstante && droite instanceof VConstante) {
+			VConstante cstg = (VConstante) gauche;
+			VConstante cstd = (VConstante) droite;
+			
+			return CFixe.get(operateur.test(cstg.valeur, cstd.valeur));
+		}
+		
+		return this;
+	}
+	
+	
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */

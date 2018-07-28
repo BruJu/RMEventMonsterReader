@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantFeuille;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class VStatistique implements Valeur {
+public class VStatistique implements Valeur, ComposantFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

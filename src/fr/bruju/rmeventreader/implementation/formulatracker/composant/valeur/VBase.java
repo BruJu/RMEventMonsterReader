@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
 import java.util.Objects;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantFeuille;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
@@ -10,7 +11,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.V
  * @author Bruju
  *
  */
-public class VBase implements Valeur {	
+public class VBase implements Valeur, ComposantFeuille {	
 	/* =========
 	 * COMPOSANT
 	 * ========= */

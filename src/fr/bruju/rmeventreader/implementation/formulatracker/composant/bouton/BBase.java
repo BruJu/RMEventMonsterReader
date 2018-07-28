@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton;
 
 import java.util.Objects;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantFeuille;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
@@ -10,7 +11,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.V
  * @author Bruju
  *
  */
-public class BBase implements Bouton {
+public class BBase implements Bouton, ComposantFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -37,9 +38,9 @@ public class BBase implements Bouton {
 		this.nom = nom;
 	}
 
-	/* ================
-	 * AFFICHAGE SIMPLE
-	 * ================ */
+	/* ===============
+	 * IMPLEMENTATIONS
+	 * =============== */
 
 	@Override
 	public String getString() {

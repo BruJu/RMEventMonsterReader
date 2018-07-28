@@ -24,4 +24,10 @@ public class E_Entre implements ComposantEtendu, Valeur {
 		return new E_Borne(new E_Borne(valeur, borneSup, true), borneInf, false).getComposantNormal();
 	}
 
+
+	@Override
+	public Composant evaluationRapide() {
+		return this;
+	}
+	
 }

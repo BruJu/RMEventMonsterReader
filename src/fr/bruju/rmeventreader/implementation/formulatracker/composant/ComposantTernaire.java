@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant;
 
 import java.util.Objects;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 
 /**
@@ -54,6 +55,16 @@ public abstract class ComposantTernaire<T extends Composant> implements Composan
 		return sb.toString();
 	}
 
+	@Override
+	public Composant evaluationRapide() {
+		Boolean identifier = CFixe.identifier(condition);
+		
+		if (identifier == null)
+			return this;
+		
+		return identifier ? siVrai : siFaux;
+	}
+	
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */

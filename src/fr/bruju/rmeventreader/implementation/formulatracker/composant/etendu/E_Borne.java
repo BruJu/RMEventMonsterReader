@@ -48,6 +48,11 @@ public final class E_Borne implements ComposantEtendu, Valeur {
 		}
 		return false;
 	}
+
+	@Override
+	public Composant evaluationRapide() {
+		return this;
+	}
 	
 	
 

@@ -27,7 +27,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantR;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteIllegale;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurRetourneur;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
@@ -48,7 +49,7 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  * @author Bruju
  *
  */
-public class MaillonUnificateur extends ConstructeurDeComposantR implements Maillon {
+public class MaillonUnificateur extends VisiteurRetourneur<Composant> implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
@@ -384,6 +385,11 @@ public class MaillonUnificateur extends ConstructeurDeComposantR implements Mail
 	@Override
 	protected Composant traiter(CArme conditionArme) {
 		return siIdentiques(conditionArme);
+	}
+
+	@Override
+	protected Composant comportementParDefaut(Composant composant) {
+		throw new VisiteIllegale();
 	}
 
 }

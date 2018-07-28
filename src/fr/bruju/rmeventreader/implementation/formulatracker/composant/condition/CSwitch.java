@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.condition;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
@@ -36,9 +38,9 @@ public class CSwitch implements Condition {
 		return new CSwitch(interrupteur, !valeur);
 	}
 
-	/* ================
-	 * AFFICHAGE SIMPLE
-	 * ================ */
+	/* ===============
+	 * IMPLEMENTATIONS
+	 * =============== */
 
 	@Override
 	public String getString() {
@@ -50,6 +52,17 @@ public class CSwitch implements Condition {
 		s += interrupteur.getString();
 		
 		return s;
+	}
+
+	@Override
+	public Composant evaluationRapide() {
+		if (interrupteur instanceof BConstant) {
+			BConstant cst = (BConstant) interrupteur;
+			
+			return CFixe.get(cst.value == valeur);
+		}
+		
+		return this;
 	}
 	
 	/* ========
@@ -78,6 +91,7 @@ public class CSwitch implements Condition {
 	public int hashCode() {
 		return Objects.hash(interrupteur, valeur) * 2953;
 	}
+
 
 	
 }

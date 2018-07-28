@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
@@ -36,7 +37,7 @@ public class VCalcul implements Valeur {
 	}
 
 	/* ================
-	 * AFFICHAGE SIMPLE
+	 * IMPLEMENTATIONS
 	 * ================ */
 
 	@Override
@@ -71,6 +72,26 @@ public class VCalcul implements Valeur {
 	 */
 	private int getPriorite() {
 		return Utilitaire.getPriorite(operateur);
+	}
+	
+	@Override
+	public Composant evaluationRapide() {
+		if (gauche instanceof VConstante && droite instanceof VConstante) {
+			VConstante cstg = (VConstante) gauche;
+			VConstante cstd = (VConstante) droite;
+			
+			if (operateur == Operator.DIVIDE) {
+				int modulo = cstg.valeur % cstd.valeur;
+				
+				if (modulo != 0) {
+					return this;
+				}
+			}
+				
+			return new VConstante(operateur.compute(cstg.valeur, cstd.valeur));
+		}
+		
+		return this;
 	}
 	
 	/* ========

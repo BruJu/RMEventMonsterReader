@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton;
 
 import java.util.Objects;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantFeuille;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
@@ -11,7 +12,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.V
  * @author Bruju
  *
  */
-public class BConstant implements Bouton {
+public class BConstant implements Bouton, ComposantFeuille {
 	/* =================
 	 * PSEUDO SINGLETON
 	 * ================ */
@@ -43,15 +44,15 @@ public class BConstant implements Bouton {
 		this.value = value;
 	}
 	
-	/* ================
-	 * AFFICHAGE SIMPLE
-	 * ================ */
+	/* ===============
+	 * IMPLEMENTATIONS
+	 * =============== */
 
 	@Override
 	public String getString() {
 		return (value) ? "ON" : "OFF";
 	}
-
+	
 	/* ========
 	 * VISITEUR
 	 * ======== */

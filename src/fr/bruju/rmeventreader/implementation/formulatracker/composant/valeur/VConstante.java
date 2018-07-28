@@ -2,6 +2,8 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
 import java.util.Objects;
 
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.ComposantFeuille;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
 /**
@@ -9,7 +11,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.V
  * @author Bruju
  *
  */
-public class VConstante implements Valeur {	
+public class VConstante implements Valeur, ComposantFeuille {	
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -55,5 +57,23 @@ public class VConstante implements Valeur {
 	@Override
 	public int hashCode() {
 		return Objects.hash(valeur) * 8233;
+	}
+	
+	
+	/* =================
+	 * EVALUATION RAPIDE
+	 * ================= */
+	
+	/**
+	 * Renvoie la valeur représentée par c si c'est une constante
+	 * @param c Le composant dont on souhaite connaître la valeur
+	 * @return Sa valeur si c'est une constante, null sinon
+	 */
+	public static Integer evaluer(final Composant c) {
+		if (c instanceof VConstante) {
+			return ((VConstante) c).valeur;
+		} else {
+			return null;
+		}
 	}
 }
