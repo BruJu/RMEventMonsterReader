@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
@@ -68,9 +70,9 @@ public class MaillonSetAffichageCSV implements Maillon {
 		liste.add(new Pair<>("", formule));
 		
 		liste = prefixer(liste);
-		
+
 		return liste.stream()
-					.map(paire -> paire.getLeft() + convertirEnChaine(formule))
+					.map(paire -> paire.getLeft() + convertirEnChaine(paire.getRight()))
 					.collect(Collectors.toList());
 	}
 	
@@ -90,6 +92,7 @@ public class MaillonSetAffichageCSV implements Maillon {
 	private List<Pair<String, FormuleDeDegats>> prefixer(List<Pair<String, FormuleDeDegats>> liste) {
 		List<FonctionDeTransformation> traitements = new ArrayList<>();
 		traitements.add(new Variable360());
+		traitements.add(new Periode());
 		
 		List<Pair<String, FormuleDeDegats>> courant = liste;
 		
@@ -97,6 +100,9 @@ public class MaillonSetAffichageCSV implements Maillon {
 			courant = courant.stream().flatMap(paire -> traitement.apply(paire).stream())
 					.collect(Collectors.toList());
 		}
+		
+
+		
 		
 		return courant;
 	}
@@ -127,7 +133,6 @@ public class MaillonSetAffichageCSV implements Maillon {
 	
 	
 	private static class Variable360 implements FonctionDeTransformation {
-
 		@Override
 		public List<Pair<String, FormuleDeDegats>> apply(Pair<String, FormuleDeDegats> paire) {
 			List<Composant> var360 = new ArrayList<>();
@@ -140,8 +145,9 @@ public class MaillonSetAffichageCSV implements Maillon {
 										.map(c -> (CVariable) c)
 										.filter(c -> c.operateur == Operator.IDENTIQUE)
 										.collect(Collectors.toList());
+
 			
-			
+
 			List<Pair<String, FormuleDeDegats>> resultat;
 			if (conditions.isEmpty()) {
 				resultat = new ArrayList<>();
@@ -158,11 +164,51 @@ public class MaillonSetAffichageCSV implements Maillon {
 			
 			return resultat;
 		}
-
-		
-		
 	}
 
+	private static class Periode implements FonctionDeTransformation {
+		@Override
+		public List<Pair<String, FormuleDeDegats>> apply(Pair<String, FormuleDeDegats> paire) {
+			List<Composant> periodes = new ArrayList<>();
+			periodes.add(new BBase(8));
+			periodes.add(new BBase(9));
+			periodes.add(new BBase(10));
+			periodes.add(new BBase(11));
+			
+			List<CSwitch> conditions = new ExtracteurDeConditions()
+										.extraireSousConditions(paire.getRight(), periodes)
+										.stream()
+										.filter(c -> c instanceof CSwitch)
+										.map(c -> (CSwitch) c)
+										.filter(c -> c.valeur)
+										.collect(Collectors.toList());
+
+			List<Pair<String, FormuleDeDegats>> resultat = new ArrayList<>();
+			if (conditions.isEmpty()) {
+				resultat = new ArrayList<>();
+				resultat.add(new Pair<>(paire.getLeft()+"♦", paire.getRight()));
+			} else {
+				resultat = new ArrayList<>();
+				
+				String[] moments = {"Jour", "Soir", "Nuit", "Matin"};
+				
+				
+				for (int i = 8 ; i <= 11 ; i++) {
+					IntegreurGeneral ig = new IntegreurGeneral();
+					for (int j = 8 ; j <= 11 ; j++)
+						ig.ajouterCondition(new CSwitch(new BBase(j), i == j));
+					
+					
+					FormuleDeDegats nouvelleformule = ig.integrer(paire.getRight());
+					
+					resultat.add(new Pair<>(paire.getLeft()+moments[i - 8]+"♦", nouvelleformule));
+				}	
+			}
+			
+			return resultat;
+		}
+	}
+	
 
 	public static FormuleDeDegats inclusionGenerale(Condition condition, FormuleDeDegats right) {
 		IntegreurGeneral ig = new IntegreurGeneral();

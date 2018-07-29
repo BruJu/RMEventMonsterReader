@@ -44,7 +44,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 			return null;
 		}
 		
-		conditionsGeree = conditionsGeree.subList(tailleCondition, conditionsGeree.size());
+		conditionsGeree = conditionsGeree.subList(tailleCondition, conditionsGeree.size()); 
 		
 		// Retour
 		return new FormuleDeDegats(conditionsGeree, formule);
@@ -148,23 +148,28 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 	@SuppressWarnings("unchecked")
 	private <T extends Composant> Composant ternaire(ComposantTernaire<T> ternaire,
 			TriFunction<Condition, T, T, T> creation) {
-		Condition cond = ternaire.condition;
+		Condition cond = (Condition) traiter(ternaire.condition);
+		
+		if (cond instanceof CFixe) {
+			new RuntimeException().printStackTrace();
+			throw new RuntimeException();
+		}
 
-			gestionnairesAssocies.add(createur.getGestionnaire(cond));
-			
-			T vrai = (T) traiter(ternaire.siVrai);
-			
-			gestionnairesAssocies.set(gestionnairesAssocies.size() - 1, createur.getGestionnaire(cond.revert()));
-			
-			T faux = (T) traiter(ternaire.siFaux);
-			
-			gestionnairesAssocies.remove(gestionnairesAssocies.size() - 1);
+		gestionnairesAssocies.add(createur.getGestionnaire(cond));
+		
+		T vrai = (T) traiter(ternaire.siVrai);
+		
+		gestionnairesAssocies.set(gestionnairesAssocies.size() - 1, createur.getGestionnaire(cond.revert()));
+		
+		T faux = (T) traiter(ternaire.siFaux);
+		
+		gestionnairesAssocies.remove(gestionnairesAssocies.size() - 1);
 
-			if (cond == ternaire.condition && faux == ternaire.siFaux && vrai == ternaire.siVrai) {
-				return ternaire;
-			} else {
-				return creation.apply(cond, vrai, faux);
-			}
+		if (cond == ternaire.condition && faux == ternaire.siFaux && vrai == ternaire.siVrai) {
+			return ternaire;
+		} else {
+			return creation.apply(cond, vrai, faux);
+		}
 	}
 
 

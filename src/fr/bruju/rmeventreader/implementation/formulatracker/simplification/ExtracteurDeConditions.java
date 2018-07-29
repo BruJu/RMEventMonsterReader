@@ -26,33 +26,50 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.For
 
 public class ExtracteurDeConditions implements VisiteurDeComposants {
 	private List<VBase> variableTrackees;
-	
+	private List<BBase> interrupteursTrackes;
+	private boolean trackerArmes;
+
 	private Set<Condition> conditionsConnues;
-	
-	
+
 	public List<Condition> extraireSousConditions(FormuleDeDegats formuleDeDegats, List<Composant> composants) {
+		return extraireSousConditions(formuleDeDegats, composants, false);
+	}
+
+	public List<Condition> extraireSousConditions(FormuleDeDegats formuleDeDegats, List<Composant> composants,
+			boolean trackerArmes) {
+		this.trackerArmes = trackerArmes;
 		conditionsConnues = new HashSet<>();
 		remplirTracking(composants);
-		
+
 		formuleDeDegats.conditions.forEach(this::visit);
 		visit(formuleDeDegats.formule);
-		
+
 		return new ArrayList<>(conditionsConnues);
 	}
 
 	private void remplirTracking(List<Composant> composants) {
-		variableTrackees = composants.stream()
-									.filter(v -> v instanceof VBase)
-									.map(v -> (VBase) v)
-									.collect(Collectors.toList());
+		variableTrackees = composants.stream().filter(v -> v instanceof VBase).map(v -> (VBase) v)
+				.collect(Collectors.toList());
+		
+		interrupteursTrackes = composants.stream().filter(v -> v instanceof BBase).map(v -> (BBase) v)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public void visit(CArme composant) {
+		if (trackerArmes) {
+			conditionsConnues.add(composant);
+		}
+
 	}
 
 	@Override
 	public void visit(CSwitch composant) {
+		if (interrupteursTrackes.contains(composant.interrupteur)) {
+			conditionsConnues.add(composant);
+		} else {
+			visit(composant.interrupteur);
+		}
 	}
 
 	@Override
@@ -61,9 +78,10 @@ public class ExtracteurDeConditions implements VisiteurDeComposants {
 			conditionsConnues.add(composant);
 		} else if (variableTrackees.contains(composant.droite)) {
 			conditionsConnues.add(composant);
+		} else {
+			visit(composant.gauche);
+			visit(composant.droite);
 		}
-		
-		
 	}
 
 	/* ===============
@@ -89,7 +107,7 @@ public class ExtracteurDeConditions implements VisiteurDeComposants {
 		visit(composant.gauche);
 		visit(composant.droite);
 	}
-	
+
 	/* =============
 	 * AUCUNE ACTION
 	 * ============= */
@@ -105,7 +123,7 @@ public class ExtracteurDeConditions implements VisiteurDeComposants {
 	@Override
 	public void visit(BStatistique composant) {
 	}
-	
+
 	@Override
 	public void visit(VAleatoire composant) {
 	}
