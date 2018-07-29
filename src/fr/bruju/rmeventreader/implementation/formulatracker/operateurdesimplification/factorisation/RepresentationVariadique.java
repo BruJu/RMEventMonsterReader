@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.factorisation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,28 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
+// TODO : documenter cette classe / la retravailler
+// WIP avec E_CalculVariadique
+
+/*
+ * Il y a des questions à se poser sur si des composants étendus ou un travail réalisé sur le "vif" est le plus
+ * pertinent.
+ * Les expériences montrent que la manipulation des calculs variadiques est assez lourde et lente.
+ * 
+ * Si dans ce projet, les considérations de performance sont très peu présentes, dans la mesure où il faut au moins une
+ * minute pour exécuter l'ancienne version de E_CalculVariadique, les questions de performances se posent.
+ * 
+ * L'enjeu serait de trouver une représentation à la fois simple et un minimum performante pour régler ce problème,
+ * sachant que dans l'application de ce programme, on peut se permettre d'avoir des hypothèses fortes sur le jeu de
+ * données.
+ */
+
+/**
+ * Représentation variadique d'une série de VCalcul partageant le même opérateur
+ * 
+ * @author Bruju
+ *
+ */
 public class RepresentationVariadique {
 	private List<Pair<Valeur, Operator>> facteurs;
 	

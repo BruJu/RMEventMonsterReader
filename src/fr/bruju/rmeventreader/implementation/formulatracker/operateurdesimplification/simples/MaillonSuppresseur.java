@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
 import java.io.IOException;
 import java.util.Collection;

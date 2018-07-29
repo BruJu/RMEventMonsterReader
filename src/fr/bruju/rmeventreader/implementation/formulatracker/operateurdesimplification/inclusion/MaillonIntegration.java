@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;

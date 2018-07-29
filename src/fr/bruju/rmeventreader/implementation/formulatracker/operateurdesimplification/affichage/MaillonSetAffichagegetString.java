@@ -5,6 +5,12 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.S
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+/**
+ * Détermine un affichage basique en utilisant les méthodes getString()
+ * 
+ * @author Bruju
+ *
+ */
 public class MaillonSetAffichagegetString implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {

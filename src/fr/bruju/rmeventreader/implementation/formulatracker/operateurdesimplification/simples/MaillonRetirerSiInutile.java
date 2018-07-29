@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
@@ -9,6 +9,14 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.C
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
+// TODO : devrait être intégré au template de base de constructeur de composants ?
+
+/**
+ * Maillon retirant les ternaires renvoyant la même valeur dans tous les cas.
+ * 
+ * @author Bruju
+ *
+ */
 public class MaillonRetirerSiInutile extends ConstructeurDeComposantsRecursif implements Maillon {
 
 	@Override

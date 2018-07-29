@@ -27,64 +27,116 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composant> {
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(BBase boutonBase) {
 		return boutonBase;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(VBase variableBase) {
 		return variableBase;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(VAleatoire variableAleatoire) {
 		return variableAleatoire;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(VConstante variableConstante) {
 		return variableConstante;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(VStatistique variableStatistique) {
 		return variableStatistique;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(BConstant boutonConstant) {
 		return boutonConstant;
 	}
-	
+
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(BStatistique boutonTernaire) {
 		return boutonTernaire;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(CArme conditionArme) {
 		return conditionArme;
 	}
-	
+
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(BTernaire boutonTernaire) {
 		return boutonTernaire;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(VTernaire variableTernaire) {
 		return variableTernaire;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(VCalcul variableCalcul) {
 		return variableCalcul;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(CVariable conditionVariable) {
 		return conditionVariable;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(CSwitch conditionSwitch) {
 		return conditionSwitch;
 	}
 
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(E_Borne borne) {
 		return borne;
 	}
-	
+
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
 	protected Composant modifier(E_Entre entre) {
 		return entre;
+	}
+
+	/**
+	 * Transformation appliquée lors de la modification du composant, aprés le traîtement des éventuels fils
+	 */
+	protected Composant modifier(E_CalculVariadique composant) {
+		return composant;
 	}
 	
 	/* ========
@@ -138,6 +190,14 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	 * NOEUDS
 	 * ====== */
 
+	/**
+	 * Transforme l'élément composé en un nouvel élément composé
+	 * @param getFils Fonction donnant la liste des fils de l'élément
+	 * @param getPere Fonction permettant de reconstituer un père à partir des fils reconstitués
+	 * @param elementBase Element de base
+	 * @param transformation Fonction de transformation appliquée au père après traitement de ses fils et recomposition
+	 * @return L'élément recomposé
+	 */
 	private <T extends Composant> Composant transformerElementCompose(
 			Function<T, Composant[]> getFils,
 			Function<Composant[], T> getPere,
@@ -170,6 +230,16 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	}
 	
 
+	/**
+	 * Fonction permettant de traiter les ternaires
+	 * @param getPere Fonction reconstituant le père aprés traîtement des fils
+	 * @param elementBase Ternaire de base
+	 * @param condition Condition
+	 * @param vrai Valeur si vraie
+	 * @param faux Valeur si faux
+	 * @param transformation Fonction de transformation appliquée à la ternaire
+	 * @return La ternaire transformée. Eventuellement vrai ou faux traités si la condition a pu être évaluée
+	 */
 	@SuppressWarnings("unchecked")
 	private <T extends Composant, U extends Composant> Composant transformerTernaire(
 			TriFunction<Condition, U, U, T> getPere,
@@ -218,13 +288,24 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		return transformation.apply(getPere.apply(ct, vt, vf));
 	}
 	
-	
+	/**
+	 * Méthode appelée aprés la fin du traitement d'une branche d'un traitement ternaire
+	 * @param condition Un rappel de la condition qui avait été donnée
+	 */
 	protected void ternaireApres(Condition condition) {
 	}
 
+	/**
+	 * Méthode appelée avant le traitement d'une branche faux d'une condition
+	 * @param condition La condition non traitée de base (non inversée)
+	 */
 	protected void ternaireAvantFaux(Condition condition) {
 	}
 
+	/**
+	 * Méthode appelée avant le traitement d'une branche vraie d'une condition
+	 * @param condition La condition non traitée de base
+	 */
 	protected void ternaireAvantVrai(Condition condition) {
 	}
 
@@ -291,9 +372,6 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 				this::modifier);
 	}
 
-	protected Composant modifier(E_CalculVariadique composant) {
-		return composant;
-	}
 
 	@Override
 	protected final Composant traiter(E_CalculVariadique composant) {

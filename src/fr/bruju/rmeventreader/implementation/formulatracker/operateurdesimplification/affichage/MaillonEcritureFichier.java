@@ -9,8 +9,13 @@ import java.text.SimpleDateFormat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
+/**
+ * Maillon écrivant les résultats dans le fichier sorties/sortieTIMESTAMP.txt
+ * 
+ * @author Bruju
+ *
+ */
 public class MaillonEcritureFichier implements Maillon {
-
 	@Override
 	public void traiter(Attaques attaques) {
 

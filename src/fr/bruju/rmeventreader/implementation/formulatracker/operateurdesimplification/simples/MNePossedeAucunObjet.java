@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.maillonssimples;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 
 /**
  * Transforme les formules pour rendre fausses toutes les conditions sur les possessions d'armes.
+ * 
  * @author Bruju
  *
  */

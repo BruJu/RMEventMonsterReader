@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.factorisation;
 
 import java.util.function.BinaryOperator;
 
@@ -12,6 +12,12 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.C
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
+/**
+ * Factorise partiellement les calculs dans la valeur
+ * 
+ * @author Bruju
+ *
+ */
 public class Factorisation extends ConstructeurDeComposantsRecursif implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================
@@ -28,6 +34,7 @@ public class Factorisation extends ConstructeurDeComposantsRecursif implements M
 	// =================================================================================================================
 	//              - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT -
 
+	/** Constructeur de représentations variadiques */
 	private ConstructeurDeRepresentationVariadique builder = new ConstructeurDeRepresentationVariadique();
 
 	@Override
@@ -52,7 +59,12 @@ public class Factorisation extends ConstructeurDeComposantsRecursif implements M
 				vCalcul.droite);
 	}
 
+	
+	/**
+	 * Donne le niveau de l'opérateur
+	 */
 	public static int getNiveau(Operator operateur) {
+		// TODO : utiliser Utilitaire.getNiveau ?
 		if (operateur == null)
 			return 2;
 

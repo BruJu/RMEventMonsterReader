@@ -14,6 +14,12 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.C
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
+/**
+ * Maillon transformant les ternaires du type si a > b alors b sinon a en max / min.
+ * 
+ * @author Bruju
+ *
+ */
 public class Borne extends ConstructeurDeComposantsRecursif implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================

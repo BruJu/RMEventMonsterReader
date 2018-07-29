@@ -1,11 +1,19 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.filtres;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
+/**
+ * Maillon permettant de ne garder qu'une attaque
+ * 
+ * @author Bruju
+ *
+ */
 public class MaillonFiltreAttaque implements Maillon {
-	String attaqueConservee;
+	/** Nom de l'attaque conservée */
+	private String attaqueConservee;
 	
+	/** Construit le maillon en vue de filtrer les attaques n'ayant pas le nom donné */
 	public MaillonFiltreAttaque(String string) {
 		this.attaqueConservee = string;
 	}

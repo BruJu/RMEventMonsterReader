@@ -7,6 +7,14 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.C
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
+/**
+ * Maillon fusionannt les successions de min et de max par un encadrement (entre).
+ * <p>
+ * Par exemple min(max(a;b);c) devient entre (c;a;b). 
+ * 
+ * @author Bruju
+ *
+ */
 public class Encadrer extends ConstructeurDeComposantsRecursif implements Maillon {
 	// =================================================================================================================
 	// =================================================================================================================

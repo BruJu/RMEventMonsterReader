@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.factorisation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,13 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Att
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+// WIP
+
+/**
+ * Converti des VCalcul en E_CalculVariadique
+ * @author Bruju
+ *
+ */
 public class ConversionVariadique extends ConstructeurDeComposantsRecursif implements Maillon {
 
 	@Override

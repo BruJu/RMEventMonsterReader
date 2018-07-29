@@ -3,6 +3,12 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
+/**
+ * Affichage sur la sortie standard le résultat
+ * 
+ * @author Bruju
+ *
+ */
 public class MaillonSystemOut implements Maillon {
 
 	@Override

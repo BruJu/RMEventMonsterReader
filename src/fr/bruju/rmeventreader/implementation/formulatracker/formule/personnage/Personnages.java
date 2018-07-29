@@ -13,9 +13,19 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
 public class Personnages {
+	/** Chemin vers la liste des variables et interrutpeurs nommés */
 	private static String cheminNommes = "ressources/formulatracker/Nommes.txt";
-	Map<String, PersonnageReel> personnagesReels = new HashMap<>();
+	
+	/** Map associant nom de personnage et objet */
+	private Map<String, PersonnageReel> personnagesReels = new HashMap<>();
 
+	/**
+	 * Lit la liste des variables associées aux personnages dans le fichier donné. Le format doit être
+	 * "NomDuPersonnage NomDeLaStatistique Numéro". Il est possible d'assigner des interrupteurs en prefixant le numéro
+	 * par un S. 
+	 * @param chemin Chemin du fichier
+	 * @throws IOException
+	 */
 	public void lirePersonnagesDansFichier(String chemin) throws IOException {
 		FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
 			String[] donnees = ligne.split(" ");
@@ -36,6 +46,12 @@ public class Personnages {
 	}
 	
 
+	/**
+	 * Rempli les variables nommées dans les map données. Le fichier est au format "Numéro Type Nom" où le type est V
+	 * pour les variables et S pour les interrupteurs.
+	 * @param variablesExistantes Map de variables
+	 * @param interrupteursExistants Map d'interrupteurs
+	 */
 	public void remplirVariablesNommees(Map<Integer, Valeur> variablesExistantes,
 			Map<Integer, Bouton> interrupteursExistants) {
 		
@@ -62,10 +78,16 @@ public class Personnages {
 		}
 	}
 
+	/**
+	 * Donne la liste des personnages identifiés
+	 */
 	public Collection<PersonnageReel> getPersonnages() {
 		return personnagesReels.values();
 	}
 
+	/**
+	 * Ajoute la statistique pour le personnage donné à la carte des personnages / statistiques connus.
+	 */
 	private void injecter(String nomPersonnage, String nomStatistique, Integer numeroVariable, boolean estStat) {
 		PersonnageReel perso = personnagesReels.get(nomPersonnage);
 
@@ -79,17 +101,5 @@ public class Personnages {
 		else
 			perso.addPropriete(nomStatistique, numeroVariable);
 	}
-
-	/* =================
-	 * AFFICHAGE CONSOLE
-	 * ================= */
-
-	public void afficherToutsLesStatistiques() {
-		personnagesReels.values().stream().flatMap(personnage -> personnage.getStatistiques().values().stream())
-				.forEach(stat -> System.out.println(stat.possesseur.getNom()
-											+ " " + stat.nom
-											+ " " + stat.position));
-	}
-
 
 }

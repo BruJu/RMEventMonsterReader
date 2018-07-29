@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.factorisation;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.factorisation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,26 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTe
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
 
+
+/**
+ * Construit des représentations variadiques des VCalculs.
+ * <p>
+ * Un même objet ne peut pas être utilisé par des threads différents. En revanche, on peut utiliser le même objet pour
+ * des traitements différents successifs.
+ * 
+ * @author Bruju
+ */
 public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposants {
-	
+	/** Facteurs identifiés */
 	private List<Valeur> facteurs;
+	/** Opérateurs identifiés */
 	private List<Operator> operateurs;
+	/** Opérateur */
 	private Operator operateur;
 
+	/**
+	 * Construit la représentation variadique de la valeur donnée par rapport à l'opérateur donné
+	 */
 	public RepresentationVariadique creerRepresentationVariadique(Valeur valeur, Operator operateur) {
 		// Recherche des paramètres
 		facteurs = new ArrayList<>();
@@ -56,7 +70,10 @@ public class ConstructeurDeRepresentationVariadique implements VisiteurDeComposa
 	
 	// Feuilles
 
-
+	/**
+	 * Traîtement des feuilles : considérer que c'est un atome
+	 * @param composant Le composant atomique
+	 */
 	private void traitementFeuille(Valeur composant) {
 		facteurs.add(composant);
 	}

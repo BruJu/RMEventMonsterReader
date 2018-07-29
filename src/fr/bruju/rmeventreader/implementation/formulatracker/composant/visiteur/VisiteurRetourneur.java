@@ -28,67 +28,85 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTe
  * @param <Intermediaire> Type intermédiaire au traitement
  */
 public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeComposants {
-	protected Intermediaire composant;
+	/** Element retourné */
+	private Intermediaire composant;
 
-	
+
+	/** Traitement d'un composant */
 	public Intermediaire traiter(Composant composant) {
 		visit(composant);
 		return this.composant;
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(BBase boutonBase) {
 		return comportementParDefaut(boutonBase);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(BConstant boutonConstant) {
 		return comportementParDefaut(boutonConstant);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(BTernaire boutonTernaire) {
 		return comportementParDefaut(boutonTernaire);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(BStatistique boutonTernaire) {
 		return comportementParDefaut(boutonTernaire);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(CArme conditionArme) {
 		return comportementParDefaut(conditionArme);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(CSwitch conditionSwitch) {
 		return comportementParDefaut(conditionSwitch);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(CVariable conditionVariable) {
 		return comportementParDefaut(conditionVariable);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(VAleatoire variableAleatoire) {
 		return comportementParDefaut(variableAleatoire);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(VBase variableBase) {
 		return comportementParDefaut(variableBase);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(VCalcul variableCalcul) {
 		return comportementParDefaut(variableCalcul);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(VConstante variableConstante) {
 		return comportementParDefaut(variableConstante);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(VStatistique variableStatistique) {
 		return comportementParDefaut(variableStatistique);
 		
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(VTernaire variableTernaire) {
 		return comportementParDefaut(variableTernaire);
 	}
 
+	/**
+	 * Comportement par défaut si le composant n'a pas de traîtement spécifique
+	 */
 	protected abstract Intermediaire comportementParDefaut(Composant composant);
 	
 	// Visiteurs
@@ -165,6 +183,7 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 	
 	// Composant étendu
 	
+	/** Traitement d'un composant étendu n'ayant pas de traîtement spécifique */
 	protected Intermediaire composantEtenduNonGere(ComposantEtendu composant) {
 		return traiter(composant.getComposantNormal());
 	}
@@ -174,6 +193,7 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 		this.composant = traiter(composant);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(E_Borne composant) {
 		return composantEtenduNonGere(composant);
 	}
@@ -183,6 +203,7 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 		this.composant = traiter(composant);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(E_Entre borne) {
 		return composantEtenduNonGere(borne);
 	}
@@ -192,6 +213,7 @@ public abstract class VisiteurRetourneur<Intermediaire> implements VisiteurDeCom
 		this.composant = traiter(composant);
 	}
 
+	/** Traitement d'un composant */
 	protected Intermediaire traiter(E_CalculVariadique borne) {
 		return composantEtenduNonGere(borne);
 	}

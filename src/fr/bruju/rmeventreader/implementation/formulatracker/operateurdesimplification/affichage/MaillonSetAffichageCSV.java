@@ -15,10 +15,20 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Att
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.IntegreurGeneral;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.IntegreurGeneral;
 import fr.bruju.rmeventreader.implementation.formulatracker.simplification.ExtracteurDeConditions;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
+
+// TODO : cette classe a beaucoup trop de responsabilités (cumulant les rôles de filteurs / séparateur) et de
+// déterimnation de l'affichage
+
+/**
+ * Maillon produisant un affichage exploitable dans un tableur, avec séparation par des ♦.
+ * 
+ * @author Bruju
+ *
+ */
 public class MaillonSetAffichageCSV implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
