@@ -13,9 +13,21 @@ import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
+// TODO : faire une mini réorganisation de cette classe
+
+/**
+ * Objet pour remplacer des données dans un monster par d'autres données
+ * 
+ * @author Bruju
+ *
+ */
 public class Correspondeur {
+	/** Correspondance chaîne trouvée - chaîne à remplacer */
 	private Map<String, String> map = new HashMap<>();
 
+	/**
+	 * Lit un fichier pour remplir les correspondances
+	 */
 	public void lireFichier(File file) throws IOException {
 		String pattern = "_ _";
 
@@ -26,18 +38,17 @@ public class Correspondeur {
 		});
 	}
 
-	public String get(String cle) {
-		return map.get(cle);
-	}
-
-	public String get(int cle) {
-		return map.get(Integer.toString(cle));
-	}
-
-	public void searchAndReplace(Collection<Monstre> monstres, Function<Monstre, String> search, BiConsumer<Monstre, String> replace) {
+	/**
+	 * Remplace les chaînes des monstres en appliquant les fonctions de recherche et de transformation données
+	 * @param monstres
+	 * @param search
+	 * @param replace
+	 */
+	public void searchAndReplace(Collection<Monstre> monstres, Function<Monstre, String> search,
+			BiConsumer<Monstre, String> replace) {
 		for (Monstre monstre : monstres) {
 			String id = search.apply(monstre);
-			
+
 			String valeur = map.get(id);
 
 			if (valeur != null) {
