@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Remplacement;
  * @author Bruju
  *
  */
-public class AutoCorrespondeur implements ActionAutomatique {
+public class AutoCorrespondeur implements Runnable {
 	/**
 	 * Base de données
 	 */
@@ -43,7 +43,7 @@ public class AutoCorrespondeur implements ActionAutomatique {
 	}
 	
 	@Override
-	public void faire() {
+	public void run() {
 		Correspondeur correspondeur = new Correspondeur();
 		try {
 			correspondeur.lireFichier(new File(filename));

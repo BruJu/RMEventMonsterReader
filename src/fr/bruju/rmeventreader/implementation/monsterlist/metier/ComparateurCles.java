@@ -6,6 +6,12 @@ import java.util.Map.Entry;
 
 import fr.bruju.util.similaire.Cle;
 
+/**
+ * Comparateur de clés de monstres selon le premier combat de la liste
+ * 
+ * @author Bruju
+ *
+ */
 public class ComparateurCles implements Comparator<Entry<Cle<Monstre>, List<Monstre>>> {
 	@Override
 	public int compare(Entry<Cle<Monstre>, List<Monstre>> o1, Entry<Cle<Monstre>, List<Monstre>> o2) {

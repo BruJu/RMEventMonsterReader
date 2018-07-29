@@ -67,7 +67,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 		int numeroInterrupteur = interrupteur.get();
 
 		if (numeroInterrupteur == MonsterDatabase.POS_BOSSBATTLE) {
-			MonsterDatabase.setBossBattle(getElementsFiltres());
+			getElementsFiltres().forEach(combat -> combat.declareBossBattle());
 		} else {
 			Integer numeroMonstrePourFossille = Positions.chercherFossile(numeroInterrupteur);
 

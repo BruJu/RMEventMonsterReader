@@ -9,7 +9,6 @@ import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstr
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.FinDeCombat;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.MonsterDatabaseMaker;
-import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.ActionAutomatique;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoCorrespondeur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
@@ -24,7 +23,7 @@ public class MonsterDBTest {
 	public static void main_(String[] args, int csv) throws IOException {
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(); 
 		
-		ActionAutomatique[] listeDesActions = new ActionAutomatique[] {
+		Runnable[] listeDesActions = new Runnable[] {
 				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)       , "ressources/InitCombat1.txt"),
 				new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)       , "ressources/InitCombat2.txt"),
 				new LectureAutomatique(new Correcteur(baseDeDonnees)              , "ressources/Correction.txt"),
@@ -36,8 +35,8 @@ public class MonsterDBTest {
 				new AutoActionMaker(new FinDeCombat(baseDeDonnees)                , "ressources/FinCombat.txt"),
 		};
 		
-		for (ActionAutomatique action : listeDesActions) {
-			action.faire();
+		for (Runnable action : listeDesActions) {
+			action.run();
 		}
 
 		if (aBesoinDOCR(baseDeDonnees)) {
@@ -46,7 +45,6 @@ public class MonsterDBTest {
 		}
 
 		baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
-		baseDeDonnees.trouverLesMonstresAvecDesNomsInconnus();
 		
 		switch (csv) {
 		case 0:
@@ -69,7 +67,7 @@ public class MonsterDBTest {
 	private static boolean aBesoinDOCR(MonsterDatabase baseDeDonnees) {
 		Object[] monstresInconnus = baseDeDonnees.extractMonsters().stream()
 				.filter(m -> m != null)
-				.filter(m -> m.getNom().substring(0, 2).equals("id"))
+				.filter(m -> m.nom.substring(0, 2).equals("id"))
 				.toArray();
 		
 		if (monstresInconnus.length == 0) {
@@ -94,10 +92,10 @@ public class MonsterDBTest {
 			if (monstre == null)
 				continue;
 			
-			if (!monstre.getNom().substring(0, 2).equals("id"))
+			if (!monstre.nom.substring(0, 2).equals("id"))
 				continue;
 			
-			monstresInconnus.add(monstre.getNom());
+			monstresInconnus.add(monstre.nom);
 		}
 		
 		

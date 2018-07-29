@@ -12,7 +12,7 @@ import fr.bruju.rmeventreader.filereader.FileReaderByLine;
  * @author Bruju
  *
  */
-public class LectureAutomatique implements ActionAutomatique {
+public class LectureAutomatique implements Runnable {
 	/**
 	 * Action réaliser à la lecture d'une ligne
 	 */
@@ -34,7 +34,7 @@ public class LectureAutomatique implements ActionAutomatique {
 	}
 
 	@Override
-	public void faire() {
+	public void run() {
 		try {
 			FileReaderByLine.lireLeFichier(new File(filename), correcteur);
 		} catch (IOException e) {

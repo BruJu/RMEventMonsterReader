@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
+import java.util.Objects;
+
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
 /**
@@ -9,44 +11,100 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
  */
 public class Monstre {
 	/* =========
-	 * Attributs 
+	 * ATTRIBUTS 
 	 * ========= */
 
-	/**
-	 * Combat associé
-	 */
+	/** Combat associé */
 	private Combat combat;
 	
-	/**
-	 * Statistiques du monstre
-	 */
+	/** Statistiques du monstre */
 	private int[] stats;
 	
+	/** Nom du monstre */
+	public String nom = "UNKNOWN_NAME";
 	
-	// Accessibles dans le package pour la classe Remplacement
-	
-	/**
-	 * Nom du monstre
-	 */
-	String name = "UNKNOWN_NAME";
-	
-	/**
-	 * Nom du drop
-	 */
-	String nomDrop = "";
+	/** Nom du drop */
+	public String nomDrop = "";
 
-	/**
-	 * Immunité à fossile
-	 */
+	/** Immunité à fossile */
 	private boolean immuniteAFossile;
 	
+	/**
+	 * Construit un monstre pour le combat donné
+	 */
 	public Monstre(Combat combat) {
 		stats = new int[Positions.TAILLE];
 		this.combat = combat;
 	}
 	
+	/* ==========
+	 * ACCESSEURS 
+	 * ========== */
+	
+	/**
+	 * Donne l'id du monstre
+	 */
+	public int getId() {
+		return this.stats[Positions.POS_ID.ordinal()];
+	}
+
+	/**
+	 * Modifie l'id du monstre
+	 * @param idMonstre L'id du monstre
+	 */
+	public void setId(int idMonstre) {
+		this.stats[Positions.POS_ID.ordinal()] = idMonstre;
+	}
+	
+	/**
+	 * Donne l'id du combat où le monstre apparait
+	 */
+	public int getBattleId() {
+		return combat.id;
+	}
+	
+	/**
+	 * Donne la valeur de la statistique demandée
+	 */
+	public int get(Positions posCapa) {
+		return this.stats[posCapa.ordinal()];
+	}
+	
+	/**
+	 * Applique l'opération au monstre pour la statistique donnée
+	 * @param posStat La statistique
+	 * @param operator L'opérateur
+	 * @param value La valeur à appliquer
+	 */
+	public void apply(int posStat, Operator operator, int value) {
+		stats[posStat] = operator.compute(stats[posStat], value);
+	}
+
+	
+	/* =======
+	 * FOSSILE 
+	 * ======= */
+
+	/** Rend le monstre immunisé à fossile */
+	public void immuniserAFossile() {
+		immuniteAFossile = true;
+	}
+
+	/** Renvoie si le monstre est immunisé à fossile */
+	public boolean immunite() {
+		return immuniteAFossile;
+	}
+	
+
+	/* =========
+	 * AFFICHAGE
+	 * ========= */
+	
+	/**
+	 * Donne un affichage du monstre
+	 */
 	public String getString() {
-		String s = name;
+		String s = nom;
 		
 		for (int i = 0 ; i != Positions.TAILLE ; i++) {
 			s = s + ", " + stats[i];
@@ -59,64 +117,27 @@ public class Monstre {
 		return s;
 	}
 	
-	public int getId() {
-		return this.stats[Positions.POS_ID.ordinal()];
-	}
 
-	public int getBattleId() {
-		return combat.getId();
-	}
-	
-	public String getBetterDisplay(int i) {
-		String s = "=== " + i + " : " + name;
-		
-		for (Positions position : Positions.values()) {			
-			s = s + "\n" + position + "[" + position.getVar(i) + "] = " + stats[position.ordinal()];
-		}
-		
-		return s;
-	}
-	
-	/* =============
-	 * NON REFLEXION
-	 * ============= */
-	
-	public void setId(int idMonstre) {
-		this.stats[Positions.POS_ID.ordinal()] = idMonstre;
-	}
 
-	public int get(Positions posCapa) {
-		return this.stats[posCapa.ordinal()];
-	}
+	/* ========================
+	 * REDUCTION PAR SIMILAIRES
+	 * ======================== */
 	
-	
+	/** Renvoie un hash pour la partie clé du monstre */
 	public int hasher() {
-		long hash = 0;
-		
-		int x = 3;
-		
-		for (int i = 0 ; i != Positions.TAILLE ; i++) {
-			hash = hash + stats[i] * x;
-			
-			x = x + 1000;
-		}
-		
-		hash = hash + name.hashCode() * 50 + nomDrop.hashCode() + (this.immuniteAFossile ? 1 : 0);
-		
-		return (int) hash;
+		return Objects.hash(nom, nomDrop, immuniteAFossile);
 	}
 	
-	
+
+	/** Renvoie vrai si les parties clés des deux monstres */
 	public static boolean sontSimilaires(Monstre a, Monstre b) {
 		for (Positions pos : Positions.values()) {
 			if (a.get(pos) != b.get(pos)) {
 				return false;
 			}
-			
 		}
 		
-		return a.getNom().equals(b.getNom())
-				&& a.getDrop().equals(b.getDrop()) && a.immunite() == b.immunite();
+		return a.nom.equals(b.nom) && a.nomDrop.equals(b.nomDrop) && a.immunite() == b.immunite();
 	}
 	
 	
@@ -124,6 +145,11 @@ public class Monstre {
 	 * AFFICHAGE CSV
 	 * ============= */
 	
+	/**
+	 * Donne une représentation en csv du monstre
+	 * @param withBattleId Si vrai inclus l'id du combat à l'affichage
+	 * @return La représentation
+	 */
 	public String getCSV(boolean withBattleId) {
 		StringBuilder sb = new StringBuilder();
 		
@@ -134,7 +160,7 @@ public class Monstre {
 		
 		sb.append(this.getId());
 		sb.append(";");
-		sb.append(this.name);
+		sb.append(this.nom);
 		sb.append(";");
 		sb.append(this.nomDrop);
 		
@@ -152,6 +178,11 @@ public class Monstre {
 		return sb.toString();
 	}
 
+	/**
+	 * Renvoie le header du CSV de l'affichage d'un monstre
+	 * @param withBattleId Si vrai inclus l'id du combat à l'affichage
+	 * @return La représentation
+	 */
 	public static String getCSVHeader(boolean withBattleId) {
 		String prefixe = "";
 		
@@ -162,47 +193,22 @@ public class Monstre {
 		return prefixe + "IDMONSTRE;NOM;DROP;" + Positions.getCSVHeader() + ";FOSSILE";
 	}
 
-	public String getNom() {
-		return this.name;
-	}
-
-	public void apply(int posStat, Operator operator, int value) {
-		stats[posStat] = operator.compute(stats[posStat], value);
-	}
-
-	public void setNom(String pictureName) {
-		this.name = pictureName;
-	}
-
-	public void setDrop(String string) {
-		this.nomDrop = string;
-	}
-
-	public void immuniserAFossile() {
-		immuniteAFossile = true;
-	}
-
-	public boolean immunite() {
-		return immuniteAFossile;
-	}
-
-	public String getDrop() {
-		return nomDrop;
-	}
+	/* =============================
+	 * AFFICHAGE CSV DE LA REDUCTION
+	 * ============================= */
 	
-	
-	// MAP REDUCE
-	
+	/**
+	 * Donne le header d'un monstre pour les monstres réduits
+	 */
 	public static String getCSVHeader() {
 		return Monstre.getCSVHeader(false) + ";" + "Combats";
 	}
 
+	/**
+	 * Donne la représentation d'un monstre réduit
+	 */
 	public String getCSV() {
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(getCSV(false));
-		
-		return sb.toString();
+		return getCSV(false);
 	}
 	
 }

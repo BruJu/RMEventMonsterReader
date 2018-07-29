@@ -14,7 +14,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
  * @author Bruju
  *
  */
-public class AutoActionMaker implements ActionAutomatique {
+public class AutoActionMaker implements Runnable {
 	/**
 	 * ActionMaker de base
 	 */
@@ -36,7 +36,7 @@ public class AutoActionMaker implements ActionAutomatique {
 	}
 	
 	@Override
-	public void faire() {
+	public void run() {
 		ActionMaker conditionalActionMaker = new ConditionalActionMaker(actionMaker);
 		Interpreter interpreter = new Interpreter(conditionalActionMaker);
 		

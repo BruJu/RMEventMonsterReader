@@ -37,6 +37,6 @@ public class ConditionOnBattleId implements Condition<Combat> {
 
 	@Override
 	public boolean filter(Combat combat) {
-		return operator.test(combat.getId(), rightValue);
+		return operator.test(combat.id, rightValue);
 	}
 }

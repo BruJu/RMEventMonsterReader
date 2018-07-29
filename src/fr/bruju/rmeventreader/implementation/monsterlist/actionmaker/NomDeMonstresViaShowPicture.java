@@ -72,7 +72,7 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> {
 		Collection<Monstre> monstres = this.getElementsFiltres();
 
 		for (Monstre monstre : monstres) {
-			monstre.setNom(pictureName);
+			monstre.nom = pictureName;
 		}
 	}
 

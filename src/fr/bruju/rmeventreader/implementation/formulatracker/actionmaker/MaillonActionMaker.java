@@ -37,7 +37,7 @@ public class MaillonActionMaker implements Maillon {
 	
 	private Attaque creerAttaque(Personnages contexte, String nomAttaque, String chemin) {
 		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
-		new AutoActionMaker(formulaMaker, chemin).faire();
+		new AutoActionMaker(formulaMaker, chemin).run();
 		
 		return new Attaque(nomAttaque, formulaMaker.getResultat());
 	}

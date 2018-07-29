@@ -1,33 +1,41 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+/**
+ * Base de données de monstres et de combats
+ * 
+ * @author Bruju
+ *
+ */
 public class MonsterDatabase {
-	public final static int POS_ID_COMBAT = 435;
-
+	/* ===============
+	 * BDD DE MONSTRES 
+	 * =============== */
+	
+	/** Variable contenant le numéro du combat */
+	public static final int POS_ID_COMBAT = 435;
+	/** Interrupteur contenant l'information si c'est un combat de boss */
 	public static final int POS_BOSSBATTLE = 190;
 	
+	/** Association numéro de combat - combat*/
 	private Map<Integer, Combat> combats = new HashMap<>();
 	
-
-
+	/* =======================
+	 * MANIPULATION DE COMBATS 
+	 * ======================= */
+	
 	/**
 	 * Ajoute le combat portant l'id donné si il n'existe pas déjà
 	 * @param id Le combat à ajouter
 	 */
 	public void addCombat(int id) {
-		Combat combat = getBattleById(id);
-		
-		if (combat == null) {
-			combats.put(id, new Combat(id));
-		}
+		combats.putIfAbsent(id, new Combat(id));
 	}
 	
-
 	/**
 	 * Renvoie le combat dont l'id est donné
 	 * @param idCombat L'id du combat
@@ -37,7 +45,54 @@ public class MonsterDatabase {
 		return combats.get(idCombat);
 	}
 
+	/**
+	 * Enlève le combat dont l'id est donné
+	 */
+	public void removeBattle(int id) {
+		combats.remove(id);
+	}
 	
+	
+	/* ===========
+	 * EXTRACTIONS 
+	 * =========== */
+	
+	/**
+	 * Donne la liste des combats
+	 */
+	public Collection<Combat> extractBattles() {
+		return combats.values();
+	}
+	
+	/**
+	 * Donne la liste de tous les monstres de la base de données
+	 */
+	public Collection<Monstre> extractMonsters() {
+		return combats.values().stream().flatMap(combat -> combat.getMonstersStream()).collect(Collectors.toList());
+	}
+
+	
+	/* ========
+	 * ANALAYSE 
+	 * ======== */
+	
+	/**
+	 * Affiche dans la console la liste des combats avec des monstres sans nom
+	 */
+	public void trouverLesCombatsAvecDesNomsInconnus() {
+		extractBattles().stream()
+						.filter(battle -> battle.getMonstersStream()
+							                 	.filter(m -> m.nom.equals("UNKNOWN_NAME"))
+							                 	.findAny()
+							                 	.isPresent())
+						.forEach(battle -> System.out.println(battle.getString()));
+	}
+	
+	
+	/* =========
+	 * AFFICHAGE
+	 * ========= */
+
 	/**
 	 * Donne une représentation la liste des combats
 	 * @return Une chaîne avec la liste des combats
@@ -52,97 +107,29 @@ public class MonsterDatabase {
 		return s;
 	}
 	
-	public Collection<Monstre> extractMonsters() {
-		List<Monstre> monstres = new ArrayList<>();
-		
-		combats.values().forEach(combat -> {
-			for (int i = 0 ; i != Positions.NB_MONSTRES_MAX_PAR_COMBAT ; i++) {
-				Monstre monstre = combat.getMonstre(i);
-				
-				if (monstre != null) {
-					monstres.add(monstre);
-				}
-			}
-		});
-		
-		return monstres;
-	}
-	
-	public Collection<Combat> extractBattles() {
-		return combats.values();
-	}
-	
-	
-	
-	public void afficherLesInfosDunCombat(int idCombat) {
-		extractBattles().stream().filter(c -> c.getId() == idCombat).forEach(c -> 
-		{
-			for (int i = 0 ; i != 3 ; i++) {
-				if (c.getMonstre(i) == null)
-					continue;
-				
-				System.out.println(c.getMonstre(i).getBetterDisplay(i));
-				
-			}
-			
-		});
-	}
-	
-	public void trouverLesCombatsAvecDesNomsInconnus() {
-		extractBattles().stream()
-						.filter(battle -> battle.getMonstersStream()
-							                 	.filter(m -> m != null && m.name.equals("UNKNOWN_NAME"))
-							                 	.findAny()
-							                 	.isPresent())
-						.forEach(battle -> System.out.println(battle.getString()));
-	}
-
-
-
-
-	public void trouverLesMonstresAvecDesNomsInconnus() {
-		
-		/*
-		this.extractMonsters().stream()
-		.filter(m -> m != null && m.name.equals("UNKNOWN_NAME"))
-		.forEach(m -> System.out.println("add(" + m.getBattleId() + ", " + m.getIdInBattleOf() + ", 0);"));
-		;
-		*/
-	}
-
-
-	public void removeBattle(int id) {
-		combats.remove(id);
-	}
-
-
-	public static void setBossBattle(Collection<Combat> collection) {
-		for (Combat combat : collection) {
-			combat.declareBossBattle();
-		}
-	}
-	
-	
+	/**
+	 * Donne une représentation CSV des combats dans leur globalité
+	 */
 	public String getCSVRepresentationOfBattles() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Combat.getCSVHeader());
 		
-		combats.values().forEach(combat -> {sb.append("\n"); sb.append(combat.getCSV()); } );
+		combats.values().forEach(combat -> sb.append("\n").append(combat.getCSV()));
 		
 		return sb.toString();
 	}
 
+	/**
+	 * Donne une représentation CSV des monstres individuellement des combats
+	 */
 	public String getCSVRepresentationOfMonsters() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Monstre.getCSVHeader(true));
 		
 		combats.values().stream()
 					.flatMap(combat -> combat.getMonstersStream())
-					.filter(monstre -> monstre != null)
 					.forEach(monstre -> {sb.append("\n"); sb.append(monstre.getCSV(true)); });
 		
 		return sb.toString();
 	}
-	
-
 }

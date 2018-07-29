@@ -29,10 +29,14 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	/* ==========
 	 * Constantes
 	 * ========== */
+	/** Variables avec la position des gains d'expérience */
 	private final static int[] VARIABLES_EXP = Positions.POS_EXP.ids;
+	/** Variable contenant les gains d'exp totaux */
 	private final static int VARIABLE_GAINEXP = 4976;
+	/** Switch déclarant un combat de boss */
 	private final static int SWITCH_BOSS = 190;
 
+	/** Association numéro de variable - sous action maker */
 	private Map<Integer, ActionMaker> associationActionMaker;
 
 	/* ========
@@ -182,7 +186,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	}
 
 	/**
-	 * Comportement concernant l'éxpérience d'un monstre
+	 * Comportement concernant l'expérience d'un monstre
 	 */
 	private class ComportementExperience implements ActionMakerAllFalse {
 		private int positionMonstre;

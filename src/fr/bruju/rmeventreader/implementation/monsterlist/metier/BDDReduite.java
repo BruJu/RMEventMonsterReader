@@ -10,9 +10,22 @@ import java.util.stream.Collectors;
 import fr.bruju.util.similaire.Cle;
 import fr.bruju.util.similaire.GroupeurDeSimilaires;
 
+/**
+ * Base de données de monstres regroupant les monstres similaires en tout point minus le combat d'apparition
+ * 
+ * @author Bruju
+ *
+ */
 public class BDDReduite {
+	/**
+	 * Association entre clés de monstre et liste des mosntres
+	 */
 	private Map<Cle<Monstre>, List<Monstre>> monstreReduits;
 
+	/**
+	 * Réduit la liste des monstres en monstres similaires
+	 * @param monstres
+	 */
 	public BDDReduite(Collection<Monstre> monstres) {
 
 		GroupeurDeSimilaires<Monstre> collecteur = new GroupeurDeSimilaires<Monstre>(Monstre::hasher,
@@ -22,6 +35,9 @@ public class BDDReduite {
 
 	}
 
+	/**
+	 * Renvoie la représentation en format CSV de 
+	 */
 	public String getCSV() {
 		StringBuilder sb = new StringBuilder();
 

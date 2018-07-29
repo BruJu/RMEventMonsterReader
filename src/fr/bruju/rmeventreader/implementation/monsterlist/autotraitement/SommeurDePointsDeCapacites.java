@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Positions;
  * @author Bruju
  *
  */
-public class SommeurDePointsDeCapacites implements ActionAutomatique {
+public class SommeurDePointsDeCapacites implements Runnable {
 	/**
 	 * La base de données
 	 */
@@ -25,11 +25,9 @@ public class SommeurDePointsDeCapacites implements ActionAutomatique {
 	}
 
 	@Override
-	public void faire() {
-		db.extractBattles().forEach(battle -> battle.getMonstersStream().filter(m -> m != null).forEach(m -> {
+	public void run() {
+		db.extractBattles().forEach(battle -> battle.getMonstersStream().forEach(m -> {
 			battle.addGainCapa(m.get(Positions.POS_CAPA));
 		}));
-
 	}
-
 }
