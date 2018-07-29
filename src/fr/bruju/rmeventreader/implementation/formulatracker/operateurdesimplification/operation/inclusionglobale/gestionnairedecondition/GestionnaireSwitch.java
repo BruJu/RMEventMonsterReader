@@ -18,7 +18,7 @@ public class GestionnaireSwitch implements GestionnaireDeCondition {
 			return cond;
 		}
 		
-		return CFixe.get(base.interrupteur == cond.interrupteur);
+		return CFixe.get(base.valeur == cond.valeur);
 	}
 
 }

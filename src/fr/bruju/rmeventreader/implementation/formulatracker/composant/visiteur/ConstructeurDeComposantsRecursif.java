@@ -183,11 +183,26 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		Boolean id = CFixe.identifier(ct);
 		
 		if (id != null) {
-			return id ? traiter(vrai).evaluationRapide() : traiter(faux).evaluationRapide();
+			U reponse;
+			if (id) {
+				ternaireAvantVrai(condition);
+				reponse = (U) traiter(vrai).evaluationRapide();
+				ternaireApres(condition);
+			} else {
+				ternaireAvantFaux(condition);
+				reponse = (U) traiter(faux).evaluationRapide();
+				ternaireApres(condition);
+			}
+			
+			return reponse;
 		}
-		
+
+		ternaireAvantVrai(condition);
 		U vt = (U) traiter(vrai);
+		ternaireApres(condition);
+		ternaireAvantFaux(condition);
 		U vf = (U) traiter(faux);
+		ternaireApres(condition);
 		
 		if (vt == null || vf == null) {
 			return null;
@@ -203,6 +218,16 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		return transformation.apply(getPere.apply(ct, vt, vf));
 	}
 	
+	
+	protected void ternaireApres(Condition condition) {
+	}
+
+	protected void ternaireAvantFaux(Condition condition) {
+	}
+
+	protected void ternaireAvantVrai(Condition condition) {
+	}
+
 	@Override
 	protected final Composant traiter(CSwitch conditionSwitch) {
 		return transformerElementCompose(

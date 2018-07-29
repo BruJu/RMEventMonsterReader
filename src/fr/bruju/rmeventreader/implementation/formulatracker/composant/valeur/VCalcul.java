@@ -87,6 +87,15 @@ public class VCalcul implements Valeur {
 			return new VConstante(operateur.compute(cstg.valeur, cstd.valeur));
 		}
 		
+		if (droite instanceof VConstante) {
+			VConstante cstd = (VConstante) droite;
+			
+			if (operateur.getNeutre() == cstd.valeur) {
+				return gauche;
+			}
+		}
+		
+		
 		return this;
 	}
 	
