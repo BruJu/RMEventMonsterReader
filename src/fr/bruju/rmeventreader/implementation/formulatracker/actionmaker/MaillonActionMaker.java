@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
 
 /**
  * Maillon permettant d'initialiser la base d'attaques en fonction d'un fichier ressources statistiques et des

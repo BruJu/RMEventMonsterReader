@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstresViaShowPicture;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.FinDeCombat;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.MonsterDatabaseMaker;
-import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.AutoActionMaker;
+import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correcteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correspondance;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
-import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.LectureAutomatique;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
@@ -25,7 +25,7 @@ public class MonsterDBTest {
 		Runnable[] listeDesActions = new Runnable[] {
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat1.txt"),
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat2.txt"),
-			new LectureAutomatique(new Correcteur(baseDeDonnees)                , "ressources/Correction.txt"),
+			new Correcteur(baseDeDonnees                                        , "ressources/Correction.txt"),
 			new AutoActionMaker(new NomDeMonstresViaShowPicture(baseDeDonnees)  , "ressources/NomDesMonstres.txt"),
 			new Correspondance(baseDeDonnees, Correspondance.Remplacement.nom() , "ressources/Dico/Monstres.txt"),
 			new AutoActionMaker(new EnregistreurDeDrop(baseDeDonnees)           , "ressources/CombatDrop.txt"),

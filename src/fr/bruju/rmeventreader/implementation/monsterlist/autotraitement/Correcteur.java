@@ -1,9 +1,10 @@
-package fr.bruju.rmeventreader.implementation.monsterlist;
+package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.filereader.ActionOnLine;
+import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
@@ -25,7 +26,59 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class Correcteur implements ActionOnLine {
+public class Correcteur implements Runnable {
+	/** Liste des actions reconnaissables */
+	private List<Action> actions;
+	/** Base de données de monstres */
+	private MonsterDatabase db;
+	/** Nom du fichier */
+	private String filename;
+
+	
+	/**
+	 * Crée un correcteur pour la base de données donnée
+	 * @param db La base de données à corriger
+	 */
+	public Correcteur(MonsterDatabase db, String filename) {
+		actions = new ArrayList<>();
+		actions.add(new ActionAddMonster());
+		actions.add(new ActionDeleteMonster());
+		actions.add(new ActionDeleteBattle());
+		this.filename = filename;
+		
+		this.db = db;
+	}
+
+	@Override
+	public void run() {
+		try {
+			FileReaderByLine.lireLeFichierSansCommentaires(filename, this::read);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Action réalisée à la lecture d'une ligne
+	 * @param ligne Ligne lue
+	 */
+	public void read(String ligne) {
+		for (Action action : actions) {
+			List<String> arguments = Recognizer.tryPattern(action.getPattern(), ligne);
+			
+			if (arguments != null) {
+				action.faire(db, arguments);
+				return;
+			}
+		}
+		
+		throw new LigneNonReconnueException(ligne);
+	}
+	
+	/* =================
+	 * ACTIONS POSSIBLES
+	 * ================= */
+	
 	/**
 	 * Actions réalisables à la lecture d'un pattern
 	 */
@@ -34,56 +87,6 @@ public class Correcteur implements ActionOnLine {
 		public String getPattern();
 		/** Action exécutée à la lecture d'un pattern reconnu */
 		public void faire(MonsterDatabase db, List<String> arguments);
-	}
-	
-	/** Liste des actions reconnaissables */
-	private List<Action> actions;
-	/** Base de données de monstres */
-	private MonsterDatabase db;
-	
-	/**
-	 * Crée un correcteur pour la base de données donnée
-	 * @param db La base de données à corriger
-	 */
-	public Correcteur(MonsterDatabase db) {
-		actions = new ArrayList<>();
-		actions.add(new ActionCommentaire());
-		actions.add(new ActionAddMonster());
-		actions.add(new ActionDeleteMonster());
-		actions.add(new ActionDeleteBattle());
-		
-		this.db = db;
-	}
-
-	@Override
-	public void read(String line) {
-		for (Action action : actions) {
-			List<String> arguments = Recognizer.tryPattern(action.getPattern(), line);
-			
-			if (arguments != null) {
-				action.faire(db, arguments);
-				return;
-			}
-		}
-		
-		throw new LigneNonReconnueException(line);
-	}
-	
-	// Actions possibles
-
-	/**
-	 * Action réalisée lors d'un commentaire
-	 */
-	private static class ActionCommentaire implements Action {
-		@Override
-		public String getPattern() {
-			return "//£";
-		}
-
-		@Override
-		public void faire(MonsterDatabase db, List<String> arguments) {
-			
-		}
 	}
 
 	/**

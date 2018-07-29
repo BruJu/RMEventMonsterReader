@@ -1,15 +1,12 @@
-package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
+package fr.bruju.rmeventreader.actionmakers.actionner;
 
 import java.io.File;
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.ConditionalActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
-
 /**
- * Action automatique utilisant un Action Maker pour traiter un fichier.
- * L'ActionMaker donné sera traité au travers d'un ConditionalActionMaker.
+ * Décore l'action maker donné par un Conditional Action Maker et assigne un fichier.
+ * <p>
+ * Lorsque la méthode run() sera appelée, la lecture du fichier sera déclenchée.
  * 
  * @author Bruju
  *

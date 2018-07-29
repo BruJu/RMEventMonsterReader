@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class Correspondance implements Runnable {
 	@Override
 	public void run() {
 		try {
-			lireFichier(new File(filename));
+			lireFichier(filename);
 			searchAndReplace(database.extractMonsters());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -64,10 +63,10 @@ public class Correspondance implements Runnable {
 	/**
 	 * Lit un fichier pour remplir les correspondances
 	 */
-	public void lireFichier(File file) throws IOException {
+	public void lireFichier(String chemin) throws IOException {
 		String pattern = "_ _";
-
-		FileReaderByLine.lireLeFichier(file, line -> {
+		
+		FileReaderByLine.lireLeFichierSansCommentaires(chemin, line -> {
 			List<String> chaines = Recognizer.tryPattern(pattern, line);
 
 			map.put(chaines.get(0), chaines.get(1));
@@ -81,7 +80,7 @@ public class Correspondance implements Runnable {
 	 * @param replace
 	 */
 	public void searchAndReplace(Collection<Monstre> monstres) {
-		for (Monstre monstre : monstres) {
+		monstres.forEach(monstre -> {
 			String id = remplaceur.getSearch(monstre);
 
 			String valeur = map.get(id);
@@ -89,7 +88,7 @@ public class Correspondance implements Runnable {
 			if (valeur != null) {
 				remplaceur.getReplace(monstre, valeur);
 			}
-		}
+		});
 	}
 	
 	/**
