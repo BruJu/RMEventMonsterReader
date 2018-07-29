@@ -115,7 +115,7 @@ public class Attaque {
 	 * @return Le résultat de la fonction appliquée à toutes les formules
 	 */
 	<T> T returnForEach(TriFunction<String, ModifStat, FormuleDeDegats, T> fonctionFormule,
-			BinaryOperator<T> reduction) {
+			BinaryOperator<T> reduction, T valeurSiNull) {
 		Container<T> c = new Container<>();
 		c.item = null;
 		
@@ -128,6 +128,10 @@ public class Attaque {
 				c.item = reduction.apply(c.item, resultat);
 			}
 			}));
+		
+		if (c.item == null) {
+			return valeurSiNull;
+		}
 		
 		return c.item;
 	}

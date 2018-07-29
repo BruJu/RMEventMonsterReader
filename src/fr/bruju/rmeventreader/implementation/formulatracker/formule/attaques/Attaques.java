@@ -114,7 +114,7 @@ public class Attaques {
 		
 		forEach(attaque -> {
 			sb.append(affichageHeaderAttaque.apply(attaque.nom));
-			sb.append(attaque.returnForEach(affichageFormule, (s1, s2) -> s1 + s2));
+			sb.append(attaque.returnForEach(affichageFormule, (s1, s2) -> s1 + s2, ""));
 			sb.append(affichageFooterAttaque.apply(attaque.nom));
 		});
 		

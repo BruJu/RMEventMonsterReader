@@ -16,6 +16,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.gestionnairedecondition.GestionnaireDeCondition;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
@@ -26,7 +27,28 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 	
 	private List<Condition> conditionsGeree = new ArrayList<>();
 	private List<GestionnaireDeCondition> gestionnairesAssocies = new ArrayList<>();
+
 	
+	public FormuleDeDegats integrer(FormuleDeDegats formuleBase) {
+		int tailleCondition = conditionsGeree.size();
+		
+		formuleBase.conditions.stream().forEach(this::ajouterCondition);
+		
+		
+		Valeur formule = formuleBase.formule;
+		
+		formule = integrer(formule);
+		
+		// Formule de dégâts jamais explorée
+		if (formule == null) {
+			return null;
+		}
+		
+		conditionsGeree = conditionsGeree.subList(tailleCondition, conditionsGeree.size());
+		
+		// Retour
+		return new FormuleDeDegats(conditionsGeree, formule);
+	}
 	
 
 
@@ -57,12 +79,6 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 		return (Valeur) traiter(formule);
 	}
 
-	public List<Condition> recupererConditions() {
-		if (!estVivant)
-			return null;
-		
-		return conditionsGeree;
-	}
 	
 	/* ====================
 	 * Composants condition
@@ -150,5 +166,6 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 				return creation.apply(cond, vrai, faux);
 			}
 	}
+
 
 }

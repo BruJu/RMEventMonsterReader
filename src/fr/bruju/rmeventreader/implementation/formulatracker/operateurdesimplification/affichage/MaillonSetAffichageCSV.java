@@ -2,14 +2,19 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale.IntegreurGeneral;
+import fr.bruju.rmeventreader.implementation.formulatracker.simplification.ExtracteurDeConditions;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class MaillonSetAffichageCSV implements Maillon {
@@ -84,6 +89,7 @@ public class MaillonSetAffichageCSV implements Maillon {
 
 	private List<Pair<String, FormuleDeDegats>> prefixer(List<Pair<String, FormuleDeDegats>> liste) {
 		List<FonctionDeTransformation> traitements = new ArrayList<>();
+		traitements.add(new Variable360());
 		
 		List<Pair<String, FormuleDeDegats>> courant = liste;
 		
@@ -124,12 +130,44 @@ public class MaillonSetAffichageCSV implements Maillon {
 
 		@Override
 		public List<Pair<String, FormuleDeDegats>> apply(Pair<String, FormuleDeDegats> paire) {
+			List<Composant> var360 = new ArrayList<>();
+			var360.add(new VBase(360));
+			
+			List<CVariable> conditions = new ExtracteurDeConditions()
+										.extraireSousConditions(paire.getRight(), var360)
+										.stream()
+										.filter(c -> c instanceof CVariable)
+										.map(c -> (CVariable) c)
+										.filter(c -> c.operateur == Operator.IDENTIQUE)
+										.collect(Collectors.toList());
 			
 			
-			return null;
+			List<Pair<String, FormuleDeDegats>> resultat;
+			if (conditions.isEmpty()) {
+				resultat = new ArrayList<>();
+				resultat.add(new Pair<>(paire.getLeft()+"♦", paire.getRight()));
+			} else {
+				resultat = conditions.stream().map(condition -> {
+					FormuleDeDegats nouvelleFormule = inclusionGenerale(condition, paire.getRight());
+					
+					return new Pair<>(paire.getLeft()+condition.droite.getString()+"♦",
+							nouvelleFormule);
+					
+				}).collect(Collectors.toList());				
+			}
+			
+			return resultat;
 		}
+
 		
 		
+	}
+
+
+	public static FormuleDeDegats inclusionGenerale(Condition condition, FormuleDeDegats right) {
+		IntegreurGeneral ig = new IntegreurGeneral();
+		ig.ajouterCondition(condition);
+		return ig.integrer(right);
 	}
 	
 	

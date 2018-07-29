@@ -1,10 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.operation.inclusionglobale;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
@@ -27,28 +22,8 @@ public class MaillonIntegration implements Maillon {
 	 * @param formuleBase La formule de départ
 	 * @return La formule avec les conditions intégrées
 	 */
-	private FormuleDeDegats inclusionGenerale(FormuleDeDegats formuleBase) {
-		// Récupération des valeurs
-		List<Condition> conditions = formuleBase.conditions.stream().collect(Collectors.toList());
-		Valeur formule = formuleBase.formule;
+	public FormuleDeDegats inclusionGenerale(FormuleDeDegats formuleBase) {
 		IntegreurGeneral integreur = new IntegreurGeneral();
-		
-		// Integration des conditions
-		conditions.sort(new ComparateurCondVar());
-		for (Condition condition : conditions) {
-			integreur.ajouterCondition(condition);
-		}
-
-		// Integration de la valeur
-		formule = integreur.integrer(formule);
-		conditions = integreur.recupererConditions();
-		
-		// Formule de dégâts jamais explorée
-		if (formule == null) {
-			return null;
-		}
-		
-		// Retour
-		return new FormuleDeDegats(conditions, formule);
+		return integreur.integrer(formuleBase);
 	}
 }
