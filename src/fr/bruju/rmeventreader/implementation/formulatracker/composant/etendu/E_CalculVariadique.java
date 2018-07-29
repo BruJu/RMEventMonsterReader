@@ -17,6 +17,8 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
 
+// WIP / TODO
+
 /**
  * Représente un calcul variadique
  * 
@@ -38,15 +40,19 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
+	
+	public final List<List<Pair<Valeur, Operator>>> calcul;
+	
+	
 	/** Opérateur appliqué lors du calcul */
 	public final Operator base;
 	/** Liste des différentes valeurs */
-	public final List<Valeur> valeurs;
+	//public final List<Valeur> valeurs;
 	/**
 	 * Première valeur = vrai. Pour les autres, si inverses[i] = faux, alors il faut appliquer l'opérateur de base
 	 * inversé pour valeurs[i]
 	 */
-	public final List<Boolean> inverses;
+	//public final List<Boolean> inverses;
 
 	/**
 	 * Crée un calcul variadique à partir d'une liste de valeurs et de leurs opérateurs
@@ -57,8 +63,7 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	 */
 	public E_CalculVariadique(Operator base, List<Valeur> valeurs, List<Boolean> inverse) {
 		this.base = base;
-		this.valeurs = valeurs;
-		this.inverses = inverse;
+		this.calcul = this.decomposerEnGroupes(valeurs, inverse);
 	}
 
 	/**
@@ -68,12 +73,7 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	 */
 	public E_CalculVariadique(List<List<Pair<Valeur, Operator>>> liste) {
 		this.base = liste.get(0).get(0).getRight();
-
-		List<Pair<Valeur, Operator>> valeursApplaties = liste.stream().flatMap(a -> a.stream())
-				.collect(Collectors.toList());
-
-		this.valeurs = valeursApplaties.stream().map(paire -> paire.getLeft()).collect(Collectors.toList());
-		this.inverses = valeursApplaties.stream().map(paire -> paire.getRight() == base).collect(Collectors.toList());
+		this.calcul = liste;
 	}
 
 	/**
@@ -84,11 +84,23 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	 */
 	public E_CalculVariadique(E_CalculVariadique base, Composant[] composants) {
 		this.base = base.base;
-		this.inverses = base.inverses;
-		this.valeurs = new ArrayList<>();
-
-		for (Composant composant : composants) {
-			valeurs.add((Valeur) composant);
+		
+		this.calcul = new ArrayList<>();
+		
+		int composant = 0;
+		
+		for (List<Pair<Valeur, Operator>> groupe : base.calcul) {
+			List<Pair<Valeur, Operator>> groupeInterne = new ArrayList<>();
+			for (Pair<Valeur, Operator> element : groupe) {
+				if (composants[composant] == element.getLeft()) {
+					groupeInterne.add(element);
+				} else {
+					groupeInterne.add(new Pair<>((Valeur) composants[composant], element.getRight()));
+				}
+				composant++;
+			}
+			
+			calcul.add(groupeInterne);
 		}
 	}
 
@@ -126,11 +138,15 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 
 	@Override
 	public Composant evaluationRapide() {
-		List<List<Pair<Valeur, Operator>>> splitter = decomposerEnGroupes();
+		List<List<Pair<Valeur, Operator>>> splitter = copyList();
 		reduireContenu(splitter);
 		reduireDeGaucheADroite(splitter);
 
 		return new E_CalculVariadique(splitter);
+	}
+
+	private List<List<Pair<Valeur, Operator>>> copyList() {
+		return this.calcul.stream().map(liste -> new ArrayList<>(liste)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -149,15 +165,14 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(base, valeurs, inverses);
+		return Objects.hash(base, calcul);
 	}
 
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof E_CalculVariadique) {
 			E_CalculVariadique that = (E_CalculVariadique) object;
-			return Objects.equals(this.base, that.base) && Objects.equals(this.valeurs, that.valeurs)
-					&& Objects.equals(this.inverses, that.inverses);
+			return Objects.equals(this.base, that.base) && Objects.equals(this.calcul, that.calcul);
 		}
 		return false;
 	}
@@ -172,13 +187,14 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	 * @return La liste des sous composants
 	 */
 	public Composant[] getTousLesFils() {
-		Composant[] composants = new Composant[valeurs.size()];
-
-		for (int i = 0; i != valeurs.size(); i++) {
-			composants[i] = valeurs.get(i);
-		}
-
-		return composants;
+		ArrayList<Composant> composants = new ArrayList<>();
+		
+		forEach(Utilitaire::doNothing,
+				composants::add,
+				(c, o) -> composants.add(c),
+				Utilitaire::doNothing);
+		
+		return composants.toArray(new Composant[0]);
 	}
 
 	/**
@@ -191,18 +207,25 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	 */
 	private void forEach(Runnable actionSiVide, Consumer<Valeur> premiereAction,
 			BiConsumer<Valeur, Operator> actionsSuivantes, Runnable finSiNonVide) {
-		if (valeurs.isEmpty()) {
+		if (calcul.isEmpty()) {
 			actionSiVide.run();
 			return;
 		}
 
-		premiereAction.accept(valeurs.get(0));
-
-		for (int i = 1; i != valeurs.size(); i++) {
-			boolean operateurBase = inverses.get(i);
-			actionsSuivantes.accept(valeurs.get(i), operateurBase ? base : base.revert());
+		boolean estPremier = true;
+		
+		for (List<Pair<Valeur, Operator>> groupe : calcul) {
+			for (Pair<Valeur, Operator> element : groupe) {
+				
+				if (estPremier) {
+					estPremier = false;
+					premiereAction.accept(element.getLeft());
+				} else {
+					actionsSuivantes.accept(element.getLeft(), element.getRight());
+				}
+			}
 		}
-
+		
 		finSiNonVide.run();
 	}
 
@@ -213,10 +236,12 @@ public class E_CalculVariadique implements ComposantEtendu, Valeur {
 	/**
 	 * Décompose l'opération variadique en plusieurs groupes de couples valeurs x opérateurs. Les paires d'un même
 	 * groupe sont commutatifs.
+	 * @param inverse 
+	 * @param valeurs 
 	 * 
 	 * @return Une liste de groupes de paires valeur x opérateur appliqué
 	 */
-	public List<List<Pair<Valeur, Operator>>> decomposerEnGroupes() {
+	public List<List<Pair<Valeur, Operator>>> decomposerEnGroupes(List<Valeur> valeurs, List<Boolean> inverse) {
 		Operator[][] groupes = recupererGroupes();
 
 		List<List<Pair<Valeur, Operator>>> dejaConstruits = new ArrayList<>();

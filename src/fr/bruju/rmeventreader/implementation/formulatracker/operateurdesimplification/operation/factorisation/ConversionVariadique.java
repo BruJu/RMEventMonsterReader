@@ -30,8 +30,9 @@ public class ConversionVariadique extends ConstructeurDeComposantsRecursif imple
 			int prioriteValeur = Utilitaire.getPriorite(ecv.base);
 			
 			if (prioriteActuel == prioriteValeur) {
-				valeurs.addAll(ecv.valeurs);
-				booleens.addAll(ecv.inverses);				
+				// TODO
+				//valeurs.addAll(ecv.valeurs);
+				//booleens.addAll(ecv.inverses);				
 				return;
 			}
 		}
