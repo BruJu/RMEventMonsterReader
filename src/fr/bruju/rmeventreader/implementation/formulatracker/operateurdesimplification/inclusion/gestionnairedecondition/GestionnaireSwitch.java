@@ -4,10 +4,20 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 
+/**
+ * Gestionnaire de conditions pour les conditions sur un interrupteur
+ * 
+ * @author Bruju
+ *
+ */
 public class GestionnaireSwitch implements GestionnaireDeCondition {
-
+	/** Condition de base */
 	private CSwitch base;
 
+	/**
+	 * Crée un gestionnaire de conditions pour la condition donnée
+	 * @param cSwitch La condition
+	 */
 	public GestionnaireSwitch(CSwitch cSwitch) {
 		this.base = cSwitch;
 	}
@@ -20,5 +30,4 @@ public class GestionnaireSwitch implements GestionnaireDeCondition {
 		
 		return CFixe.get(base.valeur == cond.valeur);
 	}
-
 }

@@ -11,8 +11,13 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
  *
  */
 public class MaillonFiltreOperateur implements Maillon {
+	/** Opérateur à retirer */
 	private Operator operateurFiltre;
 
+	/**
+	 * Construit un filtre pour retirer les formules appliquant l'opérateur donné
+	 * @param operateurFiltre L'opérateur dont on souhaite éliminé les formules l'utilisant
+	 */
 	public MaillonFiltreOperateur(Operator operateurFiltre) {
 		this.operateurFiltre = operateurFiltre;
 	}

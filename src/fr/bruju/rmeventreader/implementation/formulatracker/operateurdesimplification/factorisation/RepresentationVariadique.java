@@ -24,6 +24,9 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  * L'enjeu serait de trouver une représentation à la fois simple et un minimum performante pour régler ce problème,
  * sachant que dans l'application de ce programme, on peut se permettre d'avoir des hypothèses fortes sur le jeu de
  * données.
+ * 
+ * Dans la mesure où l'implémentation de cette classe est amenée à changée radicalement ou à être supprimée (intégration
+ * dans E_CalculVariadique par exemple), la documentation de cette classe n'est pas faite.
  */
 
 /**

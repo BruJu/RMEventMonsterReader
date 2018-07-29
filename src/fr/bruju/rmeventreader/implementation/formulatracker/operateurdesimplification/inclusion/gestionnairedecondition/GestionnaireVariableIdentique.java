@@ -4,24 +4,32 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 
+/**
+ * Gestionnaire de condition disant qu'une valeur est égale à une constante
+ * 
+ * @author Bruju
+ *
+ */
 public class GestionnaireVariableIdentique implements GestionnaireDeCondition {
-
-	private CVariable base;
+	/** Valeur à gauche */
+	private Valeur base;
+	/** Valeur à laquelle elle est égale */
 	private int maDroite;
 	
-	
+	/**
+	 * Crée un gestionnaire de conditions disant que la valeur à gauche de la condition est égale à la valeur à droite
+	 * @param cVariable La condition
+	 */
 	public GestionnaireVariableIdentique(CVariable cVariable) {
-		this.base = cVariable;
-		maDroite = VConstante.evaluer(base.droite);
+		this.base = cVariable.gauche;
+		maDroite = VConstante.evaluer(cVariable.droite);
 	}
-
-
 
 	@Override
 	public Condition conditionVariable(CVariable cond) {
-		if(!(base.gauche.equals(cond.gauche)
-				&& cond.droite instanceof VConstante)) {
+		if(!(base.equals(cond.gauche) && cond.droite instanceof VConstante)) {
 			return cond;
 		}
 		
@@ -31,7 +39,4 @@ public class GestionnaireVariableIdentique implements GestionnaireDeCondition {
 		
 		return CFixe.get(r);
 	}
-	
-	
-
 }

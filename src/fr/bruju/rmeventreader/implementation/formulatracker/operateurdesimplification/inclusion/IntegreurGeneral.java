@@ -17,14 +17,27 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.For
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
 
+/**
+ * Transforme des formules en intégrant des solutions dans leurs valeurs
+ * 
+ * @author Bruju
+ *
+ */
 public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
+	/** Vrai si aucune conditions contradictoires n'ont été rencontrées dans les préconditions */
 	private boolean estVivant = true;
+	
+	/** Créateur de gestionaires de conditions */
 	private CreateurDeGestionnaire createur = new CreateurDeGestionnaire();
 	
+	/** Liste des préconditions gérées */
 	private List<Condition> conditionsGeree = new ArrayList<>();
+	/** Liste des gestionnaires de conditions */
 	private List<GestionnaireDeCondition> gestionnairesAssocies = new ArrayList<>();
 
-	
+	/**
+	 * Intègre la formule donnée
+	 */
 	public FormuleDeDegats integrer(FormuleDeDegats formuleBase) {
 		int tailleCondition = conditionsGeree.size();
 		
@@ -46,8 +59,10 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 		return new FormuleDeDegats(conditionsGeree, formule);
 	}
 	
-
-
+	/**
+	 * Ajoute une précondition au traitement des formules traitées par cet intégreur
+	 * @param condition La condition à ajouter
+	 */
 	public void ajouterCondition(Condition condition) {
 		if (!estVivant)
 			return;
@@ -68,6 +83,9 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 		}
 	}
 
+	/**
+	 * Intègre la valeur donnée et renvoie sa valeur intégrée
+	 */
 	public Valeur integrer(Valeur formule) {
 		if (!estVivant)
 			return null;

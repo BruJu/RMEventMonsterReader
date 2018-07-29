@@ -8,7 +8,16 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurRetourneur;
 
+/**
+ * Il s'agit d'une clase permettant de créer des gestionnaires de conditions
+ * 
+ * @author Bruju
+ * 
+ */
 public class CreateurDeGestionnaire extends VisiteurRetourneur<GestionnaireDeCondition> {
+	/**
+	 * Donne le gestionnaire de conditions poru la condition donnée
+	 */
 	public GestionnaireDeCondition getGestionnaire(Condition condition) {
 		return traiter(condition);
 	}

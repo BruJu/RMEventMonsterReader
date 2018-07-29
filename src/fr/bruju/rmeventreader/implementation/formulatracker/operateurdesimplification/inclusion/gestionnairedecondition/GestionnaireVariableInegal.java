@@ -5,16 +5,26 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
+/**
+ * Gestionnaire de conditions avec une base inégale
+ * @author Bruju
+ *
+ */
 public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 	// Conditions de type x • constante
-	private CVariable base;
+	private Valeur base;
 	private Operator op;
 	private int maDroite;
 
+	/**
+	 * Crée un gestionnaire de conditions pour la condition d'inégalité donnée
+	 * @param cVariable La condition sur laquelle construire le gestionnaire
+	 */
 	public GestionnaireVariableInegal(CVariable cVariable) {
-		this.base = cVariable;
+		this.base = cVariable.gauche;
 
 		
 		Pair<Operator, Integer> e = evaluerSansBorne(cVariable);
@@ -23,15 +33,16 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 		
 		op = cVariable.operateur;
 
-		Integer md = VConstante.evaluer(base.droite);
-
-		if (md == null) {
-			throw new RuntimeException("Inevaluable");
-		}
+		Integer md = VConstante.evaluer(cVariable.droite);
 
 		maDroite = md;
 	}
 
+	/**
+	 * Transforme la condition en une condition sans inégalités contenant un égal et donne la valeur de sa partie droite
+	 * @param cVariable La condition
+	 * @return Une paire opérateur et évaluation de la partie droite
+	 */
 	private Pair<Operator, Integer> evaluerSansBorne(CVariable cVariable) {
 		Integer evaluation = VConstante.evaluer(cVariable.droite);
 		
@@ -56,7 +67,7 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 
 	@Override
 	public Condition conditionVariable(CVariable cond) {
-		if (!(base.gauche.equals(cond.gauche))) {
+		if (!(base.equals(cond.gauche))) {
 			return cond;
 		}
 		
