@@ -56,13 +56,6 @@ public class Attaques {
 	}
 	
 	/**
-	 * Détermine l'affichage avec une fonction donnat le header et une fonction donnant la chaîne des formules
-	 */
-	public void determinerAffichage(Function<FormuleDeDegats, String> detChaine, Function<Attaque, String> detHeader) {
-		forEach(attaque -> attaque.detChaine(detHeader, detChaine));
-	}
-
-	/**
 	 * Filtre les ModifStat ne répondant pas à un prédicat
 	 */
 	public void filterKeys(Predicate<ModifStat> fonctionDeFiltre) {
@@ -105,17 +98,23 @@ public class Attaques {
 		return this.affichage;
 	}
 	
+	/**
+	 * Détermine l'affichage à faire en fonction des fonctions données
+	 * @param affichageHeaderAttaque Fonction donnant le header à produire pour chaque attaque en fonction du nom
+	 * @param affichageFormule Fonction donnant la liste à produire pour chaque formules de dégâts en fonction du nom
+	 * de l'attaque, de la statistique modifiée et de la formule de dégâts
+	 * @param affichageFooterAttaque Fonction donnant le footer à produire à la fin de chaque attaque en fonction du nom
+	 */
 	public void determinerAffichageAttaques(
 			Function<String, String> affichageHeaderAttaque,
 			TriFunction<String, ModifStat, FormuleDeDegats, String> affichageFormule,
-			BinaryOperator<String> reduction,
 			Function<String, String> affichageFooterAttaque) {
 		
 		StringBuilder sb = new StringBuilder();
 		
 		forEach(attaque -> {
 			sb.append(affichageHeaderAttaque.apply(attaque.nom));
-			sb.append(attaque.returnForEach(affichageFormule, reduction));
+			sb.append(attaque.returnForEach(affichageFormule, (s1, s2) -> s1 + s2));
 			sb.append(affichageFooterAttaque.apply(attaque.nom));
 		});
 		

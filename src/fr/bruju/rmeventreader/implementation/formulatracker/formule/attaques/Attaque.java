@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -30,9 +28,6 @@ public class Attaque {
 
 	/** Association statistique modifiée - liste des formules*/
 	private Map<ModifStat, List<FormuleDeDegats>> resultat;
-	
-	/** Chaîne à afficher lorsque SystemOut ou EcritureFichier est appelé*/
-	private String chaineAAfficher;
 
 	/**
 	 * Initialise une attaque
@@ -48,10 +43,11 @@ public class Attaque {
 	 * Donne la chaîne à afficher
 	 * @return La chaîne à afficher
 	 */
+	/*
 	public String getChaineAAfficher() {
 		return this.chaineAAfficher;
 	}
-
+*/
 	
 	/**
 	 * Modifie les formules en appliquant la fonction fournie
@@ -81,42 +77,6 @@ public class Attaque {
 	void filtrer(Predicate<ModifStat> fonctionDeFiltre) {
 		resultat.entrySet().removeIf(entry -> !fonctionDeFiltre.test(entry.getKey()));
 	}
-	
-	/**
-	 * Détermine l'affichage à faire selon la fonction d'affichage du nom de l'attaque et la fonction d'affichaque
-	 * d'une formule
-	 * @param detHeader La fonction donnant l'affichage à produire pour le nom de l'attaque
-	 * @param detChaine La fonction donnant l'affichage à produire pour une formule de dégâts
-	 */
-	void detChaine(Function<Attaque, String> detHeader, Function<FormuleDeDegats, String> detChaine) {
-		// TODO : prendre une BiFunction<ModifStat, FormuleDeDegats, String>
-		StringBuilder sb = new StringBuilder();
-		sb.append(detHeader.apply(this))
-		  .append("\n");
-		
-		resultat.forEach((modifStat, listeDeFormules) ->
-			listeDeFormules.stream()
-						   .map(formule -> detChaine.apply(formule))
-						   .filter(chaine -> !chaine.isEmpty())
-						   .forEach(chaine ->
-						   			sb.append(getStatAffichage(modifStat.stat))
-								      .append(" ")
-								      .append(Utilitaire.getSymbole(modifStat.operateur))
-								      .append(" ")
-								      .append(chaine)
-								      .append("\n"))
-						); 
-		
-		this.chaineAAfficher = sb.toString();
-	}
-	
-	/**
-	 * Donne l'affichage du nom d'une statistique
-	 */
-	private static String getStatAffichage(Statistique stat) {
-		return stat.possesseur.getNom() + "." + stat.nom;
-	}
-
 	
 	/**
 	 * Fusionne les formules de dégâts selon une fonction de fusion

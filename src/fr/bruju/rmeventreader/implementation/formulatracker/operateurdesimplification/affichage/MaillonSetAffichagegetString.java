@@ -1,34 +1,33 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class MaillonSetAffichagegetString implements Maillon {
-	private int tMin;
-	private int tMax;
-
-	public MaillonSetAffichagegetString(int tMin, int tMax) {
-		this.tMin = tMin;
-		this.tMax = tMax;
-	}
-
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.determinerAffichage(
 
-				formule -> {
-					String chaine = formule.getString();
+		attaques.determinerAffichageAttaques(nomAttaque -> "===" + nomAttaque + "===\n",
+				
+				(nomAttaque, modifStat, formule) ->
+				new StringBuilder().append(getStatAffichage(modifStat.stat))
+									.append(" ")
+									.append(Utilitaire.getSymbole(modifStat.operateur))
+									.append(" ")
+									.append(formule.getString())
+									.append("\n")
+									.toString(),
 
-					if (chaine.length() < tMin) {
-						chaine = "";
-					} else if (chaine.length() > tMax) {
-						chaine = "Trop long";
-					}
+				(nom) -> "");
+	}
 
-					return chaine;
-				},
-
-				attaque -> "===" + attaque.nom + "===");
+	/**
+	 * Donne l'affichage du nom d'une statistique
+	 */
+	private static String getStatAffichage(Statistique stat) {
+		return stat.possesseur.getNom() + "." + stat.nom;
 	}
 
 }
