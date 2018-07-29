@@ -15,6 +15,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 /**
  * Base de données des attaques connues
@@ -25,6 +26,9 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 public class Attaques {
 	/** Liste des attaques */
 	private List<Attaque> liste = new ArrayList<>();
+	/** Affichage à produire */
+	private String affichage;
+	
 
 	/* =========================
 	 * MANIPULATION DES ATTAQUES
@@ -91,6 +95,31 @@ public class Attaques {
 	 */
 	public void ajouterAttaque(Attaque attaque) {
 		liste.add(attaque);
+	}
+
+
+	/* =========
+	 * AFFICHAGE
+	 * ========= */
+	public String getAffichage() {
+		return this.affichage;
+	}
+	
+	public void determinerAffichageAttaques(
+			Function<String, String> affichageHeaderAttaque,
+			TriFunction<String, ModifStat, FormuleDeDegats, String> affichageFormule,
+			BinaryOperator<String> reduction,
+			Function<String, String> affichageFooterAttaque) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		forEach(attaque -> {
+			sb.append(affichageHeaderAttaque.apply(attaque.nom));
+			sb.append(attaque.returnForEach(affichageFormule, reduction));
+			sb.append(affichageFooterAttaque.apply(attaque.nom));
+		});
+		
+		this.affichage = sb.toString();
 	}
 	
 

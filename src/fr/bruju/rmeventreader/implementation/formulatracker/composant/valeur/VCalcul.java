@@ -43,7 +43,7 @@ public class VCalcul implements Valeur {
 	@Override
 	public String getString() {
 		return getValeurParenthesee(this.getPriorite(), gauche.getPriorite(), gauche.getString())
-				+ " " + operateur + " "//+ Utilitaire.getSymbole(operateur) + " "
+				+ " " + Utilitaire.getSymbole(operateur) + " "
 				+ getValeurParenthesee(this.getPriorite(), droite.getPriorite(), droite.getString());
 	}
 

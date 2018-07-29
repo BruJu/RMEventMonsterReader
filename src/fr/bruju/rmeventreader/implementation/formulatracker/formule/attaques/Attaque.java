@@ -13,8 +13,10 @@ import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
+import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 /**
  * Stocke la liste des formules liées à une attaque
@@ -143,5 +145,30 @@ public class Attaque {
 	 */
 	private <K, V> Stream<Pair<K, V>> applatir(Map.Entry<K, List<V>> e) {
 		return e.getValue().stream().map(formule -> new Pair<>(e.getKey(), formule));
+	}
+
+	/**
+	 * Applique la fonction donnée aux formules de dégâts, en réduisant avec la fonction de réduction si il y en a
+	 * plusieurs et renvoie le résultat
+	 * @param fonctionFormule La fonction à appliquer à chaque formule
+	 * @param reduction La fonction pour réduire le résultat de deux formules
+	 * @return Le résultat de la fonction appliquée à toutes les formules
+	 */
+	<T> T returnForEach(TriFunction<String, ModifStat, FormuleDeDegats, T> fonctionFormule,
+			BinaryOperator<T> reduction) {
+		Container<T> c = new Container<>();
+		c.item = null;
+		
+		resultat.forEach((modifStat, liste) -> liste.forEach(formule -> { 
+			T resultat = fonctionFormule.apply(nom, modifStat, formule);
+			
+			if (c.item == null) {
+				c.item = resultat;
+			} else {
+				c.item = reduction.apply(c.item, resultat);
+			}
+			}));
+		
+		return c.item;
 	}
 }
