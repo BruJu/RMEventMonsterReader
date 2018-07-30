@@ -17,58 +17,56 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  */
 public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> {
 	// Constantes
-	/**
-	 * Numéro de l'image qui affiche les noms
-	 */
-	private static final int SHOW_PIC_ID_WITH_NAME = 19;
-	
-	/**
-	 * Numéro de la variable contenant l'id des monstres
-	 */
-	private static final int VARIABLE_IDMONSTRE = 559;
-	
-	/**
-	 * Numéro de la variable contenant l'id du combat
-	 */
-	private static final int VARIABLE_IDCOMBAT  = 435;
-	
-	
+	/** Numéro de l'image qui affiche les noms */
+	private final int SHOW_PIC_ID_WITH_NAME;
+
+	/** Numéro de la variable contenant l'id des monstres */
+	private final int VARIABLE_IDMONSTRE;
+
+	/** Numéro de la variable contenant l'id du combat */
+	private final int VARIABLE_IDCOMBAT;
+
 	/* ==========================
 	 * Instanciation de la classe
 	 * ========================== */
-	
+
 	/**
 	 * Base de données de monstre
 	 */
 	private MonsterDatabase database;
-	
+
 	/**
 	 * Instancie le faiseur d'action avec la base de données à compléter
+	 * 
 	 * @param database La base de données à compléter
 	 */
 	public NomDeMonstresViaShowPicture(MonsterDatabase database) {
 		this.database = database;
+
+		SHOW_PIC_ID_WITH_NAME = database.contexte.getVariable("LecturePicture_IDPicture");
+		VARIABLE_IDMONSTRE    = database.contexte.getVariable("LecturePicture_IDMonstre");
+		VARIABLE_IDCOMBAT     = database.contexte.getVariable("LecturePicture_IDCombat");
 	}
-	
+
 	/* ====================
 	 * Stacked Action Maker
 	 * ==================== */
-	
+
 	@Override
 	protected Collection<Monstre> getAllElements() {
 		return database.extractMonsters();
 	}
-	
+
 	/* ============
 	 * Action Maker
 	 * ============ */
-	
+
 	@Override
 	public void showPicture(int id, String pictureName) {
 		if (id != SHOW_PIC_ID_WITH_NAME) {
 			return;
 		}
-		
+
 		Collection<Monstre> monstres = this.getElementsFiltres();
 
 		for (Monstre monstre : monstres) {
@@ -81,9 +79,10 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> {
 		if (!(leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT)) {
 			return false;
 		}
-		
-		conditions.push(new ConditionOnMonsterId(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.get()));
-		
+
+		conditions.push(
+				new ConditionOnMonsterId(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.get()));
+
 		return true;
 	}
 

@@ -171,7 +171,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		@Override
 		public boolean condOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
 			conditions.push(
-					new ConditionOnMembreStat(Positions.POS_CAPA, positionMonstre, operatorValue, returnValue.get()));
+					new ConditionOnMembreStat("Capacité", positionMonstre, operatorValue, returnValue.get()));
 			return true;
 		}
 
@@ -198,7 +198,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 		@Override
 		public boolean condOnVariable(int idVariable, Operator operatorValue, ValeurFixe returnValue) {
 			conditions.push(
-					new ConditionOnMembreStat(Positions.POS_EXP, positionMonstre, operatorValue, returnValue.get()));
+					new ConditionOnMembreStat("EXP", positionMonstre, operatorValue, returnValue.get()));
 			return true;
 
 		}
@@ -246,7 +246,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 			}
 
 			Function<Combat, Integer> valeurReelle;
-			valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).get(Positions.POS_EXP);
+			valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).get("EXP");
 
 			getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.apply(c)));
 		}

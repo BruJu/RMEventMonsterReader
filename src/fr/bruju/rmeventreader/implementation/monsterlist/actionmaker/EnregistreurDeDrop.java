@@ -22,24 +22,16 @@ public class EnregistreurDeDrop implements ActionMakerDefalse {
 	 * Construction
 	 * ============ */
 	
-	/**
-	 * Variable contenant l'id du monstre
-	 */
-	private static final int VARIABLE_ID_MONSTRE = 552;
+	/** Variable contenant l'id du monstre */
+	private final int VARIABLE_ID_MONSTRE;
 	
-	/**
-	 * Variable contenant l'id de l'objet
-	 */
-	private static final int VARIABLE_ID_DROP = 2120;
+	/** Variable contenant l'id de l'objet */
+	private final int VARIABLE_ID_DROP;
 	
-	/**
-	 * Dernier if lu
-	 */
+	/** Dernier if lu */
 	private int dernierIfLu = -1;
 	
-	/**
-	 * Base de données à remplir
-	 */
+	/** Base de données à remplir */
 	private MonsterDatabase db;
 	
 	/**
@@ -48,6 +40,9 @@ public class EnregistreurDeDrop implements ActionMakerDefalse {
 	 */
 	public EnregistreurDeDrop(MonsterDatabase db) {
 		this.db = db;
+
+		this.VARIABLE_ID_MONSTRE = db.contexte.getVariable("EnregistreurDrop_MonstreID");
+		this.VARIABLE_ID_DROP = db.contexte.getVariable("EnregistreurDrop_CombatID");
 	}
 	
 	/* ============

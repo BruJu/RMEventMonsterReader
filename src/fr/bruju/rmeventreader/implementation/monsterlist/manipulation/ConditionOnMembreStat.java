@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Positions;
 
 /**
  * Condition sur une statistique d'un monstre
@@ -15,7 +14,7 @@ public class ConditionOnMembreStat implements Condition<Combat> {
 	/**
 	 * Statistique testée
 	 */
-	private Positions positionStat;
+	private String nomStatistique;
 	
 	/**
 	 * Numéro du monstre testé
@@ -39,8 +38,8 @@ public class ConditionOnMembreStat implements Condition<Combat> {
 	 * @param operatorValue L'opérateur de comparaison
 	 * @param value La valeur à laquelle la statistique sera comparée à droite de la comparaison
 	 */
-	public ConditionOnMembreStat(Positions posStat, int position, Operator operatorValue, int value) {
-		positionStat = posStat;
+	public ConditionOnMembreStat(String nomStatistique, int position, Operator operatorValue, int value) {
+		this.nomStatistique = nomStatistique;
 		numeroMonstre = position;
 		operator = operatorValue;
 		compareTo = value;
@@ -60,7 +59,7 @@ public class ConditionOnMembreStat implements Condition<Combat> {
 		if (monstre == null) {
 			statMonstre = 0;
 		} else {
-			statMonstre = monstre.get(positionStat);
+			statMonstre = monstre.get(nomStatistique);
 		}
 		
 		return operator.test(statMonstre, compareTo);

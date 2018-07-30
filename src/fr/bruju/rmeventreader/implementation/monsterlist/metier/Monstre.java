@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -18,7 +19,10 @@ public class Monstre {
 	private Combat combat;
 	
 	/** Statistiques du monstre */
-	private int[] stats;
+	private LinkedHashMap<String, Integer> stats;
+
+	/** Propriétés du monstre */
+	private LinkedHashMap<String, Boolean> proprietes;
 	
 	/** Nom du monstre */
 	public String nom = "UNKNOWN_NAME";
@@ -28,15 +32,29 @@ public class Monstre {
 
 	/** Immunité à fossile */
 	private boolean immuniteAFossile;
+	/** Contexte */
+	public final Contexte contexte;
 	
 	/**
 	 * Construit un monstre pour le combat donné
 	 */
 	public Monstre(Combat combat) {
-		stats = new int[Positions.TAILLE];
 		this.combat = combat;
+		this.contexte = combat.contexte;
+		remplirStats();
 	}
-	
+
+	/**
+	 * Rempli les propriétés et les statistiques avec des valeurs par défaut
+	 */
+	private void remplirStats() {
+		this.stats = new LinkedHashMap<>();
+		this.proprietes = new LinkedHashMap<>();
+		
+		contexte.getStatistiques().forEach(statistique -> stats.put(statistique, 0));
+		contexte.getProprietes().forEach(propriete -> proprietes.put(propriete, false));
+	}
+
 	/* ==========
 	 * ACCESSEURS 
 	 * ========== */
@@ -45,15 +63,15 @@ public class Monstre {
 	 * Donne l'id du monstre
 	 */
 	public int getId() {
-		return this.stats[Positions.POS_ID.ordinal()];
+		return stats.get("ID");
 	}
 
 	/**
-	 * Modifie l'id du monstre
+	 * Modifie l'id du monstre (utilisé pour la correction)
 	 * @param idMonstre L'id du monstre
 	 */
 	public void setId(int idMonstre) {
-		this.stats[Positions.POS_ID.ordinal()] = idMonstre;
+		stats.put("ID", idMonstre);
 	}
 	
 	/**
@@ -66,8 +84,8 @@ public class Monstre {
 	/**
 	 * Donne la valeur de la statistique demandée
 	 */
-	public int get(Positions posCapa) {
-		return this.stats[posCapa.ordinal()];
+	public int get(String nomStatistique) {
+		return stats.get(nomStatistique);
 	}
 	
 	/**
@@ -76,8 +94,8 @@ public class Monstre {
 	 * @param operator L'opérateur
 	 * @param value La valeur à appliquer
 	 */
-	public void apply(int posStat, Operator operator, int value) {
-		stats[posStat] = operator.compute(stats[posStat], value);
+	public void apply(String nomStatistique, Operator operator, int valeurDroite) {
+		stats.compute(nomStatistique, (cle, valeurGauche) -> operator.compute(valeurGauche, valeurDroite));
 	}
 
 	
@@ -104,11 +122,13 @@ public class Monstre {
 	 * Donne un affichage du monstre
 	 */
 	public String getString() {
-		String s = nom;
+		StringBuilder sb = new StringBuilder();
 		
-		for (int i = 0 ; i != Positions.TAILLE ; i++) {
-			s = s + ", " + stats[i];
-		}
+		sb.append(nom);
+		
+		this.stats.forEach((nomStat, valeur) -> sb.append(",").append(valeur));
+
+		String s = sb.toString();
 		
 		s = s + ", " + (this.immuniteAFossile ? "Immunité" : "•");
 		
@@ -131,7 +151,7 @@ public class Monstre {
 
 	/** Renvoie vrai si les parties clés des deux monstres */
 	public static boolean sontSimilaires(Monstre a, Monstre b) {
-		for (Positions pos : Positions.values()) {
+		for (String pos : a.stats.keySet()) {
 			if (a.get(pos) != b.get(pos)) {
 				return false;
 			}
@@ -164,14 +184,12 @@ public class Monstre {
 		sb.append(";");
 		sb.append(this.nomDrop);
 		
-		for (Positions position : Positions.values()) {
-			if (position == Positions.POS_ID)
-				continue;
+		stats.forEach((stat, valeur) -> {
+			if (!stat.equals("ID")) {
+				sb.append(";").append(valeur);
+			}
+		});
 
-			sb.append(";");
-			sb.append(this.get(position));
-		}
-		
 		sb.append(";");
 		sb.append(this.immuniteAFossile ? "Immunisé" : "•");
 		

@@ -28,12 +28,15 @@ public class Combat {
 	private int gainCapa = 0;
 	/** Vrai si c'est un combat de boss*/
 	private boolean bossBattle = false;
+	/** Contexte */
+	public final Contexte contexte;
 	
 	/**
 	 * Construit un nouveau combat avec l'id donné
 	 * @param id L'id du combat
 	 */
-	public Combat(int id) {
+	public Combat(Contexte contexte, int id) {
+		this.contexte = contexte;
 		this.id = id;
 		monstres = new Monstre[Positions.NB_MONSTRES_MAX_PAR_COMBAT];
 	}
@@ -128,21 +131,18 @@ public class Combat {
 	 * @param value La valeur appliquée
 	 */
 	public void applyModificator(int idVariable, Operator operator, int value) {
-		Pair<Positions, Integer> paire = Positions.searchNumVariable(idVariable);
+		Pair<Integer, String> paire = contexte.getStatistique(idVariable);
 		
 		if (paire == null)
 			return;
 		
-		Monstre monstre = getMonstre(paire.getRight(), operator);
+		Monstre monstre = getMonstre(paire.getLeft(), operator);
 		
 		if (monstre == null) {
 			return;
 		}
 		
-		int posStat = paire.getLeft().ordinal();
-		
-		monstre.apply(posStat, operator, value);
-		
+		monstre.apply(paire.getRight(), operator, value);
 	}
 	
 	

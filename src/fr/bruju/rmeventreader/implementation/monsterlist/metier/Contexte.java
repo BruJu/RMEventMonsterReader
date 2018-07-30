@@ -112,11 +112,11 @@ public class Contexte {
 	public void remplirContexte(String fichier) {
 		try {
 			initierLectureFichier();
-			FileReaderByLine.lireLeFichierSansCommentaires(fichier, etat::lireLigne);
+			FileReaderByLine.lireLeFichierSansCommentaires(fichier, ligne -> etat.lireLigne(ligne));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	}
-
+		}		}
+	
 	
 	/* ============================
 	 * LECTURE DE FICHIER RESSOURCE
@@ -147,6 +147,7 @@ public class Contexte {
 			if (decomposition[0].equals("NB_MONSTRES")) {
 				nbDeMonstres = Integer.decode(decomposition[1]);
 			} else {
+				System.out.println(decomposition[0]);
 				throw new RuntimeException("Fichier Parametres invalide");
 			}
 		}
@@ -167,7 +168,7 @@ public class Contexte {
 			statistiques.add(nomStatistique);
 			
 			for (int i = 1 ; i <= nbDeMonstres ; i++) {
-				statistiquesSurMonstres.put(Integer.decode(decomposition[i]), new Pair<>(i, nomStatistique));
+				statistiquesSurMonstres.put(Integer.decode(decomposition[i]), new Pair<>(i-1, nomStatistique));
 			}
 		}
 	}
@@ -200,4 +201,5 @@ public class Contexte {
 			valeursLues.put(decomposition[0], Integer.decode(decomposition[1]));
 		}
 	}
+
 }

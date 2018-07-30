@@ -14,15 +14,20 @@ import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correcte
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correspondance;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 public class MonsterDBTest {
 
 	public static void main_(String[] args, int csv) throws IOException {
-		MonsterDatabase baseDeDonnees = new MonsterDatabase(); 
+		
+		Contexte contexte = new Contexte();
+		
+		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte); 
 		
 		Runnable[] listeDesActions = new Runnable[] {
+			() -> contexte.remplirContexte("ressources/monsterlist/Parametres.txt"),
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat1.txt"),
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat2.txt"),
 			new Correcteur(baseDeDonnees                                        , "ressources/Correction.txt"),

@@ -24,16 +24,27 @@ public class MonsterDatabase {
 	/** Association numéro de combat - combat*/
 	private Map<Integer, Combat> combats = new HashMap<>();
 	
+	/** Contexte de variables*/
+	public final Contexte contexte;
+	
 	/* =======================
 	 * MANIPULATION DE COMBATS 
 	 * ======================= */
 	
 	/**
+	 * Crée une base de données de monstre avec le contexte
+	 * @param contexte Le contexte contenant les associations de variables
+	 */
+	public MonsterDatabase(Contexte contexte) {
+		this.contexte = contexte;
+	}
+
+	/**
 	 * Ajoute le combat portant l'id donné si il n'existe pas déjà
 	 * @param id Le combat à ajouter
 	 */
 	public void addCombat(int id) {
-		combats.putIfAbsent(id, new Combat(id));
+		combats.putIfAbsent(id, new Combat(contexte, id));
 	}
 	
 	/**
