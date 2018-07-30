@@ -15,16 +15,18 @@ import fr.bruju.util.similaire.Cle;
 public class ComparateurCles implements Comparator<Entry<Cle<Monstre>, List<Monstre>>> {
 	@Override
 	public int compare(Entry<Cle<Monstre>, List<Monstre>> o1, Entry<Cle<Monstre>, List<Monstre>> o2) {
-		int id1 = o1.getValue().get(0).getBattleId();
-		int id2 = o2.getValue().get(0).getBattleId();
-
-		if (id1 < id2) {
-			return -1;
+		int[] criteresO1 = {o1.getValue().get(0).getId(), o1.getValue().get(0).getBattleId()};
+		int[] criteresO2 = {o2.getValue().get(0).getId(), o2.getValue().get(0).getBattleId()};
+		
+		
+		for (int i = 0 ; i != criteresO1.length ; i++) {
+			int comparaison = Integer.compare(criteresO1[i], criteresO2[i]);
+			
+			if (comparaison != 0) {
+				return comparaison;
+			}
 		}
-		if (id1 > id2) {
-			return 1;
-		}
-
+		
 		return 0;
 	}
 }

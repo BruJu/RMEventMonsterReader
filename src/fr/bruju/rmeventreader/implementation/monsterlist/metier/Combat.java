@@ -38,7 +38,7 @@ public class Combat {
 	public Combat(Contexte contexte, int id) {
 		this.contexte = contexte;
 		this.id = id;
-		monstres = new Monstre[Positions.NB_MONSTRES_MAX_PAR_COMBAT];
+		monstres = new Monstre[contexte.getNbDeMonstres()];
 	}
 	
 	/* ==================
@@ -166,7 +166,7 @@ public class Combat {
 		 .append(this.gainCapa)
 		 .append(" ; EXP = ")
 		 .append(this.gainExp);
-		for (int i = 0 ; i != Positions.NB_MONSTRES_MAX_PAR_COMBAT ; i++) {
+		for (int i = 0 ; i != monstres.length ; i++) {
 			if (monstres[i] == null)
 				continue;
 			

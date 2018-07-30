@@ -16,11 +16,6 @@ public class MonsterDatabase {
 	 * BDD DE MONSTRES 
 	 * =============== */
 	
-	/** Variable contenant le numéro du combat */
-	public static final int POS_ID_COMBAT = 435;
-	/** Interrupteur contenant l'information si c'est un combat de boss */
-	public static final int POS_BOSSBATTLE = 190;
-	
 	/** Association numéro de combat - combat*/
 	private Map<Integer, Combat> combats = new HashMap<>();
 	
@@ -135,7 +130,7 @@ public class MonsterDatabase {
 	 */
 	public String getCSVRepresentationOfMonsters() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(Monstre.getCSVHeader(true));
+		sb.append(extractMonsters().stream().findAny().get().getCSVHeader(true));
 		
 		combats.values().stream()
 					.flatMap(combat -> combat.getMonstersStream())

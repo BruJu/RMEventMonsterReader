@@ -22,11 +22,15 @@ public class BDDReduite {
 	 */
 	private Map<Cle<Monstre>, List<Monstre>> monstreReduits;
 
+	/** Un monstre pris au hasard pour avoir accés au header de monstre */
+	private Monstre unMonstre;
+	
 	/**
 	 * Réduit la liste des monstres en monstres similaires
 	 * @param monstres
 	 */
 	public BDDReduite(Collection<Monstre> monstres) {
+		unMonstre = monstres.stream().findAny().get();
 
 		GroupeurDeSimilaires<Monstre> collecteur = new GroupeurDeSimilaires<Monstre>(Monstre::hasher,
 				Monstre::sontSimilaires);
@@ -40,8 +44,8 @@ public class BDDReduite {
 	 */
 	public String getCSV() {
 		StringBuilder sb = new StringBuilder();
-
-		sb.append(Monstre.getCSVHeader());
+		
+		sb.append(unMonstre.getCSVHeader());
 
 		Comparator<Entry<Cle<Monstre>, List<Monstre>>> comparator = new ComparateurCles();
 

@@ -15,8 +15,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionE
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMembreStat;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Positions;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 
 /**
@@ -30,11 +30,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	 * Constantes
 	 * ========== */
 	/** Variables avec la position des gains d'expérience */
-	private final static int[] VARIABLES_EXP = Positions.POS_EXP.ids;
+	private final int[] VARIABLES_EXP;
 	/** Variable contenant les gains d'exp totaux */
-	private final static int VARIABLE_GAINEXP = 4976;
+	private final int VARIABLE_GAINEXP;
 	/** Switch déclarant un combat de boss */
-	private final static int SWITCH_BOSS = 190;
+	private final int SWITCH_BOSS;
 
 	/** Association numéro de variable - sous action maker */
 	private Map<Integer, ActionMaker> associationActionMaker;
@@ -55,7 +55,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	 */
 	public FinDeCombat(MonsterDatabase db) {
 		this.db = db;
-
+		
+		VARIABLE_GAINEXP = db.contexte.getVariable("FinDeCombat_GainEXP");
+		SWITCH_BOSS = db.contexte.getVariable("FinDeCombat_SwitchBoss");
+		VARIABLES_EXP = db.contexte.getListeVariables("EXP");
+		
 		initierAssociationActionMaker();
 	}
 
@@ -64,13 +68,15 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	 */
 	private void initierAssociationActionMaker() {
 		associationActionMaker = new HashMap<>();
+		
+		for (int idVariableHP : db.contexte.getListeVariables("HP")) {
+			associationActionMaker.put(idVariableHP, new ComportementIgnore());
+		}
 
-		associationActionMaker.put(514, new ComportementIgnore());
-		associationActionMaker.put(516, new ComportementIgnore());
-		associationActionMaker.put(517, new ComportementIgnore());
-
-		for (int i = 0; i != Positions.NB_MONSTRES_MAX_PAR_COMBAT; i++) {
-			associationActionMaker.put(Positions.POS_CAPA.ids[i], new ComportementCapacite(i));
+		int[] variablesCapa = db.contexte.getListeVariables("Capacité");
+		
+		for (int i = 0; i != db.contexte.getNbDeMonstres() ; i++) {
+			associationActionMaker.put(variablesCapa[i], new ComportementCapacite(i));
 			associationActionMaker.put(VARIABLES_EXP[i], new ComportementExperience(i));
 		}
 

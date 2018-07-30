@@ -117,6 +117,40 @@ public class Contexte {
 			e.printStackTrace();
 		}		}
 	
+	/**
+	 * Donne la liste des variables concernant une statistique
+	 */
+	public int[] getListeVariables(String nomStatistique) {
+		int[] idVariables = new int[this.getNbDeMonstres()];
+		
+		statistiquesSurMonstres.forEach((variable, paire) -> {
+			if (paire.getRight().equals(nomStatistique)) {
+				idVariables[paire.getLeft()] = variable;
+			}
+		});
+		
+		return idVariables;
+	}
+
+	/**
+	 * Donne le header des statistiques contenues dans le contexte
+	 */
+	public String getCSVHeader() {
+		StringBuilder sb = new StringBuilder();
+
+		// On exige au moins 4 statistiques de base, cette approche est donc valide
+		sb.append(statistiques.get(1));
+		
+		for (int i = 2 ; i != statistiques.size() ; i++) {
+			sb.append(";").append(statistiques.get(i));
+		}
+		
+		for (String s : proprietes) {
+			sb.append(";").append(s);
+		}
+		
+		return sb.toString();
+	}
 	
 	/* ============================
 	 * LECTURE DE FICHIER RESSOURCE
@@ -188,7 +222,7 @@ public class Contexte {
 			proprietes.add(nomStatistique);
 			
 			for (int i = 1 ; i <= nbDeMonstres ; i++) {
-				proprietesSurMonstres.put(Integer.decode(decomposition[i]), new Pair<>(i, nomStatistique));
+				proprietesSurMonstres.put(Integer.decode(decomposition[i]), new Pair<>(i-1, nomStatistique));
 			}
 		}
 	}

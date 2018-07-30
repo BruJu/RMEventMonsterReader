@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionE
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Positions;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
  * Action Maker qui crée des combats et rempli dedans les statistiques des monstres
@@ -18,11 +18,16 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Positions;
  *
  */
 public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
-
 	/* ==================
 	 * StackedActionMaker
 	 * ================== */
-
+	
+	/** Variable contenant le numéro du combat */
+	private final int POS_ID_COMBAT;
+	
+	/** Interrupteur contenant l'information si c'est un combat de boss */
+	private final int POS_BOSSBATTLE;
+	
 	/**
 	 * Base de données
 	 */
@@ -35,6 +40,9 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	 */
 	public MonsterDatabaseMaker(MonsterDatabase monsterDatabase) {
 		database = monsterDatabase;
+		
+		POS_ID_COMBAT = database.contexte.getVariable("MonsterDB_IDCombat");
+		POS_BOSSBATTLE = database.contexte.getVariable("MonsterDB_BossBattle");
 	}
 
 	@Override
@@ -50,7 +58,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 
 	@Override
 	public boolean condOnSwitch(int number, boolean value) {
-		if (number != MonsterDatabase.POS_BOSSBATTLE)
+		if (number != POS_BOSSBATTLE)
 			return false;
 
 		conditions.push(new ConditionEstUnBoss(value));
@@ -66,16 +74,16 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 
 		int numeroInterrupteur = interrupteur.get();
 
-		if (numeroInterrupteur == MonsterDatabase.POS_BOSSBATTLE) {
+		if (numeroInterrupteur == POS_BOSSBATTLE) {
 			getElementsFiltres().forEach(combat -> combat.declareBossBattle());
 		} else {
-			Integer numeroMonstrePourFossille = Positions.chercherFossile(numeroInterrupteur);
-
-			if (numeroMonstrePourFossille == null)
+			Pair<Integer, String> numeroMonstrePourFossille = database.contexte.getPropriete(numeroInterrupteur);
+			
+			if (numeroMonstrePourFossille == null || !numeroMonstrePourFossille.getRight().equals("Fossile"))
 				return;
 
 			getElementsFiltres().stream()
-					.map(combat -> combat.getMonstre(numeroMonstrePourFossille, Operator.AFFECTATION))
+					.map(combat -> combat.getMonstre(numeroMonstrePourFossille.getLeft(), Operator.AFFECTATION))
 					.forEach(monstre -> monstre.immuniserAFossile());
 		}
 	}
@@ -84,7 +92,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 
 	@Override
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (leftOperandValue != MonsterDatabase.POS_ID_COMBAT)
+		if (leftOperandValue != POS_ID_COMBAT)
 			return false;
 
 		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));

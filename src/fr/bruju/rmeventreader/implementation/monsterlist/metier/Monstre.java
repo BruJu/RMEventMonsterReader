@@ -201,14 +201,14 @@ public class Monstre {
 	 * @param withBattleId Si vrai inclus l'id du combat à l'affichage
 	 * @return La représentation
 	 */
-	public static String getCSVHeader(boolean withBattleId) {
+	public String getCSVHeader(boolean withBattleId) {
 		String prefixe = "";
 		
 		if (withBattleId) {
 			prefixe = "IDCOMBAT;";
 		}
 		
-		return prefixe + "IDMONSTRE;NOM;DROP;" + Positions.getCSVHeader() + ";FOSSILE";
+		return prefixe + "IDMONSTRE;NOM;DROP;" + contexte.getCSVHeader();
 	}
 
 	/* =============================
@@ -218,8 +218,8 @@ public class Monstre {
 	/**
 	 * Donne le header d'un monstre pour les monstres réduits
 	 */
-	public static String getCSVHeader() {
-		return Monstre.getCSVHeader(false) + ";" + "Combats";
+	public String getCSVHeader() {
+		return getCSVHeader(false) + ";" + "Combats";
 	}
 
 	/**
