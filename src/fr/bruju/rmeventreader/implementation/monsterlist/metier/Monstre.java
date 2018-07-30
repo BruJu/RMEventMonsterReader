@@ -1,10 +1,9 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Set;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
 /**
  * Représentation d'un monstre
@@ -13,8 +12,8 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
  *
  */
 public class Monstre {
-	private static String STATS = "Statistiques";
-	private static String PROPRIETES = "Proprietes";
+	public static String STATS = "Statistiques";
+	public static String PROPRIETES = "Proprietes";
 
 	/* =========
 	 * ATTRIBUTS 
@@ -109,39 +108,7 @@ public class Monstre {
 	public int getBattleId() {
 		return combat.id;
 	}
-
-	/**
-	 * Donne la valeur de la statistique demandée
-	 */
-	public int get(String nomStatistique) {
-		return stats.get(nomStatistique);
-	}
-
-	/**
-	 * Applique l'opération au monstre pour la statistique donnée
-	 * 
-	 * @param posStat La statistique
-	 * @param operator L'opérateur
-	 * @param value La valeur à appliquer
-	 */
-	public void apply(String nomStatistique, Operator operator, int valeurDroite) {
-		stats.compute(nomStatistique, (cle, valeurGauche) -> operator.compute(valeurGauche, valeurDroite));
-	}
-
-	/* ==========
-	 * PROPRIETES 
-	 * ========== */
-
-	/** Donne une proprieté au monstre */
-	public void donnerPropriete(String nomPropriete) {
-		this.proprietes.put(nomPropriete, true);
-	}
-
-	/** Renvoie si le monstre possède la propriété */
-	public boolean aPropriete(String nomPropriete) {
-		return proprietes.get(nomPropriete);
-	}
-
+	
 	/* =========
 	 * AFFICHAGE
 	 * ========= */
@@ -153,10 +120,10 @@ public class Monstre {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(nom);
-
-		this.stats.forEach((nomStat, valeur) -> sb.append(",").append(valeur));
-
-		this.proprietes.forEach((nomPropriete, valeur) -> sb.append(",").append(valeur ? "Immunité" : "•"));
+		
+		sb.append(accessInt(STATS).getCSV());
+		sb.append(";");
+		sb.append(accessBool(PROPRIETES).getCSV());
 
 		sb.append(",").append(nomDrop);
 
@@ -174,18 +141,27 @@ public class Monstre {
 
 	/** Renvoie vrai si les parties clés des deux monstres */
 	public static boolean sontSimilaires(Monstre a, Monstre b) {
-		for (String pos : a.stats.keySet()) {
-			if (a.get(pos) != b.get(pos)) {
+		
+		for (Entry<String, Donnees> tuple : a.donnees.entrySet()) {
+			Donnees adonnee = tuple.getValue();
+			Donnees bdonnee = b.donnees.get(tuple.getKey());
+			
+			if (!adonnee.equals(bdonnee)) {
 				return false;
 			}
 		}
-
-		for (String pos : a.proprietes.keySet()) {
-			if (a.aPropriete(pos) != b.aPropriete(pos)) {
-				return false;
-			}
+		
+		
+		if (!a.donnees.equals(b.donnees)) {
+			System.out.println("====");
+			System.out.println(a.donnees);
+			System.out.println(b.donnees);
+			System.out.println("====");
+			
+			return false;
 		}
-
+		
+		
 		return a.nom.equals(b.nom) && a.nomDrop.equals(b.nomDrop);
 	}
 
@@ -213,13 +189,9 @@ public class Monstre {
 		sb.append(";");
 		sb.append(this.nomDrop);
 
-		stats.forEach((stat, valeur) -> {
-			if (!stat.equals("ID")) {
-				sb.append(";").append(valeur);
-			}
-		});
-
-		this.proprietes.forEach((nomPropriete, valeur) -> sb.append(";").append(valeur ? "Immunité" : "•"));
+		sb.append(accessInt(STATS).getCSV());
+		sb.append(";");
+		sb.append(accessBool(PROPRIETES).getCSV());
 
 		if (withBattleId) {
 			sb.append(";").append(this.combat.fonds);

@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionE
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
@@ -85,7 +86,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 
 			getElementsFiltres().stream()
 					.map(combat -> combat.getMonstre(monstreTouche.getLeft(), Operator.AFFECTATION))
-					.forEach(monstre -> monstre.donnerPropriete(monstreTouche.getRight()));
+					.forEach(monstre -> monstre.accessBool(Monstre.PROPRIETES).set(monstreTouche.getRight(), true));
 		}
 	}
 

@@ -16,6 +16,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionO
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 
 /**
@@ -251,7 +252,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 			}
 
 			Function<Combat, Integer> valeurReelle;
-			valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).get("EXP");
+			valeurReelle = c -> c.getMonstre(idMonstre) == null ? 0 : c.getMonstre(idMonstre).accessInt(Monstre.STATS).get("EXP");
 
 			getElementsFiltres().forEach(c -> c.gainExp = operator.compute(c.gainExp, valeurReelle.apply(c)));
 		}

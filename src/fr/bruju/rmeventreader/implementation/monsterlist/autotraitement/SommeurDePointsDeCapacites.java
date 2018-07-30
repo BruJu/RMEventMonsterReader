@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 /**
  * Action permettant de faire la somme des points de capacités des monstres dans les combats
@@ -26,7 +27,7 @@ public class SommeurDePointsDeCapacites implements Runnable {
 	@Override
 	public void run() {
 		db.extractBattles().forEach(battle -> battle.getMonstersStream().forEach(m -> {
-			battle.addGainCapa(m.get("Capacité"));
+			battle.addGainCapa(m.accessInt(Monstre.STATS).get("Capacité"));
 		}));
 	}
 }

@@ -147,7 +147,7 @@ public class Combat {
 			return;
 		}
 		
-		monstre.apply(paire.getRight(), operator, value);
+		monstre.accessInt(Monstre.STATS).compute(paire.getRight(), (cle, valeur) -> operator.compute(valeur, value));
 	}
 	
 	/* ===========
