@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.donnees;
 
 public class ValeurAleatoire implements RightValue {
-	private int valeurMin;
-	private int valeurMax;
+	public final int valeurMin;
+	public final int valeurMax;
 	
 	public ValeurAleatoire(int valeurMin, int valeurMax) {
 		this.valeurMin = valeurMin;

@@ -6,7 +6,7 @@ package fr.bruju.rmeventreader.actionmakers.donnees;
  *
  */
 public class Pointeur implements LeftValue, RightValue {
-	private int pointeur;
+	public final int pointeur;
 	
 	/**
 	 * Crée un pointeur vers la variable ou l'interrupteur dont le numéro est inscrit dans une variable

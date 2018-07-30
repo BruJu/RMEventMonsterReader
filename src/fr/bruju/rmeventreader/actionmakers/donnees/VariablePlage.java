@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VariablePlage implements LeftValue {
-	private int idVariableMin;
-	private int idVariableMax;
+	public final int idVariableMin;
+	public final int idVariableMax;
 	
 	public VariablePlage(int idVariableMin, int idVariableMax) {
 		this.idVariableMin = idVariableMin;
