@@ -2,7 +2,9 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -77,10 +79,32 @@ public class MonsterDatabase {
 		return combats.values().stream().flatMap(combat -> combat.getMonstersStream()).collect(Collectors.toList());
 	}
 
+	/* ======
+	 * FILTRE
+	 * ====== */
 	
-	/* ========
-	 * ANALAYSE 
-	 * ======== */
+	/**
+	 * Crée une nouvelle base de données avec uniquement les combats respectant le prédicat donné
+	 * @param predicat Le prédicat à respecter
+	 * @return Une nouvelle base de données avec les combats filtrés
+	 */
+	public MonsterDatabase filtrer(Predicate<Combat> predicat) {
+		MonsterDatabase nouvelleDb = new MonsterDatabase(this.contexte);
+		
+		nouvelleDb.combats = new LinkedHashMap<>();
+		
+		this.combats.values().stream()
+			.filter(predicat)
+			.sorted((c1, c2) -> Integer.compare(c1.id, c2.id))
+			.forEach(c -> nouvelleDb.combats.put(c.id, c));
+		
+		return nouvelleDb;
+	}
+	
+	
+	/* =======
+	 * ANALYSE 
+	 * ======= */
 	
 	/**
 	 * Affiche dans la console la liste des combats avec des monstres sans nom

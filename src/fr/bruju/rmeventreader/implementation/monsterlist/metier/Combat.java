@@ -1,6 +1,8 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -40,6 +42,21 @@ public class Combat {
 		this.id = id;
 		monstres = new Monstre[contexte.getNbDeMonstres()];
 	}
+	
+	
+	/* ===========
+	 * FOND / ZONE
+	 * =========== */
+	
+
+	public List<String> fonds = new ArrayList<>();
+
+	public void addFond(int valeur) {
+		if (!fonds.contains(Integer.toString(valeur)))
+			fonds.add(Integer.toString(valeur));		
+	}
+
+	
 	
 	/* ==================
 	 * ACCES AUX MONSTRES
@@ -183,15 +200,17 @@ public class Combat {
 	 * Donne le header CSV d'un combat
 	 */
 	public static String getCSVHeader() {
-		return "ID;EXP;CAPA;BOSS";
+		return "ID;EXP;CAPA;BOSS;FOND";
 	}
 	
 	/**
 	 * Donne une représentation en CSV du combat
 	 */
 	public String getCSV() {
-		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((this.isBossBattle()) ? "Boss" : "Non");
+		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((this.isBossBattle()) ? "Boss" : "Non") + ";" + fonds;
 	}
+
+
 
 	
 }

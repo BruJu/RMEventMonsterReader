@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.Recognizer;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
@@ -17,7 +19,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class Correspondance implements Runnable {
+public class Correspondance<T> implements Runnable {
 	/**
 	 * Base de données
 	 */
@@ -26,12 +28,15 @@ public class Correspondance implements Runnable {
 	/**
 	 * Fonctions de remplacement
 	 */
-	private Remplacement remplaceur;
+	private Remplacement<T> remplaceur;
 	
 	/**
 	 * Nom du fichier source
 	 */
 	private String filename;
+
+	/** Fonction d'extraction */
+	private Function<MonsterDatabase, Collection<T>> fonctionDextraction;
 	
 	/**
 	 * Construit une action dont le but sera de remplacer des données dans la base de données en fonction du
@@ -40,17 +45,18 @@ public class Correspondance implements Runnable {
 	 * @param remplaceur Les fonctions de remplacement
 	 * @param filename Le fichier ressources qui contient des lignes de la forme valeurARemplacer valeurRemplacée
 	 */
-	public Correspondance(MonsterDatabase database, Remplacement remplaceur, String filename) {
+	public Correspondance(MonsterDatabase database, Remplacement<T> remplaceur, String filename, Function<MonsterDatabase, Collection<T>> fonctionDextraction) {
 		this.database = database;
 		this.remplaceur = remplaceur;
 		this.filename = filename;
+		this.fonctionDextraction = fonctionDextraction;
 	}
 	
 	@Override
 	public void run() {
 		try {
 			lireFichier(filename);
-			searchAndReplace(database.extractMonsters());
+			searchAndReplace(fonctionDextraction.apply(database));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -79,41 +85,30 @@ public class Correspondance implements Runnable {
 	 * @param search
 	 * @param replace
 	 */
-	public void searchAndReplace(Collection<Monstre> monstres) {
-		monstres.forEach(monstre -> {
-			String id = remplaceur.getSearch(monstre);
-
-			String valeur = map.get(id);
-
-			if (valeur != null) {
-				remplaceur.getReplace(monstre, valeur);
-			}
-		});
+	public void searchAndReplace(Collection<T> monstres) {
+		monstres.forEach(m -> remplaceur.remplacer(m, map));
 	}
 	
 	/**
 	 * Classe permettant de remplacer des données dans les monstres
 	 */
-	public static interface Remplacement {
-		/** Fonction de recherche de valeur dans un monstre */
-		public String getSearch(Monstre monstre);
+	public static interface Remplacement<T> {
+		public void remplacer(T monstre, Map<String, String> correspondances);
 
-		/** Fonction d'application de la chaîne au monstre */
-		public void getReplace(Monstre monstre, String nouveauNom);
 		
 		/**
 		 * Chercheur et remplaceur de nom
 		 */
-		public static Remplacement nom() {
-			return new Remplacement() {
+		public static Remplacement<Monstre> nom() {
+			return new Remplacement<Monstre>() {
 				@Override
-				public String getSearch(Monstre monstre) {
-					return monstre.nom;
-				}
-
-				@Override
-				public void getReplace(Monstre monstre, String nouveauNom) {
-					monstre.nom = nouveauNom;
+				public void remplacer(Monstre monstre, Map<String, String> correspondances) {
+					String nomPresent = monstre.nom;
+					String remplacement = correspondances.get(nomPresent);
+					
+					if (remplacement != null) {
+						monstre.nom = remplacement;
+					}
 				}
 			};
 		}
@@ -121,16 +116,42 @@ public class Correspondance implements Runnable {
 		/**
 		 * Chercheur et remplaceur de drop
 		 */
-		public static Remplacement drop() {
-			return new Remplacement() {
+		public static Remplacement<Monstre> drop() {
+			return new Remplacement<Monstre>() {
 				@Override
-				public String getSearch(Monstre monstre) {
-					return monstre.nomDrop;
+				public void remplacer(Monstre monstre, Map<String, String> correspondances) {
+					String nomPresent = monstre.nomDrop;
+					String remplacement = correspondances.get(nomPresent);
+					
+					if (remplacement != null) {
+						monstre.nomDrop = remplacement;
+					}
 				}
-
+			};
+		}
+		
+		
+		/**
+		 * Chercheur et remplaceur de zone
+		 */
+		public static Remplacement<Combat> fond() {
+			return new Remplacement<Combat>() {
 				@Override
-				public void getReplace(Monstre monstre, String nouveauNom) {
-					monstre.nomDrop = nouveauNom;
+				public void remplacer(Combat combat, Map<String, String> correspondances) {
+					for (int i = 0 ; i != combat.fonds.size() ; i++) {
+						String nomPresent = combat.fonds.get(i);
+						String remplacement = correspondances.get(nomPresent);
+						
+						if (remplacement != null) {
+							if (combat.fonds.contains(remplacement)) {
+								combat.fonds.remove(i);
+								i--;
+								continue;
+							}
+							
+							combat.fonds.set(i, remplacement);
+						}
+					}
 				}
 			};
 		}

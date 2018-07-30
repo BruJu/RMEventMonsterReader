@@ -45,17 +45,28 @@ public class BDDReduite {
 	public String getCSV() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(unMonstre.getCSVHeader());
+		sb.append(unMonstre.getCSVHeader()).append(";Zones");
 
 		Comparator<Entry<Cle<Monstre>, List<Monstre>>> comparator = new ComparateurCles();
 
 		monstreReduits.entrySet().stream().sorted(comparator).forEach(entry -> {
 			List<Monstre> mv = entry.getValue();
 
+			List<String> zonesDapparition = mv.stream().map(monstre -> monstre.combat.fonds)
+											.flatMap(fond -> fond.stream())
+											.distinct()
+											.sorted()
+											.collect(Collectors.toList());
+					
+			
 			sb.append("\n");
 			sb.append(mv.get(0).getCSV() + ";");
 			sb.append("[").append(mv.stream().map(monstre -> monstre.getBattleId()).map(nombre -> nombre.toString())
 					.collect(Collectors.joining(","))).append("]");
+			sb.append(";");
+			
+			sb.append(zonesDapparition);
+			
 		});
 
 		return sb.toString();

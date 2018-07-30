@@ -8,6 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstresViaShowPicture;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
+import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.FinDeCombat;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.MonsterDatabaseMaker;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correcteur;
@@ -30,11 +31,14 @@ public class MonsterDBTest {
 		Runnable[] listeDesActions = new Runnable[] {
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat1.txt"),
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat2.txt"),
+			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)             , "ressources/InitCombat1.txt"),
+			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)             , "ressources/InitCombat2.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt", db -> db.extractBattles()),
 			new Correcteur(baseDeDonnees                                        , "ressources/Correction.txt"),
 			new AutoActionMaker(new NomDeMonstresViaShowPicture(baseDeDonnees)  , "ressources/NomDesMonstres.txt"),
-			new Correspondance(baseDeDonnees, Correspondance.Remplacement.nom() , "ressources/Dico/Monstres.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom() , "ressources/Dico/Monstres.txt", db -> db.extractMonsters()),
 			new AutoActionMaker(new EnregistreurDeDrop(baseDeDonnees)           , "ressources/CombatDrop.txt"),
-			new Correspondance(baseDeDonnees, Correspondance.Remplacement.drop(), "ressources/Dico/Objets.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop(), "ressources/Dico/Objets.txt", db -> db.extractMonsters()),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			new AutoActionMaker(new FinDeCombat(baseDeDonnees)                  , "ressources/FinCombat.txt"),
 		};
@@ -43,8 +47,7 @@ public class MonsterDBTest {
 			action.run();
 		}
 
-		if (aBesoinDOCR(baseDeDonnees)) {
-			ocriserLesMonstresInconnus(baseDeDonnees);	
+		if (interrompreSiOCR(baseDeDonnees)) {
 			return;
 		}
 
@@ -64,49 +67,55 @@ public class MonsterDBTest {
 			BDDReduite bddR = new BDDReduite(baseDeDonnees.extractMonsters());
 			System.out.println(bddR.getCSV());
 			break;
+		case 4: // Affiche les combats n'ayant pas de fonds
+			MonsterDatabase nouvelleBdd = baseDeDonnees.filtrer(combat -> combat.fonds.isEmpty());
+			System.out.println(nouvelleBdd.getCSVRepresentationOfBattles());
+			break;
 		}
 		
 	}
 	
-	private static boolean aBesoinDOCR(MonsterDatabase baseDeDonnees) {
-		Object[] monstresInconnus = baseDeDonnees.extractMonsters().stream()
-				.filter(m -> m != null)
-				.filter(m -> m.nom.substring(0, 2).equals("id"))
-				.toArray();
-		
-		if (monstresInconnus.length == 0) {
-			return false;
-		}
-		
-		System.out.println("== Des monstres n'ont pas été reconnus ==");
-		
-		for (Object m : monstresInconnus) {
-			System.out.println(((Monstre) m).getString());
-		}
-		
-		System.out.println();
-		
-		return true;
-	}
-
-	private static void ocriserLesMonstresInconnus(MonsterDatabase baseDeDonnees) {
-		List<String> monstresInconnus = new ArrayList<>();
-		
-		for (Monstre monstre : baseDeDonnees.extractMonsters()) {
-			if (monstre == null)
-				continue;
+	private static boolean interrompreSiOCR(MonsterDatabase baseDeDonnees) {
+		{
+			Object[] monstresInconnus = baseDeDonnees.extractMonsters().stream()
+					.filter(m -> m != null)
+					.filter(m -> m.nom.substring(0, 2).equals("id"))
+					.toArray();
 			
-			if (!monstre.nom.substring(0, 2).equals("id"))
-				continue;
+			if (monstresInconnus.length == 0) {
+				return false;
+			}
 			
-			monstresInconnus.add(monstre.nom);
+			System.out.println("== Des monstres n'ont pas été reconnus ==");
+			
+			for (Object m : monstresInconnus) {
+				System.out.println(((Monstre) m).getString());
+			}
+			
+			System.out.println();
 		}
 		
-		
-		BuildingMotifs chercheurDeMotifs = new BuildingMotifs(monstresInconnus);
-		chercheurDeMotifs.lancer();
-		
-		System.out.println("== Identification == ");
-		chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
+		{
+			List<String> monstresInconnus = new ArrayList<>();
+			
+			for (Monstre monstre : baseDeDonnees.extractMonsters()) {
+				if (monstre == null)
+					continue;
+				
+				if (!monstre.nom.substring(0, 2).equals("id"))
+					continue;
+				
+				monstresInconnus.add(monstre.nom);
+			}
+			
+			
+			BuildingMotifs chercheurDeMotifs = new BuildingMotifs(monstresInconnus);
+			chercheurDeMotifs.lancer();
+			
+			System.out.println("== Identification == ");
+			chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
+			
+			return true;
+		}
 	}
 }

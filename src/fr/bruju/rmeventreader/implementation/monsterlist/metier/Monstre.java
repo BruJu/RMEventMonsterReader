@@ -16,7 +16,7 @@ public class Monstre {
 	 * ========= */
 
 	/** Combat associé */
-	private Combat combat;
+	public final Combat combat;
 	
 	/** Statistiques du monstre */
 	private LinkedHashMap<String, Integer> stats;
@@ -195,6 +195,12 @@ public class Monstre {
 
 		this.proprietes.forEach((nomPropriete, valeur) -> sb.append(";").append(valeur ? "Immunité" : "•")); 
 		
+
+		if (withBattleId) {
+			sb.append(";")
+			  .append(this.combat.fonds);
+		}
+		
 		return sb.toString();
 	}
 
@@ -210,7 +216,14 @@ public class Monstre {
 			prefixe = "IDCOMBAT;";
 		}
 		
-		return prefixe + "IDMONSTRE;NOM;DROP;" + contexte.getCSVHeader();
+		prefixe = prefixe + "IDMONSTRE;NOM;DROP;" + contexte.getCSVHeader();
+		
+
+		if (withBattleId) {
+			prefixe += ";ZONE";
+		}
+		
+		return prefixe;
 	}
 
 	/* =============================
