@@ -56,6 +56,7 @@ public class Donnees<T> {
 		return Objects.hashCode(donnees);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof Donnees) {

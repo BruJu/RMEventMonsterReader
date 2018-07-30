@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Objects;
-
 
 /**
  * Représentation d'un monstre
@@ -35,10 +35,6 @@ public class Monstre {
 	/** Contexte */
 	public final Contexte contexte;
 
-	// public LinkedHashMap<String, Boolean> parties;
-
-	// public LinkedHashMap<String, Integer> resistancesElementaires;
-
 	/**
 	 * Construit un monstre pour le combat donné
 	 */
@@ -65,6 +61,7 @@ public class Monstre {
 	 * Accède à l'ensemble des données qui sont considérées de type Integer.
 	 * <p>
 	 * Aucune vérification n'est faite concernant le type de données renvoyées
+	 * 
 	 * @param nomDonnees Le nom de l'ensemble de données
 	 * @return L'ensemble des données
 	 */
@@ -77,6 +74,7 @@ public class Monstre {
 	 * Accède à l'ensemble des données qui sont considérées de type booléens.
 	 * <p>
 	 * Aucune vérification n'est faite concernant le type de données renvoyées
+	 * 
 	 * @param nomDonnees Le nom de l'ensemble de données
 	 * @return L'ensemble des données
 	 */
@@ -85,7 +83,6 @@ public class Monstre {
 		return donnees.get(nomDonnees);
 	}
 
-	
 	/**
 	 * Donne l'id du monstre
 	 */
@@ -108,7 +105,7 @@ public class Monstre {
 	public int getBattleId() {
 		return combat.id;
 	}
-	
+
 	/* =========
 	 * AFFICHAGE
 	 * ========= */
@@ -120,10 +117,9 @@ public class Monstre {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(nom);
-		
-		sb.append(accessInt(STATS).getCSV());
-		sb.append(";");
-		sb.append(accessBool(PROPRIETES).getCSV());
+
+		sb.append(donnees.entrySet().stream().map(entrySet -> entrySet.getValue().getCSV())
+				.collect(Collectors.joining(";")));
 
 		sb.append(",").append(nomDrop);
 
@@ -140,28 +136,22 @@ public class Monstre {
 	}
 
 	/** Renvoie vrai si les parties clés des deux monstres */
+	@SuppressWarnings("rawtypes")
 	public static boolean sontSimilaires(Monstre a, Monstre b) {
-		
+
 		for (Entry<String, Donnees> tuple : a.donnees.entrySet()) {
 			Donnees adonnee = tuple.getValue();
 			Donnees bdonnee = b.donnees.get(tuple.getKey());
-			
+
 			if (!adonnee.equals(bdonnee)) {
 				return false;
 			}
 		}
-		
-		
+
 		if (!a.donnees.equals(b.donnees)) {
-			System.out.println("====");
-			System.out.println(a.donnees);
-			System.out.println(b.donnees);
-			System.out.println("====");
-			
 			return false;
 		}
-		
-		
+
 		return a.nom.equals(b.nom) && a.nomDrop.equals(b.nomDrop);
 	}
 
@@ -189,9 +179,8 @@ public class Monstre {
 		sb.append(";");
 		sb.append(this.nomDrop);
 
-		sb.append(accessInt(STATS).getCSV());
-		sb.append(";");
-		sb.append(accessBool(PROPRIETES).getCSV());
+		sb.append(donnees.entrySet().stream().map(entrySet -> entrySet.getValue().getCSV())
+				.collect(Collectors.joining(";")));
 
 		if (withBattleId) {
 			sb.append(";").append(this.combat.fonds);
