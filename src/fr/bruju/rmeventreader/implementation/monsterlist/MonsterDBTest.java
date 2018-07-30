@@ -23,11 +23,11 @@ public class MonsterDBTest {
 	public static void main_(String[] args, int csv) throws IOException {
 		
 		Contexte contexte = new Contexte();
+		contexte.remplirContexte("ressources/monsterlist/Parametres.txt");
 		
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte); 
 		
 		Runnable[] listeDesActions = new Runnable[] {
-			() -> contexte.remplirContexte("ressources/monsterlist/Parametres.txt"),
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat1.txt"),
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat2.txt"),
 			new Correcteur(baseDeDonnees                                        , "ressources/Correction.txt"),
