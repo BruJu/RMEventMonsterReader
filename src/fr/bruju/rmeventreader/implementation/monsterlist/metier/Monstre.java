@@ -193,7 +193,7 @@ public class Monstre {
 		});
 		
 
-		this.proprietes.forEach((nomPropriete, valeur) -> sb.append(",").append(valeur ? "Immunité" : "•")); 
+		this.proprietes.forEach((nomPropriete, valeur) -> sb.append(";").append(valeur ? "Immunité" : "•")); 
 		
 		return sb.toString();
 	}
