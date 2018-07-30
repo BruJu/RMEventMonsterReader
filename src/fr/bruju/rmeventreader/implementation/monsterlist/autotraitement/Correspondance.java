@@ -138,19 +138,21 @@ public class Correspondance<T> implements Runnable {
 			return new Remplacement<Combat>() {
 				@Override
 				public void remplacer(Combat combat, Map<String, String> correspondances) {
-					for (int i = 0 ; i != combat.fonds.size() ; i++) {
+					int i = 0;
+					while (i != combat.fonds.size()) {
 						String nomPresent = combat.fonds.get(i);
 						String remplacement = correspondances.get(nomPresent);
 						
 						if (remplacement != null) {
 							if (combat.fonds.contains(remplacement)) {
 								combat.fonds.remove(i);
-								i--;
 								continue;
+							} else {
+								combat.fonds.set(i, remplacement);
 							}
-							
-							combat.fonds.set(i, remplacement);
 						}
+						
+						i++;
 					}
 				}
 			};

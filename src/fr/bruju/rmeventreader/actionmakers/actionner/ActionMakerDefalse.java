@@ -139,6 +139,10 @@ public interface ActionMakerDefalse extends ActionMaker {
 	}
 
 	@Override
+	default void callCommonEvent(int eventNumber) {
+	}
+
+	@Override
 	default void getComment(String str) {
 	}
 

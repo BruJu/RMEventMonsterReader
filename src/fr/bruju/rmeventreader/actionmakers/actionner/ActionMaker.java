@@ -268,6 +268,14 @@ public interface ActionMaker {
 	 * @param eventPage Page de l'évènement
 	 */
 	public void callMapEvent(int eventNumber, int eventPage);
+	
+	
+	/**
+	 * Exécution du code d'un évènement commun
+	 * 
+	 * @param eventNumber Numéro de l'évènement commun
+	 */
+	public void callCommonEvent(int eventNumber);
 
 	/**
 	 * Commentaire lu

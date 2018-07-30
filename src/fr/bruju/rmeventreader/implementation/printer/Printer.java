@@ -276,4 +276,9 @@ public class Printer implements ActionMaker {
 		System.out.println("// " + str);
 	}
 
+	@Override
+	public void callCommonEvent(int eventNumber) {
+		System.out.println("Call Common Event #" + eventNumber);
+	}
+
 }

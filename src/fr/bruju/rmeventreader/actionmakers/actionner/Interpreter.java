@@ -41,8 +41,6 @@ public class Interpreter {
 	 * @param lines La liste de lignes à déchiffrer
 	 */
 	public void inputLines(List<String> lines) {
-		for (String line : lines) {
-			decrypter.decript(line);
-		}
+		lines.forEach(decrypter::decript);
 	}
 }

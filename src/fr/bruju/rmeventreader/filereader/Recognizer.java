@@ -25,29 +25,19 @@ public class Recognizer {
 	 * Cela permettrait d'intégrer la possibilité d'utiliser des regex lorsque leur puissance se justifie.
 	 */
 
-	/**
-	 * Caractère symbolisant une reconnaissance de valeur
-	 */
+	/** Caractère symbolisant une reconnaissance de valeur */
 	private static final char CHAR_FILL = '_';
 
-	/**
-	 * Caractère symbolisant une reconnaissance de valeur ne pouvant être vide
-	 */
+	/** Caractère symbolisant une reconnaissance de valeur ne pouvant être vide */
 	private static final char CHAR_FILL_NOT_EMPTY = 'µ';
 
-	/**
-	 * Caractère symbolisant un pattern qui accepte n'importe quoi à la fin
-	 */
+	/** Caractère symbolisant un pattern qui accepte n'importe quoi à la fin */
 	private static final char CHAR_JOKER = '£';
 	
-	/**
-	 * Pattern représentant une ligne de deux valeur distinctes 
-	 */
+	/** Pattern représentant une ligne de deux valeur distinctes */
 	private static final String PATTERN_DOUBLEVALUE = "_ _";
 
-	/**
-	 * La méthode tryPattern étant static, on ne peut pas instancier cette classe
-	 */
+	/** La méthode tryPattern étant static, on ne peut pas instancier cette classe */
 	private Recognizer() {
 	}
 	

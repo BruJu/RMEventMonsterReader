@@ -32,6 +32,8 @@ public class Combat {
 	private boolean bossBattle = false;
 	/** Contexte */
 	public final Contexte contexte;
+	/** Liste des fonds utilisés pour ce combat */
+	public List<String> fonds = new ArrayList<>();
 	
 	/**
 	 * Construit un nouveau combat avec l'id donné
@@ -42,20 +44,6 @@ public class Combat {
 		this.id = id;
 		monstres = new Monstre[contexte.getNbDeMonstres()];
 	}
-	
-	
-	/* ===========
-	 * FOND / ZONE
-	 * =========== */
-	
-
-	public List<String> fonds = new ArrayList<>();
-
-	public void addFond(int valeur) {
-		if (!fonds.contains(Integer.toString(valeur)))
-			fonds.add(Integer.toString(valeur));		
-	}
-
 	
 	
 	/* ==================
@@ -162,6 +150,19 @@ public class Combat {
 		monstre.apply(paire.getRight(), operator, value);
 	}
 	
+	/* ===========
+	 * FOND / ZONE
+	 * =========== */
+	
+	/**
+	 * Ajoute le fond si il n'est pas déjà présent
+	 * @param valeur Le numéro du nouveau fond
+	 */
+	public void addFond(int valeur) {
+		if (!fonds.contains(Integer.toString(valeur)))
+			fonds.add(Integer.toString(valeur));		
+	}
+
 	
 	/* ========
 	 * AFFICHAGE

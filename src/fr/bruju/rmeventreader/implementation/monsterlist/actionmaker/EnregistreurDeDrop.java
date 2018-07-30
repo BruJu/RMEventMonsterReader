@@ -12,10 +12,11 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
  * simples.
  * 
  * Instructions d'intéret :
+ * <pre>
  * <> Fork Condition: If Variable [552] == 0 then ...
  * <> Change Variable: [2120] = 0
  * : End of fork
- *
+ * </pre>
  */
 public class EnregistreurDeDrop implements ActionMakerDefalse {
 	/* ============
@@ -24,7 +25,6 @@ public class EnregistreurDeDrop implements ActionMakerDefalse {
 	
 	/** Variable contenant l'id du monstre */
 	private final int VARIABLE_ID_MONSTRE;
-	
 	/** Variable contenant l'id de l'objet */
 	private final int VARIABLE_ID_DROP;
 	

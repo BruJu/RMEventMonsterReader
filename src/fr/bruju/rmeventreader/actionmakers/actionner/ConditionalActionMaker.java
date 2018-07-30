@@ -381,4 +381,13 @@ public class ConditionalActionMaker implements ActionMaker {
 		base.getComment(str);
 	}
 
+	@Override
+	public void callCommonEvent(int eventNumber) {
+		if (isIgnoring()) {
+			return;
+		}
+
+		base.callCommonEvent(eventNumber);
+	}
+
 }

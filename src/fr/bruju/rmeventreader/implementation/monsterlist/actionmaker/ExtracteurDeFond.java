@@ -17,11 +17,9 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> {
 
 	/** Numéro de la variable contenant le fond */
 	private final int VARIABLE_ID_FOND;
-	
 	/** Numéro de la variable contenant l'id du combat */
 	private final int VARIABLE_IDCOMBAT;
-
-
+	
 	/** Condition sur un switch ignoré */
 	private final int SWITCH_IGNORE1;
 	/** Condition sur un switch ignoré */

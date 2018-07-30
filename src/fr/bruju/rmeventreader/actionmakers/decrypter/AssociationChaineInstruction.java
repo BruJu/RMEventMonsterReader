@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.actionmakers.decrypter;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Commentary;
+import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.CommonEventAction;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.IgnoreLine;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.JumpTo;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Label;
@@ -55,6 +56,7 @@ class AssociationChaineInstruction {
 					new IgnoreLine("- SCRIPT -"), new IgnoreLine("<>"),
 
 					new MapEventAction(),
+					new CommonEventAction(),
 
 					// Modifications d'état
 					new Toggle(), new ToggleList(), new SetSwitchList(), new SetSwitch(),
