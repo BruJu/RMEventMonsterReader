@@ -77,14 +77,15 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 		if (numeroInterrupteur == POS_BOSSBATTLE) {
 			getElementsFiltres().forEach(combat -> combat.declareBossBattle());
 		} else {
-			Pair<Integer, String> numeroMonstrePourFossille = database.contexte.getPropriete(numeroInterrupteur);
+			Pair<Integer, String> monstreTouche = database.contexte.getPropriete(numeroInterrupteur);
 			
-			if (numeroMonstrePourFossille == null || !numeroMonstrePourFossille.getRight().equals("Fossile"))
+			if (monstreTouche == null) {
 				return;
+			}
 
 			getElementsFiltres().stream()
-					.map(combat -> combat.getMonstre(numeroMonstrePourFossille.getLeft(), Operator.AFFECTATION))
-					.forEach(monstre -> monstre.immuniserAFossile());
+					.map(combat -> combat.getMonstre(monstreTouche.getLeft(), Operator.AFFECTATION))
+					.forEach(monstre -> monstre.donnerPropriete(monstreTouche.getRight()));
 		}
 	}
 

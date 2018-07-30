@@ -15,7 +15,6 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionE
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMembreStat;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.utilitaire.Ensemble;
 

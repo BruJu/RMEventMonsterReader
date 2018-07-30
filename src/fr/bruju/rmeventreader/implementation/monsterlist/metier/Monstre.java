@@ -30,8 +30,6 @@ public class Monstre {
 	/** Nom du drop */
 	public String nomDrop = "";
 
-	/** Immunité à fossile */
-	private boolean immuniteAFossile;
 	/** Contexte */
 	public final Contexte contexte;
 	
@@ -99,18 +97,18 @@ public class Monstre {
 	}
 
 	
-	/* =======
-	 * FOSSILE 
-	 * ======= */
+	/* ==========
+	 * PROPRIETES 
+	 * ========== */
 
-	/** Rend le monstre immunisé à fossile */
-	public void immuniserAFossile() {
-		immuniteAFossile = true;
+	/** Donne une proprieté au monstre */
+	public void donnerPropriete(String nomPropriete) {
+		this.proprietes.put(nomPropriete, true);
 	}
 
-	/** Renvoie si le monstre est immunisé à fossile */
-	public boolean immunite() {
-		return immuniteAFossile;
+	/** Renvoie si le monstre possède la propriété */
+	public boolean aPropriete(String nomPropriete) {
+		return proprietes.get(nomPropriete);
 	}
 	
 
@@ -128,13 +126,11 @@ public class Monstre {
 		
 		this.stats.forEach((nomStat, valeur) -> sb.append(",").append(valeur));
 
-		String s = sb.toString();
+		this.proprietes.forEach((nomPropriete, valeur) -> sb.append(",").append(valeur ? "Immunité" : "•")); 
 		
-		s = s + ", " + (this.immuniteAFossile ? "Immunité" : "•");
+		sb.append(",").append(nomDrop);
 		
-		s = s + ", " + nomDrop;
-		
-		return s;
+		return sb.toString();
 	}
 	
 
@@ -145,7 +141,7 @@ public class Monstre {
 	
 	/** Renvoie un hash pour la partie clé du monstre */
 	public int hasher() {
-		return Objects.hash(nom, nomDrop, immuniteAFossile);
+		return Objects.hash(nom, nomDrop);
 	}
 	
 
@@ -156,8 +152,14 @@ public class Monstre {
 				return false;
 			}
 		}
+
+		for (String pos : a.proprietes.keySet()) {
+			if (a.aPropriete(pos) != b.aPropriete(pos)) {
+				return false;
+			}
+		}
 		
-		return a.nom.equals(b.nom) && a.nomDrop.equals(b.nomDrop) && a.immunite() == b.immunite();
+		return a.nom.equals(b.nom) && a.nomDrop.equals(b.nomDrop);
 	}
 	
 	
@@ -189,9 +191,9 @@ public class Monstre {
 				sb.append(";").append(valeur);
 			}
 		});
+		
 
-		sb.append(";");
-		sb.append(this.immuniteAFossile ? "Immunisé" : "•");
+		this.proprietes.forEach((nomPropriete, valeur) -> sb.append(",").append(valeur ? "Immunité" : "•")); 
 		
 		return sb.toString();
 	}
