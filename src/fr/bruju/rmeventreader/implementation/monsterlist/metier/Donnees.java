@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -12,7 +12,7 @@ public class Donnees<T> {
 	private LinkedHashMap<String, T> donnees;
 	private Function<T, String> fonctionDAffichage;
 	
-	public Donnees(Monstre monstre, List<String> noms, T valeurDeBase, Function<T, String> fonctionDAffichage) {
+	public Donnees(Monstre monstre, Collection<String> noms, T valeurDeBase, Function<T, String> fonctionDAffichage) {
 		//this.monstre = monstre;
 		this.donnees = new LinkedHashMap<>(noms.size());
 		this.fonctionDAffichage = fonctionDAffichage;

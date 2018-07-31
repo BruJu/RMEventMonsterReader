@@ -19,8 +19,8 @@ public class Page implements ActionMakerDefalse {
 		this.contexte = contexte;
 	}
 	
-	public List<Consumer<Monstre>> getResult() {
-		return actionsARealiser;
+	public ActionPage getResult() {
+		return monstre -> actionsARealiser.forEach(action -> action.accept(monstre));
 	}
 
 	@Override
@@ -46,5 +46,9 @@ public class Page implements ActionMakerDefalse {
 	@Override
 	public void condEnd() {
 		return;
+	}
+	
+	public static interface ActionPage {
+		public void appliquer(Monstre monstre);
 	}
 }
