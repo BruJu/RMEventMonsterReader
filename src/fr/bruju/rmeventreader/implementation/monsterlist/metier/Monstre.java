@@ -179,8 +179,14 @@ public class Monstre {
 		sb.append(";");
 		sb.append(this.nomDrop);
 
-		sb.append(donnees.entrySet().stream().map(entrySet -> entrySet.getValue().getCSV())
-				.collect(Collectors.joining(";")));
+		String data = donnees.entrySet().stream().map(entrySet -> entrySet.getValue().getCSV())
+				.collect(Collectors.joining(";"));
+
+		if (!withBattleId) {
+			data = data.substring(data.indexOf(";"));
+		}
+		
+		sb.append(data);
 
 		if (withBattleId) {
 			sb.append(";").append(this.combat.fonds);
