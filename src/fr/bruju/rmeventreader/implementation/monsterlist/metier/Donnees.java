@@ -7,11 +7,24 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.Objects;
 
+/**
+ * 
+ * @author Bruju
+ *
+ * @param <T> Le type des données. Doivent être immutables
+ */
 public class Donnees<T> {
 	//private Monstre monstre;
 	private LinkedHashMap<String, T> donnees;
 	private Function<T, String> fonctionDAffichage;
 	
+	/**
+	 * Crée un groupement de données
+	 * @param monstre Le monstre
+	 * @param noms Le nom des différentes données contenues
+	 * @param valeurDeBase La valeur de base
+	 * @param fonctionDAffichage 
+	 */
 	public Donnees(Monstre monstre, Collection<String> noms, T valeurDeBase, Function<T, String> fonctionDAffichage) {
 		//this.monstre = monstre;
 		this.donnees = new LinkedHashMap<>(noms.size());

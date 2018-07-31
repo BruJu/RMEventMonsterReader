@@ -202,7 +202,15 @@ public class Monstre {
 			prefixe = "IDCOMBAT;";
 		}
 
-		prefixe = prefixe + "IDMONSTRE;NOM;DROP;" + contexte.getCSVHeader();
+		prefixe = prefixe + "IDMONSTRE;NOM;DROP;";
+		
+		StringBuilder sb = new StringBuilder();
+		
+		this.donnees.forEach((nomEnsemble, donnees) -> sb.append(";").append(donnees.getHeader()));
+		
+		sb.delete(0, 4);
+		
+		prefixe += sb.toString();
 
 		if (withBattleId) {
 			prefixe += ";ZONE";

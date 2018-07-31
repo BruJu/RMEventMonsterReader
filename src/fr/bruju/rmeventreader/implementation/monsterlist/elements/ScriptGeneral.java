@@ -1,10 +1,12 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.elements;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.decrypter.Decrypter;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
@@ -36,13 +38,13 @@ public class ScriptGeneral extends StackedActionMaker<Monstre> {
 	@Override
 	public void changeSwitch(Variable interrupteur, boolean value) {
 		String nom = contexte.getPartie(interrupteur.idVariable);
-
+		
 		this.getElementsFiltres().forEach(monstre -> monstre.accessBool(PARTIES).set(nom, value));
 	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
-		String nom = contexte.getPartie(variable.idVariable);
+		String nom = contexte.getElement(variable.idVariable);
 
 		this.getElementsFiltres().forEach(monstre -> monstre.accessInt(ELEMENTS).compute(nom,
 				(n, ex) -> operator.compute(ex, returnValue.valeur)));
@@ -70,15 +72,19 @@ public class ScriptGeneral extends StackedActionMaker<Monstre> {
 	}
 
 	private void assurerExistance(int eventPage) {
-		while (actionsPage.size() < eventPage) {
+		while (actionsPage.size() <= eventPage) {
 			actionsPage.add(null);
 		}
 		
-		if (actionsPage.get(eventPage) == null) {
+		if (actionsPage.get(eventPage-1) == null) {
 			Page p = new Page(contexte);
-			Decrypter decrypteur = new Decrypter(p);
-			decrypteur.decript(ContexteElementaire.RESSOURCES_PREFIXE + eventPage + ".txt");
+			Interpreter interpreter = new Interpreter(p);
 			
+			try {
+				interpreter.inputFile(new File(ContexteElementaire.RESSOURCES_PREFIXE + eventPage + ".txt"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			actionsPage.set(eventPage - 1, p.getResult());
 		}
 	}

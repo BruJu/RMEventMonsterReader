@@ -14,6 +14,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.MonsterData
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correcteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correspondance;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
+import fr.bruju.rmeventreader.implementation.monsterlist.elements.ContexteElementaire;
+import fr.bruju.rmeventreader.implementation.monsterlist.elements.ScriptGlobal;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
@@ -26,7 +28,10 @@ public class MonsterDBTest {
 		Contexte contexte = new Contexte();
 		contexte.remplirContexte("ressources/monsterlist/Parametres.txt");
 		
-		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte); 
+		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
+		
+		ContexteElementaire ce = new ContexteElementaire();
+		ce.lireContexteElementaire("ressources\\monsterlist\\Resistances.txt");
 		
 		Runnable[] listeDesActions = new Runnable[] {
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat1.txt"),
@@ -41,6 +46,7 @@ public class MonsterDBTest {
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop(), "ressources/Dico/Objets.txt", db -> db.extractMonsters()),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			new AutoActionMaker(new FinDeCombat(baseDeDonnees)                  , "ressources/FinCombat.txt"),
+			new AutoActionMaker(new ScriptGlobal(baseDeDonnees, ce),			"ressources/monsterlist/Elements/Premier.txt")
 		};
 		
 		for (Runnable action : listeDesActions) {

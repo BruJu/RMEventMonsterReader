@@ -46,8 +46,8 @@ public class ContexteElementaire {
 				} else {
 					String[] decomposition = ligne.split(" ");
 					
-					String nom = decomposition[0];
-					Integer variable = Integer.decode(decomposition[1]);
+					String nom = decomposition[1];
+					Integer variable = Integer.decode(decomposition[0]);
 					
 					if (etatActuel.item) {
 						elementsConnus.put(variable, nom);
