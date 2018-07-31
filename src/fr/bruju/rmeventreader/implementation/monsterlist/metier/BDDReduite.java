@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import fr.bruju.util.similaire.Cle;
-import fr.bruju.util.similaire.GroupeurDeSimilaires;
+import fr.bruju.util.similaire.Key;
+import fr.bruju.util.similaire.CollectorBySimilarity;
 
 /**
  * Base de données de monstres regroupant les monstres similaires en tout point minus le combat d'apparition
@@ -20,7 +20,7 @@ public class BDDReduite {
 	/**
 	 * Association entre clés de monstre et liste des mosntres
 	 */
-	private Map<Cle<Monstre>, List<Monstre>> monstreReduits;
+	private Map<Key<Monstre>, List<Monstre>> monstreReduits;
 
 	/** Un monstre pris au hasard pour avoir accés au header de monstre */
 	private Monstre unMonstre;
@@ -32,7 +32,9 @@ public class BDDReduite {
 	public BDDReduite(Collection<Monstre> monstres) {
 		unMonstre = monstres.stream().findAny().get();
 
-		GroupeurDeSimilaires<Monstre> collecteur = new GroupeurDeSimilaires<Monstre>(Monstre::hasher,
+		
+		
+		CollectorBySimilarity<Monstre> collecteur = new CollectorBySimilarity<Monstre>(Monstre::hasher,
 				Monstre::sontSimilaires);
 
 		monstreReduits = monstres.stream().collect(collecteur).getMap();
@@ -47,7 +49,7 @@ public class BDDReduite {
 		
 		sb.append(unMonstre.getCSVHeader()).append(";Zones");
 
-		Comparator<Entry<Cle<Monstre>, List<Monstre>>> comparator = new ComparateurCles();
+		Comparator<Entry<Key<Monstre>, List<Monstre>>> comparator = new ComparateurCles();
 
 		monstreReduits.entrySet().stream().sorted(comparator).forEach(entry -> {
 			List<Monstre> mv = entry.getValue();

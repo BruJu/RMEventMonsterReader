@@ -28,7 +28,7 @@ interpreter.inputFile(new File(cheminVersLeFichier));
 
 ### CollectorsSimilaire
 
-Ce projet a une dépendance à ![CollectorsSimilaire](https://github.com/BruJu/CollectorsSimilaire/releases/tag/Chaton) afin de gérer plus facilement le regroupement d'éléments similaires.
+Ce projet a une dépendance à ![CollectorBySimilarity](https://github.com/BruJu/CollectorBySimilarity/releases/tag/Kitten) afin de gérer plus facilement le regroupement d'éléments similaires.
 
 
 ## Reconnaissance de lettres

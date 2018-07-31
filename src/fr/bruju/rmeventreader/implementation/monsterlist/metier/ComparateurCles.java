@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import fr.bruju.util.similaire.Cle;
+import fr.bruju.util.similaire.Key;
 
 /**
  * Comparateur de clés de monstres selon le premier combat de la liste
@@ -12,9 +12,9 @@ import fr.bruju.util.similaire.Cle;
  * @author Bruju
  *
  */
-public class ComparateurCles implements Comparator<Entry<Cle<Monstre>, List<Monstre>>> {
+public class ComparateurCles implements Comparator<Entry<Key<Monstre>, List<Monstre>>> {
 	@Override
-	public int compare(Entry<Cle<Monstre>, List<Monstre>> o1, Entry<Cle<Monstre>, List<Monstre>> o2) {
+	public int compare(Entry<Key<Monstre>, List<Monstre>> o1, Entry<Key<Monstre>, List<Monstre>> o2) {
 		int[] criteresO1 = {o1.getValue().get(0).getId(), o1.getValue().get(0).getBattleId()};
 		int[] criteresO2 = {o2.getValue().get(0).getId(), o2.getValue().get(0).getBattleId()};
 		
