@@ -8,11 +8,10 @@ import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -49,7 +48,8 @@ public class Attaque {
 	 * @param transformation La fonction de transformation de formule
 	 */
 	void modifierFormule(UnaryOperator<FormuleDeDegats> transformation) {
-		modifierFormule((cle, liste) -> transformation.apply(liste));
+		resultat.replaceAll((cle, liste) -> liste.stream().map(transformation)
+				.filter(formule -> formule != null).collect(Collectors.toList()));
 	}
 
 	/**
@@ -57,9 +57,12 @@ public class Attaque {
 	 * 
 	 * @param transformation La fonction de transformation de formule
 	 */
-	void modifierFormule(BiFunction<ModifStat, FormuleDeDegats, FormuleDeDegats> transformation) {
-		resultat.replaceAll((cle, liste) -> liste.stream().map(formule -> transformation.apply(cle, formule))
-				.filter(formule -> formule != null).collect(Collectors.toList()));
+	void modifierFormule(BiFunction<String, FormuleDeDegats, FormuleDeDegats> transformation) {
+		resultat.replaceAll((cle, liste) -> liste
+										.stream()
+										.map(formule -> transformation.apply(cle.stat.possesseur.getNom(), formule))
+										.filter(formule -> formule != null)
+										.collect(Collectors.toList()));
 	}
 
 	/**
@@ -135,5 +138,11 @@ public class Attaque {
 		}
 
 		return c.item;
+	}
+
+	
+	
+	public void diviser(Condition condition, List<Condition> liste) {
+		
 	}
 }

@@ -49,9 +49,9 @@ public class Attaques {
 	}
 
 	/**
-	 * Transforme une formule de dégâts en connaissant les statistiques qu'elle modifie
+	 * Transforme une formule de dégâts en connaissant le personnage qui est modifié
 	 */
-	public void modifierFormules(BiFunction<ModifStat, FormuleDeDegats, FormuleDeDegats> transformation) {
+	public void modifierFormules(BiFunction<String, FormuleDeDegats, FormuleDeDegats> transformation) {
 		forEach(attaque -> attaque.modifierFormule(transformation));
 	}
 	
@@ -89,7 +89,19 @@ public class Attaques {
 	public void ajouterAttaque(Attaque attaque) {
 		liste.add(attaque);
 	}
+	
+	
+	public void diviser(Condition condition) {
+		List<Condition> liste = new ArrayList<>(1);
+		liste.add(condition);
+		
+		diviser(condition, liste);
+	}
 
+
+	public void diviser(Condition condition, List<Condition> liste) {
+		forEach(attaque -> attaque.diviser(condition, liste));
+	}
 
 	/* =========
 	 * AFFICHAGE

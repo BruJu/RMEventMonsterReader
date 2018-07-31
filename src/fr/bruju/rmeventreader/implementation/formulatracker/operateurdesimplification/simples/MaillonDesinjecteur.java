@@ -39,8 +39,8 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 	public void traiter(Attaques attaques) {
 		remplirAvecFichier("ressources/formulatracker/desinjection.txt");
 		
-		attaques.modifierFormules((stat, formule) -> Attaques.generalisationDeLaTransformationDeComposants(formule,
-				composant -> desinjecter(composant, conditionsADesinjecter.get(stat.stat.possesseur.getNom()))));
+		attaques.modifierFormules((nomStat, formule) -> Attaques.generalisationDeLaTransformationDeComposants(formule,
+				composant -> desinjecter(composant, conditionsADesinjecter.get(nomStat))));
 	}
 
 	// =================================================================================================================
