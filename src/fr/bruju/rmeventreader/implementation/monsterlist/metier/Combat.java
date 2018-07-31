@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**

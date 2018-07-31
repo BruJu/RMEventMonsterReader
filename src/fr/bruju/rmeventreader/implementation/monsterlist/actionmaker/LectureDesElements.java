@@ -1,7 +1,7 @@
-package fr.bruju.rmeventreader.implementation.monsterlist.elements;
+package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
-import static fr.bruju.rmeventreader.implementation.monsterlist.elements.ContexteElementaire.ELEMENTS;
-import static fr.bruju.rmeventreader.implementation.monsterlist.elements.ContexteElementaire.PARTIES;
+import static fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire.ELEMENTS;
+import static fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire.PARTIES;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,14 +16,14 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
-import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.StackedActionMaker;
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Donnees;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
-public class ScriptGlobal extends StackedActionMaker<Monstre> {
+public class LectureDesElements extends StackedActionMaker<Monstre> {
 	/* =============
 	 * SCRIPT GLOBAL
 	 * ============= */
@@ -31,9 +31,9 @@ public class ScriptGlobal extends StackedActionMaker<Monstre> {
 	// -- Constantes
 
 	/** ID de la variable contenant l'id du monstre ciblé */
-	private int ID_VARIABLE_MONSTRE_CIBLE;
+	private final int ID_VARIABLE_MONSTRE_CIBLE;
 	/** ID de l'évènement contenant les sous fonctions tockées par actionsPage */
-	private int EVENT_SOUS_FONCTIONS;
+	private final int EVENT_SOUS_FONCTIONS;
 
 	// -- Attributs
 
@@ -51,15 +51,11 @@ public class ScriptGlobal extends StackedActionMaker<Monstre> {
 	 * @param contexteBase Le contexte de base (fichier Parametres.txt)
 	 * @param contexte Le contexte élémentaire (fichier Resistances.txt)
 	 */
-	public ScriptGlobal(MonsterDatabase bdd, Contexte contexteBase, ContexteElementaire contexte) {
+	public LectureDesElements(MonsterDatabase bdd, Contexte contexteBase, ContexteElementaire contexte) {
 		this.bdd = bdd;
 		this.contexte = contexte;
 
-		remplirConstantes(contexteBase);
-	}
-
-	/** Extrait du contexte général les constantes */
-	private void remplirConstantes(Contexte contexteBase) {
+		// Extrait du contexte général les constantes
 		ID_VARIABLE_MONSTRE_CIBLE = contexteBase.getVariable("Elements_VariableMonstreCible");
 		EVENT_SOUS_FONCTIONS = contexteBase.getVariable("Elements_EventSousFonction");
 	}
@@ -105,7 +101,7 @@ public class ScriptGlobal extends StackedActionMaker<Monstre> {
 		monstre.donnees.put(ContexteElementaire.ELEMENTS,
 				new Donnees<Integer>(monstre, contexte.getElements(), 0, v -> v.toString()));
 		monstre.donnees.put(ContexteElementaire.PARTIES,
-				new Donnees<Boolean>(monstre, contexte.getParties(), false, v -> v ? "x" : "_"));
+				new Donnees<Boolean>(monstre, contexte.getParties(), false, v -> v ? "x" : " "));
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.monsterlist.metier;
+package fr.bruju.rmeventreader.implementation.monsterlist.contexte;
 
 import java.io.IOException;
 import java.util.ArrayList;

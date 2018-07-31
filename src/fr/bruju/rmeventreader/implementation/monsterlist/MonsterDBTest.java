@@ -7,6 +7,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstresViaShowPicture;
+import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.LectureDesElements;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.FinDeCombat;
@@ -14,10 +15,9 @@ import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.MonsterData
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correcteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correspondance;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
-import fr.bruju.rmeventreader.implementation.monsterlist.elements.ContexteElementaire;
-import fr.bruju.rmeventreader.implementation.monsterlist.elements.ScriptGlobal;
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
@@ -30,7 +30,7 @@ public class MonsterDBTest {
 		
 		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
-		ce.lireContexteElementaire("ressources\\monsterlist\\Resistances.txt");
+		ce.lireContexteElementaire(ContexteElementaire.FICHIER_RESSOURCE_CONTEXTE);
 		
 		// Base de données des monstres
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
@@ -40,18 +40,15 @@ public class MonsterDBTest {
 			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)            , "ressources/InitCombat2.txt"),
 			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)                , "ressources/InitCombat1.txt"),
 			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)                , "ressources/InitCombat2.txt"),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt",
-																						db -> db.extractBattles()),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt"),
 			new Correcteur(baseDeDonnees                                           , "ressources/Correction.txt"),
 			new AutoActionMaker(new NomDeMonstresViaShowPicture(baseDeDonnees)     , "ressources/NomDesMonstres.txt"),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt",
-																						db -> db.extractMonsters()),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt"),
 			new AutoActionMaker(new EnregistreurDeDrop(baseDeDonnees)              , "ressources/CombatDrop.txt"),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt",
-																						db -> db.extractMonsters()),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			new AutoActionMaker(new FinDeCombat(baseDeDonnees)                     , "ressources/FinCombat.txt"),
-			new AutoActionMaker(new ScriptGlobal(baseDeDonnees, contexte, ce)      , ContexteElementaire.PREMIERFICHIER)
+			new AutoActionMaker(new LectureDesElements(baseDeDonnees, contexte, ce)      , ContexteElementaire.PREMIERFICHIER)
 		};
 		
 		for (Runnable action : listeDesActions) {

@@ -22,7 +22,6 @@ public class EnregistreurDeDrop implements ActionMakerDefalse {
 	/* ============
 	 * Construction
 	 * ============ */
-	
 	/** Variable contenant l'id du monstre */
 	private final int VARIABLE_ID_MONSTRE;
 	/** Variable contenant l'id de l'objet */

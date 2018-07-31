@@ -3,6 +3,9 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
+
 import java.util.Objects;
 
 /**

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
+
 /**
  * Base de données de monstres et de combats
  * 
