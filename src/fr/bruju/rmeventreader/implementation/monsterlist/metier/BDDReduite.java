@@ -32,13 +32,9 @@ public class BDDReduite {
 	public BDDReduite(Collection<Monstre> monstres) {
 		unMonstre = monstres.stream().findAny().get();
 
-		
-		
-		CollectorBySimilarity<Monstre> collecteur = new CollectorBySimilarity<Monstre>(Monstre::hasher,
-				Monstre::sontSimilaires);
-
-		monstreReduits = monstres.stream().collect(collecteur).getMap();
-
+		monstreReduits = monstres.stream()
+								.collect(new CollectorBySimilarity<>(Monstre::hasher, Monstre::sontSimilaires))
+								.getMap();
 	}
 
 	/**
@@ -47,27 +43,34 @@ public class BDDReduite {
 	public String getCSV() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(unMonstre.getCSVHeader()).append(";Zones");
+		sb.append(unMonstre.getCSVHeader())
+		  .append(";Combats")
+		  .append(";Zones");
 
 		Comparator<Entry<Key<Monstre>, List<Monstre>>> comparator = new ComparateurCles();
 
 		monstreReduits.entrySet().stream().sorted(comparator).forEach(entry -> {
 			List<Monstre> mv = entry.getValue();
-
+					
+			
+			sb.append("\n");
+			sb.append(mv.get(0).getCSV());
+			
+			// Id de combats
+			sb.append(";[")
+			  .append(mv.stream()
+					    .map(monstre -> Integer.toString(monstre.getBattleId()))
+					    .collect(Collectors.joining(",")))
+			  .append("]");
+			
+			// Zones d'apparitions
 			List<String> zonesDapparition = mv.stream().map(monstre -> monstre.combat.fonds)
 											.flatMap(fond -> fond.stream())
 											.distinct()
 											.sorted()
 											.collect(Collectors.toList());
-					
 			
-			sb.append("\n");
-			sb.append(mv.get(0).getCSV() + ";");
-			sb.append("[").append(mv.stream().map(monstre -> monstre.getBattleId()).map(nombre -> nombre.toString())
-					.collect(Collectors.joining(","))).append("]");
-			sb.append(";");
-			
-			sb.append(zonesDapparition);
+			sb.append(";").append(zonesDapparition);
 			
 		});
 

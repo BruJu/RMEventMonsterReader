@@ -187,6 +187,8 @@ public class Monstre {
 
 		if (!withBattleId) {
 			data = data.substring(data.indexOf(";"));
+		} else {
+			sb.append(";");
 		}
 		
 		sb.append(data);
@@ -205,27 +207,27 @@ public class Monstre {
 	 * @return La représentation
 	 */
 	public String getCSVHeader(boolean withBattleId) {
-		String prefixe = "";
-
-		if (withBattleId) {
-			prefixe = "IDCOMBAT;";
-		}
-
-		prefixe = prefixe + "IDMONSTRE;NOM;DROP;";
-		
 		StringBuilder sb = new StringBuilder();
 		
-		this.donnees.forEach((nomEnsemble, donnees) -> sb.append(";").append(donnees.getHeader()));
+		if (withBattleId) {
+			sb.append("IDCombat;");
+		}
 		
-		sb.delete(0, 4);
+		sb.append("IDMonstre;Nom;Drop");
 		
-		prefixe += sb.toString();
+		String donneesStr = donnees.values().stream()
+									.map(donnees -> donnees.getHeader())
+									.collect(Collectors.joining(";"));
+		
+		donneesStr = donneesStr.substring(donneesStr.indexOf(";"));
+		
+		sb.append(donneesStr);
 
 		if (withBattleId) {
-			prefixe += ";ZONE";
+			sb.append(";Zone");
 		}
 
-		return prefixe;
+		return sb.toString();
 	}
 
 	/* =============================
@@ -236,7 +238,7 @@ public class Monstre {
 	 * Donne le header d'un monstre pour les monstres réduits
 	 */
 	public String getCSVHeader() {
-		return getCSVHeader(false) + ";" + "Combats";
+		return getCSVHeader(false);
 	}
 
 	/**
