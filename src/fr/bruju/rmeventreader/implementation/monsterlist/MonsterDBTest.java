@@ -24,29 +24,34 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 public class MonsterDBTest {
 
 	public static void main_(String[] args, int csv) throws IOException {
-		
+		// Contexte général
 		Contexte contexte = new Contexte();
 		contexte.remplirContexte("ressources/monsterlist/Parametres.txt");
 		
-		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
-		
+		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
 		ce.lireContexteElementaire("ressources\\monsterlist\\Resistances.txt");
 		
+		// Base de données des monstres
+		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
+		
 		Runnable[] listeDesActions = new Runnable[] {
-			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat1.txt"),
-			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)         , "ressources/InitCombat2.txt"),
-			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)             , "ressources/InitCombat1.txt"),
-			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)             , "ressources/InitCombat2.txt"),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt", db -> db.extractBattles()),
-			new Correcteur(baseDeDonnees                                        , "ressources/Correction.txt"),
-			new AutoActionMaker(new NomDeMonstresViaShowPicture(baseDeDonnees)  , "ressources/NomDesMonstres.txt"),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom() , "ressources/Dico/Monstres.txt", db -> db.extractMonsters()),
-			new AutoActionMaker(new EnregistreurDeDrop(baseDeDonnees)           , "ressources/CombatDrop.txt"),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop(), "ressources/Dico/Objets.txt", db -> db.extractMonsters()),
+			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)            , "ressources/InitCombat1.txt"),
+			new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)            , "ressources/InitCombat2.txt"),
+			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)                , "ressources/InitCombat1.txt"),
+			new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)                , "ressources/InitCombat2.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt",
+																						db -> db.extractBattles()),
+			new Correcteur(baseDeDonnees                                           , "ressources/Correction.txt"),
+			new AutoActionMaker(new NomDeMonstresViaShowPicture(baseDeDonnees)     , "ressources/NomDesMonstres.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt",
+																						db -> db.extractMonsters()),
+			new AutoActionMaker(new EnregistreurDeDrop(baseDeDonnees)              , "ressources/CombatDrop.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt",
+																						db -> db.extractMonsters()),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
-			new AutoActionMaker(new FinDeCombat(baseDeDonnees)                  , "ressources/FinCombat.txt"),
-			new AutoActionMaker(new ScriptGlobal(baseDeDonnees, ce),			"ressources/monsterlist/Elements/Premier.txt")
+			new AutoActionMaker(new FinDeCombat(baseDeDonnees)                     , "ressources/FinCombat.txt"),
+			new AutoActionMaker(new ScriptGlobal(baseDeDonnees, contexte, ce)      , ContexteElementaire.PREMIERFICHIER)
 		};
 		
 		for (Runnable action : listeDesActions) {

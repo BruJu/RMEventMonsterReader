@@ -12,6 +12,8 @@ public class ContexteElementaire {
 	public static final String PARTIES = "PARTIES";
 	public static final String ELEMENTS = "ELEMENTS";
 	public static final String RESSOURCES_PREFIXE = "ressources\\monsterlist\\Elements\\";
+	public static final String PREMIERFICHIER = "ressources/monsterlist/Elements/Premier.txt";
+	public static final String SECONDFICHIER = "ressources/monsterlist/Elements/Second.txt";
 	
 	private LinkedHashMap<Integer, String> partiesConnues = new LinkedHashMap<>();
 	private LinkedHashMap<Integer, String> elementsConnus = new LinkedHashMap<>();
