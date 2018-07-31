@@ -14,6 +14,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.FinDeCombat
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.MonsterDatabaseMaker;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correcteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correspondance;
+import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.ElementsFinalisation;
+import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.ElementsInit;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
@@ -48,7 +50,11 @@ public class MonsterDBTest {
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			new AutoActionMaker(new FinDeCombat(baseDeDonnees)                     , "ressources/FinCombat.txt"),
-			new AutoActionMaker(new LectureDesElements(baseDeDonnees, contexte, ce)      , ContexteElementaire.PREMIERFICHIER)
+			
+			// Elements
+			new ElementsInit(baseDeDonnees, ce),
+			new AutoActionMaker(new LectureDesElements(baseDeDonnees, contexte, ce), ContexteElementaire.PREMIERFICHIER),
+			new ElementsFinalisation(baseDeDonnees, ce)
 		};
 		
 		for (Runnable action : listeDesActions) {

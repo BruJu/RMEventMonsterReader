@@ -10,9 +10,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  *
  */
 public class SommeurDePointsDeCapacites implements Runnable {
-	/**
-	 * La base de données
-	 */
+	/** La base de données */
 	private MonsterDatabase db;
 
 	/**

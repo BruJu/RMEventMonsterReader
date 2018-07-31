@@ -19,7 +19,6 @@ import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Donnees;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
@@ -71,56 +70,6 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 	@Override
 	protected Collection<Monstre> getAllElements() {
 		return bdd.extractMonsters();
-	}
-	
-
-	/* ----------------------------
-	 * Initialisation / Terminaison
-	 * ---------------------------- */
-
-	// Cette partie se base sur des connaissances sur le jeu de données
-	
-	@Override
-	public void getComment(String str) {
-		if (str.equals("Mettre à 0 les résistances élémentaires")) {
-			// Initialisation
-			bdd.extractMonsters().forEach(this::initialiserMonstre);
-		}
-
-		if (str.equals("REHAUSSER LES RESISTANCES")) {
-			// Fin - Application manuelle du calcul de réhaussement des résistances
-			bdd.extractMonsters().forEach(this::finaliserMonstre);
-		}
-	}
-	
-	/**
-	 * Initialise les données qui seront enregistrées dans cette classe
-	 * @param monstre Le monstre à initialiser
-	 */
-	private void initialiserMonstre(Monstre monstre) {
-		monstre.donnees.put(ContexteElementaire.ELEMENTS,
-				new Donnees<Integer>(monstre, contexte.getElements(), 0, v -> v.toString()));
-		monstre.donnees.put(ContexteElementaire.PARTIES,
-				new Donnees<Boolean>(monstre, contexte.getParties(), false, v -> v ? "x" : " "));
-	}
-
-	/**
-	 * Finalise le monstre en appliquant les modifications faites à la fin pour réhausser les résistances selon le
-	 * niveau.
-	 * @param monstre Le monstre à modifier
-	 */
-	private void finaliserMonstre(Monstre monstre) {
-		Collection<String> elements = contexte.getElements();
-
-		int bonusCalc = monstre.accessInt(Monstre.STATS).get("Niveau");
-		bonusCalc = (bonusCalc / 7) * 5;
-
-		int bonus = bonusCalc; // Java refuse de prendre bonusCalc directement
-
-		monstre.accessInt(ContexteElementaire.ELEMENTS).compute("Physique", (n, v) -> v - bonus / 2);
-
-		elements.stream().filter(element -> !element.equals("Physique")).forEach(
-				element -> monstre.accessInt(ContexteElementaire.ELEMENTS).compute(element, (n, v) -> v - bonus));
 	}
 	
 	/* -------------------------
