@@ -12,6 +12,12 @@ public class MaillonDiviseur implements Maillon {
 	public void traiter(Attaques attaques) {
 		List<Diviseur> liste = new ArrayList<>();
 		liste.add(new Diviseur(new DiviseurArme(1)));
+		liste.add(new Diviseur(new DiviseurArme(2)));
+		liste.add(new Diviseur(new DiviseurArme(3)));
+		liste.add(new Diviseur(new DiviseurArme(4)));
+		liste.add(new Diviseur(new DiviseurArme(5)));
+		liste.add(new Diviseur(new DiviseurArme(6)));
+		liste.add(new Diviseur(new DiviseurArme(7)));
 		
 		attaques.appliquerDiviseur(liste);
 	}

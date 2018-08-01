@@ -23,6 +23,7 @@ public class Diviseur {
 		Set<Condition> conditions = new HashSet<>();
 		
 		formule.conditions.forEach(condition -> strategie.getExtracteur().extraire(condition, conditions));
+		strategie.getExtracteur().extraire(formule.formule, conditions);
 		
 		if (conditions.isEmpty()) {
 			ArrayList<Pair<Condition, FormuleDeDegats>> listeReponse = new ArrayList<>();

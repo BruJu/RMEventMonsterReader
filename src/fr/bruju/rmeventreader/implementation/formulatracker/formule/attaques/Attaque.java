@@ -12,11 +12,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 import fr.bruju.util.similaire.CollectorBySimilarity;
