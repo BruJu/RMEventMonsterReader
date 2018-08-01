@@ -1,7 +1,9 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
@@ -18,7 +20,10 @@ public class Diviseur {
 	}
 	
 	public List<Pair<Condition, FormuleDeDegats>> diviser(FormuleDeDegats formule) {
-		List<Condition> conditions = strategie.extraireConditions(formule);
+		Set<Condition> conditions = new HashSet<>();
+		
+		formule.conditions.forEach(condition -> strategie.getExtracteur().extraire(condition, conditions));
+		
 		
 		if (conditions.isEmpty()) {
 			ArrayList<Pair<Condition, FormuleDeDegats>> listeReponse = new ArrayList<>();
@@ -31,7 +36,7 @@ public class Diviseur {
 		}
 	}
 
-	private Pair<Condition, FormuleDeDegats> integrer(List<Condition> conditions, Condition condition, FormuleDeDegats formule) {
+	private Pair<Condition, FormuleDeDegats> integrer(Set<Condition> conditions, Condition condition, FormuleDeDegats formule) {
 		List<GestionnaireDeCondition> gestionnaires = strategie.getGestionnaires(condition, conditions);
 		
 		IntegreurGeneral integreur = new IntegreurGeneral();
