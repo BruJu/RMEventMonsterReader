@@ -14,6 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
@@ -89,19 +90,13 @@ public class Attaques {
 	public void ajouterAttaque(Attaque attaque) {
 		liste.add(attaque);
 	}
-	
-	
-	public void diviser(Condition condition) {
-		List<Condition> liste = new ArrayList<>(1);
-		liste.add(condition);
-		
-		diviser(condition, liste);
-	}
 
 
-	public void diviser(Condition condition, List<Condition> liste) {
-		forEach(attaque -> attaque.diviser(condition, liste));
+
+	public void appliquerDiviseur(Diviseur diviseur) {
+		forEach(attaque -> attaque.diviser(diviseur));
 	}
+	
 
 	/* =========
 	 * AFFICHAGE
@@ -165,4 +160,5 @@ public class Attaques {
 
 		return new FormuleDeDegats(conditions, v);
 	}
+
 }

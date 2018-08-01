@@ -36,6 +36,19 @@ public class ModifStat {
 
 	
 	
+	public ModifStat(ModifStat modifStat, Condition condition) {
+		this.stat = modifStat.stat;
+		this.operateur = modifStat.operateur;
+		this.conditions = new ArrayList<>(modifStat.conditions);
+		this.conditions.add(condition);
+	}
+	
+	public List<Condition> getConditions() {
+		return this.conditions;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "<" + stat.possesseur.getNom() + "." + stat.nom + ";" + operateur + ">";

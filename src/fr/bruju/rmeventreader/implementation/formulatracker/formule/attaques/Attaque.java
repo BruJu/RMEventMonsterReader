@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -48,8 +49,8 @@ public class Attaque {
 	 * @param transformation La fonction de transformation de formule
 	 */
 	void modifierFormule(UnaryOperator<FormuleDeDegats> transformation) {
-		resultat.replaceAll((cle, liste) -> liste.stream().map(transformation)
-				.filter(formule -> formule != null).collect(Collectors.toList()));
+		resultat.replaceAll((cle, liste) -> liste.stream().map(transformation).filter(formule -> formule != null)
+				.collect(Collectors.toList()));
 	}
 
 	/**
@@ -58,11 +59,9 @@ public class Attaque {
 	 * @param transformation La fonction de transformation de formule
 	 */
 	void modifierFormule(BiFunction<String, FormuleDeDegats, FormuleDeDegats> transformation) {
-		resultat.replaceAll((cle, liste) -> liste
-										.stream()
-										.map(formule -> transformation.apply(cle.stat.possesseur.getNom(), formule))
-										.filter(formule -> formule != null)
-										.collect(Collectors.toList()));
+		resultat.replaceAll((cle, liste) -> liste.stream()
+				.map(formule -> transformation.apply(cle.stat.possesseur.getNom(), formule))
+				.filter(formule -> formule != null).collect(Collectors.toList()));
 	}
 
 	/**
@@ -82,24 +81,17 @@ public class Attaque {
 	void fusionner(BinaryOperator<Pair<ModifStat, FormuleDeDegats>> fonctionFusion) {
 
 		CollectorBySimilarity<Pair<ModifStat, FormuleDeDegats>> collector = new CollectorBySimilarity<>(
-				p -> p.getLeft().hashUnifiable(),
-				(a, b) -> a.getLeft().estUnifiable(b.getLeft()));
+				p -> p.getLeft().hashUnifiable(), (a, b) -> a.getLeft().estUnifiable(b.getLeft()));
 
-		Collection<List<Pair<ModifStat, FormuleDeDegats>>> fusionnables = resultat
-				.entrySet().stream()
-				.flatMap(this::applatir)
-				.collect(collector)
-				.getMap()
-				.values();
-
+		Collection<List<Pair<ModifStat, FormuleDeDegats>>> fusionnables = resultat.entrySet().stream()
+				.flatMap(this::applatir).collect(collector).getMap().values();
 
 		Map<ModifStat, List<FormuleDeDegats>> groupes = new HashMap<>();
-		
-		fusionnables.stream()
-					.map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, fonctionFusion))
-					.forEach(liste -> liste.forEach(paire ->
-						Utilitaire.mapAjouterElementAListe(groupes, paire.getLeft(), paire.getRight())));
-		
+
+		fusionnables.stream().map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, fonctionFusion))
+				.forEach(liste -> liste.forEach(
+						paire -> Utilitaire.mapAjouterElementAListe(groupes, paire.getLeft(), paire.getRight())));
+
 		this.resultat = groupes;
 	}
 
@@ -140,9 +132,18 @@ public class Attaque {
 		return c.item;
 	}
 
-	
-	
-	public void diviser(Condition condition, List<Condition> liste) {
-		
+	public void diviser(Diviseur diviseur) {
+		this.resultat = this.resultat.entrySet().stream().flatMap(this::applatir)
+				.map(paire -> new Pair<>(paire.getLeft(), diviseur.diviser(paire.getRight())))
+				.flatMap(paire -> integrerConditionDeDivision(paire.getLeft(), paire.getRight()))
+				.collect(Collectors.groupingBy(paire -> paire.getLeft(),
+							Collectors.mapping(paire -> paire.getRight(), Collectors.toList()))
+						);
+	}
+
+	private Stream<Pair<ModifStat, FormuleDeDegats>> integrerConditionDeDivision(ModifStat modifStat,
+			List<Pair<Condition, FormuleDeDegats>> formulesDivisees) {
+		return formulesDivisees.stream()
+						.map(paire -> new Pair<>(new ModifStat(modifStat, paire.getLeft()), paire.getRight()));
 	}
 }

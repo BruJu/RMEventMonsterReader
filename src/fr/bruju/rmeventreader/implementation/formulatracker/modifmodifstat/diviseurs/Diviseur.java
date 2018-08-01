@@ -24,7 +24,6 @@ public class Diviseur {
 		
 		formule.conditions.forEach(condition -> strategie.getExtracteur().extraire(condition, conditions));
 		
-		
 		if (conditions.isEmpty()) {
 			ArrayList<Pair<Condition, FormuleDeDegats>> listeReponse = new ArrayList<>();
 			listeReponse.add(new Pair<>(null, formule));
