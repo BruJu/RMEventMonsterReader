@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 import fr.bruju.util.similaire.CollectorBySimilarity;
@@ -132,26 +134,51 @@ public class Attaque {
 		return c.item;
 	}
 
-	
 	/* ========
 	 * DIVISION 
 	 * ======== */
-	
-	
-	public void diviser(Diviseur diviseur) {
-		this.resultat = this.resultat.entrySet().stream().flatMap(this::applatir)
-				.map(paire -> new Pair<>(new ModifStat(paire.getLeft()), paire.getRight()))
-				.map(paire -> new Pair<>(paire.getLeft(), diviseur.diviser(paire.getRight())))
-				.flatMap(paire -> integrerConditionDeDivision(paire.getLeft(), paire.getRight()))
-				.filter(paire -> paire.getRight() != null)
-				.collect(Collectors.groupingBy(paire -> paire.getLeft(),
-							Collectors.mapping(paire -> paire.getRight(), Collectors.toList()))
-						);
+
+	public void diviser(List<Diviseur> diviseurs) {
+		List<Pair<ModifStat, FormuleDeDegats>> donnees = resultat.entrySet().stream().flatMap(this::applatir)
+				.collect(Collectors.toList());
+
+		resultat = reconstituerResultats(donnees, diviseurs);
+
 	}
 
-	private Stream<Pair<ModifStat, FormuleDeDegats>> integrerConditionDeDivision(ModifStat modifStat,
-			List<Pair<Condition, FormuleDeDegats>> formulesDivisees) {
-		return formulesDivisees.stream()
-						.map(paire -> new Pair<>(new ModifStat(modifStat, paire.getLeft()), paire.getRight()));
+	private static Map<ModifStat, List<FormuleDeDegats>> reconstituerResultats(
+			List<Pair<ModifStat, FormuleDeDegats>> donnees, List<Diviseur> diviseurs) {
+		Map<ModifStat, List<FormuleDeDegats>> resultat = new HashMap<>();
+
+		donnees.stream().map(formule -> integrerDiviseurs(diviseurs, formule))
+				.forEach(listeResultat -> listeResultat.forEach(nouvellePaire -> Utilitaire
+						.mapAjouterElementAListe(resultat, nouvellePaire.getLeft(), nouvellePaire.getRight())));
+
+		return resultat;
 	}
+
+	private static List<Pair<ModifStat, FormuleDeDegats>> integrerDiviseurs(List<Diviseur> diviseurs,
+			Pair<ModifStat, FormuleDeDegats> groupementMSFDD) {
+
+		ModifStat mS = groupementMSFDD.getLeft();
+		FormuleDeDegats fdd = groupementMSFDD.getRight();
+
+		List<Pair<GroupeDeConditions, FormuleDeDegats>> resultat = new ArrayList<>();
+		resultat.add(new Pair<>(new GroupeDeConditions(), fdd));
+
+		for (Diviseur diviseur : diviseurs) {
+			resultat = resultat.stream()
+					.map(existant -> new Pair<>(existant.getLeft(), diviseur.diviser(existant.getRight())))
+					.flatMap(paireGrp_ListCondFormule -> paireGrp_ListCondFormule.getRight().stream()
+							.map(condFormule -> new Pair<>(
+									new GroupeDeConditions(paireGrp_ListCondFormule.getLeft(), condFormule.getLeft()),
+									condFormule.getRight())))
+					.filter(paireGrpFDD -> paireGrpFDD.getRight() != null)
+					.collect(Collectors.toList());
+		}
+
+		return resultat.stream().map(r -> new Pair<>(new ModifStat(mS, r.getLeft()), r.getRight()))
+				.collect(Collectors.toList());
+	}
+
 }

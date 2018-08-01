@@ -58,6 +58,14 @@ public class ModifStat {
 	
 	
 	
+	public ModifStat(ModifStat modifStat, GroupeDeConditions left) {
+		this.stat = modifStat.stat;
+		this.operateur = modifStat.operateur;
+		
+		this.conditions = new ArrayList<>(modifStat.conditions);
+		this.conditions.add(left);
+	}
+
 	public List<GroupeDeConditions> getConditions() {
 		return this.conditions;
 	}

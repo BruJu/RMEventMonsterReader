@@ -93,8 +93,8 @@ public class Attaques {
 
 
 
-	public void appliquerDiviseur(Diviseur diviseur) {
-		forEach(attaque -> attaque.diviser(diviseur));
+	public void appliquerDiviseur(List<Diviseur> diviseurs) {
+		forEach(attaque -> attaque.diviser(diviseurs));
 	}
 	
 
