@@ -132,10 +132,17 @@ public class Attaque {
 		return c.item;
 	}
 
+	
+	/* ========
+	 * DIVISION 
+	 * ======== */
+	
+	
 	public void diviser(Diviseur diviseur) {
 		this.resultat = this.resultat.entrySet().stream().flatMap(this::applatir)
 				.map(paire -> new Pair<>(paire.getLeft(), diviseur.diviser(paire.getRight())))
 				.flatMap(paire -> integrerConditionDeDivision(paire.getLeft(), paire.getRight()))
+				.filter(paire -> paire.getRight() != null)
 				.collect(Collectors.groupingBy(paire -> paire.getLeft(),
 							Collectors.mapping(paire -> paire.getRight(), Collectors.toList()))
 						);

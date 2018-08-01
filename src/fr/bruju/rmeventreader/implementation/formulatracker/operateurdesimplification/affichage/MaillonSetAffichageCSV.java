@@ -58,12 +58,22 @@ public class MaillonSetAffichageCSV implements Maillon {
 				.append("♦");
 		
 		
+		modifStat.getConditions().stream().map(condition -> condition == null ? "null" : condition.getString())
+		.forEach(condition -> ligneCSV.append(condition).append("♦"));
+		
+		
+		ligneCSV.append(formule.getString());
+		
+		ligneCSV.append("\n");
+		
+		
+		/*
 		String header = ligneCSV.toString();
 		
 		ligneCSV.setLength(0);
 		
 		remplirStringBuilder(ligneCSV, header, formule);
-		
+		*/
 		return ligneCSV.toString();
 	}
 

@@ -162,6 +162,8 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 	}
 
 	public void ajouterGestionnaires(List<GestionnaireDeCondition> gestionnaires) {
-		throw new UnsupportedOperationException();
+		this.gestionnairesAssocies.addAll(gestionnaires);
+		
+		//throw new UnsupportedOperationException();
 	}
 }
