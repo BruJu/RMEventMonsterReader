@@ -20,7 +20,7 @@ public class ModifStat {
 	/** Opérateur appliqué */
 	public final Operator operateur;
 	/** Conditions intégrées */
-	private List<Condition> conditions;
+	private List<GroupeDeConditions> conditions;
 
 	/**
 	 * Crée un modificateur de statistique
@@ -34,16 +34,31 @@ public class ModifStat {
 		this.conditions = new ArrayList<>();
 	}
 
+	public ModifStat(ModifStat modifStat) {
+		this.stat = modifStat.stat;
+		this.operateur = modifStat.operateur;
+		
+		this.conditions = new ArrayList<>(modifStat.conditions);
+		this.conditions.add(new GroupeDeConditions());
+	}
 	
 	
 	public ModifStat(ModifStat modifStat, Condition condition) {
 		this.stat = modifStat.stat;
 		this.operateur = modifStat.operateur;
+		
 		this.conditions = new ArrayList<>(modifStat.conditions);
-		this.conditions.add(condition);
+		
+
+		GroupeDeConditions dernierGroupe = conditions.get(conditions.size() - 1);
+		
+		conditions.set(conditions.size() - 1, new GroupeDeConditions(dernierGroupe, condition));
+
 	}
 	
-	public List<Condition> getConditions() {
+	
+	
+	public List<GroupeDeConditions> getConditions() {
 		return this.conditions;
 	}
 

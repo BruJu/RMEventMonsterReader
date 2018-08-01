@@ -1,22 +1,13 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.IntegreurGeneral;
-import fr.bruju.rmeventreader.implementation.formulatracker.simplification.ExtracteurDeConditions;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 
@@ -34,10 +25,6 @@ public class MaillonSetAffichageCSV implements Maillon {
 	public void traiter(Attaques attaques) {
 		attaques.determinerAffichageAttaques((nom) -> "", this::determinerAffichage, nom -> "");
 	}
-
-	
-	// Format :
-// NomPerso / NomAttaque / Perso touché / Stat touchée / Opérateur / Var 360 / Période / Armes / Préconditions / Formule
 	
 	private String determinerAffichage(String nomAttaque, ModifStat modifStat, FormuleDeDegats formule) {
 		StringBuilder ligneCSV = new StringBuilder();
@@ -58,75 +45,20 @@ public class MaillonSetAffichageCSV implements Maillon {
 				.append("♦");
 		
 		
-		modifStat.getConditions().stream().map(condition -> condition == null ? "null" : condition.getString())
-		.forEach(condition -> ligneCSV.append(condition).append("♦"));
-		
+		modifStat.getConditions().forEach(groupe -> {
+			ligneCSV.append(groupe.conditions.stream()
+					.map(condition -> condition.getString())
+					.collect(Collectors.joining(",")));
+			
+			ligneCSV.append("♦");
+		});
 		
 		ligneCSV.append(formule.getString());
 		
 		ligneCSV.append("\n");
 		
-		
-		/*
-		String header = ligneCSV.toString();
-		
-		ligneCSV.setLength(0);
-		
-		remplirStringBuilder(ligneCSV, header, formule);
-		*/
 		return ligneCSV.toString();
 	}
-
-
-	private void remplirStringBuilder(StringBuilder ligneCSV, String header, FormuleDeDegats formule) {
-		List<String> affichagesIndividuelsFormules = getAffichagesIndividuels(formule);
-		
-		affichagesIndividuelsFormules.forEach(c -> ligneCSV.append(header).append(c).append("\n"));
-	}
-
-
-	private List<String> getAffichagesIndividuels(FormuleDeDegats formule) {
-		List<Pair<String, FormuleDeDegats>> liste = new ArrayList<>();
-		liste.add(new Pair<>("", formule));
-		
-		liste = prefixer(liste);
-
-		return liste.stream()
-					.map(paire -> paire.getLeft() + convertirEnChaine(paire.getRight()))
-					.collect(Collectors.toList());
-	}
-	
-	
-
-
-	private String convertirEnChaine(FormuleDeDegats formuleDG) {
-		String conditions = formuleDG.conditions.stream().map(condition -> condition.getString())
-					.collect(Collectors.joining(" "));
-		
-		String formule = formuleDG.formule.getString();
-		
-		return conditions + "♦" + formule;
-	}
-
-
-	private List<Pair<String, FormuleDeDegats>> prefixer(List<Pair<String, FormuleDeDegats>> liste) {
-		List<FonctionDeTransformation> traitements = new ArrayList<>();
-		traitements.add(new Variable360());
-		traitements.add(new Periode());
-		
-		List<Pair<String, FormuleDeDegats>> courant = liste;
-		
-		for (FonctionDeTransformation traitement : traitements) {
-			courant = courant.stream().flatMap(paire -> traitement.apply(paire).stream())
-					.collect(Collectors.toList());
-		}
-		
-
-		
-		
-		return courant;
-	}
-
 
 	private String getAffichage(Operator operateur) {
 		switch (operateur) {
@@ -151,6 +83,7 @@ public class MaillonSetAffichageCSV implements Maillon {
 		List<Pair<String, FormuleDeDegats>> apply(Pair<String, FormuleDeDegats> paire);
 	}
 	
+	/*
 	
 	private static class Variable360 implements FonctionDeTransformation {
 		@Override
@@ -228,13 +161,5 @@ public class MaillonSetAffichageCSV implements Maillon {
 			return resultat;
 		}
 	}
-	
-
-	public static FormuleDeDegats inclusionGenerale(Condition condition, FormuleDeDegats right) {
-		IntegreurGeneral ig = new IntegreurGeneral();
-		ig.ajouterCondition(condition);
-		return ig.integrer(right);
-	}
-	
-	
+	*/
 }

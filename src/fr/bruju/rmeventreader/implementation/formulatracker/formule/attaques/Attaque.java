@@ -140,6 +140,7 @@ public class Attaque {
 	
 	public void diviser(Diviseur diviseur) {
 		this.resultat = this.resultat.entrySet().stream().flatMap(this::applatir)
+				.map(paire -> new Pair<>(new ModifStat(paire.getLeft()), paire.getRight()))
 				.map(paire -> new Pair<>(paire.getLeft(), diviseur.diviser(paire.getRight())))
 				.flatMap(paire -> integrerConditionDeDivision(paire.getLeft(), paire.getRight()))
 				.filter(paire -> paire.getRight() != null)
