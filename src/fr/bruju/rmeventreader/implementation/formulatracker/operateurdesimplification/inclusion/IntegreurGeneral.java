@@ -160,4 +160,8 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 	protected void ternaireApres(Condition condition) {
 		gestionnairesAssocies.remove(gestionnairesAssocies.size() - 1);
 	}
+
+	public void ajouterGestionnaires(List<GestionnaireDeCondition> gestionnaires) {
+		throw new UnsupportedOperationException();
+	}
 }
