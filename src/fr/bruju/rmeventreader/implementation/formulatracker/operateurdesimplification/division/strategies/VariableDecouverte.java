@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Extracteur;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.StrategieDeDivision;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireVariableDifferent;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireVariableIdentique;
 
 public class VariableDecouverte implements StrategieDeDivision {
 
@@ -23,7 +26,20 @@ public class VariableDecouverte implements StrategieDeDivision {
 
 	@Override
 	public List<GestionnaireDeCondition> getGestionnaires(Condition condition, Set<Condition> conditions) {
-		return null;
+		List<GestionnaireDeCondition> gestionnaires = new ArrayList<>();
+		
+		Boolean identifier = CFixe.identifier(condition);
+		
+		if (identifier == null) {
+			gestionnaires.add(new GestionnaireVariableIdentique((CVariable) condition));
+		} else {
+			conditions
+			.stream()
+			.filter(c -> CFixe.identifier(c) == null)
+			.forEach(c -> gestionnaires.add(new GestionnaireVariableDifferent((CVariable) c.revert())));
+		}
+		
+		return gestionnaires;
 	}
 
 	@Override
