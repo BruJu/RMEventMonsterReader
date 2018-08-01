@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,26 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Extracteur;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.StrategieDeDivision;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireArmeStrict;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
 
-public class DiviseurArme implements StrategieDeDivision {
+/**
+ * Stratégie de division se reposant sur le fait qu'un personnage possède une arme ou non
+ * 
+ * @author Bruju
+ *
+ */
+public class Arme implements StrategieDeDivision {
+	/** Numéro du personnage possédant l'arme */
 	private int numeroPersonnage;
 	
-	public DiviseurArme(int numeroPersonnage) {
+	/**
+	 * Crée une stratégie de division par rapport à l'arme que le personnage donné a équipé
+	 * @param numeroPersonnage Le personnage
+	 */
+	public Arme(int numeroPersonnage) {
 		this.numeroPersonnage = numeroPersonnage;
 	}
 
@@ -37,7 +50,8 @@ public class DiviseurArme implements StrategieDeDivision {
 	 * Extracteur de conditions portant sur des armes
 	 */
 	public class ExtracteurD implements Extracteur {
-		Set<Condition> conditions;
+		/** Conditions en cours d'extraction */
+		private Set<Condition> conditions;
 
 		@Override
 		public void extraire(Composant composant, Set<Condition> conditions) {

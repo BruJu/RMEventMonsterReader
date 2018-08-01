@@ -1,14 +1,16 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies;
 
 import java.util.List;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Extracteur;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.StrategieDeDivision;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
 
-public class DiviseurVariableEnsemble implements StrategieDeDivision {
+public class DisjonctionInterrupteurs implements StrategieDeDivision {
 
-	public DiviseurVariableEnsemble(int i, int[] js) {
+	public DisjonctionInterrupteurs(int[] is) {
 	}
 
 	@Override

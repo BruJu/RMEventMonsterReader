@@ -14,7 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs.Diviseur;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
@@ -93,7 +93,7 @@ public class Attaques {
 
 
 
-	public void appliquerDiviseur(List<Diviseur> diviseurs) {
+	public void appliquerDiviseur(Diviseur[] diviseurs) {
 		forEach(attaque -> attaque.diviser(diviseurs));
 	}
 	

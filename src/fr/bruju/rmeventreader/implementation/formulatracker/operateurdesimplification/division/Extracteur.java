@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division;
 
 import java.util.Set;
 
@@ -90,6 +90,4 @@ public interface Extracteur extends VisiteurDeComposants {
 		visit(composant.siVrai);
 		visit(composant.siFaux);
 	}
-	
-	
 }

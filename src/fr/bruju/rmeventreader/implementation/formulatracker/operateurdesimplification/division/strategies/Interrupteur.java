@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs;
+package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,26 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Extracteur;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.StrategieDeDivision;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireSwitch;
 
-public class DiviseurInterrupteur implements StrategieDeDivision {
+/**
+ * Stratégie de division portant sur l'état d'un interrupteur
+ * 
+ * @author Bruju
+ *
+ */
+public class Interrupteur implements StrategieDeDivision {
+	/** Le numéro de l'interrupteur */
 	private int numero;
 
-	public DiviseurInterrupteur(int numero) {
+	/**
+	 * Crée une stratégie de division portant sur l'état de l'interrupteur donné
+	 * @param numero Le numéro de l'interrupteur à tracker
+	 */
+	public Interrupteur(int numero) {
 		this.numero = numero;
 	}
 
@@ -35,10 +48,11 @@ public class DiviseurInterrupteur implements StrategieDeDivision {
 	}
 	
 	/**
-	 * Extracteur de conditions portant sur des armes
+	 * Extracteur de conditions portant sur l'état d'un interrupteur
 	 */
 	public class ExtracteurD implements Extracteur {
-		Set<Condition> conditions;
+		/** Condition en cours d'extraction */
+		private Set<Condition> conditions;
 
 		@Override
 		public void extraire(Composant composant, Set<Condition> conditions) {

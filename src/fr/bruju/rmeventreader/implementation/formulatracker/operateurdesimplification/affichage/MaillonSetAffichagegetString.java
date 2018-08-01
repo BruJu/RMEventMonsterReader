@@ -5,6 +5,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.S
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+// TODO : afficher les groupes de conditions de modif stat
+
 /**
  * Détermine un affichage basique en utilisant les méthodes getString()
  * 

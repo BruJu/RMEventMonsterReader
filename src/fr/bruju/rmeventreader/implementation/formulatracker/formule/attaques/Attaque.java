@@ -12,7 +12,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.modifmodifstat.diviseurs.Diviseur;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -136,7 +136,7 @@ public class Attaque {
 	 * DIVISION 
 	 * ======== */
 
-	public void diviser(List<Diviseur> diviseurs) {
+	public void diviser(Diviseur[] diviseurs) {
 		List<Pair<ModifStat, FormuleDeDegats>> donnees = resultat.entrySet().stream().flatMap(this::applatir)
 				.collect(Collectors.toList());
 
@@ -145,7 +145,7 @@ public class Attaque {
 	}
 
 	private static Map<ModifStat, List<FormuleDeDegats>> reconstituerResultats(
-			List<Pair<ModifStat, FormuleDeDegats>> donnees, List<Diviseur> diviseurs) {
+			List<Pair<ModifStat, FormuleDeDegats>> donnees, Diviseur[] diviseurs) {
 		Map<ModifStat, List<FormuleDeDegats>> resultat = new HashMap<>();
 
 		donnees.stream().map(formule -> integrerDiviseurs(diviseurs, formule))
@@ -155,7 +155,7 @@ public class Attaque {
 		return resultat;
 	}
 
-	private static List<Pair<ModifStat, FormuleDeDegats>> integrerDiviseurs(List<Diviseur> diviseurs,
+	private static List<Pair<ModifStat, FormuleDeDegats>> integrerDiviseurs(Diviseur[] diviseurs,
 			Pair<ModifStat, FormuleDeDegats> groupementMSFDD) {
 
 		ModifStat mS = groupementMSFDD.getLeft();
