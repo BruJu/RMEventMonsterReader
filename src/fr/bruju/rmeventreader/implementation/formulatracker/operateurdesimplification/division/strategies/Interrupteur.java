@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Extracteur;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.StrategieDeDivision;
@@ -50,20 +47,7 @@ public class Interrupteur implements StrategieDeDivision {
 	/**
 	 * Extracteur de conditions portant sur l'état d'un interrupteur
 	 */
-	public class ExtracteurD implements Extracteur {
-		/** Condition en cours d'extraction */
-		private Set<Condition> conditions;
-
-		@Override
-		public void extraire(Composant composant, Set<Condition> conditions) {
-			this.conditions = conditions;;
-			visit(composant);
-		}
-		
-		@Override
-		public void visit(CArme composant) {
-		}
-
+	public class ExtracteurD extends Extracteur {
 		@Override
 		public void visit(CSwitch composant) {
 			if (composant.interrupteur instanceof BBase) {
@@ -78,12 +62,5 @@ public class Interrupteur implements StrategieDeDivision {
 			}
 			visit(composant.interrupteur);
 		}
-
-		@Override
-		public void visit(CVariable composant) {
-			visit(composant.gauche);
-			visit(composant.droite);
-		}
 	}
-
 }

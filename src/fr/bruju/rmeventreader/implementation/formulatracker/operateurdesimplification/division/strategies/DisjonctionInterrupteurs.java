@@ -10,7 +10,10 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 
 public class DisjonctionInterrupteurs implements StrategieDeDivision {
 
-	public DisjonctionInterrupteurs(int[] is) {
+	private int[] idSwitch;
+
+	public DisjonctionInterrupteurs(int[] idSwitch) {
+		this.idSwitch = idSwitch;
 	}
 
 	@Override
@@ -20,7 +23,13 @@ public class DisjonctionInterrupteurs implements StrategieDeDivision {
 
 	@Override
 	public Extracteur getExtracteur() {
-		return null;
+		return new ExtracteurD();
 	}
-
+	
+	/**
+	 * Extracteur de conditions
+	 */
+	public class ExtracteurD extends Extracteur {
+		
+	}
 }

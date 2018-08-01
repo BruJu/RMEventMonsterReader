@@ -10,7 +10,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 
 public class Propriete implements StrategieDeDivision {
 
-	public Propriete(String string) {
+	public Propriete(String nomPropriete) {
+		
 	}
 
 	@Override
@@ -20,7 +21,13 @@ public class Propriete implements StrategieDeDivision {
 
 	@Override
 	public Extracteur getExtracteur() {
-		return null;
+		return new ExtracteurD();
 	}
-
+	
+	/**
+	 * Extracteur de conditions
+	 */
+	public class ExtracteurD extends Extracteur {
+		
+	}
 }

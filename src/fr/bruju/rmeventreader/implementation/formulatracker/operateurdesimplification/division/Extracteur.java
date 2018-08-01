@@ -7,6 +7,9 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
+import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
@@ -22,49 +25,60 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.V
  * @author Bruju
  *
  */
-public interface Extracteur extends VisiteurDeComposants {
+public abstract class Extracteur implements VisiteurDeComposants {
+	/** Conditions en cours d'extraction */
+	protected Set<Condition> conditions;
+	
 	/**
 	 * Extrait les conditions du composant donné et les ajoute dans l'ensemble de conditions
 	 * @param composant Le composant dont il faut extraire des conditions
 	 * @param conditions Les conditions extraites
 	 */
-	void extraire(Composant composant, Set<Condition> conditions);
+	public void extraire(Composant composant, Set<Condition> conditions) {
+		this.conditions = conditions;;
+		visit(composant);
+	}
 
 	/* ========
 	 * Feuilles
 	 * ======== */
 	@Override
-	default void visit(BBase composant) {
+	public void visit(BBase composant) {
 		// Feuille
 	}
 
 	@Override
-	default void visit(BConstant composant) {
+	public void visit(BConstant composant) {
 		// Feuille
 	}
 
 	@Override
-	default void visit(BStatistique composant) {
+	public void visit(BStatistique composant) {
 		// Feuille
 	}
 
 	@Override
-	default void visit(VAleatoire composant) {
+	public void visit(VAleatoire composant) {
 		// Feuille
 	}
 
 	@Override
-	default void visit(VBase composant) {
+	public void visit(VBase composant) {
 		// Feuille
 	}
 
 	@Override
-	default void visit(VConstante composant) {
+	public void visit(VConstante composant) {
 		// Feuille
 	}
 
 	@Override
-	default void visit(VStatistique composant) {
+	public void visit(VStatistique composant) {
+		// Feuille
+	}	
+
+	@Override
+	public void visit(CArme composant) {
 		// Feuille
 	}
 
@@ -72,22 +86,36 @@ public interface Extracteur extends VisiteurDeComposants {
 	 * Composants composés
 	 * =================== */
 	@Override
-	default void visit(VCalcul composant) {
+	public void visit(VCalcul composant) {
 		visit(composant.gauche);
 		visit(composant.droite);
 	}
 
 	@Override
-	default void visit(VTernaire composant) {
+	public void visit(VTernaire composant) {
 		visit(composant.condition);
 		visit(composant.siVrai);
 		visit(composant.siFaux);
 	}
 
 	@Override
-	default void visit(BTernaire composant) {
+	public void visit(BTernaire composant) {
 		visit(composant.condition);
 		visit(composant.siVrai);
 		visit(composant.siFaux);
 	}
+
+	
+	@Override
+	public void visit(CSwitch composant) {
+		visit(composant.interrupteur);
+	}
+
+	@Override
+	public void visit(CVariable composant) {
+		visit(composant.gauche);
+		visit(composant.droite);
+	}
+	
+	
 }

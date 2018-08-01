@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 
 public class Variable1Valeur implements StrategieDeDivision {
 
-	public Variable1Valeur(int i, int j) {
+	public Variable1Valeur(int idVariable, int valeur) {
 	}
 
 	@Override
@@ -20,7 +20,13 @@ public class Variable1Valeur implements StrategieDeDivision {
 
 	@Override
 	public Extracteur getExtracteur() {
-		return null;
+		return new ExtracteurD();
 	}
-
+	
+	/**
+	 * Extracteur de conditions
+	 */
+	public class ExtracteurD extends Extracteur {
+		
+	}
 }
