@@ -10,6 +10,8 @@ public class MaillonDiviseur implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
+		// Par arme portée
+		
 		List<Diviseur> liste = new ArrayList<>();
 		liste.add(new Diviseur(new DiviseurArme(1)));
 		liste.add(new Diviseur(new DiviseurArme(2)));
@@ -20,6 +22,15 @@ public class MaillonDiviseur implements Maillon {
 		liste.add(new Diviseur(new DiviseurArme(7)));
 		
 		attaques.appliquerDiviseur(liste);
+		
+		
+		// Par bonus particuliers
+		liste = new ArrayList<>();
+		liste.add(new Diviseur(new DiviseurInterrupteur(2569)));
+		attaques.appliquerDiviseur(liste);
+		
+		
+		
 	}
 
 }
