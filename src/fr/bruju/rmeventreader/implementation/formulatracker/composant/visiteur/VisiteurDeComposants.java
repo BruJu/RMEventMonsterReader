@@ -11,7 +11,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.ComposantEtendu;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_CalculVariadique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Entre;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
@@ -148,15 +147,6 @@ public interface VisiteurDeComposants {
 	 * @return
 	 */
 	default void visit(E_Entre composant) {
-		visiterComposantNormal(composant);
-	}
-
-	/**
-	 * Visite de composant
-	 * 
-	 * @return
-	 */
-	default void visit(E_CalculVariadique composant) {
 		visiterComposantNormal(composant);
 	}
 	
