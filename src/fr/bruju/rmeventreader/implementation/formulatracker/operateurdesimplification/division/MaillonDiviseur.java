@@ -2,7 +2,9 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
+import fr.bruju.rmeventreader.actionmakers.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies.Arme;
@@ -24,48 +26,50 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class MaillonDiviseur implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
-
+		Encyclopedie encyclopedie = new Encyclopedie();
+		
+		
 		Builder builder = new Builder();
 		
 		builder.setTitre("Sous-Attaque")
-				.variableEnsemble(360, new int[] {68, 69})
+				.variableEnsemble(360, new int[] {68, 69}, v -> "Attaque " + (char) ('A' + v - 68))
 				.appliquer(attaques)
 				
 				.setTitre("Volant")
 				.propriete("Volant")
-				.variable1Valeur(552, 83)
+				.variable1Valeur(552, 83, b -> b ? "Némiéry" : "Autre")
 				.appliquer(attaques)
 				
 				.setTitre("Arme")
-				.arme(1)
-				.arme(2)
-				.arme(3)
-				.arme(4)
-				.arme(5)
-				.arme(6)
-				.arme(7)
-				.variableDecouverte(483)
-				.variableDecouverte(484)
+				.arme(1, a -> encyclopedie.get("OBJET", a))
+				.arme(2, a -> encyclopedie.get("OBJET", a))
+				.arme(3, a -> encyclopedie.get("OBJET", a))
+				.arme(4, a -> encyclopedie.get("OBJET", a))
+				.arme(5, a -> encyclopedie.get("OBJET", a))
+				.arme(6, a -> encyclopedie.get("OBJET", a))
+				.arme(7, a -> encyclopedie.get("OBJET", a))
+				.variableDecouverte(483, a -> a == null ? "Autre" : encyclopedie.get("OBJET", a))
+				.variableDecouverte(484, a -> a == null ? "Autre" : encyclopedie.get("OBJET", a))
 				.appliquer(attaques)
 				
 				.setTitre("Quête")
-				.interrupteur(2569)
-				.variableEnsemble(3057, new int[] {1,2,3,4})
-				.variableEnsemble(1930, new int[] {0,9})
+				.interrupteur(2569, b -> b ? "Statue" : "Initial")
+				.variableEnsemble(3057, new int[] {1,2,3,4}, v -> "Niveau " + v)
+				.variableEnsemble(1930, new int[] {0,9}, v -> v == 9 ? "Désinhibé" : "Initial")
 				.appliquer(attaques)
 				
 				.setTitre("Période")
-				.disjonctionInterrupteurs(new int[] {8,9,10,11})
+				.disjonctionInterrupteurs(new int[] {8,9,10,11}, v -> encyclopedie.get("SWITCH", v))
 				.appliquer(attaques);
 	}
 	
 	
 	
-	private class Builder {
+	class Builder {
 		String nom;
 		List<Diviseur> diviseurs;
 		
-		private Builder() {
+		public Builder() {
 			nom = "";
 			diviseurs = new ArrayList<>();
 		}
@@ -87,32 +91,32 @@ public class MaillonDiviseur implements Maillon {
 			return this;
 		}
 		
-		private Builder variableEnsemble(int idVariable, int[] valeurs) {
-			return ajouterDiviseur(new VariableEnsemble(idVariable, valeurs));
+		private Builder variableEnsemble(int idVariable, int[] valeurs, Function<Integer, String> func) {
+			return ajouterDiviseur(new VariableEnsemble(idVariable, valeurs, func));
 		}
 		
 		private Builder propriete(String nom) {
 			return ajouterDiviseur(new Propriete(nom));
 		}
 		
-		private Builder variable1Valeur(int idVariable, int valeur) {
-			return ajouterDiviseur(new Variable1Valeur(idVariable, valeur));
+		private Builder variable1Valeur(int idVariable, int valeur, Function<Boolean, String> func) {
+			return ajouterDiviseur(new Variable1Valeur(idVariable, valeur, func));
 		}
 		
-		private Builder arme(int heros) {
-			return ajouterDiviseur(new Arme(heros));
+		private Builder arme(int heros, Function<Integer, String> func) {
+			return ajouterDiviseur(new Arme(heros, func));
 		}
 		
-		private Builder variableDecouverte(int idVariable) {
-			return ajouterDiviseur(new VariableDecouverte(idVariable));
+		private Builder variableDecouverte(int idVariable, Function<Integer, String> func) {
+			return ajouterDiviseur(new VariableDecouverte(idVariable, func));
 		}
 
-		private Builder interrupteur(int idSwitch) {
-			return ajouterDiviseur(new Interrupteur(idSwitch));
+		private Builder interrupteur(int idSwitch, Function<Boolean, String> func) {
+			return ajouterDiviseur(new Interrupteur(idSwitch, func));
 		}
 
-		private Builder disjonctionInterrupteurs(int[] idSwitch) {
-			return ajouterDiviseur(new DisjonctionInterrupteurs(idSwitch));
+		private Builder disjonctionInterrupteurs(int[] idSwitch, Function<Integer, String> func) {
+			return ajouterDiviseur(new DisjonctionInterrupteurs(idSwitch, func));
 		}
 	}
 }

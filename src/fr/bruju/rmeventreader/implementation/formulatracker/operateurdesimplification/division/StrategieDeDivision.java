@@ -28,8 +28,6 @@ public interface StrategieDeDivision {
 	 */
 	List<GestionnaireDeCondition> getGestionnaires(Condition condition, Set<Condition> conditions);
 
-	public default Function<Condition, String> getFonctionDAffichage() {
-		return condition -> condition.getString();
-	}
+	public Function<Condition, String> getFonctionDAffichage();
 
 }

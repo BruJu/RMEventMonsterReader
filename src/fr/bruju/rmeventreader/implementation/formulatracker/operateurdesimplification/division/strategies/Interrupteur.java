@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
@@ -21,6 +22,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class Interrupteur implements StrategieDeDivision {
 	/** Le numéro de l'interrupteur */
 	private int numero;
+	private final Function<Condition, String> fonctionDaffichage;
 
 	/**
 	 * Crée une stratégie de division portant sur l'état de l'interrupteur donné
@@ -28,6 +30,17 @@ public class Interrupteur implements StrategieDeDivision {
 	 */
 	public Interrupteur(int numero) {
 		this.numero = numero;
+		this.fonctionDaffichage = Condition::getString;
+	}
+	
+	public Interrupteur(int numero, Function<Boolean, String> func) {
+		this.numero = numero;
+		this.fonctionDaffichage = c -> func.apply(((CSwitch) c).valeur);
+	}
+
+	@Override
+	public Function<Condition, String> getFonctionDAffichage() {
+		return fonctionDaffichage;
 	}
 
 	@Override

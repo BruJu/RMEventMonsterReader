@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
@@ -19,9 +20,22 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class VariableDecouverte implements StrategieDeDivision {
 
 	private int idVariable;
+	private final Function<Condition, String> fonctionDaffichage;
 
 	public VariableDecouverte(int idVariable) {
 		this.idVariable = idVariable;
+		this.fonctionDaffichage = Condition::getString;
+	}
+	
+	public VariableDecouverte(int idVariable, Function<Integer, String> func) {
+		this.idVariable = idVariable;
+		this.fonctionDaffichage = c -> (c == CFixe.get(true) ? func.apply(null) : 
+				func.apply(((VConstante) (((CVariable) c).droite)).valeur));
+	}
+
+	@Override
+	public Function<Condition, String> getFonctionDAffichage() {
+		return fonctionDaffichage;
 	}
 
 	@Override

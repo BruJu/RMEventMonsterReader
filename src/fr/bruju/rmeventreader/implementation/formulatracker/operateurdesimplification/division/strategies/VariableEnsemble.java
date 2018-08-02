@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
@@ -17,10 +18,24 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class VariableEnsemble implements StrategieDeDivision {
 	private int idVariable;
 	private int[] ensembleDeValeursPossibles;
+	private final Function<Condition, String> fonctionDaffichage;
 
 	public VariableEnsemble(int idVariable, int[] ensembleDeValeursPossibles) {
 		this.idVariable = idVariable;
 		this.ensembleDeValeursPossibles = ensembleDeValeursPossibles;
+		this.fonctionDaffichage = Condition::getString;
+	}
+	
+	public VariableEnsemble(int idVariable, int[] ensembleDeValeursPossibles,
+			Function<Integer, String> func) {
+		this.idVariable = idVariable;
+		this.ensembleDeValeursPossibles = ensembleDeValeursPossibles;
+		this.fonctionDaffichage = c -> func.apply(((VConstante) (((CVariable) c).droite)).valeur);
+	}
+
+	@Override
+	public Function<Condition, String> getFonctionDAffichage() {
+		return fonctionDaffichage;
 	}
 
 	@Override

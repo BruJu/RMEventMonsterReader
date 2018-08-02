@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CSwitch;
@@ -15,9 +16,21 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class Propriete implements StrategieDeDivision {
 
 	private String nomPropriete;
+	private final Function<Condition, String> fonctionDaffichage;
 
 	public Propriete(String nomPropriete) {
 		this.nomPropriete = nomPropriete;
+		this.fonctionDaffichage = Condition::getString;
+	}
+	
+	public Propriete(String nomPropriete, Function<Condition, String> fonctionDaffichage) {
+		this.nomPropriete = nomPropriete;
+		this.fonctionDaffichage = fonctionDaffichage;
+	}
+
+	@Override
+	public Function<Condition, String> getFonctionDAffichage() {
+		return fonctionDaffichage;
 	}
 
 	@Override

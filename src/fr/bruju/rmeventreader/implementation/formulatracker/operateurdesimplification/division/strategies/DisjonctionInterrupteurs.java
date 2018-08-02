@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
@@ -15,9 +16,21 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 
 public class DisjonctionInterrupteurs implements StrategieDeDivision {
 	private int[] idSwitch;
+	private final Function<Condition, String> fonctionDaffichage;
 
 	public DisjonctionInterrupteurs(int[] idSwitch) {
 		this.idSwitch = idSwitch;
+		this.fonctionDaffichage = Condition::getString;
+	}
+	
+	public DisjonctionInterrupteurs(int[] idSwitch, Function<Integer, String> func) {
+		this.idSwitch = idSwitch;
+		this.fonctionDaffichage = condition -> func.apply(((BBase) (((CSwitch) condition).interrupteur)).numero);
+	}
+
+	@Override
+	public Function<Condition, String> getFonctionDAffichage() {
+		return fonctionDaffichage;
 	}
 
 	@Override

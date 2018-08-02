@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
@@ -19,7 +20,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
  */
 public class Arme implements StrategieDeDivision {
 	/** Numéro du personnage possédant l'arme */
-	private int numeroPersonnage;
+	private final int numeroPersonnage;
+	private final Function<Condition, String> fonctionDaffichage;
 	
 	/**
 	 * Crée une stratégie de division par rapport à l'arme que le personnage donné a équipé
@@ -27,6 +29,17 @@ public class Arme implements StrategieDeDivision {
 	 */
 	public Arme(int numeroPersonnage) {
 		this.numeroPersonnage = numeroPersonnage;
+		this.fonctionDaffichage = Condition::getString;
+	}
+	
+	public Arme(int numeroPersonnage, Function<Integer, String> func) {
+		this.numeroPersonnage = numeroPersonnage;
+		this.fonctionDaffichage = condition -> func.apply(((CArme) condition).objet);
+	}
+	
+	@Override
+	public Function<Condition, String> getFonctionDAffichage() {
+		return fonctionDaffichage;
 	}
 
 	@Override

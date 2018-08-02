@@ -69,6 +69,7 @@ public class Encyclopedie {
 					String valeur = paire.getRight();
 
 					if (premierIndexVu.item == null) {
+						premierIndexVu.item = numero;
 					} else {
 						if (!(dernierIndexVu.item.equals(numero - 1))) {
 							throw new LigneNonReconnueException(
@@ -82,6 +83,9 @@ public class Encyclopedie {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			donneesExtraites = valeursLues.toArray(new String[0]);
+			premierIndex = premierIndexVu.item;
 		}
 
 		private String extraire(int index) {
