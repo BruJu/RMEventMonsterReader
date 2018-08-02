@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies.Arme;
@@ -21,45 +24,95 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class MaillonDiviseur implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
-		// Variable 360 (choix d'une sous attaque)
-		attaques.appliquerDiviseur("Sous-Attaque",
-			new Diviseur[] {
-				new Diviseur(new VariableEnsemble(360, new int[] {68, 69}))
-		});
+
+		Builder builder = new Builder();
 		
-		// Monstres volants
-		attaques.appliquerDiviseur("Volant",
-			new Diviseur[] {
-				new Diviseur(new Propriete("Volant")),
-				new Diviseur(new Variable1Valeur(552, 83))
-		});
+		builder.setTitre("Sous-Attaque")
+				.variableEnsemble(360, new int[] {68, 69})
+				.appliquer(attaques)
+				
+				.setTitre("Volant")
+				.propriete("Volant")
+				.variable1Valeur(552, 83)
+				.appliquer(attaques)
+				
+				.setTitre("Arme")
+				.arme(1)
+				.arme(2)
+				.arme(3)
+				.arme(4)
+				.arme(5)
+				.arme(6)
+				.arme(7)
+				.variableDecouverte(483)
+				.variableDecouverte(484)
+				.appliquer(attaques)
+				
+				.setTitre("Quête")
+				.interrupteur(2569)
+				.variableEnsemble(3057, new int[] {1,2,3,4})
+				.variableEnsemble(1930, new int[] {0,9})
+				.appliquer(attaques)
+				
+				.setTitre("Période")
+				.disjonctionInterrupteurs(new int[] {8,9,10,11})
+				.appliquer(attaques);
+	}
+	
+	
+	
+	private class Builder {
+		String nom;
+		List<Diviseur> diviseurs;
 		
-		// Armes portées
-		attaques.appliquerDiviseur("Arme",
-			new Diviseur[] {
-				new Diviseur(new Arme(1)),
-				new Diviseur(new Arme(2)),
-				new Diviseur(new Arme(3)),
-				new Diviseur(new Arme(4)),
-				new Diviseur(new Arme(5)),
-				new Diviseur(new Arme(6)),
-				new Diviseur(new Arme(7)),
-				new Diviseur(new VariableDecouverte(483)),
-				new Diviseur(new VariableDecouverte(484))
-		});
+		private Builder() {
+			nom = "";
+			diviseurs = new ArrayList<>();
+		}
 		
-		// Bonus liés aux quêtes
-		attaques.appliquerDiviseur("Quête",
-			new Diviseur[] {
-				new Diviseur(new Interrupteur(2569)),
-				new Diviseur(new VariableEnsemble(3057, new int[] {1,2,3,4})),
-				new Diviseur(new VariableEnsemble(1930, new int[] {0,9}))
-		});
+		private Builder appliquer(Attaques attaques) {
+			attaques.appliquerDiviseur(nom, diviseurs.toArray(new Diviseur[0]));
+			nom = "";
+			diviseurs.clear();
+			return this;
+		}
 		
-		// Périodes de la journée
-		attaques.appliquerDiviseur("Période",
-			new Diviseur[] {
-				new Diviseur(new DisjonctionInterrupteurs(new int[] {8,9,10,11}))
-		});
+		private Builder setTitre(String nom) {
+			this.nom = nom;
+			return this;
+		}
+
+		private Builder ajouterDiviseur(StrategieDeDivision strategie) {
+			diviseurs.add(new Diviseur(strategie));
+			return this;
+		}
+		
+		private Builder variableEnsemble(int idVariable, int[] valeurs) {
+			return ajouterDiviseur(new VariableEnsemble(idVariable, valeurs));
+		}
+		
+		private Builder propriete(String nom) {
+			return ajouterDiviseur(new Propriete(nom));
+		}
+		
+		private Builder variable1Valeur(int idVariable, int valeur) {
+			return ajouterDiviseur(new Variable1Valeur(idVariable, valeur));
+		}
+		
+		private Builder arme(int heros) {
+			return ajouterDiviseur(new Arme(heros));
+		}
+		
+		private Builder variableDecouverte(int idVariable) {
+			return ajouterDiviseur(new VariableDecouverte(idVariable));
+		}
+
+		private Builder interrupteur(int idSwitch) {
+			return ajouterDiviseur(new Interrupteur(idSwitch));
+		}
+
+		private Builder disjonctionInterrupteurs(int[] idSwitch) {
+			return ajouterDiviseur(new DisjonctionInterrupteurs(idSwitch));
+		}
 	}
 }
