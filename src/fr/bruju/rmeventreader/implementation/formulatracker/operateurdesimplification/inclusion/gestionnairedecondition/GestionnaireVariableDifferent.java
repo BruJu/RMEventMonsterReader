@@ -36,7 +36,7 @@ public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 			return cond;
 		}
 		
-		if (cond.operateur != Operator.IDENTIQUE || cond.operateur != Operator.DIFFERENT) {
+		if (cond.operateur != Operator.IDENTIQUE && cond.operateur != Operator.DIFFERENT) {
 			return cond;
 		}
 		

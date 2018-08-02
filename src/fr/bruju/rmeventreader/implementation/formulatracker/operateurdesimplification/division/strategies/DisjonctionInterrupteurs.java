@@ -28,7 +28,7 @@ public class DisjonctionInterrupteurs implements StrategieDeDivision {
 			if (c == condition) {
 				gestionnaires.add(new GestionnaireSwitch((CSwitch) condition));
 			} else {
-				gestionnaires.add(new GestionnaireSwitch((CSwitch) condition.revert()));
+				gestionnaires.add(new GestionnaireSwitch((CSwitch) c.revert()));
 			}
 		});
 		
