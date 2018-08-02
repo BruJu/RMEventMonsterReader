@@ -282,8 +282,8 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 			return transformation.apply(elementBase);
 		}
 
-		vt = (U) traiter(vt).evaluationRapide();
-		vf = (U) traiter(vf).evaluationRapide();
+		vt = (U) vt.evaluationRapide();
+		vf = (U) vf.evaluationRapide();
 		
 		return transformation.apply(getPere.apply(ct, vt, vf));
 	}

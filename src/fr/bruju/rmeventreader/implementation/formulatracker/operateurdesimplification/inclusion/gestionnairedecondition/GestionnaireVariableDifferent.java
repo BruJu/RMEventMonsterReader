@@ -43,7 +43,9 @@ public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 		int saDroite = VConstante.evaluer(cond.droite);
 		
 		if (cond.operateur == Operator.IDENTIQUE) {
-			return CFixe.get(maDroite != saDroite);
+			if (maDroite == saDroite) {
+				return CFixe.get(false);
+			}
 		}
 		
 		if (cond.operateur == Operator.DIFFERENT) {
