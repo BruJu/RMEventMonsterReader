@@ -106,7 +106,15 @@ public class Factorisation extends ConstructeurDeComposantsRecursif implements M
 
 		RepresentationVariadique rfactoG = rg.factoriserGauche(rd);
 
-
+		if (rfactoG == null) {
+			if (gaucheFact == gauche) {
+				return base;
+			} else {
+				return fonctionDeCreation.apply(gaucheFact, droiteFact);
+			}
+		}
+			
+		
 		Valeur c = new VCalcul(rfactoG.convertirEnCalcul(), rfactoG.getPreOperateur(),
 				fonctionDeCreation.apply(rg.convertirEnCalcul(), rd.convertirEnCalcul()));
 		
