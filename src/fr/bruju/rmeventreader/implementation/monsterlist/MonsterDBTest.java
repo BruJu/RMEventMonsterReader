@@ -20,6 +20,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurD
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
@@ -84,6 +85,9 @@ public class MonsterDBTest {
 		case 4: // Affiche les combats n'ayant pas de fonds
 			MonsterDatabase nouvelleBdd = baseDeDonnees.filtrer(combat -> combat.fonds.isEmpty());
 			System.out.println(nouvelleBdd.getCSVRepresentationOfBattles());
+			break;
+		case 5:	// Affiche les objets - zone - monstres
+			System.out.println(new ChercheObjet(baseDeDonnees).toString());
 			break;
 		}
 		

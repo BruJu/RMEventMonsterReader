@@ -105,23 +105,12 @@ public class Factorisation extends ConstructeurDeComposantsRecursif implements M
 		RepresentationVariadique rd = builder.creerRepresentationVariadique(droiteFact, operateurMax);
 
 		RepresentationVariadique rfactoG = rg.factoriserGauche(rd);
-		RepresentationVariadique rfactoD = rg.factoriserDroite(rd);
 
-		if (rfactoG == null && rfactoD == null) {
-			if (gaucheFact == gauche && droiteFact == droite) {
-				return base;
-			} else {
-				return fonctionDeCreation.apply(gaucheFact, droiteFact);
-			}
-		} else {
-			if (rfactoD == null) {
-				Valeur c = new VCalcul(rfactoG.convertirEnCalcul(), rfactoG.getPreOperateur(),
-						fonctionDeCreation.apply(rg.convertirEnCalcul(), rd.convertirEnCalcul()));
-				return c;
-			} else {
-				throw new UnsupportedOperationException();
-			}
-		}
+
+		Valeur c = new VCalcul(rfactoG.convertirEnCalcul(), rfactoG.getPreOperateur(),
+				fonctionDeCreation.apply(rg.convertirEnCalcul(), rd.convertirEnCalcul()));
+		
+		return c;
 	}
 
 	private Operator operateurMax(Operator operateurGauche, Operator operateurDroite) {

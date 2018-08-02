@@ -121,7 +121,7 @@ public class RepresentationVariadique {
 		}
 		
 		if (rg.facteurs.get(0).getRight() == rg.facteurs.get(0).getRight()) {
-			//f.preOperator = rg.facteurs.get(0).getRight();
+			
 		} else {
 			if (rg.facteurs.get(0).getRight() != Operator.sensConventionnel(rg.facteurs.get(0).getRight())) {
 				rg.facteurs.add(0, new Pair<>(new VConstante(elementNeutre), rd.facteurs.get(0).getRight()));
@@ -132,14 +132,7 @@ public class RepresentationVariadique {
 		f.preOperator = rg.facteurs.get(0).getRight();
 	}
 
-	public RepresentationVariadique factoriserDroite(RepresentationVariadique rd) {
-		return null;
-	}
-
 	public Operator getPreOperateur() {
 		return this.preOperator;
-	}
-	public Operator getPostOperateur() {
-		return null;
 	}
 }

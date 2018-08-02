@@ -7,10 +7,10 @@ import fr.bruju.rmeventreader.implementation.monsterlist.MonsterDBTest;
 
 public class Principal {
 	public static void main(String[] args) throws IOException {
-		int choix = 3;
+		int choix = 0;
 
 		if (choix == 0)
-			MonsterDBTest.main_(args, 3);
+			MonsterDBTest.main_(args, 5);
 		
 		if (choix == 3)
 			new Exploitation().exploiter();
