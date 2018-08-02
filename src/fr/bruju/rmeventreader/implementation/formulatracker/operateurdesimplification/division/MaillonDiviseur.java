@@ -22,18 +22,21 @@ public class MaillonDiviseur implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
 		// Variable 360 (choix d'une sous attaque)
-		attaques.appliquerDiviseur(new Diviseur[] {
+		attaques.appliquerDiviseur("Sous-Attaque",
+			new Diviseur[] {
 				new Diviseur(new VariableEnsemble(360, new int[] {68, 69}))
 		});
 		
 		// Monstres volants
-		attaques.appliquerDiviseur(new Diviseur[] {
+		attaques.appliquerDiviseur("Volant",
+			new Diviseur[] {
 				new Diviseur(new Propriete("Volant")),
 				new Diviseur(new Variable1Valeur(552, 83))
 		});
 		
 		// Armes portées
-		attaques.appliquerDiviseur(new Diviseur[] {
+		attaques.appliquerDiviseur("Arme",
+			new Diviseur[] {
 				new Diviseur(new Arme(1)),
 				new Diviseur(new Arme(2)),
 				new Diviseur(new Arme(3)),
@@ -46,14 +49,16 @@ public class MaillonDiviseur implements Maillon {
 		});
 		
 		// Bonus liés aux quêtes
-		attaques.appliquerDiviseur(new Diviseur[] {
+		attaques.appliquerDiviseur("Quête",
+			new Diviseur[] {
 				new Diviseur(new Interrupteur(2569)),
 				new Diviseur(new VariableEnsemble(3057, new int[] {1,2,3,4})),
 				new Diviseur(new VariableEnsemble(1930, new int[] {0,9}))
 		});
 		
 		// Périodes de la journée
-		attaques.appliquerDiviseur(new Diviseur[] {
+		attaques.appliquerDiviseur("Période",
+			new Diviseur[] {
 				new Diviseur(new DisjonctionInterrupteurs(new int[] {8,9,10,11}))
 		});
 	}

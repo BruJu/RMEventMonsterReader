@@ -29,7 +29,8 @@ public class Attaques {
 	private List<Attaque> liste = new ArrayList<>();
 	/** Affichage à produire */
 	private String affichage;
-	
+	/** Liste des informations complémentaires dans ModifStat */
+	private List<String> groupesSupplementaires = new ArrayList<>();
 
 	/* =========================
 	 * MANIPULATION DES ATTAQUES
@@ -93,8 +94,10 @@ public class Attaques {
 
 
 
-	public void appliquerDiviseur(Diviseur[] diviseurs) {
+	public void appliquerDiviseur(String titre, Diviseur[] diviseurs) {
 		forEach(attaque -> attaque.diviser(diviseurs));
+		
+		groupesSupplementaires.add(titre);
 	}
 	
 
@@ -107,17 +110,22 @@ public class Attaques {
 	
 	/**
 	 * Détermine l'affichage à faire en fonction des fonctions données
+	 * @ param affichage affichageHeader Fonction donant le header à produire en fonction de la liste des titres des
+	 * sous groupes dans ModifStat
 	 * @param affichageHeaderAttaque Fonction donnant le header à produire pour chaque attaque en fonction du nom
 	 * @param affichageFormule Fonction donnant la liste à produire pour chaque formules de dégâts en fonction du nom
 	 * de l'attaque, de la statistique modifiée et de la formule de dégâts
 	 * @param affichageFooterAttaque Fonction donnant le footer à produire à la fin de chaque attaque en fonction du nom
 	 */
 	public void determinerAffichageAttaques(
+			Function<List<String>, String> affichageHeader,
 			Function<String, String> affichageHeaderAttaque,
 			TriFunction<String, ModifStat, FormuleDeDegats, String> affichageFormule,
 			Function<String, String> affichageFooterAttaque) {
 		
 		StringBuilder sb = new StringBuilder();
+		
+		sb.append(affichageHeader.apply(groupesSupplementaires));
 		
 		forEach(attaque -> {
 			sb.append(affichageHeaderAttaque.apply(attaque.nom));

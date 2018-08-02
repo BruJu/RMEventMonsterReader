@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -18,7 +19,23 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class MaillonSetAffichageCSV implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.determinerAffichageAttaques((nom) -> "", this::determinerAffichage, nom -> "");
+		attaques.determinerAffichageAttaques(
+				this::affichageHeader,
+				(nom) -> "",
+				this::determinerAffichage,
+				nom -> "");
+	}
+	
+	private String affichageHeader(List<String> groupes) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Personnage♦Attaque♦Cible♦Statistique♦Opérateur♦");
+		
+		groupes.forEach(s -> sb.append(s).append("♦"));
+		
+		sb.append("Condition♦Formule\n");
+		
+		return sb.toString();
 	}
 	
 	private String determinerAffichage(String nomAttaque, ModifStat modifStat, FormuleDeDegats formule) {

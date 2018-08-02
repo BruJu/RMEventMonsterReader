@@ -17,7 +17,8 @@ public class MaillonSetAffichagegetString implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
 
-		attaques.determinerAffichageAttaques(nomAttaque -> "===" + nomAttaque + "===\n",
+		attaques.determinerAffichageAttaques(n -> "",
+				nomAttaque -> "===" + nomAttaque + "===\n",
 				
 				(nomAttaque, modifStat, formule) ->
 				new StringBuilder().append(getStatAffichage(modifStat.stat))
