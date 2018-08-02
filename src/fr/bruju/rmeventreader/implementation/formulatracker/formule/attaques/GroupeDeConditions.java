@@ -3,20 +3,19 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import java.util.Objects;
 
 public class GroupeDeConditions {
-	public final List<Condition> conditions;
+	public final List<ConditionAffichable> conditions;
 	
 	public GroupeDeConditions() {
 		conditions = new ArrayList<>();
 	}
 	
-	public GroupeDeConditions(GroupeDeConditions groupe, Condition condition) {
+	public GroupeDeConditions(GroupeDeConditions groupe, ConditionAffichable condition) {
 		conditions = new ArrayList<>(groupe.conditions);
 		
-		if (condition != null)
+		if (condition.condition != null)
 			conditions.add(condition);
 	}
 	

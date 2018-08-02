@@ -169,7 +169,8 @@ public class Attaque {
 					.map(existant -> new Pair<>(existant.getLeft(), diviseur.diviser(existant.getRight())))
 					.flatMap(paireGrp_ListCondFormule -> paireGrp_ListCondFormule.getRight().stream()
 							.map(condFormule -> new Pair<>(
-									new GroupeDeConditions(paireGrp_ListCondFormule.getLeft(), condFormule.getLeft()),
+									new GroupeDeConditions(paireGrp_ListCondFormule.getLeft(), 
+											new ConditionAffichable(condFormule.getLeft(), diviseur.getFonction())),
 									condFormule.getRight())))
 					.filter(paireGrpFDD -> paireGrpFDD.getRight() != null)
 					.collect(Collectors.toList());

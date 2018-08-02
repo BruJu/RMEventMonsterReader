@@ -59,7 +59,7 @@ public class MaillonSetAffichageCSV implements Maillon {
 		
 		modifStat.getConditions().forEach(groupe -> {
 			ligneCSV.append(groupe.conditions.stream()
-					.map(condition -> condition.getString())
+					.map(condition -> condition.appliquerAffichage())
 					.collect(Collectors.joining(",")));
 			
 			ligneCSV.append("♦");

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
 import java.util.Objects;
 
@@ -43,7 +42,7 @@ public class ModifStat {
 	}
 	
 	
-	public ModifStat(ModifStat modifStat, Condition condition) {
+	public ModifStat(ModifStat modifStat, ConditionAffichable condition) {
 		this.stat = modifStat.stat;
 		this.operateur = modifStat.operateur;
 		

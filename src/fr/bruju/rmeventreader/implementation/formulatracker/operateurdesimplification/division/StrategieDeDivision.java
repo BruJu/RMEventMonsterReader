@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
@@ -26,5 +27,9 @@ public interface StrategieDeDivision {
 	 * @return La liste des gestionnaires pour respecter la première condition
 	 */
 	List<GestionnaireDeCondition> getGestionnaires(Condition condition, Set<Condition> conditions);
+
+	public default Function<Condition, String> getFonctionDAffichage() {
+		return condition -> condition.getString();
+	}
 
 }

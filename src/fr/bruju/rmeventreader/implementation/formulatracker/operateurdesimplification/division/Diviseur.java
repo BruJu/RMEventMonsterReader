@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
@@ -69,5 +70,9 @@ public class Diviseur {
 		integreur.ajouterGestionnaires(gestionnaires);
 
 		return new Pair<>(condition, integreur.integrer(formule));
+	}
+
+	public Function<Condition, String> getFonction() {
+		return strategie.getFonctionDAffichage();
 	}
 }
