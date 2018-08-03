@@ -7,6 +7,12 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.ComposantVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
+/**
+ * Représente une série de traitement sur un interrupteur
+ * 
+ * @author Bruju
+ *
+ */
 public class BoutonVariadique implements Bouton, Variadique<Bouton> {
 	public final List<ComposantVariadique<BoutonVariadique>> composants;		// A la fin -> Collections.unmodifiableList(list);
 	
