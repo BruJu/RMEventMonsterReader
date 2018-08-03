@@ -49,7 +49,7 @@ public class ConditionArme implements Condition {
 	public ConditionArme revert() {
 		return new ConditionArme(heros, objet, !haveToOwn);
 	}
-
+	
 	/* ================
 	 * AFFICHAGE SIMPLE
 	 * ================ */
@@ -68,6 +68,11 @@ public class ConditionArme implements Condition {
 		visiteurDeComposant.visit(this);
 	}
 
+	@Override
+	public ConditionArme simplifier() {
+		return this;
+	}
+	
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */
@@ -85,5 +90,5 @@ public class ConditionArme implements Condition {
 	@Override
 	public int hashCode() {
 		return Objects.hash(heros, objet, haveToOwn);
-	}	
+	}
 }

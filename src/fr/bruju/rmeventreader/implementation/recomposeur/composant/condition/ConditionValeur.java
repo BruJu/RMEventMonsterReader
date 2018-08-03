@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -61,6 +62,24 @@ public class ConditionValeur implements Condition {
 		visiteurDeComposant.visit(this);
 	}
 
+	@Override
+	public Condition simplifier() {
+		Valeur gaucheS = gauche.simplifier();
+		Valeur droiteS = droite.simplifier();
+		
+		if (gaucheS instanceof ValeurConstante && droiteS instanceof ValeurConstante) {
+			int gInt = ((ValeurConstante) gaucheS).valeur;
+			int dInt = ((ValeurConstante) droiteS).valeur;
+			
+			return ConditionFixe.get(operateur.test(gInt, dInt));
+		} else {
+			if (gaucheS == gauche && droiteS == droite) {
+				return this;
+			} else {
+				return new ConditionValeur(gaucheS, operateur, droiteS);
+			}
+		}
+	}
 	
 	
 	/* =================

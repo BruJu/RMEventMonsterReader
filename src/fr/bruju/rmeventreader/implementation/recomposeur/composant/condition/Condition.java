@@ -6,5 +6,8 @@ public interface Condition extends Element {
 	
 	
 	
+	@Override
+	public Condition simplifier();
+
 	public Condition revert();
 }

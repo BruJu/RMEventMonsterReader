@@ -17,4 +17,12 @@ public class BoutonVariadique implements Bouton {
 	public void accept(Visiteur visiteur) {
 		visiteur.visit(this);
 	}
+
+	
+	@Override
+	public Bouton simplifier() {
+		return this;
+	}
+	
+	
 }

@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visi
 
 public interface Element {
 
-	void accept(Visiteur visiteur);
+	public void accept(Visiteur visiteur);
 
-	
+	public Element simplifier();
 }

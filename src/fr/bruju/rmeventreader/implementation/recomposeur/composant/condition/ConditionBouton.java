@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.condition;
 import java.util.Objects;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonConstant;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
 /**
@@ -34,7 +35,7 @@ public class ConditionBouton implements Condition {
 	public Condition revert() {
 		return new ConditionBouton(interrupteur, !valeur);
 	}
-
+	
 	/* ===============
 	 * IMPLEMENTATIONS
 	 * =============== */
@@ -50,8 +51,6 @@ public class ConditionBouton implements Condition {
 		
 		return s;
 	}
-
-
 	
 	/* ========
 	 * VISITEUR
@@ -60,6 +59,21 @@ public class ConditionBouton implements Condition {
 	@Override
 	public void accept(Visiteur visiteurDeComposant) {
 		visiteurDeComposant.visit(this);
+	}
+
+	@Override
+	public Condition simplifier() {
+		Bouton boutonS = interrupteur.simplifier();
+		
+		if (boutonS instanceof BoutonConstant) {
+			return ConditionFixe.get(((BoutonConstant) boutonS).valeur == valeur);
+		} else {
+			if (boutonS == interrupteur) {
+				return this;
+			} else {
+				return new ConditionBouton(boutonS, valeur);
+			}
+		}
 	}
 
 	/* =================

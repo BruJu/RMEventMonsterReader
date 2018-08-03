@@ -15,6 +15,11 @@ public class BoutonConstant implements Bouton {
 	}
 	
 	
+	@Override
+	public BoutonConstant simplifier() {
+		return this;
+	}
+	
 	
 	
 }

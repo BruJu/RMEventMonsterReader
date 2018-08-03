@@ -1,7 +1,9 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
 public class Conditionnelle<T extends CaseMemoire> implements ComposantVariadique<T> {
@@ -24,5 +26,26 @@ public class Conditionnelle<T extends CaseMemoire> implements ComposantVariadiqu
 	@Override
 	public void accept(Visiteur visiteur) {
 		visiteur.visit(this);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Element simplifier() {
+		Condition cSimplifiee = condition.simplifier();
+		
+		Boolean identifie = ConditionFixe.identifier(cSimplifiee);
+		
+		if (identifie != null) {
+			return identifie ? siVrai.simplifier() : siFaux.simplifier();
+		}
+		
+		T vraiSimplifie = (T) siVrai.simplifier();
+		T fauxSimplifie = (T) siFaux.simplifier();
+		
+		if (cSimplifiee == condition && vraiSimplifie == siVrai && fauxSimplifie == siFaux) {
+			return this;
+		} else {
+			return new 
+		}
 	}
 }

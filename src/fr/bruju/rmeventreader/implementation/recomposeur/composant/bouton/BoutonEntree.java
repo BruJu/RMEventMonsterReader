@@ -14,4 +14,8 @@ public class BoutonEntree implements Bouton {
 		visiteur.visit(this);
 	}
 	
+	@Override
+	public BoutonEntree simplifier() {
+		return this;
+	}
 }
