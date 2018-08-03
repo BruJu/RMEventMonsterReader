@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
@@ -15,7 +17,7 @@ public class ValeurVariadique extends Variadique<Valeur> implements Valeur {
 	 * COMPOSANT
 	 * ========= */
 	/** Liste des opérations */
-	public final List<ComposantVariadique<ValeurVariadique>> composants; // A la fin -> Collections.unmodifiableList(list);
+	public final List<ComposantVariadique<ValeurVariadique>> composants;
 	
 	/**
 	 * Crée un bouton variadique vide
@@ -28,6 +30,12 @@ public class ValeurVariadique extends Variadique<Valeur> implements Valeur {
 		this.composants = Collections.unmodifiableList(sousElements);
 	}
 
+	@SuppressWarnings("unchecked")
+	public ValeurVariadique(Element[] tableau) {
+		composants = Stream.of(tableau).map(element -> (ComposantVariadique<ValeurVariadique>) element)
+					.collect(Collectors.toList());
+	}
+	
 	@Override
 	public List<? extends Element> getComposants() {
 		return composants;

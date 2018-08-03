@@ -1,17 +1,13 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonConstant;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.ComposantVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
@@ -25,176 +21,136 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurEntree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
+import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
-	
+	@SuppressWarnings("unchecked")
+	private <TypeRetour extends Element> Element traiterSerie(TypeRetour elementDeBase, Element[] elementsFils,
+			Function<Element[], TypeRetour> reconstruction) {
+
+		Element[] nouveaux = new Element[elementsFils.length];
+
+		boolean creeUnNouveau = false;
+
+		for (int i = 0; i != elementsFils.length; i++) {
+			nouveaux[i] = traiter(elementsFils[i]);
+
+			if (nouveaux[i] == null)
+				return null;
+
+			if (nouveaux[i] != elementsFils[i]) {
+				creeUnNouveau = true;
+				nouveaux[i] = nouveaux[i];
+			}
+		}
+
+		if (!creeUnNouveau)
+			return elementDeBase;
+
+		return (TypeRetour) reconstruction.apply(nouveaux).simplifier();
+	}
+
+	@Override
+	protected Affectation.Valeur traiter(Affectation.Valeur element) {
+		return (Affectation.Valeur) traiterSerie(element, new Element[] { element.base },
+				(tableau) -> new Affectation.Valeur((Valeur) tableau[0]));
+	}
+
+	@Override
+	protected Affectation.Bouton traiter(Affectation.Bouton element) {
+		return (Affectation.Bouton) traiterSerie(element, new Element[] { element.base },
+				(tableau) -> new Affectation.Bouton((Bouton) tableau[0]));
+	}
+
+	@Override
+	protected Condition traiter(ConditionBouton element) {
+		return (Condition) traiterSerie(element, new Element[] { element.interrupteur },
+				(tableau) -> new ConditionBouton((Bouton) tableau[0], element.valeur));
+	}
+
+	@Override
+	protected Condition traiter(ConditionValeur element) {
+		return (Condition) traiterSerie(element, new Element[] { element.gauche, element.droite },
+				(tableau) -> new ConditionValeur((Valeur) tableau[0], element.operateur, (Valeur) tableau[1]));
+	}
+
+	@Override
+	protected Operation traiter(Operation element) {
+		return (Operation) traiterSerie(element, new Element[] { element.droite },
+				(tableau) -> new Operation(element.operateur, (Valeur) tableau[0]));
+	}
+
+	@Override
+	protected Conditionnelle.Valeur traiter(Conditionnelle.Valeur element) {
+		return traiterConditionnelle(element, element.condition, element.siVrai, element.siFaux,
+				(c, v, f) -> new Conditionnelle.Valeur(c, v, f));
+	}
+
+	@SuppressWarnings("unchecked")
+	private <TypeConditionnelle extends Element, TypeValeur extends Element> TypeConditionnelle traiterConditionnelle(
+			TypeConditionnelle element, Condition condition, TypeValeur siVrai, TypeValeur siFaux,
+			TriFunction<Condition, TypeValeur, TypeValeur, TypeConditionnelle> reconstruction) {
+		Condition c = (Condition) traiter(condition);
+
+		if (c == null)
+			return null;
+
+		Boolean ident = ConditionFixe.identifier(c);
+
+		if (ident != null) {
+			TypeValeur base = ident ? siVrai : siFaux;
+			TypeValeur valeur = (TypeValeur) traiter(base);
+
+			if (valeur == null)
+				return null;
+
+			return reconstruction.apply(ConditionFixe.get(true), valeur, null);
+		}
+
+		TypeValeur v = (TypeValeur) traiter(siVrai);
+		if (v == null)
+			return null;
+
+		TypeValeur f = (TypeValeur) traiter(siFaux);
+		if (f == null)
+			return null;
+
+		if (c == condition && v == siVrai && v == siFaux) {
+			return element;
+		} else {
+			return reconstruction.apply(c, v, f);
+		}
+	}
+
+	@Override
+	protected Conditionnelle.Bouton traiter(Conditionnelle.Bouton element) {
+		return traiterConditionnelle(element, element.condition, element.siVrai, element.siFaux,
+				(c, v, f) -> new Conditionnelle.Bouton(c, v, f));
+	}
+
+	/* ==========
+	 * VARIADIQUE
+	 * ========== */
 
 	@Override
 	protected BoutonVariadique traiter(BoutonVariadique element) {
-		return traiterVariadique(element.getComposants(), element, BoutonVariadique::new);
+		return (BoutonVariadique) this.traiterSerie(element, element.getComposants().toArray(new Element[0]),
+				tableau -> new BoutonVariadique(tableau));
 	}
-	
+
 	@Override
 	protected ValeurVariadique traiter(ValeurVariadique element) {
-		return traiterVariadique(element.getComposants(), element, ValeurVariadique::new);
+		return (ValeurVariadique) this.traiterSerie(element, element.getComposants().toArray(new Element[0]),
+				tableau -> new ValeurVariadique(tableau));
 	}
 
-	@Override
-	protected Element traiter(Affectation.Valeur element) {
-		Valeur base = element.base;
-		Valeur traitee = (Valeur) traiter(base);
-		
-		if (traitee == null)
-			return null;
-		
-		if (base == traitee)
-			return element;
-		
-		return new Affectation.Valeur(traitee);
-	}
-
-
-	@Override
-	protected Element traiter(Affectation.Bouton element) {
-		Bouton base = element.base;
-		Bouton traitee = (Bouton) traiter(base);
-		
-		if (traitee == null)
-			return null;
-		
-		if (base == traitee)
-			return element;
-		
-		return new Affectation.Bouton(traitee);
-	}
-	
-	@Override
-	protected Element traiter(Conditionnelle.Valeur element) {
-		Condition c = (Condition) traiter(element.condition);
-		
-		if (c == null)
-			return null;
-		
-		Boolean ident = ConditionFixe.identifier(c);
-		
-		if (ident != null) {
-			return new Conditionnelle.Valeur(ConditionFixe.get(true),
-					 (ident ? traiter(element.siVrai) : traiter(element.siFaux)),
-					 null);
-		}
-		
-		ValeurVariadique v = traiter(element.siVrai);
-		ValeurVariadique f = traiter(element.siFaux);
-		
-		if (c == element.condition && v == element.siVrai && v == element.siFaux) {
-			return element;
-		} else {
-			return new Conditionnelle.Valeur(c, v, f);
-		}
-	}
-
-
-	@Override
-	protected Element traiter(Conditionnelle.Bouton element) {
-		Condition c = (Condition) traiter(element.condition);
-		
-		if (c == null)
-			return null;
-		
-		Boolean ident = ConditionFixe.identifier(c);
-		
-		if (ident != null) {
-			return new Conditionnelle.Bouton(ConditionFixe.get(true),
-					 (ident ? traiter(element.siVrai) : traiter(element.siFaux)),
-					 null);
-		}
-		
-		BoutonVariadique v = traiter(element.siVrai);
-		BoutonVariadique f = traiter(element.siFaux);
-		
-		if (c == element.condition && v == element.siVrai && v == element.siFaux) {
-			return element;
-		} else {
-			return new Conditionnelle.Bouton(c, v, f);
-		}
-	}
-
-	@Override
-	protected Element traiter(ConditionBouton element) {
-		Bouton t = (Bouton) traiter(element.interrupteur);
-		
-		if (t == null)
-			return null;
-		
-		if (t == element.interrupteur)
-			return element;
-		
-		return new ConditionBouton(t, element.valeur);
-	}
-
-	@Override
-	protected Element traiter(ConditionValeur element) {
-		Valeur g = (Valeur) traiter(element.gauche);
-		Valeur d = (Valeur) traiter(element.droite);
-		
-		if (g == null || d == null)
-			return null;
-		
-		if (g == element.gauche && d == element.droite)
-			return element;
-		
-		return new ConditionValeur(g, element.operateur, d);
-	}
-
-	@Override
-	protected Element traiter(Operation element) {
-		Valeur t = (Valeur) element.droite;
-		
-		if (t == null)
-			return null;
-		
-		if (t == element.droite)
-			return element;
-		
-		return new Operation(element.operateur, t);
-	}
-
-
-
-	@SuppressWarnings("unchecked")
-	private <T extends Variadique<?>> T traiterVariadique(List<? extends Element> elementsOrigine, T base,
-			Function<List<ComposantVariadique<T>>, T> reconstitution) {
-		boolean modification = false;
-		
-		List<ComposantVariadique<T>> sousElements = new ArrayList<>(elementsOrigine.size());
-		
-		Element resultat;
-		
-		for (Element a : elementsOrigine) {
-			resultat = traiter(a);
-			
-			if (resultat == null) {
-				return null;
-			}
-			
-			sousElements.add((ComposantVariadique<T>) resultat);
-		}
-		
-		if (!modification) {
-			return base;
-		} else {
-			return reconstitution.apply(sousElements);
-		}
-	}
-
-	
 	// Feuilles
 
 	@Override
 	protected ConditionArme traiter(ConditionArme element) {
 		return element;
 	}
-	
+
 	@Override
 	protected Flip traiter(Flip element) {
 		return element;
@@ -204,7 +160,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected ValeurConstante traiter(ValeurConstante element) {
 		return element;
 	}
-	
+
 	@Override
 	protected ValeurAleatoire traiter(ValeurAleatoire element) {
 		return element;
@@ -219,7 +175,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected ConditionFixe traiter(ConditionFixe element) {
 		return element;
 	}
-	
+
 	@Override
 	protected BoutonConstant traiter(BoutonConstant element) {
 		return element;
@@ -229,7 +185,4 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected BoutonEntree traiter(BoutonEntree element) {
 		return element;
 	}
-
-
-
 }

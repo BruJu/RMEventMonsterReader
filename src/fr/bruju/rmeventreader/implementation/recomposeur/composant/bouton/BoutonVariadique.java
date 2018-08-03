@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Représente une série de traitement sur un interrupteur
@@ -32,6 +34,12 @@ public class BoutonVariadique extends Variadique<Bouton> implements Bouton {
 
 	public BoutonVariadique(List<ComposantVariadique<BoutonVariadique>> sousElements) {
 		this.composants = Collections.unmodifiableList(sousElements);
+	}
+
+	@SuppressWarnings("unchecked")
+	public BoutonVariadique(Element[] tableau) {
+		composants = Stream.of(tableau).map(element -> (ComposantVariadique<BoutonVariadique>) element)
+					.collect(Collectors.toList());
 	}
 
 	@Override
