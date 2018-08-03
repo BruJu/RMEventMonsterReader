@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +22,10 @@ public class ValeurVariadique extends Variadique<Valeur> implements Valeur {
 	 */
 	public ValeurVariadique() {
 		this.composants = new ArrayList<>();
+	}
+
+	public ValeurVariadique(List<ComposantVariadique<ValeurVariadique>> sousElements) {
+		this.composants = Collections.unmodifiableList(sousElements);
 	}
 
 	@Override

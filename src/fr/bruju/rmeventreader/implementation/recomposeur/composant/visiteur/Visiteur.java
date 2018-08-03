@@ -1,15 +1,12 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur;
 
-import java.util.function.Supplier;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonConstant;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.ComposantVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
@@ -62,13 +59,23 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Affectation<T> element);
+	public <T extends CaseMemoire> void visit(Affectation.Bouton element);
 
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Conditionnelle<T> element);
+	public <T extends CaseMemoire> void visit(Affectation.Valeur element);
+	
+	/**
+	 * Visite de composant
+	 */
+	public <T extends CaseMemoire> void visit(Conditionnelle.Bouton element);
 
+	/**
+	 * Visite de composant
+	 */
+	public <T extends CaseMemoire> void visit(Conditionnelle.Valeur element);
+	
 	/**
 	 * Visite de composant
 	 */
@@ -144,12 +151,7 @@ public interface Visiteur {
 	/* ======
 	 * OUTILS
 	 * ====== */
-
-	/**
-	 * Visite de composants
-	 */
-	public <U extends Variadique<?>> void visit(Iterable<ComposantVariadique<U>> composants, Supplier<U> recreator);
-
+	
 	/**
 	 * Visite d'une feuille sans traitement spécifique
 	 */

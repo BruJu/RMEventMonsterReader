@@ -53,13 +53,7 @@ public class Operation implements ComposantVariadique<Variadique<Valeur>> {
 
 	@Override
 	public Operation simplifier() {
-		Valeur droiteS = droite.simplifier();
-		
-		if (droiteS == droite) {
-			return this;
-		} else {
-			return new Operation(operateur, droiteS);
-		}
+		return this;
 	}
 
 	/* =================

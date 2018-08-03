@@ -63,16 +63,10 @@ public class ConditionBouton implements Condition {
 
 	@Override
 	public Condition simplifier() {
-		Bouton boutonS = interrupteur.simplifier();
-		
-		if (boutonS instanceof BoutonConstant) {
-			return ConditionFixe.get(((BoutonConstant) boutonS).valeur == valeur);
+		if (interrupteur instanceof BoutonConstant) {
+			return ConditionFixe.get(((BoutonConstant) interrupteur).valeur == valeur);
 		} else {
-			if (boutonS == interrupteur) {
-				return this;
-			} else {
-				return new ConditionBouton(boutonS, valeur);
-			}
+			return this;
 		}
 	}
 

@@ -7,26 +7,41 @@ import java.util.Objects;
 
 /**
  * (Re-)Initialise la valeur d'une valeur varidique.
- *  
+ * 
  * @author Bruju
  *
  * @param <T> Le type de la case mémoire
  */
-public class Affectation<T extends CaseMemoire> implements ComposantVariadique<Variadique<T>> {
+public abstract class Affectation<T extends CaseMemoire> implements ComposantVariadique<Variadique<T>> {
+	public static class Bouton
+			extends Affectation<fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton> {
+		public Bouton(fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton base) {
+			super(base);
+		}
+	}
+
+	public static class Valeur
+			extends Affectation<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur> {
+		public Valeur(fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur base) {
+			super(base);
+		}
+	}
+
 	/* =========
 	 * COMPOSANT
 	 * ========= */
 	/* Valeur affectée */
 	public final T base;
-	
+
 	/**
 	 * Affecte cette valeur variadique avec base
+	 * 
 	 * @param base La valeur de base
 	 */
 	public Affectation(T base) {
 		this.base = base;
 	}
-	
+
 	/* ================
 	 * IMPLEMENTATIONS
 	 * ================ */
@@ -39,12 +54,12 @@ public class Affectation<T extends CaseMemoire> implements ComposantVariadique<V
 	/* ========
 	 * VISITEUR
 	 * ======== */
-	
+
 	@Override
 	public void accept(Visiteur visiteur) {
 		visiteur.visit(this);
 	}
-	
+
 	@Override
 	public Affectation<T> simplifier() {
 		return this;
@@ -53,7 +68,7 @@ public class Affectation<T extends CaseMemoire> implements ComposantVariadique<V
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash("AFF", base);

@@ -64,20 +64,13 @@ public class ConditionValeur implements Condition {
 
 	@Override
 	public Condition simplifier() {
-		Valeur gaucheS = gauche.simplifier();
-		Valeur droiteS = droite.simplifier();
-		
-		if (gaucheS instanceof ValeurConstante && droiteS instanceof ValeurConstante) {
-			int gInt = ((ValeurConstante) gaucheS).valeur;
-			int dInt = ((ValeurConstante) droiteS).valeur;
+		if (gauche instanceof ValeurConstante && droite instanceof ValeurConstante) {
+			int gInt = ((ValeurConstante) gauche).valeur;
+			int dInt = ((ValeurConstante) droite).valeur;
 			
 			return ConditionFixe.get(operateur.test(gInt, dInt));
 		} else {
-			if (gaucheS == gauche && droiteS == droite) {
-				return this;
-			} else {
-				return new ConditionValeur(gaucheS, operateur, droiteS);
-			}
+			return this;
 		}
 	}
 	

@@ -6,6 +6,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvari
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,13 +21,17 @@ public class BoutonVariadique extends Variadique<Bouton> implements Bouton {
 	 * COMPOSANT
 	 * ========= */
 	/** Liste des opérations */
-	public final List<ComposantVariadique<BoutonVariadique>> composants; // A la fin -> Collections.unmodifiableList(list);
+	public final List<ComposantVariadique<BoutonVariadique>> composants;
 	
 	/**
 	 * Crée un bouton variadique vide
 	 */
 	public BoutonVariadique() {
 		this.composants = new ArrayList<>();
+	}
+
+	public BoutonVariadique(List<ComposantVariadique<BoutonVariadique>> sousElements) {
+		this.composants = Collections.unmodifiableList(sousElements);
 	}
 
 	@Override
@@ -62,6 +67,7 @@ public class BoutonVariadique extends Variadique<Bouton> implements Bouton {
 
 	@Override
 	public BoutonVariadique simplifier() {
+		// TODO
 		return null;
 	}
 

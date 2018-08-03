@@ -16,7 +16,7 @@ public interface Element {
 	public void accept(Visiteur visiteur);
 
 	/**
-	 * Simplifie l'élément dans la mesure du possible
+	 * Simplifie l'élément en supposant que les éventuels éléments fils sont déjà simplifiés
 	 * <p>
 	 * Par exemple, si cet élément est une suite "affecte 3" "ajoute 2", le transforme en "affecte 5"
 	 * @return Cet élément simplifié

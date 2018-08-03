@@ -26,7 +26,9 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 		return elementRetourne;
 	}
 
-	protected abstract <T extends CaseMemoire> R traiter(Affectation<T> element);
+	protected abstract R traiter(Affectation.Valeur element);
+	
+	protected abstract R traiter(Affectation.Bouton element);
 
 	protected abstract R traiter(BoutonConstant element);
 
@@ -40,7 +42,9 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 
 	protected abstract R traiter(ConditionFixe element);
 
-	protected abstract <T extends CaseMemoire> R traiter(Conditionnelle<T> element);
+	protected abstract R traiter(Conditionnelle.Valeur element);
+	
+	protected abstract R traiter(Conditionnelle.Bouton element);
 
 	protected abstract R traiter(ConditionValeur element);
 
@@ -60,13 +64,29 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 	 * VISITE
 	 * ====== */
 
+	
 	@Override
-	public final <T extends CaseMemoire> void visit(Affectation<T> element) {
+	public final void visit(BoutonConstant element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public final void visit(BoutonConstant element) {
+	public <T extends CaseMemoire> void visit(Affectation.Bouton element) {
+		elementRetourne = traiter(element);
+	}
+
+	@Override
+	public <T extends CaseMemoire> void visit(Conditionnelle.Bouton element) {
+		elementRetourne = traiter(element);
+	}
+
+	@Override
+	public <T extends CaseMemoire> void visit(Affectation.Valeur element) {
+		elementRetourne = traiter(element);
+	}
+
+	@Override
+	public <T extends CaseMemoire> void visit(Conditionnelle.Valeur element) {
 		elementRetourne = traiter(element);
 	}
 
@@ -92,11 +112,6 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 
 	@Override
 	public final void visit(ConditionFixe element) {
-		elementRetourne = traiter(element);
-	}
-
-	@Override
-	public final <T extends CaseMemoire> void visit(Conditionnelle<T> element) {
 		elementRetourne = traiter(element);
 	}
 
