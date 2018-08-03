@@ -52,9 +52,7 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(BoutonVariadique element) {
-		visit(element.composants, BoutonVariadique::new);
-	}
+	public void visit(BoutonVariadique element);
 
 	
 	/* ====================
@@ -140,9 +138,7 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(ValeurVariadique element) {
-		visit(element.composants, ValeurVariadique::new);
-	}
+	public void visit(ValeurVariadique element); 
 
 	
 	/* ======
