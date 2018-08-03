@@ -1,9 +1,10 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
-public class Affectation<T extends CaseMemoire> implements ComposantVariadique<T> {
+public class Affectation<T extends CaseMemoire> implements ComposantVariadique<Variadique<T>> {
 	public final T base;
 	
 	public Affectation(T base) {

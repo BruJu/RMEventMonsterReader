@@ -1,9 +1,10 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
-public class Flip implements ComposantVariadique<Bouton> {
+public class Flip implements ComposantVariadique<Variadique<Bouton>> {
 	@Override
 	public String toString() {
 		return "Flip";

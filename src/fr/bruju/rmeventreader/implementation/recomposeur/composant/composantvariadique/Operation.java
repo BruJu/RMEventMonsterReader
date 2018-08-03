@@ -1,10 +1,11 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
-public class Operation implements ComposantVariadique<Valeur> {
+public class Operation implements ComposantVariadique<Variadique<Valeur>> {
 	public final Operator operateur;
 	public final Valeur droite;
 	

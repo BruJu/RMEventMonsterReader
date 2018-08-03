@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonConstant;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
@@ -100,7 +101,7 @@ public interface Visiteur {
 	 * OUTILS
 	 * ====== */
 	
-	public <U extends CaseMemoire> void visit(Iterable<ComposantVariadique<U>> composants, Supplier<U> recreator);
+	public <U extends Variadique<?>> void visit(Iterable<ComposantVariadique<U>> composants, Supplier<U> recreator);
 
 	public void comportementParDefautFeuille(Element element);
 }
