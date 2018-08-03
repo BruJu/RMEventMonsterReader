@@ -4,4 +4,8 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 
 public interface Bouton extends CaseMemoire {
 
+	@Override
+	public default Bouton simplifier() {
+		return this;
+	}
 }
