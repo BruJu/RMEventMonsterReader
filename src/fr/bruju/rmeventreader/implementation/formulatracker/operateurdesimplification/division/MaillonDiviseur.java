@@ -54,7 +54,7 @@ public class MaillonDiviseur implements Maillon {
 				
 				.setTitre("Quête")
 				.interrupteur(2569, b -> b ? "Statue" : "Initial")
-				.variableEnsemble(3057, new int[] {1,2,3,4}, v -> "Niveau " + v)
+				.variableEnsemble(3057, new int[] {0,1,2,3}, v -> "Niveau " + v)
 				.variableEnsemble(1930, new int[] {0,9}, v -> v == 9 ? "Désinhibé" : "Initial")
 				.appliquer(attaques)
 				

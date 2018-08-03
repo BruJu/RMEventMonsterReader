@@ -13,6 +13,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCo
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Extracteur;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.StrategieDeDivision;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
+import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireVariableDifferent;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireVariableIdentique;
 
 public class Variable1Valeur implements StrategieDeDivision {
@@ -31,7 +32,7 @@ public class Variable1Valeur implements StrategieDeDivision {
 	public Variable1Valeur(int idVariable, int valeur, Function<Boolean, String> func) {
 		this.idVariable = idVariable;
 		this.valeur = valeur;
-		this.fonctionDaffichage = c -> func.apply(((VConstante)((CVariable) c).droite).valeur == valeur);
+		this.fonctionDaffichage = c -> func.apply(((CVariable) c).operateur == Operator.IDENTIQUE);
 	}
 
 	@Override
@@ -42,7 +43,11 @@ public class Variable1Valeur implements StrategieDeDivision {
 	@Override
 	public List<GestionnaireDeCondition> getGestionnaires(Condition condition, Set<Condition> conditions) {
 		List<GestionnaireDeCondition> gestionnaires = new ArrayList<>();
-		gestionnaires.add(new GestionnaireVariableIdentique((CVariable) condition));
+		
+		if (((CVariable) condition).operateur == Operator.IDENTIQUE)
+			gestionnaires.add(new GestionnaireVariableIdentique((CVariable) condition));
+		else
+			gestionnaires.add(new GestionnaireVariableDifferent((CVariable) condition));
 		return gestionnaires;
 	}
 
