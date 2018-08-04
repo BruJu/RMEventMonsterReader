@@ -1,14 +1,17 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.actionmaker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Calcul;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
@@ -78,14 +81,6 @@ public class EtatMemoire {
 	public EtatMemoire getPetitFrere() {
 		return this.pere.filsDroit;
 	}
-
-	/**
-	 * Permet de savoir si on est un fils gauche
-	 * @return this == pere.filsGauche
-	 */
-	private boolean estFilsGauche() {
-		return this == pere.filsGauche;
-	}
 	
 	/* ==================
 	 * ACCES A LA MEMOIRE
@@ -96,25 +91,36 @@ public class EtatMemoire {
 	 * @param idVariable Le numéro de la variable
 	 * @return La valeur contenue dans la variable
 	 */
-	public Valeur getVariable(Integer idVariable) {
+	public Algorithme getVariable(Integer idVariable) {
 		EtatMemoire courant = this;
-		Valeur donnee;
 		
-		while (true) {
-			donnee = courant.variables.get(idVariable);
-
-			if (donnee == null) {
-				if (courant.pere == null) {
-					return new Entree(idVariable);
-				} else {
-					courant = courant.pere;
+		
+		List<List<Operation>> operationsAEffectuer = new ArrayList<>();
+		
+		while (courant != null) {
+			operationsAEffectuer.add(courant.variables.getOrDefault(idVariable, new Algorithme()).composants);
+			courant = courant.pere;
+		}
+		
+		
+		List<Operation> listeFinale = new ArrayList<>();
+		
+		listeFinale.add(new Affectation(new Entree(idVariable)));
+		
+		for (int i = operationsAEffectuer.size() - 1 ; i >= 0 ; i--) {
+			
+			for (Operation operation : operationsAEffectuer.get(i)) {
+				if (operation instanceof Affectation) {
+					listeFinale.clear();
 				}
-			} else {
-				return donnee;
+				
+				listeFinale.add(operation);
 			}
 		}
+		
+		return new Algorithme(listeFinale);
 	}
-
+	
 
 	/**
 	 * Donne l'état mémoire de l'interrupteur
@@ -162,18 +168,18 @@ public class EtatMemoire {
 			Conditionnelle conditionnelle = new Conditionnelle(condition, g, d);
 			
 			// Injection dans la base de données
-			Valeur initial = getVariable(idVariable);
-			Algorithme a = initial.toAlgorithme();
+			Algorithme initial = variables.getOrDefault(idVariable, new Algorithme());
 			
-			a = new Algorithme(a, conditionnelle);
+			Algorithme fusion = new Algorithme(initial, conditionnelle);
 			
 			// Mise en mémoire
-			this.variables.put(idVariable, a);
+			this.variables.put(idVariable, fusion);
 		});
 	}
 
 
 	
+
 	public void affecterVariable(Integer variable, Operator operator, Valeur vDroite) {
 		if (operator == Operator.AFFECTATION) {
 			this.variables.put(variable, vDroite.toAlgorithme());
