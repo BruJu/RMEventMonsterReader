@@ -60,22 +60,22 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Affectation.Bouton element);
+	public <T extends CaseMemoire> void visit(Affectation.ABouton element);
 
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Affectation.Valeur element);
+	public <T extends CaseMemoire> void visit(Affectation.AValeur element);
 	
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Conditionnelle.Bouton element);
+	public <T extends CaseMemoire> void visit(Conditionnelle.CBouton element);
 
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Conditionnelle.Valeur element);
+	public <T extends CaseMemoire> void visit(Conditionnelle.CValeur element);
 
 	/**
 	 * Visite de composant

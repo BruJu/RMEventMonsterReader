@@ -8,6 +8,32 @@ import java.util.function.BinaryOperator;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
 public class Utilitaire {
+	
+	// import static fr.bruju.rmeventreader.utilitaire.Utilitaire.Pile.*;
+	
+	public static class Pile {
+		public static <T> T sommet(List<T> tableau) {
+			if (tableau.isEmpty())
+				return null;
+			
+			return tableau.get(tableau.size() - 1);
+		}
+		public static <T> T pop(List<T> tableau) {
+			if (tableau.isEmpty())
+				return null;
+			
+			T t = tableau.get(tableau.size() - 1);
+			
+			tableau.remove(tableau.size() - 1);
+			return t;
+		}
+		
+		
+	}
+	
+
+	
+	
 	public static String getSymbole(Operator operateur) {
 		switch (operateur) {
 		case AFFECTATION:

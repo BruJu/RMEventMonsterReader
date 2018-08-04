@@ -2,11 +2,15 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvar
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,26 +20,23 @@ import java.util.Objects;
  *
  */
 public abstract class Conditionnelle<T extends CaseMemoire> implements ComposantVariadique<Variadique<T>> {
-	public static class Bouton
+	public static class CBouton
 			extends Conditionnelle<fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton> {
 
 		public final Condition condition;
 		public final BoutonVariadique siVrai;
 		public final BoutonVariadique siFaux;
-		
-		public Bouton(Condition condition,
-				BoutonVariadique siVrai,
-				BoutonVariadique siFaux) {
+
+		public CBouton(Condition condition, BoutonVariadique siVrai, BoutonVariadique siFaux) {
 			this.condition = condition;
 			this.siVrai = siVrai;
 			this.siFaux = siFaux;
 		}
 
 		@Override
-		protected ComposantVariadique<Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton>> construire(
-				Condition c, Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton> v,
-				Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton> f) {
-			return new Bouton(c, (BoutonVariadique) v, (BoutonVariadique) f);
+		protected ComposantVariadique<Variadique<Bouton>> construire(Condition c, Variadique<Bouton> v,
+				Variadique<Bouton> f) {
+			return new CBouton(c, (BoutonVariadique) v, (BoutonVariadique) f);
 		}
 
 		@Override
@@ -52,28 +53,31 @@ public abstract class Conditionnelle<T extends CaseMemoire> implements Composant
 		protected Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton> SiFaux() {
 			return siFaux;
 		}
+
+		@Override
+		protected void sousCumul(Boolean identifie,
+				List<ComposantVariadique<? extends Variadique<Bouton>>> nouveauxComposants) {
+			nouveauxComposants.addAll(identifie ? siVrai.composants : siFaux.composants);
+		}
 	}
 
-	public static class Valeur
+	public static class CValeur
 			extends Conditionnelle<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur> {
 
 		public final Condition condition;
 		public final ValeurVariadique siVrai;
 		public final ValeurVariadique siFaux;
-		
-		public Valeur(Condition condition,
-				ValeurVariadique siVrai,
-				ValeurVariadique siFaux) {
+
+		public CValeur(Condition condition, ValeurVariadique siVrai, ValeurVariadique siFaux) {
 			this.condition = condition;
 			this.siVrai = siVrai;
 			this.siFaux = siFaux;
 		}
 
 		@Override
-		protected ComposantVariadique<Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur>> construire(
-				Condition c, Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur> v,
-				Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur> f) {
-			return new Valeur(c, (ValeurVariadique) v, (ValeurVariadique) f);
+		protected ComposantVariadique<Variadique<Valeur>> construire(Condition c, Variadique<Valeur> v,
+				Variadique<Valeur> f) {
+			return new CValeur(c, (ValeurVariadique) v, (ValeurVariadique) f);
 		}
 
 		@Override
@@ -82,13 +86,19 @@ public abstract class Conditionnelle<T extends CaseMemoire> implements Composant
 		}
 
 		@Override
-		protected Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur> SiVrai() {
+		protected Variadique<Valeur> SiVrai() {
 			return siVrai;
 		}
 
 		@Override
-		protected Variadique<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur> SiFaux() {
+		protected Variadique<Valeur> SiFaux() {
 			return siFaux;
+		}
+
+		@Override
+		protected void sousCumul(Boolean identifie,
+				List<ComposantVariadique<? extends Variadique<Valeur>>> nouveauxComposants) {
+			nouveauxComposants.addAll(identifie ? siVrai.composants : siFaux.composants);
 		}
 	}
 	/* =========
@@ -112,6 +122,24 @@ public abstract class Conditionnelle<T extends CaseMemoire> implements Composant
 	public String toString() {
 		return "[" + Cond().toString() + " ? " + SiVrai().toString() + " : " + SiFaux().toString() + "]";
 	}
+
+	@Override
+	public boolean cumuler(List<ComposantVariadique<? extends Variadique<T>>> nouveauxComposants) {
+
+		Boolean identifie = ConditionFixe.identifier(Cond());
+
+		if (identifie == null) {
+			nouveauxComposants.add(this);
+			return true;
+		}
+
+		sousCumul(identifie, nouveauxComposants);
+
+		return false;
+	}
+
+	protected abstract void sousCumul(Boolean identifie,
+			List<ComposantVariadique<? extends Variadique<T>>> nouveauxComposants);
 
 	/* ========
 	 * VISITEUR
@@ -139,11 +167,9 @@ public abstract class Conditionnelle<T extends CaseMemoire> implements Composant
 		}
 	}
 
-	
 	protected abstract ComposantVariadique<Variadique<T>> construire(Condition cSimplifiee, Variadique<T> vraiSimplifie,
 			Variadique<T> fauxSimplifie);
 
-	
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */

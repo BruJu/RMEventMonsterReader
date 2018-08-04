@@ -5,6 +5,8 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -71,6 +73,11 @@ public class Operation implements ComposantVariadique<Variadique<Valeur>> {
 			Operation that = (Operation) object;
 			return Objects.equals(this.operateur, that.operateur) && Objects.equals(this.droite, that.droite);
 		}
+		return false;
+	}
+
+	@Override
+	public boolean cumuler(List<ComposantVariadique<? extends Variadique<Valeur>>> nouveauxComposants) {
 		return false;
 	}
 }

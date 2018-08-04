@@ -52,15 +52,15 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	}
 
 	@Override
-	protected Affectation.Valeur traiter(Affectation.Valeur element) {
-		return (Affectation.Valeur) traiterSerie(element, new Element[] { element.base },
-				(tableau) -> new Affectation.Valeur((Valeur) tableau[0]));
+	protected Affectation.AValeur traiter(Affectation.AValeur element) {
+		return (Affectation.AValeur) traiterSerie(element, new Element[] { element.base },
+				(tableau) -> new Affectation.AValeur((Valeur) tableau[0]));
 	}
 
 	@Override
-	protected Affectation.Bouton traiter(Affectation.Bouton element) {
-		return (Affectation.Bouton) traiterSerie(element, new Element[] { element.base },
-				(tableau) -> new Affectation.Bouton((Bouton) tableau[0]));
+	protected Affectation.ABouton traiter(Affectation.ABouton element) {
+		return (Affectation.ABouton) traiterSerie(element, new Element[] { element.base },
+				(tableau) -> new Affectation.ABouton((Bouton) tableau[0]));
 	}
 
 	@Override
@@ -89,9 +89,9 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	}
 
 	@Override
-	protected Conditionnelle.Valeur traiter(Conditionnelle.Valeur element) {
+	protected Conditionnelle.CValeur traiter(Conditionnelle.CValeur element) {
 		return traiterConditionnelle(element, element.condition, element.siVrai, element.siFaux,
-				(c, v, f) -> new Conditionnelle.Valeur(c, v, f));
+				(c, v, f) -> new Conditionnelle.CValeur(c, v, f));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -131,9 +131,9 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	}
 
 	@Override
-	protected Conditionnelle.Bouton traiter(Conditionnelle.Bouton element) {
+	protected Conditionnelle.CBouton traiter(Conditionnelle.CBouton element) {
 		return traiterConditionnelle(element, element.condition, element.siVrai, element.siFaux,
-				(c, v, f) -> new Conditionnelle.Bouton(c, v, f));
+				(c, v, f) -> new Conditionnelle.CBouton(c, v, f));
 	}
 
 	/* ==========

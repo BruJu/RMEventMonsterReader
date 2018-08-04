@@ -43,6 +43,13 @@ public class BoutonConstant implements Bouton {
 		this.valeur = valeur;
 	}
 	
+	/**
+	 * Inverse le bouton constant
+	 */
+	public BoutonConstant inverser() {
+		return valeur ? boutons[1] : boutons[0];
+	}
+	
 	/* ===============
 	 * IMPLEMENTATIONS
 	 * =============== */

@@ -2,7 +2,11 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvar
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,16 +17,17 @@ import java.util.Objects;
  * @param <T> Le type de la case mémoire
  */
 public abstract class Affectation<T extends CaseMemoire> implements ComposantVariadique<Variadique<T>> {
-	public static class Bouton
-			extends Affectation<fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton> {
-		public Bouton(fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton base) {
+	public static class ABouton
+			extends Affectation<Bouton> {
+		public ABouton(Bouton base) {
 			super(base);
 		}
+
 	}
 
-	public static class Valeur
-			extends Affectation<fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur> {
-		public Valeur(fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur base) {
+	public static class AValeur
+			extends Affectation<Valeur> {
+		public AValeur(Valeur base) {
 			super(base);
 		}
 	}
@@ -41,7 +46,7 @@ public abstract class Affectation<T extends CaseMemoire> implements ComposantVar
 	public Affectation(T base) {
 		this.base = base;
 	}
-
+	
 	/* ================
 	 * IMPLEMENTATIONS
 	 * ================ */
@@ -49,6 +54,17 @@ public abstract class Affectation<T extends CaseMemoire> implements ComposantVar
 	@Override
 	public String toString() {
 		return "|-> " + base.toString();
+	}
+
+	@Override
+	public boolean cumuler(
+			List<ComposantVariadique<? extends Variadique<T>>> nouveauxComposants) {
+		boolean wasEmpty = nouveauxComposants.isEmpty();
+		
+		nouveauxComposants.clear();
+		nouveauxComposants.add(this);
+		
+		return !wasEmpty;
 	}
 
 	/* ========

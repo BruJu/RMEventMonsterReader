@@ -25,7 +25,7 @@ public class ValeurVariadique extends Variadique<Valeur> implements Valeur {
 	public ValeurVariadique() {
 		this.composants = new ArrayList<>();
 	}
-
+ 
 	public ValeurVariadique(List<ComposantVariadique<ValeurVariadique>> sousElements) {
 		this.composants = Collections.unmodifiableList(sousElements);
 	}
@@ -70,7 +70,7 @@ public class ValeurVariadique extends Variadique<Valeur> implements Valeur {
 
 	@Override
 	public ValeurVariadique simplifier() {
-		return null;
+		return new Simplifieur(this).get();
 	}
 
 }
