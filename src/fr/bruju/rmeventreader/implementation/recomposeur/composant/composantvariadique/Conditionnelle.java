@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvar
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
@@ -47,7 +46,7 @@ public class Conditionnelle implements ComposantVariadique {
 			return true;
 		}
 		
-		nouveauxComposants.addAll(identifie ? siVrai.getComposants() : siFaux.getComposants());
+		nouveauxComposants.addAll(identifie ? siVrai.composants : siFaux.composants);
 
 		return false;
 	}

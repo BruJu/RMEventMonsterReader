@@ -3,18 +3,12 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonConstant;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionBouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
@@ -25,7 +19,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 
 public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
-	@SuppressWarnings("unchecked")
+
 	private <TypeRetour extends Element> Element traiterSerie(TypeRetour elementDeBase, Element[] elementsFils,
 			Function<Element[], TypeRetour> reconstruction) {
 
@@ -52,22 +46,11 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	}
 
 	@Override
-	protected Affectation.AValeur traiter(Affectation.AValeur element) {
-		return (Affectation.AValeur) traiterSerie(element, new Element[] { element.base },
-				(tableau) -> new Affectation.AValeur((Valeur) tableau[0]));
+	protected Affectation traiter(Affectation element) {
+		return (Affectation) traiterSerie(element, new Element[] { element.base },
+				(tableau) -> new Affectation((Valeur) tableau[0]));
 	}
 
-	@Override
-	protected Affectation.ABouton traiter(Affectation.ABouton element) {
-		return (Affectation.ABouton) traiterSerie(element, new Element[] { element.base },
-				(tableau) -> new Affectation.ABouton((Bouton) tableau[0]));
-	}
-
-	@Override
-	protected Condition traiter(ConditionBouton element) {
-		return (Condition) traiterSerie(element, new Element[] { element.interrupteur },
-				(tableau) -> new ConditionBouton((Bouton) tableau[0], element.valeur));
-	}
 
 	@Override
 	protected Condition traiter(ConditionValeur element) {
@@ -89,9 +72,9 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	}
 
 	@Override
-	protected Conditionnelle.CValeur traiter(Conditionnelle.CValeur element) {
+	protected Conditionnelle traiter(Conditionnelle element) {
 		return traiterConditionnelle(element, element.condition, element.siVrai, element.siFaux,
-				(c, v, f) -> new Conditionnelle.CValeur(c, v, f));
+				(c, v, f) -> new Conditionnelle(c, v, f));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -129,26 +112,14 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 			return reconstruction.apply(c, v, f);
 		}
 	}
-
-	@Override
-	protected Conditionnelle.CBouton traiter(Conditionnelle.CBouton element) {
-		return traiterConditionnelle(element, element.condition, element.siVrai, element.siFaux,
-				(c, v, f) -> new Conditionnelle.CBouton(c, v, f));
-	}
-
+	
 	/* ==========
 	 * VARIADIQUE
 	 * ========== */
 
 	@Override
-	protected BoutonVariadique traiter(BoutonVariadique element) {
-		return (BoutonVariadique) this.traiterSerie(element, element.getComposants().toArray(new Element[0]),
-				tableau -> new BoutonVariadique(tableau));
-	}
-
-	@Override
 	protected ValeurVariadique traiter(ValeurVariadique element) {
-		return (ValeurVariadique) this.traiterSerie(element, element.getComposants().toArray(new Element[0]),
+		return (ValeurVariadique) this.traiterSerie(element, element.composants.toArray(new Element[0]),
 				tableau -> new ValeurVariadique(tableau));
 	}
 
@@ -156,11 +127,6 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 
 	@Override
 	protected ConditionArme traiter(ConditionArme element) {
-		return element;
-	}
-
-	@Override
-	protected Flip traiter(Flip element) {
 		return element;
 	}
 
@@ -181,16 +147,6 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 
 	@Override
 	protected ConditionFixe traiter(ConditionFixe element) {
-		return element;
-	}
-
-	@Override
-	protected BoutonConstant traiter(BoutonConstant element) {
-		return element;
-	}
-
-	@Override
-	protected BoutonEntree traiter(BoutonEntree element) {
 		return element;
 	}
 }

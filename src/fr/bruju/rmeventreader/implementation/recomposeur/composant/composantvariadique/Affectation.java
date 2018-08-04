@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @param <T> Le type de la case mémoire
  */
-public abstract class Affectation implements ComposantVariadique {
+public class Affectation implements ComposantVariadique {
 
 	/* =========
 	 * COMPOSANT
@@ -72,7 +72,6 @@ public abstract class Affectation implements ComposantVariadique {
 		return Objects.hash("AFF", base);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof Affectation) {

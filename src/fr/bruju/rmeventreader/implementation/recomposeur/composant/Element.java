@@ -22,4 +22,7 @@ public interface Element {
 	 * @return Cet élément simplifié
 	 */
 	public Element simplifier();
+	
+	
+	
 }

@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -14,7 +13,7 @@ import java.util.Objects;
  * 
  * @author Bruju
  */
-public class Operation implements ComposantVariadique<Variadique<Valeur>> {
+public class Operation implements ComposantVariadique {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -77,8 +76,9 @@ public class Operation implements ComposantVariadique<Variadique<Valeur>> {
 	}
 
 	@Override
-	public boolean cumuler(List<ComposantVariadique<? extends Variadique<Valeur>>> nouveauxComposants) {
+	public boolean cumuler(List<ComposantVariadique> nouveauxComposants) {
 		nouveauxComposants.add(this);
 		return false;
 	}
+
 }

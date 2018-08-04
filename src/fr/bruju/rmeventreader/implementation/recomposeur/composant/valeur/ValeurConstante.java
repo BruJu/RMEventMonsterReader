@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur;
 
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementFeuille;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class ValeurConstante implements Valeur {
+public class ValeurConstante implements Valeur, ElementFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

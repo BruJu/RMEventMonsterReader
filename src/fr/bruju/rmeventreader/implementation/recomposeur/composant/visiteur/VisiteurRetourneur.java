@@ -1,17 +1,11 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonConstant;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionBouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurAleatoire;
@@ -39,8 +33,6 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 
 	protected abstract R traiter(Filtre element);
 	
-	protected abstract R traiter(Flip element);
-
 	protected abstract R traiter(Operation element);
 
 	protected abstract R traiter(ValeurAleatoire element);
@@ -85,11 +77,6 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 
 	@Override
 	public final void visit(Filtre element) {
-		elementRetourne = traiter(element);
-	}
-
-	@Override
-	public final void visit(Flip element) {
 		elementRetourne = traiter(element);
 	}
 

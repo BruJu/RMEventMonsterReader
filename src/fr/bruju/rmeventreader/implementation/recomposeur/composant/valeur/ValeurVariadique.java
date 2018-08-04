@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.ComposantVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
-public class ValeurVariadique implements Valeur {
+public class ValeurVariadique implements Valeur, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -29,7 +30,6 @@ public class ValeurVariadique implements Valeur {
 		this.composants = Collections.unmodifiableList(sousElements);
 	}
 
-	@SuppressWarnings("unchecked")
 	public ValeurVariadique(Element[] tableau) {
 		composants = Stream.of(tableau).map(element -> (ComposantVariadique) element)
 					.collect(Collectors.toList());
@@ -84,8 +84,21 @@ public class ValeurVariadique implements Valeur {
 	 * ============== */
 
 	@Override
-	public Valeur simplifier() {
+	public ValeurVariadique simplifier() {
 		return null;
 	}
 
+	/* ==============
+	 * SIMPLIFICATION
+	 * ============== */
+	
+	@Override
+	public Element[] getFils() {
+		return composants.toArray(new Element[0]);
+	}
+	
+	@Override
+	public ElementIntermediaire fonctionDeRecreation(Element[] fils) {
+		return new ValeurVariadique(fils);
+	}
 }

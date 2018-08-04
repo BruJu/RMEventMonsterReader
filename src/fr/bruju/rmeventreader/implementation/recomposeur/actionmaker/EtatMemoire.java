@@ -5,15 +5,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurEntree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
 
 public class EtatMemoire {
+	private static final int OFFSET_SWITCH = 5000;
+	
 	/* ==================
 	 * ETAT DE LA MEMOIRE
 	 * ================== */
@@ -23,8 +22,6 @@ public class EtatMemoire {
 
 	/** Contenu des variables */
 	private Map<Integer, ValeurVariadique> variables;
-	/** Contenu des interrupteusr*/
-	private Map<Integer, BoutonVariadique> interrupteurs;
 
 	/** Condition ayant mené à la création des fils */
 	private Condition condition = null;
@@ -40,7 +37,6 @@ public class EtatMemoire {
 	 */
 	public EtatMemoire() {
 		this.variables = new HashMap<>();;
-		this.interrupteurs = new HashMap<>();
 		this.pere = null;
 	}
 
@@ -51,7 +47,6 @@ public class EtatMemoire {
 	public EtatMemoire(EtatMemoire pere) {
 		this.pere = pere;
 		this.variables = new HashMap<>();
-		this.interrupteurs = new HashMap<>();
 	}
 
 	/* =================
@@ -107,8 +102,8 @@ public class EtatMemoire {
 	 * @param idVariable Le numéro de l'interrupteur
 	 * @return La valeur contenue dans l'interrupteur
 	 */
-	public Bouton getInterrupteur(int idSwitch) {
-		return extraireDonnee(this, idSwitch, etat -> etat.interrupteurs, numero -> new BoutonEntree(numero));
+	public Valeur getInterrupteur(int idSwitch) {
+		return getVariable(idSwitch + OFFSET_SWITCH);
 	}
 
 	/**

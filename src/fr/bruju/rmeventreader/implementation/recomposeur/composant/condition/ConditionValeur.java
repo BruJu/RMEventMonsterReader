@@ -39,6 +39,12 @@ public class ConditionValeur implements Condition {
 		this.droite = vDroite;
 	}
 
+	public ConditionValeur(Valeur interrupteur, boolean valeur) {
+		this.gauche = interrupteur;
+		this.operateur = Operator.IDENTIQUE;
+		this.droite = valeur ? new ValeurConstante(1) : new ValeurConstante(-1);
+	}
+
 	@Override
 	public Condition revert() {
 		return new ConditionValeur(gauche, operateur.revert(), droite);

@@ -4,7 +4,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
@@ -37,11 +36,7 @@ public interface VisiteurInactif extends Visiteur {
 	@Override
 	default void visit(Filtre element) {
 	}
-
-	@Override
-	default void visit(Flip element) {
-	}
-
+	
 	@Override
 	default void visit(Operation element) {
 	}

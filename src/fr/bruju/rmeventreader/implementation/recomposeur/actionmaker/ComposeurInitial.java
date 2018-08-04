@@ -11,10 +11,8 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionBouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
@@ -171,7 +169,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	 * @param numeroVariable Le numéro de l'interrupteur
 	 * @return La valeur qu'il contient
 	 */
-	public Bouton getInterrupteur(int numero) {
+	public Valeur getInterrupteur(int numero) {
 		return etat.getInterrupteur(numero);
 	}
 
@@ -194,7 +192,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 
 		/** Condition sur un interrupteur */
 		public Condition condOnSwitch(int number, boolean valeur) {
-			return new ConditionBouton(getInterrupteur(number), valeur);
+			return new ConditionValeur(getInterrupteur(number), valeur);
 		}
 
 		/** Condition sur un objet équipé */
