@@ -1,8 +1,5 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
@@ -16,34 +13,20 @@ import java.util.Objects;
  *
  * @param <T> Le type de la case mémoire
  */
-public abstract class Affectation<T extends CaseMemoire> implements ComposantVariadique<Variadique<T>> {
-	public static class ABouton
-			extends Affectation<Bouton> {
-		public ABouton(Bouton base) {
-			super(base);
-		}
-
-	}
-
-	public static class AValeur
-			extends Affectation<Valeur> {
-		public AValeur(Valeur base) {
-			super(base);
-		}
-	}
+public abstract class Affectation implements ComposantVariadique {
 
 	/* =========
 	 * COMPOSANT
 	 * ========= */
 	/* Valeur affectée */
-	public final T base;
+	public final Valeur base;
 
 	/**
 	 * Affecte cette valeur variadique avec base
 	 * 
 	 * @param base La valeur de base
 	 */
-	public Affectation(T base) {
+	public Affectation(Valeur base) {
 		this.base = base;
 	}
 	
@@ -57,8 +40,7 @@ public abstract class Affectation<T extends CaseMemoire> implements ComposantVar
 	}
 
 	@Override
-	public boolean cumuler(
-			List<ComposantVariadique<? extends Variadique<T>>> nouveauxComposants) {
+	public boolean cumuler(List<ComposantVariadique> nouveauxComposants) {
 		boolean wasEmpty = nouveauxComposants.isEmpty();
 		
 		nouveauxComposants.clear();
@@ -77,7 +59,7 @@ public abstract class Affectation<T extends CaseMemoire> implements ComposantVar
 	}
 
 	@Override
-	public Affectation<T> simplifier() {
+	public Affectation simplifier() {
 		return this;
 	}
 

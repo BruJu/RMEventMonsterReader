@@ -1,18 +1,13 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur;
 
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonConstant;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionBouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurAleatoire;
@@ -29,30 +24,6 @@ public interface Visiteur {
 		element.accept(this);
 	}
 	
-	/* ======
-	 * BOUTON
-	 * ====== */
-
-	/**
-	 * Visite de composant
-	 */
-	public default void visit(BoutonConstant element) {
-		comportementParDefautFeuille(element);
-	}
-
-	/**
-	 * Visite de composant
-	 */
-	public default void visit(BoutonEntree element) {
-		comportementParDefautFeuille(element);
-	}
-
-	/**
-	 * Visite de composant
-	 */
-	public void visit(BoutonVariadique element);
-
-	
 	/* ====================
 	 * COMPOSANT VARIADIQUE
 	 * ==================== */
@@ -60,22 +31,12 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Affectation.ABouton element);
+	public void visit(Affectation element);
 
 	/**
 	 * Visite de composant
 	 */
-	public <T extends CaseMemoire> void visit(Affectation.AValeur element);
-	
-	/**
-	 * Visite de composant
-	 */
-	public <T extends CaseMemoire> void visit(Conditionnelle.CBouton element);
-
-	/**
-	 * Visite de composant
-	 */
-	public <T extends CaseMemoire> void visit(Conditionnelle.CValeur element);
+	public void visit(Conditionnelle element);
 
 	/**
 	 * Visite de composant
@@ -105,11 +66,6 @@ public interface Visiteur {
 	public default void visit(ConditionArme element) {
 		element.accept(this);
 	}
-
-	/**
-	 * Visite de composant
-	 */
-	public void visit(ConditionBouton element);
 
 	/**
 	 * Visite de composant

@@ -7,7 +7,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvari
 public class Simplifieur {
 	ValeurVariadique valeurVariadique;
 
-	List<ComposantVariadique<? extends ValeurVariadique>> nouveauxComposants;
+	List<ComposantVariadique> nouveauxComposants;
 	Integer valeurActuelle;
 
 	boolean aChange;
@@ -19,7 +19,7 @@ public class Simplifieur {
 	}
 
 	private void lancerLeProcessus() {
-		List<ComposantVariadique<ValeurVariadique>> composants = valeurVariadique.composants;
+		List<ComposantVariadique> composants = valeurVariadique.composants;
 
 		nouveauxComposants = new ArrayList<>(composants.size());
 		valeurActuelle = null;

@@ -2,9 +2,7 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvar
 
 import java.util.List;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
 
 /**
  * Element dans une expression variadique
@@ -13,6 +11,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Variadique;
  *
  * @param <T> Le type de variadique utilisant cet élément
  */
-public interface ComposantVariadique<T extends Variadique<? extends CaseMemoire>> extends Element {
-	boolean cumuler(List<ComposantVariadique<? extends T>> nouveauxComposants);
+public interface ComposantVariadique extends Element {
+	boolean cumuler(List<ComposantVariadique> nouveauxComposants);
 }

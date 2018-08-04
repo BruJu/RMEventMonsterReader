@@ -27,26 +27,14 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 		return elementRetourne;
 	}
 
-	protected abstract R traiter(Affectation.AValeur element);
-	
-	protected abstract R traiter(Affectation.ABouton element);
-
-	protected abstract R traiter(BoutonConstant element);
-
-	protected abstract R traiter(BoutonEntree element);
-
-	protected abstract R traiter(BoutonVariadique element);
+	protected abstract R traiter(Affectation element);
 
 	protected abstract R traiter(ConditionArme element);
 
-	protected abstract R traiter(ConditionBouton element);
-
 	protected abstract R traiter(ConditionFixe element);
 
-	protected abstract R traiter(Conditionnelle.CValeur element);
+	protected abstract R traiter(Conditionnelle element);
 	
-	protected abstract R traiter(Conditionnelle.CBouton element);
-
 	protected abstract R traiter(ConditionValeur element);
 
 	protected abstract R traiter(Filtre element);
@@ -68,48 +56,20 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 	 * ====== */
 
 	
+
 	@Override
-	public final void visit(BoutonConstant element) {
+	public  void visit(Affectation element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public <T extends CaseMemoire> void visit(Affectation.ABouton element) {
+	public  void visit(Conditionnelle element) {
 		elementRetourne = traiter(element);
 	}
 
-	@Override
-	public <T extends CaseMemoire> void visit(Conditionnelle.CBouton element) {
-		elementRetourne = traiter(element);
-	}
-
-	@Override
-	public <T extends CaseMemoire> void visit(Affectation.AValeur element) {
-		elementRetourne = traiter(element);
-	}
-
-	@Override
-	public <T extends CaseMemoire> void visit(Conditionnelle.CValeur element) {
-		elementRetourne = traiter(element);
-	}
-
-	@Override
-	public final void visit(BoutonEntree element) {
-		elementRetourne = traiter(element);
-	}
-
-	@Override
-	public final void visit(BoutonVariadique element) {
-		elementRetourne = traiter(element);
-	}
 
 	@Override
 	public final void visit(ConditionArme element) {
-		elementRetourne = traiter(element);
-	}
-
-	@Override
-	public final void visit(ConditionBouton element) {
 		elementRetourne = traiter(element);
 	}
 
