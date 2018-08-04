@@ -7,8 +7,8 @@ import java.util.function.Function;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 
 public class EtatMemoire {
 	private static final int OFFSET_SWITCH = 5000;
@@ -21,7 +21,7 @@ public class EtatMemoire {
 	private EtatMemoire pere;
 
 	/** Contenu des variables */
-	private Map<Integer, ValeurVariadique> variables;
+	private Map<Integer, Algorithme> variables;
 
 	/** Condition ayant mené à la création des fils */
 	private Condition condition = null;
@@ -93,7 +93,7 @@ public class EtatMemoire {
 	 * @return La valeur contenue dans la variable
 	 */
 	public Valeur getVariable(Integer idVariable) {
-		return extraireDonnee(this, idVariable, etat -> etat.variables, numero -> new ValeurEntree(numero));
+		return extraireDonnee(this, idVariable, etat -> etat.variables, numero -> new Entree(numero));
 	}
 
 
@@ -147,7 +147,6 @@ public class EtatMemoire {
 	private void integrerFils() {
 		// Combinaisons
 		combinerValeurs();
-		combienrInterrupteurs();
 		
 
 		// Supression des enfants
@@ -164,8 +163,6 @@ public class EtatMemoire {
 		
 	}
 
-	private void combienrInterrupteurs() {
-	}
 
 	
 	public void affecterVariable(Integer variable, Operator operator, Valeur vDroite) {

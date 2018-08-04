@@ -15,7 +15,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Con
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
@@ -86,7 +86,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe valeurDroite) {
 		Integer numeroDeVariable = variable.get();
-		Valeur vDroite = new ValeurConstante(valeurDroite.valeur);
+		Valeur vDroite = new Constante(valeurDroite.valeur);
 		Traiteur traiteur = getTraiteur(variable.get());
 
 		traiteur.changeVariable(numeroDeVariable, operator, vDroite);
@@ -95,7 +95,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire valeurDroite) {
 		Integer numeroDeVariable = variable.get();
-		Valeur vDroite = new fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurAleatoire(
+		Valeur vDroite = new fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire(
 				valeurDroite.valeurMin, valeurDroite.valeurMax);
 		Traiteur traiteur = getTraiteur(variable.get());
 
@@ -127,7 +127,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 
 	@Override
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		Valeur vDroite = new ValeurConstante(returnValue.valeur);
+		Valeur vDroite = new Constante(returnValue.valeur);
 		
 		etat = etat.creerFils(traiteurParDefaut.condOnVariable(leftOperandValue, operatorValue, vDroite));
 		return true;

@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class ValeurConstante implements Valeur, ElementFeuille {
+public class Constante implements Valeur, ElementFeuille, PasAlgorithme {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -18,7 +18,7 @@ public class ValeurConstante implements Valeur, ElementFeuille {
 	public final int valeur;
 
 	/** Crée une valeur constante */
-	public ValeurConstante(int valeur) {
+	public Constante(int valeur) {
 		this.valeur = valeur;
 	}
 
@@ -41,7 +41,7 @@ public class ValeurConstante implements Valeur, ElementFeuille {
 	}
 	
 	@Override
-	public ValeurConstante simplifier() {
+	public Constante simplifier() {
 		return this;
 	}
 
@@ -55,8 +55,8 @@ public class ValeurConstante implements Valeur, ElementFeuille {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof ValeurConstante) {
-			ValeurConstante that = (ValeurConstante) object;
+		if (object instanceof Constante) {
+			Constante that = (Constante) object;
 			return this.valeur == that.valeur;
 		}
 		return false;

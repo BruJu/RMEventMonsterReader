@@ -4,7 +4,9 @@ import java.util.Objects;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -14,7 +16,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  * @author Bruju
  *
  */
-public class ConditionValeur implements Condition {
+public class ConditionValeur implements Condition, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -41,8 +43,14 @@ public class ConditionValeur implements Condition {
 
 	public ConditionValeur(Valeur interrupteur, boolean valeur) {
 		this.gauche = interrupteur;
-		this.operateur = Operator.IDENTIQUE;
-		this.droite = valeur ? new ValeurConstante(1) : new ValeurConstante(-1);
+		
+		if (valeur) {
+			this.operateur = Operator.IDENTIQUE;
+		} else {
+			this.operateur = Operator.DIFFERENT;
+		}
+		
+		this.droite = new Constante(1);
 	}
 
 	@Override
@@ -70,9 +78,9 @@ public class ConditionValeur implements Condition {
 
 	@Override
 	public Condition simplifier() {
-		if (gauche instanceof ValeurConstante && droite instanceof ValeurConstante) {
-			int gInt = ((ValeurConstante) gauche).valeur;
-			int dInt = ((ValeurConstante) droite).valeur;
+		if (gauche instanceof Constante && droite instanceof Constante) {
+			int gInt = ((Constante) gauche).valeur;
+			int dInt = ((Constante) droite).valeur;
 			
 			return ConditionFixe.get(operateur.test(gInt, dInt));
 		} else {
@@ -98,5 +106,21 @@ public class ConditionValeur implements Condition {
 	@Override
 	public int hashCode() {
 		return Objects.hash(gauche, operateur, droite);
+	}
+	
+	
+	
+	/* ====================
+	 * NOEUD AYANT DES FILS
+	 * ==================== */
+
+	@Override
+	public Element[] getFils() {
+		return new Element[] { this.gauche, this.droite };
+	}
+
+	@Override
+	public ElementIntermediaire fonctionDeRecreation(Element[] elementsFils) {
+		return new ConditionValeur((Valeur) elementsFils[0], this.operateur, (Valeur) elementsFils[1]);
 	}
 }

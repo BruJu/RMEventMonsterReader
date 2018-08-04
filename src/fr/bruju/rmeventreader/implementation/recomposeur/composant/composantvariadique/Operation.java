@@ -1,84 +1,21 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
-
 import java.util.List;
-import java.util.Objects;
+
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 
 /**
- * Effectue une opération arithmétique avec une autre valeur
+ * Element dans une expression variadique
  * 
  * @author Bruju
+ *
+ * @param <T> Le type de variadique utilisant cet élément
  */
-public class Operation implements ComposantVariadique {
-	/* =========
-	 * COMPOSANT
-	 * ========= */
-
-	/** Opérateur */
-	public final Operator operateur;
-	/** Opérande de droite */
-	public final Valeur droite;
-
+public interface Operation extends Element {
 	/**
-	 * Construit un calcul à partir de deux valeurs et un opérateur
-	 * 
-	 * @param operateur Un opérateur dans -, *, /, %
-	 * @param droite Valeur de droite
+	 * Cumule l'opérateur actuel dans la liste des opérations déjà présentes
+	 * @param nouveauxComposants La liste des opérateurs déjà présentes
+	 * @return Faux si cette opération s'est contentée de se rajouter à la liste. Vrai dans tous les autres cas
 	 */
-	public Operation(Operator operateur, Valeur droite) {
-		this.operateur = operateur;
-		this.droite = droite;
-	}
-	
-	/* ================
-	 * IMPLEMENTATIONS
-	 * ================ */
-
-	@Override
-	public String toString() {
-		return Utilitaire.getSymbole(operateur) + " " + droite.toString();
-	}
-	
-	/* ========
-	 * VISITEUR
-	 * ======== */
-
-	@Override
-	public void accept(Visiteur visiteur) {
-		visiteur.visit(this);
-	}
-
-	@Override
-	public Operation simplifier() {
-		return this;
-	}
-
-	/* =================
-	 * EQUALS / HASHCODE
-	 * ================= */
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(operateur, droite);
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (object instanceof Operation) {
-			Operation that = (Operation) object;
-			return Objects.equals(this.operateur, that.operateur) && Objects.equals(this.droite, that.droite);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean cumuler(List<ComposantVariadique> nouveauxComposants) {
-		nouveauxComposants.add(this);
-		return false;
-	}
-
+	boolean cumuler(List<Operation> nouveauxComposants);
 }

@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur;
 
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementFeuille;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class ValeurEntree implements Valeur {
+public class Entree implements Valeur, ElementFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -20,7 +21,7 @@ public class ValeurEntree implements Valeur {
 	 * Construit une variable ayant le numéro donné
 	 * @param id Le numéro de la variable
 	 */
-	public ValeurEntree(int id) {
+	public Entree(int id) {
 		this.id = id;
 	}
 
@@ -43,7 +44,7 @@ public class ValeurEntree implements Valeur {
 	}
 
 	@Override
-	public ValeurEntree simplifier() {
+	public Entree simplifier() {
 		return this;
 	}
 
@@ -54,8 +55,8 @@ public class ValeurEntree implements Valeur {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof ValeurEntree) {
-			ValeurEntree that = (ValeurEntree) object;
+		if (object instanceof Entree) {
+			Entree that = (Entree) object;
 			return this.id == that.id;
 		}
 		return false;

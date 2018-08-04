@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.condition;
 
 import java.util.Objects;
 
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementFeuille;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
 /**
@@ -10,7 +11,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visi
  * @author Bruju
  *
  */
-public class ConditionArme implements Condition {
+public class ConditionArme implements Condition, ElementFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

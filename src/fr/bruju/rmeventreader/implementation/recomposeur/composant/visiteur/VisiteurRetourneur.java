@@ -4,14 +4,14 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Calcul;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurAleatoire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 
 public abstract class VisiteurRetourneur<R> implements Visiteur {
 	private R elementRetourne;
@@ -33,15 +33,15 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 
 	protected abstract R traiter(Filtre element);
 	
-	protected abstract R traiter(Operation element);
+	protected abstract R traiter(Calcul element);
 
-	protected abstract R traiter(ValeurAleatoire element);
+	protected abstract R traiter(NombreAleatoire element);
 
-	protected abstract R traiter(ValeurConstante element);
+	protected abstract R traiter(Constante element);
 
-	protected abstract R traiter(ValeurEntree element);
+	protected abstract R traiter(Entree element);
 
-	protected abstract R traiter(ValeurVariadique element);
+	protected abstract R traiter(Algorithme element);
 	
 	/* ======
 	 * VISITE
@@ -81,27 +81,27 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 	}
 
 	@Override
-	public final void visit(Operation element) {
+	public final void visit(Calcul element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public final void visit(ValeurAleatoire element) {
+	public final void visit(NombreAleatoire element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public final void visit(ValeurConstante element) {
+	public final void visit(Constante element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public final void visit(ValeurEntree element) {
+	public final void visit(Entree element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public final void visit(ValeurVariadique element) {
+	public final void visit(Algorithme element) {
 		elementRetourne = traiter(element);
 	}
 

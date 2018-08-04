@@ -1,35 +1,39 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
 
+import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import java.util.List;
 import java.util.Objects;
 
 /**
- * (Re-)Initialise la valeur actuelle
+ * Effectue une opération arithmétique avec une autre valeur
  * 
  * @author Bruju
- *
- * @param <T> Le type de la case mémoire
  */
-public class Affectation implements Operation, ElementIntermediaire {
-
+public class Calcul implements Operation, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
-	/** Valeur affectée */
-	public final Valeur base;
+
+	/** Opérateur */
+	public final Operator operateur;
+	/** Opérande de droite */
+	public final Valeur droite;
 
 	/**
-	 * Affecte cette valeur variadique avec base
+	 * Construit un calcul à partir de deux valeurs et un opérateur
 	 * 
-	 * @param base La valeur de base
+	 * @param operateur Un opérateur dans -, *, /, %
+	 * @param droite Valeur de droite
 	 */
-	public Affectation(Valeur base) {
-		this.base = base;
+	public Calcul(Operator operateur, Valeur droite) {
+		this.operateur = operateur;
+		this.droite = droite;
 	}
 	
 	/* ================
@@ -38,19 +42,15 @@ public class Affectation implements Operation, ElementIntermediaire {
 
 	@Override
 	public String toString() {
-		return "|-> " + base.toString();
+		return Utilitaire.getSymbole(operateur) + " " + droite.toString();
 	}
 
 	@Override
 	public boolean cumuler(List<Operation> nouveauxComposants) {
-		boolean wasEmpty = nouveauxComposants.isEmpty();
-		
-		nouveauxComposants.clear();
 		nouveauxComposants.add(this);
-		
-		return !wasEmpty;
+		return false;
 	}
-
+	
 	/* ========
 	 * VISITEUR
 	 * ======== */
@@ -61,40 +61,41 @@ public class Affectation implements Operation, ElementIntermediaire {
 	}
 
 	@Override
-	public Affectation simplifier() {
+	public Calcul simplifier() {
 		return this;
 	}
-
-	/* =================
+	
+	/* ====================
 	 * NOEUD AYANT DES FILS
-	 * ================= */
+	 * ==================== */
 
 	@Override
 	public Element[] getFils() {
-		return new Element[] { this.base };
+		return new Element[] { this.droite };
 	}
 
 	@Override
 	public ElementIntermediaire fonctionDeRecreation(Element[] elementsFils) {
-		return new Affectation((Valeur) elementsFils[0]);
+		return new Calcul(this.operateur, (Valeur) elementsFils[0]);
 	}
 
 	/* =================
 	 * EQUALS / HASHCODE
 	 * ================= */
-
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash("AFF", base);
+		return Objects.hash(operateur, droite);
 	}
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof Affectation) {
-			Affectation that = (Affectation) object;
-			return Objects.equals(this.base, that.base);
+		if (object instanceof Calcul) {
+			Calcul that = (Calcul) object;
+			return Objects.equals(this.operateur, that.operateur) && Objects.equals(this.droite, that.droite);
 		}
 		return false;
 	}
+
 
 }

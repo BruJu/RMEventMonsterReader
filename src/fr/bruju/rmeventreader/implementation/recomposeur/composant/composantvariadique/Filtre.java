@@ -2,8 +2,9 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvar
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -16,7 +17,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class Filtre implements ComposantVariadique {
+public class Filtre implements Operation, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -25,7 +26,7 @@ public class Filtre implements ComposantVariadique {
 	/** Opérande de droite de la comparaison */
 	public final Valeur valeurComparaison;
 	/** Calculs appliqués si la condition est vraie */
-	public final ValeurVariadique valeurFiltrage;
+	public final Algorithme valeurFiltrage;
 
 	/**
 	 * Construit un filtre
@@ -35,7 +36,7 @@ public class Filtre implements ComposantVariadique {
 	 * @param valeurFiltrage Si la valeur vérifie le test Valeur Opérateur valeurComparaison, applique la valeur de
 	 *            filtrage
 	 */
-	public Filtre(Operator operateur, Valeur valeurComparaison, ValeurVariadique valeurFiltrage) {
+	public Filtre(Operator operateur, Valeur valeurComparaison, Algorithme valeurFiltrage) {
 		this.operateur = operateur;
 		this.valeurComparaison = valeurComparaison;
 		this.valeurFiltrage = valeurFiltrage;
@@ -51,6 +52,13 @@ public class Filtre implements ComposantVariadique {
 				+ valeurFiltrage.toString() + "]";
 	}
 
+	@Override
+	public boolean cumuler(List<Operation> nouveauxComposants) {
+		nouveauxComposants.add(this);
+		// TODO
+		return false;
+	}
+	
 	/* ========
 	 * VISITEUR
 	 * ======== */
@@ -85,9 +93,18 @@ public class Filtre implements ComposantVariadique {
 		return false;
 	}
 
+	
+	/* ====================
+	 * NOEUD AYANT DES FILS
+	 * ==================== */
+
 	@Override
-	public boolean cumuler(List<ComposantVariadique> nouveauxComposants) {
-		return false;
+	public Element[] getFils() {
+		return new Element[] { this.valeurComparaison, this.valeurFiltrage };
 	}
 
+	@Override
+	public ElementIntermediaire fonctionDeRecreation(Element[] elementsFils) {
+		return new Filtre(this.operateur, (Valeur) elementsFils[0], (Algorithme) elementsFils[1]);
+	}
 }

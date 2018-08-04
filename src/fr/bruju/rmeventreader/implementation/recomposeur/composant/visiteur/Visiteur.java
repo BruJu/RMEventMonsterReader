@@ -5,14 +5,14 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Calcul;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurAleatoire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 
 public interface Visiteur {
 
@@ -45,7 +45,7 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public void visit(Operation element);
+	public void visit(Calcul element);
 	
 
 	/* =========
@@ -78,28 +78,28 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(ValeurAleatoire element) {
+	public default void visit(NombreAleatoire element) {
 		comportementParDefautFeuille(element);
 	}
 
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(ValeurConstante element) {
+	public default void visit(Constante element) {
 		comportementParDefautFeuille(element);
 	}
 
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(ValeurEntree element) {
+	public default void visit(Entree element) {
 		comportementParDefautFeuille(element);
 	}
 
 	/**
 	 * Visite de composant
 	 */
-	public void visit(ValeurVariadique element); 
+	public void visit(Algorithme element); 
 
 	
 	/* ======

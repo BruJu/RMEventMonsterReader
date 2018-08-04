@@ -4,14 +4,14 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Calcul;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurAleatoire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurEntree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 
 /**
  * Interface de visiteur qui ne fait jamais rien
@@ -38,7 +38,7 @@ public interface VisiteurInactif extends Visiteur {
 	}
 	
 	@Override
-	default void visit(Operation element) {
+	default void visit(Calcul element) {
 	}
 
 	@Override
@@ -54,19 +54,19 @@ public interface VisiteurInactif extends Visiteur {
 	}
 
 	@Override
-	default void visit(ValeurAleatoire element) {
+	default void visit(NombreAleatoire element) {
 	}
 
 	@Override
-	default void visit(ValeurConstante element) {
+	default void visit(Constante element) {
 	}
 
 	@Override
-	default void visit(ValeurEntree element) {
+	default void visit(Entree element) {
 	}
 
 	@Override
-	default void visit(ValeurVariadique element) {
+	default void visit(Algorithme element) {
 	}
 
 	@Override

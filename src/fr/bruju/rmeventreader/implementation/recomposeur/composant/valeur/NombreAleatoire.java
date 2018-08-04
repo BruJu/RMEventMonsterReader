@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class ValeurAleatoire implements Valeur, ElementFeuille {
+public class NombreAleatoire implements Valeur, ElementFeuille, PasAlgorithme {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -26,7 +26,7 @@ public class ValeurAleatoire implements Valeur, ElementFeuille {
 	 * @param min La valeur minimale
 	 * @param max La valeur maximale
 	 */
-	public ValeurAleatoire(int min, int max) {
+	public NombreAleatoire(int min, int max) {
 		this.min = min;
 		this.max = max;
 	}
@@ -50,7 +50,7 @@ public class ValeurAleatoire implements Valeur, ElementFeuille {
 	}
 
 	@Override
-	public ValeurAleatoire simplifier() {
+	public NombreAleatoire simplifier() {
 		return this;
 	}
 	
@@ -65,8 +65,8 @@ public class ValeurAleatoire implements Valeur, ElementFeuille {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof ValeurAleatoire) {
-			ValeurAleatoire that = (ValeurAleatoire) object;
+		if (object instanceof NombreAleatoire) {
+			NombreAleatoire that = (NombreAleatoire) object;
 			return this.min == that.min && this.max == that.max;
 		}
 		return false;

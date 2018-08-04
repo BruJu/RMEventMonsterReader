@@ -9,29 +9,29 @@ import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.ComposantVariadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
-public class ValeurVariadique implements Valeur, ElementIntermediaire {
+public class Algorithme implements Valeur, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
 	/** Liste des opérations */
-	public final List<ComposantVariadique> composants;
+	public final List<Operation> composants;
 	
 	/**
 	 * Crée un bouton variadique vide
 	 */
-	public ValeurVariadique() {
+	public Algorithme() {
 		this.composants = new ArrayList<>();
 	}
  
-	public ValeurVariadique(List<ComposantVariadique> sousElements) {
+	public Algorithme(List<Operation> sousElements) {
 		this.composants = Collections.unmodifiableList(sousElements);
 	}
 
-	public ValeurVariadique(Element[] tableau) {
-		composants = Stream.of(tableau).map(element -> (ComposantVariadique) element)
+	public Algorithme(Element[] tableau) {
+		composants = Stream.of(tableau).map(element -> (Operation) element)
 					.collect(Collectors.toList());
 	}
 	
@@ -72,8 +72,8 @@ public class ValeurVariadique implements Valeur, ElementIntermediaire {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof ValeurVariadique) {
-			ValeurVariadique that = (ValeurVariadique) object;
+		if (object instanceof Algorithme) {
+			Algorithme that = (Algorithme) object;
 			return Objects.deepEquals(this.composants, that.composants);
 		}
 		return false;
@@ -84,7 +84,7 @@ public class ValeurVariadique implements Valeur, ElementIntermediaire {
 	 * ============== */
 
 	@Override
-	public ValeurVariadique simplifier() {
+	public Algorithme simplifier() {
 		return null;
 	}
 
@@ -99,6 +99,6 @@ public class ValeurVariadique implements Valeur, ElementIntermediaire {
 	
 	@Override
 	public ElementIntermediaire fonctionDeRecreation(Element[] fils) {
-		return new ValeurVariadique(fils);
+		return new Algorithme(fils);
 	}
 }

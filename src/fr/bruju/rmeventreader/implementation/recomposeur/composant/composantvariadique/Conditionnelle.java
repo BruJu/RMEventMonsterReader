@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvar
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
 import java.util.List;
@@ -14,14 +14,12 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class Conditionnelle implements ComposantVariadique {
-	
-
+public class Conditionnelle implements Operation {
 	public final Condition condition;
-	public final ValeurVariadique siVrai;
-	public final ValeurVariadique siFaux;
+	public final Algorithme siVrai;
+	public final Algorithme siFaux;
 
-	public Conditionnelle(Condition condition, ValeurVariadique siVrai, ValeurVariadique siFaux) {
+	public Conditionnelle(Condition condition, Algorithme siVrai, Algorithme siFaux) {
 		this.condition = condition;
 		this.siVrai = siVrai;
 		this.siFaux = siFaux;
@@ -38,7 +36,7 @@ public class Conditionnelle implements ComposantVariadique {
 	}
 
 	@Override
-	public boolean cumuler(List<ComposantVariadique> nouveauxComposants) {
+	public boolean cumuler(List<Operation> nouveauxComposants) {
 		Boolean identifie = ConditionFixe.identifier(condition);
 
 		if (identifie == null) {
@@ -62,7 +60,7 @@ public class Conditionnelle implements ComposantVariadique {
 	}
 
 	@Override
-	public ComposantVariadique simplifier() {
+	public Operation simplifier() {
 		Condition cSimplifiee = condition;
 
 		Boolean identifie = ConditionFixe.identifier(cSimplifiee);
