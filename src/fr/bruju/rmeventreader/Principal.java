@@ -10,7 +10,7 @@ public class Principal {
 		int choix = 3;
 
 		if (choix == 0)
-			MonsterDBTest.main_(args, 5);
+			MonsterDBTest.main_(args, 6);
 		
 		if (choix == 3)
 			new Exploitation().exploiter();

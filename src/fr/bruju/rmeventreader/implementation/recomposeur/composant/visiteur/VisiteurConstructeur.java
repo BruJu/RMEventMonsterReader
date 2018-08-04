@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
@@ -78,6 +79,13 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected Operation traiter(Operation element) {
 		return (Operation) traiterSerie(element, new Element[] { element.droite },
 				(tableau) -> new Operation(element.operateur, (Valeur) tableau[0]));
+	}
+	
+
+	@Override
+	protected Filtre traiter(Filtre element) {
+		return (Filtre) traiterSerie(element, new Element[] { element.valeurComparaison, element.valeurFiltrage },
+				(tableau) -> new Filtre(element.operateur, (Valeur) tableau[0], (ValeurVariadique) tableau[1]));
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Flip;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
@@ -48,6 +49,8 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 
 	protected abstract R traiter(ConditionValeur element);
 
+	protected abstract R traiter(Filtre element);
+	
 	protected abstract R traiter(Flip element);
 
 	protected abstract R traiter(Operation element);
@@ -117,6 +120,11 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 
 	@Override
 	public final void visit(ConditionValeur element) {
+		elementRetourne = traiter(element);
+	}
+
+	@Override
+	public final void visit(Filtre element) {
 		elementRetourne = traiter(element);
 	}
 

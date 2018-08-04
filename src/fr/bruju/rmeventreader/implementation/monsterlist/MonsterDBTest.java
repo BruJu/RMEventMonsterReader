@@ -1,6 +1,10 @@
 package fr.bruju.rmeventreader.implementation.monsterlist;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,10 +93,58 @@ public class MonsterDBTest {
 		case 5:	// Affiche les objets - zone - monstres
 			System.out.println(new ChercheObjet(baseDeDonnees).toString());
 			break;
+		case 6:
+			sauvegarder(baseDeDonnees);
+			break;
+			
 		}
 		
 	}
 	
+	private static void sauvegarder(MonsterDatabase bdd) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+		String[] aEnregistrer = new String[] {
+				"Liste",
+				bdd.getString(),
+				"Combats",
+				bdd.getCSVRepresentationOfBattles(),
+				"Monstres",
+				bdd.getCSVRepresentationOfMonsters(),
+				"Reduite",
+				new BDDReduite(bdd.extractMonsters()).getCSV(),
+				"Drop",
+				new ChercheObjet(bdd).toString()
+		};
+		
+		
+		int i = 0;
+		
+		while (i != aEnregistrer.length) {
+			File f = new File("sorties/monstres_" + aEnregistrer[i] +"_" + sdf.format(timestamp) + ".txt");
+			
+			i++;
+			
+			try {
+				f.createNewFile();
+				FileWriter ff = new FileWriter(f);
+				
+				ff.write(aEnregistrer[i]);			
+
+				ff.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			i++;
+			
+			
+		}
+		
+
+		
+	}
+
 	private static boolean interrompreSiOCR(MonsterDatabase baseDeDonnees) {
 		{
 			Object[] monstresInconnus = baseDeDonnees.extractMonsters().stream()
