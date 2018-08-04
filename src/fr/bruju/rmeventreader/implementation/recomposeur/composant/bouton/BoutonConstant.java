@@ -50,6 +50,7 @@ public class BoutonConstant implements Bouton {
 		return valeur ? boutons[1] : boutons[0];
 	}
 	
+	
 	/* ===============
 	 * IMPLEMENTATIONS
 	 * =============== */

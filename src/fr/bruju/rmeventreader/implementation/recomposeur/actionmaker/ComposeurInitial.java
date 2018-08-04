@@ -47,12 +47,9 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	 * @param affecterLesAffichage Si faux, les formules seront plus simples mais moins exactes
 	 */
 	public ComposeurInitial(List<Integer> variablesAPister) {
-		Map<Integer, Valeur> variablesExistantes = new HashMap<>();
-		Map<Integer, Bouton> interrupteursExistants = new HashMap<>();
-
 		variablesSpeciales = variablesAPister.stream().collect(Collectors.toSet());
 		
-		etat = new EtatMemoire(variablesExistantes, interrupteursExistants);
+		etat = new EtatMemoire();
 		
 		traiteurParDefaut = new Traiteur();
 		traiteurSpecial = new TraiteurEnregistreur();

@@ -7,9 +7,11 @@ import java.util.function.Function;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonEntree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.bouton.BoutonVariadique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurEntree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurVariadique;
 
 public class EtatMemoire {
 	/* ==================
@@ -20,9 +22,9 @@ public class EtatMemoire {
 	private EtatMemoire pere;
 
 	/** Contenu des variables */
-	private Map<Integer, Valeur> variables;
+	private Map<Integer, ValeurVariadique> variables;
 	/** Contenu des interrupteusr*/
-	private Map<Integer, Bouton> interrupteurs;
+	private Map<Integer, BoutonVariadique> interrupteurs;
 
 	/** Condition ayant mené à la création des fils */
 	private Condition condition = null;
@@ -36,9 +38,9 @@ public class EtatMemoire {
 	 * @param variablesExistantes Etat des variables
 	 * @param interrupteursExistants Etat des interrupteurs
 	 */
-	public EtatMemoire(Map<Integer, Valeur> variablesExistantes, Map<Integer, Bouton> interrupteursExistants) {
-		this.variables = variablesExistantes;
-		this.interrupteurs = interrupteursExistants;
+	public EtatMemoire() {
+		this.variables = new HashMap<>();;
+		this.interrupteurs = new HashMap<>();
 		this.pere = null;
 	}
 
@@ -118,14 +120,14 @@ public class EtatMemoire {
 	 * @return La donnée demandée, qui peut éventuellement avoir été crée si c'est sa première utilisation.
 	 */
 	private static <T> T extraireDonnee(EtatMemoire courant, Integer numero,
-			Function<EtatMemoire, Map<Integer, T>> fonctionDacces, Function<Integer, T> fonctionDeCreation) {
+			Function<EtatMemoire, Map<Integer, ? extends T>> fonctionDacces, Function<Integer, T> fonctionDeCreation) {
 		T donnee;
 		while (true) {
 			donnee = fonctionDacces.apply(courant).get(numero);
 
 			if (donnee == null) {
 				if (courant.pere == null) {
-					fonctionDacces.apply(courant).put(numero, fonctionDeCreation.apply(numero));
+					return fonctionDeCreation.apply(numero);
 				} else {
 					courant = courant.pere;
 				}
@@ -160,12 +162,21 @@ public class EtatMemoire {
 	}
 	
 	
+	private void combinerValeurs() {
+		
+		
+		
+		
+	}
+
+	private void combienrInterrupteurs() {
+	}
+
 	
-	
-
-
-
 	public void affecterVariable(Integer variable, Operator operator, Valeur vDroite) {
+		
+		
+		
 	}
 
 

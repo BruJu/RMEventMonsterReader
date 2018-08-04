@@ -46,7 +46,6 @@ public class BoutonVariadique extends Variadique<Bouton> implements Bouton {
 	public List<? extends Element> getComposants() {
 		return composants;
 	}
-
 	/* ========
 	 * VISITEUR
 	 * ======== */
@@ -78,6 +77,5 @@ public class BoutonVariadique extends Variadique<Bouton> implements Bouton {
 		// TODO
 		return null;
 	}
-
 
 }
