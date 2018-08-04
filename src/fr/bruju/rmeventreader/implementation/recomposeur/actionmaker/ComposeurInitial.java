@@ -1,9 +1,10 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.actionmaker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -17,8 +18,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Con
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.ValeurConstante;
-import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
@@ -33,8 +32,11 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	
 	/** Un objet appelé lorsqu'une ligne quelconque est lue */
 	private Traiteur traiteurParDefaut;
+	
+	private Traiteur traiteurSpecial;
+	
 	/** Association entre numéro de variables et traiteurs à appeler */
-	private Map<Integer, TraiteurEnregistreur> traiteursSpeciaux;
+	private Set<Integer> variablesSpeciales;
 	
 	private EtatMemoire etat;
 
@@ -48,11 +50,12 @@ public class ComposeurInitial implements ActionMakerDefalse {
 		Map<Integer, Valeur> variablesExistantes = new HashMap<>();
 		Map<Integer, Bouton> interrupteursExistants = new HashMap<>();
 
-		variablesAPister.forEach(numero -> traiteursSpeciaux.put(numero, new TraiteurEnregistreur()));
+		variablesSpeciales = variablesAPister.stream().collect(Collectors.toSet());
 		
 		etat = new EtatMemoire(variablesExistantes, interrupteursExistants);
 		
 		traiteurParDefaut = new Traiteur();
+		traiteurSpecial = new TraiteurEnregistreur();
 	}
 
 	// Entrées / Sorties
@@ -62,7 +65,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	 */
 	public Map<Integer, Valeur> getResultat() {
 		Map<Integer, Valeur> resultat = new HashMap<>();
-		traiteursSpeciaux.keySet().forEach(id -> resultat.put(id, getVariable(id)));
+		variablesSpeciales.forEach(id -> resultat.put(id, getVariable(id)));
 		return resultat;
 	}
 	
@@ -74,8 +77,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	 * @return Le traiteur à utiliser pour cette variable
 	 */
 	private Traiteur getTraiteur(int numVariable) {
-		Traiteur t = traiteursSpeciaux.get(numVariable);
-		return t != null ? t : traiteurParDefaut;
+		return (variablesSpeciales.contains(numVariable)) ? traiteurParDefaut : traiteurSpecial;
 	}
 
 	/* ============
