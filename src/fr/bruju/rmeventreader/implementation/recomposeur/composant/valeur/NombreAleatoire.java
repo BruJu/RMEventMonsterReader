@@ -71,4 +71,9 @@ public class NombreAleatoire implements Valeur, ElementFeuille, PasAlgorithme {
 		}
 		return false;
 	}
+
+	@Override
+	public Algorithme toAlgorithme() {
+		return new Algorithme(this);
+	}
 }

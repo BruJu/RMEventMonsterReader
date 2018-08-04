@@ -10,4 +10,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 public interface Valeur extends Element {
 	@Override
 	public Valeur simplifier();
+
+	public Algorithme toAlgorithme();
 }

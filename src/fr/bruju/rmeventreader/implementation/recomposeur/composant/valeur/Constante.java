@@ -61,4 +61,9 @@ public class Constante implements Valeur, ElementFeuille, PasAlgorithme {
 		}
 		return false;
 	}
+	
+	@Override
+	public Algorithme toAlgorithme() {
+		return new Algorithme(this);
+	}
 }

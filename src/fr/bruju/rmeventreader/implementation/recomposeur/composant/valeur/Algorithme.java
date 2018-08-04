@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
 
@@ -35,11 +36,25 @@ public class Algorithme implements Valeur, ElementIntermediaire {
 					.collect(Collectors.toList());
 	}
 	
+	public Algorithme(Algorithme base, Operation operation) {
+		List<Operation> intermediaire = new ArrayList<>();
+		if (base != null) {
+			intermediaire.addAll(base.composants);
+		}
+		intermediaire.add(operation);
+		
+		this.composants = Collections.unmodifiableList(intermediaire);
+	}
+
+	
+	public Algorithme(Valeur valeur) {
+		this(null, new Affectation(valeur));
+	}
 	
 	/* ===============
 	 * IMPLEMENTATIONS
 	 * =============== */
-
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -100,5 +115,10 @@ public class Algorithme implements Valeur, ElementIntermediaire {
 	@Override
 	public ElementIntermediaire fonctionDeRecreation(Element[] fils) {
 		return new Algorithme(fils);
+	}
+
+	@Override
+	public Algorithme toAlgorithme() {
+		return this;
 	}
 }

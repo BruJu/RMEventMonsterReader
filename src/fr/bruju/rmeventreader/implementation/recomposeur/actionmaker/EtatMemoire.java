@@ -1,10 +1,14 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.actionmaker;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Calcul;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
@@ -93,7 +97,22 @@ public class EtatMemoire {
 	 * @return La valeur contenue dans la variable
 	 */
 	public Valeur getVariable(Integer idVariable) {
-		return extraireDonnee(this, idVariable, etat -> etat.variables, numero -> new Entree(numero));
+		EtatMemoire courant = this;
+		Valeur donnee;
+		
+		while (true) {
+			donnee = courant.variables.get(idVariable);
+
+			if (donnee == null) {
+				if (courant.pere == null) {
+					return new Entree(idVariable);
+				} else {
+					courant = courant.pere;
+				}
+			} else {
+				return donnee;
+			}
+		}
 	}
 
 
@@ -104,32 +123,6 @@ public class EtatMemoire {
 	 */
 	public Valeur getInterrupteur(int idSwitch) {
 		return getVariable(idSwitch + OFFSET_SWITCH);
-	}
-
-	/**
-	 * Extrait l'état mémoire actuel d'une donnée
-	 * @param courant L'état mémoire ayant appellé la fonction
-	 * @param numero Le numéro de la donnée dans la base
-	 * @param fonctionDacces La fonction qui associe à un état mémoire la table des données
-	 * @param fonctionDeCreation Fonction qui permet de crée un nouvel élément de base de cette donnée
-	 * @return La donnée demandée, qui peut éventuellement avoir été crée si c'est sa première utilisation.
-	 */
-	private static <T> T extraireDonnee(EtatMemoire courant, Integer numero,
-			Function<EtatMemoire, Map<Integer, ? extends T>> fonctionDacces, Function<Integer, T> fonctionDeCreation) {
-		T donnee;
-		while (true) {
-			donnee = fonctionDacces.apply(courant).get(numero);
-
-			if (donnee == null) {
-				if (courant.pere == null) {
-					return fonctionDeCreation.apply(numero);
-				} else {
-					courant = courant.pere;
-				}
-			} else {
-				return donnee;
-			}
-		}
 	}
 
 	/**
@@ -147,7 +140,6 @@ public class EtatMemoire {
 	private void integrerFils() {
 		// Combinaisons
 		combinerValeurs();
-		
 
 		// Supression des enfants
 		this.condition = null;
@@ -157,18 +149,38 @@ public class EtatMemoire {
 	
 	
 	private void combinerValeurs() {
+		Set<Integer> listeDesVariables = new HashSet<>();
 		
+		this.filsGauche.variables.keySet().addAll(listeDesVariables);
+		this.filsDroit.variables.keySet().addAll(listeDesVariables);
 		
-		
-		
+		listeDesVariables.forEach(idVariable -> {
+			// Création de la conditionnelle
+			Algorithme g = filsGauche.variables.getOrDefault(idVariable, new Algorithme());
+			Algorithme d = filsDroit.variables.getOrDefault(idVariable, new Algorithme());
+			
+			Conditionnelle conditionnelle = new Conditionnelle(condition, g, d);
+			
+			// Injection dans la base de données
+			Valeur initial = getVariable(idVariable);
+			Algorithme a = initial.toAlgorithme();
+			
+			a = new Algorithme(a, conditionnelle);
+			
+			// Mise en mémoire
+			this.variables.put(idVariable, a);
+		});
 	}
 
 
 	
 	public void affecterVariable(Integer variable, Operator operator, Valeur vDroite) {
-		
-		
-		
+		if (operator == Operator.AFFECTATION) {
+			this.variables.put(variable, vDroite.toAlgorithme());
+		} else {
+			Calcul calcul = new Calcul(operator, vDroite);
+			variables.compute(variable, (id, algoPresent) -> new Algorithme(algoPresent, calcul));
+		}
 	}
 
 

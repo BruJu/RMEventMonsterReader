@@ -61,4 +61,9 @@ public class Entree implements Valeur, ElementFeuille {
 		}
 		return false;
 	}
+
+	@Override
+	public Algorithme toAlgorithme() {
+		return new Algorithme(this);
+	}
 }

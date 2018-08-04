@@ -152,11 +152,12 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	}
 
 	// Traducteur
-
+	
 	/**
 	 * Donne la valeur contenue dans la variable dont le numéro est donné
 	 * 
 	 * @param numeroVariable Le numéro de la variable
+	 * @param b 
 	 * @return La valeur qu'elle contient
 	 */
 	public Valeur getVariable(int numeroVariable) {
