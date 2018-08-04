@@ -78,6 +78,7 @@ public class Operation implements ComposantVariadique<Variadique<Valeur>> {
 
 	@Override
 	public boolean cumuler(List<ComposantVariadique<? extends Variadique<Valeur>>> nouveauxComposants) {
+		nouveauxComposants.add(this);
 		return false;
 	}
 }
