@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur;
+package fr.bruju.rmeventreader.actionmakers.composition.composant.valeur;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 
 /**
  * Valeur pouvant être évaluer numériquement. Une valeur est contenue dans une variable dans RPG Maker. Dans RPG Maker,

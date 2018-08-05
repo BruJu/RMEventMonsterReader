@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.actionmaker;
+package fr.bruju.rmeventreader.actionmakers.composition.actionmaker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,15 +6,15 @@ import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionArme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.NombreAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
@@ -73,23 +73,16 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe valeurDroite) {
 		etat.affecterVariable(variable.idVariable, operator, new Constante(valeurDroite.valeur));
-		
-		//System.out.println(etat.getVariable(variable.idVariable).toString());
 	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire v) {
 		etat.affecterVariable(variable.idVariable, operator, new NombreAleatoire(v.valeurMin, v.valeurMax));
-		
-		//System.out.println(etat.getVariable(variable.idVariable).toString());
 	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, Variable v) {
 		etat.affecterVariable(variable.idVariable, operator, etat.getVariable(v.idVariable));
-		
-		
-		//System.out.println(etat.getVariable(variable.idVariable).toString());
 	}
 
 	// CONDITIONS - OFFSET_SWITCH

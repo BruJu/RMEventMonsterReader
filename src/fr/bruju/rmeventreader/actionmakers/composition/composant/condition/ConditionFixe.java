@@ -1,9 +1,9 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant.condition;
+package fr.bruju.rmeventreader.actionmakers.composition.composant.condition;
 
 import java.util.Objects;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementFeuille;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementFeuille;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
 
 /**
  * Condition toujours vraie ou toujours fausse

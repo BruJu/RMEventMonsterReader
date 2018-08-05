@@ -1,9 +1,9 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
+package fr.bruju.rmeventreader.actionmakers.composition.composant.operation;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
 
 import java.util.List;
 import java.util.Objects;

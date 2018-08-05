@@ -1,6 +1,6 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant;
+package fr.bruju.rmeventreader.actionmakers.composition.composant;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
 
 /**
  * Un élément

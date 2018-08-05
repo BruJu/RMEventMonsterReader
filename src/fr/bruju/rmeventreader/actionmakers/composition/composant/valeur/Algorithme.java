@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur;
+package fr.bruju.rmeventreader.actionmakers.composition.composant.valeur;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,11 +7,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
 
 public class Algorithme implements Valeur, ElementIntermediaire {
 	/* =========

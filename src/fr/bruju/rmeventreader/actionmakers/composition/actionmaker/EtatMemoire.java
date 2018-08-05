@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.actionmaker;
+package fr.bruju.rmeventreader.actionmakers.composition.actionmaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Calcul;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Operation;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
 
 public class EtatMemoire {
 	/* ==================

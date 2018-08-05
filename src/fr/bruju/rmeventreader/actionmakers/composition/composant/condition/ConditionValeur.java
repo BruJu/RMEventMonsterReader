@@ -1,13 +1,13 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant.condition;
+package fr.bruju.rmeventreader.actionmakers.composition.composant.condition;
 
 import java.util.Objects;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**

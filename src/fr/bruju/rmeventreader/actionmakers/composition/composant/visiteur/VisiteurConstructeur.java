@@ -1,20 +1,20 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant.visiteur;
+package fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur;
 
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Affectation;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Conditionnelle;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Filtre;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique.Calcul;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionArme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Filtre;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.NombreAleatoire;
 
 public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 

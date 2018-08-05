@@ -1,8 +1,8 @@
-package fr.bruju.rmeventreader.implementation.recomposeur.composant.composantvariadique;
+package fr.bruju.rmeventreader.actionmakers.composition.composant.operation;
 
 import java.util.List;
 
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 
 /**
  * Element dans une expression variadique
