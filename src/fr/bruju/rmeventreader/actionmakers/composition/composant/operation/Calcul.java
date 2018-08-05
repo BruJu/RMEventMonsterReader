@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.actionmakers.composition.composant.operation;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -47,6 +48,11 @@ public class Calcul implements Operation, ElementIntermediaire {
 
 	@Override
 	public boolean cumuler(List<Operation> nouveauxComposants) {
+		if (this.operateur == Operator.IDENTIQUE && Constante.evaluer(droite) == 0) {
+			return new Affectation(new Constante(0)).cumuler(nouveauxComposants);
+		}
+		
+		
 		nouveauxComposants.add(this);
 		return false;
 	}

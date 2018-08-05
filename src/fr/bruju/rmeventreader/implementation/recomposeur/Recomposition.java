@@ -29,10 +29,11 @@ public class Recomposition {
 
 		MaillonRemplissage(base, carteAremplir);
 
-		/*
+
+		if (carteAremplir.entrySet().size() < 50)
 		carteAremplir.entrySet().stream()
 		.forEach(entry -> entry.getValue().forEach((a, b) -> System.out.println("A = " + a + " ;;; " + b)));
-		*/
+		
 
 		enregistrerDansFichier(carteAremplir);
 

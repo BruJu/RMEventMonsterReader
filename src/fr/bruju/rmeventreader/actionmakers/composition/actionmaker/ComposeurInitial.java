@@ -19,17 +19,19 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
  * variables.
+ * <p>
+ * Les interrupteurs sont considérés comme étant des variables "comme les autres" numérotées de 5001 à 10000
  * 
  * @author Bruju
  *
  */
 public class ComposeurInitial implements ActionMakerDefalse {
+	/** Décalage donné aux interrupteurs */
 	public static final int OFFSET_SWITCH = 5000;
 	
-
 	/** Association entre numéro de variables et traiteurs à appeler */
 	private Set<Integer> variablesSpeciales;
-
+	/** Etat mémoire actuel */
 	private EtatMemoire etat;
 
 	/**
@@ -85,7 +87,7 @@ public class ComposeurInitial implements ActionMakerDefalse {
 		etat.affecterVariable(variable.idVariable, operator, etat.getVariable(v.idVariable));
 	}
 
-	// CONDITIONS - OFFSET_SWITCH
+	// CONDITIONS
 
 	@Override
 	public boolean condOnSwitch(int number, boolean valeur) {

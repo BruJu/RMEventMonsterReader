@@ -17,6 +17,13 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
 
+/**
+ * Un état mémoire représente l'état de la mémoire (contenu des variables et des interrupteurs) à un moment donné.
+ * <p>
+ * Les états se structurent sous forme d'arbre.
+ * @author Bruju
+ *
+ */
 public class EtatMemoire {
 	/* ==================
 	 * ETAT DE LA MEMOIRE
@@ -92,7 +99,6 @@ public class EtatMemoire {
 	public Algorithme getVariable(Integer idVariable) {
 		EtatMemoire courant = this;
 		
-		
 		List<List<Operation>> operationsAEffectuer = new ArrayList<>();
 		
 		while (courant != null) {
@@ -100,15 +106,12 @@ public class EtatMemoire {
 			courant = courant.pere;
 		}
 		
-		
 		List<Operation> listeFinale = new ArrayList<>();
 		
 		listeFinale.add(new Affectation(new Entree(idVariable)));
 		
 		for (int i = operationsAEffectuer.size() - 1 ; i >= 0 ; i--) {
-			
 			for (Operation operation : operationsAEffectuer.get(i)) {
-				
 				if (operation instanceof Affectation) {
 					listeFinale.clear();
 				}
@@ -142,7 +145,9 @@ public class EtatMemoire {
 		this.filsDroit = null;
 	}
 	
-	
+	/**
+	 * Intègre les expressions trouvées par les fils dans cet état.
+	 */
 	private void combinerValeurs() {
 		Set<Integer> listeDesVariables = new HashSet<>();
 		
@@ -168,8 +173,13 @@ public class EtatMemoire {
 	}
 
 
-	
 
+	/**
+	 * Modifie la variable donnée avec l'opérateur et la valeur donnée
+	 * @param variable La variable à modifier
+	 * @param operateur L'opérateur utilisé
+	 * @param vDroite L'opérande droite
+	 */
 	public void affecterVariable(Integer variable, Operator operator, Valeur vDroite) {
 		if (operator == Operator.AFFECTATION) {
 			this.variables.put(variable, vDroite.toAlgorithme());
