@@ -2,7 +2,9 @@ package fr.bruju.rmeventreader.actionmakers.composition.composant.condition;
 
 import java.util.Objects;
 
+import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementFeuille;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
 /**
@@ -11,7 +13,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteu
  * @author Bruju
  *
  */
-public class ConditionFixe implements Condition, ElementFeuille {
+public class ConditionFixe implements Condition, ElementFeuille, ElementIntermediaire {
 	/* =================
 	 * PSEUDO SINGLETON
 	 * ================ */
@@ -100,5 +102,15 @@ public class ConditionFixe implements Condition, ElementFeuille {
 	@Override
 	public int hashCode() {
 		return Objects.hash("CFIXE", value);
+	}
+
+	@Override
+	public Element[] getFils() {
+		return new Element[0];
+	}
+
+	@Override
+	public ElementIntermediaire fonctionDeRecreation(Element[] elementsFils) {
+		return this;
 	}
 }

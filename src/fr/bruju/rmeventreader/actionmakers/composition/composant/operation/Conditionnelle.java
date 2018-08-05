@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Suite de composants variadiques dépendant d'une Cond()
+ * Suite de composants variadiques dépendant d'une condition
  * 
  * @author Bruju
  *
@@ -23,8 +23,24 @@ public class Conditionnelle implements Operation {
 		this.condition = condition;
 		this.siVrai = siVrai;
 		this.siFaux = siFaux;
+		
+		if (ConditionFixe.identifier(condition) != null) {
+			throw new RuntimeException("Création d'une conditionnelle avec une condition déjà évaluée.");
+		}
 	}
 
+	/**
+	 * Crée une conditionnelle avec la condition donnée. Si la condition est déjà évaluée, renvoie un Sous Algorithme
+	 */
+	public static Operation creerConditionnelle(Condition condition, Algorithme siVrai, Algorithme siFaux) {
+		Boolean ident = ConditionFixe.identifier(condition);
+		
+		if (ident == null) {
+			return new Conditionnelle(condition, siVrai, siFaux);
+		} else {
+			return new SousAlgorithme(ident ? siVrai : siFaux);
+		}
+	}
 
 	/* ================
 	 * AFFICHAGE SIMPLE
@@ -65,12 +81,8 @@ public class Conditionnelle implements Operation {
 
 		Boolean identifie = ConditionFixe.identifier(cSimplifiee);
 
-		if (identifie != null) {
-			if (identifie) {
-				return new Conditionnelle(ConditionFixe.get(true), siVrai, null);
-			} else {
-				return new Conditionnelle(ConditionFixe.get(true), siFaux, null);
-			}
+		if (identifie != null || siVrai.equals(siFaux)) {
+			return new SousAlgorithme(identifie ? siVrai : siFaux);
 		} else {
 			return this;
 		}
@@ -95,9 +107,4 @@ public class Conditionnelle implements Operation {
 		}
 		return false;
 	}
-
-
-
-
-	
 }

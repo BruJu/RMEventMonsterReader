@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affec
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Filtre;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.SousAlgorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
@@ -46,7 +47,11 @@ public interface Visiteur {
 	 * Visite de composant
 	 */
 	public void visit(Calcul element);
-	
+
+	/**
+	 * Visite de composant
+	 */
+	public void visit(SousAlgorithme element);
 
 	/* =========
 	 * CONDITION
@@ -55,9 +60,7 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(ConditionArme element) {
-		element.accept(this);
-	}
+	public void visit(ConditionArme element);
 
 	/**
 	 * Visite de composant
@@ -78,36 +81,20 @@ public interface Visiteur {
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(NombreAleatoire element) {
-		comportementParDefautFeuille(element);
-	}
+	public void visit(NombreAleatoire element);
 
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(Constante element) {
-		comportementParDefautFeuille(element);
-	}
+	public void visit(Constante element);
 
 	/**
 	 * Visite de composant
 	 */
-	public default void visit(Entree element) {
-		comportementParDefautFeuille(element);
-	}
+	public void visit(Entree element);
 
 	/**
 	 * Visite de composant
 	 */
-	public void visit(Algorithme element); 
-
-	
-	/* ======
-	 * OUTILS
-	 * ====== */
-	
-	/**
-	 * Visite d'une feuille sans traitement spécifique
-	 */
-	public void comportementParDefautFeuille(Element element);
+	public void visit(Algorithme element);
 }

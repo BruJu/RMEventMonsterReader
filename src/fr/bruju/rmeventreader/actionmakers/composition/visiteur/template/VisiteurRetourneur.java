@@ -8,6 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affec
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Filtre;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.SousAlgorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
@@ -21,44 +22,67 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 		return elementRetourne;
 	}
 
-	protected abstract R traiter(Affectation element);
+	protected R traiter(Affectation element) {
+		return null;
+	}
 
-	protected abstract R traiter(ConditionArme element);
+	protected R traiter(ConditionArme element) {
+		return null;
+	}
 
-	protected abstract R traiter(ConditionFixe element);
+	protected R traiter(ConditionFixe element) {
+		return null;
+	}
 
-	protected abstract R traiter(Conditionnelle element);
-	
-	protected abstract R traiter(ConditionValeur element);
+	protected R traiter(Conditionnelle element) {
+		return null;
+	}
 
-	protected abstract R traiter(Filtre element);
-	
-	protected abstract R traiter(Calcul element);
+	protected R traiter(ConditionValeur element) {
+		return null;
+	}
 
-	protected abstract R traiter(NombreAleatoire element);
+	protected R traiter(Filtre element) {
+		return null;
+	}
 
-	protected abstract R traiter(Constante element);
+	protected R traiter(Calcul element) {
+		return null;
+	}
 
-	protected abstract R traiter(Entree element);
+	protected R traiter(NombreAleatoire element) {
+		return null;
+	}
 
-	protected abstract R traiter(Algorithme element);
-	
+	protected R traiter(Constante element) {
+		return null;
+	}
+
+	protected R traiter(Entree element) {
+		return null;
+	}
+
+	protected R traiter(Algorithme element) {
+		return null;
+	}
+
+	protected R traiter(SousAlgorithme element) {
+		return null;
+	}
+
 	/* ======
 	 * VISITE
 	 * ====== */
 
-	
-
 	@Override
-	public  void visit(Affectation element) {
+	public void visit(Affectation element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public  void visit(Conditionnelle element) {
+	public void visit(Conditionnelle element) {
 		elementRetourne = traiter(element);
 	}
-
 
 	@Override
 	public final void visit(ConditionArme element) {
@@ -106,6 +130,8 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 	}
 
 	@Override
-	public void comportementParDefautFeuille(Element element) {
+	public final void visit(SousAlgorithme element) {
+		elementRetourne = traiter(element);
 	}
+
 }

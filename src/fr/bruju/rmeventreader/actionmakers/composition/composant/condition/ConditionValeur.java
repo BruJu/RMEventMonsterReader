@@ -120,7 +120,7 @@ public class ConditionValeur implements Condition, ElementIntermediaire {
 	}
 
 	@Override
-	public ElementIntermediaire fonctionDeRecreation(Element[] elementsFils) {
+	public ConditionValeur fonctionDeRecreation(Element[] elementsFils) {
 		return new ConditionValeur((Valeur) elementsFils[0], this.operateur, (Valeur) elementsFils[1]);
 	}
 }

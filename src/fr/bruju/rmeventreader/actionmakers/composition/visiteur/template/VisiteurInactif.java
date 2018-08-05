@@ -8,6 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affec
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Filtre;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.SousAlgorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
@@ -70,7 +71,6 @@ public interface VisiteurInactif extends Visiteur {
 	}
 
 	@Override
-	default void comportementParDefautFeuille(Element element) {
+	default void visit(SousAlgorithme element) {
 	}
-
 }
