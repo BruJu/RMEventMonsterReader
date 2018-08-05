@@ -8,6 +8,8 @@ import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 
 public class Principal {
 	public static void main(String[] args) throws IOException {
+		System.out.println("Début");
+		
 		int choix = 4;
 
 		if (choix == 0)
@@ -19,5 +21,7 @@ public class Principal {
 		if (choix == 4)
 			Recomposition.exploiter();
 		
+		
+		System.out.println("Fin");
 	}
 }

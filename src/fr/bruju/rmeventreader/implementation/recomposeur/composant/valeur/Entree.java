@@ -31,7 +31,7 @@ public class Entree implements Valeur, ElementFeuille {
 
 	@Override
 	public String toString() {
-		return Integer.toString(id);
+		return "V[" + Integer.toString(id) + "]";
 	}
 
 	/* ========

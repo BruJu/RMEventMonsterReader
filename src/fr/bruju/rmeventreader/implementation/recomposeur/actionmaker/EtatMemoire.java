@@ -108,6 +108,7 @@ public class EtatMemoire {
 		for (int i = operationsAEffectuer.size() - 1 ; i >= 0 ; i--) {
 			
 			for (Operation operation : operationsAEffectuer.get(i)) {
+				
 				if (operation instanceof Affectation) {
 					listeFinale.clear();
 				}
@@ -134,7 +135,7 @@ public class EtatMemoire {
 	private void integrerFils() {
 		// Combinaisons
 		combinerValeurs();
-
+		
 		// Supression des enfants
 		this.condition = null;
 		this.filsGauche = null;
@@ -145,8 +146,9 @@ public class EtatMemoire {
 	private void combinerValeurs() {
 		Set<Integer> listeDesVariables = new HashSet<>();
 		
-		this.filsGauche.variables.keySet().addAll(listeDesVariables);
-		this.filsDroit.variables.keySet().addAll(listeDesVariables);
+		listeDesVariables.addAll(filsGauche.variables.keySet());
+		listeDesVariables.addAll(filsDroit.variables.keySet());
+		
 		
 		listeDesVariables.forEach(idVariable -> {
 			// Création de la conditionnelle
@@ -176,6 +178,4 @@ public class EtatMemoire {
 			variables.compute(variable, (id, algoPresent) -> new Algorithme(algoPresent, calcul));
 		}
 	}
-
-
 }

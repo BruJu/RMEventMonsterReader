@@ -8,7 +8,6 @@ import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
 import fr.bruju.rmeventreader.implementation.recomposeur.actionmaker.ComposeurInitial;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
-import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
 
 public class Recomposition {

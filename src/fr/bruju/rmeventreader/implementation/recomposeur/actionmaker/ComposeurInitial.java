@@ -13,6 +13,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Con
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
 
 /**
@@ -50,7 +51,14 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	 */
 	public Map<Integer, Algorithme> getResultat() {
 		Map<Integer, Algorithme> resultat = new HashMap<>();
-		variablesSpeciales.forEach(id -> resultat.put(id, etat.getVariable(id).toAlgorithme()));
+		variablesSpeciales.forEach(id -> {
+			Algorithme algo = etat.getVariable(id).toAlgorithme();
+		
+			if (!algo.equals(new Entree(id).toAlgorithme())) {
+				resultat.put(id, algo);
+			}
+		});
+		
 		return resultat;
 	}
 
@@ -65,16 +73,23 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe valeurDroite) {
 		etat.affecterVariable(variable.idVariable, operator, new Constante(valeurDroite.valeur));
+		
+		//System.out.println(etat.getVariable(variable.idVariable).toString());
 	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire v) {
 		etat.affecterVariable(variable.idVariable, operator, new NombreAleatoire(v.valeurMin, v.valeurMax));
+		
+		//System.out.println(etat.getVariable(variable.idVariable).toString());
 	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, Variable v) {
 		etat.affecterVariable(variable.idVariable, operator, etat.getVariable(v.idVariable));
+		
+		
+		//System.out.println(etat.getVariable(variable.idVariable).toString());
 	}
 
 	// CONDITIONS - OFFSET_SWITCH
