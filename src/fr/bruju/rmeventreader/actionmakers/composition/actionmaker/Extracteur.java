@@ -4,8 +4,11 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction.Deducteur;
+import fr.bruju.rmeventreader.implementation.recomposeur.aaaa;
 
 /**
  * Cette classe permet d'avoir un point d'entrée unique et simple pour extraire une composition.
@@ -23,9 +26,10 @@ public class Extracteur {
 		
 		Map<Integer, Algorithme> r = composeur.getResultat();
 		
-		r.replaceAll((cle, algo) -> (Algorithme) new Deducteur().traiter(algo));
-		
-		
+		System.out.println(r.get(514));
+		r.replaceAll((cle, algo) -> (Algorithme) new aaaa().traiter(algo));
+		System.out.println(r.get(514));
+
 		return r;
 	}
 }

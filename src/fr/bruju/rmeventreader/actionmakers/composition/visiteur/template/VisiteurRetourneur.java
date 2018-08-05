@@ -75,12 +75,12 @@ public abstract class VisiteurRetourneur<R> implements Visiteur {
 	 * ====== */
 
 	@Override
-	public void visit(Affectation element) {
+	public final void visit(Affectation element) {
 		elementRetourne = traiter(element);
 	}
 
 	@Override
-	public void visit(Conditionnelle element) {
+	public final void visit(Conditionnelle element) {
 		elementRetourne = traiter(element);
 	}
 

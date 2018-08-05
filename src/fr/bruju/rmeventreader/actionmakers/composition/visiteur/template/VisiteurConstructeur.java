@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.actionmakers.composition.visiteur.template;
 
-
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
@@ -91,13 +90,12 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 
 		for (int i = 0; i != elementsFils.length; i++) {
 			nouveaux[i] = traiter(elementsFils[i]);
-
+			
 			if (nouveaux[i] == null)
 				return null;
 
 			if (nouveaux[i] != elementsFils[i]) {
 				creeUnNouveau = true;
-				nouveaux[i] = nouveaux[i];
 			}
 		}
 
@@ -114,7 +112,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Affectation traiter(Affectation element) {
 		Affectation retour = traiterIntermediaire(element);
-		retour = modifier(element);
+		retour = modifier(retour);
 		if (retour == null)
 			return null;
 		retour = retour.simplifier();
@@ -124,7 +122,10 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Condition traiter(ConditionValeur element) {
 		Condition retour = traiterIntermediaire(element);
-		retour = modifier(element);
+		if (retour instanceof ConditionFixe)
+			return retour;
+		
+		retour = modifier((ConditionValeur) retour);
 		if (retour == null)
 			return null;
 		retour = retour.simplifier();
@@ -134,7 +135,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Calcul traiter(Calcul element) {
 		Calcul retour = traiterIntermediaire(element);
-		retour = modifier(element);
+		retour = modifier(retour);
 		if (retour == null)
 			return null;
 		retour = retour.simplifier();
@@ -144,7 +145,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Filtre traiter(Filtre element) {
 		Filtre retour = traiterIntermediaire(element);
-		retour = modifier(element);
+		retour = modifier(retour);
 		if (retour == null)
 			return null;
 		retour = retour.simplifier();
@@ -154,7 +155,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Algorithme traiter(Algorithme element) {
 		Algorithme retour = traiterIntermediaire(element);
-		retour = modifier(element);
+		retour = modifier(retour);
 		if (retour == null)
 			return null;
 		retour = retour.simplifier();
@@ -164,7 +165,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final SousAlgorithme traiter(SousAlgorithme element) {
 		SousAlgorithme retour = traiterIntermediaire(element);
-		retour = modifier(element);
+		retour = modifier(retour);
 		if (retour == null)
 			return null;
 		retour = retour.simplifier();
@@ -204,12 +205,18 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 		if (f == null)		return null;
 
 		// Tout identique
+		Operation modifiee;
+		
 		if (c == condition && v == siVrai && v == siFaux) {
-			return element;
+			modifiee = modifier(element);
 		} else {
 			// On a la certitude que ce n'est pas un sous algorithme car on a déjà testé l'identification plus haut
-			return modifier((Conditionnelle) new Conditionnelle(c, v, f).simplifier());
+			modifiee = modifier((Conditionnelle) new Conditionnelle(c, v, f));
 		}
+		
+		modifiee = (Operation) modifiee.simplifier();
+		
+		return modifiee;
 	}
 	
 	
@@ -240,7 +247,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 
 	@Override
 	protected final ConditionFixe traiter(ConditionFixe element) {
-		return element;
+		throw new RuntimeException("CF visitée");
 	}
 
 }

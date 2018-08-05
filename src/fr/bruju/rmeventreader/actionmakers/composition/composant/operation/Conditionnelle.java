@@ -53,15 +53,7 @@ public class Conditionnelle implements Operation {
 
 	@Override
 	public boolean cumuler(List<Operation> nouveauxComposants) {
-		Boolean identifie = ConditionFixe.identifier(condition);
-
-		if (identifie == null) {
-			nouveauxComposants.add(this);
-			return true;
-		}
-		
-		nouveauxComposants.addAll(identifie ? siVrai.composants : siFaux.composants);
-
+		nouveauxComposants.add(this);
 		return false;
 	}
 

@@ -103,16 +103,12 @@ public class Algorithme implements Valeur, ElementIntermediaire {
 		List<Operation> liste = new ArrayList<>(composants.size());
 		
 		boolean changer = false;
-		
+
 		for (Operation operation : composants) {
 			changer |= operation.cumuler(liste);
 		}
 		
-		if (changer) {
-			return new Algorithme(liste);
-		} else {
-			return this;
-		}
+		return changer ? new Algorithme(liste) : this;
 	}
 
 	/* ==============
