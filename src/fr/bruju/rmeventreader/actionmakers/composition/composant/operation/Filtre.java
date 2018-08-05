@@ -69,7 +69,7 @@ public class Filtre implements Operation, ElementIntermediaire {
 	}
 
 	@Override
-	public Element simplifier() {
+	public Filtre simplifier() {
 		return this;
 	}
 

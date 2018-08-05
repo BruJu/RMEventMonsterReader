@@ -80,8 +80,9 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	 * ELEMENTS AYANT UN PERE
 	 * ====================== */
 	
+	
 	@SuppressWarnings("unchecked")
-	private <T extends R, R extends ElementIntermediaire> R traiterIntermediaire(T element) {
+	private <T extends ElementIntermediaire> T traitementDesFils(T element) {
 		Element[] elementsFils = element.getFils();
 		
 		Element[] nouveaux = new Element[elementsFils.length];
@@ -103,43 +104,71 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 		if (creeUnNouveau)
 			element = (T) element.fonctionDeRecreation(nouveaux);
 		
-		R retour = (R) modifier(element);
-		
-		if (retour == null)
-			return null;
-		
-		return (R) retour.simplifier();
+		return element;
 	}
-
+	
+	private <T extends ElementIntermediaire> T traiterIntermediaire(T element) {
+		return traitementDesFils(element);
+	}
 
 	@Override
 	protected final Affectation traiter(Affectation element) {
-		return traiterIntermediaire(element);
+		Affectation retour = traiterIntermediaire(element);
+		retour = modifier(element);
+		if (retour == null)
+			return null;
+		retour = retour.simplifier();
+		return retour;
 	}
 
 	@Override
 	protected final Condition traiter(ConditionValeur element) {
-		return traiterIntermediaire(element);
+		Condition retour = traiterIntermediaire(element);
+		retour = modifier(element);
+		if (retour == null)
+			return null;
+		retour = retour.simplifier();
+		return retour;
 	}
 
 	@Override
 	protected final Calcul traiter(Calcul element) {
-		return traiterIntermediaire(element);
+		Calcul retour = traiterIntermediaire(element);
+		retour = modifier(element);
+		if (retour == null)
+			return null;
+		retour = retour.simplifier();
+		return retour;
 	}
 
 	@Override
 	protected final Filtre traiter(Filtre element) {
-		return traiterIntermediaire(element);
+		Filtre retour = traiterIntermediaire(element);
+		retour = modifier(element);
+		if (retour == null)
+			return null;
+		retour = retour.simplifier();
+		return retour;
 	}
 
 	@Override
 	protected final Algorithme traiter(Algorithme element) {
-		return traiterIntermediaire(element);
+		Algorithme retour = traiterIntermediaire(element);
+		retour = modifier(element);
+		if (retour == null)
+			return null;
+		retour = retour.simplifier();
+		return retour;
 	}
 
 	@Override
 	protected final SousAlgorithme traiter(SousAlgorithme element) {
-		return traiterIntermediaire(element);
+		SousAlgorithme retour = traiterIntermediaire(element);
+		retour = modifier(element);
+		if (retour == null)
+			return null;
+		retour = retour.simplifier();
+		return retour;
 	}
 	
 	/* ==========================

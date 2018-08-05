@@ -37,8 +37,9 @@ public class CreateurDeGestionnaire extends VisiteurRetourneur<GestionnaireDeCon
 	protected GestionnaireDeCondition traiter(ConditionValeur cVariable) {
 		Integer valeur = Constante.evaluer(cVariable.droite);
 		
-		if (valeur == null)
+		if (valeur == null) {
 			return null;
+		}
 
 		switch (cVariable.operateur) {
 		case IDENTIQUE:

@@ -52,8 +52,13 @@ public class Deducteur extends VisiteurConstructeur {
 		
 		COND condActuelle = condition;
 
-		for (GestionnaireDeCondition gestionnaire : gestionnaires) {			
+		for (GestionnaireDeCondition gestionnaire : gestionnaires) {
+			if (gestionnaire == null) {
+				continue;
+			}
+			
 			Condition condRecue = funcTraitement.apply(gestionnaire, condActuelle);
+			
 			if (condRecue instanceof ConditionFixe) {
 				return condRecue;
 			}
