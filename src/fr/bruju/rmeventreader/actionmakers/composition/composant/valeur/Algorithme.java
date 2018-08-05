@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
 public class Algorithme implements Valeur, ElementIntermediaire {
 	/* =========

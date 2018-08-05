@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.composition.composant.valeur;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementFeuille;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
 import java.util.Objects;
 

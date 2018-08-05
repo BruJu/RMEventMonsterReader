@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur;
+package fr.bruju.rmeventreader.actionmakers.composition.visiteur.template;
 
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
@@ -100,12 +100,17 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 
 			return new Conditionnelle(ConditionFixe.get(true), valeur, null);
 		}
-
+		
+		avantDeTraiter(c);
 		Algorithme v = (Algorithme) traiter(siVrai);
+		finDeTraitement();
 		if (v == null)
 			return null;
+		
 
+		avantDeTraiter(c.revert());
 		Algorithme f = (Algorithme) traiter(siFaux);
+		finDeTraitement();
 		if (f == null)
 			return null;
 
@@ -116,12 +121,22 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 		}
 	}
 
+
+	protected void avantDeTraiter(Condition c) {
+	}
+	
+	protected void finDeTraitement() {
+	}
+
+
+
+		
 	/* ========
 	 * FEUILLES
 	 * ======== */
 
 	@Override
-	protected ConditionArme traiter(ConditionArme element) {
+	protected Condition traiter(ConditionArme element) {
 		return element;
 	}
 

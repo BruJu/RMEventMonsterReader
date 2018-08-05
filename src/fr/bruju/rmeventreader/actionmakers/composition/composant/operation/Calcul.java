@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import java.util.List;

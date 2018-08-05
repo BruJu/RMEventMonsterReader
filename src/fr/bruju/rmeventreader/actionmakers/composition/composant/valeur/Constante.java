@@ -1,12 +1,16 @@
 package fr.bruju.rmeventreader.actionmakers.composition.composant.valeur;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementFeuille;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
+import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
 import java.util.Objects;
 
 /**
- * Valeur constante 
+ * Valeur constante
+ * 
  * @author Bruju
  *
  */
@@ -14,7 +18,7 @@ public class Constante implements Valeur, ElementFeuille, PasAlgorithme {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
-	
+
 	/** Valeur contenue dans la constante */
 	public final int valeur;
 
@@ -40,7 +44,7 @@ public class Constante implements Valeur, ElementFeuille, PasAlgorithme {
 	public void accept(Visiteur visiteur) {
 		visiteur.visit(this);
 	}
-	
+
 	@Override
 	public Constante simplifier() {
 		return this;
@@ -62,9 +66,57 @@ public class Constante implements Valeur, ElementFeuille, PasAlgorithme {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public Algorithme toAlgorithme() {
 		return new Algorithme(this);
+	}
+
+	public static Integer evaluer(Valeur v) {
+		if (v instanceof Constante) {
+			return ((Constante) v).valeur;
+		}
+
+		if (v instanceof Algorithme) {
+			Algorithme a = (Algorithme) v;
+
+			if (a.composants.isEmpty()) {
+				return null;
+			}
+
+			// Affectation initiale
+
+			Integer valeurNumerique = null;
+
+			for (Operation c : a.composants) {
+
+				if (c instanceof Affectation) {
+					Affectation aff = (Affectation) c;
+
+					if (aff.base instanceof Constante) {
+						valeurNumerique = ((Constante) aff.base).valeur;
+					} else {
+						return null;
+					}
+				} else if (c instanceof Calcul) {
+					Calcul calc = (Calcul) c;
+
+					if (calc.droite instanceof Constante) {
+						if (valeurNumerique == null) {
+							return null;
+						}
+
+						valeurNumerique = calc.operateur.compute(valeurNumerique, ((Constante) calc.droite).valeur);
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+
+			return valeurNumerique;
+		}
+		return null;
 	}
 }

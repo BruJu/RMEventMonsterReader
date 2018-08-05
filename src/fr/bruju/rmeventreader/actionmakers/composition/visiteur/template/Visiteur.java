@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur;
+package fr.bruju.rmeventreader.actionmakers.composition.visiteur.template;
 
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;

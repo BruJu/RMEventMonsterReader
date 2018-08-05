@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.actionmakers.composition.composant;
 
-import fr.bruju.rmeventreader.actionmakers.composition.composant.visiteur.Visiteur;
+import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
 /**
  * Un élément
