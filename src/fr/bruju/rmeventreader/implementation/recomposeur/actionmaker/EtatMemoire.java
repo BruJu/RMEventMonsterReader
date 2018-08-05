@@ -18,8 +18,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 
 public class EtatMemoire {
-	private static final int OFFSET_SWITCH = 5000;
-	
 	/* ==================
 	 * ETAT DE LA MEMOIRE
 	 * ================== */
@@ -121,16 +119,6 @@ public class EtatMemoire {
 		return new Algorithme(listeFinale);
 	}
 	
-
-	/**
-	 * Donne l'état mémoire de l'interrupteur
-	 * @param idVariable Le numéro de l'interrupteur
-	 * @return La valeur contenue dans l'interrupteur
-	 */
-	public Valeur getInterrupteur(int idSwitch) {
-		return getVariable(idSwitch + OFFSET_SWITCH);
-	}
-
 	/**
 	 * Permet de détruire cet état et son frère en intégrant leurs données dans le père
 	 * @return L'état mémoire père

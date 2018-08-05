@@ -11,11 +11,11 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
@@ -25,17 +25,12 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Consta
  *
  */
 public class ComposeurInitial implements ActionMakerDefalse {
-	private final boolean affecterLesAffichage = true;
+	public static final int OFFSET_SWITCH = 5000;
 	
-	
-	/** Un objet appelé lorsqu'une ligne quelconque est lue */
-	private Traiteur traiteurParDefaut;
-	
-	private Traiteur traiteurSpecial;
-	
+
 	/** Association entre numéro de variables et traiteurs à appeler */
 	private Set<Integer> variablesSpeciales;
-	
+
 	private EtatMemoire etat;
 
 	/**
@@ -46,11 +41,8 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	 */
 	public ComposeurInitial(List<Integer> variablesAPister) {
 		variablesSpeciales = variablesAPister.stream().collect(Collectors.toSet());
-		
+
 		etat = new EtatMemoire();
-		
-		traiteurParDefaut = new Traiteur();
-		traiteurSpecial = new TraiteurEnregistreur();
 	}
 
 	// Entrées / Sorties
@@ -58,21 +50,10 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	/**
 	 * Donne un objet résultat contenant les résultats de l'exécution du ComposeurInitial
 	 */
-	public Map<Integer, Valeur> getResultat() {
-		Map<Integer, Valeur> resultat = new HashMap<>();
-		variablesSpeciales.forEach(id -> resultat.put(id, getVariable(id)));
+	public Map<Integer, Algorithme> getResultat() {
+		Map<Integer, Algorithme> resultat = new HashMap<>();
+		variablesSpeciales.forEach(id -> resultat.put(id, etat.getVariable(id).toAlgorithme()));
 		return resultat;
-	}
-	
-
-	/**
-	 * Donne le traiteur à utiliser pour le numéro de variable donné
-	 * 
-	 * @param numVariable Le numéro de variable
-	 * @return Le traiteur à utiliser pour cette variable
-	 */
-	private Traiteur getTraiteur(int numVariable) {
-		return (variablesSpeciales.contains(numVariable)) ? traiteurParDefaut : traiteurSpecial;
 	}
 
 	/* ============
@@ -85,62 +66,47 @@ public class ComposeurInitial implements ActionMakerDefalse {
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe valeurDroite) {
-		Integer numeroDeVariable = variable.get();
-		Valeur vDroite = new Constante(valeurDroite.valeur);
-		Traiteur traiteur = getTraiteur(variable.get());
-
-		traiteur.changeVariable(numeroDeVariable, operator, vDroite);
+		etat.affecterVariable(variable.idVariable, operator, new Constante(valeurDroite.valeur));
 	}
 
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire valeurDroite) {
-		Integer numeroDeVariable = variable.get();
-		Valeur vDroite = new fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire(
-				valeurDroite.valeurMin, valeurDroite.valeurMax);
-		Traiteur traiteur = getTraiteur(variable.get());
-
-		traiteur.changeVariable(numeroDeVariable, operator, vDroite);
+	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire v) {
+		etat.affecterVariable(variable.idVariable, operator, new NombreAleatoire(v.valeurMin, v.valeurMax));
 	}
 
 	@Override
-	public void changeVariable(Variable variable, Operator operator, Variable returnValue) {
-		Integer numeroDeVariable = variable.get();
-		Valeur vDroite = getVariable(returnValue.get());
-		Traiteur traiteur = getTraiteur(variable.get());
-
-		traiteur.changeVariable(numeroDeVariable, operator, vDroite);
+	public void changeVariable(Variable variable, Operator operator, Variable v) {
+		etat.affecterVariable(variable.idVariable, operator, etat.getVariable(v.idVariable));
 	}
 
-	// CONDITIONS
+	// CONDITIONS - OFFSET_SWITCH
 
 	@Override
 	public boolean condOnSwitch(int number, boolean valeur) {
-		etat = etat.creerFils(traiteurParDefaut.condOnSwitch(number, valeur));
+		etat = etat.creerFils(new ConditionValeur(etat.getVariable(number + OFFSET_SWITCH), valeur));
 		return true;
 	}
-	
+
 	@Override
 	public boolean condOnEquippedItem(int heroId, int itemId) {
-		etat = etat.creerFils(traiteurParDefaut.condOnEquippedItem(heroId, itemId));
+		etat = etat.creerFils(new ConditionArme(heroId, itemId));
 		return true;
 	}
 
 	@Override
-	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		Valeur vDroite = new Constante(returnValue.valeur);
-		
-		etat = etat.creerFils(traiteurParDefaut.condOnVariable(leftOperandValue, operatorValue, vDroite));
+	public boolean condOnVariable(int idVariable, Operator operatorValue, ValeurFixe fixe) {
+		etat = etat.creerFils(new ConditionValeur(etat.getVariable(idVariable), operatorValue, 
+				new Constante(fixe.valeur)));
 		return true;
 	}
 
 	@Override
-	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, Variable returnValue) {
-		Valeur vDroite = getVariable(returnValue.idVariable);
-
-		etat = etat.creerFils(traiteurParDefaut.condOnVariable(leftOperandValue, operatorValue, vDroite));
+	public boolean condOnVariable(int idVariable, Operator operatorValue, Variable variable) {
+		etat = etat.creerFils(new ConditionValeur(etat.getVariable(idVariable), operatorValue, 
+				etat.getVariable(variable.idVariable)));
 		return true;
 	}
-	
+
 	@Override
 	public void condElse() {
 		etat = etat.getPetitFrere();
@@ -149,84 +115,5 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	@Override
 	public void condEnd() {
 		etat = etat.revenirAuPere();
-	}
-
-	// Traducteur
-	
-	/**
-	 * Donne la valeur contenue dans la variable dont le numéro est donné
-	 * 
-	 * @param numeroVariable Le numéro de la variable
-	 * @param b 
-	 * @return La valeur qu'elle contient
-	 */
-	public Valeur getVariable(int numeroVariable) {
-		return etat.getVariable(numeroVariable);
-	}
-
-	/**
-	 * Donne la valeur contenue dans l'interrupteur dont le numéro est donné
-	 * 
-	 * @param numeroVariable Le numéro de l'interrupteur
-	 * @return La valeur qu'il contient
-	 */
-	public Valeur getInterrupteur(int numero) {
-		return etat.getInterrupteur(numero);
-	}
-
-	/* =========================
-	 * TRAITEMENT DES EVENEMENTS
-	 * ========================= */
-
-	/**
-	 * Traiteur (dans cette implémentation par défaut) des actions à faire lorsqu'une action est reçue. Se contente de
-	 * déléguer le traitement à l'état mémoire
-	 * 
-	 * @author Bruju
-	 *
-	 */
-	private class Traiteur {
-		/** Changement de variable */
-		public void changeVariable(Integer variable, Operator operator, Valeur vDroite) {
-			etat.affecterVariable(variable, operator, vDroite);
-		}
-
-		/** Condition sur un interrupteur */
-		public Condition condOnSwitch(int number, boolean valeur) {
-			return new ConditionValeur(getInterrupteur(number), valeur);
-		}
-
-		/** Condition sur un objet équipé */
-		public Condition condOnEquippedItem(int heros, int objet) {
-			return new ConditionArme(heros, objet);
-		}
-
-		/** Condition sur une variable */
-		public Condition condOnVariable(int idGauche, Operator operateur, Valeur vDroite) {
-			return new ConditionValeur(getVariable(idGauche), operateur, vDroite);
-		}
-	}
-
-	/**
-	 * Traiteur pour les statistiques : tracke les changements de valeurs et les enregistre dans les formules retenues.
-	 * 
-	 * @author Bruju
-	 *
-	 */
-	private class TraiteurEnregistreur extends Traiteur {
-		/**
-		 * Crée un traiteur enregistreur pour la statistique
-		 * 
-		 * @param stat La statistique
-		 */
-		public TraiteurEnregistreur() {
-		}
-
-		@Override
-		public void changeVariable(Integer variable, Operator operator, Valeur vDroite) {
-			if (affecterLesAffichage) {
-				super.changeVariable(variable, operator, vDroite);
-			}
-		}
 	}
 }
