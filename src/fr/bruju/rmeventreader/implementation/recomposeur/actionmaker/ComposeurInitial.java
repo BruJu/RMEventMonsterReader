@@ -1,10 +1,8 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.actionmaker;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -39,8 +37,8 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	 * @param contexte La base de personnages
 	 * @param affecterLesAffichage Si faux, les formules seront plus simples mais moins exactes
 	 */
-	public ComposeurInitial(List<Integer> variablesAPister) {
-		variablesSpeciales = variablesAPister.stream().collect(Collectors.toSet());
+	public ComposeurInitial(Set<Integer> set) {
+		variablesSpeciales = set;
 
 		etat = new EtatMemoire();
 	}

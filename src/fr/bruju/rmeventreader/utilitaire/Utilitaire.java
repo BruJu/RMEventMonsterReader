@@ -34,7 +34,7 @@ public class Utilitaire {
 	}
 
 	public static class Maps {
-		public static <K, V> V getX(Map<? extends K, ? extends V> map, K key, Supplier<? extends V> supplier) {
+		public static <K, V> V getX(Map<K, V> map, K key, Supplier<? extends V> supplier) {
 			V value = map.get(key);
 			
 			if (value == null) {

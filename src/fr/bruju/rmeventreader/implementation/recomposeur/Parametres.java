@@ -14,7 +14,7 @@ public class Parametres {
 	private Map<String, List<String[]>> donneesLues;
 	
 	public Parametres(String chemin) {
-		Map<String, List<String[]>> donneesLues = new HashMap<>();
+		donneesLues = new HashMap<>();
 		
 		Container<String> sectionActuelle = new Container<>();
 		
@@ -29,6 +29,7 @@ public class Parametres {
 					String nomSection = nouvelleSection.get(0);
 					donneesLues.putIfAbsent(nomSection, new ArrayList<>());
 					sectionActuelle.item = nomSection;
+					
 				} else {
 					String[] donnees = ligne.split(" ");
 					
