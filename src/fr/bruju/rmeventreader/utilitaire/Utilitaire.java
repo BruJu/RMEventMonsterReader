@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BinaryOperator;
+import java.util.function.Supplier;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.PersonnageReel;
 
 public class Utilitaire {
 	
@@ -29,6 +31,19 @@ public class Utilitaire {
 		}
 		
 		
+	}
+
+	public static class Maps {
+		public static <K, V> V getX(Map<? extends K, ? extends V> map, K key, Supplier<? extends V> supplier) {
+			V value = map.get(key);
+			
+			if (value == null) {
+				value = supplier.get();
+				map.put(key, value);
+			}
+			
+			return value;
+		}
 	}
 	
 
