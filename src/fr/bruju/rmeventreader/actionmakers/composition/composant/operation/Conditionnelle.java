@@ -48,7 +48,7 @@ public class Conditionnelle implements Operation {
 
 	@Override
 	public String toString() {
-		return "[" + condition.toString() + " ? " + siVrai.toString() + " : " + siFaux.toString() + "]";
+		return "{" + condition.toString() + " ? " + siVrai.toString() + " : " + siFaux.toString() + "}";
 	}
 
 	@Override

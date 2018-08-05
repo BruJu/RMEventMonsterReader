@@ -20,13 +20,12 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
 
 public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 
-
 	protected void avantDeTraiter(Condition c) {
 	}
-	
+
 	protected void finDeTraitement() {
 	}
-	
+
 	protected Constante modifier(Constante element) {
 		return element;
 	}
@@ -42,7 +41,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected Valeur modifier(Entree element) {
 		return element;
 	}
-	
+
 	protected Operation modifier(Conditionnelle conditionnelle) {
 		return conditionnelle;
 	}
@@ -50,7 +49,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected SousAlgorithme modifier(SousAlgorithme conditionnelle) {
 		return conditionnelle;
 	}
-	
+
 	protected Affectation modifier(Affectation element) {
 		return element;
 	}
@@ -74,23 +73,22 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected ElementIntermediaire modifier(ElementIntermediaire element) {
 		throw new RuntimeException("Visite d'un élément intermediaire inconnu " + element.getClass());
 	}
-	
+
 	/* ======================
 	 * ELEMENTS AYANT UN PERE
 	 * ====================== */
-	
-	
+
 	@SuppressWarnings("unchecked")
-	private <T extends ElementIntermediaire> T traitementDesFils(T element) {
+	private <T extends ElementIntermediaire> T traiterIntermediaire(T element) {
 		Element[] elementsFils = element.getFils();
-		
+
 		Element[] nouveaux = new Element[elementsFils.length];
 
 		boolean creeUnNouveau = false;
 
 		for (int i = 0; i != elementsFils.length; i++) {
 			nouveaux[i] = traiter(elementsFils[i]);
-			
+
 			if (nouveaux[i] == null)
 				return null;
 
@@ -99,14 +97,11 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 			}
 		}
 
-		if (creeUnNouveau)
+		if (creeUnNouveau) {
 			element = (T) element.fonctionDeRecreation(nouveaux);
-		
+		}
+
 		return element;
-	}
-	
-	private <T extends ElementIntermediaire> T traiterIntermediaire(T element) {
-		return traitementDesFils(element);
 	}
 
 	@Override
@@ -124,7 +119,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 		Condition retour = traiterIntermediaire(element);
 		if (retour instanceof ConditionFixe)
 			return retour;
-		
+
 		retour = modifier((ConditionValeur) retour);
 		if (retour == null)
 			return null;
@@ -159,6 +154,9 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 		if (retour == null)
 			return null;
 		retour = retour.simplifier();
+		
+		
+		
 		return retour;
 	}
 
@@ -171,59 +169,60 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 		retour = retour.simplifier();
 		return retour;
 	}
-	
+
 	/* ==========================
 	 * OPERATIONS CONDITIONNELLES
 	 * ========================== */
-	
+
 	@Override
 	protected final Operation traiter(Conditionnelle element) {
 		Condition condition = element.condition;
 		Algorithme siVrai = element.siVrai;
 		Algorithme siFaux = element.siFaux;
-		
+
 		Condition c = (Condition) traiter(condition);
 
-		if (c == null)		return null;
-		
+		if (c == null)
+			return null;
+
 		Boolean ident = ConditionFixe.identifier(c);
 
 		if (ident != null) {
 			return traiter(new SousAlgorithme(ident ? siVrai : siFaux));
 		}
-		
+
 		// Traitement vrai
 		avantDeTraiter(c);
 		Algorithme v = (Algorithme) traiter(siVrai);
 		finDeTraitement();
-		if (v == null)		return null;
-		
+		if (v == null)
+			return null;
+
 		// Traitement faux
 		avantDeTraiter(c.revert());
 		Algorithme f = (Algorithme) traiter(siFaux);
 		finDeTraitement();
-		if (f == null)		return null;
+		if (f == null)
+			return null;
 
 		// Tout identique
 		Operation modifiee;
-		
+
 		if (c == condition && v == siVrai && v == siFaux) {
 			modifiee = modifier(element);
 		} else {
 			// On a la certitude que ce n'est pas un sous algorithme car on a déjà testé l'identification plus haut
 			modifiee = modifier((Conditionnelle) new Conditionnelle(c, v, f));
 		}
-		
+
 		modifiee = (Operation) modifiee.simplifier();
-		
+
 		return modifiee;
 	}
-	
-	
+
 	/* ========
 	 * FEUILLES
 	 * ======== */
-
 
 	@Override
 	protected final Condition traiter(ConditionArme element) {
@@ -234,7 +233,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	protected final Constante traiter(Constante element) {
 		return modifier(element);
 	}
-	
+
 	@Override
 	protected final NombreAleatoire traiter(NombreAleatoire element) {
 		return modifier(element);

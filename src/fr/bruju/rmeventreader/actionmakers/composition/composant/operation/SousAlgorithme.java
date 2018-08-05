@@ -76,6 +76,6 @@ public class SousAlgorithme implements Operation, ElementIntermediaire {
 
 	@Override
 	public SousAlgorithme fonctionDeRecreation(Element[] elementsFils) {
-		return new SousAlgorithme(this.algorithme);
+		return new SousAlgorithme((Algorithme) elementsFils[0]);
 	}
 }

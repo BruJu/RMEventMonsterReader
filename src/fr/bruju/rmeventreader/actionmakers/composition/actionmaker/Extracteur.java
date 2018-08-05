@@ -25,11 +25,6 @@ public class Extracteur {
 		autoActionMaker.run();
 		
 		Map<Integer, Algorithme> r = composeur.getResultat();
-		
-		System.out.println(r.get(514));
-		r.replaceAll((cle, algo) -> (Algorithme) new aaaa().traiter(algo));
-		System.out.println(r.get(514));
-
 		return r;
 	}
 }

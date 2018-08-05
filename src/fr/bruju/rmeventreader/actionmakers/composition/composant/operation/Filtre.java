@@ -37,9 +37,12 @@ public class Filtre implements Operation, ElementIntermediaire {
 	 *            filtrage
 	 */
 	public Filtre(Operator operateur, Valeur valeurComparaison, Algorithme valeurFiltrage) {
+		throw new RuntimeException("Not yet implemented");
+		/*
 		this.operateur = operateur;
 		this.valeurComparaison = valeurComparaison;
 		this.valeurFiltrage = valeurFiltrage;
+		*/
 	}
 
 	/* ================
