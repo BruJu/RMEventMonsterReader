@@ -30,6 +30,14 @@ public class Header implements Comparable<Header> {
 	public int compareTo(Header arg0) {
 		return 0;
 	}
+
+	public int hashUnifiable() {
+		return 0;
+	}
+
+	public boolean estUnifiable(Header left) {
+		return false;
+	}
 	
 	
 }
