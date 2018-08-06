@@ -14,6 +14,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
+import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
 
 public class Recomposition {
 	private final static String CHEMIN_PARAMETRES = "ressources\\recomposeur\\Parametres.txt";
@@ -34,18 +35,25 @@ public class Recomposition {
 		carteAremplir.entrySet().stream()
 		.forEach(entry -> entry.getValue().forEach((a, b) -> System.out.println("A = " + a + " ;;; " + b)));
 		
+		FormuleToString fts = new FormuleToString(base);
 
-		enregistrerDansFichier(carteAremplir);
+		if (carteAremplir.entrySet().size() < 50)
+		carteAremplir.entrySet().stream()
+		.forEach(entry -> entry.getValue().forEach((a, b) -> System.out.println("A = " + a + " ;;; " + fts.traiter(b).s)));
+		
+
+		enregistrerDansFichier(carteAremplir, base);
 
 	}
 
-	private static void enregistrerDansFichier(Map<Header, Map<Integer, Algorithme>> carteAremplir) {
+	private static void enregistrerDansFichier(Map<Header, Map<Integer, Algorithme>> carteAremplir, BaseDeVariables base) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
 		File f = new File("sorties/recompo_" + sdf.format(timestamp) + ".txt");
 
+		FormuleToString fts = new FormuleToString(base);
 		try {
 			f.createNewFile();
 			FileWriter ff = new FileWriter(f);
@@ -54,7 +62,7 @@ public class Recomposition {
 					ff.write(entry.getKey() + "\n");
 					entry.getValue().forEach((a, b) -> {
 						try {
-							ff.write("A = " + a + " ;;; " + b + "\n");
+							ff.write("A = " + a + " ;;; " + fts.traiter(b).s + "\n");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

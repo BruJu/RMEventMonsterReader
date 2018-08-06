@@ -17,7 +17,6 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.NombreAleatoire;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurRetourneur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
@@ -33,6 +32,16 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 	private static final Integer PRIO_CONDITIONNELLE = 15;
 
 	private static final Integer PRIO_CONSTANTE = 20;
+
+	private static final Integer PRIO_DIVIDE = 5;
+
+	private static final Integer PRIO_MINUS = 7;
+
+	private static final Integer PRIO_MODULO = 4;
+
+	private static final Integer PRIO_PLUS = 8;
+
+	private static final Integer PRIO_TIMES = 6;
 	
 	private BaseDeVariables base;
 
@@ -42,7 +51,9 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 
 	@Override
 	protected Res traiter(Affectation element) {
-		return traiter(element.base);
+		Res r = traiter(element.base);
+		
+		return new Res(r.prio, r.s);
 	}
 
 	@Override
@@ -82,7 +93,33 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 
 	@Override
 	protected Res traiter(Calcul element) {
-		return super.traiter(element);
+		String s = traiter(element.droite).s;
+			
+		Integer i;
+		
+		switch (element.operateur) {
+		case DIVIDE:
+			i = PRIO_DIVIDE;
+			break;
+		case MINUS:
+			i = PRIO_MINUS;
+			break;
+		case MODULO:
+			i = PRIO_MODULO;
+			break;
+		case PLUS:
+			i = PRIO_PLUS;
+			break;
+		case TIMES:
+			i = PRIO_TIMES;
+			break;
+		default:
+			i = null;
+			break;
+		}
+		
+		
+		return new Res(i, Utilitaire.getSymbole(element.operateur) + " " + s);
 	}
 
 	@Override
@@ -105,8 +142,7 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 		List<Res> sousRes = element.composants.stream().map(this::traiter)
 									.collect(Collectors.toList());
 		
-		
-		return super.traiter(element);
+		return new Res(0, sousRes.stream().map(r -> r.s).collect(Collectors.joining(" ")));
 	}
 
 	@Override
