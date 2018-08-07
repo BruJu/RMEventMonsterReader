@@ -78,10 +78,10 @@ public class ConditionValeur implements Condition, ElementIntermediaire {
 
 	@Override
 	public Condition simplifier() {
-		if (gauche instanceof Constante && droite instanceof Constante) {
-			int gInt = ((Constante) gauche).valeur;
-			int dInt = ((Constante) droite).valeur;
-			
+		Integer gInt = Constante.evaluer(gauche);
+		Integer dInt = Constante.evaluer(droite);
+		
+		if (gInt != null && dInt != null) {
 			return ConditionFixe.get(operateur.test(gInt, dInt));
 		} else {
 			return this;

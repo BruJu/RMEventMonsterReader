@@ -73,8 +73,10 @@ public class Conditionnelle implements Operation {
 
 		Boolean identifie = ConditionFixe.identifier(cSimplifiee);
 
-		if (identifie != null || siVrai.equals(siFaux)) {
+		if (identifie != null) {
 			return new SousAlgorithme(identifie ? siVrai : siFaux);
+		} else if (siVrai.equals(siFaux)) {
+			return new SousAlgorithme(siVrai);
 		} else {
 			return this;
 		}
