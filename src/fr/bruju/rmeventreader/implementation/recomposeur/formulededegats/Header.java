@@ -1,13 +1,15 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.formulededegats;
 
+import java.util.Objects;
+
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.PersonnageReel;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 
-public class Header implements Comparable<Header> {
+public class Header {
 	public final PersonnageReel lanceur;
 	public final String nomAttaque;
-	public final Statistique statistiqueTouchee; 
+	public final Statistique statistiqueTouchee;
 
 	public Header(String nomLanceur, String nomAttaque, BaseDeVariables base) {
 		this.lanceur = base.getPersonnage(nomLanceur);
@@ -23,21 +25,16 @@ public class Header implements Comparable<Header> {
 
 	@Override
 	public String toString() {
-		return lanceur.getNom() + "." + nomAttaque;
+		return lanceur.getNom() + "." + nomAttaque + " • " + statistiqueTouchee.toString();
 	}
-
-	@Override
-	public int compareTo(Header arg0) {
-		return 0;
-	}
-
 	public int hashUnifiable() {
-		return 0;
+		return Objects.hash(lanceur, nomAttaque, statistiqueTouchee.possesseur);
 	}
 
 	public boolean estUnifiable(Header left) {
-		return false;
+		return Objects.equals(lanceur, left.lanceur)
+				&& Objects.equals(statistiqueTouchee.possesseur, left.statistiqueTouchee.possesseur)
+				&& Objects.equals(nomAttaque, left.nomAttaque);
 	}
-	
-	
+
 }

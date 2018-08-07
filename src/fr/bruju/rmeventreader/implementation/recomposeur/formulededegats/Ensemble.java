@@ -17,28 +17,34 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.util.similaire.CollectorBySimilarity;
 
 public class Ensemble {
-	private BaseDeVariables base;
 	private Map<Header, Algorithme> algorithmesTrouves;
 
 	public Ensemble(Map<Header, Map<Integer, Algorithme>> map, BaseDeVariables base) {
-		this.base = base;
 		this.algorithmesTrouves = new HashMap<>();
 
 		map.forEach((head, body) -> body.forEach((variable, algorithme) -> this.algorithmesTrouves
 				.put(new Header(head, base.getStatistiqueById(variable)), algorithme)));
 	}
-
-	public void modifierAlgorithmes(UnaryOperator<Algorithme> fonctionDeTransformation) {
-		algorithmesTrouves.replaceAll((header, body) -> fonctionDeTransformation.apply(body));
+	
+	public Map<Header, Algorithme> getMap() {
+		return this.algorithmesTrouves;
 	}
 
-	public void integrationDansHeader(BiFunction<Header, Algorithme, Pair<Header, Algorithme>> fonction) {
+	public Ensemble modifierAlgorithmes(UnaryOperator<Algorithme> fonctionDeTransformation) {
+		algorithmesTrouves.replaceAll((header, body) -> fonctionDeTransformation.apply(body));
+		
+		return this;
+	}
+
+	public Ensemble integrationDansHeader(BiFunction<Header, Algorithme, Pair<Header, Algorithme>> fonction) {
 		algorithmesTrouves = algorithmesTrouves.entrySet().stream()
 				.map(entrySet -> fonction.apply(entrySet.getKey(), entrySet.getValue()))
 				.collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
+		
+		return this;
 	}
 
-	public void unifier(BinaryOperator<Pair<Header, Algorithme>> fonctionFusion) {
+	public Ensemble unifier(BinaryOperator<Pair<Header, Algorithme>> fonctionFusion) {
 		CollectorBySimilarity<Pair<Header, Algorithme>> collector = new CollectorBySimilarity<>(
 				p -> p.getLeft().hashUnifiable(), (a, b) -> a.getLeft().estUnifiable(b.getLeft()));
 
@@ -50,6 +56,8 @@ public class Ensemble {
 				.map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, fonctionFusion))
 				.flatMap(liste -> liste.stream())
 				.collect(Collectors.toMap(paire -> paire.getLeft(), paire -> paire.getRight()));
+		
+		return this;
 	}
 
 }

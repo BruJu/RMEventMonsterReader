@@ -7,12 +7,14 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.ComposeurInitial;
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
+import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Ensemble;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
 
@@ -29,49 +31,42 @@ public class Recomposition {
 		Map<Header, Map<Integer, Algorithme>> carteAremplir = new HashMap<>();
 
 		MaillonRemplissage(base, carteAremplir);
-
-
-		if (carteAremplir.entrySet().size() < 50)
-		carteAremplir.entrySet().stream()
-		.forEach(entry -> entry.getValue().forEach((a, b) -> System.out.println("A = " + a + " ;;; " + b)));
 		
+		Ensemble ens = new Ensemble(carteAremplir, base);
+		
+		
+		
+
 		FormuleToString fts = new FormuleToString(base);
-
-		if (carteAremplir.entrySet().size() < 50)
-		carteAremplir.entrySet().stream()
-		.forEach(entry -> entry.getValue().forEach((a, b) -> System.out.println("A = " + a + " ;;; " + fts.traiter(b).s)));
 		
-
-		enregistrerDansFichier(carteAremplir, base);
+		String sortie = ens
+		
+		
+		
+			.getMap()
+			.entrySet()
+			.stream()
+			.map(entry -> entry.getKey().toString() + " ;;; " + fts.traiter(entry.getValue()).s)
+			.collect(Collectors.joining("\n"));
+		
+		
+		//System.out.print(sortie);
+		
+		enregistrerDansFichier(sortie);
 
 	}
 
-	private static void enregistrerDansFichier(Map<Header, Map<Integer, Algorithme>> carteAremplir, BaseDeVariables base) {
+	private static void enregistrerDansFichier(String sortie) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
 		File f = new File("sorties/recompo_" + sdf.format(timestamp) + ".txt");
 
-		FormuleToString fts = new FormuleToString(base);
 		try {
 			f.createNewFile();
 			FileWriter ff = new FileWriter(f);
-			carteAremplir.entrySet().stream().forEach(entry -> {
-				try {
-					ff.write(entry.getKey() + "\n");
-					entry.getValue().forEach((a, b) -> {
-						try {
-							ff.write("A = " + a + " ;;; " + fts.traiter(b).s + "\n");
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					});
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			});
+			ff.write(sortie);
 
 			ff.close();
 		} catch (IOException e) {
