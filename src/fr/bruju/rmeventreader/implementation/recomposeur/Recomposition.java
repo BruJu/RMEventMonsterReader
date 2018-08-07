@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
-import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.ComposeurInitial;
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
@@ -23,9 +21,17 @@ public class Recomposition {
 	private final static String CHEMIN_ATTAQUES = "ressources\\recomposeur\\attaques";
 
 	public static void exploiter() {
-		Parametres parametres = new Parametres(CHEMIN_PARAMETRES);
-
-		BaseDeVariables base = new BaseDeVariables();
+		new Recomposition().exp();
+	}
+	
+	
+	Parametres parametres;
+	BaseDeVariables base;
+	
+	private void exp() {
+		parametres = new Parametres(CHEMIN_PARAMETRES);
+		base = new BaseDeVariables();
+		
 		base.remplir(parametres);
 
 		Map<Header, Map<Integer, Algorithme>> carteAremplir = new HashMap<>();
@@ -40,7 +46,7 @@ public class Recomposition {
 		FormuleToString fts = new FormuleToString(base);
 		
 		String sortie = ens
-		
+			.modifierAlgorithmes(this::injection)
 		
 		
 			.getMap()
@@ -54,6 +60,10 @@ public class Recomposition {
 		
 		enregistrerDansFichier(sortie);
 
+	}
+	
+	public Algorithme injection(Algorithme a) {
+		return (Algorithme) new Injecteur(parametres).traiter(a);
 	}
 
 	private static void enregistrerDansFichier(String sortie) {
