@@ -67,4 +67,8 @@ public class Entree implements Valeur, ElementFeuille {
 	public Algorithme toAlgorithme() {
 		return new Algorithme(this);
 	}
+
+	public static Integer extraire(Valeur gauche) {
+		return null;
+	}
 }

@@ -8,11 +8,9 @@ import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.Injecteur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
