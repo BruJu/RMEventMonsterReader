@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.Injecteur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -57,6 +59,11 @@ public class Ensemble {
 				.flatMap(liste -> liste.stream())
 				.collect(Collectors.toMap(paire -> paire.getLeft(), paire -> paire.getRight()));
 		
+		return this;
+	}
+
+	public Ensemble reconstruire(VisiteurConstructeur constructeur) {
+		modifierAlgorithmes(algo -> (Algorithme) constructeur.traiter(algo));
 		return this;
 	}
 

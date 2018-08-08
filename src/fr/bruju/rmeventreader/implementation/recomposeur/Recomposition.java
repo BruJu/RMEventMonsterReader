@@ -46,7 +46,7 @@ public class Recomposition {
 		FormuleToString fts = new FormuleToString(base);
 		
 		String sortie = ens
-			.modifierAlgorithmes(this::injection)
+			.reconstruire(new Injecteur(parametres))
 		
 		
 			.getMap()
@@ -60,10 +60,6 @@ public class Recomposition {
 		
 		enregistrerDansFichier(sortie);
 
-	}
-	
-	public Algorithme injection(Algorithme a) {
-		return (Algorithme) new Injecteur(parametres).traiter(a);
 	}
 
 	private static void enregistrerDansFichier(String sortie) {
