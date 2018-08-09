@@ -9,7 +9,9 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 public class Contenant {
 	private Contenu contenu;
 	
-	public Contenant(List<Algorithme> contenu) {
+	public Contenant() {}
+	
+	public Contenant(List<Resultat> contenu) {
 		this.contenu = new ListAlgo(this, contenu);
 	}
 	

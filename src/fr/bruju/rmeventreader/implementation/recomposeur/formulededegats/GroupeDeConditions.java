@@ -1,16 +1,21 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.formulededegats;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 
 public class GroupeDeConditions {
 	public final List<ConditionAffichable> conditions;	
 	
 	public GroupeDeConditions(List<ConditionAffichable> conditions) {
 		this.conditions = conditions;
+	}
+
+	public GroupeDeConditions(ConditionAffichable condition) {
+		this.conditions = new ArrayList<>(1);
+		conditions.add(condition);
 	}
 
 	@Override

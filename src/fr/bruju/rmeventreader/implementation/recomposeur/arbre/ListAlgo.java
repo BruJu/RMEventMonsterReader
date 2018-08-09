@@ -8,16 +8,16 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 
 public class ListAlgo implements Contenu {
 	public final Contenant contenant;
-	private List<Algorithme> contenu;
+	private List<Resultat> contenu;
 
-	public ListAlgo(Contenant contenant, List<Algorithme> contenu) {
+	public ListAlgo(Contenant contenant, List<Resultat> contenu) {
 		this.contenant = contenant;
 		this.contenu = contenu;
 	}
 
 	@Override
 	public void transformerAlgorithmes(UnaryOperator<Algorithme> transformation) {
-		contenu.replaceAll(transformation);
+		contenu.replaceAll(res -> new Resultat(res.stat, transformation.apply(res.algo)));
 	}
 
 	@Override
