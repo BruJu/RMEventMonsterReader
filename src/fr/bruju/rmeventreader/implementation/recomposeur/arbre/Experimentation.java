@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Experimentation {
 						.collect(Collectors.toList()));
 	}
 
-	public Contenant creerArbre() {
+	public Arbre creerArbre() {
 		Contenant c = new Contenant();
 		EtageBuilder sommet = new EtageBuilder(c);
 
@@ -37,11 +38,14 @@ public class Experimentation {
 			EtageBuilder attaques = new EtageBuilder(contenant);
 
 			algorithmes.forEach((nomAttaque, algos) -> attaques
-					.ajouter(new GroupeDeConditions(new CondPerso(nomAttaque)), new Contenant(algos)));
+					.ajouter(new GroupeDeConditions(new CondChaine(nomAttaque)), new Contenant(algos)));
 
-			sommet.ajouter(new GroupeDeConditions(new CondPerso(nomPerso)), contenant);
+			sommet.ajouter(new GroupeDeConditions(new CondChaine(nomPerso)), contenant);
 		});
-
-		return c;
+		
+		
+		String[] etages = {"Lanceur", "Attaque"};
+		
+		return new Arbre(Arrays.asList(etages), c, base);
 	}
 }
