@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.recomposeur.formulededegats;
 import java.util.List;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 public class GroupeDeConditions {
@@ -24,6 +25,11 @@ public class GroupeDeConditions {
 			return Objects.equals(this.conditions, that.conditions);
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return conditions.stream().map(c -> c.getString()).collect(Collectors.joining(","));
 	}
 	
 	

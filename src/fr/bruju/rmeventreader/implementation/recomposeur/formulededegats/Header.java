@@ -33,7 +33,7 @@ public class Header {
 		this.lanceur = header.lanceur;
 		this.nomAttaque = header.nomAttaque;
 		this.statistiqueTouchee = header.statistiqueTouchee;
-		
+
 		this.groupes = new ArrayList<>();
 		header.groupes.forEach(groupes::add);
 		header.groupes.add(nouveauGroupe);
@@ -41,9 +41,10 @@ public class Header {
 
 	@Override
 	public String toString() {
-		return lanceur.getNom() + "." + nomAttaque + " • " + statistiqueTouchee.toString() + " • " +
-	groupes.stream().map(groupe -> groupe.toString()).collect(Collectors.joining(" ; "));
+		return lanceur.getNom() + "." + nomAttaque + " • " + statistiqueTouchee.toString() + " • "
+				+ groupes.stream().map(groupe -> groupe.toString()).collect(Collectors.joining(" ; "));
 	}
+
 	public int hashUnifiable() {
 		return Objects.hash(lanceur, nomAttaque, statistiqueTouchee.possesseur);
 	}

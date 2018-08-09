@@ -1,8 +1,10 @@
-package fr.bruju.rmeventreader.implementation.recomposeur;
+package fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
@@ -11,9 +13,13 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.Parametres;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.ConditionAffichable;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
+import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 
 /**
  * Visiteur constructeur statefull
@@ -22,14 +28,21 @@ import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeD
  *
  */
 public class Desinjection extends VisiteurConstructeur implements IncrementateurDeHeader {
+
+	
+	
+	
 	private Algorithme resultat;
 	
 	private boolean desinjectionProduite = false;
 	private Map<Integer, Integer> listePaires;
+	private Header nouveauHeader;
 	
-	public Desinjection(Personnage personnageCible, Map<Integer, Integer> conditionsVerifiees, Algorithme algorithme) {
-		listePaires = conditionsVerifiees;
+	public Desinjection(Header header, Algorithme algorithme, Map<Integer, Integer> carte) {
+		listePaires = carte;
+		
 		this.resultat = traiter(algorithme);
+		this.nouveauHeader = new Header(header, recupererGroupeDeConditions());
 	}
 	
 	@Override
@@ -37,8 +50,7 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 		return resultat;
 	}
 	
-	@Override
-	public GroupeDeConditions recupererGroupeDeConditions() {
+	private GroupeDeConditions recupererGroupeDeConditions() {
 		List<ConditionAffichable> liste = new ArrayList<>(1);
 		liste.add(new Ciblage(desinjectionProduite));
 		return new GroupeDeConditions(liste);
@@ -65,16 +77,10 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 	
 	
 	
-	public static class Ciblage implements ConditionAffichable {
-		public final boolean estCible;
 
-		public Ciblage(boolean estCible) {
-			this.estCible = estCible;
-		}
 
-		@Override
-		public String getString() {
-			return estCible ? "Ciblé" : "AoE";
-		}
+	@Override
+	public Header getHeader() {
+		return nouveauHeader;
 	}
 }

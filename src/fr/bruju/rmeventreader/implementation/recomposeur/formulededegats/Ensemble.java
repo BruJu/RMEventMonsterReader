@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.util.similaire.CollectorBySimilarity;
@@ -62,6 +63,16 @@ public class Ensemble {
 
 	public Ensemble reconstruire(VisiteurConstructeur constructeur) {
 		modifierAlgorithmes(algo -> (Algorithme) constructeur.traiter(algo));
+		return this;
+	}
+	
+
+	public Ensemble injecterHeader(StructureDInjectionDeHeader preTraitementDesinjection) {
+		algorithmesTrouves = algorithmesTrouves.entrySet()
+			.stream()
+			.map(entrySet -> preTraitementDesinjection.creerIncrementateur(entrySet.getKey(), entrySet.getValue()))
+			.collect(Collectors.toMap(inc -> inc.getHeader(), inc -> inc.getResultat()));
+		
 		return this;
 	}
 

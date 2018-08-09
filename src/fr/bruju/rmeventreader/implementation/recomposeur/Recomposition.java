@@ -24,6 +24,8 @@ import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVari
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Ensemble;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.Desinjection;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 
 public class Recomposition {
 	private final static String CHEMIN_PARAMETRES = "ressources\\recomposeur\\Parametres.txt";
@@ -63,13 +65,17 @@ public class Recomposition {
 		 */
 		
 		
+		// 
+		
 
 		FormuleToString fts = new FormuleToString(base);
 		
+		
+		
+		
 		String sortie = ens
 			.reconstruire(new Injecteur(parametres))
-			//.injecterHeader(parametres, )
-		
+			.injecterHeader(new PreTraitementDesinjection(parametres))
 			.getMap()
 			.entrySet()
 			.stream()
