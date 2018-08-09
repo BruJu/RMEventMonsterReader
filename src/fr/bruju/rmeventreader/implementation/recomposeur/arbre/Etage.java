@@ -65,6 +65,7 @@ public class Etage implements Contenu {
 
 		public EtageBuilder(Contenant contenant) {
 			etage = new Etage(contenant);
+			contenant.transformerContenu(etage);
 		}
 
 		public EtageBuilder ajouter(GroupeDeConditions groupe, Contenant contenant) {

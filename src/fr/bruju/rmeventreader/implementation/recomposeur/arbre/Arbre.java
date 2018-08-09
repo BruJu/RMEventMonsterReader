@@ -4,15 +4,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.implementation.recomposeur.Injecteur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Arbre {
+	@SuppressWarnings("unused")
 	private List<String> nomDesEtages;
-	private Contenant racine;
-	private BaseDeVariables base;
+	public final Contenant racine;
+	public final BaseDeVariables base;
 	
 	public Arbre(List<String> nomDesEtages, Contenant racine, BaseDeVariables base) {
 		this.nomDesEtages = nomDesEtages;
@@ -23,6 +26,12 @@ public class Arbre {
 	
 	public List<Triplet<List<GroupeDeConditions>, Statistique, Algorithme>> getFruits() {
 		return racine.recupererAlgo().collect(Collectors.toList());
+	}
+
+
+	public Arbre reconstruire(StructureDInjectionDeHeader preTraitementDesinjection) {
+		// TODO
+		return this;
 	}
 	
 	

@@ -76,6 +76,8 @@ public class Recomposition {
 		Arbre arbre = construireArbre();
 
 		// Traitements de l'arbre
+		
+		arbre.reconstruire(new Injecteur(parametres));
 
 		// Recupération des fruits
 
@@ -96,8 +98,7 @@ public class Recomposition {
 		triplet.a.subList(2, triplet.a.size()).stream().map(groupe -> groupe.toString())
 				.forEach(s -> sb.append(s).append(";"));
 
-		sb.append(triplet.c.toString());
-
+		sb.append(new FormuleToString(base).traiter(triplet.c).s);
 		return sb.toString();
 	}
 
