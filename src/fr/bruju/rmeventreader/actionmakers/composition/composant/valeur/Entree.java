@@ -1,6 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.composition.composant.valeur;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementFeuille;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
 import java.util.Objects;
@@ -68,7 +71,39 @@ public class Entree implements Valeur, ElementFeuille {
 		return new Algorithme(this);
 	}
 
-	public static Integer extraire(Valeur gauche) {
+	public static Integer extraire(Valeur v) {
+		if (v instanceof Entree) {
+			return ((Entree) v).id;
+		}
+
+		if (v instanceof Algorithme) {
+			Algorithme a = (Algorithme) v;
+
+			if (a.composants.isEmpty()) {
+				return null;
+			}
+
+			// Affectation initiale
+
+			Integer valeurNumerique = null;
+
+			for (Operation c : a.composants) {
+
+				if (c instanceof Affectation) {
+					Affectation aff = (Affectation) c;
+
+					if (aff.base instanceof Entree) {
+						valeurNumerique = ((Entree) aff.base).id;
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+
+			return valeurNumerique;
+		}
 		return null;
 	}
 }

@@ -107,6 +107,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Affectation traiter(Affectation element) {
 		Affectation retour = traiterIntermediaire(element);
+		if (retour == null) return null;
 		retour = modifier(retour);
 		if (retour == null)
 			return null;
@@ -119,6 +120,8 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 		Condition retour = traiterIntermediaire(element);
 		if (retour instanceof ConditionFixe)
 			return retour;
+		
+		if (retour == null) return null;
 
 		retour = modifier((ConditionValeur) retour);
 		if (retour == null)
@@ -130,6 +133,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Calcul traiter(Calcul element) {
 		Calcul retour = traiterIntermediaire(element);
+		if (retour == null) return null;
 		retour = modifier(retour);
 		if (retour == null)
 			return null;
@@ -140,6 +144,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Filtre traiter(Filtre element) {
 		Filtre retour = traiterIntermediaire(element);
+		if (retour == null) return null;
 		retour = modifier(retour);
 		if (retour == null)
 			return null;
@@ -150,6 +155,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final Algorithme traiter(Algorithme element) {
 		Algorithme retour = traiterIntermediaire(element);
+		if (retour == null) return null;
 		retour = modifier(retour);
 		if (retour == null)
 			return null;
@@ -163,6 +169,7 @@ public class VisiteurConstructeur extends VisiteurRetourneur<Element> {
 	@Override
 	protected final SousAlgorithme traiter(SousAlgorithme element) {
 		SousAlgorithme retour = traiterIntermediaire(element);
+		if (retour == null) return null;
 		retour = modifier(retour);
 		if (retour == null)
 			return null;

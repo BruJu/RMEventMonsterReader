@@ -64,7 +64,7 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 		Integer valeurVoulue = listePaires.get(variableGauche);
 		
 		if (valeurVoulue == null) {
-			return null;
+			return element;
 		}
 		
 		desinjectionProduite = true;
