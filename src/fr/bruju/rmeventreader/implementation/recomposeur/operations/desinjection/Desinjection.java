@@ -1,10 +1,8 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
@@ -13,13 +11,11 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.Parametres;
-import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.ConditionAffichable;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
  * Visiteur constructeur statefull
@@ -28,15 +24,13 @@ import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.S
  *
  */
 public class Desinjection extends VisiteurConstructeur implements IncrementateurDeHeader {
-
-	
-	
-	
+	/* Résultats */
+	private Header nouveauHeader;
 	private Algorithme resultat;
 	
+	/* Traitement */
 	private boolean desinjectionProduite = false;
 	private Map<Integer, Integer> listePaires;
-	private Header nouveauHeader;
 	
 	public Desinjection(Header header, Algorithme algorithme, Map<Integer, Integer> carte) {
 		listePaires = carte;
@@ -46,9 +40,11 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 	}
 	
 	@Override
-	public Algorithme getResultat() {
-		return resultat;
+	public Pair<Header, Algorithme> produire() {
+		return new Pair<>(nouveauHeader, resultat);
 	}
+	
+
 	
 	private GroupeDeConditions recupererGroupeDeConditions() {
 		List<ConditionAffichable> liste = new ArrayList<>(1);
@@ -74,13 +70,7 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 		desinjectionProduite = true;
 		return ConditionFixe.get(evaluationDroite.equals(valeurVoulue));
 	}
-	
-	
-	
 
 
-	@Override
-	public Header getHeader() {
-		return nouveauHeader;
-	}
+
 }

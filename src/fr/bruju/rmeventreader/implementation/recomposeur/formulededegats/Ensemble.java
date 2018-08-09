@@ -71,7 +71,8 @@ public class Ensemble {
 		algorithmesTrouves = algorithmesTrouves.entrySet()
 			.stream()
 			.map(entrySet -> preTraitementDesinjection.creerIncrementateur(entrySet.getKey(), entrySet.getValue()))
-			.collect(Collectors.toMap(inc -> inc.getHeader(), inc -> inc.getResultat()));
+			.map(incrementateur -> incrementateur.produire())
+			.collect(Collectors.toMap(inc -> inc.getLeft(), inc -> inc.getRight()));
 		
 		return this;
 	}

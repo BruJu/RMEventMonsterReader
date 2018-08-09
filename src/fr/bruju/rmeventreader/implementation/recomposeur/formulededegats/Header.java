@@ -36,7 +36,7 @@ public class Header {
 
 		this.groupes = new ArrayList<>();
 		header.groupes.forEach(groupes::add);
-		header.groupes.add(nouveauGroupe);
+		groupes.add(nouveauGroupe);
 	}
 
 	@Override
