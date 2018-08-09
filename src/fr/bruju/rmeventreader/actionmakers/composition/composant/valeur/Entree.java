@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.actionmakers.composition.composant.valeur;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementFeuille;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 

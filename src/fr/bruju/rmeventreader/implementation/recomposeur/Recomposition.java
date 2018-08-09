@@ -11,20 +11,10 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonSetAffichagegetString;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonSystemOut;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.MaillonDiviseur;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.extension.Borne;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.extension.Encadrer;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.factorisation.Factorisation;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonDesinjecteur;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonRetirerSiInutile;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonUnificateur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Ensemble;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.Desinjection;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 
 public class Recomposition {
@@ -53,25 +43,13 @@ public class Recomposition {
 		
 		
 		/*		Opérations dans FormulaTracker :
-		 * 		new MaillonDesinjecteur(),
 				new MaillonUnificateur(),
-				
 				new Factorisation(),
-				
 				new Borne(),
 				new Encadrer(),
-				
 				new MaillonDiviseur(),
 		 */
-		
-		
-		// 
-		
-
 		FormuleToString fts = new FormuleToString(base);
-		
-		
-		
 		
 		String sortie = ens
 			.reconstruire(new Injecteur(parametres))
