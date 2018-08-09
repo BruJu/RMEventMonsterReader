@@ -18,6 +18,10 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.util.similaire.CollectorBySimilarity;
 
 public class Ensemble {
+	
+	//private Branche racine;
+	
+	
 	private Map<Header, Algorithme> algorithmesTrouves;
 
 	public Ensemble(Map<Header, Map<Integer, Algorithme>> map, BaseDeVariables base) {
