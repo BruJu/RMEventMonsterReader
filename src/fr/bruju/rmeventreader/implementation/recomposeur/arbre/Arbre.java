@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
@@ -9,6 +10,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVari
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.Unifieur;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Arbre {
@@ -34,6 +36,11 @@ public class Arbre {
 	
 	public Arbre pimp(PreTraitementDesinjection transformation) {
 		racine.ajouterUnNiveau(transformation);
+		return this;
+	}
+	
+	public Arbre transformerListes(Function<Resultat, Object> classifier, Unifieur unifieur) {
+		racine.transformerListes(classifier, unifieur);
 		return this;
 	}
 }

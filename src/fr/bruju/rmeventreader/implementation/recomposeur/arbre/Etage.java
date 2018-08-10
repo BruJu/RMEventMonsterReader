@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
@@ -11,6 +12,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.Unifieur;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Etage implements Contenu {
@@ -76,5 +78,10 @@ public class Etage implements Contenu {
 		public Etage build() {
 			return etage;
 		}
+	}
+
+	@Override
+	public void transformerListes(Function<Resultat, ?> classifier, Unifieur unifieur) {
+		fils.forEach((g, enfant) -> enfant.transformerListes(classifier, unifieur));
 	}
 }

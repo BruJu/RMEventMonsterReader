@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,8 +12,10 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.Unifieur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class ListAlgo implements Contenu {
 	public final Contenant contenant;
@@ -47,4 +50,13 @@ public class ListAlgo implements Contenu {
 		return contenu.stream().map(r -> new Triplet<>(new ArrayList<>(), r.stat, r.algo));
 	}
 
+	@Override
+	public void transformerListes(Function<Resultat, ?> classifier, Unifieur unifieur) {
+		contenu = contenu.stream()
+						.collect(Collectors.groupingBy(classifier, Collectors.toList()))
+						.values().stream()
+						.map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, unifieur::fusion))
+						.flatMap(liste -> liste.stream())
+						.collect(Collectors.toList());
+	}
 }
