@@ -23,22 +23,17 @@ public class Arbre {
 		this.base = base;
 	}
 	
-	
 	public List<Triplet<List<GroupeDeConditions>, Statistique, Algorithme>> getFruits() {
 		return racine.recupererAlgo().collect(Collectors.toList());
 	}
-
 
 	public Arbre transformerAlgorithmes(VisiteurConstructeur constructeur) {
 		racine.transformerAlgorithmes(algo -> (Algorithme) constructeur.traiter(algo));
 		return this;
 	}
-
-
+	
 	public Arbre pimp(PreTraitementDesinjection transformation) {
 		racine.ajouterUnNiveau(transformation);
 		return this;
 	}
-	
-	
 }

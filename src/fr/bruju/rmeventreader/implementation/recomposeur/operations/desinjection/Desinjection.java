@@ -11,11 +11,9 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
-import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.ConditionAffichable;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
  * Visiteur constructeur statefull

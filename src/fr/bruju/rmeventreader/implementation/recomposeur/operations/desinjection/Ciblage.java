@@ -14,4 +14,3 @@ public class Ciblage implements ConditionAffichable {
 		return estCible ? "Ciblé" : "AoE";
 	}
 }
-
