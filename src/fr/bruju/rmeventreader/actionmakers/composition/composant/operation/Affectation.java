@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @param <T> Le type de la case mémoire
  */
-public class Affectation implements Operation, ElementIntermediaire {
+public final class Affectation implements Operation, ElementIntermediaire {
 
 	/* =========
 	 * COMPOSANT

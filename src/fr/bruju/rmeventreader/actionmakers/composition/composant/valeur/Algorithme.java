@@ -59,7 +59,7 @@ public final class Algorithme implements Valeur, ElementIntermediaire {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		composants.forEach(action -> sb.append("<").append(action.toString()).append(">"));
-		return "DEBUT==>" + sb.toString();
+		return sb.toString();
 	}
 
 	@Override

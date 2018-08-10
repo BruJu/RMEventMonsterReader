@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteu
  * @author Bruju
  *
  */
-public class ConditionFixe implements Condition, ElementFeuille, ElementIntermediaire {
+public final class ConditionFixe implements Condition, ElementFeuille, ElementIntermediaire {
 	/* =================
 	 * PSEUDO SINGLETON
 	 * ================ */

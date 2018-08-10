@@ -8,7 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermed
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
-public class SousAlgorithme implements Operation, ElementIntermediaire {
+public final class SousAlgorithme implements Operation, ElementIntermediaire {
 	public final Algorithme algorithme;
 
 	public SousAlgorithme(Algorithme algorithme) {

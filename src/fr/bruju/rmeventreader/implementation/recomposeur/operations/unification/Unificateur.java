@@ -19,8 +19,6 @@ public class Unificateur extends VisiteurConstructeur {
 	}
 
 	public static Resultat fusionner(Resultat r1, Resultat r2, BaseDeVariables base) {
-		System.out.println("!");
-		
 		// Unifier personnages
 		Personnage p1 = r1.stat.possesseur;
 		Personnage p2 = r2.stat.possesseur;
@@ -31,21 +29,10 @@ public class Unificateur extends VisiteurConstructeur {
 		Algorithme zzreponse1 = new Unificateur(p1, unifie).traiter(r1.algo);
 		Algorithme zzreponse2 = new Unificateur(p2, unifie).traiter(r2.algo);
 
-		System.out.println("===== ");
-		System.out.println(r1.algo.toString());
-		System.out.println(r2.algo.toString());
-		System.out.println(zzreponse1.toString());
-		System.out.println(zzreponse2.toString());
-		System.out.println(zzreponse1.equals(zzreponse2));
-		System.out.println("=====");
-		
 		// Retour
 		if (!zzreponse1.equals(zzreponse2)) {
-			
-			
 			return null; 
 		}
-		
 		
 		Statistique statFusionnee = unifie.getStatistiques().get(r1.stat.nom);
 		return new Resultat(statFusionnee, zzreponse1);

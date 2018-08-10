@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class Filtre implements Operation, ElementIntermediaire {
+public final class Filtre implements Operation, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

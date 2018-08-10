@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class Conditionnelle implements Operation {
+public final class Conditionnelle implements Operation {
 	public final Condition condition;
 	public final Algorithme siVrai;
 	public final Algorithme siFaux;

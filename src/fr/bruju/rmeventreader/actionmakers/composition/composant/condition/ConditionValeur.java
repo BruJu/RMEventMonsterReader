@@ -16,7 +16,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  * @author Bruju
  *
  */
-public class ConditionValeur implements Condition, ElementIntermediaire {
+public final class ConditionValeur implements Condition, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

@@ -16,7 +16,7 @@ import java.util.Objects;
  * 
  * @author Bruju
  */
-public class Calcul implements Operation, ElementIntermediaire {
+public final class Calcul implements Operation, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

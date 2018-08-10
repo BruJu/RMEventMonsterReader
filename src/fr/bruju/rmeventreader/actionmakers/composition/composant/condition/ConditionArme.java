@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteu
  * @author Bruju
  *
  */
-public class ConditionArme implements Condition, ElementFeuille {
+public final class ConditionArme implements Condition, ElementFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
