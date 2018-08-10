@@ -15,7 +15,6 @@ src/fr/nblignes.sh
 ressources/
 sorties/
 diff*
-lib/
 
 # IntelliJ
 .idea/*
