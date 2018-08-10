@@ -77,7 +77,12 @@ public class Recomposition {
 
 		// Traitements de l'arbre
 		
-		arbre.reconstruire(new Injecteur(parametres));
+		arbre.transformerAlgorithmes(new Injecteur(parametres))
+			.pimp(new PreTraitementDesinjection(parametres))
+		;
+		
+		
+		//arbre.reconstruire());
 
 		// Recupération des fruits
 

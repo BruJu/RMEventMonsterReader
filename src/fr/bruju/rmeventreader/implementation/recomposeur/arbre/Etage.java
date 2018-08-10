@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Etage implements Contenu {
@@ -33,7 +34,7 @@ public class Etage implements Contenu {
 	}
 
 	@Override
-	public void ajouterUnNiveau(Function<ListAlgo, Etage> transformation) {
+	public void ajouterUnNiveau(Function<Algorithme, Pair<GroupeDeConditions, Algorithme>> transformation) {
 		fils.forEach((g, enfant) -> enfant.ajouterUnNiveau(transformation));
 	}
 
@@ -77,5 +78,4 @@ public class Etage implements Contenu {
 			return etage;
 		}
 	}
-
 }

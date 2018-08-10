@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.implementation.recomposeur.Injecteur;
+import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Arbre {
@@ -29,8 +29,15 @@ public class Arbre {
 	}
 
 
-	public Arbre reconstruire(StructureDInjectionDeHeader preTraitementDesinjection) {
-		// TODO
+	public Arbre transformerAlgorithmes(VisiteurConstructeur constructeur) {
+		racine.transformerAlgorithmes(algo -> (Algorithme) constructeur.traiter(algo));
+		return this;
+	}
+
+
+	public Arbre pimp(PreTraitementDesinjection preTraitementDesinjection) {
+		racine.ajouterUnNiveau(transformation);
+		
 		return this;
 	}
 	
