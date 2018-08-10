@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class Entree implements Valeur, ElementFeuille {
+public final class Entree implements Valeur, ElementFeuille {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

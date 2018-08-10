@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affec
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 
-public class Algorithme implements Valeur, ElementIntermediaire {
+public final class Algorithme implements Valeur, ElementIntermediaire {
 	/* =========
 	 * COMPOSANT
 	 * ========= */
@@ -59,7 +59,7 @@ public class Algorithme implements Valeur, ElementIntermediaire {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		composants.forEach(action -> sb.append("<").append(action.toString()).append(">"));
-		return sb.toString();
+		return "DEBUT==>" + sb.toString();
 	}
 
 	@Override

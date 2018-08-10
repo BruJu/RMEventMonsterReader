@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class Constante implements Valeur, ElementFeuille, PasAlgorithme {
+public final class Constante implements Valeur, ElementFeuille, PasAlgorithme {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

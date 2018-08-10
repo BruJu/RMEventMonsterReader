@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Bruju
  *
  */
-public class NombreAleatoire implements Valeur, ElementFeuille, PasAlgorithme {
+public final class NombreAleatoire implements Valeur, ElementFeuille, PasAlgorithme {
 	/* =========
 	 * COMPOSANT
 	 * ========= */

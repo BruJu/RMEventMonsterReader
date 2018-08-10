@@ -50,7 +50,6 @@ public class ListAlgo implements Contenu {
 
 	@Override
 	public void transformerListes(Function<Resultat, ?> classifier, BinaryOperator<Resultat> unifieur) {
-		System.out.println("!");
 		contenu = contenu.stream()
 						.collect(Collectors.groupingBy(classifier, Collectors.toList()))
 						.values().stream()

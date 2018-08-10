@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 
-public class Resultat extends Algorithme {
+public class Resultat {
 
 	public final Statistique stat;
 	public final Algorithme algo;
@@ -13,4 +13,10 @@ public class Resultat extends Algorithme {
 		this.algo = algo;
 	}
 
+	@Override
+	public String toString() {
+		return stat.toString()+"@"+algo.toString();
+	}
+
+	
 }
