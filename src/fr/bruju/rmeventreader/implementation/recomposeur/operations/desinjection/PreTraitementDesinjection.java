@@ -7,10 +7,13 @@ import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.Parametres;
+import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Resultat;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
-import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
+import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
+import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class PreTraitementDesinjection implements StructureDInjectionDeHeader {
 	
@@ -40,9 +43,13 @@ public class PreTraitementDesinjection implements StructureDInjectionDeHeader {
 	public Map<Integer, Integer> extraire(Personnage possesseur) {
 		return cartesConnues.get(possesseur.getNom());
 	}
-
+	
+	
+	
 	@Override
-	public IncrementateurDeHeader creerIncrementateur(Header head, Algorithme algo) {
-		return new Desinjection(head, algo, extraire(head.statistiqueTouchee.possesseur));
+	public IncrementateurDeHeader creerIncrementateur(Statistique stat, Algorithme algo) {
+		return new Desinjection(algo, extraire(stat.possesseur));
 	}
+
+
 }

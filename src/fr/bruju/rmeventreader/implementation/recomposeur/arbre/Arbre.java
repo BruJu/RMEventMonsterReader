@@ -35,9 +35,8 @@ public class Arbre {
 	}
 
 
-	public Arbre pimp(PreTraitementDesinjection preTraitementDesinjection) {
+	public Arbre pimp(PreTraitementDesinjection transformation) {
 		racine.ajouterUnNiveau(transformation);
-		
 		return this;
 	}
 	

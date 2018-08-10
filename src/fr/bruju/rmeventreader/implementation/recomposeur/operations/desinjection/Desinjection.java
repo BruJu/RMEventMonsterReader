@@ -11,9 +11,9 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorith
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.ConditionAffichable;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
-import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
@@ -25,32 +25,35 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  */
 public class Desinjection extends VisiteurConstructeur implements IncrementateurDeHeader {
 	/* Résultats */
-	private Header nouveauHeader;
 	private Algorithme resultat;
+	private boolean desinjectionProduite;
 	
 	/* Traitement */
-	private boolean desinjectionProduite = false;
 	private Map<Integer, Integer> listePaires;
 	
-	public Desinjection(Header header, Algorithme algorithme, Map<Integer, Integer> carte) {
+	public Desinjection(Algorithme algorithme, Map<Integer, Integer> carte) {
 		listePaires = carte;
-		
+		desinjectionProduite = false;
 		this.resultat = traiter(algorithme);
-		this.nouveauHeader = new Header(header, recupererGroupeDeConditions());
-	}
-	
-	@Override
-	public Pair<Header, Algorithme> produire() {
-		return new Pair<>(nouveauHeader, resultat);
+		listePaires = null;
 	}
 	
 
-	
-	private GroupeDeConditions recupererGroupeDeConditions() {
+	@Override
+	public GroupeDeConditions getGroupe() {
 		List<ConditionAffichable> liste = new ArrayList<>(1);
 		liste.add(new Ciblage(desinjectionProduite));
 		return new GroupeDeConditions(liste);
 	}
+	
+	@Override
+	public Algorithme getResultat() {
+		return this.resultat;
+	}
+	
+	
+	
+	
 
 	@Override
 	protected Condition modifier(ConditionValeur element) {
@@ -70,7 +73,6 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 		desinjectionProduite = true;
 		return ConditionFixe.get(evaluationDroite.equals(valeurVoulue));
 	}
-
 
 
 }

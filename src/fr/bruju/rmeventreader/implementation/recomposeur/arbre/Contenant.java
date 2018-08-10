@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
@@ -35,7 +36,7 @@ public class Contenant implements Contenu {
 	}
 
 	@Override
-	public void ajouterUnNiveau(Function<Algorithme, Pair<GroupeDeConditions, Algorithme>> transformation) {
+	public void ajouterUnNiveau(PreTraitementDesinjection transformation) {
 		contenu.ajouterUnNiveau(transformation);
 	}
 }

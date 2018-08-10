@@ -16,9 +16,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Experimentation;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
-import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Ensemble;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
-import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.Header;
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
@@ -43,32 +41,13 @@ public class Recomposition {
 
 		visionArbre();
 
-		if (true)
-			return;
-
-		Map<Header, Map<Integer, Algorithme>> carteAremplir = new HashMap<>();
-
-		MaillonRemplissage(base, carteAremplir);
-
-		Ensemble ens = new Ensemble(carteAremplir, base);
-
 		/*		Opérations dans FormulaTracker :
 				new MaillonUnificateur(),
 				new Factorisation(),
 				new Borne(),
 				new Encadrer(),
 				new MaillonDiviseur(),
-		 */
-		FormuleToString fts = new FormuleToString(base);
-
-		String sortie = ens.reconstruire(new Injecteur(parametres))
-				.injecterHeader(new PreTraitementDesinjection(parametres)).getMap().entrySet().stream()
-				.map(entry -> entry.getKey().toString() + " ;;; " + fts.traiter(entry.getValue()).s)
-				.collect(Collectors.joining("\n"));
-
-		//System.out.print(sortie);
-
-		enregistrerDansFichier(sortie);
+		*/
 
 	}
 
@@ -148,24 +127,5 @@ public class Recomposition {
 			e.printStackTrace();
 		}
 	}
-
-	private static void MaillonRemplissage(BaseDeVariables base, Map<Header, Map<Integer, Algorithme>> carteAremplir) {
-		File dossierAttaques = new File(CHEMIN_ATTAQUES);
-
-		for (String nomPerso : dossierAttaques.list()) {
-			File sousDossier = new File(dossierAttaques + "/" + nomPerso);
-
-			for (String nomAttaqueTXT : sousDossier.list()) {
-				String nomAttaque = nomAttaqueTXT.substring(0, nomAttaqueTXT.length() - 4);
-
-				String fichierComplet = dossierAttaques + "\\" + nomPerso + "\\" + nomAttaqueTXT;
-
-				carteAremplir.put(new Header(nomPerso, nomAttaque, base),
-						new Extracteur().extraireAlgorithmes(base.getVariablesStatistiques(), fichierComplet));
-
-			}
-
-		}
-
-	}
+	
 }
