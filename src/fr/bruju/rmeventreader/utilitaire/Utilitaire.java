@@ -7,7 +7,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.PersonnageReel;
 
 public class Utilitaire {
 	

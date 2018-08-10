@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 
 import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
@@ -8,8 +9,7 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.Unifieur;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Contenant implements Contenu {
@@ -36,12 +36,12 @@ public class Contenant implements Contenu {
 	}
 
 	@Override
-	public void ajouterUnNiveau(PreTraitementDesinjection transformation) {
+	public void ajouterUnNiveau(StructureDInjectionDeHeader transformation) {
 		contenu.ajouterUnNiveau(transformation);
 	}
 
 	@Override
-	public void transformerListes(Function<Resultat, ?> classifier, Unifieur unifieur) {
+	public void transformerListes(Function<Resultat, ?> classifier, BinaryOperator<Resultat> unifieur) {
 		contenu.transformerListes(classifier, unifieur);
 	}
 }

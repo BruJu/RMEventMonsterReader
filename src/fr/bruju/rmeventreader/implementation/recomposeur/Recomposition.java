@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,6 +18,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistiqu
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.Unificateur;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Recomposition {
@@ -32,7 +32,6 @@ public class Recomposition {
 	Parametres parametres;
 	BaseDeVariables base;
 
-	@SuppressWarnings("unused")
 	private void exp() {
 		parametres = new Parametres(CHEMIN_PARAMETRES);
 		base = new BaseDeVariables();
@@ -58,10 +57,8 @@ public class Recomposition {
 		
 		arbre.transformerAlgorithmes(new Injecteur(parametres))
 			.pimp(new PreTraitementDesinjection(parametres))
-		;
+			.unifier((r1, r2) -> Unificateur.fusionner(r1, r2, base));
 		
-		
-		//arbre.reconstruire());
 
 		// Recupération des fruits
 

@@ -2,7 +2,10 @@ package fr.bruju.rmeventreader.utilitaire;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Pair<T1, T2> {
 	private final T1 t1;
@@ -53,6 +56,19 @@ public class Pair<T1, T2> {
 			return Objects.equals(this.t1, that.t1) && Objects.equals(this.t2, that.t2);
 		}
 		return false;
+	}
+	
+	
+	public static <K, V> K k(Pair<K, V> paire) {
+		return paire.getLeft();
+	}
+
+	public static <K, V> V v(Pair<K, V> paire) {
+		return paire.getRight();
+	}
+	
+	public static <T,K,U> Collector<Pair<K, U>,?,Map<K,U>> toMap() {
+		return Collectors.toMap(Pair::k, Pair::v);
 	}
 	
 	

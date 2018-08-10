@@ -1,8 +1,10 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -11,8 +13,8 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.Unifieur;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -32,17 +34,13 @@ public class ListAlgo implements Contenu {
 	}
 
 	@Override
-	public void ajouterUnNiveau(PreTraitementDesinjection transformation) {
-		Map<GroupeDeConditions, List<Resultat>> mapResultat = contenu.stream().map(
-				resultat -> new Pair<>(resultat.stat, transformation.creerIncrementateur(resultat.stat, resultat.algo)))
-				.collect(Collectors.groupingBy(pair -> pair.getRight().getGroupe(), Collectors.mapping(
-						pair -> new Resultat(pair.getLeft(), pair.getRight().getResultat()), Collectors.toList())));
-
-		Map<GroupeDeConditions, Contenant> a = mapResultat.entrySet().stream()
-				.map(entree -> new Pair<>(entree.getKey(), new Contenant(entree.getValue())))
-				.collect(Collectors.toMap(p -> p.getLeft(), p -> p.getRight()));
-
-		contenant.transformerContenu(new Etage(contenant, a));
+	public void ajouterUnNiveau(StructureDInjectionDeHeader transformation) {
+		Builder builder = new Builder();
+		
+		contenu.stream().forEach(resultat -> builder.ajouter(resultat.stat,
+				transformation.creerIncrementateur(resultat.stat, resultat.algo)));
+		
+		contenant.transformerContenu(builder.build(contenant));
 	}
 
 	@Override
@@ -51,12 +49,32 @@ public class ListAlgo implements Contenu {
 	}
 
 	@Override
-	public void transformerListes(Function<Resultat, ?> classifier, Unifieur unifieur) {
+	public void transformerListes(Function<Resultat, ?> classifier, BinaryOperator<Resultat> unifieur) {
+		System.out.println("!");
 		contenu = contenu.stream()
 						.collect(Collectors.groupingBy(classifier, Collectors.toList()))
 						.values().stream()
-						.map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, unifieur::fusion))
+						.map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, unifieur))
 						.flatMap(liste -> liste.stream())
 						.collect(Collectors.toList());
+	}
+	
+	private static class Builder {
+		private Map<GroupeDeConditions, List<Resultat>> map = new HashMap<>();
+
+		public Etage build(Contenant contenant) {
+			return new Etage(contenant, 
+			map.entrySet().stream().map(entry -> new Pair<>(entry.getKey(), new Contenant(entry.getValue())))
+				.collect(Pair.toMap()));
+		}
+
+		public Builder ajouter(Statistique stat, IncrementateurDeHeader inc) {
+			ajouter(inc.getGroupe(), new Resultat(stat, inc.getResultat()));
+			return this;
+		}
+
+		private void ajouter(GroupeDeConditions groupe, Resultat resultat) {
+			Utilitaire.Maps.getX(map, groupe, ArrayList::new).add(resultat);
+		}
 	}
 }

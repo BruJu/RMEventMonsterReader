@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 
 import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -9,8 +10,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteu
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.Unifieur;
+import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 public class Arbre {
@@ -34,13 +34,17 @@ public class Arbre {
 		return this;
 	}
 	
-	public Arbre pimp(PreTraitementDesinjection transformation) {
+	public Arbre pimp(StructureDInjectionDeHeader transformation) {
 		racine.ajouterUnNiveau(transformation);
 		return this;
 	}
 	
-	public Arbre transformerListes(Function<Resultat, Object> classifier, Unifieur unifieur) {
-		racine.transformerListes(classifier, unifieur);
+	public Arbre transformerListes(Function<Resultat, Object> classifier, BinaryOperator<Resultat> fonctionFusion) {
+		racine.transformerListes(classifier, fonctionFusion);
 		return this;
+	}
+
+	public Arbre unifier(BinaryOperator<Resultat> fonctionFusion) {
+		return transformerListes(r -> Boolean.TRUE, fonctionFusion);
 	}
 }

@@ -1,22 +1,9 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.operations.unification;
 
-import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Filtre;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.SousAlgorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.NombreAleatoire;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
-import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurRetourneur;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Resultat;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
@@ -32,6 +19,8 @@ public class Unificateur extends VisiteurConstructeur {
 	}
 
 	public static Resultat fusionner(Resultat r1, Resultat r2, BaseDeVariables base) {
+		System.out.println("!");
+		
 		// Unifier personnages
 		Personnage p1 = r1.stat.possesseur;
 		Personnage p2 = r2.stat.possesseur;
@@ -44,6 +33,14 @@ public class Unificateur extends VisiteurConstructeur {
 		
 		// Retour
 		if (!reponse1.equals(reponse2)) {
+			System.out.println("=====");
+			System.out.println(r1.algo.toString());
+			System.out.println(r2.algo.toString());
+			System.out.println(reponse1.toString());
+			System.out.println(reponse2.toString());
+			System.out.println("=====");
+			
+			
 			return null; 
 		}
 		

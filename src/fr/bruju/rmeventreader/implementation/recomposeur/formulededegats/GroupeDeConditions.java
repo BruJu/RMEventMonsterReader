@@ -27,7 +27,7 @@ public class GroupeDeConditions {
 	public boolean equals(Object object) {
 		if (object instanceof GroupeDeConditions) {
 			GroupeDeConditions that = (GroupeDeConditions) object;
-			return Objects.equals(this.conditions, that.conditions);
+			return Objects.deepEquals(this.conditions, that.conditions);
 		}
 		return false;
 	}
