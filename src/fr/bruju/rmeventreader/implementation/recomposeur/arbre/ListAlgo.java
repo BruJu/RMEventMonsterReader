@@ -19,10 +19,23 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+/**
+ * Liste d'algorithmes
+ * 
+ * @author Bruju
+ *
+ */
 public class ListAlgo implements Contenu {
+	/** Contenant père */
 	public final Contenant contenant;
+	/** Liste des algorithmes connus */
 	private List<Resultat> contenu;
 
+	/**
+	 * Crée une liste d'algorithme stockable dans un arbre
+	 * @param contenant Le contenant père
+	 * @param contenu La liste des algorithmes à stocker
+	 */
 	public ListAlgo(Contenant contenant, List<Resultat> contenu) {
 		this.contenant = contenant;
 		this.contenu = contenu;
@@ -58,20 +71,30 @@ public class ListAlgo implements Contenu {
 						.collect(Collectors.toList());
 	}
 	
+	/**
+	 * Monte un étage à partir d'un incrémentateur de header
+	 * 
+	 * @author Bruju
+	 *
+	 */
 	private static class Builder {
+		/** Associations */
 		private Map<GroupeDeConditions, List<Resultat>> map = new HashMap<>();
 
+		/** Crée l'étage */
 		public Etage build(Contenant contenant) {
 			return new Etage(contenant, 
 			map.entrySet().stream().map(entry -> new Pair<>(entry.getKey(), new Contenant(entry.getValue())))
 				.collect(Pair.toMap()));
 		}
 
+		/** Ajoute un résultat issus d'un Incrementateur de Header */
 		public Builder ajouter(Statistique stat, IncrementateurDeHeader inc) {
 			ajouter(inc.getGroupe(), new Resultat(stat, inc.getResultat()));
 			return this;
 		}
 
+		/** Ajoute un résultat avec le groupe donné et le résultat */
 		private void ajouter(GroupeDeConditions groupe, Resultat resultat) {
 			Utilitaire.Maps.getX(map, groupe, ArrayList::new).add(resultat);
 		}

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
-import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Experimentation;
+import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
@@ -41,8 +41,6 @@ public class Recomposition {
 		visionArbre();
 
 		/*		Opérations dans FormulaTracker :
-				new MaillonUnificateur(),
-				new Factorisation(),
 				new Borne(),
 				new Encadrer(),
 				new MaillonDiviseur(),
@@ -86,7 +84,7 @@ public class Recomposition {
 	private Arbre construireArbre() {
 		File dossierAttaques = new File(CHEMIN_ATTAQUES);
 
-		Experimentation exp = new Experimentation(base);
+		MonteurDArbre exp = new MonteurDArbre(base);
 
 		for (String nomPerso : dossierAttaques.list()) {
 			File sousDossier = new File(dossierAttaques + "/" + nomPerso);

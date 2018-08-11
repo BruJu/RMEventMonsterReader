@@ -12,22 +12,40 @@ import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeD
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
+/**
+ * Un contenant est un pointeur vers un contenu. Cette structure permet de redéfinir le contenu d'un noeud sans
+ * connaître le père et le modifier.
+ * 
+ * @author Bruju
+ *
+ */
 public class Contenant implements Contenu {
+	/** Contenu */
 	private Contenu contenu;
 	
+	/** Crée un contenant */
 	public Contenant() {}
 	
+	/** Crée un contenant contenant la liste des résultats donnés */
 	public Contenant(List<Resultat> contenu) {
 		this.contenu = new ListAlgo(this, contenu);
 	}
+
+	/**
+	 * Modifie le contenu du contenant
+	 * @param contenu Le contenu
+	 */
+	public void transformerContenu(Contenu contenu) {
+		this.contenu = contenu;
+	}
+	
+	/*
+	 * Le contenant délègue au contenu le traîtement des changements demandés
+	 */
 	
 	@Override
 	public void transformerAlgorithmes(UnaryOperator<Algorithme> transformation) {
 		contenu.transformerAlgorithmes(transformation);
-	}
-	
-	public void transformerContenu(Contenu contenu) {
-		this.contenu = contenu;
 	}
 
 	@Override

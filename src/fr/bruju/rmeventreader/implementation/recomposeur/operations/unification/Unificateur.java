@@ -26,16 +26,16 @@ public class Unificateur extends VisiteurConstructeur {
 		
 		// Traitement
 		
-		Algorithme zzreponse1 = new Unificateur(p1, unifie).traiter(r1.algo);
-		Algorithme zzreponse2 = new Unificateur(p2, unifie).traiter(r2.algo);
+		Algorithme reponse1 = new Unificateur(p1, unifie).traiter(r1.algo);
+		Algorithme reponse2 = new Unificateur(p2, unifie).traiter(r2.algo);
 
 		// Retour
-		if (!zzreponse1.equals(zzreponse2)) {
+		if (!reponse1.equals(reponse2)) {
 			return null; 
 		}
 		
 		Statistique statFusionnee = unifie.getStatistiques().get(r1.stat.nom);
-		return new Resultat(statFusionnee, zzreponse1);
+		return new Resultat(statFusionnee, reponse1);
 	}
 
 	@Override

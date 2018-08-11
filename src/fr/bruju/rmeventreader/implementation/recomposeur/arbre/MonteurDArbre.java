@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,24 +12,50 @@ import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVari
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-public class Experimentation {
+/**
+ * Permet de monter un arbre
+ * 
+ * @author Bruju
+ *
+ */
+public class MonteurDArbre {
+	/** Association Personnage - Attaque - Liste des résultats */
 	private Map<String, Map<String, List<Resultat>>> carte = new HashMap<>();
 
+	/** Base de variables */
 	private BaseDeVariables base;
 
-	public Experimentation(BaseDeVariables base) {
+	/**
+	 * Construit un monteur d'arbre pour décrypter les attaques en lien avec la base donnée
+	 * @param base La base de variables
+	 */
+	public MonteurDArbre(BaseDeVariables base) {
 		this.base = base;
 	}
 
-	public void add(String nomLanceur, String nomAttaque, Map<Integer, Algorithme> resultat) {
+	/**
+	 * Ajoute une branche concernant l'attaque donnée
+	 * @param nomLanceur Le nom du lanceur
+	 * @param nomAttaque Le nom de l'attaque
+	 * @param resultat La carte associant numéro de variable touchée et algorithme appliqué
+	 * @return this
+	 */
+	public MonteurDArbre add(String nomLanceur, String nomAttaque, Map<Integer, Algorithme> resultat) {
 		Map<String, List<Resultat>> attPerso = Utilitaire.Maps.getX(carte, nomLanceur, () -> new HashMap<>());
 		attPerso.put(nomAttaque,
 				resultat.entrySet().stream()
 						.map(entry -> new Resultat(base.getStatistiqueById(entry.getKey()), entry.getValue()))
 						.collect(Collectors.toList()));
+		
+		return this;
 	}
 
+	/**
+	 * Construit la base de l'arbre pour les attaques qui ont été ajoutées au monteur
+	 * @return Un arbre gérant toutes les attaques indiquées au monteur
+	 */
 	public Arbre creerArbre() {
+		// Creation du contenant racine
 		Contenant c = new Contenant();
 		EtageBuilder sommet = new EtageBuilder(c);
 
@@ -43,9 +69,11 @@ public class Experimentation {
 			sommet.ajouter(new GroupeDeConditions(new CondChaine(nomPerso)), contenant);
 		});
 		
+		// Nom des étages
+		List<String> etages = new ArrayList<>();
+		etages.add("Lanceur");
+		etages.add("Attaque");
 		
-		String[] etages = {"Lanceur", "Attaque"};
-		
-		return new Arbre(Arrays.asList(etages), c, base);
+		return new Arbre(etages, c, base);
 	}
 }
