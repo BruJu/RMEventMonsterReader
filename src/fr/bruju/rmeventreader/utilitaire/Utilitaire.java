@@ -160,4 +160,16 @@ public class Utilitaire {
 	public static void doNothing() {
 		
 	}
+	
+	/**
+	 * Converti un objet en ArrayList
+	 * @param element L'objet à convertir
+	 * @return Une liste d'une case contenant l'élément 
+	 */
+	public static <T> ArrayList<T> toArrayList(T element) {
+		ArrayList<T> arrayList = new ArrayList<>(1);
+		arrayList.add(element);
+		return arrayList;
+	}
+	
 }

@@ -90,7 +90,7 @@ public class ListAlgo implements Contenu {
 
 		/** Ajoute un résultat issus d'un Incrementateur de Header */
 		public Builder ajouter(Statistique stat, IncrementateurDeHeader inc) {
-			ajouter(inc.getGroupe(), new Resultat(stat, inc.getResultat()));
+			inc.forEach(paire -> ajouter(paire.getLeft(), new Resultat(stat, paire.getRight())));
 			return this;
 		}
 

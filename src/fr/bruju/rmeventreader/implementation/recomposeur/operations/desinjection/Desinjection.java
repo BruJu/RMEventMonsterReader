@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteu
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.ConditionAffichable;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
+import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Visiteur constructeur statefull
@@ -35,16 +38,13 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 		this.resultat = traiter(algorithme);
 		listePaires = null;
 	}
-	
 
 	@Override
-	public GroupeDeConditions getGroupe() {
-		List<ConditionAffichable> liste = new ArrayList<>(1);
-		liste.add(new Ciblage(desinjectionProduite));
-		return new GroupeDeConditions(liste);
+	public Iterator<Pair<GroupeDeConditions, Algorithme>> iterator() {
+		return Utilitaire.toArrayList(new Pair<>(new GroupeDeConditions(new Ciblage(desinjectionProduite)), resultat)).iterator();
 	}
 	
-	@Override
+
 	public Algorithme getResultat() {
 		return this.resultat;
 	}
@@ -71,6 +71,8 @@ public class Desinjection extends VisiteurConstructeur implements Incrementateur
 		desinjectionProduite = true;
 		return ConditionFixe.get(evaluationDroite.equals(valeurVoulue));
 	}
+
+
 
 
 }
