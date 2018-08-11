@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeDeConditions;
-import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.IncrementateurDeHeader;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
@@ -51,7 +50,7 @@ public class ListAlgo implements Contenu {
 		Builder builder = new Builder();
 		
 		contenu.stream().forEach(resultat -> builder.ajouter(resultat.stat,
-				transformation.creerIncrementateur(resultat.stat, resultat.algo)));
+				transformation.degrouper(resultat.stat, resultat.algo)));
 		
 		contenant.transformerContenu(builder.build(contenant));
 	}
@@ -89,7 +88,7 @@ public class ListAlgo implements Contenu {
 		}
 
 		/** Ajoute un résultat issus d'un Incrementateur de Header */
-		public Builder ajouter(Statistique stat, IncrementateurDeHeader inc) {
+		public Builder ajouter(Statistique stat, Iterable<Pair<GroupeDeConditions, Algorithme>> inc) {
 			inc.forEach(paire -> ajouter(paire.getLeft(), new Resultat(stat, paire.getRight())));
 			return this;
 		}
