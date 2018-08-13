@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.actionmakers.decrypter.InterpreteurCherry;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
@@ -116,7 +117,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 			Page p = new Page();
 
 			try {
-				new Interpreter(p).inputFile(new File(ContexteElementaire.RESSOURCES_PREFIXE + eventPage + ".txt"));
+				new InterpreteurCherry(p).inputFile(new File(ContexteElementaire.RESSOURCES_PREFIXE + eventPage + ".txt"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -146,7 +147,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 
 	@Override
 	public void callCommonEvent(int eventNumber) {
-		Interpreter interpreter = new Interpreter(this);
+		Interpreter interpreter = new InterpreteurCherry(this);
 
 		try {
 			interpreter.inputFile(new File(ContexteElementaire.SECONDFICHIER));

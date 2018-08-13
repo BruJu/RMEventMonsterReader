@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
+import fr.bruju.rmeventreader.actionmakers.decrypter.InterpreteurCherry;
 
 /**
  * Classe permettant de tester visuellement les effets de la classe Printer
@@ -19,7 +20,7 @@ public class PrinterTest {
 	public static void printerMain(String[] args) throws IOException {
 		ActionMaker printer = new Printer();
 
-		Interpreter interpreter = new Interpreter(printer);
+		Interpreter interpreter = new InterpreteurCherry(printer);
 		
 		interpreter.inputFile(new File("ressources/Script.txt"));
 		interpreter.inputFile(new File("ressources/CombatSuite.txt"));
