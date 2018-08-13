@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -14,5 +13,5 @@ public interface Interpreter {
 	 * @param file Le fichier à déchiffrer
 	 * @throws IOException
 	 */
-	void inputFile(File file) throws IOException;
+	void inputFile(String file) throws IOException;
 }

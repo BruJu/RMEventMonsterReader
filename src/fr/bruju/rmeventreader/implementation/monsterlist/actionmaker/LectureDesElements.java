@@ -117,7 +117,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 			Page p = new Page();
 
 			try {
-				new InterpreteurCherry(p).inputFile(new File(ContexteElementaire.RESSOURCES_PREFIXE + eventPage + ".txt"));
+				new InterpreteurCherry(p).inputFile((ContexteElementaire.RESSOURCES_PREFIXE + eventPage + ".txt"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -150,7 +150,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 		Interpreter interpreter = new InterpreteurCherry(this);
 
 		try {
-			interpreter.inputFile(new File(ContexteElementaire.SECONDFICHIER));
+			interpreter.inputFile((ContexteElementaire.SECONDFICHIER));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -38,7 +38,8 @@ public class InterpreteurCherry implements Interpreter {
 	 * @throws IOException
 	 */
 	@Override
-	public void inputFile(File file) throws IOException {
+	public void inputFile(String chemin) throws IOException {
+		File file = new File(chemin);
 		FileReaderByLine.lireLeFichier(file, new InstructionReader(this));
 	}
 

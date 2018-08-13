@@ -22,9 +22,9 @@ public class PrinterTest {
 
 		Interpreter interpreter = new InterpreteurCherry(printer);
 		
-		interpreter.inputFile(new File("ressources/Script.txt"));
-		interpreter.inputFile(new File("ressources/CombatSuite.txt"));
-		interpreter.inputFile(new File("ressources/CombatDrop.txt"));
-		interpreter.inputFile(new File("ressources/Complement.txt"));
+		interpreter.inputFile(("ressources/Script.txt"));
+		interpreter.inputFile(("ressources/CombatSuite.txt"));
+		interpreter.inputFile(("ressources/CombatDrop.txt"));
+		interpreter.inputFile(("ressources/Complement.txt"));
 	}
 }

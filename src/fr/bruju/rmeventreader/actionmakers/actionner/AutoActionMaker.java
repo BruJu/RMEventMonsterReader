@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.function.Function;
 
@@ -60,7 +59,7 @@ public class AutoActionMaker implements Runnable {
 		Interpreter interpreter = supplier.apply(conditionalActionMaker);
 
 		try {
-			interpreter.inputFile(new File(filename));
+			interpreter.inputFile(filename);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
