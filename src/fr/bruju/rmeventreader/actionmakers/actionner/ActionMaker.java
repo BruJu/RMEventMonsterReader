@@ -265,7 +265,9 @@ public interface ActionMaker {
 	public void jumpToLabel(int labelNumber);
 
 	/**
-	 * Exécution du code d'un autre évènement sur la carte
+	 * Exécution du code d'un autre évènement sur la carte.
+	 * <p>
+	 * Si le numéro de l'evènement est 0, l'évènement se rappelle lui-même
 	 * 
 	 * @param eventNumber Numéro de l'évènement
 	 * @param eventPage Page de l'évènement

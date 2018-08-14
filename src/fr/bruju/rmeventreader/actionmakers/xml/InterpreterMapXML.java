@@ -124,17 +124,7 @@ public class InterpreterMapXML implements Interpreter {
 		Action action = actionsConnues.get(codeD);
 		
 		if (action == null) {
-			actionMaker.notImplementedFeature("-- CODE NON IMPLEMENTE : " + codeD + "  -- ");
-			actionMaker.notImplementedFeature("String = " + string);
-			
-			String p = "";
-			for (int i : parameters)
-				p = p + i + " ";
-
-			actionMaker.notImplementedFeature("Parameters = " + p);
-			
-			
-			
+			ActionsPossibles.afficher(actionMaker, codeD, string, parameters);
 		} else {
 			action.exec(actionMaker, string, parameters);
 		}

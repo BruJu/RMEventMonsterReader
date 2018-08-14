@@ -8,12 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.IdIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.OperatorIdentifier;
 import fr.bruju.rmeventreader.actionmakers.decrypter.toolbox.ReturnValueIdentifier;
-import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
 import fr.bruju.rmeventreader.actionmakers.donnees.RightValue;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 import fr.bruju.rmeventreader.actionmakers.donnees.LeftValue;
 
 /**
@@ -39,23 +34,4 @@ public class SetVariable implements Action {
 		
 		actionMaker._changeVariable(variable, operator, rightValue);
 	}
-
-
-	/**
-	 * Exception jetée lorsqu'un type de valeur n'a pas été prévu
-	 */
-	private static class UnkownVariableTypeException extends RuntimeException {
-		/**
-		 * UID
-		 */
-		private static final long serialVersionUID = -8489136065148619931L;
-		
-		/**
-		 * Construit l'exception
-		 */
-		public UnkownVariableTypeException() {
-			super("UnkownVariableTypeException");
-		}
-	}
-
 }
