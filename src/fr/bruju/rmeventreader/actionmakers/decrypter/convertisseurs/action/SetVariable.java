@@ -37,51 +37,7 @@ public class SetVariable implements Action {
 		Operator operator = OperatorIdentifier.getInstance().identify(operateur);
 		RightValue rightValue = ReturnValueIdentifier.getInstance().identify(value);
 		
-		/* 
-		 * Il s'agit d'un choix de design de ne pas avoir de fonctions prenant comme argument LeftValue ou RightValue
-		 * afin de simplifier l'implémentation de ActionMaker (éviter de tester le type d'argument reçu en début
-		 * de fonction).
-		 */
-		
-		if (variable instanceof Variable) {
-			if (rightValue instanceof ValeurFixe) {
-				actionMaker.changeVariable((Variable) variable, operator, (ValeurFixe) rightValue);
-			} else if (rightValue instanceof ValeurAleatoire) {
-				actionMaker.changeVariable((Variable) variable, operator, (ValeurAleatoire) rightValue);
-			} else if (rightValue instanceof Variable) {
-				actionMaker.changeVariable((Variable) variable, operator, (Variable) rightValue);
-			} else if (rightValue instanceof Pointeur) {
-				actionMaker.changeVariable((Variable) variable, operator, (Pointeur) rightValue);
-			} else {
-				throw new UnkownVariableTypeException();
-			}
-		} else if (variable instanceof VariablePlage) {
-			if (rightValue instanceof ValeurFixe) {
-				actionMaker.changeVariable((VariablePlage) variable, operator, (ValeurFixe) rightValue);
-			} else if (rightValue instanceof ValeurAleatoire) {
-				actionMaker.changeVariable((VariablePlage) variable, operator, (ValeurAleatoire) rightValue);
-			} else if (rightValue instanceof Variable) {
-				actionMaker.changeVariable((VariablePlage) variable, operator, (Variable) rightValue);
-			} else if (rightValue instanceof Pointeur) {
-				actionMaker.changeVariable((VariablePlage) variable, operator, (Pointeur) rightValue);
-			} else {
-				throw new UnkownVariableTypeException();
-			}
-		} else if (variable instanceof Pointeur) {
-			if (rightValue instanceof ValeurFixe) {
-				actionMaker.changeVariable((Pointeur) variable, operator, (ValeurFixe) rightValue);
-			} else if (rightValue instanceof ValeurAleatoire) {
-				actionMaker.changeVariable((Pointeur) variable, operator, (ValeurAleatoire) rightValue);
-			} else if (rightValue instanceof Variable) {
-				actionMaker.changeVariable((Pointeur) variable, operator, (Variable) rightValue);
-			} else if (rightValue instanceof Pointeur) {
-				actionMaker.changeVariable((Pointeur) variable, operator, (Pointeur) rightValue);
-			} else {
-				throw new UnkownVariableTypeException();
-			}
-		} else {
-			throw new UnkownVariableTypeException();
-		}
+		actionMaker._changeVariable(variable, operator, rightValue);
 	}
 
 

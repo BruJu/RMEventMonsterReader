@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
-import fr.bruju.rmeventreader.actionmakers.decrypter.InterpreteurCherry;
 import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
 
 /**

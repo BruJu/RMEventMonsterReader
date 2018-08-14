@@ -11,10 +11,10 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Début");
 		
-		int choix = 6;
+		int choix = 0;
 
 		if (choix == 0)
-			MonsterDBTest.main_(args, 6);
+			MonsterDBTest.main_(args, 3);
 		
 		if (choix == 3)
 			new Exploitation().exploiter();

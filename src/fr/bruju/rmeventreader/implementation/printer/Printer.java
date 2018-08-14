@@ -77,7 +77,7 @@ public class Printer implements ActionMaker {
 
 	/** Donne la représentation d'un pointeur */
 	private String getRepresentation(Pointeur value) {
-		return "V[V[" + value.get() + "]]";
+		return "V[V[" + value.pointeur + "]]";
 	}
 
 	/*
@@ -94,13 +94,13 @@ public class Printer implements ActionMaker {
 
 	@Override
 	public void changeSwitch(Pointeur interrupteur, boolean value) {
-		int number = interrupteur.get();
+		int number = interrupteur.pointeur;
 		System.out.println("Switch V[" + number + "] = " + ((value) ? "ON" : "OFF"));
 	}
 
 	@Override
 	public void revertSwitch(Pointeur interrupteur) {
-		int number = interrupteur.get();
+		int number = interrupteur.pointeur;
 		System.out.println("Switch V[" + number + "] = REVERSE");
 	}
 

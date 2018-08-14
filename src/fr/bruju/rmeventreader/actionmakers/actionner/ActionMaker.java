@@ -1,6 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.actionner;
 
+import fr.bruju.rmeventreader.actionmakers.donnees.LeftValue;
 import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
+import fr.bruju.rmeventreader.actionmakers.donnees.RightValue;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
@@ -8,12 +10,13 @@ import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
 
 /**
  * Cette classe est appelée lorsqu'un évènement est lu.
- * 
+ * <p>
  * Cette classe est appellée de manière séquentielle pour chaque instruction. L'implémentation doit donc prendre en
  * compte l'ordre d'écriture des instructions.
+ * <p>
+ * Les méthodes commencant par un _ ne devraient pas être redéfinies
  */
-public interface ActionMaker {
-
+public interface ActionMaker {	
 	/* ==============
 	 * Non implémenté
 	 * ============== */
@@ -284,4 +287,89 @@ public interface ActionMaker {
 	 */
 	public void getComment(String str);
 
+	
+
+	/* =================================================================================================================
+	 *  - Pseudo visiteur - Pseudo visiteur - Pseudo visiteur - Pseudo visiteur - Pseudo visiteur - Pseudo visiteur -
+	 * ============================================================================================================== */
+	
+	public static class AMException extends RuntimeException {
+		private static final long serialVersionUID = 7917269665749561827L;
+
+		public AMException(String message) {
+			super("AMException classe inconnue : " + message);
+		}
+	}
+	
+	public default void _changeSwitch(LeftValue interrupteur, boolean value) {
+		if (interrupteur instanceof Variable) {
+			changeSwitch((Variable) interrupteur, value);
+		} else if (interrupteur instanceof VariablePlage) {
+			changeSwitch((VariablePlage) interrupteur, value);
+		} else if (interrupteur instanceof Pointeur) {
+			changeSwitch((Pointeur) interrupteur, value);
+		} else {
+			throw new AMException(interrupteur.getClass().toString());
+		}
+	}
+
+	public default void _revertSwitch(LeftValue interrupteur) {
+		if (interrupteur instanceof Variable) {
+			revertSwitch((Variable) interrupteur);
+		} else if (interrupteur instanceof VariablePlage) {
+			revertSwitch((VariablePlage) interrupteur);
+		} else if (interrupteur instanceof Pointeur) {
+			revertSwitch((Pointeur) interrupteur);
+		} else {
+			throw new AMException(interrupteur.getClass().toString());
+		}
+	}
+	
+	public default void _changeVariable(LeftValue variable, Operator operator, RightValue rightValue) {
+		/* 
+		 * Il s'agit d'un choix de design de ne pas avoir de fonctions prenant comme argument LeftValue ou RightValue
+		 * afin de simplifier l'implémentation de ActionMaker (éviter de tester le type d'argument reçu en début
+		 * de fonction).
+		 */
+		
+		if (variable instanceof Variable) {
+			if (rightValue instanceof ValeurFixe) {
+				changeVariable((Variable) variable, operator, (ValeurFixe) rightValue);
+			} else if (rightValue instanceof ValeurAleatoire) {
+				changeVariable((Variable) variable, operator, (ValeurAleatoire) rightValue);
+			} else if (rightValue instanceof Variable) {
+				changeVariable((Variable) variable, operator, (Variable) rightValue);
+			} else if (rightValue instanceof Pointeur) {
+				changeVariable((Variable) variable, operator, (Pointeur) rightValue);
+			} else {
+				throw new AMException(rightValue.getClass().toString());
+			}
+		} else if (variable instanceof VariablePlage) {
+			if (rightValue instanceof ValeurFixe) {
+				changeVariable((VariablePlage) variable, operator, (ValeurFixe) rightValue);
+			} else if (rightValue instanceof ValeurAleatoire) {
+				changeVariable((VariablePlage) variable, operator, (ValeurAleatoire) rightValue);
+			} else if (rightValue instanceof Variable) {
+				changeVariable((VariablePlage) variable, operator, (Variable) rightValue);
+			} else if (rightValue instanceof Pointeur) {
+				changeVariable((VariablePlage) variable, operator, (Pointeur) rightValue);
+			} else {
+				throw new AMException(rightValue.getClass().toString());
+			}
+		} else if (variable instanceof Pointeur) {
+			if (rightValue instanceof ValeurFixe) {
+				changeVariable((Pointeur) variable, operator, (ValeurFixe) rightValue);
+			} else if (rightValue instanceof ValeurAleatoire) {
+				changeVariable((Pointeur) variable, operator, (ValeurAleatoire) rightValue);
+			} else if (rightValue instanceof Variable) {
+				changeVariable((Pointeur) variable, operator, (Variable) rightValue);
+			} else if (rightValue instanceof Pointeur) {
+				changeVariable((Pointeur) variable, operator, (Pointeur) rightValue);
+			} else {
+				throw new AMException(rightValue.getClass().toString());
+			}
+		} else {
+			throw new AMException(variable.getClass().toString());
+		}
+	}
 }

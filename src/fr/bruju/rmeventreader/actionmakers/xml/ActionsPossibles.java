@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
+import fr.bruju.rmeventreader.actionmakers.donnees.LeftValue;
 import fr.bruju.rmeventreader.actionmakers.donnees.Pointeur;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.actionmakers.donnees.VariablePlage;
@@ -47,30 +48,20 @@ public class ActionsPossibles {
 		int fin = parameters[2];
 		int action = parameters[3]; // 0 on, 1 off, 2 reverse
 		
+		LeftValue v;
+		
 		if (type == 0) {
-			Variable v = new Variable(debut);
-			
-			if (action == 2) {
-				actionMaker.revertSwitch(v);
-			} else {
-				actionMaker.changeSwitch(v, action == 0);
-			}
+			v = new Variable(debut);
 		} else if (type == 1) {
-			VariablePlage v = new VariablePlage(debut, fin);
-			
-			if (action == 2) {
-				actionMaker.revertSwitch(v);
-			} else {
-				actionMaker.changeSwitch(v, action == 0);
-			}
+			v = new VariablePlage(debut, fin);
 		} else {
-			Pointeur v = new Pointeur(debut);
-			
-			if (action == 2) {
-				actionMaker.revertSwitch(v);
-			} else {
-				actionMaker.changeSwitch(v, action == 0);
-			}
+			v = new Pointeur(debut);
+		}
+		
+		if (action == 2) {
+			actionMaker._revertSwitch(v);
+		} else {
+			actionMaker._changeSwitch(v, action == 0);
 		}
 	}
 	
