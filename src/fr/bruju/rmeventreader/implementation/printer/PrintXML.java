@@ -25,13 +25,23 @@ public class PrintXML {
 	 * @throws IOException
 	 */
 	public static void printerMain(String[] args) throws IOException {
-		ActionMaker printer = new Printer();
-		
+		//ActionMaker printer = new Printer();
 
 		initCombat2(new PrintComments());
+		System.out.println("=====================================");
+		System.out.println("=====================================");
+		System.out.println("=============== MAP01 ===============");
+		System.out.println("=====================================");
+		map01(new Printer());
 	}
 	
 	
+	private static void map01(Printer printer) throws IOException {
+		Interpreter interpreter = new InterpreterMapXML(printer, 1, 1);
+		interpreter.inputFile("ressources/xml/Map0001.xml");
+	}
+
+
 	private static void initCombat2(ActionMaker printer) throws IOException {
 		Interpreter interpreter = new InterpreterMapXML(printer, 102, 1);
 		interpreter.inputFile("ressources/xml/Map0053.xml");

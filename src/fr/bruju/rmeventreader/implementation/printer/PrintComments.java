@@ -11,7 +11,8 @@ public class PrintComments implements ActionMaker {
 
 	@Override
 	public void notImplementedFeature(String str) {
-		System.out.println(str);
+		if (str.charAt(0) != '•')
+			System.out.println(str);
 	}
 
 	@Override

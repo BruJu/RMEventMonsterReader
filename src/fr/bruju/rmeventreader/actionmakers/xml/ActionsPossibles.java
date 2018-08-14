@@ -24,7 +24,7 @@ public class ActionsPossibles {
 
 	private void vide(ActionMaker actionMaker, String string, int[] parameters) {
 	}
-	
+
 	private Map<Long, Action> getMap() {
 		Map<Long, Action> actions = new HashMap<>();
 
@@ -41,18 +41,57 @@ public class ActionsPossibles {
 		actions.put(20110L, this::showMessageSuite);
 		actions.put(20140L, this::qcmChoix);
 		actions.put(20141L, this::qcmFin);
-		
-		
+		actions.put(11110L, this::afficherImage);
+
 		// Actions très simples
 		actions.put(12410L, (a, s, p) -> a.getComment(s));
 		actions.put(22010L, (a, s, p) -> a.condElse());
 		actions.put(22011L, (a, s, p) -> a.condEnd());
 
+		actions.put(12110L, (a, s, p) -> a.label(p[0]));
+		actions.put(12120L, (a, s, p) -> a.jumpToLabel(p[0]));
+		
+
+		// Actions non implémentées
+		actions.put(10860L, (a, s, p) -> a.notImplementedFeature("• Mod Pos Event"));
+		actions.put(11410L, (a, s, p) -> a.notImplementedFeature("• Wait " + ((p[1] == 0) ? p[0] : "Touche")));
+
+		actions.put(12310L, (a, s, p) -> a.notImplementedFeature("• Stopper cet évènement"));
+		actions.put(12320L, (a, s, p) -> a.notImplementedFeature("• Effacer cet évènement"));
+		actions.put(11340L, (a, s, p) -> a.notImplementedFeature("• Tout déplacer"));
+		actions.put(11350L, (a, s, p) -> a.notImplementedFeature("• Tout stopper"));
+
+		actions.put(12210L, (a, s, p) -> a.notImplementedFeature("• Boucle"));
+		actions.put(22210L, (a, s, p) -> a.notImplementedFeature("• Fin Boucle"));
+		actions.put(12220L, (a, s, p) -> a.notImplementedFeature("• Sortir Boucle"));
+		actions.put(11070L, (a, s, p) -> a.notImplementedFeature("• Changement Meteo"));
+
+		actions.put(11510L, (a, s, p) -> a.notImplementedFeature("• Play Music"));
+		actions.put(11520L, (a, s, p) -> a.notImplementedFeature("• Effacer Musique en " + p[0] + "ms"));
+		actions.put(11530L, (a, s, p) -> a.notImplementedFeature("• Memoriser Musique"));
+		actions.put(11540L, (a, s, p) -> a.notImplementedFeature("• Jouer Musique Mémorisée"));
+		actions.put(11550L, (a, s, p) -> a
+				.notImplementedFeature("• Jouer Son " + s + " Vol/tempo/Bal " + p[0] + "," + p[1] + "," + p[2]));
+
+		actions.put(11720L, (a, s, p) -> a.notImplementedFeature("• Panorama " + s));
+
+		actions.put(11130L, (a, s, p) -> a.notImplementedFeature("• Effacer image " + p[0]));
+
+		
+		
 		return actions;
 
-	
 	}
 
+	private void afficherImage(ActionMaker actionMaker, String string, int[] parameters) {
+		int idImage = parameters[0];
+		String nom = string;
+		
+		actionMaker.showPicture(idImage, nom);
+	}
+	
+	
+	
 	private void conditions(ActionMaker actionMaker, String string, int[] parameters) {
 		if (parameters[0] == 0) {
 			// Conditions sur un switch
@@ -61,9 +100,9 @@ public class ActionsPossibles {
 		} else if (parameters[0] == 1) {
 			// Conditions sur une variable
 			int numeroVariable = parameters[1];
-			
+
 			Operator operateur = this.identifierOperateurTest(parameters[4]);
-			
+
 			if (parameters[2] == 0) {
 				actionMaker.condOnVariable(numeroVariable, operateur, new ValeurFixe(parameters[3]));
 			} else {
@@ -78,7 +117,7 @@ public class ActionsPossibles {
 				afficher(actionMaker, -1L, string, parameters);
 		} else if (parameters[0] == 5) {
 			int numeroHeros = parameters[1];
-			
+
 			if (parameters[2] == 5) {
 				actionMaker.condOnEquippedItem(numeroHeros, parameters[3]);
 			} else {
@@ -88,7 +127,6 @@ public class ActionsPossibles {
 			afficher(actionMaker, -1L, string, parameters);
 		}
 	}
-	
 
 	private void appelEvenement(ActionMaker actionMaker, String string, int[] parameters) {
 		switch (parameters[0]) {
@@ -106,12 +144,12 @@ public class ActionsPossibles {
 			afficher(actionMaker, 12330L, string, parameters);
 		}
 	}
-	
+
 	private void changeVariable(ActionMaker actionMaker, String string, int[] parameters) {
 		LeftValue left = decrypterLeftValue(parameters);
 		Operator operateur = identifierOperateur(parameters[3]);
-		RightValue right = decrypterRightValue(parameters[4], parameters[5], parameters[6]); 
-		
+		RightValue right = decrypterRightValue(parameters[4], parameters[5], parameters[6]);
+
 		if (right != null) {
 			actionMaker._changeVariable(left, operateur, right);
 		} else {
@@ -152,6 +190,7 @@ public class ActionsPossibles {
 			return null;
 		}
 	}
+
 	private Operator identifierOperateurTest(int numero) {
 		switch (numero) {
 		case 0:
@@ -256,7 +295,7 @@ public class ActionsPossibles {
 		if (!string.equals("")) {
 			actionMaker.notImplementedFeature("String = " + string);
 		}
-		
+
 		if (parameters != null) {
 			String p = "";
 			for (int i : parameters)
