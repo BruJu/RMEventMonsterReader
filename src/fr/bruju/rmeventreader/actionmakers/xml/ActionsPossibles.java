@@ -36,15 +36,59 @@ public class ActionsPossibles {
 		actions.put(10150L, this::saisieDeNombre);
 		actions.put(10210L, this::changeSwitch);
 		actions.put(10220L, this::changeVariable);
+		actions.put(12010L, this::conditions);
 		actions.put(12330L, this::appelEvenement);
 		actions.put(20110L, this::showMessageSuite);
 		actions.put(20140L, this::qcmChoix);
 		actions.put(20141L, this::qcmFin);
+		
+		
+		// Actions très simples
+		actions.put(12410L, (a, s, p) -> a.getComment(s));
+		actions.put(22010L, (a, s, p) -> a.condElse());
+		actions.put(22011L, (a, s, p) -> a.condEnd());
 
 		return actions;
 
 	
 	}
+
+	private void conditions(ActionMaker actionMaker, String string, int[] parameters) {
+		if (parameters[0] == 0) {
+			// Conditions sur un switch
+			boolean valeurSouhaitee = parameters[2] == 0;
+			actionMaker.condOnSwitch(parameters[1], valeurSouhaitee);
+		} else if (parameters[0] == 1) {
+			// Conditions sur une variable
+			int numeroVariable = parameters[1];
+			
+			Operator operateur = this.identifierOperateurTest(parameters[4]);
+			
+			if (parameters[2] == 0) {
+				actionMaker.condOnVariable(numeroVariable, operateur, new ValeurFixe(parameters[3]));
+			} else {
+				actionMaker.condOnVariable(numeroVariable, operateur, new Variable(parameters[3]));
+			}
+		} else if (parameters[0] == 4) {
+			int numeroObjet = parameters[1];
+
+			if (parameters[2] == 0)
+				actionMaker.condOnOwnedItem(numeroObjet);
+			else
+				afficher(actionMaker, -1L, string, parameters);
+		} else if (parameters[0] == 5) {
+			int numeroHeros = parameters[1];
+			
+			if (parameters[2] == 5) {
+				actionMaker.condOnEquippedItem(numeroHeros, parameters[3]);
+			} else {
+				afficher(actionMaker, -1L, string, parameters);
+			}
+		} else {
+			afficher(actionMaker, -1L, string, parameters);
+		}
+	}
+	
 
 	private void appelEvenement(ActionMaker actionMaker, String string, int[] parameters) {
 		switch (parameters[0]) {
@@ -108,7 +152,24 @@ public class ActionsPossibles {
 			return null;
 		}
 	}
-
+	private Operator identifierOperateurTest(int numero) {
+		switch (numero) {
+		case 0:
+			return Operator.IDENTIQUE;
+		case 1:
+			return Operator.SUPEGAL;
+		case 2:
+			return Operator.INFEGAL;
+		case 3:
+			return Operator.SUP;
+		case 4:
+			return Operator.INF;
+		case 5:
+			return Operator.DIFFERENT;
+		default:
+			return null;
+		}
+	}
 
 	private void changeSwitch(ActionMaker actionMaker, String string, int[] parameters) {
 		LeftValue v = decrypterLeftValue(parameters);

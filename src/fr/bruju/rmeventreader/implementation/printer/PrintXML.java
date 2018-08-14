@@ -11,6 +11,14 @@ import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
  *
  */
 public class PrintXML {
+	/*
+	 * 
+	 * 
+	 * Types de monstre : Map 99, pages 1 à 18
+	 * 
+	 */
+	
+	
 	/**
 	 * Affiche dans la console les données lues pour des fichiers prédéfinis
 	 * @param args
@@ -18,9 +26,41 @@ public class PrintXML {
 	 */
 	public static void printerMain(String[] args) throws IOException {
 		ActionMaker printer = new Printer();
-
-		Interpreter interpreter = new InterpreterMapXML(printer, 1, 1);
 		
-		interpreter.inputFile("ressources/Map0001.xml");
+
+		initCombat2(new PrintComments());
 	}
+	
+	
+	private static void initCombat2(ActionMaker printer) throws IOException {
+		Interpreter interpreter = new InterpreterMapXML(printer, 102, 1);
+		interpreter.inputFile("ressources/xml/Map0053.xml");
+	}
+
+
+	public static void typesDeMonstres(ActionMaker printer) throws IOException {
+		for (int i = 1 ; i <= 18 ; i++ ) {
+			
+			System.out.println("=== PAGE " + i);
+			Interpreter interpreter = new InterpreterMapXML(printer, 99, i);
+			
+			interpreter.inputFile("ressources/xml/Map0053.xml");
+		}
+	}
+	
 }
+
+/*
+new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)            , "ressources/InitCombat1.txt"),
+new AutoActionMaker(new MonsterDatabaseMaker(baseDeDonnees)            , "ressources/InitCombat2.txt"),
+new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)                , "ressources/InitCombat1.txt"),
+new AutoActionMaker(new ExtracteurDeFond(baseDeDonnees)                , "ressources/InitCombat2.txt"),
+new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt"),
+new Correcteur(baseDeDonnees                                           , "ressources/Correction.txt"),
+new AutoActionMaker(new NomDeMonstresViaShowPicture(baseDeDonnees)     , "ressources/NomDesMonstres.txt"),
+new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt"),
+new AutoActionMaker(new EnregistreurDeDrop(baseDeDonnees)              , "ressources/CombatDrop.txt"),
+new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
+new SommeurDePointsDeCapacites(baseDeDonnees),
+new AutoActionMaker(new FinDeCombat(baseDeDonnees)                     , "ressources/FinCombat.txt"),
+*/
