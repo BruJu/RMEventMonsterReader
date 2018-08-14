@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.printer;
 import java.io.IOException;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
 import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
 
 /**
@@ -12,9 +11,10 @@ import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
  */
 public class PrintXML {
 	/*
-	 * 
-	 * 
-	 * Types de monstre : Map 99, pages 1 à 18
+	 * Nom : 53 ; 39 ; 1
+	 * Démarrage : Map 53 Event 37 p1
+	 * Types de monstre : Map 53 Event 99, pages 1 à 18
+	 * Drop : Map 453 18 1
 	 * 
 	 */
 	
@@ -37,14 +37,14 @@ public class PrintXML {
 	
 	
 	private static void map01(Printer printer) throws IOException {
-		Interpreter interpreter = new InterpreterMapXML(printer, 1, 1);
-		interpreter.inputFile("ressources/xml/Map0001.xml");
+		InterpreterMapXML interpreter = new InterpreterMapXML(printer);
+		interpreter.inputFile("ressources/xml/RPG_RT_DB.xml", 580);
 	}
 
 
 	private static void initCombat2(ActionMaker printer) throws IOException {
-		Interpreter interpreter = new InterpreterMapXML(printer, 102, 1);
-		interpreter.inputFile("ressources/xml/Map0053.xml");
+		InterpreterMapXML interpreter = new InterpreterMapXML(printer);
+		interpreter.inputFile("ressources/xml/Map0453.xml", 18, 1);
 	}
 
 
@@ -52,9 +52,9 @@ public class PrintXML {
 		for (int i = 1 ; i <= 18 ; i++ ) {
 			
 			System.out.println("=== PAGE " + i);
-			Interpreter interpreter = new InterpreterMapXML(printer, 99, i);
+			InterpreterMapXML interpreter = new InterpreterMapXML(printer);
 			
-			interpreter.inputFile("ressources/xml/Map0053.xml");
+			interpreter.inputFile("ressources/xml/Map0053.xml", 99, i);
 		}
 	}
 	

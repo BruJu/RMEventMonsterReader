@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.AutoActionMaker;
+import fr.bruju.rmeventreader.actionmakers.decrypter.AutoEventFactory;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
@@ -37,7 +37,7 @@ public class MaillonActionMaker implements Maillon {
 	
 	private Attaque creerAttaque(Personnages contexte, String nomAttaque, String chemin) {
 		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
-		new AutoActionMaker(formulaMaker, chemin).run();
+		new AutoEventFactory(formulaMaker, chemin).run();
 		
 		return new Attaque(nomAttaque, formulaMaker.getResultat());
 	}

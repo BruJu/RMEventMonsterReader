@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
 
@@ -19,37 +24,64 @@ import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
  * @author Bruju
  *
  */
-public class InterpreterMapXML implements Interpreter {
+public class InterpreterMapXML {
 	private static Map<Long, Action> actionsConnues = ActionsPossibles.remplirActions();
 	
 	
 	/** Gestionnaire d'action */
 	private ActionMaker actionMaker;
 	
-	private int idEvent;
 	
-	private int idPage;
-	
-	
-	public InterpreterMapXML(ActionMaker actionMaker, int idEvent, int idPage) {
+	public InterpreterMapXML(ActionMaker actionMaker) {
 		this.actionMaker = actionMaker;
-		this.idEvent = idEvent;
-		this.idPage = idPage;
 	}
-
-	@Override
-	public void inputFile(String path) throws IOException {
+	
+	public void inputFile(String path, int idEvent, int idPage) throws IOException {
 		Document doc = UtilXML.lireDocument(path);
 		
 		if (doc == null) {
 			return;
 		}
 		
-		// Recupérer le bon event à la bonne page
-		NodeList eventNodes = doc.getElementsByTagName("Event");
-		Node eventNode = UtilXML.chercherID(eventNodes, idEvent);
-		Node eventPage = UtilXML.chercherPage(eventNode, idPage);
-		Node event_commands = UtilXML.goToEventCommands(eventPage);
+		String codeIDEvent = UtilXML.transformerId(idEvent);
+		String codeIDPage = UtilXML.transformerId(idPage);
+		
+		XPathFactory xpathFactory = XPathFactory.newInstance();
+		XPath xpath = xpathFactory.newXPath();
+		XPathExpression expr;
+		try {
+			expr = xpath.compile(
+					"/LMU/Map/events/Event[@id='"+codeIDEvent+"']/pages/EventPage[@id='"+codeIDPage+"']"
+					+ "/event_commands");
+			traiterEventCommands(doc, expr);
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void inputFile(String path, int idEvent) throws IOException {
+		Document doc = UtilXML.lireDocument(path);
+		
+		if (doc == null) {
+			return;
+		}
+		
+		String codeIDEvent = UtilXML.transformerId(idEvent);
+		
+		XPathFactory xpathFactory = XPathFactory.newInstance();
+		XPath xpath = xpathFactory.newXPath();
+		XPathExpression expr;
+		try {
+			expr = xpath.compile(
+					"/LDB/Database/commonevents/CommonEvent[@id='"+codeIDEvent+"']/event_commands");
+			traiterEventCommands(doc, expr);
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void traiterEventCommands(Document doc, XPathExpression xPath) throws XPathExpressionException {
+		Node event_commands = (Node) xPath.evaluate(doc, XPathConstants.NODE);
 		List<Node> events = UtilXML.extraireEvenements(event_commands);
 		traiterEvenements(events);
 	}

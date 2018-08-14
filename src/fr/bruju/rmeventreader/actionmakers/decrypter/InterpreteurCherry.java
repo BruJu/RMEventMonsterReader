@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
 import fr.bruju.rmeventreader.actionmakers.decrypter.convertisseurs.Action;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
@@ -15,7 +14,7 @@ import fr.bruju.rmeventreader.filereader.Recognizer;
 /**
  * Classe permettant de déchiffrer des instructions RPG Maker 2003 et d'activer les fonctions de l'actionMaker donné.
  */
-public class InterpreteurCherry implements Interpreter {
+public class InterpreteurCherry {
 	/** Liste des pattern à déchiffrer */
 	private static Action[] patterns = AssociationChaineInstruction.bookMaker();
 
@@ -37,7 +36,6 @@ public class InterpreteurCherry implements Interpreter {
 	 * @param file Le fichier à déchiffrer
 	 * @throws IOException
 	 */
-	@Override
 	public void inputFile(String chemin) throws IOException {
 		File file = new File(chemin);
 		FileReaderByLine.lireLeFichier(file, new InstructionReader(this));

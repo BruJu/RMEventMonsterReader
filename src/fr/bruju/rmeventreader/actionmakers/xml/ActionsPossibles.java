@@ -42,6 +42,7 @@ public class ActionsPossibles {
 		actions.put(20140L, this::qcmChoix);
 		actions.put(20141L, this::qcmFin);
 		actions.put(11110L, this::afficherImage);
+		actions.put(10320L, this::changeObjets);
 
 		// Actions très simples
 		actions.put(12410L, (a, s, p) -> a.getComment(s));
@@ -54,17 +55,33 @@ public class ActionsPossibles {
 
 		// Actions non implémentées
 		actions.put(10860L, (a, s, p) -> a.notImplementedFeature("• Mod Pos Event"));
-		actions.put(11410L, (a, s, p) -> a.notImplementedFeature("• Wait " + ((p[1] == 0) ? p[0] : "Touche")));
+		actions.put(11410L, (a, s, p) -> a.notImplementedFeature("• Wait " + ((p.length == 1 || p[1] == 0) ? p[0] : "Touche")));
 
 		actions.put(12310L, (a, s, p) -> a.notImplementedFeature("• Stopper cet évènement"));
 		actions.put(12320L, (a, s, p) -> a.notImplementedFeature("• Effacer cet évènement"));
 		actions.put(11340L, (a, s, p) -> a.notImplementedFeature("• Tout déplacer"));
 		actions.put(11350L, (a, s, p) -> a.notImplementedFeature("• Tout stopper"));
+		actions.put(11210L, (a, s, p) -> a.notImplementedFeature("• Jouer une animation"));
 
 		actions.put(12210L, (a, s, p) -> a.notImplementedFeature("• Boucle"));
 		actions.put(22210L, (a, s, p) -> a.notImplementedFeature("• Fin Boucle"));
 		actions.put(12220L, (a, s, p) -> a.notImplementedFeature("• Sortir Boucle"));
 		actions.put(11070L, (a, s, p) -> a.notImplementedFeature("• Changement Meteo"));
+		actions.put(10810L, (a, s, p) -> a.notImplementedFeature("• Teleportation Map " + p[0] + " " + p[1] + " " + p[2]));
+		
+
+		actions.put(11030L, (a, s, p) -> a.notImplementedFeature("• Modifier Ton Ecran"));
+		actions.put(11020L, (a, s, p) -> a.notImplementedFeature("• Montrer écran"));
+		actions.put(11010L, (a, s, p) -> a.notImplementedFeature("• Effacer écran"));
+		actions.put(10690L, (a, s, p) -> a.notImplementedFeature("• Modification transition"));
+		actions.put(11330L, (a, s, p) -> a.notImplementedFeature("• Déplacer évènement"));
+
+		actions.put(11120L, (a, s, p) -> a.notImplementedFeature("• Déplacer image"));
+		
+
+		actions.put(10440L, (a, s, p) -> a.notImplementedFeature("• Modification des compétences"));
+		
+		actions.put(11310L, (a, s, p) -> a.notImplementedFeature("• Transparence héros"));
 
 		actions.put(11510L, (a, s, p) -> a.notImplementedFeature("• Play Music"));
 		actions.put(11520L, (a, s, p) -> a.notImplementedFeature("• Effacer Musique en " + p[0] + "ms"));
@@ -83,6 +100,28 @@ public class ActionsPossibles {
 
 	}
 
+
+	private void changeObjets(ActionMaker actionMaker, String string, int[] parameters) {
+		RightValue objet;
+		if (parameters[1] == 0) {
+			objet = new ValeurFixe(parameters[2]);
+		} else {
+			objet = new Variable(parameters[2]);
+		}
+		
+		RightValue quantite;
+		if (parameters[3] == 0) {
+			quantite = new ValeurFixe(parameters[4]);
+		} else {
+			quantite = new Variable(parameters[4]);
+		}
+		
+		
+		boolean add = parameters[0] == 0;
+		
+		actionMaker._changeItems(objet, quantite, add);
+	}
+	
 	private void afficherImage(ActionMaker actionMaker, String string, int[] parameters) {
 		int idImage = parameters[0];
 		String nom = string;
@@ -113,18 +152,21 @@ public class ActionsPossibles {
 
 			if (parameters[2] == 0)
 				actionMaker.condOnOwnedItem(numeroObjet);
-			else
-				afficher(actionMaker, -1L, string, parameters);
+			else {
+				actionMaker.notImplementedFeature("• Cond on unowned items");
+			}
 		} else if (parameters[0] == 5) {
 			int numeroHeros = parameters[1];
 
-			if (parameters[2] == 5) {
+			if (parameters[2] == 0) {
+				actionMaker.condTeamMember(numeroHeros);
+			} else if (parameters[2] == 5) {
 				actionMaker.condOnEquippedItem(numeroHeros, parameters[3]);
 			} else {
-				afficher(actionMaker, -1L, string, parameters);
+				actionMaker.notImplementedFeature("• Cond on team member" + parameters[2]);
 			}
 		} else {
-			afficher(actionMaker, -1L, string, parameters);
+			actionMaker.notImplementedFeature("• Cond type " + parameters[0]);
 		}
 	}
 
@@ -153,7 +195,7 @@ public class ActionsPossibles {
 		if (right != null) {
 			actionMaker._changeVariable(left, operateur, right);
 		} else {
-			actionMaker.notImplementedFeature("ChangeVariable avec comme valeur droite " + parameters[4]);
+			actionMaker.notImplementedFeature("• ChangeVariable avec comme valeur droite " + parameters[4]);
 		}
 	}
 

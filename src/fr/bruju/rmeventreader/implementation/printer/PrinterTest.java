@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.printer;
 import java.io.IOException;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
-import fr.bruju.rmeventreader.actionmakers.actionner.Interpreter;
 import fr.bruju.rmeventreader.actionmakers.decrypter.InterpreteurCherry;
 
 /**
@@ -19,7 +18,7 @@ public class PrinterTest {
 	public static void printerMain(String[] args) throws IOException {
 		ActionMaker printer = new Printer();
 
-		Interpreter interpreter = new InterpreteurCherry(printer);
+		InterpreteurCherry interpreter = new InterpreteurCherry(printer);
 		
 		interpreter.inputFile(("ressources/Script.txt"));
 		interpreter.inputFile(("ressources/CombatSuite.txt"));

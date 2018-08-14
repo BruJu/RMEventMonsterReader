@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
+import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
@@ -59,6 +60,11 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 
 	@Override
 	public boolean condOnSwitch(int number, boolean value) {
+		if (number == 509) {
+			conditions.push(new ConditionPassThrought<Combat>());
+			return true;
+		}
+		
 		if (number != POS_BOSSBATTLE)
 			return false;
 

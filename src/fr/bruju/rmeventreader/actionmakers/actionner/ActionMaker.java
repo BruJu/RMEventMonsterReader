@@ -374,4 +374,27 @@ public interface ActionMaker {
 			throw new AMException(variable.getClass().toString());
 		}
 	}
+
+	public default void _changeItems(RightValue objet, RightValue quantite, boolean add) {
+		if (objet instanceof ValeurFixe) {
+			if (quantite instanceof ValeurFixe) {
+				modifyItems((ValeurFixe) objet, add, (ValeurFixe) quantite);
+			} else if (quantite instanceof Variable) {
+				modifyItems((ValeurFixe) objet, add, (Variable) quantite);
+			} else {
+				throw new AMException(quantite.getClass().toString());
+			}
+		} else if (objet instanceof Variable) {
+			if (quantite instanceof ValeurFixe) {
+				modifyItems((Variable) objet, add, (ValeurFixe) quantite);
+			} else if (quantite instanceof Variable) {
+				modifyItems((Variable) objet, add, (Variable) quantite);
+			} else {
+				throw new AMException(quantite.getClass().toString());
+			}
+		} else {
+			throw new AMException(objet.getClass().toString());
+		}
+		
+	}
 }

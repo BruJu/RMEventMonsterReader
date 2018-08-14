@@ -52,7 +52,7 @@ public class UtilXML {
 		return null;
 	}
 
-	private static String transformerId(int idEvent) {
+	public static String transformerId(int idEvent) {
 		String str = Integer.toString(idEvent);
 		
 		while (str.length() < 4) {
