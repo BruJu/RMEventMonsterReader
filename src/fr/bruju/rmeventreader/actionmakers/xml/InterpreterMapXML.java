@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.xml;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Document;
@@ -48,13 +49,14 @@ public class InterpreterMapXML implements Interpreter {
 		NodeList eventNodes = doc.getElementsByTagName("Event");
 		Node eventNode = UtilXML.chercherID(eventNodes, idEvent);
 		Node eventPage = UtilXML.chercherPage(eventNode, idPage);
-		NodeList events = UtilXML.extraireEvenements(eventPage);
+		Node event_commands = UtilXML.goToEventCommands(eventPage);
+		List<Node> events = UtilXML.extraireEvenements(event_commands);
 		traiterEvenements(events);
 	}
 
-	private void traiterEvenements(NodeList events) {
-		for (int i = 0 ; i != events.getLength() ; i++) {
-			traiterEvenement(events.item(i));			
+	private void traiterEvenements(List<Node> events) {
+		for (Node node : events) {
+			traiterEvenement(node);			
 		}
 	}
 
@@ -99,14 +101,23 @@ public class InterpreterMapXML implements Interpreter {
 		
 		// Decodage
 		long codeD = Long.valueOf(code);
-		String[] parametersS = parameters.split(" ");
-		int[] parametersD = new int[parametersS.length];
-		
-		for (int i = 0 ; i != parametersS.length ; i++)
-			parametersD[i] = Integer.decode(parametersS[i]);
+		int[] parametersD = decrypterParameters(parameters);
 		
 		// Traitement
 		executer(codeD, string, parametersD);
+	}
+
+	private int[] decrypterParameters(String parameters) {
+		if (parameters.length() == 0)
+			return null;
+		
+		String[] parametersS = parameters.split(" ");
+		int[] parametersD = new int[parametersS.length];
+		for (int i = 0 ; i != parametersS.length ; i++) {
+			parametersD[i] = Integer.decode(parametersS[i]);
+		}
+		
+		return parametersD;
 	}
 
 	private void executer(long codeD, String string, int[] parameters) {

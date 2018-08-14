@@ -112,6 +112,7 @@ public class Printer implements ActionMaker {
 
 	@Override
 	public void notImplementedFeature(String str) {
+		System.out.println("// Non implem : " + str);
 	}
 
 	@Override

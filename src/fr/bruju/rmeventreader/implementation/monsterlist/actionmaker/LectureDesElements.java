@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import static fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire.ELEMENTS;
 import static fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire.PARTIES;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
