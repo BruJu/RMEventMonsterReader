@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.decrypter.AutoEventFactory;
 import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXML;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstresViaShowPicture;
@@ -28,6 +27,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.implementation.printer.Printer;
 
 public class MonsterDBTest {
 
@@ -55,12 +55,14 @@ public class MonsterDBTest {
 			new AutoLibLcfXML(new EnregistreurDeDrop(baseDeDonnees), "ressources\\xml\\Map0453.xml", 18, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
-			
-			new AutoEventFactory(new FinDeCombat(baseDeDonnees)                     , "ressources/FinCombat.txt"),
+			new AutoLibLcfXML(new FinDeCombat(baseDeDonnees), "ressources\\xml\\RPG_RT_DB.xml", 44, -1),
 			
 			// Elements
 			new ElementsInit(baseDeDonnees, ce),
-			new AutoEventFactory(new LectureDesElements(baseDeDonnees, contexte, ce), ContexteElementaire.PREMIERFICHIER),
+
+			new AutoLibLcfXML(new LectureDesElements(baseDeDonnees, contexte, ce), "ressources\\xml\\RPG_RT_DB.xml", 277, -1),
+			
+			//new AutoEventFactory(new LectureDesElements(baseDeDonnees, contexte, ce), ContexteElementaire.PREMIERFICHIER),
 			new ElementsFinalisation(baseDeDonnees, ce)
 		};
 		

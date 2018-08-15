@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
+import fr.bruju.rmeventreader.actionmakers.actionner.DoubleActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.decrypter.InterpreteurCherry;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
@@ -18,9 +19,12 @@ import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
+import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.implementation.printer.Printer;
 
 public class LectureDesElements extends StackedActionMaker<Monstre> {
 	/* =============
@@ -42,6 +46,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 	private ContexteElementaire contexte;
 	/** Liste des pages de l'évènement EVENT_SOUS_FONCTIONS stockées avec les actions correspondant */
 	private ArrayList<ActionPage> actionsPage = new ArrayList<>();
+	private boolean estFini = false;
 
 	/**
 	 * Crée un gestionnaire de script d'affectations des résistances élémentaires
@@ -62,7 +67,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 	/* ===================
 	 * ACTION MAKER A PILE
 	 * =================== */
-	
+
 	/* -----------------------
 	 * Extraction des monstres
 	 * ----------------------- */
@@ -71,10 +76,30 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 	protected Collection<Monstre> getAllElements() {
 		return bdd.extractMonsters();
 	}
-	
+
 	/* -------------------------
 	 * Modification des monstres
 	 * ------------------------- */
+
+	@Override
+	public void getComment(String str) {
+		if (str.equals("Fin")) {
+			estFini  = true;
+			this.conditions.push(new Condition<Monstre>() {
+
+				@Override
+				public void revert() {
+				}
+
+				@Override
+				public boolean filter(Monstre element) {
+					return false;
+				}
+				
+				
+			});
+		}
+	}
 
 	@Override
 	public void changeSwitch(Variable interrupteur, boolean value) {
@@ -86,6 +111,9 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		String nom = contexte.getElement(variable.idVariable);
+
+		if (nom == null)
+			return;
 
 		this.getElementsFiltres().forEach(monstre -> monstre.accessInt(ELEMENTS).compute(nom,
 				(n, ex) -> operator.compute(ex, returnValue.valeur)));
@@ -116,11 +144,11 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 			Page p = new Page();
 
 			try {
-				new InterpreterMapXML(p).inputFile("ressources\\xml\\Map0053.xml", EVENT_SOUS_FONCTIONS, eventPage);;
+				new InterpreterMapXML(p).inputFile("ressources\\xml\\Map0053.xml", EVENT_SOUS_FONCTIONS, eventPage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
+			
 			actionsPage.set(eventPage - 1, p.getResult());
 		}
 	}
@@ -128,33 +156,70 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 	/* -----------------------------------
 	 * Conditions sur le numéro du monstre
 	 * ----------------------------------- */
-	
+
 	@Override
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		if (leftOperandValue != ID_VARIABLE_MONSTRE_CIBLE) {
-			throw new LigneNonReconnueException("Script général : condition sur " + leftOperandValue);
+			if (leftOperandValue == 42) {
+				this.conditions.push(new Condition<Monstre>() {
+					boolean b = false;
+					
+					@Override
+					public void revert() {
+						b = !b;
+					}
+
+					@Override
+					public boolean filter(Monstre element) {
+						return b;
+					}
+					
+					
+				});
+
+				return true;
+			} else {
+				this.conditions.push(new Condition<Monstre>() {
+
+					@Override
+					public void revert() {
+					}
+
+					@Override
+					public boolean filter(Monstre element) {
+						return false;
+					}
+					
+					
+				});
+				return true;
+			}
+			
+			
+			
 		}
 
 		this.conditions.push(new ConditionOnMonsterId(true, operatorValue, returnValue.valeur));
 		return true;
 	}
-	
-	
+
 	/* ------------
 	 * Sous routine
 	 * ------------ */
 
 	@Override
 	public void callCommonEvent(int eventNumber) {
-		InterpreteurCherry interpreter = new InterpreteurCherry(this);
-
+		if (estFini)
+			return;
+		
+		InterpreterMapXML intreprete = new InterpreterMapXML(this);
+		
 		try {
-			interpreter.inputFile((ContexteElementaire.SECONDFICHIER));
+			intreprete.inputFile("ressources//xml//RPG_RT_DB.xml", eventNumber);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
 
 	/* ==================
 	 * SOUS ACTION MAKERS

@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
+import fr.bruju.rmeventreader.dictionnaires.UtilXML;
 
 /**
  * Interpreteur de l'arbre XML généré par EasyRPG.

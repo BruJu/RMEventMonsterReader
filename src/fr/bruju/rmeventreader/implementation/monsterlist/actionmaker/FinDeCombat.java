@@ -43,6 +43,22 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 	 * Database
 	 * ======== */
 
+	@Override
+	public void getComment(String str) {
+		if (str.equals("ENNEMIS LEGENDAIRES")) {
+			this.conditions.push(new Condition<Combat>() {
+				@Override
+				public void revert() {
+				}
+
+				@Override
+				public boolean filter(Combat element) {
+					return false;
+				}
+			});
+		}
+	}
+
 	/**
 	 * Base de données
 	 */
@@ -183,11 +199,13 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 
 		@Override
 		public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
-			if (operator == Operator.AFFECTATION) {
+			Collection<Combat> elems = getElementsFiltres();
+			
+			if (!elems.isEmpty() && operator == Operator.AFFECTATION) {
 				throw new FinDeCombatException("Affectation brute d'une récompense de capa");
 			}
 
-			getElementsFiltres().forEach(battle -> battle.addGainCapa(returnValue.get()));
+			elems.forEach(battle -> battle.addGainCapa(returnValue.get()));
 		}
 	}
 

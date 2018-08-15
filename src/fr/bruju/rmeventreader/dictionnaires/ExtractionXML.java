@@ -14,8 +14,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import fr.bruju.rmeventreader.actionmakers.xml.UtilXML;
-
 
 public class ExtractionXML {
 

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.xml;
+package fr.bruju.rmeventreader.dictionnaires;
 
 import java.io.File;
 import java.io.FileInputStream;

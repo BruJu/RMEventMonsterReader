@@ -47,7 +47,10 @@ public class AutoLibLcfXML implements Runnable {
 		InterpreterMapXML interpreter = new InterpreterMapXML(conditionalActionMaker);
 
 		try {
-			interpreter.inputFile(filename, idEvent, idPage);
+			if (idPage == -1)
+				interpreter.inputFile(filename, idEvent);
+			else
+				interpreter.inputFile(filename, idEvent, idPage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

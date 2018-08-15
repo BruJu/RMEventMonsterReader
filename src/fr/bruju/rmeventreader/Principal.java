@@ -12,7 +12,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Début");
 		
-		int choix = 7;
+		int choix = 0;
 
 		if (choix == 0)
 			MonsterDBTest.main_(args, 3);
