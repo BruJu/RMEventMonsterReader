@@ -16,6 +16,6 @@ public class PrintXML {
 	 */
 	public static void printerMain(String[] args) throws IOException {
 		InterpreterMapXML interpreter = new InterpreterMapXML(new Printer());
-		interpreter.inputFile("ressources/xml/RPG_RT_DB.xml", 44);
+		interpreter.inputFile("ressources/xml/Map0001.xml", 1, 1);
 	}
 }

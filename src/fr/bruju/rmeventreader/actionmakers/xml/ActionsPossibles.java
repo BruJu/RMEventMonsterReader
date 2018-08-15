@@ -162,6 +162,8 @@ public class ActionsPossibles {
 				actionMaker.condTeamMember(numeroHeros);
 			} else if (parameters[2] == 5) {
 				actionMaker.condOnEquippedItem(numeroHeros, parameters[3]);
+			} else if (parameters[2] == 4) {
+				actionMaker.condOnOwnedSpell(numeroHeros, parameters[3]);
 			} else {
 				actionMaker.notImplementedFeature("• Cond on team member" + parameters[2]);
 			}

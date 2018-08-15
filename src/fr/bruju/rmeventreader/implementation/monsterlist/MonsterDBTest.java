@@ -27,7 +27,6 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.implementation.printer.Printer;
 
 public class MonsterDBTest {
 

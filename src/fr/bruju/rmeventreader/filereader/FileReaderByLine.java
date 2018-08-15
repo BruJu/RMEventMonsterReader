@@ -83,6 +83,20 @@ public class FileReaderByLine {
 		lireLeFichierSansCommentaires(chemin, donnee -> {
 			String[] split = donnee.split(" ");
 			
+			if (split.length > nbArguments) {
+				String[] nouveauSplit = new String[nbArguments];
+				
+				for (int i = nbArguments ; i != split.length ; i++) {
+					split[nbArguments] += " " + split[i];
+				}
+				
+				for (int i = 0 ; i != nouveauSplit.length ; i++) {
+					nouveauSplit[i] = split[i];
+				}
+				
+				split = nouveauSplit;
+			}
+			
 			if (split.length != nbArguments) {
 				throw new LigneNonReconnueException("Fichier non valide " + donnee);
 			}

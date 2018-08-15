@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
-import fr.bruju.rmeventreader.actionmakers.actionner.DoubleActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.decrypter.InterpreteurCherry;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
@@ -21,10 +19,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.implementation.printer.Printer;
 
 public class LectureDesElements extends StackedActionMaker<Monstre> {
 	/* =============

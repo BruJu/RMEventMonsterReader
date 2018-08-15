@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.AutoEventFactory;
+import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXML;
+import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
@@ -26,12 +28,34 @@ public class MaillonActionMaker implements Maillon {
 			return;
 		}
 		
+		
+		//attaquesParEventFactory(contexte, attaques);
+		attaquesParXML(contexte, attaques, "ressources/Attaques.txt");
+	}
+
+
+	private void attaquesParXML(Personnages contexte, Attaques attaques, String chemin) {
+		List<String[]> att;
+		try {
+			att = FileReaderByLine.lireFichier(chemin, 3);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		att.stream()
+			.map(d -> creerAttaqueXML(contexte, d[1] + "-" + d[2], Integer.parseInt(d[0])))
+			.forEach(attaques::ajouterAttaque);
+	}
+
+
+	@SuppressWarnings("unused")
+	private void attaquesParEventFactory(Personnages contexte, Attaques attaques) {
 		List<String[]> att = ajouterRepertoire("ressources/formulatracker/attaques/");
 
 		att.stream()
 		   .map(donnees -> creerAttaque(contexte, donnees[0], donnees[1]))
 		   .forEach(attaques::ajouterAttaque);
-		
 	}
 	
 	
@@ -42,6 +66,13 @@ public class MaillonActionMaker implements Maillon {
 		return new Attaque(nomAttaque, formulaMaker.getResultat());
 	}
 
+	private Attaque creerAttaqueXML(Personnages contexte, String nomAttaque, int numeroDEvent) {
+		System.out.println(nomAttaque);
+		
+		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
+		new AutoLibLcfXML(formulaMaker, "ressources/xml/RPG_RT_DB.xml", numeroDEvent, -1).run();;
+		return new Attaque(nomAttaque, formulaMaker.getResultat());
+	}
 
 	public List<String[]> ajouterRepertoire(String cheminRepertoire) {
 		List<String[]> liste = new ArrayList<>();
