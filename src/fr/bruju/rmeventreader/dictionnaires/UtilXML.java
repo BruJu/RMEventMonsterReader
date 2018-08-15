@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -113,7 +115,24 @@ public class UtilXML {
 		
 		return nodes;
 	}
+
+	public static int getId(Node node) {
+		return Integer.parseInt(node.getAttributes().getNamedItem("id").getTextContent());
+	}
 	
-	
+	public static void forEachNodes(NodeList nodeList, Predicate<Node> predicat, Consumer<Node> fonction) {
+		for (int i = 0; i != nodeList.getLength(); i++) {
+			Node n = nodeList.item(i);
+			if (predicat.test(n)) {
+				fonction.accept(n);
+			}
+		}
+	}
+
+	public static void forEachNodes(NodeList nodeList, Consumer<Node> fonction) {
+		for (int i = 0; i != nodeList.getLength(); i++) {
+			fonction.accept(nodeList.item(i));
+		}
+	}
 	
 }

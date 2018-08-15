@@ -12,12 +12,13 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
+import fr.bruju.rmeventreader.dictionnaires.ExtractionXML;
 import fr.bruju.rmeventreader.dictionnaires.UtilXML;
+import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 /**
  * Interpreteur de l'arbre XML généré par EasyRPG.
@@ -107,50 +108,10 @@ public class InterpreterMapXML {
 	 */
 	
 	private void traiterEvenement(Node item) {
-		// Lecture du noeud
-		NodeList children = item.getChildNodes();
-		
-		String code = null;
-		String string = null;
-		String parameters = null;
-		
-		for (int i = 0 ; i != children.getLength() ; i++) {
-			Node child = children.item(i);
-			
-			if (child.getNodeName().equals("code")) {
-				code = child.getTextContent();
-			}
-			if (child.getNodeName().equals("string")) {
-				string = child.getTextContent();
-			}
-			if (child.getNodeName().equals("parameters")) {
-				parameters = child.getTextContent();
-			}
-		}
-		
-		if (code == null || string == null || parameters == null) {
-			throw new RuntimeException("Element invalide");
-		}
-		
-		// Decodage
-		long codeD = Long.valueOf(code);
-		int[] parametersD = decrypterParameters(parameters);
+		Triplet<Long, String, int[]> triplet = ExtractionXML.decrypterNoeudEventCommand(item);
 		
 		// Traitement
-		executer(codeD, string, parametersD);
-	}
-
-	private int[] decrypterParameters(String parameters) {
-		if (parameters.length() == 0)
-			return null;
-		
-		String[] parametersS = parameters.split(" ");
-		int[] parametersD = new int[parametersS.length];
-		for (int i = 0 ; i != parametersS.length ; i++) {
-			parametersD[i] = Integer.decode(parametersS[i]);
-		}
-		
-		return parametersD;
+		executer(triplet.a, triplet.b, triplet.c);
 	}
 
 	private void executer(long codeD, String string, int[] parameters) {
