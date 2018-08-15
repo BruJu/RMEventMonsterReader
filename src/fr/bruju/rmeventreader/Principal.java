@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader;
 
 import java.io.IOException;
 
+import fr.bruju.rmeventreader.dictionnaires.CreateurDeRessources;
 import fr.bruju.rmeventreader.implementation.formulatracker.Exploitation;
 import fr.bruju.rmeventreader.implementation.monsterlist.MonsterDBTest;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
@@ -11,7 +12,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Début");
 		
-		int choix = 6;
+		int choix = 7;
 
 		if (choix == 0)
 			MonsterDBTest.main_(args, 3);
@@ -25,6 +26,11 @@ public class Principal {
 		
 		if (choix == 6)
 			PrintXML.printerMain(args);
+		
+		if (choix == 7) {
+			new CreateurDeRessources("ressources_gen\\").extraireBDD("ressources\\xml\\RPG_RT_DB.xml");
+			new CreateurDeRessources("ressources_gen\\").extraireArbre("ressources\\xml\\RPG_RT_T.xml");
+		}
 		
 		System.out.println("Fin");
 	}
