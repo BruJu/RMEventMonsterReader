@@ -16,6 +16,7 @@ ressources/
 sorties/
 diff*
 ressources_gen/
+cache_xml/
 
 # IntelliJ
 .idea/*
