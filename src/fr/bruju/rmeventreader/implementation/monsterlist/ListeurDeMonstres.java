@@ -28,9 +28,14 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
-public class MonsterDBTest {
+public class ListeurDeMonstres implements Runnable {
+	private int option;
+	
+	public ListeurDeMonstres(int option) {
+		this.option = option;
+	}
 
-	public static void main_(String[] args, int csv) throws IOException {
+	public void run() {
 		// Contexte général
 		Contexte contexte = new Contexte();
 		contexte.remplirContexte("ressources/monsterlist/Parametres.txt");
@@ -75,7 +80,7 @@ public class MonsterDBTest {
 
 		baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
 		
-		switch (csv) {
+		switch (option) {
 		case 0:
 			System.out.println(baseDeDonnees.getString());
 			break;

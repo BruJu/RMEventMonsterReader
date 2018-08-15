@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker;
 
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.implementation.formulatracker.actionmaker.MaillonActionMaker;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
@@ -14,62 +13,36 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.MaillonIntegration;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonEcritureFichier;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonSetAffichageCSV;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MNePossedeAucunObjet;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonDesinjecteur;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonEvaluationPartielle;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonFiltreAttaque;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonFiltreOperateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonRetirerSiInutile;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonSuppresseur;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonSupprimerCondition;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples.MaillonUnificateur;
 
-@SuppressWarnings("unused")
-public class Exploitation {
-
-	public void exploiter() {
+public class FormulaTracker implements Runnable {
+	public void run() {
 		Maillon[] maillons = new Maillon[] {
 				new MaillonActionMaker(),
-				//new MaillonFiltreOperateur(Operator.AFFECTATION),
-				//new MaillonFiltreAttaque("Arniok-Hachoir"),
-				
-				//new MNePossedeAucunObjet(),
-				//new MaillonSuppresseur(),
-
 				new MaillonEvaluationPartielle(),
 				new MaillonIntegration(),
 				new MaillonDesinjecteur(),						// A faire aprés l'inclusion
-
-				
 				new MaillonUnificateur(),						// A faire aprés désinjection
-				
 				new Factorisation(),
-				
-
 				new MaillonRetirerSiInutile(),
 				new Borne(),
 				new Encadrer(),
-				
-				
 				new MaillonSetAffichagegetString(),
 				new MaillonSystemOut(),
-				//new MaillonSupprimerCondition(),
 				new MaillonDiviseur(),
 				new MaillonSetAffichageCSV(),
 				new MaillonSystemOut(),
 				new MaillonEcritureFichier()
-				
-				
 		};
 		
 		Attaques attaques = new Attaques();
 		
-		
 		for (Maillon maillon : maillons) {
 			maillon.traiter(attaques);
 		}
-
-		System.out.println("=FIN=");
 	}
 
 }

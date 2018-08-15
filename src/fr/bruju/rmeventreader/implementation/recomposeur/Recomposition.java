@@ -21,18 +21,14 @@ import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.Unificateur;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
-public class Recomposition {
+public class Recomposition implements Runnable {
 	private final static String CHEMIN_PARAMETRES = "ressources\\recomposeur\\Parametres.txt";
 	private final static String CHEMIN_ATTAQUES = "ressources\\recomposeur\\attaques";
-
-	public static void exploiter() {
-		new Recomposition().exp();
-	}
 
 	Parametres parametres;
 	BaseDeVariables base;
 
-	private void exp() {
+	public void run() {
 		parametres = new Parametres(CHEMIN_PARAMETRES);
 		base = new BaseDeVariables();
 

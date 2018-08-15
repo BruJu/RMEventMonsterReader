@@ -8,14 +8,29 @@ import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
  * Classe permettant de tester visuellement les effets de la classe Printer
  *
  */
-public class PrintXML {
+public class PrintXML implements Runnable {
+	private String fichier;
+	private int idEvent;
+	private int idPage;
+
+
+	public PrintXML(String fichier, int idEvent, int idPage) {
+		this.fichier = fichier;
+		this.idEvent = idEvent;
+		this.idPage = idPage;
+	}
+	
 	/**
 	 * Affiche dans la console les données lues pour des fichiers prédéfinis
 	 * @param args
 	 * @throws IOException
 	 */
-	public static void printerMain(String[] args) throws IOException {
+	public void run() {
 		InterpreterMapXML interpreter = new InterpreterMapXML(new Printer());
-		interpreter.inputFile("ressources/xml/Map0001.xml", 1, 1);
+		try {
+			interpreter.inputFile(fichier, idEvent, idPage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

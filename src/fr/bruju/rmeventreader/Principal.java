@@ -3,35 +3,35 @@ package fr.bruju.rmeventreader;
 import java.io.IOException;
 
 import fr.bruju.rmeventreader.dictionnaires.CreateurDeRessources;
-import fr.bruju.rmeventreader.implementation.formulatracker.Exploitation;
-import fr.bruju.rmeventreader.implementation.monsterlist.MonsterDBTest;
+import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
+import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 
 public class Principal {
 	public static void main(String[] args) throws IOException {
-		System.out.println("Début");
-		
-		int choix = 3;
+		System.out.println("#### Début ####");
 
-		if (choix == 0)
-			MonsterDBTest.main_(args, 3);
+		int choix = 0;
 		
-		if (choix == 3)
-			new Exploitation().exploiter();
+		Runnable[] options = {
+				/* 0 */ new ListeurDeMonstres(3),
+				/* 1 */ new FormulaTracker(),
+				/* 2 */ new Recomposition(),
+				/* 3 */ new PrintXML("ressources\\xml\\Map0001.xml", 1, 1),
+				/* 4 */ new Createur()
+		};
 		
-		if (choix == 4)
-			Recomposition.exploiter();
-
+		options[choix].run();
 		
-		if (choix == 6)
-			PrintXML.printerMain(args);
-		
-		if (choix == 7) {
+		System.out.println("#### Fin ####");
+	}
+	
+	public static class Createur implements Runnable {
+		@Override
+		public void run() {
 			new CreateurDeRessources("ressources_gen\\").extraireBDD("ressources\\xml\\RPG_RT_DB.xml");
 			new CreateurDeRessources("ressources_gen\\").extraireArbre("ressources\\xml\\RPG_RT_T.xml");
 		}
-		
-		System.out.println("Fin");
 	}
 }
