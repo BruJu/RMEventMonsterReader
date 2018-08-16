@@ -16,6 +16,7 @@ import javax.xml.xpath.XPathConstants;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -30,12 +31,32 @@ import static fr.bruju.rmeventreader.dictionnaires.UtilXML.forEachNodes;
  *
  */
 public class MiseEnCache {
+	
+	public void construireCache(String destination, String source) {
+		int nbDEventCommuns = eventCommuns(destination + "EC\\", source + "RPG_RT_DB.xml");
+		List<Integer> mapExistantes = arbo(destination, "ressources_gen\\bdd_maps.txt", source + "Map");
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		int version = 1;
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Maps");
+		mapExistantes.forEach(v -> sb.append(" ").append(v));
+		sb.append("\n");
+		
+		sb.append("EC ").append(nbDEventCommuns).append("\n");
+		sb.append("Date ").append(timestamp.getTime()).append("\n");
+		sb.append("Version ").append(version).append("\n");
+		
+		ecrire(destination + "Contexte.txt", sb.toString());
+	}
 
-	public void eventCommuns(String dossier, String baseDeDonnees) {
+	private int eventCommuns(String dossier, String baseDeDonnees) {
 		NodeList nodeList = (NodeList) ExtractionXML.extraireDepuisXPath(baseDeDonnees,
 				"/LDB/Database/commonevents/CommonEvent", XPathConstants.NODESET);
 		if (nodeList == null)
-			return;
+			return -1;
 
 		File dossierF = new File(dossier);
 		if (dossierF.isDirectory()) {
@@ -45,6 +66,8 @@ public class MiseEnCache {
 		
 		List<EvenementCommun> events = new ArrayList<>();
 		forEachNodes(nodeList, n -> events.add(eventCommun(n, dossier)));
+		
+		return events.stream().mapToInt(ev -> ev.id).reduce(Math::max).getAsInt();
 	}
 
 	private EvenementCommun eventCommun(Node node, String dossier) {
@@ -62,13 +85,13 @@ public class MiseEnCache {
 		return ec;
 	}
 
-	public void arbo(String prefixeDestination, String fichierArbre, String prefixeMaps) {
+	private List<Integer> arbo(String prefixeDestination, String fichierArbre, String prefixeMaps) {
 		List<String[]> s;
 		try {
 			s = FileReaderByLine.lireFichier(fichierArbre, 3);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
+			return null;
 		}
 
 		ArrayList<Pair<Integer, String>> arbo = new ArrayList<>(s.size());
@@ -78,24 +101,32 @@ public class MiseEnCache {
 		@SuppressWarnings("unchecked")
 		Pair<Integer, String>[] arbre = arbo.toArray(new Pair[0]);
 
+		List<Integer> mapVues = new ArrayList<>();
+		
 		for (int i = 1; i != s.size(); i++) {
 			MapRM hm = new MapRM(i, s.get(i)[2], arbre);
-			map(prefixeDestination, hm, prefixeMaps + s.get(i)[0] + ".xml");
+			boolean mapFaite = map(prefixeDestination, hm, prefixeMaps + s.get(i)[0] + ".xml");
+			
+			if (mapFaite)
+				mapVues.add(hm.id); 
 		}
-
+		
+		return mapVues;
 	}
 
-	private void map(String prefixeDestination, MapRM map, String fichierXML) {
+	private boolean map(String prefixeDestination, MapRM map, String fichierXML) {
 		NodeList nodeList = (NodeList) ExtractionXML.extraireDepuisXPath(fichierXML, "/LMU/Map/events/Event",
 				XPathConstants.NODESET);
 		if (nodeList == null)
-			return;
+			return false;
 
 		forEachNodes(nodeList, node -> map.ajouter(mapEvent(node)));
 
 		creerDossier(prefixeDestination, map);
 
 		map.viderMemoire();
+		
+		return true;
 	}
 
 	private void creerDossier(String prefixeDestination, MapRM map) {
@@ -191,8 +222,14 @@ public class MiseEnCache {
 
 	private void supprimerDossier(File dossierF) {
 		for (File fichierPresent : dossierF.listFiles()) {
-			fichierPresent.delete();
+			
+			if (fichierPresent.isDirectory())
+				supprimerDossier(fichierPresent);
+			else
+				fichierPresent.delete();
 		}
+		
+		dossierF.delete();
 	}
 
 	private <S, T extends ElementComposite<S>> T construire(Node node, String nomGroupeDeFils, String nomElementFils,

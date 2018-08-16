@@ -45,7 +45,8 @@ public class Principal {
 
 		@Override
 		public void run() {
-			new MiseEnCache().eventCommuns("cache_xml\\EC\\", "ressources\\xml\\RPG_RT_DB.xml");
+			new MiseEnCache().construireCache("cache_xml\\", "ressources\\xml\\");
+			//new MiseEnCache().eventCommuns("cache_xml\\EC\\", "ressources\\xml\\RPG_RT_DB.xml");
 			//new MiseEnCache().arbo("cache_xml\\", "ressources_gen\\bdd_maps.txt", "ressources\\xml\\Map");
 		}
 		

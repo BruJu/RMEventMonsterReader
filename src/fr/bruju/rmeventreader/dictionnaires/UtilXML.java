@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.dictionnaires;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ public class UtilXML {
 			Document document = builder.parse(is);
 			
 			return document;
+		} catch (FileNotFoundException e) {
+			// TODO : relancer les FileNotFoundException ?
+			return null;
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 			return null;
