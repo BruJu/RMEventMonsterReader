@@ -1,8 +1,5 @@
 package fr.bruju.rmeventreader.implementation.monsterlist;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +24,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class ListeurDeMonstres implements Runnable {
 	private int option;
@@ -130,27 +128,11 @@ public class ListeurDeMonstres implements Runnable {
 		int i = 0;
 		
 		while (i != aEnregistrer.length) {
-			File f = new File("sorties/monstres_" + aEnregistrer[i] +"_" + sdf.format(timestamp) + ".txt");
+			Utilitaire.Fichier_Ecrire("sorties/monstres_" + aEnregistrer[i] +"_" + sdf.format(timestamp) + ".txt",
+					aEnregistrer[i+1]);
 			
-			i++;
-			
-			try {
-				f.createNewFile();
-				FileWriter ff = new FileWriter(f);
-				
-				ff.write(aEnregistrer[i]);			
-
-				ff.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			i++;
-			
-			
+			i = i + 2;
 		}
-		
-
-		
 	}
 
 	private static boolean interrompreSiOCR(MonsterDatabase baseDeDonnees) {

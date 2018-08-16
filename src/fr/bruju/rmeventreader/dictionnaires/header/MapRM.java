@@ -3,30 +3,28 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.utilitaire.Pair;
-
 public class MapRM implements ElementComposite<Evenement> {
 	public final int id;
 	public final String nom;
 	public final List<String> arborescence;
 	public final List<Evenement> evenements;
 	
-	public MapRM(int id, String nom, Pair<Integer, String>[] arbre) {
+	public MapRM(int id, MapArbre[] arbre) {
 		this.id = id;
-		this.nom = nom;
+		this.nom = arbre[id].nom;
 		this.arborescence = new ArrayList<>();
 		this.evenements = new ArrayList<>();
 		
 		remplirArbre(arborescence, id, arbre);
 	}
 
-	private static void remplirArbre(List<String> arborescence, int id, Pair<Integer, String>[] arbre) {
+	private static void remplirArbre(List<String> arborescence, int id, MapArbre[] arbre) {
 		if (id != 0) {
-			Pair<Integer, String> paire = arbre[id];
-			remplirArbre(arborescence, paire.getLeft(), arbre);
+			MapArbre paire = arbre[id];
+			remplirArbre(arborescence, paire.idPere, arbre);
 		}
 		
-		arborescence.add(arbre[id].getRight());
+		arborescence.add(arbre[id].nom);
 	}
 	
 	public void append(StringBuilder sb) {

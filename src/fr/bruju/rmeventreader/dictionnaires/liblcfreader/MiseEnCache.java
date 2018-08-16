@@ -1,28 +1,25 @@
-package fr.bruju.rmeventreader.dictionnaires;
+package fr.bruju.rmeventreader.dictionnaires.liblcfreader;
 
-import fr.bruju.rmeventreader.dictionnaires.header.ElementComposite;
+import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
 import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.header.MapArbre;
 import fr.bruju.rmeventreader.dictionnaires.header.MapRM;
 import fr.bruju.rmeventreader.dictionnaires.header.Page;
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPathConstants;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static fr.bruju.rmeventreader.dictionnaires.UtilXML.forEachNodes;
+import static fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML.streamXML;
 
 /**
  * Cette classe a pour but de créer des fichiers .txt simples à partir des fichiers xml
@@ -49,93 +46,76 @@ public class MiseEnCache {
 		sb.append("Date ").append(timestamp.getTime()).append("\n");
 		sb.append("Version ").append(version).append("\n");
 		
-		ecrire(destination + "Contexte.txt", sb.toString());
+		Utilitaire.Fichier_Ecrire(destination + "Contexte.txt", sb.toString());
 	}
 
 	private int eventCommuns(String dossier, String baseDeDonnees) {
-		NodeList nodeList = (NodeList) ExtractionXML.extraireDepuisXPath(baseDeDonnees,
+		NodeList nodeList = (NodeList) Utilitaire_XML.extraireDepuisXPath(baseDeDonnees,
 				"/LDB/Database/commonevents/CommonEvent", XPathConstants.NODESET);
 		if (nodeList == null)
 			return -1;
 
 		File dossierF = new File(dossier);
 		if (dossierF.isDirectory()) {
-			supprimerDossier(dossierF);
+			Utilitaire.Fichier_supprimerDossier(dossierF);
 		}
 		dossierF.mkdirs();
 		
-		List<EvenementCommun> events = new ArrayList<>();
-		forEachNodes(nodeList, n -> events.add(eventCommun(n, dossier)));
-		
-		return events.stream().mapToInt(ev -> ev.id).reduce(Math::max).getAsInt();
+		return streamXML(nodeList).map(n -> eventCommun(n, dossier)).mapToInt(ev -> ev.id).reduce(Math::max).getAsInt();
 	}
 
+	/**
+	 * 
+	 * <br>
+	 * <i>A un effet de bord</i>
+	 * 
+	 * @param node
+	 * @param dossier
+	 * @return
+	 */
 	private EvenementCommun eventCommun(Node node, String dossier) {
-		EvenementCommun ec = construire(node, "event_commands", "EventCommand", EvenementCommun::instancier,
-				fils -> traduireEvent(fils));
+		EvenementCommun ec = InstancieurXML.construire(node, "event_commands", "EventCommand",
+				InstancieurXML::evenementCommun, InstancieurXML::instruction);
 
 		StringBuilder sb = new StringBuilder();
 		ec.append(sb);
 		sb.append("- Instructions -\n");
 		ec.instructions.forEach(i -> sb.append(i.toLigne()));
 
-		ecrire(dossier + "EC" + UtilXML.transformerId(ec.id) + ".txt", sb.toString());
+		Utilitaire.Fichier_Ecrire(dossier + "EC" + Utilitaire_XML.transformerId(ec.id) + ".txt", sb.toString());
 		
 		ec.viderCache();
 		return ec;
 	}
-
+	
 	private List<Integer> arbo(String prefixeDestination, String fichierArbre, String prefixeMaps) {
-		List<String[]> s;
-		try {
-			s = FileReaderByLine.lireFichier(fichierArbre, 3);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		MapArbre[] arbre = MapArbre.extraireArbre(fichierArbre);
+		return explorerCartes(prefixeDestination, prefixeMaps, arbre);
+	}
 
-		ArrayList<Pair<Integer, String>> arbo = new ArrayList<>(s.size());
-
-		s.forEach(tableau -> arbo.add(new Pair<>(Integer.parseInt(tableau[1]), tableau[2])));
-
-		@SuppressWarnings("unchecked")
-		Pair<Integer, String>[] arbre = arbo.toArray(new Pair[0]);
-
+	private List<Integer> explorerCartes(String prefixeDestination, String prefixeMaps, MapArbre[] arbre) {
 		List<Integer> mapVues = new ArrayList<>();
 		
-		for (int i = 1; i != s.size(); i++) {
-			MapRM hm = new MapRM(i, s.get(i)[2], arbre);
-			boolean mapFaite = map(prefixeDestination, hm, prefixeMaps + s.get(i)[0] + ".xml");
-			
-			if (mapFaite)
-				mapVues.add(hm.id); 
+		for (int id = 1 ; id != arbre.length ; id++) {
+			MapRM mapRM = new MapRM(id, arbre);
+
+			if (map(prefixeDestination, mapRM, prefixeMaps + Utilitaire_XML.transformerId(id) + ".xml"))
+				mapVues.add(mapRM.id); 
 		}
 		
 		return mapVues;
 	}
 
-	private boolean map(String prefixeDestination, MapRM map, String fichierXML) {
-		NodeList nodeList = (NodeList) ExtractionXML.extraireDepuisXPath(fichierXML, "/LMU/Map/events/Event",
-				XPathConstants.NODESET);
-		if (nodeList == null)
-			return false;
 
-		forEachNodes(nodeList, node -> map.ajouter(mapEvent(node)));
 
-		creerDossier(prefixeDestination, map);
-
-		map.viderMemoire();
-		
-		return true;
-	}
 
 	private void creerDossier(String prefixeDestination, MapRM map) {
-		String dossier = prefixeDestination + "Map" + UtilXML.transformerId(map.id) + "\\";
+		String dossier = prefixeDestination + "Map" + Utilitaire_XML.transformerId(map.id) + "\\";
 
 		File dossierF = new File(dossier);
 
 		if (dossierF.isDirectory()) {
-			supprimerDossier(dossierF);
+			Utilitaire.Fichier_supprimerDossier(dossierF);
 		}
 
 		dossierF.mkdirs();
@@ -163,7 +143,7 @@ public class MiseEnCache {
 	}
 
 	private void creerFichierEvent(String dossier, Evenement event, MapRM map) {
-		String chemin = dossier + "Event" + UtilXML.transformerId(event.id) + ".txt";
+		String chemin = dossier + "Event" + Utilitaire_XML.transformerId(event.id) + ".txt";
 
 		StringBuilder sb = new StringBuilder();
 
@@ -172,7 +152,7 @@ public class MiseEnCache {
 
 		event.pages.forEach(page -> page.append(sb));
 
-		ecrire(chemin, sb.toString());
+		Utilitaire.Fichier_Ecrire(chemin, sb.toString());
 	}
 
 	private void creerFichierMap(String dossier, MapRM map, List<Integer> listeDesEvents,
@@ -202,58 +182,35 @@ public class MiseEnCache {
 
 		String chaineAEcrire = sb.toString();
 
-		ecrire(chemin, chaineAEcrire);
+		Utilitaire.Fichier_Ecrire(chemin, chaineAEcrire);
 	}
 
-	private void ecrire(String chemin, String chaineAEcrire) {
-		File f = new File(chemin);
 
-		try {
-			f.createNewFile();
-			FileWriter ff = new FileWriter(f);
 
-			ff.write(chaineAEcrire);
+	private boolean map(String prefixeDestination, MapRM map, String fichierXML) {
+		NodeList nodeList = (NodeList) Utilitaire_XML.extraireDepuisXPath(fichierXML, "/LMU/Map/events/Event",
+				XPathConstants.NODESET);
+		if (nodeList == null)
+			return false;
 
-			ff.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+		streamXML(nodeList).forEach(node -> map.ajouter(mapEvent(node)));
 
-	private void supprimerDossier(File dossierF) {
-		for (File fichierPresent : dossierF.listFiles()) {
-			
-			if (fichierPresent.isDirectory())
-				supprimerDossier(fichierPresent);
-			else
-				fichierPresent.delete();
-		}
+		creerDossier(prefixeDestination, map);
+
+		map.viderMemoire();
 		
-		dossierF.delete();
-	}
-
-	private <S, T extends ElementComposite<S>> T construire(Node node, String nomGroupeDeFils, String nomElementFils,
-			Function<Node, T> fonctionInstanciation, Function<Node, S> creationDeFils) {
-		T elementPere = fonctionInstanciation.apply(node);
-
-		Node pagesFils = ExtractionXML.chercherFils(node, nomGroupeDeFils);
-
-		forEachNodes(pagesFils.getChildNodes(), n -> n.getNodeName().equals(nomElementFils),
-				n -> elementPere.ajouter(creationDeFils.apply(n)));
-
-		return elementPere;
+		return true;
 	}
 
 	private Evenement mapEvent(Node node) {
-		return construire(node, "pages", "EventPage", Evenement::instancier, fils -> mapEventPage(fils));
+		return InstancieurXML.construire(node, "pages", "EventPage",
+				InstancieurXML::evenement, fils -> mapEventPage(fils));
 	}
 
 	private Page mapEventPage(Node node) {
-		return construire(node, "event_commands", "EventCommand", Page::instancier, fils -> traduireEvent(fils));
+		return InstancieurXML.construire(node, "event_commands", "EventCommand",
+				InstancieurXML::page, InstancieurXML::instruction);
 	}
-
-	private Instruction traduireEvent(Node n) {
-		return ExtractionXML.decrypterNoeudEventCommand(n);
-	}
-
+	
+	
 }

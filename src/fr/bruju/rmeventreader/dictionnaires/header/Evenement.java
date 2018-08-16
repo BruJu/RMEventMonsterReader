@@ -3,11 +3,6 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Node;
-
-import fr.bruju.rmeventreader.dictionnaires.ExtractionXML;
-import fr.bruju.rmeventreader.dictionnaires.UtilXML;
-
 public class Evenement implements ElementComposite<Page> {
 	public final int id;
 	public final String nom;
@@ -23,14 +18,6 @@ public class Evenement implements ElementComposite<Page> {
 		this.pages = new ArrayList<>();
 	}
 
-	public static Evenement instancier(Node eventNode) {
-		int id = UtilXML.getId(eventNode);
-		String nom = ExtractionXML.extraireFils(eventNode, "name");
-		int x = Integer.parseInt(ExtractionXML.extraireFils(eventNode, "x"));
-		int y = Integer.parseInt(ExtractionXML.extraireFils(eventNode, "y"));
-
-		return new Evenement(id, nom, x, y);
-	}
 	
 	public void append(StringBuilder sb) {
 		sb.append("-- EVENT --\n")

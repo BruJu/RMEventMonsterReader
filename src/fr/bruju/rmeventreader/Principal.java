@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.dictionnaires.CreateurDeRessources;
-import fr.bruju.rmeventreader.dictionnaires.MiseEnCache;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
@@ -13,7 +13,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 5;
+		int choix = 0;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);

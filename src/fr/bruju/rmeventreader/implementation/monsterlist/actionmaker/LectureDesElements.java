@@ -211,7 +211,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 		InterpreterMapXML intreprete = new InterpreterMapXML(this);
 		
 		try {
-			intreprete.inputFile("ressources//xml//RPG_RT_DB.xml", eventNumber);
+			intreprete.inputFile("ressources//xml//RPG_RT_DB.xml", eventNumber, -1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

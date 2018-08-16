@@ -1,24 +1,18 @@
 package fr.bruju.rmeventreader.actionmakers.xml;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
-import fr.bruju.rmeventreader.dictionnaires.ExtractionXML;
-import fr.bruju.rmeventreader.dictionnaires.UtilXML;
+import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.ExtractionXML;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.InstancieurXML;
 
 /**
  * Interpreteur de l'arbre XML généré par EasyRPG.
@@ -28,99 +22,42 @@ import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
  */
 public class InterpreterMapXML {
 	private static Map<Long, Action> actionsConnues = ActionsPossibles.remplirActions();
-	
-	
+
 	/** Gestionnaire d'action */
 	private ActionMaker actionMaker;
-	
-	
+
 	public InterpreterMapXML(ActionMaker actionMaker) {
 		this.actionMaker = actionMaker;
 	}
-	
+
 	public void inputFile(String path, int idEvent, int idPage) throws IOException {
-		Document doc = UtilXML.lireDocument(path);
+		String codeIDEvent = Utilitaire_XML.transformerId(idEvent);
+		String codeIDPage = Utilitaire_XML.transformerId(idPage);
+		String xPath;
 		
-		if (doc == null) {
-			return;
-		}
-		
-		String codeIDEvent = UtilXML.transformerId(idEvent);
-		String codeIDPage = UtilXML.transformerId(idPage);
-		
-		XPathFactory xpathFactory = XPathFactory.newInstance();
-		XPath xpath = xpathFactory.newXPath();
-		XPathExpression expr;
-		try {
-			expr = xpath.compile(
-					"/LMU/Map/events/Event[@id='"+codeIDEvent+"']/pages/EventPage[@id='"+codeIDPage+"']"
-					+ "/event_commands");
-			traiterEventCommands(doc, expr);
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void inputFile(String path, int idEvent) throws IOException {
-		Document doc = UtilXML.lireDocument(path);
-		
-		if (doc == null) {
-			return;
-		}
-		
-		String codeIDEvent = UtilXML.transformerId(idEvent);
-		
-		XPathFactory xpathFactory = XPathFactory.newInstance();
-		XPath xpath = xpathFactory.newXPath();
-		XPathExpression expr;
-		try {
-			expr = xpath.compile(
-					"/LDB/Database/commonevents/CommonEvent[@id='"+codeIDEvent+"']/event_commands");
-			traiterEventCommands(doc, expr);
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void traiterEventCommands(Document doc, XPathExpression xPath) throws XPathExpressionException {
-		Node event_commands = (Node) xPath.evaluate(doc, XPathConstants.NODE);
-		List<Node> events = UtilXML.extraireEvenements(event_commands);
-		traiterEvenements(events);
-	}
-
-	private void traiterEvenements(List<Node> events) {
-		for (Node node : events) {
-			traiterEvenement(node);			
-		}
-	}
-
-	/**
-	 * 
-	 * 
-	 * <EventCommand>
-     *  <code>10150</code>
-     *  <indent>0</indent>
-     *  <string></string>
-     *  <parameters>1 1</parameters>
-     * </EventCommand>
-	 * 
-	 * @param item
-	 */
-	
-	private void traiterEvenement(Node item) {
-		Instruction ins = ExtractionXML.decrypterNoeudEventCommand(item);
-		
-		// Traitement
-		executer(ins.code, ins.string, ins.parameters);
-	}
-
-	private void executer(long codeD, String string, int[] parameters) {
-		Action action = actionsConnues.get(codeD);
-		
-		if (action == null) {
-			ActionsPossibles.afficher(actionMaker, codeD, string, parameters);
+		if (idPage == -1) {
+			xPath = "/LDB/Database/commonevents/CommonEvent[@id='" + codeIDEvent + "']/event_commands";
 		} else {
-			action.exec(actionMaker, string, parameters);
+			xPath = "/LMU/Map/events/Event[@id='" + codeIDEvent + "']/pages/EventPage[@id='" + codeIDPage + "']"
+					+ "/event_commands";
+		}
+		
+		Node event_commands = (Node) Utilitaire_XML.extraireDepuisXPath(path, xPath, XPathConstants.NODE);
+		if (event_commands == null)
+			return;
+
+		ExtractionXML.extraireEvenements(event_commands).forEach(this::executer);
+	}
+
+	private void executer(Node noeud) {
+		Instruction instruction = InstancieurXML.instruction(noeud);
+
+		Action action = actionsConnues.get((long) instruction.code);
+
+		if (action == null) {
+			ActionsPossibles.afficher(actionMaker, instruction.code, instruction.string, instruction.parameters);
+		} else {
+			action.exec(actionMaker, instruction.string, instruction.parameters);
 		}
 	}
 

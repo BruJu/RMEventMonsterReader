@@ -1,8 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -20,6 +18,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.Unificateur;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class Recomposition implements Runnable {
 	private final static String CHEMIN_PARAMETRES = "ressources\\recomposeur\\Parametres.txt";
@@ -102,21 +101,10 @@ public class Recomposition implements Runnable {
 	}
 
 	private static void enregistrerDansFichier(String sortie) {
-
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-		File f = new File("sorties/recompo_" + sdf.format(timestamp) + ".txt");
-
-		try {
-			f.createNewFile();
-			FileWriter ff = new FileWriter(f);
-			ff.write(sortie);
-
-			ff.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Utilitaire.Fichier_Ecrire("sorties/recompo_" + sdf.format(timestamp) + ".txt", sortie);
 	}
 	
 }

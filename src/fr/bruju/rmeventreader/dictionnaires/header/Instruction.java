@@ -11,6 +11,7 @@ public class Instruction {
 		this.parameters = parameters;
 	}
 	
+
 	
 	public String toLigne() {
 		if (code == 10) {

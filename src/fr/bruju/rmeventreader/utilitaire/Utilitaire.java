@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.utilitaire;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -170,6 +173,30 @@ public class Utilitaire {
 		ArrayList<T> arrayList = new ArrayList<>(1);
 		arrayList.add(element);
 		return arrayList;
+	}
+	
+	public static void Fichier_Ecrire(String chemin, String chaineAEcrire) {
+		File f = new File(chemin);
+
+		try {
+			f.createNewFile();
+			FileWriter ff = new FileWriter(f);
+			ff.write(chaineAEcrire);
+			ff.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void Fichier_supprimerDossier(File dossierF) {
+		for (File fichierPresent : dossierF.listFiles()) {
+			if (fichierPresent.isDirectory())
+				Fichier_supprimerDossier(fichierPresent);
+			else
+				fichierPresent.delete();
+		}
+		
+		dossierF.delete();
 	}
 	
 }
