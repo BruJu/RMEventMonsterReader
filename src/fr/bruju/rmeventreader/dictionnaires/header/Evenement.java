@@ -44,4 +44,11 @@ public class Evenement implements ElementComposite<Page> {
 	public void ajouter(Page t) {
 		this.pages.add(t);
 	}
+	
+	/**
+	 * Renvoie vrai si cet évènement n'est pas une page simple qui n'a aucune instruction et aucune condition
+	 */
+	public boolean estInteressant() {
+		return !(pages.size() == 1 && pages.get(0).conditions.size() == 0 && pages.get(0).instructions.size() == 0);
+	}
 }

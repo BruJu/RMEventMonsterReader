@@ -69,8 +69,9 @@ public class Page implements ElementComposite<Instruction> {
 			sb.append("\n");
 		});
 		sb.append("\n");
-		sb.append("- Instructions - ");
+		sb.append("- Instructions -\n");
 		instructions.forEach(instruction -> sb.append(instruction.toLigne()));
+		sb.append("\n\n");
 	}
 
 }

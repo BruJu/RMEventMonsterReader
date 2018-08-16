@@ -45,7 +45,7 @@ public class Principal {
 
 		@Override
 		public void run() {
-			new MiseEnCache().arbo("cache_xml\\Map", "ressources_gen\\bdd_maps.txt", "ressources\\xml\\Map");
+			new MiseEnCache().arbo("cache_xml\\", "ressources_gen\\bdd_maps.txt", "ressources\\xml\\Map");
 		}
 		
 		

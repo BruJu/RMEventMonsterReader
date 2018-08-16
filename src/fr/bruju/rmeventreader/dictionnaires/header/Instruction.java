@@ -14,7 +14,7 @@ public class Instruction {
 	
 	public String toLigne() {
 		if (code == 10) {
-			return null;
+			return "";
 		}
 		
 		StringBuilder sb = new StringBuilder();
