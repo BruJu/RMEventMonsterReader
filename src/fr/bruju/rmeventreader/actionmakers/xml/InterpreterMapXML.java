@@ -18,7 +18,7 @@ import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
 import fr.bruju.rmeventreader.dictionnaires.ExtractionXML;
 import fr.bruju.rmeventreader.dictionnaires.UtilXML;
-import fr.bruju.rmeventreader.utilitaire.Triplet;
+import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 
 /**
  * Interpreteur de l'arbre XML généré par EasyRPG.
@@ -108,10 +108,10 @@ public class InterpreterMapXML {
 	 */
 	
 	private void traiterEvenement(Node item) {
-		Triplet<Long, String, int[]> triplet = ExtractionXML.decrypterNoeudEventCommand(item);
+		Instruction ins = ExtractionXML.decrypterNoeudEventCommand(item);
 		
 		// Traitement
-		executer(triplet.a, triplet.b, triplet.c);
+		executer(ins.code, ins.string, ins.parameters);
 	}
 
 	private void executer(long codeD, String string, int[] parameters) {

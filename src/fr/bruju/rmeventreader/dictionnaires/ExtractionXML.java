@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import fr.bruju.rmeventreader.utilitaire.Triplet;
+import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 
 public class ExtractionXML {
 
@@ -104,7 +104,7 @@ public class ExtractionXML {
 
 	}
 	
-	public static Triplet<Long, String, int[]> decrypterNoeudEventCommand(Node item) {
+	public static Instruction decrypterNoeudEventCommand(Node item) {
 		// Lecture du noeud
 		NodeList children = item.getChildNodes();
 		
@@ -134,8 +134,7 @@ public class ExtractionXML {
 		long codeD = Long.valueOf(code);
 		int[] parametersD = decrypterParameters(parameters);
 		
-		Triplet<Long, String, int[]> triplet = new Triplet<>(codeD, string, parametersD);
-		return triplet;
+		return new Instruction((int) codeD, string, parametersD);
 	}
 
 	private static int[] decrypterParameters(String parameters) {

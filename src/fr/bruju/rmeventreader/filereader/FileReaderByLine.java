@@ -87,7 +87,7 @@ public class FileReaderByLine {
 				String[] nouveauSplit = new String[nbArguments];
 				
 				for (int i = nbArguments ; i != split.length ; i++) {
-					split[nbArguments] += " " + split[i];
+					split[nbArguments-1] += " " + split[i];
 				}
 				
 				for (int i = 0 ; i != nouveauSplit.length ; i++) {

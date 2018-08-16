@@ -1,22 +1,24 @@
 package fr.bruju.rmeventreader.dictionnaires;
 
-import static fr.bruju.rmeventreader.dictionnaires.UtilXML.forEachNodes;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.xml.xpath.XPathConstants;
-
+import fr.bruju.rmeventreader.dictionnaires.header.ElementComposite;
+import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.header.MapRM;
+import fr.bruju.rmeventreader.dictionnaires.header.Page;
+import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Triplet;
+import javax.xml.xpath.XPathConstants;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+import static fr.bruju.rmeventreader.dictionnaires.UtilXML.forEachNodes;
 
 /**
  * Cette classe a pour but de créer des fichiers .txt simples à partir des fichiers xml
@@ -43,229 +45,76 @@ public class MiseEnCache {
 		Pair<Integer, String>[] arbre = arbo.toArray(new Pair[0]);
 		
 		for (int i = 1 ; i != s.size() ; i++) {
-			HeaderMap hm = new HeaderMap(i, s.get(i)[2], arbre);
-			map(prefixeDestination + s.get(i)[0] + "_", hm, prefixeMaps + s.get(i)[0] + ".xml");
+			MapRM hm = new MapRM(i, s.get(i)[2], arbre);
+			map(prefixeDestination, hm, prefixeMaps + s.get(i)[0] + ".xml");
 		}
 	}
 	
 	
-	private void map(String prefixeDestination, HeaderMap headerMap, String map) {
-		NodeList nodeList = (NodeList) ExtractionXML.extraireDepuisXPath(map, "/LMU/Map/events/Event",
+	private void map(String prefixeDestination, MapRM map, String fichierXML) {
+		NodeList nodeList = (NodeList) ExtractionXML.extraireDepuisXPath(fichierXML, "/LMU/Map/events/Event",
 				XPathConstants.NODESET);
-
 		if (nodeList == null)
 			return;
-
-		forEachNodes(nodeList, node -> mapEvent(prefixeDestination, headerMap, node));
-	}
-
-	private void mapEvent(String prefixeDestination, HeaderMap headerMap, Node node) {
-		HeaderMapEvent header = HeaderMapEvent.instancier(node);
-
-		NodeList pagesFils = ExtractionXML.chercherFils(node, "pages").getChildNodes();
-
-		StringBuilder sb = new StringBuilder();
 		
-		forEachNodes(pagesFils, n -> n.getNodeName().equals("EventPage"),
-				n -> ajouterSBPage(sb, mapEventPage(prefixeDestination, headerMap, header, n)));
+		forEachNodes(nodeList, node -> map.ajouter(mapEvent(node)));
 		
-		File f = new File(prefixeDestination + header.id + ".txt");
-
-		try {
-			if (f.exists())
-				f.delete();
-
-			f.createNewFile();
-			FileWriter ff = new FileWriter(f);
-
-			ff.write(sb.toString());
-
-			ff.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		creerDossier(prefixeDestination, map);
 		
-	}
-
-	private void ajouterSBPage(StringBuilder sb, String mapEventPage) {
-		sb.append("=====\n")
-		  .append(mapEventPage)
-		  .append("\n");
-	}
-
-
-	private String mapEventPage(String prefixeDestination, HeaderMap headerMap, HeaderMapEvent header, Node node) {
-		HeaderPageCondition pageConditions = HeaderPageCondition.instancier(node);
-
-		Node event_commands = ExtractionXML.chercherFils(node, "event_commands");
-
-		StringBuilder sb = new StringBuilder();
-
-		// Header
-		
-		sb.append("-- MAP --\n")
-		  .append("ID ").append(headerMap.id).append("\n")
-		  .append("Nom ").append(headerMap.nom).append("\n")
-		  .append("CHEMIN");
-		
-		
-		headerMap.arborescence.forEach(map -> sb.append(">").append(map));
-		sb.append("\n");
-		
-		
-		sb.append("-- EVENT --\n").append("ID ").append(header.id).append("\n").append("Nom ").append(header.nom)
-				.append("\n").append("Position ").append(header.x).append(",").append(header.y).append("\n")
-				.append("Page ").append(pageConditions.id).append("\n").append("\n");
-
-		// Page
-		sb.append("-- PAGE --\n");
-		pageConditions.appendConditions(sb);
-		sb.append("\n");
-
-		sb.append("-- INSTRUCTIONS --\n");
-		forEachNodes(event_commands.getChildNodes(), n -> n.getNodeName().equals("EventCommand"),
-				n -> sb.append(traduireEvent(n)));
-		
-		
-		return sb.toString();
-		/*
-		File f = new File(prefixeDestination + header.id + "_" + pageConditions.id + ".txt");
-
-		try {
-			if (f.exists())
-				f.delete();
-
-			f.createNewFile();
-			FileWriter ff = new FileWriter(f);
-
-			ff.write(sb.toString());
-
-			ff.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-	}
-
-	private String traduireEvent(Node n) {
-		Triplet<Long, String, int[]> triplet = ExtractionXML.decrypterNoeudEventCommand(n);
-		
-		if (triplet.a == 10L) {
-			return "";
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(triplet.a).append(" ");
-		
-		for(int v : triplet.c) {
-			sb.append(v).append(" ");
-		}
-		
-		sb.append("; ").append(triplet.b).append("\n");
-		
-		
-		
-		return sb.toString();
-	}
-
-	public static class HeaderPageCondition {
-		public final int id;
-		public final LinkedHashMap<String, int[]> conditions;
-
-		public HeaderPageCondition(int id, LinkedHashMap<String, int[]> conditions) {
-			this.id = id;
-			this.conditions = conditions;
-		}
-
-		public static HeaderPageCondition instancier(Node node) {
-			int id = UtilXML.getId(node);
-			LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
-
-			Node condition = ExtractionXML.chercherFils(node, "condition");
-			condition = ExtractionXML.chercherFils(condition, "EventPageCondition");
-
-			Node flags = ExtractionXML.chercherFils(condition, "flags");
-			flags = ExtractionXML.chercherFils(flags, "EventPageCondition_Flags");
-
-			extraireID(map, condition, flags, new String[] { "switch_a", "switch_b", "item", "actor" }, "_id");
-			extraireID(map, condition, flags, new String[] { "timer", "timer2" }, "_sec");
-			
-			if (ExtractionXML.extraireFils(flags, "variable").equals("T")) {
-				map.put("variable", new int[] { Integer.parseInt(ExtractionXML.extraireFils(condition, "variable_id")),
-						Integer.parseInt(ExtractionXML.extraireFils(condition, "variable_value")),
-						Integer.parseInt(ExtractionXML.extraireFils(condition, "compare_operator"))
-				});
-			}
-			
-			return new HeaderPageCondition(id, map);
-		}
-
-		private static void extraireID(LinkedHashMap<String, int[]> map, Node condition, Node flags, String[] cles,
-				String suffixe) {
-			for (String cle : cles) {
-				if (ExtractionXML.extraireFils(flags, cle).equals("T")) {
-					map.put(cle, new int[] { Integer.parseInt(ExtractionXML.extraireFils(condition, cle + suffixe)) });
-				}
-			}
-		}
-
-		public void appendConditions(StringBuilder sb) {
-			conditions.forEach((nom, tableau) -> {
-				sb.append(nom);
-
-				for (int valeur : tableau) {
-					sb.append(" ").append(valeur);
-				}
-				sb.append("\n");
-			});
-		}
-	}
-
-	public static class HeaderMapEvent {
-		public final int id;
-		public final String nom;
-		public final int x;
-		public final int y;
-
-		public HeaderMapEvent(int id, String nom, int x, int y) {
-			this.id = id;
-			this.nom = nom;
-			this.x = x;
-			this.y = y;
-		}
-
-		public static HeaderMapEvent instancier(Node eventNode) {
-			int id = UtilXML.getId(eventNode);
-			String nom = ExtractionXML.extraireFils(eventNode, "nom");
-			int x = Integer.parseInt(ExtractionXML.extraireFils(eventNode, "x"));
-			int y = Integer.parseInt(ExtractionXML.extraireFils(eventNode, "y"));
-
-			return new HeaderMapEvent(id, nom, x, y);
-		}
+		map.viderMemoire();
 	}
 	
-	public static class HeaderMap {
-		public final int id;
-		public final String nom;
-		public final List<String> arborescence;
+	
+	private void creerDossier(String prefixeDestination, MapRM map) {
+		String dossier = prefixeDestination + "\\Map" + map.id + "\\";
 		
-		public HeaderMap(int id, String nom, Pair<Integer, String>[] arbre) {
-			this.id = id;
-			this.nom = nom;
-			this.arborescence = new ArrayList<>();
-			
-			remplirArbre(arborescence, id, arbre);
+		File dossierF = new File(dossier);
+		
+		if (dossierF.isDirectory()) {
+			supprimerDossier(dossierF);
 		}
+		
+		dossierF.mkdirs();
+		
+		creerFichiers(dossier, map);
+	}
 
-		private static void remplirArbre(List<String> arborescence, int id, Pair<Integer, String>[] arbre) {
-			if (id != 0) {
-				Pair<Integer, String> paire = arbre[id];
-				remplirArbre(arborescence, paire.getLeft(), arbre);
-			}
-			
-			arborescence.add(arbre[id].getRight());
+
+	private void creerFichiers(String dossier, MapRM map) {
+	}
+
+
+	private void supprimerDossier(File dossierF) {
+		for (File fichierPresent : dossierF.listFiles()) {
+			fichierPresent.delete();
 		}
 	}
+
+
+	private <S, T extends ElementComposite<S>> T construire(Node node, String nomGroupeDeFils, String nomElementFils,
+			Function<Node, T> fonctionInstanciation, Function<Node, S> creationDeFils) {
+		T elementPere = fonctionInstanciation.apply(node);
+
+		Node pagesFils = ExtractionXML.chercherFils(node, nomGroupeDeFils);
+		
+		forEachNodes(pagesFils.getChildNodes(), n -> n.getNodeName().equals(nomElementFils),
+				n -> elementPere.ajouter(creationDeFils.apply(n)));
+		
+		return elementPere;
+	}
+
+	private Evenement mapEvent(Node node) {
+		return construire(node, "pages", "EventPage", Evenement::instancier, fils -> mapEventPage(fils));
+	}
+
+	private Page mapEventPage(Node node) {
+		return construire(node, "event_commands", "EventCommand", Page::instancier, fils -> traduireEvent(fils));
+	}
+
+	private Instruction traduireEvent(Node n) {
+		return ExtractionXML.decrypterNoeudEventCommand(n);
+	}
+
+
 	
 }
