@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.dictionnaires;
 
 import fr.bruju.rmeventreader.dictionnaires.header.ElementComposite;
 import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.MapRM;
 import fr.bruju.rmeventreader.dictionnaires.header.Page;
@@ -30,6 +31,37 @@ import static fr.bruju.rmeventreader.dictionnaires.UtilXML.forEachNodes;
  */
 public class MiseEnCache {
 
+	public void eventCommuns(String dossier, String baseDeDonnees) {
+		NodeList nodeList = (NodeList) ExtractionXML.extraireDepuisXPath(baseDeDonnees,
+				"/LDB/Database/commonevents/CommonEvent", XPathConstants.NODESET);
+		if (nodeList == null)
+			return;
+
+		File dossierF = new File(dossier);
+		if (dossierF.isDirectory()) {
+			supprimerDossier(dossierF);
+		}
+		dossierF.mkdirs();
+		
+		List<EvenementCommun> events = new ArrayList<>();
+		forEachNodes(nodeList, n -> events.add(eventCommun(n, dossier)));
+	}
+
+	private EvenementCommun eventCommun(Node node, String dossier) {
+		EvenementCommun ec = construire(node, "event_commands", "EventCommand", EvenementCommun::instancier,
+				fils -> traduireEvent(fils));
+
+		StringBuilder sb = new StringBuilder();
+		ec.append(sb);
+		sb.append("- Instructions -\n");
+		ec.instructions.forEach(i -> sb.append(i.toLigne()));
+
+		ecrire(dossier + "EC" + UtilXML.transformerId(ec.id) + ".txt", sb.toString());
+		
+		ec.viderCache();
+		return ec;
+	}
+
 	public void arbo(String prefixeDestination, String fichierArbre, String prefixeMaps) {
 		List<String[]> s;
 		try {
@@ -50,6 +82,7 @@ public class MiseEnCache {
 			MapRM hm = new MapRM(i, s.get(i)[2], arbre);
 			map(prefixeDestination, hm, prefixeMaps + s.get(i)[0] + ".xml");
 		}
+
 	}
 
 	private void map(String prefixeDestination, MapRM map, String fichierXML) {
@@ -66,7 +99,7 @@ public class MiseEnCache {
 	}
 
 	private void creerDossier(String prefixeDestination, MapRM map) {
-		String dossier = prefixeDestination + "\\Map" + UtilXML.transformerId(map.id) + "\\";
+		String dossier = prefixeDestination + "Map" + UtilXML.transformerId(map.id) + "\\";
 
 		File dossierF = new File(dossier);
 
@@ -100,48 +133,44 @@ public class MiseEnCache {
 
 	private void creerFichierEvent(String dossier, Evenement event, MapRM map) {
 		String chemin = dossier + "Event" + UtilXML.transformerId(event.id) + ".txt";
-		
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		map.append(sb);
 		event.append(sb);
-		
+
 		event.pages.forEach(page -> page.append(sb));
-		
+
 		ecrire(chemin, sb.toString());
 	}
 
 	private void creerFichierMap(String dossier, MapRM map, List<Integer> listeDesEvents,
 			List<Evenement> eventsInteressants, List<Evenement> eventsIninteressants) {
 		String chemin = dossier + "General.txt";
-		
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		map.append(sb);
-		
-		sb.append("- Evenements - \n")
-		  .append("// Events présents\n")
-		  .append(listeDesEvents.stream().map(id -> Integer.toString(id)).collect(Collectors.joining(" ")))
-		  .append("\n")
-		  
-		  .append("// Events complexes\n")
-		  .append(eventsInteressants.stream().map(e -> Integer.toString(e.id)).collect(Collectors.joining(" ")))
-		  .append("\n")
-		  
-		  .append("// Events simples\n")
-		  .append(eventsIninteressants.stream().map(e -> Integer.toString(e.id)).collect(Collectors.joining(" ")))
-		  .append("\n\n")
-		  
-		  .append("- Evenements simples -\n");
-		
-		eventsIninteressants.forEach(event -> sb.append(event.id).append(" ")
-												.append(event.x).append(" ")
-												.append(event.y).append(" ")
-												.append(event.nom).append("\n"));
-		
-		
+
+		sb.append("- Evenements - \n").append("// Events présents\n")
+				.append(listeDesEvents.stream().map(id -> Integer.toString(id)).collect(Collectors.joining(" ")))
+				.append("\n")
+
+				.append("// Events complexes\n")
+				.append(eventsInteressants.stream().map(e -> Integer.toString(e.id)).collect(Collectors.joining(" ")))
+				.append("\n")
+
+				.append("// Events simples\n")
+				.append(eventsIninteressants.stream().map(e -> Integer.toString(e.id)).collect(Collectors.joining(" ")))
+				.append("\n\n")
+
+				.append("- Evenements simples -\n");
+
+		eventsIninteressants.forEach(event -> sb.append(event.id).append(" ").append(event.x).append(" ")
+				.append(event.y).append(" ").append(event.nom).append("\n"));
+
 		String chaineAEcrire = sb.toString();
-		
+
 		ecrire(chemin, chaineAEcrire);
 	}
 
