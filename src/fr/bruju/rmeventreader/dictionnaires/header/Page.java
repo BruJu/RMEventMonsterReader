@@ -6,14 +6,11 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.AssociationStringInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.BoucleTraitement;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Constructeur;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Instr;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TraitementObjet;
 
 public class Page implements ElementComposite<Instruction> {
 	public final int id;

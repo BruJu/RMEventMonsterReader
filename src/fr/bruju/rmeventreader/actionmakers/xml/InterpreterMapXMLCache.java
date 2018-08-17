@@ -1,19 +1,12 @@
 package fr.bruju.rmeventreader.actionmakers.xml;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.xpath.XPathConstants;
-import org.w3c.dom.Node;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
-import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.ExtractionXML;
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.InstancieurXML;
 
 /**
  * Interpreteur de l'arbre XML généré par EasyRPG.

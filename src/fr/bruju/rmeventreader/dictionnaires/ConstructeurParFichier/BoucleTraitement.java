@@ -12,6 +12,8 @@ public class BoucleTraitement<K extends Monteur<?>> implements Traitement<K> {
 	private List<Traitement<K>> traitementsCrees;
 
 	private String fin;
+	
+	private Traitement<K> instanceActuelle = null;
 
 	public BoucleTraitement(Supplier<Traitement<K>> supplier) {
 		this.supplier = supplier;
@@ -31,18 +33,29 @@ public class BoucleTraitement<K extends Monteur<?>> implements Traitement<K> {
 			return Avancement.SuivantDirect;
 		}
 		
-		Traitement<K> nouvelleInstance = supplier.get();
-		
-		Avancement resultat = nouvelleInstance.traiter(ligne);
-		
-		if (resultat == Avancement.Suivant) {
-			traitementsCrees.add(nouvelleInstance);
-			return Avancement.Rester;
-		} else if (resultat == Avancement.Tuer) {
-			return Avancement.SuivantDirect;
-		} else {
-			throw new RuntimeException("BoucleTraitement a reçu autre chose que suivant ou tuer");
+		if (instanceActuelle == null) {
+			instanceActuelle = supplier.get();
 		}
+		
+		Avancement resultat = instanceActuelle.traiter(ligne);
+		
+		switch (resultat) {
+		case Rester:
+			return Avancement.Rester;
+		case Suivant:
+			decharger();
+			return Avancement.Rester;
+		case SuivantDirect:
+		case Tuer:
+			return Avancement.SuivantDirect;
+		default:
+			return Avancement.Tuer;
+		}
+	}
+
+	private void decharger() {
+		traitementsCrees.add(instanceActuelle);
+		instanceActuelle = null;
 	}
 
 	@Override

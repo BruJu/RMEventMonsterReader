@@ -52,12 +52,16 @@ public class MapGeneral implements ElementComposite<Evenement> {
 		}
 		
 		public Builder setEvenements(int[] events) {
-			
+			for (int i : events) {
+				map.evenements.add(i);
+			}
 			return this;
 		}
 		
 		public Builder setComplexes(int[] complexes) {
-			
+			for (int i : complexes) {
+				map.evenementsComplexes.add(i);
+			}
 			return this;
 		}
 		

@@ -11,6 +11,7 @@ public class Constructeur {
 		try {
 			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ss);
 		} catch (IOException | LigneNonReconnueException e) {
+			e.printStackTrace();
 			return null;
 		}
 

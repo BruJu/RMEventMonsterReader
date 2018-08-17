@@ -54,14 +54,18 @@ public class MiseEnCache {
 				"/LDB/Database/commonevents/CommonEvent", XPathConstants.NODESET);
 		if (nodeList == null)
 			return -1;
-
+		
 		File dossierF = new File(dossier);
 		if (dossierF.isDirectory()) {
 			Utilitaire.Fichier_supprimerDossier(dossierF);
 		}
 		dossierF.mkdirs();
 		
-		return streamXML(nodeList).map(n -> eventCommun(n, dossier)).mapToInt(ev -> ev.id).reduce(Math::max).getAsInt();
+		return streamXML(nodeList)
+				.map(n -> eventCommun(n, dossier))
+				.mapToInt(ev -> ev.id)
+				.reduce(Math::max)
+				.getAsInt();
 	}
 
 	/**

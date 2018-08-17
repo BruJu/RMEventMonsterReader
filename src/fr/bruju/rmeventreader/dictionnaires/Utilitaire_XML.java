@@ -110,12 +110,12 @@ public class Utilitaire_XML {
 
 		public IterateurNodeList(NodeList nodeList) {
 			this.nodeList = nodeList;
-			this.i = 0 ;
+			this.i = 0;
 		}
 		
 		@Override
 		public boolean hasNext() {
-			return i == nodeList.getLength();
+			return i != nodeList.getLength();
 		}
 
 		@Override

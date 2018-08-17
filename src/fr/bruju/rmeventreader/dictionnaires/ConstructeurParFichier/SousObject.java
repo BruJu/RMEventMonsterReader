@@ -17,7 +17,7 @@ public class SousObject<R, M extends Monteur<R>> implements ActionOnLine {
 	
 	public Avancement traiter(String ligne) {
 		if (numeroTraitement == traitements.length) {
-			throw new LigneNonReconnueException("Fichier non conforme");
+			throw new LigneNonReconnueException("Fichier non conforme " + ligne);
 		}
 		
 		Avancement avancement = traitements[numeroTraitement].traiter(ligne);

@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.actionmakers.xml;
 
-import java.io.IOException;
-
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.actionner.ConditionalActionMaker;
 
@@ -24,11 +22,11 @@ public class AutoLibLcfXMLCache implements Runnable {
 	 */
 	private String dossierCache;
 
-	private int idEvent;
+	public final int idEvent;
 
-	private int idPage;
+	public final int idPage;
 	
-	private int idMap;
+	public final int idMap;
 
 	/**
 	 * Construit une action dont le but est de traiter des fichiers au travers de l'actionMaker donné
@@ -41,6 +39,7 @@ public class AutoLibLcfXMLCache implements Runnable {
 		this.dossierCache = dossierCache;
 		this.idEvent = idEvent;
 		this.idPage = idPage;
+		this.idMap = idMap;
 	}
 
 	@Override
@@ -48,6 +47,7 @@ public class AutoLibLcfXMLCache implements Runnable {
 		ActionMaker conditionalActionMaker = new ConditionalActionMaker(actionMaker);
 		InterpreterMapXMLCache interpreter = new InterpreterMapXMLCache(conditionalActionMaker);
 
+		System.out.println(idMap + " " + idEvent + " " + idPage);
 		interpreter.inputFile(dossierCache, idMap, idEvent, idPage);
 	}
 }

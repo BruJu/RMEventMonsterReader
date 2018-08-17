@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.actionmakers.xml;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
@@ -9,6 +8,7 @@ import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class LecteurDeCache {
 
@@ -31,8 +31,9 @@ public class LecteurDeCache {
 
 		MapGeneral mg = Constructeur.construire(prefixe + "General.txt", MapGeneral.sousObjet());
 		
-		if (mg == null)
+		if (mg == null) {
 			return null;
+		}
 		
 		if (mg.evenementsComplexes.contains(idEvent)) {
 			String fichier = prefixe + "Event" + Utilitaire_XML.transformerId(idEvent) + ".txt";
@@ -42,7 +43,7 @@ public class LecteurDeCache {
 			return evenement.pages.get(idPage - 1).instructions;
 			
 		} else {
-			return new ArrayList<>();
+			return Utilitaire.toArrayList(new Instruction(12410, "Pas d'instruction", new int[0]));
 		}
 	}
 }
