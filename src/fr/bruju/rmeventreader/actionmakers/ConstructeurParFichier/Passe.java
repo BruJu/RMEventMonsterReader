@@ -1,15 +1,14 @@
 package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
 
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 
-public class Passe implements Traitement {
+public class Passe<K extends Monteur<?>> implements Traitement<K> {
 	@Override
 	public Avancement traiter(String ligne) {
 		return Avancement.Suivant;
 	}
 
 	@Override
-	public Instruction resultat() {
-		return null;
+	public void appliquer(K monteur) {
 	}
 }

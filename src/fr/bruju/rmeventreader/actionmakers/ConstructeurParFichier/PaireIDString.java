@@ -1,19 +1,27 @@
 package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
 
-public class PaireIDString implements Traitement {
+import java.util.function.BiConsumer;
+
+import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+
+public class PaireIDString<K extends Monteur<?>> implements Traitement<K> {
 	private String nomChamp;
 	private String valeur;
+	private BiConsumer<K, String> operationDeMontage;
 	
-	public PaireIDString(String nomChamp) {
+	public PaireIDString(String nomChamp, BiConsumer<K, String> operationDeMontage) {
 		this.nomChamp = nomChamp;
+		this.operationDeMontage = operationDeMontage;
 	}
 
 	@Override
 	public Avancement traiter(String ligne) {
-		String[] split = ligne.split(" ");
+		String[] split = FileReaderByLine.splitter(ligne, 2);
 		
-		if (split.length != 2 || !split[0].equals(nomChamp))
+		if (split == null || !split[0].equals(nomChamp)) {
 			return Avancement.Tuer;
+		}
 		
 		valeur = split[1];
 		
@@ -21,7 +29,7 @@ public class PaireIDString implements Traitement {
 	}
 
 	@Override
-	public String resultat() {
-		return valeur;
+	public void appliquer(K monteur) {
+		operationDeMontage.accept(monteur, valeur);
 	}
 }

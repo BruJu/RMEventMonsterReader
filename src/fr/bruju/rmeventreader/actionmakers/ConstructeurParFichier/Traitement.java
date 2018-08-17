@@ -1,6 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
 
-public interface Traitement {
+import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+
+public interface Traitement<K extends Monteur<?>> {
 	public Avancement traiter(String ligne);
-	public Object resultat();
+	
+	public void appliquer(K monteur);
 }

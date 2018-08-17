@@ -1,11 +1,17 @@
 package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
 
-public class TableauInt implements Traitement {
+import java.util.function.BiConsumer;
+
+import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+
+public class TableauInt<K extends Monteur<?>> implements Traitement<K> {
 	private String nomChamp;
 	private int[] valeur;
+	private BiConsumer<K, int[]> operationDeMontage;
 	
-	public TableauInt(String nomChamp) {
+	public TableauInt(String nomChamp, BiConsumer<K, int[]> operationDeMontage) {
 		this.nomChamp = nomChamp;
+		this.operationDeMontage = operationDeMontage;
 	}
 	
 	@Override
@@ -31,7 +37,7 @@ public class TableauInt implements Traitement {
 	}
 
 	@Override
-	public int[] resultat() {
-		return valeur;
+	public void appliquer(K monteur) {
+		operationDeMontage.accept(monteur, valeur);
 	}
 }

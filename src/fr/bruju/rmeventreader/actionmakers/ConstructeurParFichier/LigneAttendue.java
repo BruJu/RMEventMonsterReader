@@ -1,6 +1,8 @@
 package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
 
-public class LigneAttendue implements Traitement {
+import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+
+public class LigneAttendue<K extends Monteur<?>> implements Traitement<K> {
 	private String ligneAttendue;
 	
 	public LigneAttendue(String ligneAttendue) {
@@ -17,8 +19,6 @@ public class LigneAttendue implements Traitement {
 	}
 
 	@Override
-	public Object resultat() {
-		return null;
+	public void appliquer(K monteur) {
 	}
-
 }

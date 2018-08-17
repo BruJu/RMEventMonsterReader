@@ -2,14 +2,18 @@ package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-public class Instr implements Traitement {
+public class Instr<K extends Monteur<?>> implements Traitement<K> {
 	private Instruction instruction;
+	private BiConsumer<K, Instruction> operationDeMontage;
 	
-	public Instr() {
+	public Instr(BiConsumer<K, Instruction> operationDeMontage) {
+		this.operationDeMontage = operationDeMontage;
 	}
 	
 	@Override
@@ -36,7 +40,7 @@ public class Instr implements Traitement {
 	}
 
 	@Override
-	public Instruction resultat() {
-		return instruction;
+	public void appliquer(K monteur) {
+		operationDeMontage.accept(monteur, instruction);
 	}
 }

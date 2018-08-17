@@ -15,6 +15,7 @@ import fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
 import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
+import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun.Builder;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.lecteurs.LecteurEC;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
@@ -38,30 +39,16 @@ public class LecteurDeCache {
 	@SuppressWarnings("unchecked")
 	private static EvenementCommun creerEventCommun(String fichier) {
 		return Constructeur.construire(fichier,
+				new EvenementCommun.Builder(),
 				new Traitement[] {
-					new LigneAttendue("-- EVENT COMMUN --"),
-					new TableauInt("ID"),
-					new PaireIDString("Nom"),
-					new TableauInt("Trigger"),
-					new LigneAttendue("- Instructions -"),
-					new BoucleTraitement(new Instr())
-				},
-				donnees -> {
-					
-					int id = ((int[]) donnees[1])[0];
-					String nom = (String) donnees[2];
-					int triggerType = ((int[]) donnees[3])[0];
-					int triggerNom = ((int[]) donnees[3])[1];
-					
-					EvenementCommun ec = new EvenementCommun(id, nom, triggerType, triggerNom);
-					
-					((List<Object>) (donnees[5])).stream().map(objet -> (Instruction) objet)
-						.forEach(ec.instructions::add);
-					
-					return ec;
+					new LigneAttendue<>("-- EVENT COMMUN --"),
+					new TableauInt<EvenementCommun.Builder>("ID", (m, t) -> m.setId(t[0])),
+					new PaireIDString<EvenementCommun.Builder>("Nom", (m, s) -> m.setNom(s)),
+					new TableauInt<EvenementCommun.Builder>("Trigger", (m, t) -> m.setTrigger(t[0]).setVariable(t[1])),
+					new LigneAttendue<>("- Instructions -"),
+					new BoucleTraitement<EvenementCommun.Builder>(() -> new Instr<>((m, i) -> m.ajouterInstruction(i)))
 				});
 	}
-
 
 	private static List<Instruction> chargerInstructionsEM(int idEvent, int idPage) {
 		return null;
