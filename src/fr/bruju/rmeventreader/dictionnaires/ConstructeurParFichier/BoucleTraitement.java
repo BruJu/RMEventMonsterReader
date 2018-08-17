@@ -11,13 +11,26 @@ public class BoucleTraitement<K extends Monteur<?>> implements Traitement<K> {
 
 	private List<Traitement<K>> traitementsCrees;
 
+	private String fin;
+
 	public BoucleTraitement(Supplier<Traitement<K>> supplier) {
 		this.supplier = supplier;
 		traitementsCrees = new ArrayList<>();
+		fin = null;
+	}
+	
+	public BoucleTraitement(Supplier<Traitement<K>> supplier, String fin) {
+		this.supplier = supplier;
+		traitementsCrees = new ArrayList<>();
+		this.fin = fin;
 	}
 
 	@Override
 	public Avancement traiter(String ligne) {
+		if (fin != null && ligne.equals(fin)) {
+			return Avancement.SuivantDirect;
+		}
+		
 		Traitement<K> nouvelleInstance = supplier.get();
 		
 		Avancement resultat = nouvelleInstance.traiter(ligne);

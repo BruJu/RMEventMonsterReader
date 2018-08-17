@@ -3,6 +3,15 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.BoucleTraitement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Constructeur;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TraitementObjet;
+
 public class Evenement implements ElementComposite<Page> {
 	public final int id;
 	public final String nom;
@@ -39,8 +48,22 @@ public class Evenement implements ElementComposite<Page> {
 		return !(pages.size() == 1 && pages.get(0).conditions.size() == 0 && pages.get(0).instructions.size() == 0);
 	}
 	
+
+
+	@SuppressWarnings("unchecked")
+	public static SousObject<Evenement, Builder> sousObjet() {
+		return new SousObject<>(new Builder(), new Traitement[] {
+				new TraitementObjet<Builder, MapRM>(MapRM.sousObjet(), Constructeur::throwAway),
+				new LigneAttendue<>("-- EVENT --"),
+				new TableauInt<Builder>("ID", (m, t) -> m.setId(t[0])),
+				new PaireIDString<Builder>("Nom", (m, s) -> m.setNom(s)),
+				new TableauInt<Builder>("Position", (m, t) -> m.setX(t[0]).setY(t[1])),
+				new BoucleTraitement<Builder>(() ->
+					new TraitementObjet<Builder, Page>(Page.sousObjet(), (m, p) -> m.ajouterPage(p)))
+		});
+	}
 	
-	public static class Builder {
+	public static class Builder implements Monteur<Evenement> {
 		public int id;
 		public String nom;
 		public int x;
@@ -77,7 +100,13 @@ public class Evenement implements ElementComposite<Page> {
 			
 			return this;
 		}
+
+		@Override
+		public Evenement build() {
+			return evenement;
+		}
 	}
+
 	
 	
 }

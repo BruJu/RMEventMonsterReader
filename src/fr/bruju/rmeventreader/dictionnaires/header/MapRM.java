@@ -3,10 +3,10 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Constructeur;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Passe;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 
@@ -64,16 +64,14 @@ public class MapRM implements ElementComposite<Evenement> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static MapRM construire(String chemin) {
-		return Constructeur.construire(chemin, new Builder(), new Traitement[] {
-				new LigneAttendue<>("-- MAP --"),
-				new TableauInt<Builder>("ID", (b, t) -> b.setID(t[0])),
-				new PaireIDString<Builder>("Nom", (b, s) -> b.setNom(s)),
-				new Passe<>()
+	public static SousObject<MapRM, Builder> sousObjet() {
+		return new SousObject<>(new Builder(), new Traitement[] {
+			new LigneAttendue<>("-- MAP --"),
+			new TableauInt<Builder>("ID", (m, t) -> m.setID(t[0])),
+			new PaireIDString<Builder>("Nom", (m, t) -> m.setNom(t)),
+			new Passe<>()
 		});
 	}
-	
-	
 	
 	public static class Builder implements Monteur<MapRM> {
 		private int id;

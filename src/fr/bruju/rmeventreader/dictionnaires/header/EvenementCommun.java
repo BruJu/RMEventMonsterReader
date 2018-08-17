@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.BoucleTraitement;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Constructeur;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Instr;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 
@@ -45,17 +45,15 @@ public class EvenementCommun implements ElementComposite<Instruction> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static EvenementCommun construire(String fichier) {
-		return Constructeur.construire(fichier,
-				new EvenementCommun.Builder(),
-				new Traitement[] {
-					new LigneAttendue<>("-- EVENT COMMUN --"),
-					new TableauInt<EvenementCommun.Builder>("ID", (m, t) -> m.setId(t[0])),
-					new PaireIDString<EvenementCommun.Builder>("Nom", (m, s) -> m.setNom(s)),
-					new TableauInt<EvenementCommun.Builder>("Trigger", (m, t) -> m.setTrigger(t[0]).setVariable(t[1])),
-					new LigneAttendue<>("- Instructions -"),
-					new BoucleTraitement<EvenementCommun.Builder>(() -> new Instr<>((m, i) -> m.ajouterInstruction(i)))
-				});
+	public static SousObject<EvenementCommun, Builder> sousObjet() {
+		return new SousObject<>(new Builder(), new Traitement[] {
+				new LigneAttendue<>("-- EVENT COMMUN --"),
+				new TableauInt<EvenementCommun.Builder>("ID", (m, t) -> m.setId(t[0])),
+				new PaireIDString<EvenementCommun.Builder>("Nom", (m, s) -> m.setNom(s)),
+				new TableauInt<EvenementCommun.Builder>("Trigger", (m, t) -> m.setTrigger(t[0]).setVariable(t[1])),
+				new LigneAttendue<>("- Instructions -"),
+				new BoucleTraitement<EvenementCommun.Builder>(() -> new Instr<>((m, i) -> m.ajouterInstruction(i)))
+			});
 	}
 	
 	public static class Builder implements Monteur<EvenementCommun> {

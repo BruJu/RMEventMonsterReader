@@ -5,56 +5,19 @@ import java.io.IOException;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
-import fr.bruju.rmeventreader.utilitaire.Container;
 
 public class Constructeur {
-	public static <T, K extends Monteur<T>> T construire(String chemin, K monteur, Traitement<K>[] traitements) {
-		Container<Integer> i = new Container<>();
-		i.item = 0;
-		
+	public static <T, K extends Monteur<T>> T construire(String chemin, SousObject<T, ?> ss) {
 		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
-				if (i.item == traitements.length) {
-					throw new LigneNonReconnueException("Fichier non conforme");
-				}
-				
-				Avancement avancement;
-				
-				while (true) {
-					avancement = traitements[i.item].traiter(ligne);
-					
-					if (avancement == Avancement.Tuer) {
-						throw new LigneNonReconnueException("Fichier non conforme");
-					}
-					
-					if (avancement != Avancement.SuivantDirect) {
-						break;
-					}
-				}
-				
-				if (avancement == Avancement.Suivant) {
-					i.item++;
-				}
-			});
+			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ss);
 		} catch (IOException | LigneNonReconnueException e) {
 			return null;
 		}
-		
-		// skipper le reste
-		
-		while (i.item != traitements.length) {
-			if (!traitements[i.item].skippable())
-				return null;
-			
-			i.item++;
-		}
-		
-		
-		// renvoi
-		for (Traitement<K> traitement : traitements) {
-			traitement.appliquer(monteur);
-		}
-		
-		return monteur.build();
+
+		return ss.build();
+	}
+	
+	
+	public static <K extends Monteur<?>, T> void throwAway(K m, T t) {
 	}
 }
