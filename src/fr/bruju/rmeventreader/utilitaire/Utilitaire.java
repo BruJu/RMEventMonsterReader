@@ -198,5 +198,15 @@ public class Utilitaire {
 		
 		dossierF.delete();
 	}
+
+	public static int[] toArrayInt(List<Integer> liste) {
+		int[] tableau = new int[liste.size()];
+		
+		for (int i = 0 ; i != tableau.length ; i++) {
+			tableau[i] = liste.get(i);
+		}
+		
+		return tableau;
+	}
 	
 }

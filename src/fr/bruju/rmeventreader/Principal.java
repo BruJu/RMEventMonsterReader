@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader;
 
 import java.io.IOException;
 
+import fr.bruju.rmeventreader.actionmakers.xml.LecteurDeCache;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;

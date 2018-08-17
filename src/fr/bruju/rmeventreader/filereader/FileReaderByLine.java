@@ -80,30 +80,32 @@ public class FileReaderByLine {
 	public static List<String[]> lireFichier(String chemin, int nbArguments) throws IOException {
 		List<String[]> valeursLues = new ArrayList<>();
 		
-		lireLeFichierSansCommentaires(chemin, donnee -> {
-			String[] split = donnee.split(" ");
-			
-			if (split.length > nbArguments) {
-				String[] nouveauSplit = new String[nbArguments];
-				
-				for (int i = nbArguments ; i != split.length ; i++) {
-					split[nbArguments-1] += " " + split[i];
-				}
-				
-				for (int i = 0 ; i != nouveauSplit.length ; i++) {
-					nouveauSplit[i] = split[i];
-				}
-				
-				split = nouveauSplit;
-			}
-			
-			if (split.length != nbArguments) {
-				throw new LigneNonReconnueException("Fichier non valide " + donnee);
-			}
-			
-			valeursLues.add(split);
-		});
+		lireLeFichierSansCommentaires(chemin, donnee -> valeursLues.add(splitter(donnee, nbArguments)));
 		
 		return valeursLues;
+	}
+	
+	public static String[] splitter(String donnee, int nbArguments) {
+		String[] split = donnee.split(" ");
+		
+		if (split.length > nbArguments) {
+			String[] nouveauSplit = new String[nbArguments];
+			
+			for (int i = nbArguments ; i != split.length ; i++) {
+				split[nbArguments-1] += " " + split[i];
+			}
+			
+			for (int i = 0 ; i != nouveauSplit.length ; i++) {
+				nouveauSplit[i] = split[i];
+			}
+			
+			split = nouveauSplit;
+		}
+		
+		if (split.length != nbArguments) {
+			throw new LigneNonReconnueException("Fichier non valide " + donnee);
+		}
+		
+		return split;
 	}
 }
