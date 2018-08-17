@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
+package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +35,10 @@ public class BoucleTraitement<K extends Monteur<?>> implements Traitement<K> {
 	@Override
 	public void appliquer(K monteur) {
 		traitementsCrees.forEach(traitement -> traitement.appliquer(monteur));
+	}
+	
+	@Override
+	public boolean skippable() {
+		return true;
 	}
 }

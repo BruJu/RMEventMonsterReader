@@ -3,6 +3,13 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Constructeur;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Passe;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
+
 public class MapRM implements ElementComposite<Evenement> {
 	public final int id;
 	public final String nom;
@@ -18,6 +25,13 @@ public class MapRM implements ElementComposite<Evenement> {
 		remplirArbre(arborescence, id, arbre);
 	}
 
+	private MapRM(int id, String nom, List<String> chemin) {
+		this.id = id;
+		this.nom = nom;
+		this.arborescence = chemin;
+		this.evenements = new ArrayList<>();
+	}
+
 	private static void remplirArbre(List<String> arborescence, int id, MapArbre[] arbre) {
 		if (id != 0) {
 			MapArbre paire = arbre[id];
@@ -26,6 +40,18 @@ public class MapRM implements ElementComposite<Evenement> {
 		
 		arborescence.add(arbre[id].nom);
 	}
+	
+	@Override
+	public void ajouter(Evenement t) {
+		this.evenements.add(t);
+	}
+	
+	public void viderMemoire() {
+		this.evenements.clear();
+	}
+	
+
+	
 	
 	public void append(StringBuilder sb) {
 		sb.append("-- MAP --\n")
@@ -36,13 +62,44 @@ public class MapRM implements ElementComposite<Evenement> {
 		arborescence.forEach(map -> sb.append(">").append(map));
 		sb.append("\n");
 	}
-
-	@Override
-	public void ajouter(Evenement t) {
-		this.evenements.add(t);
+	
+	@SuppressWarnings("unchecked")
+	public static MapRM construire(String chemin) {
+		return Constructeur.construire(chemin, new Builder(), new Traitement[] {
+				new LigneAttendue<>("-- MAP --"),
+				new TableauInt<Builder>("ID", (b, t) -> b.setID(t[0])),
+				new PaireIDString<Builder>("Nom", (b, s) -> b.setNom(s)),
+				new Passe<>()
+		});
 	}
 	
-	public void viderMemoire() {
-		this.evenements.clear();
+	
+	
+	public static class Builder implements Monteur<MapRM> {
+		private int id;
+		private String nom;
+		private List<String> chemin = new ArrayList<>();
+		
+		@Override
+		public MapRM build() {
+			return new MapRM(id, nom, chemin);
+		}
+		
+		public Builder setID(int id) {
+			this.id = id;
+			return this;
+		}
+		
+		public Builder setNom(String nom) {
+			this.nom = nom;
+			return this;
+		}
+		
+		public Builder setChemin(String[] noms) {
+			for (String nom : noms) {
+				chemin.add(nom);
+			}
+			return this;
+		}
 	}
 }

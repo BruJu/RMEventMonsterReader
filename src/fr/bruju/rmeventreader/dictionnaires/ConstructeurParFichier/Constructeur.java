@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
+package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
 
 import java.io.IOException;
 
@@ -24,8 +24,6 @@ public class Constructeur {
 					avancement = traitements[i.item].traiter(ligne);
 					
 					if (avancement == Avancement.Tuer) {
-
-						System.out.println("4 " + i.item);
 						throw new LigneNonReconnueException("Fichier non conforme");
 					}
 					
@@ -42,10 +40,17 @@ public class Constructeur {
 			return null;
 		}
 		
-		if (i.item + 1 != traitements.length) {
-			return null;
+		// skipper le reste
+		
+		while (i.item != traitements.length) {
+			if (!traitements[i.item].skippable())
+				return null;
+			
+			i.item++;
 		}
-
+		
+		
+		// renvoi
 		for (Traitement<K> traitement : traitements) {
 			traitement.appliquer(monteur);
 		}

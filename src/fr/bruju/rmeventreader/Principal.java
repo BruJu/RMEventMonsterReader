@@ -16,7 +16,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 0;
+		int choix = 6;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -28,7 +28,8 @@ public class Principal {
 				/* 2 */ new Recomposition(),
 				/* 3 */ new PrintXML("ressources\\xml\\Map0001.xml", 1, 1),
 				/* 4 */ new Createur(),
-				/* 5 */ new Cache()
+				/* 5 */ new Cache(),
+				/* 6 */ new TestLectureCache()
 		};
 		
 		options[choix].run();
@@ -51,6 +52,16 @@ public class Principal {
 			new MiseEnCache().construireCache("cache_xml\\", "ressources\\xml\\");
 			//new MiseEnCache().eventCommuns("cache_xml\\EC\\", "ressources\\xml\\RPG_RT_DB.xml");
 			//new MiseEnCache().arbo("cache_xml\\", "ressources_gen\\bdd_maps.txt", "ressources\\xml\\Map");
+		}
+		
+		
+		
+	}
+	public static class TestLectureCache implements Runnable {
+
+		@Override
+		public void run() {
+			new AutoLibLcfXMLCache(new Printer(), "cache_xml\\", -1, 5, -1).run();
 		}
 		
 		

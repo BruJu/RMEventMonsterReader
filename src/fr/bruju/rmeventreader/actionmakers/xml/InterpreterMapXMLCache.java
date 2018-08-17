@@ -31,8 +31,8 @@ public class InterpreterMapXMLCache {
 		this.actionMaker = actionMaker;
 	}
 
-	public void inputFile(String path, int idEvent, int idPage) {
-		List<Instruction> instructions = LecteurDeCache.chargerInstructions(idEvent, idPage);
+	public void inputFile(String path, int idMap, int idEvent, int idPage) {
+		List<Instruction> instructions = LecteurDeCache.chargerInstructions(idMap, idEvent, idPage);
 		instructions.forEach(this::executer);
 	}
 

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.ConstructeurParFichier;
+package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
 
 import java.util.function.BiConsumer;
 
