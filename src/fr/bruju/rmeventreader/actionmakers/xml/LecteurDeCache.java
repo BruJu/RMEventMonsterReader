@@ -40,7 +40,10 @@ public class LecteurDeCache {
 			
 			Evenement evenement = Constructeur.construire(fichier, Evenement.sousObjet());
 			
-			return evenement.pages.get(idPage - 1).instructions;
+			return evenement
+					.pages
+					.get(idPage - 1)
+					.instructions;
 			
 		} else {
 			return Utilitaire.toArrayList(new Instruction(12410, "Pas d'instruction", new int[0]));

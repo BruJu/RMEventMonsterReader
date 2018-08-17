@@ -3,14 +3,15 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.BoucleTraitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Constructeur;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TraitementObjet;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Passe;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.TraitementObjet;
 
 public class Evenement implements ElementComposite<Page> {
 	public final int id;
@@ -58,8 +59,12 @@ public class Evenement implements ElementComposite<Page> {
 				new TableauInt<Builder>("ID", (m, t) -> m.setId(t[0])),
 				new PaireIDString<Builder>("Nom", (m, s) -> m.setNom(s)),
 				new TableauInt<Builder>("Position", (m, t) -> m.setX(t[0]).setY(t[1])),
-				new BoucleTraitement<Builder>(() ->
-					new TraitementObjet<Builder, Page>(Page.sousObjet(), (m, p) -> m.ajouterPage(p)))
+				new BoucleTraitement<Builder>(() -> 
+				
+				 new TraitementObjet<Builder, Page>(Page.sousObjet(), (m, p) -> m.ajouterPage(p))
+				 
+				 //,new BoucleTraitement<Builder>(() -> new Passe<Builder>())
+				 )
 		});
 	}
 	

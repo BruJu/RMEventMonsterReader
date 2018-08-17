@@ -17,7 +17,7 @@ public class SousObject<R, M extends Monteur<R>> implements ActionOnLine {
 	
 	public Avancement traiter(String ligne) {
 		if (numeroTraitement == traitements.length) {
-			throw new LigneNonReconnueException("Fichier non conforme " + ligne);
+			throw new LigneNonReconnueException("Fichier non conforme " + numeroTraitement + " " + ligne);
 		}
 		
 		Avancement avancement = traitements[numeroTraitement].traiter(ligne);
@@ -26,7 +26,8 @@ public class SousObject<R, M extends Monteur<R>> implements ActionOnLine {
 		case Suivant:
 			return avancer();
 		case SuivantDirect:
-			return avancerDirect(ligne);
+		case FinTraitement:
+			return avancerDirect(ligne, avancement);
 		case Rester:
 		case Tuer:
 			return avancement;
@@ -35,10 +36,10 @@ public class SousObject<R, M extends Monteur<R>> implements ActionOnLine {
 		throw new LigneNonReconnueException("Avancement non attendu " + avancement);
 	}
 
-	private Avancement avancerDirect(String ligne) {
+	private Avancement avancerDirect(String ligne, Avancement avancement) {
 		numeroTraitement++;
 		
-		return numeroTraitement == traitements.length ? Avancement.SuivantDirect : traiter(ligne);
+		return numeroTraitement == traitements.length ? avancement : traiter(ligne);
 	}
 
 	private Avancement avancer() {
@@ -72,4 +73,14 @@ public class SousObject<R, M extends Monteur<R>> implements ActionOnLine {
 		return monteur.build();
 	}
 
+	@Override
+	public String toString() {
+		String s = "";
+		
+		for (Traitement<?> t : traitements) {
+			s = s + ";" + t.toString();
+		}
+		
+		return s;
+	}
 }

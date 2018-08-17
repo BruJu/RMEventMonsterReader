@@ -3,12 +3,12 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Passe;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Passe;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 
 public class MapRM implements ElementComposite<Evenement> {
 	public final int id;

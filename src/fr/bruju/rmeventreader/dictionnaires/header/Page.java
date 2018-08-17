@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.AssociationStringInt;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.BoucleTraitement;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Instr;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.AssociationStringInt;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Instr;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
 
 public class Page implements ElementComposite<Instruction> {
 	public final int id;
@@ -45,7 +45,7 @@ public class Page implements ElementComposite<Instruction> {
 		instructions.forEach(instruction -> sb.append(instruction.toLigne()));
 		sb.append("\n\n");
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public static SousObject<Page, Builder> sousObjet() {
 		return new SousObject<>(new Builder(), new Traitement[] {
@@ -57,9 +57,7 @@ public class Page implements ElementComposite<Instruction> {
 				
 				new LigneAttendue<>("- Instructions -"),
 				new BoucleTraitement<Builder>(() ->
-				new Instr<Builder>((m, i) -> m.ajouterInstruction(i)), "= Page =")
-				
-				
+					new Instr<Builder>((m, i) -> m.ajouterInstruction(i)), "= Page =")
 		});
 	}
 

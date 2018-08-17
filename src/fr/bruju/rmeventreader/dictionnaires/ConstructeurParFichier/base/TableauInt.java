@@ -1,7 +1,9 @@
-package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
+package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base;
 
 import java.util.function.BiConsumer;
 
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 
 public class TableauInt<K extends Monteur<?>> implements Traitement<K> {
@@ -39,5 +41,11 @@ public class TableauInt<K extends Monteur<?>> implements Traitement<K> {
 	@Override
 	public void appliquer(K monteur) {
 		operationDeMontage.accept(monteur, valeur);
+	}
+	
+
+	@Override
+	public String toString() {
+		return "TInt " + nomChamp;
 	}
 }

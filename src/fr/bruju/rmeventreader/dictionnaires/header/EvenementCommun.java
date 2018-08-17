@@ -3,13 +3,13 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.BoucleTraitement;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Instr;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.LigneAttendue;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.PaireIDString;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Instr;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
 
 public class EvenementCommun implements ElementComposite<Instruction> {
 	public final int id;

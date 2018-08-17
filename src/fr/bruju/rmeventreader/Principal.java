@@ -61,6 +61,7 @@ public class Principal {
 
 		@Override
 		public void run() {
+			//new AutoLibLcfXMLCache(new Printer(), "cache_xml\\", -1, 14, -1).run();
 			new AutoLibLcfXMLCache(new Printer(), "cache_xml\\", 18, 14, 1).run();
 		}
 		

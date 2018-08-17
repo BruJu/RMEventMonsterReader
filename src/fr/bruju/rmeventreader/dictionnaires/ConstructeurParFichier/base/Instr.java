@@ -1,9 +1,11 @@
-package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
+package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -42,5 +44,10 @@ public class Instr<K extends Monteur<?>> implements Traitement<K> {
 	@Override
 	public void appliquer(K monteur) {
 		operationDeMontage.accept(monteur, instruction);
+	}
+	
+	@Override
+	public String toString() {
+		return "Instr";
 	}
 }
