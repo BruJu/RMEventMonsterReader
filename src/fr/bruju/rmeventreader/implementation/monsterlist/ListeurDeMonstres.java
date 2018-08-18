@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXML;
+import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstresViaShowPicture;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.LectureDesElements;
@@ -46,23 +46,23 @@ public class ListeurDeMonstres implements Runnable {
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
 		
 		Runnable[] listeDesActions = new Runnable[] {
-			new AutoLibLcfXML(new MonsterDatabaseMaker(baseDeDonnees), "ressources\\xml\\Map0053.xml", 37, 1),
-			new AutoLibLcfXML(new MonsterDatabaseMaker(baseDeDonnees), "ressources\\xml\\Map0053.xml", 102, 1),
-			new AutoLibLcfXML(new ExtracteurDeFond(baseDeDonnees), "ressources\\xml\\Map0053.xml", 37, 1),
-			new AutoLibLcfXML(new ExtracteurDeFond(baseDeDonnees), "ressources\\xml\\Map0053.xml", 102, 1),
+			new AutoLibLcfXMLCache(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
+			new AutoLibLcfXMLCache(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
+			new AutoLibLcfXMLCache(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
+			new AutoLibLcfXMLCache(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt"),
 			new Correcteur(baseDeDonnees                                           , "ressources/Correction.txt"),
-			new AutoLibLcfXML(new NomDeMonstresViaShowPicture(baseDeDonnees), "ressources\\xml\\Map0053.xml", 39, 1),
+			new AutoLibLcfXMLCache(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt"),
-			new AutoLibLcfXML(new EnregistreurDeDrop(baseDeDonnees), "ressources\\xml\\Map0453.xml", 18, 1),
+			new AutoLibLcfXMLCache(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
-			new AutoLibLcfXML(new FinDeCombat(baseDeDonnees), "ressources\\xml\\RPG_RT_DB.xml", 44, -1),
+			new AutoLibLcfXMLCache(new FinDeCombat(baseDeDonnees), -1, 44, -1),
 			
 			// Elements
 			new ElementsInit(baseDeDonnees, ce),
 
-			new AutoLibLcfXML(new LectureDesElements(baseDeDonnees, contexte, ce), "ressources\\xml\\RPG_RT_DB.xml", 277, -1),
+			new AutoLibLcfXMLCache(new LectureDesElements(baseDeDonnees, contexte, ce), -1, 277, -1),
 			
 			//new AutoEventFactory(new LectureDesElements(baseDeDonnees, contexte, ce), ContexteElementaire.PREMIERFICHIER),
 			new ElementsFinalisation(baseDeDonnees, ce)

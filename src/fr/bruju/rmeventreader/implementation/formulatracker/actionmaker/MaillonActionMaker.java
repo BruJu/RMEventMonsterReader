@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.decrypter.AutoEventFactory;
-import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXML;
+import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
@@ -70,7 +70,7 @@ public class MaillonActionMaker implements Maillon {
 		System.out.println(nomAttaque);
 		
 		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
-		new AutoLibLcfXML(formulaMaker, "ressources/xml/RPG_RT_DB.xml", numeroDEvent, -1).run();;
+		new AutoLibLcfXMLCache(formulaMaker, -1, numeroDEvent, -1).run();;
 		return new Attaque(nomAttaque, formulaMaker.getResultat());
 	}
 

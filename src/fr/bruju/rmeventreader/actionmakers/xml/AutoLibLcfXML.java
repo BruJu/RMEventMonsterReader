@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.ConditionalActionMaker;
  * @author Bruju
  *
  */
-public class AutoLibLcfXML implements Runnable {
+class AutoLibLcfXML implements Runnable {
 	/**
 	 * ActionMaker de base
 	 */

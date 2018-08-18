@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import static fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire.ELEMENTS;
 import static fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire.PARTIES;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +12,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXML;
+import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXMLCache;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
@@ -139,12 +138,8 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 		if (actionsPage.get(eventPage - 1) == null) {
 			Page p = new Page();
 
-			try {
-				new InterpreterMapXML(p).inputFile("ressources\\xml\\Map0053.xml", EVENT_SOUS_FONCTIONS, eventPage);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			new InterpreterMapXMLCache(p).inputFile(53, EVENT_SOUS_FONCTIONS, eventPage);
+				
 			actionsPage.set(eventPage - 1, p.getResult());
 		}
 	}
@@ -208,13 +203,9 @@ public class LectureDesElements extends StackedActionMaker<Monstre> {
 		if (estFini)
 			return;
 		
-		InterpreterMapXML intreprete = new InterpreterMapXML(this);
+		InterpreterMapXMLCache intreprete = new InterpreterMapXMLCache(this);
 		
-		try {
-			intreprete.inputFile("ressources//xml//RPG_RT_DB.xml", eventNumber, -1);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		intreprete.inputFile(-1, eventNumber, -1);
 	}
 
 	/* ==================

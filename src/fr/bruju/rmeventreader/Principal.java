@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader;
 import java.io.IOException;
 
 import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
-import fr.bruju.rmeventreader.actionmakers.xml.LecteurDeCache;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
@@ -16,7 +15,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 6;
+		int choix = 1;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -61,8 +60,8 @@ public class Principal {
 
 		@Override
 		public void run() {
-			//new AutoLibLcfXMLCache(new Printer(), "cache_xml\\", -1, 14, -1).run();
-			new AutoLibLcfXMLCache(new Printer(), "cache_xml\\", 18, 14, 1).run();
+			//new AutoLibLcfXMLCache(new Printer(), -1, 14, -1).run();
+			new AutoLibLcfXMLCache(new Printer(), -1, 1, -1).run();
 		}
 		
 		

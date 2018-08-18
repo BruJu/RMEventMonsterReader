@@ -17,11 +17,6 @@ public class AutoLibLcfXMLCache implements Runnable {
 	 */
 	private ActionMaker actionMaker;
 
-	/**
-	 * Nom du fichier
-	 */
-	private String dossierCache;
-
 	public final int idEvent;
 
 	public final int idPage;
@@ -34,9 +29,8 @@ public class AutoLibLcfXMLCache implements Runnable {
 	 * @param actionMaker Le gestionnaire d'évènements
 	 * @param filename Le nom du fichier qui sera traité
 	 */
-	public AutoLibLcfXMLCache(ActionMaker actionMaker, String dossierCache, int idMap, int idEvent, int idPage) {
+	public AutoLibLcfXMLCache(ActionMaker actionMaker, int idMap, int idEvent, int idPage) {
 		this.actionMaker = actionMaker;
-		this.dossierCache = dossierCache;
 		this.idEvent = idEvent;
 		this.idPage = idPage;
 		this.idMap = idMap;
@@ -48,6 +42,6 @@ public class AutoLibLcfXMLCache implements Runnable {
 		InterpreterMapXMLCache interpreter = new InterpreterMapXMLCache(conditionalActionMaker);
 
 		System.out.println(idMap + " " + idEvent + " " + idPage);
-		interpreter.inputFile(dossierCache, idMap, idEvent, idPage);
+		interpreter.inputFile(idMap, idEvent, idPage);
 	}
 }
