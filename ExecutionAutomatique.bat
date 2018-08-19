@@ -1,4 +1,4 @@
-@echo on
+@echo off
 
 REM 
 call parametres.bat
