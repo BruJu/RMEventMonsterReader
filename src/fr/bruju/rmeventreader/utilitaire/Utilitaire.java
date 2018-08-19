@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
@@ -45,6 +46,19 @@ public class Utilitaire {
 			}
 			
 			return value;
+		}
+
+		public static <K, V> void fusionnerDans(Map<K, V> receveur,
+				Map<K, V> donneur, UnaryOperator<V> fonctionDAjout, BinaryOperator<V> fonctionSiPresent) {
+			donneur.forEach((cle, valeur) -> {
+				V valeurPresente = receveur.get(cle);
+				
+				if (valeurPresente == null) {
+					receveur.put(cle, fonctionDAjout.apply(valeur));
+				} else {
+					receveur.put(cle, fonctionSiPresent.apply(valeurPresente, valeur));
+				}
+			});
 		}
 	}
 	

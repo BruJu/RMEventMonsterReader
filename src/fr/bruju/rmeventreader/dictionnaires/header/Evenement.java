@@ -8,7 +8,6 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Passe;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.TraitementObjet;

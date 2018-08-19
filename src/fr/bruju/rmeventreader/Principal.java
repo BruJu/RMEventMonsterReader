@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
-import fr.bruju.rmeventreader.implementation.equipementchecker.EquipementChecker;
+import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
@@ -30,7 +30,7 @@ public class Principal {
 				/* 4 */ new Createur(),
 				/* 5 */ new Cache(),
 				/* 6 */ new TestLectureCache(),
-				/* 7 */ new Equipements()
+				/* 7 */ new Verificateur()
 		};
 		
 		options[choix].run();
@@ -66,14 +66,5 @@ public class Principal {
 		}
 	}
 	
-	public static class Equipements implements Runnable {
-		@Override
-		public void run() {
-			EquipementChecker ec = new EquipementChecker(4);
-			new AutoLibLcfXMLCache(ec, 71, 46, 1).run();
-			
-			ec.afficherEquipements();
-		}
-		
-	}
+
 }

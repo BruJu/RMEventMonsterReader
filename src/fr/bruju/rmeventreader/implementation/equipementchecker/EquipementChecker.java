@@ -1,48 +1,60 @@
 package fr.bruju.rmeventreader.implementation.equipementchecker;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
-import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class EquipementChecker implements ActionMakerDefalse {
-	private List<Equipement> equipements = new ArrayList<>();
-	
-	Equipement equipementEnCours = null;
-
 	private int idHeros;
+	private TreeMap<Integer, EquipementData> equipements = new TreeMap<>();
 	
-	public void afficherEquipements() {
-		equipements.stream()
-		.sorted()
-		.map(Equipement::getString).forEach(System.out::println);
-	}
+	int idEquipementEnCours = -1;
+	EquipementData equipementEnCours = null;
 	
 	public EquipementChecker(int idHeros) {
 		this.idHeros = idHeros;
 	}
+
+	public TreeMap<Integer, EquipementData> getEquipements() {
+		return equipements;
+	}
+
+	/* ================================
+	 * MONTEUR D'ENSEMBLE D'EQUIPEMENTS
+	 * ================================ */
 	
-	@Override
-	public void changeSwitch(Variable interrupteur, boolean value) {
+	private void tropComplique() {
 		if (equipementEnCours == null)
 			return;
 		
-		equipementEnCours.interrupteursModifies.add(new Pair<>(interrupteur.idVariable, value));
+		equipementEnCours.setComplexe();
+		decharger();
 	}
 
+	private void decharger() {
+		if (equipementEnCours == null)
+			return;
+		
+		equipements.put(idEquipementEnCours, equipementEnCours);
+		equipementEnCours = null;
+	}
+	
+	/* ============
+	 * ACTION MAKER
+	 * ============ */
+	
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
 		if (equipementEnCours == null)
 			return;
 		
 		if (operator == Operator.PLUS) {
-			equipementEnCours.variablesModifiees.add(new Pair<>(variable.idVariable, returnValue.valeur));
+			equipementEnCours.ajouterModification(variable.idVariable, returnValue.valeur);
 		} else if (operator == Operator.MINUS) {
-			equipementEnCours.variablesModifiees.add(new Pair<>(variable.idVariable, -returnValue.valeur));
+			equipementEnCours.ajouterModification(variable.idVariable, -returnValue.valeur);
 		} else {
 			tropComplique();
 		}
@@ -64,18 +76,15 @@ public class EquipementChecker implements ActionMakerDefalse {
 			tropComplique();
 		}
 		
-		if ((var == 828
-				|| var == 483 || var == 484
-				
-				) && operatorValue.equals(Operator.IDENTIQUE)) {
-			equipementEnCours = new Equipement(returnValue.valeur);
+		if ((var == 828 || var == 483 || var == 484) && operatorValue.equals(Operator.IDENTIQUE)) {
+			idEquipementEnCours = returnValue.valeur;
+			equipementEnCours = new EquipementData();
 			return true;
 		} else {
 			tropComplique();
 			return false;
 		}
 	}
-	
 	
 	@Override
 	public boolean condOnEquippedItem(int heroId, int itemId) {
@@ -87,36 +96,19 @@ public class EquipementChecker implements ActionMakerDefalse {
 			System.out.println("heroId " + heroId + " rencontré");
 			return false;
 		} else {
-			equipementEnCours = new Equipement(itemId);
+			idEquipementEnCours = itemId;
+			equipementEnCours = new EquipementData();
 			return true;
 		}
 	}
-
 
 	@Override
 	public void condElse() {
 		tropComplique();
 	}
 
-	private void tropComplique() {
-		if (equipementEnCours == null)
-			return;
-		
-		equipementEnCours.setComplexe();
-		decharger();
-	}
-
-	private void decharger() {
-		if (equipementEnCours == null)
-			return;
-		
-		equipements.add(equipementEnCours);
-		equipementEnCours = null;
-	}
-
 	@Override
 	public void condEnd() {
 		decharger();
 	}
-
 }
