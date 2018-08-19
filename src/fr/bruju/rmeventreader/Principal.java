@@ -5,6 +5,7 @@ import java.io.IOException;
 import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
+import fr.bruju.rmeventreader.implementation.equipementchecker.EquipementChecker;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
@@ -15,7 +16,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 1;
+		int choix = 7;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -28,7 +29,8 @@ public class Principal {
 				/* 3 */ new PrintXML("ressources\\xml\\Map0001.xml", 1, 1),
 				/* 4 */ new Createur(),
 				/* 5 */ new Cache(),
-				/* 6 */ new TestLectureCache()
+				/* 6 */ new TestLectureCache(),
+				/* 7 */ new Equipements()
 		};
 		
 		options[choix].run();
@@ -57,13 +59,21 @@ public class Principal {
 		
 	}
 	public static class TestLectureCache implements Runnable {
-
 		@Override
 		public void run() {
 			//new AutoLibLcfXMLCache(new Printer(), -1, 14, -1).run();
-			new AutoLibLcfXMLCache(new Printer(), -1, 1, -1).run();
+			new AutoLibLcfXMLCache(new Printer(), 80, 162, -1).run();
 		}
-		
+	}
+	
+	public static class Equipements implements Runnable {
+		@Override
+		public void run() {
+			EquipementChecker ec = new EquipementChecker(4);
+			new AutoLibLcfXMLCache(ec, 71, 46, 1).run();
+			
+			ec.afficherEquipements();
+		}
 		
 	}
 }
