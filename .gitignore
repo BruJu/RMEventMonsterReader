@@ -17,7 +17,7 @@ sorties/
 diff*
 ressources_gen/
 cache_xml/
-auto.bat
+Parametres.bat
 
 # IntelliJ
 .idea/*

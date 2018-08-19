@@ -1,6 +1,10 @@
-@echo off
-set chemin_jeu=A_REMPLIR
-set lcf2xml=A_REMPLIR
+@echo on
+
+REM 
+call parametres.bat
+REM Parametres.bat doit contenir deux lignes de ce type :
+REM set chemin_jeu=CHEMIN_ABSOLU_VERS_LE_PROJET_RPG_MAKER
+REM set lcf2xml=CHEMIN_ABSOLU_VERS_LCF2XML.EXE
 
 cd ressources\xml
 
