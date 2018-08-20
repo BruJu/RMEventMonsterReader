@@ -7,17 +7,35 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 
+/**
+ * Exécuteur d'actions qui lit les variables modifiées par des équipements
+ * 
+ * @author Bruju
+ *
+ */
 public class EquipementChecker implements ActionMakerDefalse {
+	/** Numéro du héros */
 	private int idHeros;
+	
+	/** Associations numéro d'objet - variables modifiées */
 	private TreeMap<Integer, EquipementData> equipements = new TreeMap<>();
 	
-	int idEquipementEnCours = -1;
-	EquipementData equipementEnCours = null;
+	/** Equipement en cours de lecture */
+	private int idEquipementEnCours = -1;
+	/** Données en cours de construction */
+	private EquipementData equipementEnCours = null;
 	
+	/**
+	 * Construit un EquipementChecker pour le héros donné
+	 * @param idHeros Le numéro du héros
+	 */
 	public EquipementChecker(int idHeros) {
 		this.idHeros = idHeros;
 	}
 
+	/**
+	 * Donne une liste d'association objet - variables modifiées 
+	 */
 	public TreeMap<Integer, EquipementData> getEquipements() {
 		return equipements;
 	}
@@ -26,6 +44,10 @@ public class EquipementChecker implements ActionMakerDefalse {
 	 * MONTEUR D'ENSEMBLE D'EQUIPEMENTS
 	 * ================================ */
 	
+	/**
+	 * Détermine que l'objet en cours de lecture est trop complexe pour être stockée dans le système très simple mis en
+	 * place.
+	 */
 	private void tropComplique() {
 		if (equipementEnCours == null)
 			return;
@@ -34,6 +56,9 @@ public class EquipementChecker implements ActionMakerDefalse {
 		decharger();
 	}
 
+	/**
+	 * Enregisre pour l'objet en cours de lecture les statistiques modifiées
+	 */
 	private void decharger() {
 		if (equipementEnCours == null)
 			return;
