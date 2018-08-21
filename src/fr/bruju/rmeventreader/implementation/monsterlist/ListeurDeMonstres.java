@@ -61,10 +61,7 @@ public class ListeurDeMonstres implements Runnable {
 			
 			// Elements
 			new ElementsInit(baseDeDonnees, ce),
-
 			new AutoLibLcfXMLCache(new LectureDesElements(baseDeDonnees, contexte, ce), -1, 277, -1),
-			
-			//new AutoEventFactory(new LectureDesElements(baseDeDonnees, contexte, ce), ContexteElementaire.PREMIERFICHIER),
 			new ElementsFinalisation(baseDeDonnees, ce)
 		};
 		

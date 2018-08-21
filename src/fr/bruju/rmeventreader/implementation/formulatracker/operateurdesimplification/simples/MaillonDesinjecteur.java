@@ -73,7 +73,7 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 			int valeur = Integer.parseInt(tableau[2]);
 
 			CVariable condition = new CVariable(new VBase(idVariable), Operator.IDENTIQUE, new VConstante(valeur));
-			Utilitaire.mapAjouterElementAListe(conditionsADesinjecter, nomDuMonstre, condition);
+			Utilitaire.Maps.ajouterElementDansListe(conditionsADesinjecter, nomDuMonstre, condition);
 		}
 	}
 

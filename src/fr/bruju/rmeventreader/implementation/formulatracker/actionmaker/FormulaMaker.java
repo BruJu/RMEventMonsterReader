@@ -287,8 +287,8 @@ public class FormulaMaker implements ActionMakerDefalse {
 		 */
 		public void remplir(Map<ModifStat, List<FormuleDeDegats>> resultat) {
 			formules.forEach(paire ->
-				Utilitaire.mapAjouterElementAListe(resultat, new ModifStat(stat, paire.getLeft()), paire.getRight())
-							);
+				Utilitaire.Maps.ajouterElementDansListe(resultat, new ModifStat(stat, paire.getLeft()),
+						paire.getRight()));
 		}
 	}
 }

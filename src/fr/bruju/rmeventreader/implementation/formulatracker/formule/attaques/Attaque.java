@@ -90,7 +90,7 @@ public class Attaque {
 
 		fusionnables.stream().map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, fonctionFusion))
 				.forEach(liste -> liste.forEach(
-						paire -> Utilitaire.mapAjouterElementAListe(groupes, paire.getLeft(), paire.getRight())));
+						paire -> Utilitaire.Maps.ajouterElementDansListe(groupes, paire.getLeft(), paire.getRight())));
 
 		this.resultat = groupes;
 	}
@@ -150,7 +150,7 @@ public class Attaque {
 
 		donnees.stream().map(formule -> integrerDiviseurs(diviseurs, formule))
 				.forEach(listeResultat -> listeResultat.forEach(nouvellePaire -> Utilitaire
-						.mapAjouterElementAListe(resultat, nouvellePaire.getLeft(), nouvellePaire.getRight())));
+						.Maps.ajouterElementDansListe(resultat, nouvellePaire.getLeft(), nouvellePaire.getRight())));
 
 		return resultat;
 	}

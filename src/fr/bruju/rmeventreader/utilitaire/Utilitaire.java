@@ -14,15 +14,30 @@ import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
 public class Utilitaire {
 	
-	// import static fr.bruju.rmeventreader.utilitaire.Utilitaire.Pile.*;
-	
+	/**
+	 * Fourni des fonctions afin de traiter un tableau comme étant une pile
+	 * 
+	 * @author Bruju
+	 *
+	 */
 	public static class Pile {
-		public static <T> T sommet(List<T> tableau) {
+		/**
+		 * Donne le dernier élément de la liste
+		 * @param tableau La liste
+		 * @return Le dernier élément
+		 */
+		public static <T> T peek(List<T> tableau) {
 			if (tableau.isEmpty())
 				return null;
 			
 			return tableau.get(tableau.size() - 1);
 		}
+		
+		/**
+		 * Dépile le dernier élément de la liste
+		 * @param tableau La liste
+		 * @return Le dernier élément
+		 */
 		public static <T> T pop(List<T> tableau) {
 			if (tableau.isEmpty())
 				return null;
@@ -32,11 +47,23 @@ public class Utilitaire {
 			tableau.remove(tableau.size() - 1);
 			return t;
 		}
-		
-		
 	}
 
+	/**
+	 * Fourni des fonctions pour les maps
+	 * 
+	 * @author Bruju
+	 *
+	 */
 	public static class Maps {
+		/**
+		 * Renvoi la valeur stockée à la clé donnée dans la map. Si aucune valeur n'est dans la map, utilise le
+		 * supplier pour mettre une valeur initiale, puis renvoie cette dernière.
+		 * @param map La map
+		 * @param key La clé
+		 * @param supplier Un fournisseur de valeur de base
+		 * @return La valeur présente dans la map, ou à défaut la valeur fournie par supplier.
+		 */
 		public static <K, V> V getX(Map<K, V> map, K key, Supplier<? extends V> supplier) {
 			V value = map.get(key);
 			
@@ -48,6 +75,14 @@ public class Utilitaire {
 			return value;
 		}
 
+		/**
+		 * Ajoute dans la map receveur toutes les clés de donneur
+		 * @param receveur La map destination
+		 * @param donneur La map source
+		 * @param fonctionDAjout if (valeurPresente == null) receveur.put(cle, fonctionDAjout.apply(valeur));
+		 * @param fonctionSiPresent if (valeurPresente != null)
+		 * receveur.put(cle, fonctionSiPresent.apply(valeurPresente, valeur));
+		 */
 		public static <K, V> void fusionnerDans(Map<K, V> receveur,
 				Map<K, V> donneur, UnaryOperator<V> fonctionDAjout, BinaryOperator<V> fonctionSiPresent) {
 			donneur.forEach((cle, valeur) -> {
@@ -60,8 +95,27 @@ public class Utilitaire {
 				}
 			});
 		}
+		
+		/**
+		 * Ajoute un élément à la liste qui est associé à la clé donnée. Si la clé n'est pas initialisée, met une
+		 * ArrayList pour cette clé.
+		 * @param map La map
+		 * @param cle La clé
+		 * @param element L'élément à ajouter à la liste
+		 */
+		public static <K, V> void ajouterElementDansListe(Map<K, List<V>> map, K cle, V element) {
+			List<V> liste = map.get(cle);
+			if (liste == null) {
+				liste = new ArrayList<V>();
+				map.put(cle, liste);
+			}
+			
+			liste.add(element);
+		}
 	}
+
 	
+
 
 	
 	
@@ -125,17 +179,6 @@ public class Utilitaire {
 	}
 	
 	
-	public static <K, V> void mapAjouterElementAListe(Map<K, List<V>> map, K cle, V element) {
-		List<V> liste = map.get(cle);
-		if (liste == null) {
-			liste = new ArrayList<V>();
-			liste.add(element);
-			map.put(cle, liste);
-		} else {
-			liste.add(element);
-		}
-	}
-	
 	
 	public static <T> List<T> fusionnerJusquaStabilite(List<T> listeDeBase, BinaryOperator<T> fonctionFusion) {
 		List<T> base;
@@ -189,6 +232,11 @@ public class Utilitaire {
 		return arrayList;
 	}
 	
+	/**
+	 * Ecrit dans le fichier dont le chemin est spécifié la chaîne à écrire
+	 * @param chemin Le fichier
+	 * @param chaineAEcrire La chaîne
+	 */
 	public static void Fichier_Ecrire(String chemin, String chaineAEcrire) {
 		File f = new File(chemin);
 
@@ -202,15 +250,19 @@ public class Utilitaire {
 		}
 	}
 	
-	public static void Fichier_supprimerDossier(File dossierF) {
-		for (File fichierPresent : dossierF.listFiles()) {
+	/**
+	 * Supprime le dossier donné en supprimant tous les fichiers à l'intérieur
+	 * @param dossier Le dossier à supprimer
+	 */
+	public static void Fichier_supprimerDossier(File dossier) {
+		for (File fichierPresent : dossier.listFiles()) {
 			if (fichierPresent.isDirectory())
 				Fichier_supprimerDossier(fichierPresent);
 			else
 				fichierPresent.delete();
 		}
 		
-		dossierF.delete();
+		dossier.delete();
 	}
 
 	public static int[] toArrayInt(List<Integer> liste) {
