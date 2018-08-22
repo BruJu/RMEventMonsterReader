@@ -18,6 +18,7 @@ public class CreateurDeRessources {
 		ecrireRessource(fichier, "items", "Item", "bdd_objets");
 		ecrireRessource(fichier, "switches", "Switch", "bdd_switch");
 		ecrireRessource(fichier, "variables", "Variable", "bdd_variables");
+		ecrireRessource(fichier, "commonevents", "CommonEvent", "bdd_ec");
 	}
 
 	private void ecrireRessource(String fichier, String nomGroupe, String nomElement, String nomFichier) {

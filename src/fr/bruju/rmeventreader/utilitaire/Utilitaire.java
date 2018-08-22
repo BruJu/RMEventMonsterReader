@@ -178,8 +178,12 @@ public class Utilitaire {
 		}
 	}
 	
-	
-	
+	/**
+	 * Applique fonctionFusion sur tous les éléments de la liste jusqu'à que ce ne soit plus possible
+	 * @param listeDeBase La liste à transformer
+	 * @param fonctionFusion La fonction de fusion. Renvoie null si la fusion n'est pas possible
+	 * @return La liste avec fonctionFusion appliquée le plus de fois possible
+	 */
 	public static <T> List<T> fusionnerJusquaStabilite(List<T> listeDeBase, BinaryOperator<T> fonctionFusion) {
 		List<T> base;
 		List<T> transformee = listeDeBase;

@@ -13,10 +13,13 @@ import fr.bruju.rmeventreader.implementation.printer.Printer;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 
 public class Principal {
+	/**
+	 * Fonction principale
+	 */
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 7;
+		int choix = 1;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -38,6 +41,12 @@ public class Principal {
 		System.out.println("#### Fin ####");
 	}
 	
+	
+	/**
+	 * Crée des ressources (liste des objets, variables, switch, event communs et personnages) à partir des fichiers
+	 * xml générés par lcf2xml
+	 *
+	 */
 	public static class Createur implements Runnable {
 		@Override
 		public void run() {
@@ -46,18 +55,24 @@ public class Principal {
 		}
 	}
 	
+	/**
+	 * Construit le cache xml.
+	 * <p>
+	 * On désigne comme cache le fait de transformer les fichiers xml générés par lcf2xml en une multitude de fichiers
+	 * plus petits
+	 *
+	 */
 	public static class Cache implements Runnable {
-
 		@Override
 		public void run() {
 			new MiseEnCache().construireCache("cache_xml\\", "ressources\\xml\\");
-			//new MiseEnCache().eventCommuns("cache_xml\\EC\\", "ressources\\xml\\RPG_RT_DB.xml");
-			//new MiseEnCache().arbo("cache_xml\\", "ressources_gen\\bdd_maps.txt", "ressources\\xml\\Map");
 		}
-		
-		
-		
 	}
+	
+	/**
+	 * Lit un fichier créé par la mise en cache et affiche les instructions trouvée
+	 *
+	 */
 	public static class TestLectureCache implements Runnable {
 		@Override
 		public void run() {
