@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.header;
 
+import java.util.stream.Stream;
+
 public class Instruction {
 	public final int code;
 	public final String string;
@@ -11,6 +13,23 @@ public class Instruction {
 		this.parameters = parameters;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(code)
+		  .append(" ");
+		
+		if (parameters != null && parameters.length != 0) {
+			for (int valeur : parameters) {
+				sb.append(valeur).append(" ");
+			}
+		}
+		
+		sb.append("; ").append(string);
+		
+		return sb.toString();
+	}
 
 	
 	public String toLigne() {

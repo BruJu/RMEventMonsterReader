@@ -28,8 +28,23 @@ import static fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML.streamXML;
  *
  */
 public class MiseEnCache {
+	private int numeroMap = -1;
 	
+	public MiseEnCache(int choixMap) {
+		numeroMap = choixMap;
+	}
+
+	public MiseEnCache() {
+	}
+
 	public void construireCache(String destination, String source) {
+		if (numeroMap != -1) {
+			map(destination, new MapRM(numeroMap, "Test", Utilitaire.toArrayList("Test")),
+					source + "Map" + Utilitaire_XML.transformerId(numeroMap) + ".xml");
+			return;
+		}
+		
+		
 		int nbDEventCommuns = eventCommuns(destination + "EC\\", source + "RPG_RT_DB.xml");
 		List<Integer> mapExistantes = arbo(destination, "ressources_gen\\bdd_maps.txt", source + "Map");
 		

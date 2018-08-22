@@ -11,6 +11,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
 import fr.bruju.rmeventreader.implementation.printer.Printer;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
+import fr.bruju.rmeventreader.implementationexec.ExecuteurMessageRunner;
 
 public class Principal {
 	/**
@@ -19,10 +20,15 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 1;
+		int choix = 8;
+		int choixMap = -1;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
+		}
+		
+		if (args.length >= 1) {
+			choixMap = Integer.parseInt(args[1]);
 		}
 		
 		Runnable[] options = {
@@ -31,9 +37,10 @@ public class Principal {
 				/* 2 */ new Recomposition(),
 				/* 3 */ new PrintXML("ressources\\xml\\Map0001.xml", 1, 1),
 				/* 4 */ new Createur(),
-				/* 5 */ new Cache(),
+				/* 5 */ new Cache(choixMap),
 				/* 6 */ new TestLectureCache(),
-				/* 7 */ new Verificateur()
+				/* 7 */ new Verificateur(),
+				/* 8 */ new ExecuteurMessageRunner()
 		};
 		
 		options[choix].run();
@@ -63,9 +70,19 @@ public class Principal {
 	 *
 	 */
 	public static class Cache implements Runnable {
+		private int choixMap;
+
+		public Cache(int choixMap) {
+			this.choixMap = choixMap;
+		}
+
 		@Override
 		public void run() {
-			new MiseEnCache().construireCache("cache_xml\\", "ressources\\xml\\");
+			if (choixMap == -1) {
+				new MiseEnCache().construireCache("cache_xml\\", "ressources\\xml\\");
+			} else {
+				new MiseEnCache(choixMap).construireCache("cache_xml\\", "ressources\\xml\\");
+			}
 		}
 	}
 	

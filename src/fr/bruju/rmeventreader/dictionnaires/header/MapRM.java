@@ -25,7 +25,7 @@ public class MapRM implements ElementComposite<Evenement> {
 		remplirArbre(arborescence, id, arbre);
 	}
 
-	private MapRM(int id, String nom, List<String> chemin) {
+	public MapRM(int id, String nom, List<String> chemin) {
 		this.id = id;
 		this.nom = nom;
 		this.arborescence = chemin;
