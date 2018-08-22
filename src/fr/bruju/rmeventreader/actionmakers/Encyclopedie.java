@@ -23,6 +23,11 @@ public class Encyclopedie {
 		assurerExistanceDictionnaire(nomDuDictionnaire);
 		return map.get(nomDuDictionnaire).extraire(index);
 	}
+	
+	public String getSansSymbole(String nomDuDictionnaire, int index) {
+		assurerExistanceDictionnaire(nomDuDictionnaire);
+		return map.get(nomDuDictionnaire).extraireSansSymbole(index);
+	}
 
 	private void assurerExistanceDictionnaire(String nomDuDictionnaire) {
 		if (map.get(nomDuDictionnaire) == null) {
@@ -64,6 +69,27 @@ public class Encyclopedie {
 
 		private String extraire(int index) {
 			return donneesExtraites[index - premierIndex];
+		}
+		
+		/**
+		 * Renvoie " " si l'index est 0
+		 * <br>
+		 * Sinon renvoie la chaîne à la valeur index - 1
+		 * <br>
+		 * Si il y a un symbole (chaîne commencant par $ et suivi d'un caractère), il est retiré
+		 * @param index La ligne voulue du dictionnaire
+		 * @return Une représentation de la donnée à la ligne index
+		 */
+		private String extraireSansSymbole(int index) {
+			if (index == 0)
+				return " ";
+			
+			String valeur = extraire(index);
+			
+			if (valeur.startsWith("$") && valeur.length() >= 2)
+				valeur = valeur.substring(2);
+			
+			return valeur;
 		}
 	}
 }

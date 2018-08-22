@@ -122,14 +122,13 @@ public class Attaques {
 			Function<String, String> affichageHeaderAttaque,
 			TriFunction<String, ModifStat, FormuleDeDegats, String> affichageFormule,
 			Function<String, String> affichageFooterAttaque) {
-		
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(affichageHeader.apply(groupesSupplementaires));
 		
 		forEach(attaque -> {
 			sb.append(affichageHeaderAttaque.apply(attaque.nom));
-			sb.append(attaque.returnForEach(affichageFormule, (s1, s2) -> s1 + s2, ""));
+			sb.append(attaque.returnForEach(affichageFormule));
 			sb.append(affichageFooterAttaque.apply(attaque.nom));
 		});
 		

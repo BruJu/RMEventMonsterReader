@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.utilitaire.Container;
 
 /** 
  * Lit des fichiers du type
@@ -82,22 +82,21 @@ public class ContexteElementaire {
 	 * @param chemin Le nom du fichier contenant les ressources
 	 */
 	public void lireContexteElementaire(String chemin) {
-		Container<Boolean> etatActuel = new Container<>();
-		etatActuel.item = true; // true = lecture d'élément ; false = lecture de parties
+		AtomicBoolean etatActuel = new AtomicBoolean(true); // true = lecture d'élément ; false = lecture de parties
 		
 		try {
 			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
 				if (ligne.equals("- Element -")) {
-					etatActuel.item = true;
+					etatActuel.set(true);
 				} else if (ligne.equals("- Parties -")) {
-					etatActuel.item = false;
+					etatActuel.set(false);
 				} else {
 					String[] decomposition = ligne.split(" ");
 					
 					String nom = decomposition[1];
 					Integer variable = Integer.decode(decomposition[0]);
 					
-					if (etatActuel.item) {
+					if (etatActuel.get()) {
 						elementsConnus.put(variable, nom);
 					} else {
 						partiesConnues.put(variable, nom);

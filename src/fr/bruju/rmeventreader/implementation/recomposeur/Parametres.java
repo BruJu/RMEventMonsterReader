@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.Recognizer;
-import fr.bruju.rmeventreader.utilitaire.Container;
 
 public class Parametres {
 	private Map<String, List<String[]>> donneesLues;
@@ -16,7 +16,7 @@ public class Parametres {
 	public Parametres(String chemin) {
 		donneesLues = new HashMap<>();
 		
-		Container<String> sectionActuelle = new Container<>();
+		AtomicReference<String> sectionActuelle = new AtomicReference<>();
 		
 		String patternSection = "== _ ==";
 		
@@ -28,12 +28,12 @@ public class Parametres {
 					// Changer de section;
 					String nomSection = nouvelleSection.get(0);
 					donneesLues.putIfAbsent(nomSection, new ArrayList<>());
-					sectionActuelle.item = nomSection;
+					sectionActuelle.set(nomSection);
 					
 				} else {
 					String[] donnees = ligne.split(" ");
 					
-					donneesLues.get(sectionActuelle.item).add(donnees);
+					donneesLues.get(sectionActuelle.get()).add(donnees);
 				}
 			});
 		} catch (IOException e) {

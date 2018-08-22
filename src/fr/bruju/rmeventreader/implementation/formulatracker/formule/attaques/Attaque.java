@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
@@ -13,7 +14,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Diviseur;
-import fr.bruju.rmeventreader.utilitaire.Container;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
@@ -110,26 +110,23 @@ public class Attaque {
 	 * @param reduction La fonction pour réduire le résultat de deux formules
 	 * @return Le résultat de la fonction appliquée à toutes les formules
 	 */
-	<T> T returnForEach(TriFunction<String, ModifStat, FormuleDeDegats, T> fonctionFormule, BinaryOperator<T> reduction,
-			T valeurSiNull) {
-		Container<T> c = new Container<>();
-		c.item = null;
-
-		resultat.forEach((modifStat, liste) -> liste.forEach(formule -> {
-			T resultat = fonctionFormule.apply(nom, modifStat, formule);
-
-			if (c.item == null) {
-				c.item = resultat;
-			} else {
-				c.item = reduction.apply(c.item, resultat);
-			}
-		}));
-
-		if (c.item == null) {
-			return valeurSiNull;
+	public String returnForEach(TriFunction<String, ModifStat, FormuleDeDegats, String> fonctionFormule) {
+		if (resultat.isEmpty()) {
+			return "";
 		}
 
-		return c.item;
+		try {
+			return resultat
+						.entrySet()
+					    .stream()
+					    .flatMap(entry -> entry.getValue()
+									   .stream()
+									   .map(formule -> fonctionFormule.apply(nom, entry.getKey(), formule)))
+					    .reduce((s1, s2) -> s1 + s2)
+					    .get();
+		} catch (NoSuchElementException e) {
+			return "";
+		}
 	}
 
 	/* ========
