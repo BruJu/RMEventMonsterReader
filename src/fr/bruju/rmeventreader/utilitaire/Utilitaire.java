@@ -117,7 +117,7 @@ public class Utilitaire {
 	
 
 
-	
+
 	
 	public static String getSymbole(Operator operateur) {
 		switch (operateur) {
@@ -279,4 +279,13 @@ public class Utilitaire {
 		return tableau;
 	}
 	
+	public static int getPosition(int element, int[] elements) {
+		for (int i = 0 ; i != elements.length ; i++) {
+			if (elements[i] == element) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
 }

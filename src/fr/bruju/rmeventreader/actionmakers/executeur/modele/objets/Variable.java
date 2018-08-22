@@ -1,9 +1,11 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.Fonction;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroite;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurFixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
 
 public class Variable implements FixeVariable, ValeurGauche, ValeurDroite {
 	public final int idVariable;
@@ -13,19 +15,17 @@ public class Variable implements FixeVariable, ValeurGauche, ValeurDroite {
 	}
 
 	@Override
-	public <T> T execFV(Fonction<ValeurFixe, T> fixe, Fonction<Variable, T> variable) throws ObjetNonSupporte {
-		return variable.apply(this);
+	public <T> T accept(VisiteurValeurDroite<T> visiteur) throws ObjetNonSupporte {
+		return visiteur.visit(this);
 	}
 
 	@Override
-	public <T> T execVG(Fonction<Variable, T> variable, Fonction<VariablePlage, T> plage,
-			Fonction<Pointeur, T> pointeur) throws ObjetNonSupporte {
-		return variable.apply(this);
+	public <T> T accept(VisiteurValeurGauche<T> visiteur) throws ObjetNonSupporte {
+		return visiteur.visit(this);
 	}
 
 	@Override
-	public <T> T execVD(Fonction<ValeurFixe, T> fixe, Fonction<ValeurAleatoire, T> aleatoire,
-			Fonction<Variable, T> variable, Fonction<Pointeur, T> pointeur) throws ObjetNonSupporte {
-		return variable.apply(this);
+	public <T> T accept(VisiteurFixeVariable<T> visiteur) throws ObjetNonSupporte {
+		return visiteur.visit(this);
 	}
 }

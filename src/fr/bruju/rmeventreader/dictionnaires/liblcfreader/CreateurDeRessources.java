@@ -12,7 +12,6 @@ public class CreateurDeRessources {
 		this.destination = destination;
 	}
 
-
 	public void extraireBDD(String fichier) {
 		ecrireRessource(fichier, "actors", "Actor", "bdd_heros");
 		ecrireRessource(fichier, "items", "Item", "bdd_objets");

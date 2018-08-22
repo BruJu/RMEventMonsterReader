@@ -3,8 +3,8 @@ package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.Fonction;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
 
 public class VariablePlage implements ValeurGauche {
 	public final int idVariableMin;
@@ -26,8 +26,7 @@ public class VariablePlage implements ValeurGauche {
 	}
 	
 	@Override
-	public <T> T execVG(Fonction<Variable, T> variable, Fonction<VariablePlage, T> plage,
-			Fonction<Pointeur, T> pointeur) throws ObjetNonSupporte {
-		return plage.apply(this);
+	public <T> T accept(VisiteurValeurGauche<T> visiteurValeurGauche) throws ObjetNonSupporte {
+		return visiteurValeurGauche.visit(this);
 	}
 }

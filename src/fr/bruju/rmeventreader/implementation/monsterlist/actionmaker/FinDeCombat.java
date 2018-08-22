@@ -17,7 +17,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionP
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.utilitaire.Ensemble;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Action maker dont le but est de déterminer les gains totaux d'un combat.
@@ -263,7 +263,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 
 		@Override
 		public void changeVariable(Variable variable, Operator operator, Variable returnValue) {
-			int idMonstre = Ensemble.getPosition(returnValue.get(), VARIABLES_EXP);
+			int idMonstre = Utilitaire.getPosition(returnValue.get(), VARIABLES_EXP);
 
 			if (idMonstre == -1) {
 				throw new FinDeCombatException("Modifie un gain d'exp selon une variable qui n'est pas un gain d'exp");

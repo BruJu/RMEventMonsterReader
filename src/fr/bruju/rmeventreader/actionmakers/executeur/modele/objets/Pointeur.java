@@ -1,8 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.Fonction;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroite;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
 
 /**
  * Un pointeur est une variable ou un interrupteur dont le numéro est inscrit dans une variable
@@ -20,16 +21,14 @@ public class Pointeur implements ValeurGauche, ValeurDroite {
 	public Pointeur(int pointeur) {
 		this.pointeur = pointeur;
 	}
-	
+
 	@Override
-	public <T> T execVG(Fonction<Variable, T> variable, Fonction<VariablePlage, T> plage,
-			Fonction<Pointeur, T> pointeur) throws ObjetNonSupporte {
-		return pointeur.apply(this);
+	public <T> T accept(VisiteurValeurGauche<T> visiteur) throws ObjetNonSupporte {
+		return visiteur.visit(this);
 	}
 
 	@Override
-	public <T> T execVD(Fonction<ValeurFixe, T> fixe, Fonction<ValeurAleatoire, T> aleatoire,
-			Fonction<Variable, T> variable, Fonction<Pointeur, T> pointeur) throws ObjetNonSupporte {
-		return pointeur.apply(this);
+	public <T> T accept(VisiteurValeurDroite<T> visiteur) throws ObjetNonSupporte {
+		return visiteur.visit(this);
 	}
 }
