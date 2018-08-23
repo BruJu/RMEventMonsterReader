@@ -52,7 +52,7 @@ public enum OpMathematique {
 	
 	/** Element neutre */
 	public int neutre;
-
+	
 	OpMathematique(String symbole, boolean zeroAbsorbantAGauche, int neutre) {
 		this.symbole = symbole;
 		this.zeroAbsorbantAGauche = zeroAbsorbantAGauche;
@@ -97,7 +97,7 @@ public enum OpMathematique {
 	 * Donne l'élément neutre
 	 * @return
 	 */
-	public int getNeutre() {
+	public Integer getNeutre() {
 		return neutre;
 	}
 

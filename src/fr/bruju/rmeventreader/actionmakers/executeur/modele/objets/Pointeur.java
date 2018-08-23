@@ -1,8 +1,10 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
 
 /**
@@ -10,7 +12,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurVal
  * @author Bruju
  *
  */
-public class Pointeur implements ValeurGauche, ValeurDroite {
+public class Pointeur implements ValeurGauche, ValeurDroite, ValeurDroiteVariable {
 	/** Donne le numéro de la variable possédant le numéro de l'interrupteur ou de la variable voulue */
 	public final int pointeur;
 	
@@ -29,6 +31,11 @@ public class Pointeur implements ValeurGauche, ValeurDroite {
 
 	@Override
 	public <T> T accept(VisiteurValeurDroite<T> visiteur) throws ObjetNonSupporte {
+		return visiteur.visit(this);
+	}
+	
+	@Override
+	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur) throws ObjetNonSupporte {
 		return visiteur.visit(this);
 	}
 }

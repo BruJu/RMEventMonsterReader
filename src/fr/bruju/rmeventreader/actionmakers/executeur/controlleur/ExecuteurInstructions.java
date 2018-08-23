@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Position;
@@ -32,6 +34,13 @@ public interface ExecuteurInstructions {
 	
 
 	public default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
+	}
+
+	public default void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
+	}
+
+	public default void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
+			ValeurDroiteVariable valeurDroite) {
 	}
 	
 	
