@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
 
 /**
  * Interpreteur de l'arbre XML généré par EasyRPG.

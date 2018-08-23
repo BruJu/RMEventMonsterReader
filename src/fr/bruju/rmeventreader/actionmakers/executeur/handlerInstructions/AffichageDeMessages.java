@@ -5,8 +5,8 @@ import java.util.Map;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 
-public class AffichageDeMessages {
-	
+public class AffichageDeMessages implements Remplisseur {
+	@Override
 	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
 		// ShowMessage
 		handlers.put(10110, (e, t, c) -> e.Messages_afficherMessage(c));
@@ -14,8 +14,34 @@ public class AffichageDeMessages {
 		handlers.put(20110, (e, t, c) -> e.Messages_afficherSuiteMessage(c));
 		// MessageOption
 		handlers.put(10120, this::changeMessageOptions);
+		// Choix multiples
+		handlers.put(10140, this::initialisationQCM);
+		handlers.put(20140, this::choixQCM);
+		handlers.put(20141, this::finQCM);
+		// Saisie de nombres
+		handlers.put(10150, (e, t, c) -> e.SaisieMessages_saisieNombre(t[1], t[0]));
 	}
 	
+	/* ===
+	 * QCM
+	 * === */
+	
+	private void initialisationQCM(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+		executeur.SaisieMessages_initierQCM(extraireChoixQCM(parametres[0]));
+	}
+
+	private void choixQCM(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+		executeur.SaisieMessages_choixQCM(chaine, extraireChoixQCM(parametres[0]+1));
+	}
+
+	private void finQCM(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+		executeur.SaisieMessages_finQCM();
+	}
+	
+
+	/* ===
+	 * Messages
+	 * === */
 	
 	private void changeMessageOptions(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 		executeur.Messages_modifierOptions(
@@ -26,6 +52,10 @@ public class AffichageDeMessages {
 	}
 
 
+	/* ==========
+	 * Utilitaire
+	 * ========== */
+	
 	private ExecEnum.Position extrairePosition(int position) {
 		switch (position) {
 		case 0:
@@ -39,7 +69,9 @@ public class AffichageDeMessages {
 		}
 	}
 	
-	
+	private ExecEnum.ChoixQCM extraireChoixQCM(int position) {
+		return ExecEnum.ChoixQCM.values()[position];
+	}
 	
 	
 	

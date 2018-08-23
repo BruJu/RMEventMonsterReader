@@ -107,6 +107,12 @@ public class Evenement implements ElementComposite<Page> {
 		}
 	}
 
+	public static Evenement creerEvenementSimple(int idEvent, String nom, int x, int y) {
+		Evenement evenementSimple = new Evenement(idEvent, nom, x, y);
+		evenementSimple.pages.add(Page.creerPageSimple());
+		return evenementSimple;
+	}
+
 	
 	
 }

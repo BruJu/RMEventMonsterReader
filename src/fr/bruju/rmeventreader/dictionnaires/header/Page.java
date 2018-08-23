@@ -22,6 +22,17 @@ public class Page implements ElementComposite<Instruction> {
 		this.conditions = conditions;
 		this.instructions = new ArrayList<>();
 	}
+	
+	private Page(int id) {
+		this.id = id;
+		this.conditions = new LinkedHashMap<>();
+		this.instructions = new ArrayList<>();
+	}
+	
+	public static Page creerPageSimple() {
+		return new Page(1);
+	}
+	
 
 	@Override
 	public void ajouter(Instruction t) {

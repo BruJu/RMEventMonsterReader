@@ -3,9 +3,10 @@ package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.AffichageDeMessages;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.HandlerInstruction;
+import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.Remplisseur;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 
 public class DechiffreurInstructions {
@@ -36,9 +37,7 @@ public class DechiffreurInstructions {
 			return;
 		
 		instructionsConnues = new HashMap<>();
-		
-		new AffichageDeMessages().remplirMap(instructionsConnues);
-		
+		Stream.of(Remplisseur.getAll()).forEach(remplisseur -> remplisseur.remplirMap(instructionsConnues));
 	}
 
 	public void executer(List<Instruction> instructions) {

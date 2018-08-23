@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
@@ -17,7 +18,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.lambda.IntBiObjOperator;
 
 /**
  * Un état mémoire représente l'état de la mémoire (contenu des variables et des interrupteurs) à un moment donné.
@@ -164,9 +164,9 @@ public class EtatMemoire {
 	 */
 	private void integrerFils() {
 		// Combinaisons
-		combinerDonnees(this, etat -> etat.variables, (id, v1, v2) -> new VTernaire(condition, v1, v2),
+		combinerDonnees(this, etat -> etat.variables, (v1, v2) -> new VTernaire(condition, v1, v2),
 				id -> getVariable(id));
-		combinerDonnees(this, etat -> etat.interrupteurs, (id, v1, v2) -> new BTernaire(condition, v1, v2),
+		combinerDonnees(this, etat -> etat.interrupteurs, (v1, v2) -> new BTernaire(condition, v1, v2),
 				id -> getInterrupteur(id));
 
 		// Supression des enfants
@@ -183,7 +183,7 @@ public class EtatMemoire {
 	 * @param getElementPere La fonction permettant de récupérer la donnée du père
 	 */
 	private static <T> void combinerDonnees(EtatMemoire pere, Function<EtatMemoire, Map<Integer, T>> fonctionDacces,
-			IntBiObjOperator<T> fonctionDeFusion, Function<Integer, T> getElementPere) {
+			BinaryOperator<T> fonctionDeFusion, Function<Integer, T> getElementPere) {
 		Map<Integer, T> mapPere = fonctionDacces.apply(pere);
 
 		// Combinaison des deux fils
@@ -199,7 +199,7 @@ public class EtatMemoire {
 
 		// Modification du père
 		nouvellesDonnees.forEach(
-				(idVar, paire) -> mapPere.put(idVar, fonctionDeFusion.apply(idVar, paire.getLeft(), paire.getRight())));
+				(idVar, paire) -> mapPere.put(idVar, fonctionDeFusion.apply(paire.getLeft(), paire.getRight())));
 	}
 
 	/**

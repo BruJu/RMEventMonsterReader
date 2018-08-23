@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.xml;
+package fr.bruju.rmeventreader.dictionnaires.liblcfreader;
 
 import java.util.List;
 
@@ -8,28 +8,35 @@ import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class LecteurDeCache {
 
 	public static List<Instruction> chargerInstructions(int idMap, int idEvent, int idPage) {
-		if (idPage == -1)
-			return chargerInstructionsEC(idEvent);
-		else
-			return chargerInstructionsEM(idMap, idEvent, idPage);
+		try {
+			if (idMap == -1 || idPage == -1)
+				return getEvenementCommun(idEvent).instructions;
+			else
+				return getEvenement(idMap, idEvent).pages.get(idPage - 1).instructions;
+		} catch (NullPointerException e) {
+			return null;
+		}
+	}
+	
+	public static MapGeneral getMapGeneral(int idMap) {
+		String prefixe = "cache_xml\\Map" + Utilitaire_XML.transformerId(idMap) + "\\";
+		return ConvertisseurLigneVersObjet.construire(prefixe + "General.txt", MapGeneral.sousObjet());
 	}
 
 
-	private static List<Instruction> chargerInstructionsEC(int idEvent) {
+	public static EvenementCommun getEvenementCommun(int idEvent) {
 		String fichier = "cache_xml\\EC\\EC" + Utilitaire_XML.transformerId(idEvent) + ".txt";
-		EvenementCommun ec = ConvertisseurLigneVersObjet.construire(fichier, EvenementCommun.sousObjet());
-		return ec == null ? null : ec.instructions;
+		return ConvertisseurLigneVersObjet.construire(fichier, EvenementCommun.sousObjet());
 	}
 
-	private static List<Instruction> chargerInstructionsEM(int idMap, int idEvent, int idPage) {
+	public static Evenement getEvenement(int idMap, int idEvent) {
 		String prefixe = "cache_xml\\Map" + Utilitaire_XML.transformerId(idMap) + "\\";
 
-		MapGeneral mg = ConvertisseurLigneVersObjet.construire(prefixe + "General.txt", MapGeneral.sousObjet());
+		MapGeneral mg = getMapGeneral(idMap);
 		
 		if (mg == null) {
 			return null;
@@ -38,15 +45,9 @@ public class LecteurDeCache {
 		if (mg.evenementsComplexes.contains(idEvent)) {
 			String fichier = prefixe + "Event" + Utilitaire_XML.transformerId(idEvent) + ".txt";
 			
-			Evenement evenement = ConvertisseurLigneVersObjet.construire(fichier, Evenement.sousObjet());
-			
-			return evenement
-					.pages
-					.get(idPage - 1)
-					.instructions;
-			
+			return ConvertisseurLigneVersObjet.construire(fichier, Evenement.sousObjet());
 		} else {
-			return Utilitaire.toArrayList(new Instruction(12410, "Pas d'instruction", new int[0]));
+			return Evenement.creerEvenementSimple(idEvent, "", -1, -1);
 		}
 	}
 }

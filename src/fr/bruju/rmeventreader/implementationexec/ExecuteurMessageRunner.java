@@ -3,8 +3,8 @@ package fr.bruju.rmeventreader.implementationexec;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.DechiffreurInstructions;
-import fr.bruju.rmeventreader.actionmakers.xml.LecteurDeCache;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
 
 public class ExecuteurMessageRunner implements Runnable {
 
