@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Passe;
@@ -28,8 +28,8 @@ public class MapGeneral implements ElementComposite<Evenement> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static SousObject<MapGeneral, Builder> sousObjet() {
-		return new SousObject<>(new Builder(), new Traitement[] {
+	public static ConvertisseurLigneVersObjet<MapGeneral, Builder> sousObjet() {
+		return new ConvertisseurLigneVersObjet<>(new Builder(), new Traitement[] {
 				new TraitementObjet<Builder, MapRM>(MapRM.sousObjet(), (b, map) -> b.creerMap(map)),
 				new LigneAttendue<>("- Evenements - "),
 				new TableauInt<Builder>(null, (b, t) -> b.setEvenements(t)),

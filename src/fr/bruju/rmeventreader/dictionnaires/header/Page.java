@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.AssociationStringInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Instr;
@@ -47,8 +47,8 @@ public class Page implements ElementComposite<Instruction> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static SousObject<Page, Builder> sousObjet() {
-		return new SousObject<>(new Builder(), new Traitement[] {
+	public static ConvertisseurLigneVersObjet<Page, Builder> sousObjet() {
+		return new ConvertisseurLigneVersObjet<>(new Builder(), new Traitement[] {
 				new LigneAttendue<>("= Page ="),
 				new TableauInt<Builder>("id", (m, t) -> m.setId(t[0])),
 				new BoucleTraitement<Builder>(() ->

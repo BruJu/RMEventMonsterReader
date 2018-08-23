@@ -9,21 +9,37 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 
+/**
+ * Réalise une boucle avec le traitement donné
+ * @author Bruju
+ *
+ * @param <K> Le type de monteur utilisé
+ */
 public class BoucleTraitement<K extends Monteur<?>> implements Traitement<K> {
+	/** Fournisseur de traîtement sur lequel la boucle s'effectue */
 	private Supplier<Traitement<K>> supplier;
-
+	/** Liste des traîtements opérés par la boucle */
 	private List<Traitement<K>> traitementsCrees;
-
+	/** Si non null, la boucle s'arrête si une ligne égale à fin est lue */
 	private String fin;
-	
+	/** Traitement en cours d'application */
 	private Traitement<K> instanceActuelle = null;
 
+	/**
+	 * Boucle sur le traitement donné
+	 * @param supplier Un fournisseur de traîtement sur lequel on va boucler
+	 */
 	public BoucleTraitement(Supplier<Traitement<K>> supplier) {
 		this.supplier = supplier;
 		traitementsCrees = new ArrayList<>();
 		fin = null;
 	}
-	
+
+	/**
+	 * Boucle sur le traitement donné
+	 * @param supplier Un fournisseur de traîtement sur lequel on va boucler
+	 * @param fin Ligne déclarant la fin de la boucle
+	 */
 	public BoucleTraitement(Supplier<Traitement<K>> supplier, String fin) {
 		this.supplier = supplier;
 		traitementsCrees = new ArrayList<>();
@@ -64,6 +80,9 @@ public class BoucleTraitement<K extends Monteur<?>> implements Traitement<K> {
 		throw new RuntimeException("Illegal");
 	}
 
+	/**
+	 * Ajoute à la liste des traîtements à faire sur le monteur le traîtement en cours de lecture
+	 */
 	private void decharger() {
 		if (instanceActuelle != null) {
 			traitementsCrees.add(instanceActuelle);

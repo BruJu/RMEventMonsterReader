@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.dictionnaires.header;
 
-import java.util.stream.Stream;
-
 public class Instruction {
 	public final int code;
 	public final String string;

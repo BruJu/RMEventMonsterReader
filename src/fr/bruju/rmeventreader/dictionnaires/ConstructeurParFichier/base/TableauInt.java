@@ -6,11 +6,26 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 
+/**
+ * Lit un tableau de valeurs éventuellement précédé d'une clé
+ * 
+ * @author Bruju
+ *
+ * @param <K>
+ */
 public class TableauInt<K extends Monteur<?>> implements Traitement<K> {
+	/** Clé si elle existe */
 	private String nomChamp;
+	/** Valeurs lues */
 	private int[] valeur;
+	/** Opération de montage */
 	private BiConsumer<K, int[]> operationDeMontage;
 	
+	/**
+	 * Lit un tableau de valeurs avec une clé si elle est précisée
+	 * @param nomChamp null si il n'y a pas de clé, la clé sinon
+	 * @param operationDeMontage L'opération à appliquer une fois le tableau lu
+	 */
 	public TableauInt(String nomChamp, BiConsumer<K, int[]> operationDeMontage) {
 		this.nomChamp = nomChamp;
 		this.operationDeMontage = operationDeMontage;
@@ -43,7 +58,6 @@ public class TableauInt<K extends Monteur<?>> implements Traitement<K> {
 		operationDeMontage.accept(monteur, valeur);
 	}
 	
-
 	@Override
 	public String toString() {
 		return "TInt " + nomChamp;

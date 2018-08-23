@@ -7,11 +7,25 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 
+/**
+ * Traitement exigeant l'arrivée d'un couple (clé valeur) dont la clé est imposée
+ * @author Bruju
+ *
+ * @param <K>
+ */
 public class PaireIDString<K extends Monteur<?>> implements Traitement<K> {
+	/** Clé attendue */
 	private String nomChamp;
+	/** Valeur lue */
 	private String valeur;
+	/** Opération de montage */
 	private BiConsumer<K, String> operationDeMontage;
 	
+	/**
+	 * Construit une lecture de paire clé valeur dont la clé est imposée
+	 * @param nomChamp La clé
+	 * @param operationDeMontage L'opération à appliquer sur le monteur avec la valeur reçue
+	 */
 	public PaireIDString(String nomChamp, BiConsumer<K, String> operationDeMontage) {
 		this.nomChamp = nomChamp;
 		this.operationDeMontage = operationDeMontage;
@@ -35,7 +49,6 @@ public class PaireIDString<K extends Monteur<?>> implements Traitement<K> {
 		operationDeMontage.accept(monteur, valeur);
 	}
 	
-
 	@Override
 	public String toString() {
 		return "PaireIDChamp " + nomChamp;

@@ -5,11 +5,25 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriConsumer;
 
+/**
+ * Lit une ligne du type Cle Nombres...
+ * 
+ * @author Bruju
+ *
+ * @param <K> Type de monteur
+ */
 public class AssociationStringInt<K extends Monteur<?>> implements Traitement<K> {
+	/** Action à appliquer au monteur */
 	private TriConsumer<K, String, int[]> applicateur;
+	/** Clé lue */
 	private String cle;
+	/** Valeurs lues */
 	private int[] valeurs;
 	
+	/**
+	 * Construit un traitement de lignes du type "Texte Nombres..." et applique au monteur la fonction applicateur
+	 * @param applicateur La fonction d'application
+	 */
 	public AssociationStringInt(TriConsumer<K, String, int[]> applicateur) {
 		this.applicateur = applicateur;
 	}

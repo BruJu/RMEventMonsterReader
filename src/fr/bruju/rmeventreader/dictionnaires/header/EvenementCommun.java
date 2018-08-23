@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Instr;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
@@ -45,8 +45,8 @@ public class EvenementCommun implements ElementComposite<Instruction> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static SousObject<EvenementCommun, Builder> sousObjet() {
-		return new SousObject<>(new Builder(), new Traitement[] {
+	public static ConvertisseurLigneVersObjet<EvenementCommun, Builder> sousObjet() {
+		return new ConvertisseurLigneVersObjet<>(new Builder(), new Traitement[] {
 				new LigneAttendue<>("-- EVENT COMMUN --"),
 				new TableauInt<EvenementCommun.Builder>("ID", (m, t) -> m.setId(t[0])),
 				new PaireIDString<EvenementCommun.Builder>("Nom", (m, s) -> m.setNom(s)),

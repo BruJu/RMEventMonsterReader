@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
@@ -64,8 +64,8 @@ public class MapRM implements ElementComposite<Evenement> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static SousObject<MapRM, Builder> sousObjet() {
-		return new SousObject<>(new Builder(), new Traitement[] {
+	public static ConvertisseurLigneVersObjet<MapRM, Builder> sousObjet() {
+		return new ConvertisseurLigneVersObjet<>(new Builder(), new Traitement[] {
 			new LigneAttendue<>("-- MAP --"),
 			new TableauInt<Builder>("ID", (m, t) -> m.setID(t[0])),
 			new PaireIDString<Builder>("Nom", (m, t) -> m.setNom(t)),

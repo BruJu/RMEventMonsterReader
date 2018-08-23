@@ -3,8 +3,7 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Constructeur;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.SousObject;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
@@ -51,19 +50,16 @@ public class Evenement implements ElementComposite<Page> {
 
 
 	@SuppressWarnings("unchecked")
-	public static SousObject<Evenement, Builder> sousObjet() {
-		return new SousObject<>(new Builder(), new Traitement[] {
-				new TraitementObjet<Builder, MapRM>(MapRM.sousObjet(), Constructeur::throwAway),
+	public static ConvertisseurLigneVersObjet<Evenement, Builder> sousObjet() {
+		return new ConvertisseurLigneVersObjet<>(new Builder(), new Traitement[] {
+				new TraitementObjet<Builder, MapRM>(MapRM.sousObjet(), ConvertisseurLigneVersObjet::throwAway),
 				new LigneAttendue<>("-- EVENT --"),
 				new TableauInt<Builder>("ID", (m, t) -> m.setId(t[0])),
 				new PaireIDString<Builder>("Nom", (m, s) -> m.setNom(s)),
 				new TableauInt<Builder>("Position", (m, t) -> m.setX(t[0]).setY(t[1])),
 				new BoucleTraitement<Builder>(() -> 
-				
 				 new TraitementObjet<Builder, Page>(Page.sousObjet(), (m, p) -> m.ajouterPage(p))
-				 
-				 //,new BoucleTraitement<Builder>(() -> new Passe<Builder>())
-				 )
+				)
 		});
 	}
 	

@@ -10,10 +10,23 @@ import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+/**
+ * Lit une ligne de type instruction (NuméroInstructions Int... ; String) et l'applique au monteur
+ * 
+ * @author Bruju
+ *
+ * @param <K> Le type de monteur
+ */
 public class Instr<K extends Monteur<?>> implements Traitement<K> {
+	/** Instruction lue */
 	private Instruction instruction;
+	/** Opération à appliquer */
 	private BiConsumer<K, Instruction> operationDeMontage;
 	
+	/**
+	 * Construit un traitement d'instruction
+	 * @param operationDeMontage Opération faite lors de la lecture d'une instruction
+	 */
 	public Instr(BiConsumer<K, Instruction> operationDeMontage) {
 		this.operationDeMontage = operationDeMontage;
 	}
