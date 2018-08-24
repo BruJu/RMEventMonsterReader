@@ -1,8 +1,12 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Position;
 
@@ -42,7 +46,73 @@ public interface ExecuteurInstructions {
 	public default void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
 			ValeurDroiteVariable valeurDroite) {
 	}
-	
+
+	public default void Chrono_modifier(int numeroChrono, FixeVariable dechiffrerFixeVariable) {
+	}
+
+	public default void Chrono_arreter(int numeroChrono) {
+	}
+
+	public default void Chrono_lancer(int numeroChrono, boolean afficherChrono, boolean continuerPendantCombat) {
+	}
+
+	public default void Variables_modifierArgent(boolean ajouter, FixeVariable quantite) {
+	}
+
+	public default void Variables_modifierObjets(boolean ajouter, FixeVariable objet, FixeVariable quantite) {
+	}
+
+	public default void Equipe_modifierEquipe(boolean ajouter, FixeVariable personnage) {
+	}
+
+	public default void Equipe_modifierExperience(ValeurMembre cible, VariableHeros.Caracteristique stat,
+			boolean ajouter, FixeVariable quantite, boolean verbose) {
+	}
+
+	/**
+	 * Recoit les modifications de statistiques (sauf celles de HPActuel, Niveau et Expérience)
+	 * @param cible La cible
+	 * @param stat La statistique affectée
+	 * @param ajouter Vrai si la statistique est augmentée, faux si elle est diminuée 
+	 * @param quantite La valeur à ajouter ou soustraire
+	 */
+	public default void Equipe_modifierStatistique(ValeurMembre cible, VariableHeros.Caracteristique stat,
+			boolean ajouter, FixeVariable quantite) {
+	}
+
+	public default void Equipe_modifierCompetence(ValeurMembre cible, boolean ajouter, FixeVariable sort) {
+	}
+
+	public default void Equipe_equiper(ValeurMembre cible, FixeVariable objet) {
+	}
+
+	/**
+	 * Désequipe tous les objets de la cible
+	 * @param cible La cible
+	 */
+	public default void Equipe_desequiper(ValeurMembre cible) {
+		
+	}
+
+	/**
+	 * Désequipe un équipement de la cible
+	 * @param cible La cible
+	 * @param type Le type d'objet à retirer. Seules les valeurs ARME, CASQUE, ARMURE, ACCESSOIRE et BOUCLIER peuvent
+	 * être appelées.
+	 */
+	public default void Equipe_desequiper(ValeurMembre cible, Caracteristique type) {
+		
+	}
+
+	public default void Equipe_modifierHP(ValeurMembre cible, boolean ajouter, FixeVariable quantite,
+			boolean peutTuer) {
+	}
+
+	public default void Equipe_modifierStatut(ValeurMembre cible, boolean infliger, int numeroStatut) {
+	}
+
+	public default void Equipe_soignerCompletement(ValeurMembre cible) {
+	}
 	
 	
 	

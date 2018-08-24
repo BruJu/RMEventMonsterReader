@@ -10,7 +10,8 @@ public interface Remplisseur {
 	public static Remplisseur[] getAll() {
 		return new Remplisseur[] {
 				new AffichageDeMessages(),
-				new ModificationDeVariables()
+				new ModificationDeVariables(),
+				new GestionEquipe(),
 		};
 	}
 	

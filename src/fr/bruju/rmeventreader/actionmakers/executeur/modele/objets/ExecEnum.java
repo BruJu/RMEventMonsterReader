@@ -19,4 +19,11 @@ public class ExecEnum {
 		CHOIX4,
 		ANNULER
 	}
+	
+	public static enum StatNiveau {
+		Niveau,
+		Experience
+	}
+	
+	
 }

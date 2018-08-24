@@ -28,10 +28,10 @@ public class VariableHeros implements ValeurDroiteVariable {
 		DEFENSE,
 		INTELLIGENCE,
 		AGILITE,
-		IDARME,
-		IDBOUCLIER,
-		IDARMURE,
-		IDCASQUE,
-		IDACCESSOIRE
+		ARME,
+		BOUCLIER,
+		ARMURE,
+		CASQUE,
+		ACCESSOIRE
 	}
 }
