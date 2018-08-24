@@ -5,7 +5,7 @@ import java.util.Map;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 
-public class AffichageDeMessages implements Remplisseur {
+class AffichageDeMessages implements Remplisseur {
 	@Override
 	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
 		// ShowMessage

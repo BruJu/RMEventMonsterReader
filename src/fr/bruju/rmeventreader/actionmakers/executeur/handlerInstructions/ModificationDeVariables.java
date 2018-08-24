@@ -8,7 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVaria
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 
-public class ModificationDeVariables implements Remplisseur {
+class ModificationDeVariables implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 
 	@Override

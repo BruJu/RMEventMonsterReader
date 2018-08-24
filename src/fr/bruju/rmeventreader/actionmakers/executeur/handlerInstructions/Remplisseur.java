@@ -12,6 +12,8 @@ public interface Remplisseur {
 				new AffichageDeMessages(),
 				new ModificationDeVariables(),
 				new GestionEquipe(),
+				new GestionCombat(),
+				new GestionSysteme(),
 		};
 	}
 	

@@ -6,6 +6,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDro
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Vehicule;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.NombreObjet;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Pointeur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Tous;
@@ -17,7 +18,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariablePlage;
 
-public class Dechiffreur {
+class Dechiffreur {
 	private static Dechiffreur instance;
 
 	private Dechiffreur() {
@@ -143,7 +144,20 @@ public class Dechiffreur {
 		case 5:
 			return OpMathematique.MODULO;
 		default:
-			throw new ArgumentInconnuException("Extraire Operateur Methmatique " + numero);
+			throw new ArgumentInconnuException("Extraire Operateur Mathematique " + numero);
+		}
+	}
+
+	public Vehicule dechiffreVehicule(int numero) {
+		switch (numero) {
+		case 0:
+			return Vehicule.RADEAU;
+		case 1:
+			return Vehicule.BATEAU;
+		case 2:
+			return Vehicule.VAISSEAU;
+		default:
+			throw new ArgumentInconnuException("DechiffreVehicule " + numero);
 		}
 	}
 	

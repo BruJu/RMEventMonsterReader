@@ -7,7 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVaria
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 
-public class GestionEquipe implements Remplisseur {
+class GestionEquipe implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 	
 	@Override

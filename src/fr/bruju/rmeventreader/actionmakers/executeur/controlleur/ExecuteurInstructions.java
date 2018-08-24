@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGau
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Position;
 
@@ -113,7 +114,53 @@ public interface ExecuteurInstructions {
 
 	public default void Equipe_soignerCompletement(ValeurMembre cible) {
 	}
+
+	/**
+	 * Simule une attaque sur la cible
+	 * @param cible Cible de l'attaque
+	 * @param puissance Puissance de l'attaque
+	 * @param effetDefense Effet de la défense en %
+	 * @param effetIntel Effet de l'intelligence en %
+	 * @param variance Variance de l'attaque
+	 * @param degatsEnregistresDansVariable 0 si pas d'enregistrement des dégâts infligés dans une variable, la
+	 * variable sinon
+	 */
+	public default void Combat_simulerAttaque(ValeurMembre cible, int puissance, int effetDefense, int effetIntel,
+			int variance, int degatsEnregistresDansVariable) {
+	}
+
+	public default void Systeme_modifierNom(int idHeros, String nouveauNom) {
+	}
+
+	public default void Systeme_modifierGrade(int idHeros, String nouveauGrade) {
+	}
+
+	public default void Systeme_modifierApparenceHeros(int idHeros, String charset, int numeroCharset,
+			boolean transparent) {
+	}
+
+	public default void Systeme_modifierFaceset(int idHeros, String faceset, int numeroFaceset) {
+	}
+
+	public default void Systeme_modifierApparenceVehicule(ExecEnum.Vehicule vehicule, String charset,
+			int numeroCharset) {
+	}
 	
+	public default void Systeme_modifierMusique(ExecEnum.Musique musique, String nom, int temspFondu,
+			SonParam parametres) {
+	}
+
+	public default void Systeme_modifierEffetSonore(ExecEnum.EffetSonore son, String nom, SonParam parametres) {
+	}
+	
+	/**
+	 * 
+	 * @param etire Vrai = étiré, Faux = Mosaique
+	 * @param premierePolice Vrai = première police, Faux = seconde police
+	 * @param nomApparence Nom du fichier contenant l'apparence
+	 */
+	public default void Systeme_modifierApparence(boolean etire, boolean premierePolice, String nomApparence) {
+	}
 	
 	
 }
