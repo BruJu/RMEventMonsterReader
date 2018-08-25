@@ -26,7 +26,7 @@ public class DechiffreurInstructions {
 		HandlerInstruction fonction = instructionsConnues.get(code);
 		
 		if (fonction == null) {
-			System.out.println(" --> Instruction [" + instruction.toString() + "] non déchiffrable");
+			System.out.println(" --> Instruction [" + instruction.toString(true) + "] non déchiffrable");
 		} else {
 			fonction.traiter(executeur, instruction.parameters, instruction.string);
 		}

@@ -14,6 +14,8 @@ public interface Remplisseur {
 				new GestionEquipe(),
 				new GestionCombat(),
 				new GestionSysteme(),
+				new GestionMagasin(),
+				new GestionJeu(),
 		};
 	}
 	

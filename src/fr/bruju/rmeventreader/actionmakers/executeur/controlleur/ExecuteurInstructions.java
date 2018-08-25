@@ -7,10 +7,26 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGau
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.CombatComportementFuite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ConditionsDeCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Position;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.SujetTransition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Transition;
 
+
+/**
+ * Exécuteur d'instructions
+ * <p>
+ * Pour toutes les instructions, des implémentations par défaut ne faisant rien sont fournies.
+ * <p>
+ * Ainsi pour implémenter un exécuteur, il suffit d'implémenter les instructions pertinentes.
+ * @author Bruju
+ *
+ */
 public interface ExecuteurInstructions {
 
 	public default void Messages_afficherMessage(String chaine) {
@@ -161,6 +177,84 @@ public interface ExecuteurInstructions {
 	 */
 	public default void Systeme_modifierApparence(boolean etire, boolean premierePolice, String nomApparence) {
 	}
+
+	public default void Systeme_modifierTransition(SujetTransition sujetTransition, boolean entrant,
+			Transition transition) {
+		
+	}
+
+	public default boolean Combat_lancerCombat(FixeVariable idCombat, ConditionsDeCombat conditions, ArrierePlanCombat arrierePlan,
+			CombatComportementFuite fuite, boolean defaitePossible, boolean avantage) {
+		return false;
+	}
+
+	public default boolean Combat_brancheVictoire() {
+		return false;
+	}
+
+	public default boolean Combat_brancheFuite() {
+		return false;
+	}
+	public default boolean Combat_brancheDefaite() {
+		return false;
+	}
+	public default void Combat_finBranche() {
+	}
+
+	public default boolean Magasin_magasin(int dialogue, int[] objetsAchetables, boolean ventePossible) {
+		return false;
+	}
+
+	public default boolean Magasin_magasinBrancheVente() {
+		return false;
+	}
+
+	public default boolean Magasin_magasinBrancheNonVente() {
+		return false;
+	}
+	public default void Magasin_magasinFinBranche() {
+	}
+
+	public default boolean Magasin_auberge(boolean type1, int prix) {
+		return false;
+	}
+
+	public default boolean Magasin_aubergeRepos() {
+		return false;
+	}
+	public default boolean Magasin_aubergeNonRepos() {
+		return false;
+	}
+	
+	public default void Magasin_aubergeFinBranche() {
+	}
+
+	public default void SaisieMessages_SaisieNom(int idHeros, boolean lettres, boolean afficherNomParDefaut) {
+	}
+	
+	
+	public default void Jeu_teleporter(int idMap, int x, int y, ExecEnum.Direction direction) {
+	}
+
+	public default void Jeu_memoriserPosition(int idMap, int x, int y) {
+	}
+
+	public default void Jeu_revenirPosition(int variableMap, int variableX, int variableY) {
+	}
+	
+	public default void Jeu_entrerVehicule() {
+	}
+
+	public default void Jeu_deplacerVehicule(ExecEnum.Vehicule vehicule, FixeVariable map, FixeVariable x,
+			FixeVariable y) {
+	}
+	
+	public default void Jeu_deplacerEvenement(EvenementDeplacable deplacable, FixeVariable x, FixeVariable y) {
+	}
+	
+	public default void Jeu_inverserEvenements(EvenementDeplacable deplacable, EvenementDeplacable deplacable2) {
+	}
+	
 	
 	
 }

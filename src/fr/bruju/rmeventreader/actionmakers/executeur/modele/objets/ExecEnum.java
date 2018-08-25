@@ -1,6 +1,58 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
 public class ExecEnum {
+	public enum CombatComportementFuite {
+		IMPOSSIBLE,
+		ARRET,
+		BRANCHE
+	}
+	
+	public enum Direction {
+		INCHANGEE,
+		HAUT,
+		DROITE,
+		BAS,
+		GAUCHE
+	}
+
+	public enum ConditionsDeCombat {
+		NORMAL,
+		ENNEMISURPRIS,
+		EQUIPESURPRISE,
+		ENNEMIENCERCLE,
+		EQUIPEENCERCLEE
+	}
+
+	public enum Transition {
+		FONDU,
+		BLOCS,
+		BLOCSVERSLEHAUT,
+		BLOCSVERSLEBAS,
+		STORE,
+		LIGNESVERTICALES,
+		LIGNESHORIZONTALES,
+		CARRERETRECISSANT,
+		CARREGRANDISSANT,
+		ECRANBAS,
+		ECRANHAUT,
+		ECRANGAUCHE,
+		ECRANDROITE,
+		SPLITVERTICALE,
+		SPLITHORIZONTAL,
+		QUADRUPLESPLIT,
+		ZOOM,
+		MOSAIQUES,
+		ONDULATIONS,
+		INSTANTANE,
+		AUCUN
+	}
+
+	public enum SujetTransition {
+		TELEPORTATION,
+		COMBAT,
+		FINCOMBAT
+	}
+
 	public enum Musique {
 		COMBAT,
 		VICTOIRE,

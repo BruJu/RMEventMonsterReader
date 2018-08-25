@@ -18,11 +18,24 @@ class GestionSysteme implements Remplisseur {
 		handlers.put(10650, (e, p, s) -> e.Systeme_modifierApparenceVehicule(d.dechiffreVehicule(p[0]), s, p[1]));
 		handlers.put(10660, this::modifierMusique);
 		handlers.put(10670, this::modifierEffetSonore);
-		
-		
-		
+		handlers.put(10680, this::modifierApparence);
+		handlers.put(10690, this::modifierTransition);
 	}
+	
 
+	private void modifierTransition(ExecuteurInstructions executeur, int[] parametres, String s) {
+		ExecEnum.SujetTransition sujetTransition = d.sujetTransition(parametres[0]);
+		boolean entrant = parametres[0] % 2 == 0;
+		ExecEnum.Transition transition = ExecEnum.Transition.values()[parametres[1]];
+		
+		executeur.Systeme_modifierTransition(sujetTransition, entrant, transition);
+	}
+	
+
+	private void modifierApparence(ExecuteurInstructions executeur, int[] parametres, String s) {
+		executeur.Systeme_modifierApparence(parametres[0] == 0, parametres[1] == 0, s);
+	}
+	
 	private void modifierEffetSonore(ExecuteurInstructions executeur, int[] parametres, String s) {
 		ExecEnum.EffetSonore son = ExecEnum.EffetSonore.values()[parametres[0]];
 		SonParam sonParam = new SonParam(parametres[1], parametres[2], parametres[3]);

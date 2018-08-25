@@ -20,7 +20,17 @@ class AffichageDeMessages implements Remplisseur {
 		handlers.put(20141, this::finQCM);
 		// Saisie de nombres
 		handlers.put(10150, (e, t, c) -> e.SaisieMessages_saisieNombre(t[1], t[0]));
+		
+		handlers.put(10740, this::saisieDeNom);
 	}
+
+	private void saisieDeNom(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+		int idHeros = parametres[0];
+		boolean lettres = parametres[1] == 0;
+		boolean afficherNomParDefaut = parametres[2] == 1;
+		executeur.SaisieMessages_SaisieNom(idHeros, lettres, afficherNomParDefaut);
+	}
+	
 	
 	/* ===
 	 * QCM

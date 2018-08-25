@@ -5,7 +5,9 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVaria
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.SujetTransition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Vehicule;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.NombreObjet;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Pointeur;
@@ -17,6 +19,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariablePlage;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 class Dechiffreur {
 	private static Dechiffreur instance;
@@ -30,7 +33,7 @@ class Dechiffreur {
 		}
 		return instance;
 	}
-	
+
 	public VariableHeros.Caracteristique caracAugmentable(int valeur) {
 		switch (valeur) {
 		case 0:
@@ -49,7 +52,6 @@ class Dechiffreur {
 			throw new ArgumentInconnuException("Carac augmentable " + valeur);
 		}
 	}
-	
 
 	public ValeurMembre dechiffrerMembreCible(int type, int valeur) {
 		switch (type) {
@@ -63,7 +65,6 @@ class Dechiffreur {
 			throw new ArgumentInconnuException("Membre cible Type " + type);
 		}
 	}
-	
 
 	public FixeVariable dechiffrerFixeVariable(int type, int nombre) {
 		if (type == 0) {
@@ -74,7 +75,7 @@ class Dechiffreur {
 			throw new ArgumentInconnuException("FixeVariable Type  " + type);
 		}
 	}
-	
+
 	public ValeurDroiteVariable dechiffrerValeurDroiteVariable(int type, int valeur1, int valeur2) {
 		switch (type) {
 		case 0:
@@ -99,7 +100,6 @@ class Dechiffreur {
 		}
 	}
 
-
 	public Boolean dechiffrerBooleen(int action) {
 		switch (action) {
 		case 0:
@@ -113,7 +113,6 @@ class Dechiffreur {
 		}
 	}
 
-
 	public ValeurGauche dechiffrerValeurGauche(int type, int valeur1, int valeur2) {
 		switch (type) {
 		case 0:
@@ -126,9 +125,7 @@ class Dechiffreur {
 			throw new ArgumentInconnuException("ChangerSwitch Variable type " + type);
 		}
 	}
-	
 
-	
 	public OpMathematique extraireOperateurMaths(int numero) {
 		switch (numero) {
 		case 0:
@@ -160,5 +157,40 @@ class Dechiffreur {
 			throw new ArgumentInconnuException("DechiffreVehicule " + numero);
 		}
 	}
-	
+
+	public SujetTransition sujetTransition(int id) {
+		if (id < 2)
+			return SujetTransition.TELEPORTATION;
+
+		if (id < 4)
+			return SujetTransition.COMBAT;
+
+		if (id < 6)
+			return SujetTransition.FINCOMBAT;
+
+		throw new ArgumentInconnuException("sujetTransition " + id);
+	}
+
+	public void afficher(int[] parametres, int[] is, String s) {
+		System.out.println("=====");
+		for (int i = 0; i != parametres.length; i++) {
+			if (Utilitaire.getPosition(i, is) == -1) {
+				System.out.print("[" + i + "] = " + parametres[i] + " ; ");
+			}
+		}
+		System.out.println("s");
+	}
+
+	public ArrierePlanCombat arrierePlan(int type, int equipiers, int typeTerrain, String nomPanorama) {
+		switch (type) {
+		case 0:
+			return new ArrierePlanCombat.Aucun();
+		case 1:
+			return new ArrierePlanCombat.Specifique(nomPanorama, equipiers == 1);
+		case 2:
+			return new ArrierePlanCombat.AssocieAuTerrain(typeTerrain);
+		default:
+			throw new ArgumentInconnuException("ArrierePlanCombat " + type);
+		}
+	}
 }
