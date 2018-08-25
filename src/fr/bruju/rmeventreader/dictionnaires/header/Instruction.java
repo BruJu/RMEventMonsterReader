@@ -42,10 +42,10 @@ public class Instruction {
 		for(int v : parameters) {
 			sb.append(v).append(" ");
 		}
+
+		String chaine = sb.toString();
 		
-		sb.append("; ").append(string).append("\n");
-		
-		return sb.toString();
+		return chaine.replace("\n", "").replaceAll("\r", "") + "\n";
 	}
 
 	public String toString(boolean b) {
@@ -65,6 +65,6 @@ public class Instruction {
 		
 		String chaine = sb.toString();
 		
-		return chaine.replace("\n", "") + "\n";
+		return chaine.replace("\n", "").replaceAll("\r", "") + "\n";
 	}
 }
