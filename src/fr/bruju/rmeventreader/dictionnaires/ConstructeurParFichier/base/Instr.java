@@ -35,7 +35,9 @@ public class Instr<K extends Monteur<?>> implements Traitement<K> {
 	public Avancement traiter(String ligne) {
 		String[] d = ligne.split(" ");
 		
-		int code = Integer.parseInt(d[0]);
+		int code;
+		code = Integer.parseInt(d[0]);
+		
 		String string = ligne.substring(ligne.indexOf(";") + 2 , ligne.length());
 		
 		List<Integer> params = new ArrayList<>();

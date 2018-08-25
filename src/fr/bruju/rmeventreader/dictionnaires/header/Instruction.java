@@ -47,4 +47,24 @@ public class Instruction {
 		
 		return sb.toString();
 	}
+
+	public String toString(boolean b) {
+		if (code == 10) {
+			return "";
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(code).append(" ");
+		
+		for (int i = 0 ; i != parameters.length ; i++) {
+			sb.append("[").append(i).append("]=").append(parameters[i]).append(" ");
+		}
+		
+		sb.append("; ").append(string);
+		
+		String chaine = sb.toString();
+		
+		return chaine.replace("\n", "") + "\n";
+	}
 }

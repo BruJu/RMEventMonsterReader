@@ -96,6 +96,10 @@ public class EvenementCommun implements ElementComposite<Instruction> {
 
 		@Override
 		public EvenementCommun build() {
+			if (evenement == null) {
+				evenement = new EvenementCommun(id, nom, trigger, variable);
+			}
+			
 			return evenement;
 		}
 	}

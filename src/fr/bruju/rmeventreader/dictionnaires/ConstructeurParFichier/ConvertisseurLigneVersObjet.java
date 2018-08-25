@@ -103,8 +103,9 @@ public class ConvertisseurLigneVersObjet<R, M extends Monteur<R>> implements Act
 			return null;
 		
 		while (this.numeroTraitement != traitements.length) {
-			if (!traitements[numeroTraitement].skippable())
+			if (!traitements[numeroTraitement].skippable()) {
 				return null;
+			}
 			
 			numeroTraitement++;
 		}
@@ -112,7 +113,7 @@ public class ConvertisseurLigneVersObjet<R, M extends Monteur<R>> implements Act
 		for (Traitement<M> traitement : traitements) {
 			traitement.appliquer(monteur);
 		}
-		
+
 		return monteur.build();
 	}
 	

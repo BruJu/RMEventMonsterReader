@@ -10,6 +10,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
 import fr.bruju.rmeventreader.implementation.printer.Printer;
+import fr.bruju.rmeventreader.implementation.random.EventChecker;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementationexec.ExecuteurMessageRunner;
 
@@ -20,14 +21,14 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 8;
+		int choix = 9;
 		int choixMap = -1;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
 		}
 		
-		if (args.length >= 1) {
+		if (args.length > 1) {
 			choixMap = Integer.parseInt(args[1]);
 		}
 		
@@ -40,7 +41,8 @@ public class Principal {
 				/* 5 */ new Cache(choixMap),
 				/* 6 */ new TestLectureCache(),
 				/* 7 */ new Verificateur(),
-				/* 8 */ new ExecuteurMessageRunner()
+				/* 8 */ new ExecuteurMessageRunner(),
+				/* 9 */ new EventChecker()
 		};
 		
 		options[choix].run();
@@ -80,7 +82,7 @@ public class Principal {
 		public void run() {
 			if (choixMap == -1) {
 				new MiseEnCache().construireCache("cache_xml\\", "ressources\\xml\\");
-			} else {
+			} else { 
 				new MiseEnCache(choixMap).construireCache("cache_xml\\", "ressources\\xml\\");
 			}
 		}

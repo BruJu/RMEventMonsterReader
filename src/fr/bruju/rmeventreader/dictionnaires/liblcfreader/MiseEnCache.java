@@ -38,7 +38,7 @@ public class MiseEnCache {
 	}
 
 	public void construireCache(String destination, String source) {
-		if (numeroMap != -1) {
+		if (numeroMap > 0) {
 			map(destination, new MapRM(numeroMap, "Test", Utilitaire.toArrayList("Test")),
 					source + "Map" + Utilitaire_XML.transformerId(numeroMap) + ".xml");
 			return;
@@ -46,6 +46,10 @@ public class MiseEnCache {
 		
 		
 		int nbDEventCommuns = eventCommuns(destination + "EC\\", source + "RPG_RT_DB.xml");
+		
+		if (numeroMap == -2) 
+			return;
+		
 		List<Integer> mapExistantes = arbo(destination, "ressources_gen\\bdd_maps.txt", source + "Map");
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());

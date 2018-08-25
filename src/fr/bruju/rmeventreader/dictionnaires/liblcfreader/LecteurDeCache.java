@@ -30,7 +30,8 @@ public class LecteurDeCache {
 
 	public static EvenementCommun getEvenementCommun(int idEvent) {
 		String fichier = "cache_xml\\EC\\EC" + Utilitaire_XML.transformerId(idEvent) + ".txt";
-		return ConvertisseurLigneVersObjet.construire(fichier, EvenementCommun.sousObjet());
+		EvenementCommun ec = ConvertisseurLigneVersObjet.construire(fichier, EvenementCommun.sousObjet());
+		return ec;
 	}
 
 	public static Evenement getEvenement(int idMap, int idEvent) {

@@ -102,6 +102,19 @@ public class FileReaderByLine {
 			split = nouveauSplit;
 		}
 		
+		if (split.length < nbArguments) {
+			String[] nouveauSplit = new String[nbArguments];
+			
+			for (int i = 0 ; i != split.length ; i++) {
+				nouveauSplit[i] = split[i];
+			}
+			for (int i = split.length ; i != nouveauSplit.length ; i++) {
+				nouveauSplit[i] = "";
+			}
+			
+			split = nouveauSplit;
+		}
+		
 		if (split.length != nbArguments) {
 			throw new LigneNonReconnueException("Fichier non valide " + donnee);
 		}
