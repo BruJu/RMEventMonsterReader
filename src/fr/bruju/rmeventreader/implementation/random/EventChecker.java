@@ -10,6 +10,12 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
 import fr.bruju.rmeventreader.actionmakers.xml.InterpreterMapXMLCache;
 import fr.bruju.rmeventreader.utilitaire.PileDeBooleens;
 
+/**
+ * Liste les appels à des évènements communs dans les évènements communs
+ * 
+ * @author Bruju
+ *
+ */
 public class EventChecker implements Runnable {
 
 	@Override
@@ -19,6 +25,10 @@ public class EventChecker implements Runnable {
 		}
 	}
 
+	/**
+	 * Affiche la liste des évènements appelés par l'évènement commun i
+	 * @param i Le numéro de l'évènement commun
+	 */
 	private void afficherEvenement(int i) {
 		ECChecker ecChecker = new ECChecker();
 		InterpreterMapXMLCache interpreter = new InterpreterMapXMLCache(ecChecker);
@@ -28,13 +38,18 @@ public class EventChecker implements Runnable {
 	}
 	
 	public static class ECChecker implements ActionMakerDefalse {
+		/** Decompte du nombre d'appel de chaque évènement commun */
 		Map<Integer, Integer> map = new HashMap<>();
-		PileDeBooleens pile = new PileDeBooleens();
+		/** Une pile de booléens */
+		private PileDeBooleens pile = new PileDeBooleens();
 
+		/**
+		 * Affiche i suivi du nombre d'utilisations des évènements 277 et 232
+		 * @param i Le numéro à afficher au début de la ligne
+		 */
 		public void afficherResultat(int i) {
 			System.out.println(i + ";" + map.getOrDefault(277, 0) + ";" + map.getOrDefault(232, 0));
 		}
-		
 		
 		@Override
 		public boolean condOnSwitch(int number, boolean value) {
@@ -42,11 +57,10 @@ public class EventChecker implements Runnable {
 			return true;
 		}
 
-
 		@Override
 		public void callCommonEvent(int eventNumber) {
-			map.compute(eventNumber, (k, v) -> v == null ? 1 : v + 1);
-			
+			if (pile.toutAVrai())
+				map.compute(eventNumber, (k, v) -> v == null ? 1 : v + 1);
 		}
 
 		@Override
@@ -97,8 +111,5 @@ public class EventChecker implements Runnable {
 		public void condEnd() {
 			pile.depiler();
 		}
-		
-		
 	}
-
 }

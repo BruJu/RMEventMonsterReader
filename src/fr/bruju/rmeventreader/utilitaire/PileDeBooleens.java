@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.utilitaire;
 
 /**
- * Une pile de bool�ens o� il est rapide de savoir si tous les �l�ments de la
+ * Une pile de booléens où il est rapide de savoir si tous les éléments de la
  * pile sont vrais.
  * 
  * @author Bruju
@@ -11,8 +11,8 @@ public class PileDeBooleens {
 	private int sommet = 1;
 
 	/**
-	 * Empile le bool�en donn�
-	 * @param booleen Le bool�en � empiler
+	 * Empile le booléen donné
+	 * @param booleen Le booléen à empiler
 	 */
 	public void empiler(boolean booleen) {
 		if (!booleen) {
@@ -31,8 +31,8 @@ public class PileDeBooleens {
 	}
 
 	/**
-	 * D�pile et renvoie l'�l�ment au sommet
-	 * @return Le bool�en en sommet de pile
+	 * Dépile et renvoie l'élément au sommet
+	 * @return Le booléen en sommet de pile
 	 */
 	public boolean depiler() {
 		sommet = sommet / 2;
