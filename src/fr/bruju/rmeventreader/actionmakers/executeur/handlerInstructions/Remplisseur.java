@@ -16,6 +16,7 @@ public interface Remplisseur {
 				new GestionSysteme(),
 				new GestionMagasin(),
 				new GestionJeu(),
+				new GestionImages(),
 		};
 	}
 	

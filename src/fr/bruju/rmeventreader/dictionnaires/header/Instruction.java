@@ -42,6 +42,7 @@ public class Instruction {
 		for(int v : parameters) {
 			sb.append(v).append(" ");
 		}
+		sb.append("; ").append(string);
 
 		String chaine = sb.toString();
 		

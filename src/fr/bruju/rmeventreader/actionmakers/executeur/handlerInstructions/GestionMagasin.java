@@ -4,15 +4,9 @@ import java.util.Arrays;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 
-@SuppressWarnings("unused")
+
 class GestionMagasin implements Remplisseur {
-	private Dechiffreur d = Dechiffreur.getInstance();
-	
 	@Override
 	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
 		handlers.put(10690, this::magasin);
@@ -23,8 +17,6 @@ class GestionMagasin implements Remplisseur {
 		handlers.put(20730, (e, p, s) -> e.Magasin_aubergeRepos());
 		handlers.put(20731, (e, p, s) -> e.Magasin_aubergeNonRepos());
 		handlers.put(20732, (e, p, s) -> e.Magasin_aubergeFinBranche());
-		
-		
 	}
 
 	private void auberge(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -47,6 +39,4 @@ class GestionMagasin implements Remplisseur {
 		
 		executeur.Magasin_magasin(dialogue, objetsAchetables, ventePossible);
 	}
-
-
 }

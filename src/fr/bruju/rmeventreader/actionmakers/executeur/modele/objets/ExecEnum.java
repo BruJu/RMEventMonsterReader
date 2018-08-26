@@ -1,6 +1,26 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
 public class ExecEnum {
+	public enum TypeEffet {
+		AUCUN,
+		ROTATION,
+		VAGUE
+	}
+
+	public enum Meteo {
+		AUCUNE,
+		PLUIE,
+		NEIGE,
+		BROUILLARD,
+		TEMPETE
+	}
+	
+	public enum Intensite {
+		FAIBLE,
+		MOYENNE,
+		FORTE
+	}
+	
 	public enum CombatComportementFuite {
 		IMPOSSIBLE,
 		ARRET,

@@ -33,7 +33,77 @@ class GestionJeu implements Remplisseur {
 		handlers.put(11020, this::afficherEcran);
 		
 		handlers.put(11030, this::modifierTonEcran);
+		handlers.put(11040, this::flashEcran);
+		handlers.put(11050, this::tremblementEcran);
+		
+		handlers.put(11060, this::defilement);
+		handlers.put(11070, (e, p, s) -> e.Jeu_modifierMeteo(ExecEnum.Meteo.values()[p[0]],
+															ExecEnum.Intensite.values()[p[1]]));
 	}
+	
+
+	private void defilement(ExecuteurInstructions executeur, int[] parametres, String s) {
+		if (parametres[0] == 0) {
+			executeur.Jeu_defilementBloquer();
+			return;
+		} else if (parametres[0] == 1) {
+			executeur.Jeu_defilementReprendre();
+			return;
+		}
+		
+		int vitesse = parametres[3];
+		boolean pause = parametres[4] == 1;
+		
+		if (parametres[0] == 3) {
+			executeur.Jeu_defilementRetour(vitesse, pause);
+		}
+		
+		ExecEnum.Direction direction = ExecEnum.Direction.values()[parametres[1]];
+		int nombreDeCases = parametres[2];
+		
+		executeur.Jeu_defilementPonctuel(vitesse, pause, direction, nombreDeCases);
+	}
+	
+
+	private void tremblementEcran(ExecuteurInstructions executeur, int[] parametres, String s) {
+		int force = parametres[0];
+		int intensite = parametres[1];
+		int temps = parametres[2];
+		boolean bloquant = parametres[3] == 1;
+		
+		if (parametres[4] == 0) {
+			executeur.Jeu_tremblementPonctuel(force, intensite, temps, bloquant);
+			return;
+		}
+		
+		if (parametres[4] == 1) {
+			executeur.Jeu_tremblementCommencer(force, intensite);
+			return;
+		}
+		
+		if (parametres[4] == 2) {
+			executeur.Jeu_tremblementStop();
+			return;
+		}
+		
+	}
+	
+	private void flashEcran(ExecuteurInstructions executeur, int[] parametres, String s) {
+		if (parametres[6] == 2) {
+			executeur.Jeu_flashStop();
+			return;
+		}
+		
+		Couleur couleur = new Couleur(parametres[0], parametres[1], parametres[2]);
+		int intensite = parametres[3];
+		int tempsMs = parametres[4];
+		boolean pause = parametres[5] == 1;
+		boolean flashUnique = parametres[6] == 1;
+		
+		executeur.Jeu_flashLancer(couleur, intensite, tempsMs, pause, flashUnique);
+	}
+
+	
 
 	private void modifierTonEcran(ExecuteurInstructions executeur, int[] parametres, String s) {
 		Couleur couleur = new Couleur(parametres[0], parametres[1], parametres[2]);

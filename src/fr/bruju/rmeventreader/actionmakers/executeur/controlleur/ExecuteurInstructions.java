@@ -15,9 +15,13 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.CombatComportementFuite;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ConditionsDeCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Intensite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Meteo;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Position;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.SujetTransition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Transition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.TypeEffet;
 
 
 /**
@@ -271,5 +275,49 @@ public interface ExecuteurInstructions {
 
 	public default void Jeu_tonEcran(Couleur couleur, int saturation, int tempsMs, boolean pause) {
 	}
+
+	public default void Jeu_flashStop() {
+		
+	}
+
+	public default void Jeu_flashLancer(Couleur couleur, int intensite, int tempsMs, boolean pause, boolean flashUnique) {
+		
+	}
+
+	public default void Jeu_tremblementStop() {
+	}
+
+	public default void Jeu_tremblementCommencer(int force, int intensite) {
+		
+	}
+
+	public default void Jeu_tremblementPonctuel(int force, int intensite, int temps, boolean bloquant) {
+	}
+
+	public default void Jeu_defilementReprendre() {}
+
+	public default void Jeu_defilementBloquer() {}
+
+	public default void Jeu_defilementRetour(int vitesse, boolean pause) {}
+
+	public default void Jeu_defilementPonctuel(int vitesse, boolean pause, Direction direction, int nombreDeCases) {}
+
+	public default void Jeu_modifierMeteo(Meteo meteo, Intensite intensite) {}
+
+	public default void afficherImage(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
+			int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
+			int intensiteEffet, boolean transparence, boolean defilementAvecCarte) {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
