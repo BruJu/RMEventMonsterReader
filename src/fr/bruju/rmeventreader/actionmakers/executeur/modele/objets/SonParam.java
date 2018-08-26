@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
 public class SonParam {
 	/** Entre 0 et 100 */

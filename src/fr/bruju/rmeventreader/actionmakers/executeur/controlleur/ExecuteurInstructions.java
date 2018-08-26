@@ -8,8 +8,10 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMem
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.CombatComportementFuite;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ConditionsDeCombat;
@@ -254,7 +256,20 @@ public interface ExecuteurInstructions {
 	
 	public default void Jeu_inverserEvenements(EvenementDeplacable deplacable, EvenementDeplacable deplacable2) {
 	}
-	
-	
+
+	public default void Jeu_stockerIdTerrain(FixeVariable x, FixeVariable y, int variable) {
+	}
+
+	public default void Jeu_stockerIdEvenement(FixeVariable x, FixeVariable y, int variable) {
+	}
+
+	public default void Jeu_afficherEcran(Transition transition) {
+	}
+
+	public default void Jeu_cacherEcran(Transition transition) {
+	}
+
+	public default void Jeu_tonEcran(Couleur couleur, int saturation, int tempsMs, boolean pause) {
+	}
 	
 }

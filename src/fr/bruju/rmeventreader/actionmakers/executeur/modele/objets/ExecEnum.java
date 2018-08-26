@@ -44,7 +44,8 @@ public class ExecEnum {
 		MOSAIQUES,
 		ONDULATIONS,
 		INSTANTANE,
-		AUCUN
+		AUCUN,
+		DEFAUT
 	}
 
 	public enum SujetTransition {

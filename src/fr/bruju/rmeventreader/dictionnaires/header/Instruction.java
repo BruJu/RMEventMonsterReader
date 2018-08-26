@@ -65,6 +65,6 @@ public class Instruction {
 		
 		String chaine = sb.toString();
 		
-		return chaine.replace("\n", "").replaceAll("\r", "") + "\n";
+		return chaine.replace("\n", "").replaceAll("\r", "").replaceAll("\r", "");
 	}
 }
