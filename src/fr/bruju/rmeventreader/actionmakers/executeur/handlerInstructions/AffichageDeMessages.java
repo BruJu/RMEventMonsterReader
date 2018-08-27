@@ -6,6 +6,9 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 
 class AffichageDeMessages implements Remplisseur {
+	private Dechiffreur d = Dechiffreur.getInstance();
+	
+	
 	@Override
 	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
 		// ShowMessage
@@ -22,8 +25,31 @@ class AffichageDeMessages implements Remplisseur {
 		handlers.put(10150, (e, t, c) -> e.SaisieMessages_saisieNombre(t[1], t[0]));
 		
 		handlers.put(10740, this::saisieDeNom);
+		
+		handlers.put(11610, this::appuiTouche);
 	}
 
+	
+
+	private void appuiTouche(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+		int numeroVariable = parametres[0];
+		boolean bloquant = parametres[1] == 1;
+		int enregistrementTempsMis = parametres[8] == 1 && bloquant ? -1 : parametres[7];
+		
+		boolean entree = parametres[3] == 1;
+		boolean annuler = parametres[4] == 1;
+		boolean maj = parametres[5] == 1;
+		boolean chiffres = parametres[6] == 1;
+		boolean symboles = parametres[9] == 1;
+		boolean bas = parametres[10] == 1;
+		boolean gauche = parametres[11] == 1;
+		boolean droite = parametres[12] == 1;
+		boolean haut = parametres[13] == 1;
+		
+		executeur.Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
+				haut, droite, bas, gauche, entree, annuler, maj, chiffres, symboles);
+	}
+	
 	private void saisieDeNom(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 		int idHeros = parametres[0];
 		boolean lettres = parametres[1] == 0;

@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVaria
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Deplacement;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 
@@ -39,6 +40,111 @@ class GestionJeu implements Remplisseur {
 		handlers.put(11060, this::defilement);
 		handlers.put(11070, (e, p, s) -> e.Jeu_modifierMeteo(ExecEnum.Meteo.values()[p[0]],
 															ExecEnum.Intensite.values()[p[1]]));
+		
+		handlers.put(11210, this::afficherAnimation);
+		handlers.put(11310, (e, p, s) -> e.Jeu_transparenceHeros(p[0] == 0));
+		handlers.put(11320, this::flasherEvenement);
+		handlers.put(11330, this::deplacement);
+		
+		handlers.put(11340, (e,p,s) -> e.Jeu_toutDeplacer());
+		handlers.put(11350, (e,p,s) -> e.Jeu_toutStopper());
+		
+		handlers.put(11410, (e,p,s) -> {if (p[1] == 0) e.Jeu_attendre(p[0]); else e.Jeu_attendreAppuiTouche();});
+	
+		handlers.put(11710, (e,p,s) -> e.Jeu_modifierChipset(p[0]));
+		handlers.put(11720, this::panorama);
+		
+		handlers.put(11740, (e,p,s) -> e.Jeu_modifierFrequenceRencontres(p[0]));
+		
+		handlers.put(11750, this::modifierCarreau);
+		handlers.put(11810, this::modifierTeleporteur);
+		handlers.put(11830, this::pointDeFuite);
+		handlers.put(11910, (e,p,s) -> e.Jeu_ouvrirMenuSauvegarde());
+		handlers.put(11950, (e,p,s) -> e.Jeu_ouvrirMenu());
+		
+	}
+	
+	private void pointDeFuite(ExecuteurInstructions executeur, int[] parametres, String s) {
+		int map = parametres[0];
+		int x = parametres[1];
+		int y = parametres[2];
+		
+		int switchActive = parametres[3] == 0 ? 0 : parametres[4];
+		
+		executeur.Jeu_definirPointDeFuite(map, x, y, switchActive);
+	}
+	
+	
+	private void modifierTeleporteur(ExecuteurInstructions executeur, int[] parametres, String s) {
+		boolean ajouter = parametres[0] == 0;
+		
+		int map = parametres[1];
+		int x = parametres[2];
+		int y = parametres[3];
+		
+		if (ajouter) {
+			int switchActive = parametres[4] == 0 ? 0 : parametres[5];
+			executeur.Jeu_ajouterTeleporteur(map, x, y, switchActive);
+		} else {
+			executeur.Jeu_retirerTeleporteur(map, x, y);
+		}
+	}
+	
+	private void modifierCarreau(ExecuteurInstructions executeur, int[] parametres, String s) {
+		boolean coucheHaute = parametres[0] == 1;
+		int remplace = parametres[1];
+		int remplacant = parametres[2];
+		
+		executeur.Jeu_modifierCarreau(coucheHaute, remplace, remplacant);
+	}
+
+	private void panorama(ExecuteurInstructions executeur, int[] parametres, String nomPanorama) {
+		int defilementHorizontal = defiler(parametres[0], parametres[1], parametres[2]);
+		int defilementVertical = defiler(parametres[3], parametres[4], parametres[5]);
+		
+		executeur.Jeu_changerPanorama(nomPanorama, defilementHorizontal, defilementVertical);
+	}
+	
+	
+	
+	
+	private int defiler(int i, int j, int k) {
+		if (i == 0)
+			return -1;
+		
+		if (j == 0)
+			return 0;
+		
+		return k;
+	}
+
+
+	private void deplacement(ExecuteurInstructions executeur, int[] parametres, String s) {
+		EvenementDeplacable deplacable = new EvenementDeplacable(parametres[0]);
+		int vitesse = parametres[1];
+		boolean repeter = parametres[2] == 1;
+		boolean ignorerBloquage = parametres[3] == 1;
+		
+		executeur.Jeu_deplacer(deplacable, vitesse, repeter, ignorerBloquage, new Deplacement());
+	}
+	
+	private void flasherEvenement(ExecuteurInstructions executeur, int[] parametres, String s) {
+		Couleur couleur = new Couleur(parametres[1], parametres[2], parametres[3]);
+		int tempsDixiemeDeSec = parametres[5];
+		int intensite = parametres[4];
+		EvenementDeplacable deplacable = new EvenementDeplacable(parametres[0]);
+		boolean pause = parametres[6] == 0;
+		
+		executeur.Jeu_flasherEvenement(deplacable, couleur, intensite, pause, tempsDixiemeDeSec);
+	}
+	
+	private void afficherAnimation(ExecuteurInstructions executeur, int[] parametres, String s) {
+		EvenementDeplacable deplacable = new EvenementDeplacable(parametres[1]);
+		int numeroAnimation = parametres[0];
+		boolean pause = parametres[2] == 1;
+		boolean pleinEcran = parametres[3] == 1;
+		
+		executeur.Jeu_afficherAnimation(deplacable, numeroAnimation, pause, pleinEcran);
 	}
 	
 

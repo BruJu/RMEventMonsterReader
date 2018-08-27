@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Deplacement;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
@@ -304,11 +305,160 @@ public interface ExecuteurInstructions {
 
 	public default void Jeu_modifierMeteo(Meteo meteo, Intensite intensite) {}
 
-	public default void afficherImage(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
+	public default void Image_afficher(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
 			int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
 			int intensiteEffet, boolean transparence, boolean defilementAvecCarte) {
 		
 	}
+
+	public default void Image_deplacer(int numeroImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
+			int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
+			int intensiteEffet, int temps, boolean pause) {
+		
+	}
+
+	public default void Image_effacer(int id) {
+	}
+
+	public default void Jeu_afficherAnimation(EvenementDeplacable deplacable, int numeroAnimation, boolean pause,
+			boolean pleinEcran) {
+		
+	}
+
+	public default void Jeu_transparenceHeros(boolean estTransparent) {
+		
+	}
+
+	public default void Jeu_flasherEvenement(EvenementDeplacable deplacable, Couleur couleur, int intensite, boolean pause,
+			int tempsDixiemeDeSec) {
+		
+	}
+
+	public default void Jeu_toutDeplacer() {}
+
+	public default void Jeu_toutStopper() {}
+
+	public default void Jeu_attendre(int TempsDixiemeDeSec) {
+	}
+
+	public default void Jeu_attendreAppuiTouche() {}
+
+	/**
+	 * 
+	 * @param deplacable
+	 * @param vitesse
+	 * @param repeter
+	 * @param ignorerBloquage
+	 * @param deplacement Non implémenté
+	 */
+	public default void Jeu_deplacer(EvenementDeplacable deplacable, int vitesse, boolean repeter, boolean ignorerBloquage,
+			Deplacement deplacement) {
+		
+	}
+
+	
+	public default void Media_jouerMusique(String nomMusique, int tempsFondu, SonParam parametresMusicaux) {
+		
+	}
+
+	public default void Media_arreterMusique(int tempsFondu) {
+		
+	}
+
+	public default void Media_memoriserMusique() {
+		
+	}
+
+	public default void Media_jouerMusiqueMemorisee() {
+		
+	}
+
+	public default void Media_jouerSon(String nomSon, SonParam parametresSonore) {
+		
+	}
+
+	public default void Media_jouerFilm(String nomFilm, FixeVariable x, FixeVariable y, int longueur, int largeur) {
+		
+	}
+
+	public default void Messages_appuiTouche(int numeroVariable, boolean bloquant, int enregistrementTempsMis, boolean haut,
+			boolean droite, boolean bas, boolean gauche, boolean entree, boolean annuler, boolean maj, boolean chiffres,
+			boolean symboles) {
+		
+	}
+
+	public default void Jeu_modifierChipset(int numero) {}
+
+	/**
+	 * 
+	 * @param nomPanorama
+	 * @param defilementHorizontal -1 si pas de défilement, sinon la vitesse de l'auto défilement
+	 * @param defilementVertical
+	 */
+	public default void Jeu_changerPanorama(String nomPanorama, int defilementHorizontal, int defilementVertical) {
+		
+	}
+
+	public default void Jeu_modifierFrequenceRencontres(int taux) {
+		
+	}
+
+	public default void Jeu_modifierCarreau(boolean coucheHaute, int remplace, int remplacant) {
+		
+	}
+
+	public default void Jeu_retirerTeleporteur(int map, int x, int y) {
+		
+	}
+
+	public default void Jeu_ajouterTeleporteur(int map, int x, int y, int switchActive) {
+		
+	}
+
+	public default void Systeme_peutSeTeleporter(boolean etat) {
+		
+	}
+
+	public default void Systeme_peutFuir(boolean etat) {
+		
+	}
+	public default void Systeme_peutSauvegarder(boolean etat) {
+		
+	}
+	public default void Systeme_peutOuvrirLeMenu(boolean etat) {
+		
+	}
+
+	public default void Jeu_definirPointDeFuite(int map, int x, int y, int switchActive) {
+		
+	}
+
+	public default void Jeu_ouvrirMenuSauvegarde() {
+		
+	}
+
+	public default void Jeu_ouvrirMenu() {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

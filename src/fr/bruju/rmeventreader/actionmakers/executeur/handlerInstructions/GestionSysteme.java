@@ -20,6 +20,10 @@ class GestionSysteme implements Remplisseur {
 		handlers.put(10670, this::modifierEffetSonore);
 		handlers.put(10680, this::modifierApparence);
 		handlers.put(10690, this::modifierTransition);
+		handlers.put(11820, (e,p,s) -> e.Systeme_peutSeTeleporter(p[0] == 0));
+		handlers.put(11840, (e,p,s) -> e.Systeme_peutFuir(p[0] == 0));
+		handlers.put(11930, (e,p,s) -> e.Systeme_peutSauvegarder(p[0] == 0));
+		handlers.put(11960, (e,p,s) -> e.Systeme_peutOuvrirLeMenu(p[0] == 0));
 	}
 	
 
