@@ -1,6 +1,19 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
 public class ExecEnum {
+	public enum ClasseCarac {
+		PAS_DE_CHANGEMENT,
+		CARAC_DIV_DEUX,
+		REMPLACER_CARAC_PAR_NIVEAU_1,
+		REMPLACER_CARAC_PAR_NIVEAU_ACTUEL
+	}
+
+	public enum ClasseComp {
+		PAS_DE_CHANGEMENT,
+		REMPLACER,
+		AJOUTER
+	}
+
 	public enum TypeEffet {
 		AUCUN,
 		ROTATION,

@@ -1,12 +1,15 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions;
 
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul.OpMathematique;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.SujetTransition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Vehicule;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.NombreObjet;
@@ -191,6 +194,74 @@ class Dechiffreur {
 			return new ArrierePlanCombat.AssocieAuTerrain(typeTerrain);
 		default:
 			throw new ArgumentInconnuException("ArrierePlanCombat " + type);
+		}
+	}
+
+	public Condition dechiffrerCondition(int[] parametres, String s) {
+		switch (parametres[0]) {
+		case 0:
+			return new Condition.CondObjet(parametres[1], parametres[2] == 1);
+		case 1:
+		{
+			int idVariable = parametres[1];
+			FixeVariable valeurDroite = dechiffrerFixeVariable(parametres[2], parametres[3]);
+			Comparateur comp;
+			switch (parametres[4]) {
+			case 0:
+				comp = Comparateur.IDENTIQUE;
+			case 1:
+				comp = Comparateur.SUPEGAL;
+			case 2:
+				comp = Comparateur.INFEGAL;
+			case 3:
+				comp = Comparateur.SUP;
+			case 4:
+				comp = Comparateur.INF;
+			case 5:
+				comp = Comparateur.DIFFERENT;
+			default :
+				comp = null;
+			}
+			return new Condition.CondVariable(idVariable, comp, valeurDroite);
+		}
+		case 2:
+		case 10:
+			return new Condition.CondChrono(parametres[0] == 2,
+					parametres[2] == 0 ? Comparateur.SUPEGAL : Comparateur.INFEGAL , parametres[1]);
+		case 3:
+			return new Condition.CondArgent(parametres[2] == 0 ? Comparateur.SUPEGAL : Comparateur.INFEGAL , parametres[1]);
+		case 9:
+			return new Condition.CondMusiqueJoueePlusDUneFois();
+		case 8:
+			return new Condition.CondEventDemarreParAppui();
+		case 7:
+			return new Condition.CondVehiculeUtilise(ExecEnum.Vehicule.values()[parametres[1]]);
+		case 6:
+			return new Condition.CondDirection(new EvenementDeplacable(parametres[1]), ExecEnum.Direction.values()[parametres[1]]);
+		case 4:
+			return new Condition.CondObjet(parametres[1], parametres[2] == 0);
+		case 5:
+			int idHeros = parametres[1];
+			switch (parametres[2]) {
+			case 0:
+				return new Condition.CondHerosDansLEquipe(idHeros);
+			case 1:
+				return new Condition.CondHerosAPourNom(idHeros, s);
+			case 2:
+				return new Condition.CondHerosNiveauMin(idHeros, parametres[3]);
+			case 3:
+				return new Condition.CondHerosAAuMoinsHp(idHeros, parametres[3]);
+			case 4:
+				return new Condition.CondHerosAStatut(idHeros, parametres[3]);
+			case 5:
+				return new Condition.CondHerosPossedeObjet(idHeros, parametres[3]);
+			case 6:
+				return new Condition.CondHerosPossedeSort(idHeros, parametres[3]);
+			default:
+				return null;
+			}
+		default:
+			return null;
 		}
 	}
 }

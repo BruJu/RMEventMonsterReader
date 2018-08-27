@@ -24,9 +24,34 @@ class GestionSysteme implements Remplisseur {
 		handlers.put(11840, (e,p,s) -> e.Systeme_peutFuir(p[0] == 0));
 		handlers.put(11930, (e,p,s) -> e.Systeme_peutSauvegarder(p[0] == 0));
 		handlers.put(11960, (e,p,s) -> e.Systeme_peutOuvrirLeMenu(p[0] == 0));
+		
+		handlers.put(1009, this::modifierCommandes);
+		handlers.put(1008, this::modifierClasse);
 	}
 	
 
+	private void modifierClasse(ExecuteurInstructions executeur, int[] p, String s) {
+		int idHeros = p[1];
+		int idClasse = p[2];
+		boolean revenirAuNiveau1 = p[3] == 1;
+		ExecEnum.ClasseComp competences = ExecEnum.ClasseComp.values()[p[4]];
+		ExecEnum.ClasseCarac caracBase = ExecEnum.ClasseCarac.values()[p[5]];
+		boolean montrerCompetencesApprises = p[6] == 1;
+		
+		executeur.Systeme_changerClasse(idHeros, idClasse, revenirAuNiveau1, competences, caracBase,
+				montrerCompetencesApprises);
+	}
+	
+	
+	private void modifierCommandes(ExecuteurInstructions executeur, int[] parametres, String s) {
+		int idHeros = parametres[1];
+		boolean ajout = parametres[3] == 0;
+		int numeroCommande = parametres[2];
+		executeur.Systeme_modifierCommandes(idHeros, ajout, numeroCommande);
+	}
+	
+	
+	
 	private void modifierTransition(ExecuteurInstructions executeur, int[] parametres, String s) {
 		ExecEnum.SujetTransition sujetTransition = d.sujetTransition(parametres[0]);
 		boolean entrant = parametres[0] % 2 == 0;

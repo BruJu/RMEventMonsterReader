@@ -6,9 +6,6 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 
 class AffichageDeMessages implements Remplisseur {
-	private Dechiffreur d = Dechiffreur.getInstance();
-	
-	
 	@Override
 	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
 		// ShowMessage

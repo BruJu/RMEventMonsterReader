@@ -13,7 +13,10 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Deplacement;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseCarac;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseComp;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.CombatComportementFuite;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ConditionsDeCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
@@ -440,6 +443,73 @@ public interface ExecuteurInstructions {
 	public default void Jeu_ouvrirMenu() {
 		
 	}
+
+	public default void Flot_etiquette(int numero) {
+		
+	}
+
+	public default void Flot_sautEtiquette(int numero) {
+		
+	}
+
+	public default void Flot_boucleDebut() {
+		
+	}
+
+	public default void Flot_boucleFin() {
+		
+	}
+
+	public default void Flot_boucleSortir() {
+		
+	}
+
+	public default void Flot_stopperCetEvenement() {
+		
+	}
+
+	public default void Flot_effacerCetEvenement() {
+		
+	}
+
+	public default void Jeu_finDuJeu() {
+		
+	}
+	public default void Jeu_ecranTitre() {
+		
+	}
+	
+	public default void Flot_appelEvenementCommun(int numero) {
+		
+	}
+
+	public default void Flot_appelEvenementCarte(FixeVariable evenement, FixeVariable page) {
+		
+	}
+
+	public default void Systeme_modifierCommandes(int idHeros, boolean ajout, int numeroCommande) {
+		
+	}
+
+	public default void Systeme_changerClasse(int idHeros, int idClasse, boolean revenirAuNiveau1, ClasseComp competences,
+			ClasseCarac caracBase, boolean montrerCompetencesApprises) {
+		
+	}
+
+	public default void Flot_siNon() {
+		
+	}
+	public default void Flot_siFin() {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

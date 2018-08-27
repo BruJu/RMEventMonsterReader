@@ -62,6 +62,10 @@ class GestionJeu implements Remplisseur {
 		handlers.put(11910, (e,p,s) -> e.Jeu_ouvrirMenuSauvegarde());
 		handlers.put(11950, (e,p,s) -> e.Jeu_ouvrirMenu());
 		
+
+		handlers.put(12420, (e,p,s) -> e.Jeu_finDuJeu());
+		handlers.put(12510, (e,p,s) -> e.Jeu_ecranTitre());
+		
 	}
 	
 	private void pointDeFuite(ExecuteurInstructions executeur, int[] parametres, String s) {
