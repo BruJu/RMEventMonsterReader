@@ -24,6 +24,8 @@ class ControleDeFlot implements Remplisseur {
 		handlers.put(12330, this::evenement);
 
 		handlers.put(12010, this::condition);
+		
+		handlers.put(12410, (e,p,s) -> e.Flot_commentaire(s));
 		handlers.put(22010, (e,p,s) -> e.Flot_siNon());
 		handlers.put(22011, (e,p,s) -> e.Flot_siFin());
 		
@@ -32,9 +34,7 @@ class ControleDeFlot implements Remplisseur {
 
 	private void condition(ExecuteurInstructions executeur, int[] parametres, String s) {
 		Condition condition = d.dechiffrerCondition(parametres, s);
-		
-		if (condition == null)
-		d.afficher(parametres, new int[] {5}, s);
+		executeur.Flot_si(condition);
 	}
 	
 	

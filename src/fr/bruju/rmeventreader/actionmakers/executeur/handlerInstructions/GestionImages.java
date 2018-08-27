@@ -55,7 +55,7 @@ public class GestionImages implements Remplisseur {
 		FixeVariable xImage = d.dechiffrerFixeVariable(parametres[1], parametres[2]);
 		FixeVariable yImage = d.dechiffrerFixeVariable(parametres[1], parametres[3]);
 		int transparenceHaute = parametres[6];
-		int transparenceBasse = parametres[16];
+		int transparenceBasse = parametres.length > 16 ? parametres[16] : parametres[6];
 		int agrandissement = parametres[5];
 		
 		Couleur couleur = new Couleur(parametres[8], parametres[9], parametres[10]);
@@ -76,7 +76,7 @@ public class GestionImages implements Remplisseur {
 		FixeVariable xImage = d.dechiffrerFixeVariable(parametres[1], parametres[2]);
 		FixeVariable yImage = d.dechiffrerFixeVariable(parametres[1], parametres[3]);
 		int transparenceHaute = parametres[6];
-		int transparenceBasse = parametres[14];
+		int transparenceBasse = parametres.length > 14 ? parametres[14] : parametres[6];
 		int agrandissement = parametres[5];
 		
 		Couleur couleur = new Couleur(parametres[8], parametres[9], parametres[10]);

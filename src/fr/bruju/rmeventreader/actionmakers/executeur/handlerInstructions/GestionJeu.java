@@ -49,7 +49,7 @@ class GestionJeu implements Remplisseur {
 		handlers.put(11340, (e,p,s) -> e.Jeu_toutDeplacer());
 		handlers.put(11350, (e,p,s) -> e.Jeu_toutStopper());
 		
-		handlers.put(11410, (e,p,s) -> {if (p[1] == 0) e.Jeu_attendre(p[0]); else e.Jeu_attendreAppuiTouche();});
+		handlers.put(11410, (e,p,s) -> {if (p.length == 1 || p[1] == 0) e.Jeu_attendre(p[0]); else e.Jeu_attendreAppuiTouche();});
 	
 		handlers.put(11710, (e,p,s) -> e.Jeu_modifierChipset(p[0]));
 		handlers.put(11720, this::panorama);
@@ -276,7 +276,7 @@ class GestionJeu implements Remplisseur {
 	
 	private void teleporter(ExecuteurInstructions executeur, int[] parametres, String s) {
 		executeur.Jeu_teleporter(parametres[0], parametres[1], parametres[2],
-				ExecEnum.Direction.values()[parametres[3]]);
+				parametres.length <= 3 ? ExecEnum.Direction.INCHANGEE : ExecEnum.Direction.values()[parametres[3]]);
 	}
 
 	private void memoriserPosition(ExecuteurInstructions executeur, int[] p, String s) {

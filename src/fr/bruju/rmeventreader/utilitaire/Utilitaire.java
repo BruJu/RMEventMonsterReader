@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -107,6 +109,16 @@ public class Utilitaire {
 			List<V> liste = map.get(cle);
 			if (liste == null) {
 				liste = new ArrayList<V>();
+				map.put(cle, liste);
+			}
+			
+			liste.add(element);
+		}
+
+		public static <K, V> void ajouterElementDansSet(Map<K, Set<V>> map, K cle, V element) {
+			Set<V> liste = map.get(cle);
+			if (liste == null) {
+				liste = new TreeSet<V>();
 				map.put(cle, liste);
 			}
 			

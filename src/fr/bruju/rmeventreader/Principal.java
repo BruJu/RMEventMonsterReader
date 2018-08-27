@@ -13,6 +13,7 @@ import fr.bruju.rmeventreader.implementation.printer.Printer;
 import fr.bruju.rmeventreader.implementation.random.EventChecker;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementationexec.ExecuteurMessageRunner;
+import fr.bruju.rmeventreader.implementationexec.random.ChercheurDImages;
 
 public class Principal {
 	/**
@@ -21,7 +22,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 8;
+		int choix = 10;
 		int choixMap = -1;
 		
 		if (args.length != 0) {
@@ -42,7 +43,8 @@ public class Principal {
 				/* 6 */ new TestLectureCache(),
 				/* 7 */ new Verificateur(),
 				/* 8 */ new ExecuteurMessageRunner(),
-				/* 9 */ new EventChecker()
+				/* 9 */ new EventChecker(),
+				/* 10 */ new ChercheurDImages(51),
 		};
 		
 		options[choix].run();

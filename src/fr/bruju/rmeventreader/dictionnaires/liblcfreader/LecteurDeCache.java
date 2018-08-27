@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.liblcfreader;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
@@ -25,6 +26,14 @@ public class LecteurDeCache {
 	public static MapGeneral getMapGeneral(int idMap) {
 		String prefixe = "cache_xml\\Map" + Utilitaire_XML.transformerId(idMap) + "\\";
 		return ConvertisseurLigneVersObjet.construire(prefixe + "General.txt", MapGeneral.sousObjet());
+	}
+	
+	public static List<Evenement> getEvenementsDepuisMapGeneral(MapGeneral mapGeneral) {
+		return mapGeneral
+				.evenements
+				.stream()
+				.map(numero -> getEvenement(mapGeneral.map.id, numero))
+				.collect(Collectors.toList());
 	}
 
 

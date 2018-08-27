@@ -8,12 +8,12 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMem
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Deplacement;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseCarac;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseComp;
@@ -50,11 +50,11 @@ public interface ExecuteurInstructions {
 	}
 
 	public default boolean SaisieMessages_initierQCM(ChoixQCM choixLorsDeLAnnulation) {
-		return false;
+		return getBooleenParDefaut();
 	}
 
 	public default boolean SaisieMessages_choixQCM(String texte, ChoixQCM numero) {
-		return false;
+		return getBooleenParDefaut();
 	}
 
 	public default void SaisieMessages_finQCM() {
@@ -195,45 +195,45 @@ public interface ExecuteurInstructions {
 
 	public default boolean Combat_lancerCombat(FixeVariable idCombat, ConditionsDeCombat conditions, ArrierePlanCombat arrierePlan,
 			CombatComportementFuite fuite, boolean defaitePossible, boolean avantage) {
-		return false;
+		return getBooleenParDefaut();
 	}
 
 	public default boolean Combat_brancheVictoire() {
-		return false;
+		return getBooleenParDefaut();
 	}
 
 	public default boolean Combat_brancheFuite() {
-		return false;
+		return getBooleenParDefaut();
 	}
 	public default boolean Combat_brancheDefaite() {
-		return false;
+		return getBooleenParDefaut();
 	}
 	public default void Combat_finBranche() {
 	}
 
 	public default boolean Magasin_magasin(int dialogue, int[] objetsAchetables, boolean ventePossible) {
-		return false;
+		return getBooleenParDefaut();
 	}
 
 	public default boolean Magasin_magasinBrancheVente() {
-		return false;
+		return getBooleenParDefaut();
 	}
 
 	public default boolean Magasin_magasinBrancheNonVente() {
-		return false;
+		return getBooleenParDefaut();
 	}
 	public default void Magasin_magasinFinBranche() {
 	}
 
 	public default boolean Magasin_auberge(boolean type1, int prix) {
-		return false;
+		return getBooleenParDefaut();
 	}
 
 	public default boolean Magasin_aubergeRepos() {
-		return false;
+		return getBooleenParDefaut();
 	}
 	public default boolean Magasin_aubergeNonRepos() {
-		return false;
+		return getBooleenParDefaut();
 	}
 	
 	public default void Magasin_aubergeFinBranche() {
@@ -497,47 +497,20 @@ public interface ExecuteurInstructions {
 	}
 
 	public default void Flot_siNon() {
-		
 	}
 	public default void Flot_siFin() {
 		
 	}
+
+	public default boolean Flot_si(Condition condition) {
+		return getBooleenParDefaut();
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public default boolean getBooleenParDefaut() {
+		return false;
+	}
+
+	public default void Flot_commentaire(String message) {
+		
+	}
 }
