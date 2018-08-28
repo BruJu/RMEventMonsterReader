@@ -5,10 +5,12 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
+import fr.bruju.rmeventreader.dictionnaires.header.Contexte;
 import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class LecteurDeCache {
 
@@ -59,5 +61,11 @@ public class LecteurDeCache {
 		} else {
 			return Evenement.creerEvenementSimple(idEvent, "", -1, -1);
 		}
+	}
+
+	public static Pair<Integer, List<Integer>> getInformations() {
+		Contexte ec = ConvertisseurLigneVersObjet.construire("cache_xml\\Contexte.txt" , Contexte.sousObjet());
+		
+		return new Pair<>(ec.nombreEC, ec.maps);
 	}
 }

@@ -11,21 +11,21 @@ public interface Condition {
 			return condition.accept(this);
 		}
 
-		public T visit(CondArgent condition);
-		public T visit(CondChrono condition);
-		public T visit(CondDirection condition);
-		public T visit(CondEventDemarreParAppui condition);
-		public T visit(CondHerosAPourNom condition);
-		public T visit(CondHerosAStatut condition);
-		public T visit(CondHerosDansLEquipe  condition);
-		public T visit(CondHerosNiveauMin condition);
-		public T visit(CondHerosPossedeObjet condition);
-		public T visit(CondHerosPossedeSort condition);
-		public T visit(CondInterrupteur condition);
-		public T visit(CondMusiqueJoueePlusDUneFois condition);
-		public T visit(CondObjet condition);
-		public T visit(CondVariable condition);
-		public T visit(CondVehiculeUtilise condition);
+		public default T visit(CondArgent condition) {return null;}
+		public default T visit(CondChrono condition) {return null;}
+		public default T visit(CondDirection condition) {return null;}
+		public default T visit(CondEventDemarreParAppui condition) {return null;}
+		public default T visit(CondHerosAPourNom condition) {return null;}
+		public default T visit(CondHerosAStatut condition) {return null;}
+		public default T visit(CondHerosDansLEquipe  condition) {return null;}
+		public default T visit(CondHerosNiveauMin condition) {return null;}
+		public default T visit(CondHerosPossedeObjet condition) {return null;}
+		public default T visit(CondHerosPossedeSort condition) {return null;}
+		public default T visit(CondInterrupteur condition) {return null;}
+		public default T visit(CondMusiqueJoueePlusDUneFois condition) {return null;}
+		public default T visit(CondObjet condition) {return null;}
+		public default T visit(CondVariable condition) {return null;}
+		public default T visit(CondVehiculeUtilise condition) {return null;}
 	}
 
 	public <T> T accept(Visiteur<T> visiteur);

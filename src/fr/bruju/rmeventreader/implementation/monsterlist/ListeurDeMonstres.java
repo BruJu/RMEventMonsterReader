@@ -60,9 +60,10 @@ public class ListeurDeMonstres implements Runnable {
 			new AutoLibLcfXMLCache(new FinDeCombat(baseDeDonnees), -1, 44, -1),
 			
 			// Elements
+			/*
 			new ElementsInit(baseDeDonnees, ce),
 			new AutoLibLcfXMLCache(new LectureDesElements(baseDeDonnees, contexte, ce), -1, 277, -1),
-			new ElementsFinalisation(baseDeDonnees, ce)
+			new ElementsFinalisation(baseDeDonnees, ce)*/
 		};
 		
 		for (Runnable action : listeDesActions) {

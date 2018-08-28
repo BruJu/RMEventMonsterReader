@@ -181,7 +181,9 @@ class GestionJeu implements Remplisseur {
 		int temps = parametres[2];
 		boolean bloquant = parametres[3] == 1;
 		
-		if (parametres[4] == 0) {
+		
+		
+		if (parametres.length <= 4 || parametres[4] == 0) {
 			executeur.Jeu_tremblementPonctuel(force, intensite, temps, bloquant);
 			return;
 		}
@@ -199,7 +201,9 @@ class GestionJeu implements Remplisseur {
 	}
 	
 	private void flashEcran(ExecuteurInstructions executeur, int[] parametres, String s) {
-		if (parametres[6] == 2) {
+		int statut = parametres.length >= 7 ? parametres[6] : 0;
+		
+		if (statut == 2) {
 			executeur.Jeu_flashStop();
 			return;
 		}
@@ -208,7 +212,7 @@ class GestionJeu implements Remplisseur {
 		int intensite = parametres[3];
 		int tempsMs = parametres[4];
 		boolean pause = parametres[5] == 1;
-		boolean flashUnique = parametres[6] == 1;
+		boolean flashUnique = statut == 1;
 		
 		executeur.Jeu_flashLancer(couleur, intensite, tempsMs, pause, flashUnique);
 	}

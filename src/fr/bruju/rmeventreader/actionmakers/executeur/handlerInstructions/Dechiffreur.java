@@ -237,7 +237,7 @@ class Dechiffreur {
 		case 7:
 			return new Condition.CondVehiculeUtilise(ExecEnum.Vehicule.values()[parametres[1]]);
 		case 6:
-			return new Condition.CondDirection(new EvenementDeplacable(parametres[1]), ExecEnum.Direction.values()[parametres[1]]);
+			return new Condition.CondDirection(new EvenementDeplacable(parametres[1]), ExecEnum.Direction.values()[parametres[2]]);
 		case 4:
 			return new Condition.CondObjet(parametres[1], parametres[2] == 0);
 		case 5:

@@ -202,7 +202,8 @@ public class FinDeCombat extends StackedActionMaker<Combat> {
 			Collection<Combat> elems = getElementsFiltres();
 			
 			if (!elems.isEmpty() && operator == Operator.AFFECTATION) {
-				throw new FinDeCombatException("Affectation brute d'une récompense de capa");
+				//throw new FinDeCombatException("Affectation brute d'une récompense de capa");
+				return;
 			}
 
 			elems.forEach(battle -> battle.addGainCapa(returnValue.get()));

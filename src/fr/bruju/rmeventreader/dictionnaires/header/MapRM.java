@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.dictionnaires.header;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
@@ -99,5 +100,9 @@ public class MapRM implements ElementComposite<Evenement> {
 			}
 			return this;
 		}
+	}
+
+	public String getNom() {
+		return this.arborescence.stream().collect(Collectors.joining("-"));
 	}
 }

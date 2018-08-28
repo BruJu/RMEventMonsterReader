@@ -31,10 +31,17 @@ class AffichageDeMessages implements Remplisseur {
 	private void appuiTouche(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 		int numeroVariable = parametres[0];
 		boolean bloquant = parametres[1] == 1;
-		int enregistrementTempsMis = parametres[8] == 1 && bloquant ? -1 : parametres[7];
+		int enregistrementTempsMis = parametres.length >= 9 ? (parametres[8] == 1 && bloquant ? -1 : parametres[7] ) : -1;
 		
 		boolean entree = parametres[3] == 1;
 		boolean annuler = parametres[4] == 1;
+		if (parametres.length <= 5) {
+			executeur.Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
+					false, false, false, false, entree, annuler, false, false, false);
+			return;
+			// TODO : compatiblité
+		}
+		
 		boolean maj = parametres[5] == 1;
 		boolean chiffres = parametres[6] == 1;
 		boolean symboles = parametres[9] == 1;

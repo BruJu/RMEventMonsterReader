@@ -43,6 +43,7 @@ public class ChercheurDImages implements Runnable {
 			System.out.println(image + ":" +
 					events
 						.stream()
+						//.filter(id -> id != 54 && id != 1 && id != 73)
 						.map(numero -> convertir(numero, evenements))
 						.collect(Collectors.joining(",")));
 		});
