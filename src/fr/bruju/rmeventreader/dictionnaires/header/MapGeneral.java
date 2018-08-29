@@ -32,8 +32,8 @@ public class MapGeneral implements ElementComposite<Evenement> {
 		return new ConvertisseurLigneVersObjet<>(new Builder(), new Traitement[] {
 				new TraitementObjet<Builder, MapRM>(MapRM.sousObjet(), (b, map) -> b.creerMap(map)),
 				new LigneAttendue<>("- Evenements - "),
-				new TableauInt<Builder>(null, (b, t) -> b.setEvenements(t)),
-				new TableauInt<Builder>(null, (b, t) -> b.setComplexes(t)),
+				new TableauInt<Builder>("Present", (b, t) -> b.setEvenements(t)),
+				new TableauInt<Builder>("Complexe", (b, t) -> b.setComplexes(t)),
 				new BoucleTraitement<Builder>(Passe::new)
 			});
 	}

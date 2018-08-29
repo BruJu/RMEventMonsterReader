@@ -187,14 +187,17 @@ public class MiseEnCache {
 		map.append(sb);
 
 		sb.append("- Evenements - \n").append("// Events présents\n")
+		.append("Present ")
 				.append(listeDesEvents.stream().map(id -> Integer.toString(id)).collect(Collectors.joining(" ")))
 				.append("\n")
 
 				.append("// Events complexes\n")
+				.append("Complexe ")
 				.append(eventsInteressants.stream().map(e -> Integer.toString(e.id)).collect(Collectors.joining(" ")))
 				.append("\n")
 
 				.append("// Events simples\n")
+				.append("Simples ")
 				.append(eventsIninteressants.stream().map(e -> Integer.toString(e.id)).collect(Collectors.joining(" ")))
 				.append("\n\n")
 
