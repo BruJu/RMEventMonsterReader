@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
+import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Chemin;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Passe;
@@ -70,7 +71,7 @@ public class MapRM implements ElementComposite<Evenement> {
 			new LigneAttendue<>("-- MAP --"),
 			new TableauInt<Builder>("ID", (m, t) -> m.setID(t[0])),
 			new PaireIDString<Builder>("Nom", (m, t) -> m.setNom(t)),
-			new Passe<>()
+			new Chemin<Builder>("Chemin", (m, t) -> m.setChemin(t)),
 		});
 	}
 	

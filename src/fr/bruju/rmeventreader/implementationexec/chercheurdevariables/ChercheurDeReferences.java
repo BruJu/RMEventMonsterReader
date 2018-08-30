@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.DechiffreurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
@@ -17,34 +18,20 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  *
  */
 public class ChercheurDeReferences implements Runnable {
-	/** Liste des références pour chaque variable */
-	private HashMap<Integer, HashSet<Reference>> variablesCherchees = new HashMap<>();
+	
+	private BaseDeRecherche baseDeRecherche;
+	
 
 	@Override
 	public void run() {
-		variablesCherchees.put(961, new HashSet<>());
-		variablesCherchees.put(962, new HashSet<>());
-		variablesCherchees.put(963, new HashSet<>());
-		variablesCherchees.put(964, new HashSet<>());
+		//baseDeRecherche = new BaseDeRechercheDeVariables(new int[] {961, 962, 963, 964});
+		baseDeRecherche = new BaseDeRechercheTextuelle("narre");
 		
 		explorer();
 		
-		variablesCherchees.forEach(ChercheurDeReferences::afficher);
-		
+		baseDeRecherche.afficher();	
 	}
 	
-	/**
-	 * Affiche la liste des références pour la varible
-	 * @param variable La variable
-	 * @param references sa liste de références
-	 */
-	private static void afficher(Integer variable, HashSet<Reference> references) {
-		System.out.println("==" + variable + "==");
-		
-		references.forEach(reference -> System.out.println(reference.getString()));
-		
-		System.out.println();
-	}
 
 	/**
 	 * Recherche les références aux variables définies
@@ -88,7 +75,7 @@ public class ChercheurDeReferences implements Runnable {
 	private void explorer(Reference ref, List<Instruction> instructions) {
 		//System.out.println("REFERENCE [" + ref.getString() + "]");
 		
-		Chercheur chercheur = new Chercheur(ref, variablesCherchees);
+		ExecuteurInstructions chercheur = baseDeRecherche.getExecuteur(ref);
 		DechiffreurInstructions dechiffreur = new DechiffreurInstructions(chercheur);
 		dechiffreur.executer(instructions);
 	}
