@@ -2,9 +2,19 @@ package fr.bruju.rmeventreader.implementationexec.chercheurdevariables;
 
 import java.util.Objects;
 
+/**
+ * Référence à un évènement commun
+ * @author Bruju
+ *
+ */
 public class ReferenceEC implements Reference {
+	/** Numéro de l'évènement commun référencé */
 	public final int eventCommun;
 
+	/**
+	 * Crée une référence à un évènement commun
+	 * @param eventCommun Numéro de l'évènement commun
+	 */
 	public ReferenceEC(int eventCommun) {
 		this.eventCommun = eventCommun;
 	}
@@ -32,8 +42,4 @@ public class ReferenceEC implements Reference {
 	public String getString() {
 		return "Evenement Commun " + this.eventCommun;
 	}
-	
-	
-	
-
 }

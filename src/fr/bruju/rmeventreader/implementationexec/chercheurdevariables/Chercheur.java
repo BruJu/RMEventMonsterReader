@@ -12,7 +12,6 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMem
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.Visiteur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.CombatComportementFuite;
@@ -31,23 +30,43 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurVal
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
 
-public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Void>, VisiteurValeurDroite<Void>, VisiteurFixeVariable<Void>, VisiteurValeurDroiteVariable<Void>, VisiteurMembre<Void>, Condition.Visiteur<Void> {
+/**
+ * Executeur d'instructions qui ajoute des références si il trouve des instructions en lien à des variables.
+ * 
+ * @author Bruju
+ *
+ */
+public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Void>, VisiteurValeurDroite<Void>,
+		VisiteurFixeVariable<Void>, VisiteurValeurDroiteVariable<Void>, VisiteurMembre<Void>, Condition.Visiteur<Void> {
+	/** Référence à ajouter */
 	private Reference reference;
+	/** Map d'association variables - références à compléter */
 	private HashMap<Integer, HashSet<Reference>> variablesCherchees;
 
+	/**
+	 * Crée un nouveau chercheur de références à une variable
+	 * 
+	 * @param reference La référence
+	 * @param variablesCherchees Map à compléter
+	 */
 	public Chercheur(Reference reference, HashMap<Integer, HashSet<Reference>> variablesCherchees) {
 		this.reference = reference;
 		this.variablesCherchees = variablesCherchees;
 	}
-	
+
+	/**
+	 * Ajoute une variable dont il faut pister les référénces
+	 * 
+	 * @param numero Le numéro de la variable
+	 */
 	public void ajouterVariable(int numero) {
 		HashSet<Reference> set = variablesCherchees.get(numero);
 		if (set == null)
 			return;
-		
+
 		set.add(reference);
 	}
-	
+
 	@Override
 	public boolean getBooleenParDefaut() {
 		return true;
@@ -68,11 +87,11 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 	public Void visit(VariablePlage plage) throws ObjetNonSupporte {
 		int min = Math.min(plage.idVariableMin, plage.idVariableMax);
 		int max = Math.max(plage.idVariableMin, plage.idVariableMax);
-		
-		for (int i = min ; i <= max ; i++) {
+
+		for (int i = min; i <= max; i++) {
 			ajouterVariable(i);
 		}
-		
+
 		return null;
 	}
 
@@ -97,10 +116,10 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 	public void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
 			ValeurDroiteVariable valeurDroite) {
 		try {
-				visit(valeurGauche);
-				visit(valeurDroite);
-			} catch (ObjetNonSupporte e) {
-			}
+			visit(valeurGauche);
+			visit(valeurDroite);
+		} catch (ObjetNonSupporte e) {
+		}
 	}
 
 	@Override
@@ -117,7 +136,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(objet);
 			visit(quantite);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -126,8 +145,9 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		try {
 			visit(personnage);
 		} catch (ObjetNonSupporte e) {
-			
-		}	}
+
+		}
+	}
 
 	@Override
 	public void Equipe_modifierExperience(ValeurMembre cible, Caracteristique stat, boolean ajouter,
@@ -136,9 +156,9 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(cible);
 			visit(quantite);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
-		}
+	}
 
 	@Override
 	public void Equipe_modifierStatistique(ValeurMembre cible, Caracteristique stat, boolean ajouter,
@@ -147,7 +167,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(cible);
 			visit(quantite);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -157,7 +177,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(cible);
 			visit(sort);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -167,7 +187,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(cible);
 			visit(objet);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -176,7 +196,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		try {
 			visit(cible);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -185,7 +205,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		try {
 			visit(cible);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -196,7 +216,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(cible);
 			visit(quantite);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -205,7 +225,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		try {
 			visit(cible);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -214,7 +234,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		try {
 			visit(cible);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -225,7 +245,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(cible);
 			this.ajouterVariable(degatsEnregistresDansVariable);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -235,9 +255,9 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		try {
 			visit(idCombat);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
-		
+
 		return true;
 	}
 
@@ -248,7 +268,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(x);
 			visit(y);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -258,7 +278,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(x);
 			visit(y);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -269,7 +289,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(y);
 			this.ajouterVariable(variable);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -280,7 +300,7 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(y);
 			this.ajouterVariable(variable);
 		} catch (ObjetNonSupporte e) {
-			
+
 		}
 	}
 
@@ -307,7 +327,8 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		if (numeroImage >= 50000) {
 			this.ajouterVariable(numeroImage - 50000);
 			this.ajouterVariable(numeroImage - 50000 + 1);
-		}	}
+		}
+	}
 
 	@Override
 	public void Media_jouerFilm(String nomFilm, FixeVariable x, FixeVariable y, int longueur, int largeur) {
@@ -315,16 +336,18 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(x);
 			visit(y);
 		} catch (ObjetNonSupporte e) {
-			
-		}	}
+
+		}
+	}
 
 	@Override
-	public void Flot_appelEvenementCarte(FixeVariable evenement, FixeVariable page) {		try {
-		visit(evenement);
-		visit(page);
-	} catch (ObjetNonSupporte e) {
-		
-	}
+	public void Flot_appelEvenementCarte(FixeVariable evenement, FixeVariable page) {
+		try {
+			visit(evenement);
+			visit(page);
+		} catch (ObjetNonSupporte e) {
+
+		}
 	}
 
 	@Override
@@ -350,11 +373,8 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 			visit(condition.valeurDroite);
 		} catch (ObjetNonSupporte e) {
 		}
-		
+
 		return null;
 	}
-	
-	
-	
-	
+
 }

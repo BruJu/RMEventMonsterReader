@@ -11,7 +11,13 @@ import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
+/**
+ * Cherche les références à des variables codées en dur dans tout un projet
+ * @author Bruju
+ *
+ */
 public class ChercheurDeReferences implements Runnable {
+	/** Liste des références pour chaque variable */
 	private HashMap<Integer, HashSet<Reference>> variablesCherchees = new HashMap<>();
 
 	@Override
@@ -27,6 +33,11 @@ public class ChercheurDeReferences implements Runnable {
 		
 	}
 	
+	/**
+	 * Affiche la liste des références pour la varible
+	 * @param variable La variable
+	 * @param references sa liste de références
+	 */
 	private static void afficher(Integer variable, HashSet<Reference> references) {
 		System.out.println("==" + variable + "==");
 		
@@ -35,6 +46,9 @@ public class ChercheurDeReferences implements Runnable {
 		System.out.println();
 	}
 
+	/**
+	 * Recherche les références aux variables définies
+	 */
 	private void explorer() {
 		Pair<Integer, List<Integer>> infos = LecteurDeCache.getInformations();
 		
@@ -44,6 +58,10 @@ public class ChercheurDeReferences implements Runnable {
 		infos.getRight().forEach(numero -> explorerMap(numero));
 	}
 
+	/**
+	 * Cherche des références aux variables dans la map dont le numéro des donné
+	 * @param numero Numéro de la map
+	 */
 	private void explorerMap(Integer numero) {
 		MapGeneral map = LecteurDeCache.getMapGeneral(numero);
 		List<Evenement> evenements = 
@@ -54,13 +72,21 @@ public class ChercheurDeReferences implements Runnable {
 		});		
 	}
 
+	/**
+	 * Cherche des références aux variables dans l'évènement commun donné
+	 * @param numero Le numéro de l'évènement
+	 */
 	private void explorerEvenementCommun(int numero) {
 		explorer(new ReferenceEC(numero), LecteurDeCache.getEvenementCommun(numero).instructions);
 	}
 	
-	
+	/**
+	 * Cherche des références aux variables et les ajoute si des références sont trouvées
+	 * @param ref La référence à ajouter
+	 * @param instructions Les instructions à explorer
+	 */
 	private void explorer(Reference ref, List<Instruction> instructions) {
-		System.out.println("REFERENCE [" + ref.getString() + "]");
+		//System.out.println("REFERENCE [" + ref.getString() + "]");
 		
 		Chercheur chercheur = new Chercheur(ref, variablesCherchees);
 		DechiffreurInstructions dechiffreur = new DechiffreurInstructions(chercheur);
