@@ -17,7 +17,7 @@ public class Tous implements ValeurMembre {
 	}
 	
 	@Override
-	public <T> T accept(VisiteurMembre<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurMembre<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 }

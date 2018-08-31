@@ -18,7 +18,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Comb
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ConditionsDeCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Vehicule;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ObjetNonSupporte;
+
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Pointeur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
@@ -78,13 +78,13 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 	}
 
 	@Override
-	public Void visit(Variable variable) throws ObjetNonSupporte {
+	public Void visit(Variable variable) {
 		ajouterVariable(variable.idVariable);
 		return null;
 	}
 
 	@Override
-	public Void visit(VariablePlage plage) throws ObjetNonSupporte {
+	public Void visit(VariablePlage plage) {
 		int min = Math.min(plage.idVariableMin, plage.idVariableMax);
 		int max = Math.max(plage.idVariableMin, plage.idVariableMax);
 
@@ -95,213 +95,167 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 		return null;
 	}
 
-	@Override
-	public void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
-		try {
-			visit(valeurGauche);
-		} catch (ObjetNonSupporte e) {
-		}
-	}
 
 	@Override
 	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-		try {
-			visit(valeurGauche);
-			visit(valeurDroite);
-		} catch (ObjetNonSupporte e) {
-		}
+
+		visit(valeurGauche);
+		visit(valeurDroite);
+
 	}
 
 	@Override
 	public void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
 			ValeurDroiteVariable valeurDroite) {
-		try {
-			visit(valeurGauche);
-			visit(valeurDroite);
-		} catch (ObjetNonSupporte e) {
-		}
+
+		visit(valeurGauche);
+		visit(valeurDroite);
+
 	}
 
 	@Override
 	public void Variables_modifierArgent(boolean ajouter, FixeVariable quantite) {
-		try {
-			visit(quantite);
-		} catch (ObjetNonSupporte e) {
-		}
+
+		visit(quantite);
+
 	}
 
 	@Override
 	public void Variables_modifierObjets(boolean ajouter, FixeVariable objet, FixeVariable quantite) {
-		try {
-			visit(objet);
-			visit(quantite);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(objet);
+		visit(quantite);
+
 	}
 
 	@Override
 	public void Equipe_modifierEquipe(boolean ajouter, FixeVariable personnage) {
-		try {
-			visit(personnage);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(personnage);
+
 	}
 
 	@Override
 	public void Equipe_modifierExperience(ValeurMembre cible, Caracteristique stat, boolean ajouter,
 			FixeVariable quantite, boolean verbose) {
-		try {
-			visit(cible);
-			visit(quantite);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+		visit(quantite);
+
 	}
 
 	@Override
 	public void Equipe_modifierStatistique(ValeurMembre cible, Caracteristique stat, boolean ajouter,
 			FixeVariable quantite) {
-		try {
-			visit(cible);
-			visit(quantite);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+		visit(quantite);
+
 	}
 
 	@Override
 	public void Equipe_modifierCompetence(ValeurMembre cible, boolean ajouter, FixeVariable sort) {
-		try {
-			visit(cible);
-			visit(sort);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+		visit(sort);
+
 	}
 
 	@Override
 	public void Equipe_equiper(ValeurMembre cible, FixeVariable objet) {
-		try {
-			visit(cible);
-			visit(objet);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+		visit(objet);
+
 	}
 
 	@Override
 	public void Equipe_desequiper(ValeurMembre cible) {
-		try {
-			visit(cible);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+
 	}
 
 	@Override
 	public void Equipe_desequiper(ValeurMembre cible, Caracteristique type) {
-		try {
-			visit(cible);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+
 	}
 
 	@Override
 	public void Equipe_modifierHP(ValeurMembre cible, boolean ajouter, FixeVariable quantite, boolean peutTuer) {
 
-		try {
-			visit(cible);
-			visit(quantite);
-		} catch (ObjetNonSupporte e) {
+		visit(cible);
+		visit(quantite);
 
-		}
 	}
 
 	@Override
 	public void Equipe_modifierStatut(ValeurMembre cible, boolean infliger, int numeroStatut) {
-		try {
-			visit(cible);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+
 	}
 
 	@Override
 	public void Equipe_soignerCompletement(ValeurMembre cible) {
-		try {
-			visit(cible);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+
 	}
 
 	@Override
 	public void Combat_simulerAttaque(ValeurMembre cible, int puissance, int effetDefense, int effetIntel, int variance,
 			int degatsEnregistresDansVariable) {
-		try {
-			visit(cible);
-			this.ajouterVariable(degatsEnregistresDansVariable);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(cible);
+		this.ajouterVariable(degatsEnregistresDansVariable);
+
 	}
 
 	@Override
 	public boolean Combat_lancerCombat(FixeVariable idCombat, ConditionsDeCombat conditions,
 			ArrierePlanCombat arrierePlan, CombatComportementFuite fuite, boolean defaitePossible, boolean avantage) {
-		try {
-			visit(idCombat);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(idCombat);
 
 		return true;
 	}
 
 	@Override
 	public void Jeu_deplacerVehicule(Vehicule vehicule, FixeVariable map, FixeVariable x, FixeVariable y) {
-		try {
-			visit(map);
-			visit(x);
-			visit(y);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(map);
+		visit(x);
+		visit(y);
+
 	}
 
 	@Override
 	public void Jeu_deplacerEvenement(EvenementDeplacable deplacable, FixeVariable x, FixeVariable y) {
-		try {
-			visit(x);
-			visit(y);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(x);
+		visit(y);
+
 	}
 
 	@Override
 	public void Jeu_stockerIdTerrain(FixeVariable x, FixeVariable y, int variable) {
-		try {
-			visit(x);
-			visit(y);
-			this.ajouterVariable(variable);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(x);
+		visit(y);
+		this.ajouterVariable(variable);
+
 	}
 
 	@Override
 	public void Jeu_stockerIdEvenement(FixeVariable x, FixeVariable y, int variable) {
-		try {
-			visit(x);
-			visit(y);
-			this.ajouterVariable(variable);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(x);
+		visit(y);
+		this.ajouterVariable(variable);
+
 	}
 
 	@Override
@@ -332,22 +286,18 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 
 	@Override
 	public void Media_jouerFilm(String nomFilm, FixeVariable x, FixeVariable y, int longueur, int largeur) {
-		try {
-			visit(x);
-			visit(y);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(x);
+		visit(y);
+
 	}
 
 	@Override
 	public void Flot_appelEvenementCarte(FixeVariable evenement, FixeVariable page) {
-		try {
-			visit(evenement);
-			visit(page);
-		} catch (ObjetNonSupporte e) {
 
-		}
+		visit(evenement);
+		visit(page);
+
 	}
 
 	@Override
@@ -357,22 +307,20 @@ public class Chercheur implements ExecuteurInstructions, VisiteurValeurGauche<Vo
 	}
 
 	@Override
-	public Void visit(ValeurFixe valeur) throws ObjetNonSupporte {
-		return VisiteurFixeVariable.super.visit(valeur);
+	public Void visit(ValeurFixe valeur) {
+		return null;
 	}
 
 	@Override
-	public Void visit(Pointeur pointeur) throws ObjetNonSupporte {
-		return VisiteurValeurDroite.super.visit(pointeur);
+	public Void visit(Pointeur pointeur) {
+		return null;
 	}
 
 	@Override
 	public Void visit(CondVariable condition) {
 		ajouterVariable(condition.variable);
-		try {
-			visit(condition.valeurDroite);
-		} catch (ObjetNonSupporte e) {
-		}
+
+		visit(condition.valeurDroite);
 
 		return null;
 	}

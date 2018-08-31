@@ -26,7 +26,7 @@ public class VariablePlage implements ValeurGauche {
 	}
 	
 	@Override
-	public <T> T accept(VisiteurValeurGauche<T> visiteurValeurGauche) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurGauche<T> visiteurValeurGauche)  {
 		return visiteurValeurGauche.visit(this);
 	}
 }

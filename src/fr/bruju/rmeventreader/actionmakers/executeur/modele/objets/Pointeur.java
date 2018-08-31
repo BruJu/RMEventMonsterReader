@@ -25,17 +25,17 @@ public class Pointeur implements ValeurGauche, ValeurDroite, ValeurDroiteVariabl
 	}
 
 	@Override
-	public <T> T accept(VisiteurValeurGauche<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurGauche<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 
 	@Override
-	public <T> T accept(VisiteurValeurDroite<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurDroite<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 	
 	@Override
-	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 }

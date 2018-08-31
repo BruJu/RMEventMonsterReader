@@ -13,7 +13,7 @@ public class VariableHeros implements ValeurDroiteVariable {
 	}
 
 	@Override
-	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 

@@ -17,22 +17,22 @@ public class ValeurFixe implements FixeVariable, ValeurDroite, ValeurDroiteVaria
 	}
 
 	@Override
-	public <T> T accept(VisiteurValeurDroite<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurDroite<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 
 	@Override
-	public <T> T accept(VisiteurFixeVariable<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurFixeVariable<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 
 	@Override
-	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 
 	@Override
-	public <T> T accept(VisiteurMembre<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurMembre<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 }

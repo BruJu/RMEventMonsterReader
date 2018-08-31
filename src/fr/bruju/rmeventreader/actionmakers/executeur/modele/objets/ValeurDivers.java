@@ -16,7 +16,7 @@ public enum ValeurDivers implements ValeurDroiteVariable {
 	TEMPS_MS_MIDI;
 	
 	@Override
-	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur) throws ObjetNonSupporte {
+	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur)  {
 		return visiteur.visit(this);
 	}
 }
