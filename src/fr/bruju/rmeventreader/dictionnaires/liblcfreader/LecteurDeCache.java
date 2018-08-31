@@ -13,6 +13,11 @@ import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class LecteurDeCache {
+	
+	
+	
+	
+	
 
 	public static List<Instruction> chargerInstructions(int idMap, int idEvent, int idPage) {
 		try {

@@ -9,7 +9,6 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Chemin;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
-import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Passe;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 
 public class MapRM implements ElementComposite<Evenement> {

@@ -1,5 +1,9 @@
 package fr.bruju.rmeventreader.implementationexec.chercheurdevariables;
 
+import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
+import fr.bruju.rmeventreader.dictionnaires.header.Page;
+
 /**
  * Référence à un évènement sur une carte
  * @author Bruju
@@ -34,16 +38,14 @@ public class ReferenceMap implements Reference {
 		this.nomEvent = nomEvent;
 	}
 
-
-
+	public ReferenceMap(MapGeneral map, Evenement event, Page page) {
+		this(map.map.id, event.id, page.id, map.map.getNom(), event.nom);
+	}
 
 	@Override
 	public long numero() {
 		return 5000 * numeroMap + numeroEvent * 20 + numeroPage;
 	}
-
-
-
 
 	@Override
 	public String getString() {

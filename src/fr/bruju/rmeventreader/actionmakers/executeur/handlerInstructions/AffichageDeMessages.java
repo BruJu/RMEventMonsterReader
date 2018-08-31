@@ -14,6 +14,7 @@ class AffichageDeMessages implements Remplisseur {
 		handlers.put(20110, (e, t, c) -> e.Messages_afficherSuiteMessage(c));
 		// MessageOption
 		handlers.put(10120, this::changeMessageOptions);
+		handlers.put(10130, (e, t, c) -> {});	// TODO changement de portriat
 		// Choix multiples
 		handlers.put(10140, this::initialisationQCM);
 		handlers.put(20140, this::choixQCM);

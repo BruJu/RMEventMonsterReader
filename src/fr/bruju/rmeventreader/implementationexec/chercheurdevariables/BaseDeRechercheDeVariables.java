@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementationexec.chercheurdevariables;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.DechiffreurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 
 public class BaseDeRechercheDeVariables implements BaseDeRecherche {

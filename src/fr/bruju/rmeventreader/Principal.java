@@ -14,6 +14,7 @@ import fr.bruju.rmeventreader.implementation.random.EventChecker;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementationexec.ExecuteurMessageRunner;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ChercheurDeReferences;
+import fr.bruju.rmeventreader.implementationexec.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementationexec.random.ChercheurDImages;
 
 public class Principal {
@@ -23,7 +24,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 11;
+		int choix = 12;
 		int choixMap = -1;
 		
 		if (args.length != 0) {
@@ -47,6 +48,7 @@ public class Principal {
 				/* 9 */ new EventChecker(),
 				/* 10 */ new ChercheurDImages(51),
 				/* 11 */ new ChercheurDeReferences(),
+				/* 12 */ new ChercheurDeMagasins(),
 		};
 		
 		options[choix].run();
