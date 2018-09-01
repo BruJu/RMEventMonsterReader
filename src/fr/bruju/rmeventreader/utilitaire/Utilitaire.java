@@ -115,6 +115,13 @@ public class Utilitaire {
 			liste.add(element);
 		}
 
+		/**
+		 * Ajoute un élément à l'ensemble qui est associé à la clé donnée. Si la clé n'est pas initialisée, met un
+		 * TreeSet pour cette clé.
+		 * @param map La map
+		 * @param cle La clé
+		 * @param element L'élément à ajouter à l'ensemble
+		 */
 		public static <K, V> void ajouterElementDansSet(Map<K, Set<V>> map, K cle, V element) {
 			Set<V> liste = map.get(cle);
 			if (liste == null) {
@@ -281,6 +288,11 @@ public class Utilitaire {
 		dossier.delete();
 	}
 
+	/**
+	 * Transforme la liste en un tableau de int
+	 * @param liste La liste
+	 * @return Un tableau de int
+	 */
 	public static int[] toArrayInt(List<Integer> liste) {
 		int[] tableau = new int[liste.size()];
 		
@@ -291,6 +303,12 @@ public class Utilitaire {
 		return tableau;
 	}
 	
+	/**
+	 * Donne la position de l'élément dans le tableau, ou -1 si il est absent
+	 * @param element L'élément à chercher
+	 * @param elements Le tableau de nombres
+	 * @return La position du nombre
+	 */
 	public static int getPosition(int element, int[] elements) {
 		for (int i = 0 ; i != elements.length ; i++) {
 			if (elements[i] == element) {

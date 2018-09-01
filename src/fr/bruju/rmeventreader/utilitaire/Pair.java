@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.utilitaire;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collector;
@@ -52,20 +50,6 @@ public class Pair<T1, T2> {
 		return "{" + t1 + ", " + t2 + "}";
 	}
 
-	public static <T1, T2> List<Pair<T1, T2>> combiner(List<T1> gauches, List<T2> droites) {
-		if (gauches.size() != droites.size()) {
-			return null;
-		}
-		
-		ArrayList<Pair<T1, T2>> liste = new ArrayList<>(gauches.size());
-		
-		for (int i = 0 ; i != gauches.size(); i++) {
-			liste.add(new Pair<T1, T2>(gauches.get(i), droites.get(i)));
-		}
-		
-		return liste;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(t1, t2);
@@ -81,15 +65,24 @@ public class Pair<T1, T2> {
 		return false;
 	}
 	
-	
+
+	/**
+	 * Donne la partie gauche de la paire
+	 */
 	public static <K, V> K k(Pair<K, V> paire) {
 		return paire.getLeft();
 	}
 
+	/**
+	 * Donne la partie droite de la paire
+	 */
 	public static <K, V> V v(Pair<K, V> paire) {
 		return paire.getRight();
 	}
 	
+	/**
+	 * Collecteur permettant de transformer les paires d'un stream en map
+	 */
 	public static <T,K,U> Collector<Pair<K, U>,?,Map<K,U>> toMap() {
 		return Collectors.toMap(Pair::k, Pair::v);
 	}

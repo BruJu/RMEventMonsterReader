@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
+import java.util.function.Function;
+
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroite;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
@@ -41,5 +43,10 @@ public class Variable implements FixeVariable, ValeurGauche, ValeurDroite, Valeu
 	@Override
 	public <T> T accept(VisiteurMembre<T> visiteur)  {
 		return visiteur.visit(this);
+	}
+
+	@Override
+	public <T> T appliquerFV(Function<ValeurFixe, T> fonctionFixe, Function<Variable, T> fonctionVariable) {
+		return fonctionVariable == null ? null : fonctionVariable.apply(this);
 	}
 }
