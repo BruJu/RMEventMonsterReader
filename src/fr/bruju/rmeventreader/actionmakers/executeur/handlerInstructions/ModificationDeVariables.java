@@ -3,10 +3,10 @@ package fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul.OpMathematique;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 
 class ModificationDeVariables implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();

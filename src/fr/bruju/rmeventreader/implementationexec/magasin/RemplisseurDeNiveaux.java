@@ -3,15 +3,10 @@ package fr.bruju.rmeventreader.implementationexec.magasin;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurFixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 
 public class RemplisseurDeNiveaux implements ExecuteurInstructions {
 
@@ -27,49 +22,31 @@ public class RemplisseurDeNiveaux implements ExecuteurInstructions {
 		if (idEnCoursDELecture == null || !magasins.containsKey(idEnCoursDELecture))
 			return;
 		
-		
-		if (valeurGauche.accept(new VisiteurValeurGauche<Boolean>() {
-			@Override
-			public Boolean visit(Variable variable) {
-				return variable.idVariable == 894;
-			}
-		}) != Boolean.TRUE) {
+		if (valeurGauche.appliquerG(v -> v.idVariable == 894, null, null) != Boolean.TRUE) {
 			return;
 		}
 		
+		Integer niveau = valeurDroite.appliquerDroite(v -> v.valeur, null, null);
 		
-		Integer niveau = valeurDroite.accept(new VisiteurValeurDroiteVariable<Integer>() {
-			@Override
-			public Integer visit(ValeurFixe valeur) {
-				return valeur.valeur;
-			}
-		});
-				
-		if (niveau != null)
+		if (niveau != null) {
 			magasins.get(idEnCoursDELecture).setNiveauHoldup(niveau);
+		}
 	}
 
 	@Override
 	public boolean Flot_si(Condition condition) {
-		condition.accept(new Condition.Visiteur<Void>() {
-			@Override
-			public Void visit(CondVariable condition) {
-				if (condition.variable == 1209) {
-					idEnCoursDELecture = null;
-					condition.valeurDroite.accept(new VisiteurFixeVariable<Void>() {
-						@Override
-						public Void visit(ValeurFixe valeur) {
-							idEnCoursDELecture = valeur.valeur;
-							return null;
-						}
-					});
-				}
-				return null;
-			}
-		});
+		condition.appliquerVariable(this::condVariable);
 		
 		return true;
 	}
+	
+	public Void condVariable(CondVariable c) {
+		if (c.variable == 1209) {
+			idEnCoursDELecture = c.valeurDroite.appliquerFV(v -> v.valeur, null);
+		}
+		return null;
+	}
+	
 
 	@Override
 	public void Flot_siNon() {

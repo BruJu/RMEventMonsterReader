@@ -1,20 +1,18 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
-public interface ArrierePlanCombat {
-	public static interface Visiteur<T> {
-		public default T visit(ArrierePlanCombat arrierePlan) {
-			return arrierePlan.accept(this);
-		}
+import java.util.function.Function;
 
-		public T visit(Aucun arrierePlan);
-		public T visit(Specifique arrierePlan);
-		public T visit(AssocieAuTerrain arrierePlan);
-	}
+public interface ArrierePlanCombat {
+	public <T> T appliquer(
+			Function<Aucun, T> fonctionAucun,
+			Function<Specifique, T> fonctionSpecifique,
+			Function<AssocieAuTerrain, T> fonctionTerrain);
 	
 	public static class Aucun implements ArrierePlanCombat {
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<Aucun, T> fonctionAucun, Function<Specifique, T> fonctionSpecifique,
+				Function<AssocieAuTerrain, T> fonctionTerrain) {
+			return fonctionAucun == null ? null : fonctionAucun.apply(this);
 		}
 	}
 
@@ -26,10 +24,11 @@ public interface ArrierePlanCombat {
 			this.nom = nom;
 			this.equipiersSerres = equipiersSerres;
 		}
-		
+
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<Aucun, T> fonctionAucun, Function<Specifique, T> fonctionSpecifique,
+				Function<AssocieAuTerrain, T> fonctionTerrain) {
+			return fonctionSpecifique == null ? null : fonctionSpecifique.apply(this);
 		}
 	}
 	
@@ -41,10 +40,9 @@ public interface ArrierePlanCombat {
 		}
 
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<Aucun, T> fonctionAucun, Function<Specifique, T> fonctionSpecifique,
+				Function<AssocieAuTerrain, T> fonctionTerrain) {
+			return fonctionTerrain == null ? null : fonctionTerrain.apply(this);
 		}
 	}
-	
-	public <T> T accept(Visiteur<T> visiteur);
 }

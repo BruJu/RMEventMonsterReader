@@ -3,8 +3,8 @@ package fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 
 class GestionEquipe implements Remplisseur {

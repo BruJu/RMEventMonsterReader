@@ -1,11 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroite;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroite;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
+import java.util.function.Function;
+
 
 /**
  * Un pointeur est une variable ou un interrupteur dont le numéro est inscrit dans une variable
@@ -25,17 +21,24 @@ public class Pointeur implements ValeurGauche, ValeurDroite, ValeurDroiteVariabl
 	}
 
 	@Override
-	public <T> T accept(VisiteurValeurGauche<T> visiteur)  {
-		return visiteur.visit(this);
+	public <T> T appliquerDroiteVariable(Function<ValeurFixe, T> fonctionFixe, Function<Variable, T> variable,
+			Function<Pointeur, T> pointeur, Function<ValeurAleatoire, T> aleatoire, Function<NombreObjet, T> objets,
+			Function<VariableHeros, T> heros, Function<ValeurDeplacable, T> deplacable,
+			Function<ValeurDivers, T> divers) {
+		return pointeur == null ? null : pointeur.apply(this);
 	}
 
 	@Override
-	public <T> T accept(VisiteurValeurDroite<T> visiteur)  {
-		return visiteur.visit(this);
+	public <T> T appliquerDroite(Function<ValeurFixe, T> fonctionFixe, Function<Variable, T> fonctionVariable,
+			Function<Pointeur, T> fonctionPointeur) {
+		return fonctionPointeur == null ? null : fonctionPointeur.apply(this);
 	}
-	
+
 	@Override
-	public <T> T accept(VisiteurValeurDroiteVariable<T> visiteur)  {
-		return visiteur.visit(this);
+	public <T> T appliquerG(Function<Variable, T> variable, Function<VariablePlage, T> plage,
+			Function<Pointeur, T> pointeur) {
+		return pointeur == null ? null : pointeur.apply(this);
 	}
+
+	
 }

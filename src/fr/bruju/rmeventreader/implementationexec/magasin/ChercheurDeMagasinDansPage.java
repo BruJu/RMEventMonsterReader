@@ -3,13 +3,9 @@ package fr.bruju.rmeventreader.implementationexec.magasin;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
 import fr.bruju.rmeventreader.dictionnaires.header.MapRM;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ReferenceMap;
@@ -28,19 +24,8 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 	
 	@Override
 	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-		Boolean gaucheOk = valeurGauche.accept(new VisiteurValeurGauche<Boolean>() {
-			@Override
-			public Boolean visit(Variable variable) {
-				return variable.idVariable == 1209;
-			}
-		});
-		
-		Integer droite = valeurDroite.accept(new VisiteurValeurDroiteVariable<Integer>() {
-			@Override
-			public Integer visit(ValeurFixe valeur) {
-				return valeur.valeur;
-			}
-		});
+		Boolean gaucheOk = valeurGauche.appliquerG(v -> v.idVariable == 1209, null, null);
+		Integer droite = valeurDroite.appliquerDroite(v -> v.valeur, null, null);
 		
 		if (gaucheOk == Boolean.TRUE && droite != null) {
 			magasinActuel = droite;

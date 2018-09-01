@@ -1,10 +1,5 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul.OpMathematique;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurGauche;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
@@ -13,7 +8,12 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Deplacement;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.OpMathematique;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseCarac;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseComp;

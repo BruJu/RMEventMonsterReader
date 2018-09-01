@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.DechiffreurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;

@@ -3,10 +3,10 @@ package fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurMembre;
 
 @SuppressWarnings("unused")
 class GestionCombat implements Remplisseur {

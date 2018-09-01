@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.ValeurMembre;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.visiteur.VisiteurMembre;
+import java.util.function.Function;
 
 public class Tous implements ValeurMembre {
 	private static Tous instance;
@@ -15,9 +14,10 @@ public class Tous implements ValeurMembre {
 		}
 		return instance;
 	}
-	
+
 	@Override
-	public <T> T accept(VisiteurMembre<T> visiteur)  {
-		return visiteur.visit(this);
+	public <T> T appliquerMembre(Function<Tous, T> fonctionTous, Function<ValeurFixe, T> fonctionFixe,
+			Function<Variable, T> fonctionVariable) {
+		return fonctionTous.apply(this);
 	}
 }

@@ -1,45 +1,84 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul.Comparateur;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
+import java.util.function.Function;
+
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Vehicule;
 
 public interface Condition {
-	public static interface Visiteur<T> {
-		public default T visit(Condition condition) {
-			return condition.accept(this);
-		}
-
-		public default T visit(CondArgent condition) {return null;}
-		public default T visit(CondChrono condition) {return null;}
-		public default T visit(CondDirection condition) {return null;}
-		public default T visit(CondEventDemarreParAppui condition) {return null;}
-		public default T visit(CondHerosAPourNom condition) {return null;}
-		public default T visit(CondHerosAStatut condition) {return null;}
-		public default T visit(CondHerosDansLEquipe  condition) {return null;}
-		public default T visit(CondHerosNiveauMin condition) {return null;}
-		public default T visit(CondHerosPossedeObjet condition) {return null;}
-		public default T visit(CondHerosPossedeSort condition) {return null;}
-		public default T visit(CondInterrupteur condition) {return null;}
-		public default T visit(CondMusiqueJoueePlusDUneFois condition) {return null;}
-		public default T visit(CondObjet condition) {return null;}
-		public default T visit(CondVariable condition) {return null;}
-		public default T visit(CondVehiculeUtilise condition) {return null;}
+	public default <T> T appliquerInterrupteur(Function<CondInterrupteur, T> fonction) {
+		return null;
 	}
 
-	public <T> T accept(Visiteur<T> visiteur);
+	public default <T> T appliquerVariable(Function<CondVariable, T> fonction) {
+		return null;
+	}
+
+	public default <T> T appliquerPresence(Function<CondHerosDansLEquipe, T> fonction) {
+		return null;
+	}
+
+	public default <T> T appliquerPossedeHeros(Function<CondHerosPossedeObjet, T> fonction) {
+		return null;
+	}
+
+	public default <T> T appliquerPossedeSortHeros(Function<CondHerosPossedeSort, T> fonction) {
+		return null;
+	}
+
+	
+	public default <T> T appliquerPossede(Function<CondObjet, T> fonction) {
+		return null;
+	}
+	
+	public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+			Function<CondVariable, T> fonctionVariable,
+			Function<CondChrono, T> fonctionChrono,
+			Function<CondObjet, T> fonctionObjet,
+			Function<CondArgent, T> fonctionArgent,
+			Function<CondDirection , T> fonctionDirection,
+			Function<CondVehiculeUtilise  , T> fonctionVehicule,
+			Function<CondEventDemarreParAppui   , T> fonctionAppui,
+			Function<CondMusiqueJoueePlusDUneFois    , T> fonctionMusique,
+			Function<CondHerosDansLEquipe     , T> fonctionHerosEquipe,
+			Function<CondHerosAPourNom      , T> fonctionHerosNom,
+			Function<CondHerosNiveauMin       , T> fonctionHerosNiveauMin,
+			Function<CondHerosAAuMoinsHp        , T> fonctionHerosAUnHP ,
+			Function<CondHerosPossedeSort         , T> fonctionHerosSort ,
+			Function<CondHerosPossedeObjet          , T> fonctionHerosObjet ,
+			Function<CondHerosAStatut           , T> fonctionHerosStatut
+			);
+	
+	
 	
 	public static class CondInterrupteur implements Condition {
 		public final int interrupteur;
 		public final boolean etat;
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
+		
 		public CondInterrupteur(int interrupteur, boolean etat) {
 			this.interrupteur = interrupteur;
 			this.etat = etat;
+		}
+
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonctionInterrupteur == null ? null : fonctionInterrupteur.apply(this);
+		}
+
+		@Override
+		public <T> T appliquerInterrupteur(Function<CondInterrupteur, T> fonction) {
+			return fonction.apply(this);
 		}
 	}
 	
@@ -47,62 +86,117 @@ public interface Condition {
 		public final int variable;
 		public final Comparateur comparateur;
 		public final FixeVariable valeurDroite;
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
+		
 		public CondVariable(int variable, Comparateur comparateur, FixeVariable valeurDroite) {
 			this.variable = variable;
 			this.comparateur = comparateur;
 			this.valeurDroite = valeurDroite;
 		}
-		
-		
-		
-		
+
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonction, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
+
+		@Override
+		public <T> T appliquerVariable(Function<CondVariable, T> fonction) {
+			return fonction.apply(this);
+		}
 	}
 	
 	public static class CondChrono implements Condition {
 		public final boolean surLePremierChrono;
 		public final Comparateur comparateur;
 		public final int nombreDeSecondes;
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
+
 		public CondChrono(boolean surLePremierChrono, Comparateur comparateur, int nombreDeSecondes) {
 			this.surLePremierChrono = surLePremierChrono;
 			this.comparateur = comparateur;
 			this.nombreDeSecondes = nombreDeSecondes;
 		}
-		
-		
-		
+
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonction,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
 	}
 
 	public static class CondArgent implements Condition {
 		public final Comparateur comparateur;
 		public final int argent;
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
+		
 		public CondArgent(Comparateur comparateur, int argent) {
 			this.comparateur = comparateur;
 			this.argent = argent;
+		}
+
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonction,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
 		}
 	}
 	
 	public static class CondObjet implements Condition {
 		public final int idObjet;
 		public final boolean estPossede;
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
+		
 		public CondObjet(int idObjet, boolean estPossede) {
 			this.idObjet = idObjet;
 			this.estPossede = estPossede;
+		}
+
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonction, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
+
+		@Override
+		public <T> T appliquerPossede(Function<CondObjet, T> fonction) {
+			return fonction.apply(this);
 		}
 	}
 	
@@ -110,27 +204,50 @@ public interface Condition {
 	public static class CondDirection implements Condition {
 		public final EvenementDeplacable evenement;
 		public final ExecEnum.Direction direction;
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
+		
 		public CondDirection(EvenementDeplacable evenement, Direction direction) {
 			this.evenement = evenement;
 			this.direction = direction;
 		}
-		
-		
+
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonction, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
 	}
 	
 	public static class CondVehiculeUtilise implements Condition {
 		public final ExecEnum.Vehicule vehicule;
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
-
+		
 		public CondVehiculeUtilise(Vehicule vehicule) {
 			this.vehicule = vehicule;
+		}
+
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonction,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
 		}
 		
 		
@@ -141,22 +258,39 @@ public interface Condition {
 	public static class CondEventDemarreParAppui implements Condition {
 
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonction,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
 		}
-		
-		
 	}
 	
 	
 	public static class CondMusiqueJoueePlusDUneFois implements Condition {
-		
-
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionDPA,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonction,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
 		}
-		
 	}
 	
 
@@ -164,43 +298,56 @@ public interface Condition {
 	public static class CondHerosDansLEquipe implements Condition {
 		public final int idHeros;
 		
-		
-
 		public CondHerosDansLEquipe(int idHeros) {
 			this.idHeros = idHeros;
 		}
 
-
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonction, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
 
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquerPresence(Function<CondHerosDansLEquipe, T> fonction) {
+			return fonction.apply(this);
 		}
-		
 	}
 	
-	
-	
-	
-
 	public static class CondHerosAPourNom implements Condition {
 		public final int idHeros;
 		public final String nom;
 		
-		
-
 		public CondHerosAPourNom(int idHeros, String nom) {
 			this.idHeros = idHeros;
 			this.nom = nom;
 		}
 
-
-
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonction,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
 		}
-		
 	}
 	
 	
@@ -209,22 +356,26 @@ public interface Condition {
 		public final int idHeros;
 		public final int niveau;
 		
-		
-		
-
 		public CondHerosNiveauMin(int idHeros, int niveau) {
 			this.idHeros = idHeros;
 			this.niveau = niveau;
 		}
-
-
-
-
-		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
-		}
 		
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonction,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
 	}
 	
 	
@@ -233,22 +384,25 @@ public interface Condition {
 		public final int idHeros;
 		public final int hp;
 		
-		
-		
-		
-
 		public CondHerosAAuMoinsHp(int idHeros, int hp) {
 			this.idHeros = idHeros;
 			this.hp = hp;
 		}
-
-
-
-
-
+		
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonction,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
 		}
 		
 	}
@@ -259,22 +413,31 @@ public interface Condition {
 		public final int idHeros;
 		public final int idSort;
 		
-		
-		
-
 		public CondHerosPossedeSort(int idHeros, int idSort) {
 			this.idHeros = idHeros;
 			this.idSort = idSort;
 		}
-
-
-
+		
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonction,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
 
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquerPossedeSortHeros(Function<CondHerosPossedeSort, T> fonction) {
+			return fonction.apply(this);
 		}
-		
 	}
 	
 	
@@ -283,22 +446,31 @@ public interface Condition {
 		public final int idHeros;
 		public final int idObjet;
 		
-		
-		
-
 		public CondHerosPossedeObjet(int idHeros, int idObjet) {
 			this.idHeros = idHeros;
 			this.idObjet = idObjet;
 		}
 
-
-
+		@Override
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonction,
+				Function<CondHerosAStatut, T> fonctionHerosStatut) {
+			return fonction == null ? null : fonction.apply(this);
+		}
 
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquerPossedeHeros(Function<CondHerosPossedeObjet, T> fonction) {
+			return fonction.apply(this);
 		}
-		
 	}
 	
 	
@@ -307,28 +479,25 @@ public interface Condition {
 		public final int idHeros;
 		public final int statut;
 		
-		
-		
-		
-
 		public CondHerosAStatut(int idHeros, int statut) {
 			this.idHeros = idHeros;
 			this.statut = statut;
 		}
 
-
-
-
-
 		@Override
-		public <T> T accept(Visiteur<T> visiteur) {
-			return visiteur.visit(this);
+		public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
+				Function<CondVariable, T> fonctionVariable, Function<CondChrono, T> fonctionChrono,
+				Function<CondObjet, T> fonctionObjet, Function<CondArgent, T> fonctionArgent,
+				Function<CondDirection, T> fonctionDirection, Function<CondVehiculeUtilise, T> fonctionVehicule,
+				Function<CondEventDemarreParAppui, T> fonctionAppui,
+				Function<CondMusiqueJoueePlusDUneFois, T> fonctionMusique,
+				Function<CondHerosDansLEquipe, T> fonctionHerosEquipe, Function<CondHerosAPourNom, T> fonctionHerosNom,
+				Function<CondHerosNiveauMin, T> fonctionHerosNiveauMin,
+				Function<CondHerosAAuMoinsHp, T> fonctionHerosAUnHP,
+				Function<CondHerosPossedeSort, T> fonctionHerosSort,
+				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
+				Function<CondHerosAStatut, T> fonction) {
+			return fonction == null ? null : fonction.apply(this);
 		}
-		
 	}
-	
-	
-	
-	
-	
 }

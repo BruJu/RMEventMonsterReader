@@ -3,9 +3,9 @@ package fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.interfaces.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
 
 public class GestionImages implements Remplisseur {

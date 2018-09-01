@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.calcul;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 
