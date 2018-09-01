@@ -8,11 +8,11 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
 
-public class GestionImages implements Remplisseur {
+class GestionImages implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 	
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
+	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
 		handlers.put(11110, this::afficherImage);
 		handlers.put(11120, this::deplacerImage);
 		handlers.put(11130, (e, p, s) -> e.Image_effacer(p[0]));

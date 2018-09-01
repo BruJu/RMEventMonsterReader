@@ -12,7 +12,7 @@ class GestionEquipe implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
+	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
 		handlers.put(10330, this::modifierEquipe);
 		handlers.put(10410, (e, p, c) -> modifierExperience(e, p, VariableHeros.Caracteristique.EXPERIENCE));
 		handlers.put(10420, (e, p, c) -> modifierExperience(e, p, VariableHeros.Caracteristique.NIVEAU));

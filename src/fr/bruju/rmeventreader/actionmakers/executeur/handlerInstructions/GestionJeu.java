@@ -16,7 +16,7 @@ class GestionJeu implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 	
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
+	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
 		
 		handlers.put(10810, this::teleporter);
 		handlers.put(10820, this::memoriserPosition);

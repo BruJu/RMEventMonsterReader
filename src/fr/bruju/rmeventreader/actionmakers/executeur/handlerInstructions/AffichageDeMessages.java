@@ -3,21 +3,34 @@ package fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Ignorance;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
 
 class AffichageDeMessages implements Remplisseur {
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers) {
+	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
 		// ShowMessage
 		handlers.put(10110, (e, t, c) -> e.Messages_afficherMessage(c));
 		// ShowMessage Followup
 		handlers.put(20110, (e, t, c) -> e.Messages_afficherSuiteMessage(c));
 		// MessageOption
 		handlers.put(10120, this::changeMessageOptions);
-		handlers.put(10130, (e, t, c) -> {});	// TODO changement de portriat
+		handlers.put(10130, (e, t, c) -> {});	// TODO changement de portrait
 		// Choix multiples
-		handlers.put(10140, this::initialisationQCM);
-		handlers.put(20140, this::choixQCM);
+		classe2.put(10140, new HandlerInstructionRetour() {
+			@Override
+			public boolean traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+				return executeur.SaisieMessages_initierQCM(extraireChoixQCM(parametres[0]));
+			}
+
+			@Override
+			public Ignorance ignorer() {
+				return new Ignorance(10140, 20141);
+			}
+		});
+
+		handlers.put(20140, (e, p, c) -> e.SaisieMessages_choixQCM(c, extraireChoixQCM(p[0]+1)));
+		
 		handlers.put(20141, this::finQCM);
 		// Saisie de nombres
 		handlers.put(10150, (e, t, c) -> e.SaisieMessages_saisieNombre(t[1], t[0]));
@@ -26,7 +39,7 @@ class AffichageDeMessages implements Remplisseur {
 		
 		handlers.put(11610, this::appuiTouche);
 	}
-
+	
 	
 
 	private void appuiTouche(ExecuteurInstructions executeur, int[] parametres, String chaine) {
@@ -66,14 +79,6 @@ class AffichageDeMessages implements Remplisseur {
 	/* ===
 	 * QCM
 	 * === */
-	
-	private void initialisationQCM(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-		executeur.SaisieMessages_initierQCM(extraireChoixQCM(parametres[0]));
-	}
-
-	private void choixQCM(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-		executeur.SaisieMessages_choixQCM(chaine, extraireChoixQCM(parametres[0]+1));
-	}
 
 	private void finQCM(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 		executeur.SaisieMessages_finQCM();

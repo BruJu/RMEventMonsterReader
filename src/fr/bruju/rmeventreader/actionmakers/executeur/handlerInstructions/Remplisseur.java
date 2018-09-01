@@ -21,6 +21,6 @@ public interface Remplisseur {
 		};
 	}
 	
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers);
+	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2);
 
 }
