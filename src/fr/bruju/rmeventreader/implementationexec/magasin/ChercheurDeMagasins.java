@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
 import fr.bruju.rmeventreader.dictionnaires.header.Page;
-import fr.bruju.rmeventreader.dictionnaires.lecture.Explorateur;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ReferenceMap;
 
@@ -20,7 +20,7 @@ public class ChercheurDeMagasins implements Runnable {
 	public Map<Integer, Magasin> chercher() {
 		magasins = new HashMap<>();
 		
-		new Explorateur().explorer(null, this::chercherMagasin);
+		Explorateur.explorer(null, this::chercherMagasin);
 		
 		List<Instruction> niveaux = LecteurDeCache.chargerInstructions(461, 88, 1);
 		Explorateur.executer(new RemplisseurDeNiveaux(magasins), niveaux);

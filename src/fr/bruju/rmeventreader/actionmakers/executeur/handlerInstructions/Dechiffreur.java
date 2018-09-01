@@ -209,17 +209,23 @@ class Dechiffreur {
 			switch (parametres[4]) {
 			case 0:
 				comp = Comparateur.IDENTIQUE;
+				break;
 			case 1:
 				comp = Comparateur.SUPEGAL;
+				break;
 			case 2:
 				comp = Comparateur.INFEGAL;
+				break;
 			case 3:
 				comp = Comparateur.SUP;
+				break;
 			case 4:
 				comp = Comparateur.INF;
+				break;
 			case 5:
 				comp = Comparateur.DIFFERENT;
-			default :
+				break;
+			default:
 				comp = null;
 			}
 			return new Condition.CondVariable(idVariable, comp, valeurDroite);

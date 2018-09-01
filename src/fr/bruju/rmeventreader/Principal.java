@@ -5,7 +5,6 @@ import java.io.IOException;
 import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
-import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
@@ -13,6 +12,7 @@ import fr.bruju.rmeventreader.implementation.printer.Printer;
 import fr.bruju.rmeventreader.implementation.random.EventChecker;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ChercheurDeReferences;
+import fr.bruju.rmeventreader.implementationexec.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementationexec.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementationexec.random.ChercheurDImages;
 
@@ -23,7 +23,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 11;
+		int choix = 7;
 		int choixMap = -1;
 		
 		if (args.length != 0) {

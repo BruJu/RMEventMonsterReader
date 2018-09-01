@@ -1,10 +1,8 @@
-package fr.bruju.rmeventreader.dictionnaires.lecture;
+package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.DechiffreurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
@@ -22,7 +20,7 @@ public class Explorateur {
 	 * @param actionSurLesEvenementCommuns Action réalisée pour chaque évènement commun
 	 * @param actionSurLesPages Action réalisée pour chaque page d'évènement de chaque carte
 	 */
-	public void explorer(Consumer<EvenementCommun> actionSurLesEvenementCommuns,
+	public static void explorer(Consumer<EvenementCommun> actionSurLesEvenementCommuns,
 			TriConsumer<MapGeneral, Evenement, Page> actionSurLesPages) {
 		Pair<Integer, List<Integer>> infos = LecteurDeCache.getInformations();
 		
@@ -42,7 +40,7 @@ public class Explorateur {
 	 * @param numero Le numéro de la map
 	 * @param action Action à réaliser pour chaque page d'évènement
 	 */
-	private void explorerMap(Integer numero, TriConsumer<MapGeneral, Evenement, Page> action) {
+	private static void explorerMap(Integer numero, TriConsumer<MapGeneral, Evenement, Page> action) {
 		MapGeneral map = LecteurDeCache.getMapGeneral(numero);
 		List<Evenement> evenements = LecteurDeCache.getEvenementsDepuisMapGeneral(map);
 		evenements.forEach(evenement -> evenement.pages.forEach(page -> action.consume(map, evenement, page)));
@@ -55,5 +53,14 @@ public class Explorateur {
 	}
 	
 	
+	public static void lireEvenementMap(ExecuteurInstructions executeur, int idMap, int idEvenement, int idPage) {
+		Evenement evenement = LecteurDeCache.getEvenement(idMap, idEvenement);
+		executer(executeur, evenement.pages.get(idPage - 1).instructions);
+	}
+
+	public static void lireEvenementCommun(ExecuteurInstructions executeur, int idEvenement) {
+		EvenementCommun evenementCommun = LecteurDeCache.getEvenementCommun(idEvenement);
+		executer(executeur, evenementCommun.instructions);
+	}
 	
 }

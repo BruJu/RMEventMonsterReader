@@ -1,8 +1,8 @@
-package fr.bruju.rmeventreader.implementation.equipementchecker;
+package fr.bruju.rmeventreader.implementationexec.equipementchecker;
 
 import java.util.TreeMap;
 
-import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 
 /**
  * Ce module a pour but de vérifier si les équipements des personnages donnent autant de statistiques qu'ils n'en
@@ -34,10 +34,12 @@ public class Verificateur implements Runnable {
 		System.out.println("------------- PERSONNAGE " + idPerso);
 
 		EquipementChecker onEquip = new EquipementChecker(idPerso);
-		new AutoLibLcfXMLCache(onEquip, idMap, idEvent, 1).run();
+		Explorateur.lireEvenementMap(onEquip, idMap, idEvent, 1);
+	
 
 		EquipementChecker onDesequip = new EquipementChecker(idPerso);
-		new AutoLibLcfXMLCache(onDesequip, -1, idEventCommun, -1).run();
+		Explorateur.lireEvenementCommun(onDesequip, idEventCommun);
+		 
 
 		TreeMap<Integer, EquipementData> somme = EquipementData.combiner(onEquip.getEquipements(),
 				onDesequip.getEquipements());

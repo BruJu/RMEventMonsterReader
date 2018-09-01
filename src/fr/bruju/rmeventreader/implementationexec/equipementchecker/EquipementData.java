@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.equipementchecker;
+package fr.bruju.rmeventreader.implementationexec.equipementchecker;
 
 import java.util.Map;
 import java.util.TreeMap;

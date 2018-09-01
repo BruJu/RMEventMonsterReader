@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader.implementationexec.chercheurdevariables;
 
 import java.util.List;
 
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
-import fr.bruju.rmeventreader.dictionnaires.lecture.Explorateur;
 
 /**
  * Cherche les références à des variables codées en dur dans tout un projet
@@ -24,7 +24,7 @@ public class ChercheurDeReferences implements Runnable {
 				() -> {baseDeRecherche = new BaseDeRechercheTextuelle("narre");}
 		}[option].run();
 		
-		new Explorateur().explorer(
+		Explorateur.explorer(
 				ec -> this.explorer(new ReferenceEC(ec.id), ec.instructions),
 				(map, event, page) -> explorer(new ReferenceMap(map, event, page), page.instructions));
 		

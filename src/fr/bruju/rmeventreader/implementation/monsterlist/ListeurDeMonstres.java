@@ -26,6 +26,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+@SuppressWarnings("unused")
 public class ListeurDeMonstres implements Runnable {
 	private int option;
 	
