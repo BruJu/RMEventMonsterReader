@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 
 /**
@@ -28,6 +29,10 @@ public class ConditionOnBattleId implements Condition<Combat> {
 	public ConditionOnBattleId(Operator operator, int rightValue) {
 		this.operator = operator;
 		this.rightValue = rightValue;
+	}
+
+	public ConditionOnBattleId(Comparateur operateur, int valeur) {
+		this(Comparateur.toOperator(operateur), valeur);
 	}
 
 	@Override

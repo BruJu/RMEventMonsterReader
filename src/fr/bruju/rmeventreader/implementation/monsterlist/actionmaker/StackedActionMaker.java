@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
 
 /**
@@ -23,7 +24,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
  *
  * @param <T> Le type sur lequel portent les conditions
  */
-public abstract class StackedActionMaker<T> implements ActionMakerDefalse {
+public abstract class StackedActionMaker<T> implements ActionMakerDefalse, ExecuteurInstructions {
 	/**
 	 * Liste des conditions actuellement traitées
 	 */
@@ -51,5 +52,15 @@ public abstract class StackedActionMaker<T> implements ActionMakerDefalse {
 	@Override
 	public void condEnd() {
 		conditions.pop();
+	}
+
+	@Override
+	public void Flot_siFin() {
+		conditions.pop();
+	}
+	
+	@Override
+	public void Flot_siNon() {
+		conditions.revertTop();
 	}
 }

@@ -79,8 +79,6 @@ public class EnregistreurDeDrop implements ExecuteurInstructions {
 	}
 	
 	public Boolean condVariable(CondVariable cond) {
-		System.out.println(cond.variable + " ; " + VARIABLE_ID_MONSTRE);
-		
 		if (cond.variable != VARIABLE_ID_MONSTRE)
 			return null;
 		

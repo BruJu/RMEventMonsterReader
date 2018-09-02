@@ -50,15 +50,13 @@ public class ListeurDeMonstres implements Runnable {
 		Runnable[] listeDesActions = new Runnable[] {
 			new AutoLibLcfXMLCache(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
 			new AutoLibLcfXMLCache(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
-			new AutoLibLcfXMLCache(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
-			new AutoLibLcfXMLCache(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
+			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
+			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt"),
 			new Correcteur(baseDeDonnees                                           , "ressources/Correction.txt"),
 			new AutoLibLcfXMLCache(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt"),
 			() -> Explorateur.lireEvenementMap(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
-			
-			//new AutoLibLcfXMLCache(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			new AutoLibLcfXMLCache(new FinDeCombat(baseDeDonnees), -1, 44, -1),

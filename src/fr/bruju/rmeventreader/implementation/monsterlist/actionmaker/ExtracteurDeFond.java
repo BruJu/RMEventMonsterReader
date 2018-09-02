@@ -2,9 +2,17 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Comparateur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondInterrupteur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
@@ -47,16 +55,6 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> {
 		return bdd.extractBattles();
 	}
 
-	@Override
-	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (leftOperandValue == VARIABLE_IDCOMBAT) {
-			conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));
-		} else {
-			conditions.push(new ConditionPassThrought<>());
-		}
-		
-		return true;
-	}
 
 	@Override
 	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
@@ -68,7 +66,46 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> {
 	}
 
 	@Override
-	public boolean condOnSwitch(int number, boolean value) {
+	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
+		valeurGauche.appliquerG(variable -> {
+			if (variable.idVariable == VARIABLE_ID_FOND) {
+				valeurDroite.appliquerDroite(valeur -> {
+					getElementsFiltres().forEach(c -> c.addFond(valeur.valeur));
+					return null;
+				}, null, null);
+			}
+			return null;
+		}, null, null);
+	}
+
+	@Override
+	public boolean Flot_si(Condition condition) {
+		boolean r = false;
+		
+		r = r | BooleanUtils.isTrue(condition.appliquerInterrupteur(cond -> this.superfonction(cond)));
+		r = r | BooleanUtils.isTrue(condition.appliquerVariable(cond -> condOnVariable(cond.variable, cond.comparateur, cond.valeurDroite)));
+		
+		return r;
+	}
+
+	private boolean condOnVariable(int variable, Comparateur comparateur, FixeVariable valeurDroite) {
+		if (variable == VARIABLE_IDCOMBAT) {
+			
+			valeurDroite.appliquerFV(
+					fixe -> {conditions.push(new ConditionOnBattleId(comparateur, fixe.valeur)); return null;},
+					v -> {conditions.push(new ConditionPassThrought<>()); return null;}
+					);
+		} else {
+			conditions.push(new ConditionPassThrought<>());
+		}
+		
+		return true;
+	}
+
+	public boolean superfonction(CondInterrupteur cond) {
+		int number = cond.interrupteur;
+		
+		
 		if (number == this.SWITCH_IGNORE1 || number == this.SWITCH_IGNORE2) {
 			return false;
 		}
@@ -76,7 +113,4 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> {
 		conditions.push(new ConditionPassThrought<>());
 		return true;
 	}
-	
-	
-	
 }
