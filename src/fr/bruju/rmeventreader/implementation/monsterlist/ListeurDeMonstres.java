@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstresViaShowPicture;
@@ -55,7 +56,9 @@ public class ListeurDeMonstres implements Runnable {
 			new Correcteur(baseDeDonnees                                           , "ressources/Correction.txt"),
 			new AutoLibLcfXMLCache(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt"),
-			new AutoLibLcfXMLCache(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
+			() -> Explorateur.lireEvenementMap(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
+			
+			//new AutoLibLcfXMLCache(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
 			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			new AutoLibLcfXMLCache(new FinDeCombat(baseDeDonnees), -1, 44, -1),

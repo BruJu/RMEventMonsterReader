@@ -1,9 +1,11 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Comparateur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
 
@@ -18,7 +20,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
  * : End of fork
  * </pre>
  */
-public class EnregistreurDeDrop implements ActionMakerDefalse {
+public class EnregistreurDeDrop implements ExecuteurInstructions {
 	/* ============
 	 * Construction
 	 * ============ */
@@ -43,28 +45,20 @@ public class EnregistreurDeDrop implements ActionMakerDefalse {
 		this.VARIABLE_ID_MONSTRE = db.contexte.getVariable("EnregistreurDrop_MonstreID");
 		this.VARIABLE_ID_DROP = db.contexte.getVariable("EnregistreurDrop_CombatID");
 	}
-	
-	/* ============
-	 * Action Maker
-	 * ============ */
 
+	/* =========
+	 * Exécuteur
+	 * ========= */
+	
 	@Override
-	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (leftOperandValue != VARIABLE_ID_MONSTRE)
-			return false;
-		
-		if (operatorValue == Operator.IDENTIQUE) {
-			dernierIfLu = returnValue.get();
-			return true;
-		} else {
-			throw new DropCompleterException(DropCompleterException.MessageCondition);
-		}
+	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
+		valeurGauche.appliquerG(variable -> valeurDroite.appliquerDroite(fixe -> affVar(variable.idVariable,
+				fixe.valeur), null, null), null, null);
 	}
 	
-	@Override
-	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
-		if (variable.get() != VARIABLE_ID_DROP) {
-			return;
+	public Void affVar(int idVariable, int valeurFixe) {
+		if (idVariable != VARIABLE_ID_DROP) {
+			return null;
 		}
 		
 		if (dernierIfLu == -1) {
@@ -74,19 +68,41 @@ public class EnregistreurDeDrop implements ActionMakerDefalse {
 		db.extractMonsters()
 		  .stream()
 		  .filter(monstre -> monstre.getId() == dernierIfLu)
-		  .forEach(monstre -> monstre.nomDrop = Integer.toString(returnValue.get()));
+		  .forEach(monstre -> monstre.nomDrop = Integer.toString(valeurFixe));
+		
+		return null;
 	}
 
 	@Override
-	public void condElse() {
+	public boolean Flot_si(Condition condition) {
+		return condition.appliquerVariable(this::condVariable) == Boolean.TRUE ? true : false;
+	}
+	
+	public Boolean condVariable(CondVariable cond) {
+		System.out.println(cond.variable + " ; " + VARIABLE_ID_MONSTRE);
+		
+		if (cond.variable != VARIABLE_ID_MONSTRE)
+			return null;
+		
+		if (cond.comparateur != Comparateur.IDENTIQUE) {
+			throw new DropCompleterException(DropCompleterException.MessageCondition);
+		}
+
+		dernierIfLu = cond.valeurDroite.appliquerFV(v -> v.valeur, v -> -1);
+		
+		return true;
+	}
+	
+	@Override
+	public void Flot_siNon() {
 		throw new DropCompleterException("Condition Else");
 	}
-
+	
 	@Override
-	public void condEnd() {
+	public void Flot_siFin() {
 		dernierIfLu = -1; 
 	}
-
+	
 	
 	/* =========
 	 * Exception

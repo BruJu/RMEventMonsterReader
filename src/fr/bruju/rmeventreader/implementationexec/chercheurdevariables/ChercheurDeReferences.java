@@ -17,15 +17,16 @@ public class ChercheurDeReferences implements Runnable {
 
 	@Override
 	public void run() {
-		int option = 1;
+		int option = 2;
 		
 		new Runnable[] {
 				() -> {baseDeRecherche = new BaseDeRechercheDeVariables(new int[] {961, 962, 963, 964});},
-				() -> {baseDeRecherche = new BaseDeRechercheTextuelle("narre");}
+				() -> {baseDeRecherche = new BaseDeRechercheTextuelle("narre");},
+				() -> {baseDeRecherche = new BaseDeRechercheVarAAOn(128);}
 		}[option].run();
 		
 		Explorateur.explorer(
-				ec -> this.explorer(new ReferenceEC(ec.id), ec.instructions),
+				ec -> this.explorer(new ReferenceEC(ec.id, ec.nom), ec.instructions),
 				(map, event, page) -> explorer(new ReferenceMap(map, event, page), page.instructions));
 		
 		baseDeRecherche.afficher();	
@@ -40,8 +41,27 @@ public class ChercheurDeReferences implements Runnable {
 	 */
 	private void explorer(Reference ref, List<Instruction> instructions) {
 		//System.out.println("REFERENCE [" + ref.getString() + "]");
+		// Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
 		
-		Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
+		String[] str = new String[] {
+				"Hyurne-Quartier Sud-ouest ",
+				"Logo NWP",
+				"Hyurne-Quartier Nord-Est"
+				
+				
+		};
+		
+		if (ref.numero() < 0) {
+			Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
+		}
+		
+		for (String s : str) {
+			if (ref.getString().contains(s)) {
+				Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
+			}
+			
+			
+		}
 	}
 	
 

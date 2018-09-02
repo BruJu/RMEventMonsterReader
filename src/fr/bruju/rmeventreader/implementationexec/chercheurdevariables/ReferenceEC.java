@@ -10,13 +10,16 @@ import java.util.Objects;
 public class ReferenceEC implements Reference {
 	/** Numéro de l'évènement commun référencé */
 	public final int eventCommun;
+	
+	public final String nom;
 
 	/**
 	 * Crée une référence à un évènement commun
 	 * @param eventCommun Numéro de l'évènement commun
 	 */
-	public ReferenceEC(int eventCommun) {
+	public ReferenceEC(int eventCommun, String nom) {
 		this.eventCommun = eventCommun;
+		this.nom = nom;
 	}
 
 	@Override
@@ -40,6 +43,6 @@ public class ReferenceEC implements Reference {
 
 	@Override
 	public String getString() {
-		return "Evenement Commun " + this.eventCommun;
+		return "Evenement Commun " + this.eventCommun + " " + this.nom;
 	}
 }
