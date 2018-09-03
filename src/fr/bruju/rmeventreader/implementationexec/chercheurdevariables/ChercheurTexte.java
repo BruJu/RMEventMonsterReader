@@ -3,8 +3,9 @@ package fr.bruju.rmeventreader.implementationexec.chercheurdevariables;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMessages;
 
-public class ChercheurTexte implements ExecuteurInstructions {
+public class ChercheurTexte implements ExecuteurInstructions, ModuleExecMessages {
 	
 	private Reference reference;
 	
@@ -16,6 +17,16 @@ public class ChercheurTexte implements ExecuteurInstructions {
 		this.reference = reference;
 		this.references = references;
 		this.chaine = chaine;
+	}
+
+	@Override
+	public ModuleExecMessages getExecMessages() {
+		return this;
+	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return true;
 	}
 
 	@Override

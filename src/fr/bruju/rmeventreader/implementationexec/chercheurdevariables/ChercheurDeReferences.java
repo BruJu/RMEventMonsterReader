@@ -17,7 +17,7 @@ public class ChercheurDeReferences implements Runnable {
 
 	@Override
 	public void run() {
-		int option = 2;
+		int option = 1;
 		
 		new Runnable[] {
 				() -> {baseDeRecherche = new BaseDeRechercheDeVariables(new int[] {961, 962, 963, 964});},
@@ -40,13 +40,14 @@ public class ChercheurDeReferences implements Runnable {
 	 * @param instructions Les instructions à explorer
 	 */
 	private void explorer(Reference ref, List<Instruction> instructions) {
-		//System.out.println("REFERENCE [" + ref.getString() + "]");
+		System.out.println("REFERENCE [" + ref.getString() + "]");
 		// Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
 		
 		String[] str = new String[] {
-				"Hyurne-Quartier Sud-ouest ",
-				"Logo NWP",
-				"Hyurne-Quartier Nord-Est"
+				""
+				//"Hyurne-Quartier Sud-ouest ",
+				//"Logo NWP",
+				//"Hyurne-Quartier Nord-Est"
 				
 				
 		};

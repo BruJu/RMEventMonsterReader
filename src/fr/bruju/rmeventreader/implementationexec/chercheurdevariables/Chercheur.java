@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMessages;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondVariable;
@@ -29,11 +30,16 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariablePlage
  * @author Bruju
  *
  */
-public class Chercheur implements ExecuteurInstructions {
+public class Chercheur implements ExecuteurInstructions, ModuleExecMessages {
 	/** Référence à ajouter */
 	private Reference reference;
 	/** Map d'association variables - références à compléter */
 	private HashMap<Integer, HashSet<Reference>> variablesCherchees;
+
+	@Override
+	public ModuleExecMessages getExecMessages() {
+		return this;
+	}
 
 	/**
 	 * Crée un nouveau chercheur de références à une variable
