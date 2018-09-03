@@ -3,13 +3,15 @@ package fr.bruju.rmeventreader.implementationexec.magasin;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
 
-public class RemplisseurDObjets implements ExecuteurInstructions {
+public class RemplisseurDObjets implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
 
 	Integer idEnCoursDELecture = null;
 	private Map<Integer, Magasin> magasins;
@@ -18,6 +20,20 @@ public class RemplisseurDObjets implements ExecuteurInstructions {
 		this.magasins = magasins;
 	}
 	
+
+	@Override
+	public ModuleExecVariables getExecVariables() {
+		return this;
+	}
+	
+	
+
+
+	@Override
+	public ModuleExecFlot getExecFlot() {
+		return this;
+	}
+
 
 	@Override
 	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {

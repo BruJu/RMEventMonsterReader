@@ -1,6 +1,8 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondVariable;
@@ -20,7 +22,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
  * : End of fork
  * </pre>
  */
-public class EnregistreurDeDrop implements ExecuteurInstructions {
+public class EnregistreurDeDrop implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
 	/* ============
 	 * Construction
 	 * ============ */
@@ -56,6 +58,16 @@ public class EnregistreurDeDrop implements ExecuteurInstructions {
 				fixe.valeur), null, null), null, null);
 	}
 	
+	@Override
+	public ModuleExecVariables getExecVariables() {
+		return this;
+	}
+	
+	@Override
+	public ModuleExecFlot getExecFlot() {
+		return this;
+	}
+
 	public Void affVar(int idVariable, int valeurFixe) {
 		if (idVariable != VARIABLE_ID_DROP) {
 			return null;

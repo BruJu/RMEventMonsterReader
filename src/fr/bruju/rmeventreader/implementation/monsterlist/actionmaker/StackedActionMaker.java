@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
 
 /**
@@ -24,7 +25,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
  *
  * @param <T> Le type sur lequel portent les conditions
  */
-public abstract class StackedActionMaker<T> implements ActionMakerDefalse, ExecuteurInstructions {
+public abstract class StackedActionMaker<T> implements ActionMakerDefalse, ExecuteurInstructions, ModuleExecFlot {
 	/**
 	 * Liste des conditions actuellement traitées
 	 */
@@ -52,6 +53,13 @@ public abstract class StackedActionMaker<T> implements ActionMakerDefalse, Execu
 	@Override
 	public void condEnd() {
 		conditions.pop();
+	}
+	
+	
+
+	@Override
+	public ModuleExecFlot getExecFlot() {
+		return this;
 	}
 
 	@Override

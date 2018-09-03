@@ -15,13 +15,13 @@ class GestionImages implements Remplisseur {
 	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
 		handlers.put(11110, this::afficherImage);
 		handlers.put(11120, this::deplacerImage);
-		handlers.put(11130, (e, p, s) -> e.Image_effacer(p[0]));
+		handlers.put(11130, (e, p, s) -> e.getExecMedia().Image_effacer(p[0]));
 		
 		
 		handlers.put(11510, this::jouerMusique);
-		handlers.put(11520, (e,p,s) -> e.Media_arreterMusique(p[0]));
-		handlers.put(11530, (e,p,s) -> e.Media_memoriserMusique());
-		handlers.put(11540, (e,p,s) -> e.Media_jouerMusiqueMemorisee());
+		handlers.put(11520, (e,p,s) -> e.getExecMedia().Media_arreterMusique(p[0]));
+		handlers.put(11530, (e,p,s) -> e.getExecMedia().Media_memoriserMusique());
+		handlers.put(11540, (e,p,s) -> e.getExecMedia().Media_jouerMusiqueMemorisee());
 		handlers.put(11550, this::jouerSon);
 		handlers.put(11560, this::jouerFilm);
 	}
@@ -34,20 +34,20 @@ class GestionImages implements Remplisseur {
 		int longueur = parametres[3];
 		int largeur = parametres[4];
 		
-		executeur.Media_jouerFilm(nomFilm, x, y, longueur, largeur);
+		executeur.getExecMedia().Media_jouerFilm(nomFilm, x, y, longueur, largeur);
 	}
 	
 
 	private void jouerSon(ExecuteurInstructions executeur, int[] parametres, String nomSon) {
 		SonParam parametresSonore = new SonParam(parametres[0], parametres[1], parametres[2]);	
-		executeur.Media_jouerSon(nomSon, parametresSonore);
+		executeur.getExecMedia().Media_jouerSon(nomSon, parametresSonore);
 	}
 
 	private void jouerMusique(ExecuteurInstructions executeur, int[] parametres, String nomMusique) {
 		int tempsFondu = parametres[0];
 		SonParam parametresMusicaux = new SonParam(parametres[1], parametres[2], parametres[3]);
 		
-		executeur.Media_jouerMusique(nomMusique, tempsFondu, parametresMusicaux);
+		executeur.getExecMedia().Media_jouerMusique(nomMusique, tempsFondu, parametresMusicaux);
 	}
 	
 	private void deplacerImage(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -67,7 +67,7 @@ class GestionImages implements Remplisseur {
 		int temps = parametres[14];
 		boolean pause = parametres[15] == 1;
 		
-		executeur.Image_deplacer(numeroImage, xImage, yImage, transparenceHaute, transparenceBasse, agrandissement,
+		executeur.getExecMedia().Image_deplacer(numeroImage, xImage, yImage, transparenceHaute, transparenceBasse, agrandissement,
 				couleur, saturation, typeEffet, intensiteEffet, temps, pause);
 	}
 	
@@ -87,7 +87,7 @@ class GestionImages implements Remplisseur {
 		boolean transparence = parametres[7] == 1;
 		boolean defilementAvecCarte = parametres[4] == 1;
 		
-		executeur.Image_afficher(numeroImage, s, xImage, yImage, transparenceHaute, transparenceBasse, agrandissement,
+		executeur.getExecMedia().Image_afficher(numeroImage, s, xImage, yImage, transparenceHaute, transparenceBasse, agrandissement,
 				couleur, saturation, typeEffet, intensiteEffet, transparence, defilementAvecCarte);
 	}
 

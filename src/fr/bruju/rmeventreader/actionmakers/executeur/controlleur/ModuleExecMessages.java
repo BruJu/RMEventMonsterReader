@@ -38,6 +38,15 @@ public interface ModuleExecMessages {
 	public default void SaisieMessages_saisieNombre(int idVariable, int nombreDeChiffres) {
 	}
 
+	public default void SaisieMessages_SaisieNom(int idHeros, boolean lettres, boolean afficherNomParDefaut) {
+	}
+
+	public default void Messages_appuiTouche(int numeroVariable, boolean bloquant, int enregistrementTempsMis, boolean haut,
+			boolean droite, boolean bas, boolean gauche, boolean entree, boolean annuler, boolean maj, boolean chiffres,
+			boolean symboles) {
+		
+	}
+	
 	public default boolean getBooleenParDefaut() {
 		return false;
 	}

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondInterrupteur;
@@ -18,7 +19,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionP
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
-public class ExtracteurDeFond extends StackedActionMaker<Combat> {
+public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ModuleExecVariables {
 	/* ==================
 	 * StackedActionMaker
 	 * ================== */
@@ -35,6 +36,11 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> {
 	
 	/**	Base de données de monstre */
 	private MonsterDatabase bdd;
+
+	@Override
+	public ModuleExecVariables getExecVariables() {
+		return super.getExecVariables();
+	}
 
 	/**
 	 * Instancie le faiseur d'action avec la base de données à compléter

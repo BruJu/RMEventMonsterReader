@@ -3,6 +3,8 @@ package fr.bruju.rmeventreader.implementationexec.equipementchecker;
 import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondHerosPossedeObjet;
@@ -12,7 +14,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.OpMathematiqu
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 
-public class EquipementChecker implements ExecuteurInstructions {
+public class EquipementChecker implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
 	/** Numéro du héros */
 	private int idHeros;
 
@@ -43,6 +45,16 @@ public class EquipementChecker implements ExecuteurInstructions {
 	/* ================================
 	 * MONTEUR D'ENSEMBLE D'EQUIPEMENTS
 	 * ================================ */
+
+	@Override
+	public ModuleExecVariables getExecVariables() {
+		return this;
+	}
+
+	@Override
+	public ModuleExecFlot getExecFlot() {
+		return this;
+	}
 
 	/**
 	 * Détermine que l'objet en cours de lecture est trop complexe pour être stockée dans le système très simple mis en

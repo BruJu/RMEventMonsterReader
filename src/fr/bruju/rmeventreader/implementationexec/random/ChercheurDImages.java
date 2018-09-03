@@ -7,7 +7,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.DechiffreurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.TypeEffet;
@@ -63,18 +64,16 @@ public class ChercheurDImages implements Runnable {
 
 
 
-	public class AnalyseurDInstructions implements ExecuteurInstructions {
+	public class AnalyseurDInstructions implements ExecuteurInstructionsTrue, ModuleExecMedia {
 		public final int numeroEvent;
 
 		private void utiliseImage(int numeroImage) {
 			Utilitaire.Maps.ajouterElementDansSet(utilisations, numeroImage, numeroEvent);
 		}
-		
-		
-		
+
 		@Override
-		public boolean getBooleenParDefaut() {
-			return true;
+		public ModuleExecMedia getExecMedia() {
+			return this;
 		}
 
 		public AnalyseurDInstructions(int numeroEvent) {

@@ -2,7 +2,9 @@ package fr.bruju.rmeventreader.implementationexec.magasin;
 
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecJeu;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
@@ -10,7 +12,7 @@ import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
 import fr.bruju.rmeventreader.dictionnaires.header.MapRM;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ReferenceMap;
 
-public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
+public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, ModuleExecVariables, ModuleExecJeu {
 	private Map<Integer, Magasin> magasins;
 	private MapRM map;
 	private Integer magasinActuel;
@@ -22,6 +24,16 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 		this.ref = ref;
 	}
 	
+	@Override
+	public ModuleExecVariables getExecVariables() {
+		return this;
+	}
+
+	@Override
+	public ModuleExecJeu getExecJeu() {
+		return this;
+	}
+
 	@Override
 	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
 		Boolean gaucheOk = valeurGauche.appliquerG(v -> v.idVariable == 1209, null, null);
@@ -54,10 +66,4 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 		
 		magasins.put(magasinActuel, new Magasin(magasinActuel, map.getNom()));
 	}
-
-	@Override
-	public boolean getBooleenParDefaut() {
-		return true;
-	}
-
 }

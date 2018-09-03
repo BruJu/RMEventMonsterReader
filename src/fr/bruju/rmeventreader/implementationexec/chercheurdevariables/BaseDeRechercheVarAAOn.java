@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
 
 public class BaseDeRechercheVarAAOn implements BaseDeRecherche {
@@ -26,11 +27,17 @@ public class BaseDeRechercheVarAAOn implements BaseDeRecherche {
 	}
 
 	
-	public class ChercheurDeOn implements ExecuteurInstructions {
+	public class ChercheurDeOn implements ExecuteurInstructions, ModuleExecVariables {
 		private Reference ref;
 
 		public ChercheurDeOn(Reference ref) {
 			this.ref = ref;
+		}
+		
+		
+		@Override
+		public ModuleExecVariables getExecVariables() {
+			return this;
 		}
 
 		@Override
@@ -42,15 +49,6 @@ public class BaseDeRechercheVarAAOn implements BaseDeRecherche {
 				return null;
 			}, null, null);
 		}
-
-		@Override
-		public boolean getBooleenParDefaut() {
-			return true;
-		}
-		
-		
-		
-		
 	}
 
 }

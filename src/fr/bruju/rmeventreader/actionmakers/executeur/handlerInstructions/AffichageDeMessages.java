@@ -51,7 +51,7 @@ class AffichageDeMessages implements Remplisseur {
 		boolean entree = parametres[3] == 1;
 		boolean annuler = parametres[4] == 1;
 		if (parametres.length <= 5) {
-			executeur.Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
+			executeur.getExecMessages().Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
 					false, false, false, false, entree, annuler, false, false, false);
 			return;
 			// TODO : compatiblité
@@ -65,7 +65,7 @@ class AffichageDeMessages implements Remplisseur {
 		boolean droite = parametres[12] == 1;
 		boolean haut = parametres[13] == 1;
 		
-		executeur.Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
+		executeur.getExecMessages().Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
 				haut, droite, bas, gauche, entree, annuler, maj, chiffres, symboles);
 	}
 	
@@ -73,7 +73,7 @@ class AffichageDeMessages implements Remplisseur {
 		int idHeros = parametres[0];
 		boolean lettres = parametres[1] == 0;
 		boolean afficherNomParDefaut = parametres[2] == 1;
-		executeur.SaisieMessages_SaisieNom(idHeros, lettres, afficherNomParDefaut);
+		executeur.getExecMessages().SaisieMessages_SaisieNom(idHeros, lettres, afficherNomParDefaut);
 	}
 	
 	

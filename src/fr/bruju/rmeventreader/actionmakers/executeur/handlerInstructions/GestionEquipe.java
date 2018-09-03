@@ -29,7 +29,7 @@ class GestionEquipe implements Remplisseur {
 
 	private void soignerCompletement(ExecuteurInstructions executeur, int[] parametres, String s) {
 		ValeurMembre cible = d.dechiffrerMembreCible(parametres[0], parametres[1]);
-		executeur.Equipe_soignerCompletement(cible);
+		executeur.getExecEquipe().Equipe_soignerCompletement(cible);
 	}
 
 	private void modifierStatut(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -37,7 +37,7 @@ class GestionEquipe implements Remplisseur {
 		boolean infliger = parametres[2] == 0;
 		int numeroStatut = parametres[3];
 
-		executeur.Equipe_modifierStatut(cible, infliger, numeroStatut);
+		executeur.getExecEquipe().Equipe_modifierStatut(cible, infliger, numeroStatut);
 	}
 
 	private void modifierMP(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -45,7 +45,7 @@ class GestionEquipe implements Remplisseur {
 		boolean ajouter = parametres[2] == 0;
 		FixeVariable quantite = d.dechiffrerFixeVariable(parametres[3], parametres[4]);
 
-		executeur.Equipe_modifierStatistique(cible, VariableHeros.Caracteristique.MPACTUEL, ajouter, quantite);
+		executeur.getExecEquipe().Equipe_modifierStatistique(cible, VariableHeros.Caracteristique.MPACTUEL, ajouter, quantite);
 	}
 
 	private void modifierHP(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -54,19 +54,19 @@ class GestionEquipe implements Remplisseur {
 		FixeVariable quantite = d.dechiffrerFixeVariable(parametres[3], parametres[4]);
 		boolean peutTuer = parametres[5] == 1;
 
-		executeur.Equipe_modifierHP(cible, ajouter, quantite, peutTuer);
+		executeur.getExecEquipe().Equipe_modifierHP(cible, ajouter, quantite, peutTuer);
 	}
 
 	private void modifierEquipement(ExecuteurInstructions executeur, int[] parametres, String s) {
 		ValeurMembre cible = d.dechiffrerMembreCible(parametres[0], parametres[1]);
 		if (parametres[2] == 0) {
 			FixeVariable objet = d.dechiffrerFixeVariable(parametres[3], parametres[4]);
-			executeur.Equipe_equiper(cible, objet);
+			executeur.getExecEquipe().Equipe_equiper(cible, objet);
 		} else {
 			if (parametres[3] == 0) {
-				executeur.Equipe_desequiper(cible);
+				executeur.getExecEquipe().Equipe_desequiper(cible);
 			} else {
-				executeur.Equipe_desequiper(cible, VariableHeros.Caracteristique
+				executeur.getExecEquipe().Equipe_desequiper(cible, VariableHeros.Caracteristique
 						.values()[VariableHeros.Caracteristique.ARME.ordinal() + parametres[3]]);
 			}
 		}
@@ -77,7 +77,7 @@ class GestionEquipe implements Remplisseur {
 		boolean ajouter = parametres[2] == 0;
 		FixeVariable sort = d.dechiffrerFixeVariable(parametres[3], parametres[4]);
 
-		executeur.Equipe_modifierCompetence(cible, ajouter, sort);
+		executeur.getExecEquipe().Equipe_modifierCompetence(cible, ajouter, sort);
 	}
 
 	private void modifierStatistiqueStable(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -86,7 +86,7 @@ class GestionEquipe implements Remplisseur {
 		VariableHeros.Caracteristique stat = d.caracAugmentable(parametres[3]);
 		FixeVariable quantite = d.dechiffrerFixeVariable(parametres[4], parametres[5]);
 
-		executeur.Equipe_modifierStatistique(cible, stat, ajouter, quantite);
+		executeur.getExecEquipe().Equipe_modifierStatistique(cible, stat, ajouter, quantite);
 	}
 
 	private void modifierExperience(ExecuteurInstructions executeur, int[] parametres,
@@ -96,14 +96,14 @@ class GestionEquipe implements Remplisseur {
 		FixeVariable quantite = d.dechiffrerFixeVariable(parametres[3], parametres[4]);
 		boolean verbose = parametres[5] == 1;
 
-		executeur.Equipe_modifierExperience(cible, stat, ajouter, quantite, verbose);
+		executeur.getExecEquipe().Equipe_modifierExperience(cible, stat, ajouter, quantite, verbose);
 	}
 
 	private void modifierEquipe(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 		boolean ajouter = parametres[0] == 0;
 		FixeVariable personnage = d.dechiffrerFixeVariable(parametres[1], parametres[2]);
 
-		executeur.Equipe_modifierEquipe(ajouter, personnage);
+		executeur.getExecEquipe().Equipe_modifierEquipe(ajouter, personnage);
 	}
 
 }

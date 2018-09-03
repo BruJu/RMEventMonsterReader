@@ -13,8 +13,6 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriConsumer;
 
 public class Explorateur {
-
-	
 	/**
 	 * Permet d'explorer tout un projet
 	 * @param actionSurLesEvenementCommuns Action réalisée pour chaque évènement commun
@@ -62,5 +60,6 @@ public class Explorateur {
 		EvenementCommun evenementCommun = LecteurDeCache.getEvenementCommun(idEvenement);
 		executer(executeur, evenementCommun.instructions);
 	}
+
 	
 }
