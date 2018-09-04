@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
-import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
-import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
-import fr.bruju.rmeventreader.dictionnaires.header.Page;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
+import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
+import fr.bruju.rmeventreader.dictionnaires.modele.Page;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ReferenceMap;
 
 public class ChercheurDeMagasins implements Runnable {

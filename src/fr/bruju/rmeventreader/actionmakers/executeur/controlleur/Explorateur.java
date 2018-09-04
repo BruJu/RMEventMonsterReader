@@ -3,12 +3,12 @@ package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 import java.util.List;
 import java.util.function.Consumer;
 
-import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
-import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
-import fr.bruju.rmeventreader.dictionnaires.header.Page;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
+import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.modele.EvenementCommun;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
+import fr.bruju.rmeventreader.dictionnaires.modele.Page;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriConsumer;
 

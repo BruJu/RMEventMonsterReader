@@ -12,9 +12,9 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.TypeEffet;
-import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
+import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 

@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementationexec.chercheurdevariables;
 
-import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
-import fr.bruju.rmeventreader.dictionnaires.header.Page;
+import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
+import fr.bruju.rmeventreader.dictionnaires.modele.Page;
 
 /**
  * Référence à un évènement sur une carte

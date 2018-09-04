@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
 
-import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+import fr.bruju.rmeventreader.dictionnaires.modele.Monteur;
 
 /**
  * Cette interface est un composant de la chaîne pour monter des objets à partir de fichiers

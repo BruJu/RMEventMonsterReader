@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementationexec.chercheurdevariables;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 
 /**
  * Cherche les références à des variables codées en dur dans tout un projet

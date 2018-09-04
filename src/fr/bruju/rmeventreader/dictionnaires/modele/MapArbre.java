@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.dictionnaires.header;
+package fr.bruju.rmeventreader.dictionnaires.modele;
 
 import java.io.IOException;
 import java.util.List;

@@ -9,11 +9,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
-import fr.bruju.rmeventreader.dictionnaires.header.ElementComposite;
-import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
-import fr.bruju.rmeventreader.dictionnaires.header.Page;
+import fr.bruju.rmeventreader.dictionnaires.modele.ElementComposite;
+import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.modele.EvenementCommun;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.modele.Page;
 
 public class InstancieurXML {
 	public static Evenement evenement(Node eventNode) {

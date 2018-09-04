@@ -5,7 +5,7 @@ import java.util.function.BiConsumer;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
-import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+import fr.bruju.rmeventreader.dictionnaires.modele.Monteur;
 
 /**
  * Traîtement consistant à lire un objet

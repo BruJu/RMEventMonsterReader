@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
-import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+import fr.bruju.rmeventreader.dictionnaires.modele.Monteur;
 
 /**
  * Traitement déclarant l'attente d'une ligne

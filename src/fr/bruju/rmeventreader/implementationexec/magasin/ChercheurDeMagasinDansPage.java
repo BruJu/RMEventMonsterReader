@@ -6,10 +6,10 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecJeu;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapRM;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
-import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
-import fr.bruju.rmeventreader.dictionnaires.header.MapRM;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ReferenceMap;
 
 public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, ModuleExecVariables, ModuleExecJeu {

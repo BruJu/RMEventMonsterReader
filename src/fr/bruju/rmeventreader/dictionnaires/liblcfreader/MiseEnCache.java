@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.dictionnaires.liblcfreader;
 
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
-import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
-import fr.bruju.rmeventreader.dictionnaires.header.MapArbre;
-import fr.bruju.rmeventreader.dictionnaires.header.MapRM;
-import fr.bruju.rmeventreader.dictionnaires.header.Page;
+import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.modele.EvenementCommun;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapArbre;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapRM;
+import fr.bruju.rmeventreader.dictionnaires.modele.Page;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import org.w3c.dom.Node;

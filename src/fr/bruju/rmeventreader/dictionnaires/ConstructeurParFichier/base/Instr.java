@@ -6,8 +6,8 @@ import java.util.function.BiConsumer;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
-import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.modele.Monteur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**

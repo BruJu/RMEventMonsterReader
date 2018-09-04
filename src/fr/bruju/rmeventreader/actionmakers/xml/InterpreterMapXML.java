@@ -10,9 +10,9 @@ import fr.bruju.rmeventreader.actionmakers.actionner.ActionMaker;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles;
 import fr.bruju.rmeventreader.actionmakers.xml.ActionsPossibles.Action;
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.ExtractionXML;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.InstancieurXML;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 
 /**
  * Interpreteur de l'arbre XML généré par EasyRPG.

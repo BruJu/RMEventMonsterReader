@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Avancement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
-import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+import fr.bruju.rmeventreader.dictionnaires.modele.Monteur;
 
 /**
  * Réalise une boucle avec le traitement donné

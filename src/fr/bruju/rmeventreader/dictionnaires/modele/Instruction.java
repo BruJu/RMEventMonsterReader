@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.dictionnaires.header;
+package fr.bruju.rmeventreader.dictionnaires.modele;
 
 public class Instruction {
 	public final int code;

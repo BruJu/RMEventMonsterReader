@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.HandlerInstruction;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.HandlerInstructionRetour;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.Remplisseur;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 
 public class DechiffreurInstructions {
 	private static Map<Integer, HandlerInstruction> instructionsConnues;

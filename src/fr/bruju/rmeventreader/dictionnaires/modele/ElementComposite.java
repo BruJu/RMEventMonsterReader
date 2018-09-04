@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.dictionnaires.header;
+package fr.bruju.rmeventreader.dictionnaires.modele;
 
 /**
  * Un objet composé d'un autre type d'objet

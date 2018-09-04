@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.dictionnaires.header.Monteur;
+import fr.bruju.rmeventreader.dictionnaires.modele.Monteur;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;

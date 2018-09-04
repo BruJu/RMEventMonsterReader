@@ -5,11 +5,11 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
-import fr.bruju.rmeventreader.dictionnaires.header.Contexte;
-import fr.bruju.rmeventreader.dictionnaires.header.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.header.EvenementCommun;
-import fr.bruju.rmeventreader.dictionnaires.header.Instruction;
-import fr.bruju.rmeventreader.dictionnaires.header.MapGeneral;
+import fr.bruju.rmeventreader.dictionnaires.modele.Contexte;
+import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
+import fr.bruju.rmeventreader.dictionnaires.modele.EvenementCommun;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class LecteurDeCache {
@@ -36,10 +36,12 @@ public class LecteurDeCache {
 	}
 	
 	public static List<Evenement> getEvenementsDepuisMapGeneral(MapGeneral mapGeneral) {
-		return mapGeneral
-				.evenements
+		String prefixe = "cache_xml\\Map" + Utilitaire_XML.transformerId(mapGeneral.map.id) + "\\";
+		
+		return mapGeneral.evenements
 				.stream()
-				.map(numero -> getEvenement(mapGeneral.map.id, numero))
+				.map(numero -> mapGeneral.evenementsComplexes.contains(numero) ?
+						getEvenementComplexe(prefixe, mapGeneral.map.id, numero) : getEvenementSimple(numero))
 				.collect(Collectors.toList());
 	}
 
@@ -60,13 +62,22 @@ public class LecteurDeCache {
 		}
 		
 		if (mg.evenementsComplexes.contains(idEvent)) {
-			String fichier = prefixe + "Event" + Utilitaire_XML.transformerId(idEvent) + ".txt";
-			
-			return ConvertisseurLigneVersObjet.construire(fichier, Evenement.sousObjet());
+			return getEvenementComplexe(prefixe, idMap, idEvent);
 		} else {
-			return Evenement.creerEvenementSimple(idEvent, "", -1, -1);
+			return getEvenementSimple(idEvent);
 		}
 	}
+	
+	private static Evenement getEvenementComplexe(String dossierMap, int idMap, int idEvent) {
+		String fichier = dossierMap + "Event" + Utilitaire_XML.transformerId(idEvent) + ".txt";
+		return ConvertisseurLigneVersObjet.construire(fichier, Evenement.sousObjet());
+	}
+
+	private static Evenement getEvenementSimple(int idEvent) {
+		// TODO : mettre les bonnes données
+		return Evenement.creerEvenementSimple(idEvent, "", -1, -1);
+	}
+	
 
 	public static Pair<Integer, List<Integer>> getInformations() {
 		Contexte ec = ConvertisseurLigneVersObjet.construire("cache_xml\\Contexte.txt" , Contexte.sousObjet());
