@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.modele;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
@@ -13,13 +13,13 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.Tr
 
 public class MapGeneral implements ElementComposite<Evenement> {
 	public final MapRM map;
-	public final List<Integer> evenements;
-	public final List<Integer> evenementsComplexes;
+	public final Set<Integer> evenements;
+	public final Set<Integer> evenementsComplexes;
 	
 	public MapGeneral(MapRM map) {
 		this.map = map;
-		this.evenements = new ArrayList<>();
-		this.evenementsComplexes = new ArrayList<>();
+		this.evenements = new TreeSet<>();
+		this.evenementsComplexes = new TreeSet<>();
 	}
 	
 	@Override
@@ -64,8 +64,5 @@ public class MapGeneral implements ElementComposite<Evenement> {
 			}
 			return this;
 		}
-		
-		
-		
 	}
 }

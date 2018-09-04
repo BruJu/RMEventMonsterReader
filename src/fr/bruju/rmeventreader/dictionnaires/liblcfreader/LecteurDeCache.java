@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.liblcfreader;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.Utilitaire_XML;
@@ -79,7 +80,7 @@ public class LecteurDeCache {
 	}
 	
 
-	public static Pair<Integer, List<Integer>> getInformations() {
+	public static Pair<Integer, Set<Integer>> getInformations() {
 		Contexte ec = ConvertisseurLigneVersObjet.construire("cache_xml\\Contexte.txt" , Contexte.sousObjet());
 		
 		return new Pair<>(ec.nombreEC, ec.maps);

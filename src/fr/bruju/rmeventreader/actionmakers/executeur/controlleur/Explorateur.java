@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
@@ -20,7 +21,7 @@ public class Explorateur {
 	 */
 	public static void explorer(Consumer<EvenementCommun> actionSurLesEvenementCommuns,
 			TriConsumer<MapGeneral, Evenement, Page> actionSurLesPages) {
-		Pair<Integer, List<Integer>> infos = LecteurDeCache.getInformations();
+		Pair<Integer, Set<Integer>> infos = LecteurDeCache.getInformations();
 		
 		if (actionSurLesEvenementCommuns != null) {
 			for (int i = 1 ; i <= infos.getLeft() ; i++) { 

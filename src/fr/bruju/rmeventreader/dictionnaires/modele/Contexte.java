@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.modele;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.ConvertisseurLigneVersObjet;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Traitement;
@@ -11,9 +11,10 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauI
 
 
 public class Contexte {
-	public final List<Integer> maps;
+	public final Set<Integer> maps;
 	public final int nombreEC;
-	public Contexte(List<Integer> maps, int nombreEC) {
+	
+	public Contexte(Set<Integer> maps, int nombreEC) {
 		this.maps = maps;
 		this.nombreEC = nombreEC;
 	}
@@ -30,7 +31,7 @@ public class Contexte {
 	}
 	
 	public static class Builder implements Monteur<Contexte> {
-		private List<Integer> maps = new ArrayList<>();
+		private Set<Integer> maps = new TreeSet<>();
 		private int nombreEC;
 		
 		@Override
@@ -49,8 +50,5 @@ public class Contexte {
 			nombreEC = nombre;
 			return this;
 		}
-		
-		
-		
 	}
 }
