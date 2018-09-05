@@ -1,10 +1,10 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurMembre;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.CombatComportementFuite;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ConditionsDeCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ArrierePlanCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurMembre;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.CombatComportementFuite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.ConditionsDeCombat;
 
 public interface ModuleExecIntegre {
 	public static final ModuleExecIntegre NullFalse = new ModuleExecIntegre() {};

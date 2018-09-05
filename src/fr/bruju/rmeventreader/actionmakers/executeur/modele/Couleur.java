@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele;
 
 public class Couleur {
 	public final int rouge;

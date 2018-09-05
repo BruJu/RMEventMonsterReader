@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele;
 
 public class EvenementDeplacable {
 	public final static int ID_HEROS = 10001;

@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ChoixQCM;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Position;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.ChoixQCM;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Position;
 
 public interface ModuleExecMessages {
 	public static final ModuleExecMessages NullFalse = new ModuleExecMessages() {};

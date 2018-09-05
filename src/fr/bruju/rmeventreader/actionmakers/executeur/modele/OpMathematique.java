@@ -1,6 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
-
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele;
 
 public enum OpMathematique {
 	/* =================
@@ -99,26 +97,5 @@ public enum OpMathematique {
 	 */
 	public Integer getNeutre() {
 		return neutre;
-	}
-
-	/* ==================
-	 * RETROCOMPATIBILITE
-	 * ================== */
-
-	public static Operator toOperator(OpMathematique operateur) {
-		switch (operateur) {
-		case DIVISE:
-			return Operator.DIVIDE;
-		case FOIS:
-			return Operator.TIMES;
-		case MODULO:
-			return Operator.MODULO;
-		case MOINS:
-			return Operator.MINUS;
-		case PLUS:
-			return Operator.PLUS;
-		default:
-			return null;
-		}
 	}
 }

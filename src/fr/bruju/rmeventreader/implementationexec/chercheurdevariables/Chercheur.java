@@ -4,24 +4,23 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsEtoile;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ArrierePlanCombat;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition.CondVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.OpMathematique;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.CombatComportementFuite;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ConditionsDeCombat;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.TypeEffet;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Vehicule;
-
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurMembre;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ArrierePlanCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.EvenementDeplacable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurMembre;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariablePlage;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.CombatComportementFuite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.ConditionsDeCombat;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Vehicule;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros.Caracteristique;
 
 /**
  * Executeur d'instructions qui ajoute des références si il trouve des instructions en lien à des variables.

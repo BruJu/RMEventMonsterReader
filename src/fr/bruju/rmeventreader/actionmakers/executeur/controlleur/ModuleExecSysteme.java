@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseCarac;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.ClasseComp;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.SujetTransition;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Transition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.SonParam;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.ClasseCarac;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.ClasseComp;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.SujetTransition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Transition;
 
 public interface ModuleExecSysteme {
 	public static final ModuleExecSysteme Null = new ModuleExecSysteme() {};

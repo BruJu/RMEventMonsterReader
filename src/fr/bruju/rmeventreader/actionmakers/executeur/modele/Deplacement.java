@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele;
 
 /**
  * Actuellement vide

@@ -4,8 +4,8 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Ignorance;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 
 class ControleDeFlot implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();

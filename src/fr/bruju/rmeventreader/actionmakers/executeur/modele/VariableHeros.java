@@ -1,24 +1,33 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele;
 
 import java.util.function.Function;
 
-public class ValeurDeplacable implements ValeurDroiteVariable {
-	public final EvenementDeplacable deplacable;
+public class VariableHeros implements ValeurDroiteVariable {
+	public final int idHeros;
 	public final Caracteristique caracteristique;
 	
-	public ValeurDeplacable(EvenementDeplacable deplacable, Caracteristique caracteristique) {
-		this.deplacable = deplacable;
+	public VariableHeros(int idHeros, Caracteristique caracteristique) {
+		this.idHeros = idHeros;
 		this.caracteristique = caracteristique;
 	}
 
-	
+
 	public static enum Caracteristique {
-		ID_MAP,
-		X,
-		Y,
-		DIRECTION,
-		X_RELATIF_ECRAN,
-		Y_RELATIF_ECRAN
+		NIVEAU,
+		EXPERIENCE,
+		HPACTUEL,
+		MPACTUEL,
+		HPMAX,
+		MPMAX,
+		ATTAQUE,
+		DEFENSE,
+		INTELLIGENCE,
+		AGILITE,
+		ARME,
+		BOUCLIER,
+		ARMURE,
+		CASQUE,
+		ACCESSOIRE
 	}
 
 
@@ -34,6 +43,6 @@ public class ValeurDeplacable implements ValeurDroiteVariable {
 			Function<Pointeur, T> pointeur, Function<ValeurAleatoire, T> aleatoire, Function<NombreObjet, T> objets,
 			Function<VariableHeros, T> heros, Function<ValeurDeplacable, T> deplacable,
 			Function<ValeurDivers, T> divers) {
-		return deplacable == null ? null : deplacable.apply(this);
+		return heros == null ? null : heros.apply(this);
 	}
 }

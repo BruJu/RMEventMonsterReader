@@ -1,6 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
-
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele;
 
 public enum Comparateur {
 	/* =================
@@ -109,29 +107,4 @@ public enum Comparateur {
 	}
 	
 	
-	
-
-	
-	/* ==================
-	 * RETROCOMPATIBILITE
-	 * ================== */
-	
-	public static Operator toOperator(Comparateur comparateur) {
-		switch (comparateur) {
-		case DIFFERENT:
-			return Operator.DIFFERENT;
-		case IDENTIQUE:
-			return Operator.IDENTIQUE;
-		case INF:
-			return Operator.INF;
-		case INFEGAL:
-			return Operator.INFEGAL;
-		case SUP:
-			return Operator.SUP;
-		case SUPEGAL:
-			return Operator.SUPEGAL;
-		default:
-			return null;
-		}
-	}
 }

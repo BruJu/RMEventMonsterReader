@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Condition;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
 
 public interface ModuleExecFlot {
 	public static final ModuleExecFlot NullFalse = new ModuleExecFlot() {};

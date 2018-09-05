@@ -1,9 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurMembre;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.VariableHeros.Caracteristique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurMembre;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros.Caracteristique;
 
 public interface ModuleExecEquipe {
 	public static final ModuleExecEquipe Null = new ModuleExecEquipe() {};

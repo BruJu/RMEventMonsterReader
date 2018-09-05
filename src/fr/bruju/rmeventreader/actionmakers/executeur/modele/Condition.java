@@ -1,9 +1,10 @@
-package fr.bruju.rmeventreader.actionmakers.executeur.modele.objets;
+package fr.bruju.rmeventreader.actionmakers.executeur.modele;
 
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Vehicule;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Direction;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Vehicule;
 
 public interface Condition {
 	public default <T> T appliquerInterrupteur(Function<CondInterrupteur, T> fonction) {
@@ -30,6 +31,8 @@ public interface Condition {
 	public default <T> T appliquerPossede(Function<CondObjet, T> fonction) {
 		return null;
 	}
+	
+	
 	
 	public <T> T appliquer(Function<CondInterrupteur, T> fonctionInterrupteur,
 			Function<CondVariable, T> fonctionVariable,
@@ -80,6 +83,12 @@ public interface Condition {
 		public <T> T appliquerInterrupteur(Function<CondInterrupteur, T> fonction) {
 			return fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.interrupteur(this);
+		}
 	}
 	
 	public static class CondVariable implements Condition {
@@ -113,6 +122,12 @@ public interface Condition {
 		public <T> T appliquerVariable(Function<CondVariable, T> fonction) {
 			return fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.variable(this);
+		}
 	}
 	
 	public static class CondChrono implements Condition {
@@ -141,6 +156,12 @@ public interface Condition {
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.chrono(this);
+		}
 	}
 
 	public static class CondArgent implements Condition {
@@ -166,6 +187,12 @@ public interface Condition {
 				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
+		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.argent(this);
 		}
 	}
 	
@@ -198,6 +225,12 @@ public interface Condition {
 		public <T> T appliquerPossede(Function<CondObjet, T> fonction) {
 			return fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.objet(this);
+		}
 	}
 	
 	
@@ -225,6 +258,12 @@ public interface Condition {
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.direction(this);
+		}
 	}
 	
 	public static class CondVehiculeUtilise implements Condition {
@@ -249,7 +288,11 @@ public interface Condition {
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
 		}
-		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.vehicule(this);
+		}
 		
 		
 	}
@@ -272,6 +315,12 @@ public interface Condition {
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.eventDemarreParAppui(this);
+		}
 	}
 	
 	
@@ -290,6 +339,12 @@ public interface Condition {
 				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
+		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.musiqueABoucle(this);
 		}
 	}
 	
@@ -322,6 +377,12 @@ public interface Condition {
 		public <T> T appliquerPresence(Function<CondHerosDansLEquipe, T> fonction) {
 			return fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.herosPresent(this);
+		}
 	}
 	
 	public static class CondHerosAPourNom implements Condition {
@@ -347,6 +408,12 @@ public interface Condition {
 				Function<CondHerosPossedeObjet, T> fonctionHerosObjet,
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
+		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.herosNomme(this);
 		}
 	}
 	
@@ -376,6 +443,12 @@ public interface Condition {
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
 		}
+		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.herosNiveau(this);
+		}
 	}
 	
 	
@@ -404,7 +477,11 @@ public interface Condition {
 				Function<CondHerosAStatut, T> fonctionHerosStatut) {
 			return fonction == null ? null : fonction.apply(this);
 		}
-		
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.herosVivant(this);
+		}
 	}
 	
 	
@@ -437,6 +514,11 @@ public interface Condition {
 		@Override
 		public <T> T appliquerPossedeSortHeros(Function<CondHerosPossedeSort, T> fonction) {
 			return fonction.apply(this);
+		}
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.herosSort(this);
 		}
 	}
 	
@@ -471,6 +553,11 @@ public interface Condition {
 		public <T> T appliquerPossedeHeros(Function<CondHerosPossedeObjet, T> fonction) {
 			return fonction.apply(this);
 		}
+
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.herosObjet(this);
+		}
 	}
 	
 	
@@ -499,5 +586,13 @@ public interface Condition {
 				Function<CondHerosAStatut, T> fonction) {
 			return fonction == null ? null : fonction.apply(this);
 		}
+		
+		@Override
+		public boolean accept(ExtCondition extCondition) {
+			return extCondition.herosStatut(this);
+		}
 	}
+
+
+	public boolean accept(ExtCondition extCondition);
 }

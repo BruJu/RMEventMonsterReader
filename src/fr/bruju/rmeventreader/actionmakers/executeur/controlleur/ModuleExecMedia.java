@@ -1,9 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.SonParam;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.TypeEffet;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.SonParam;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
 
 public interface ModuleExecMedia {
 	public static final ModuleExecMedia Null = new ModuleExecMedia() {};

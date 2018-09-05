@@ -1,9 +1,9 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.OpMathematique;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
 
 public interface ModuleExecVariables {
 	public static final ModuleExecVariables Null = new ModuleExecVariables() {};

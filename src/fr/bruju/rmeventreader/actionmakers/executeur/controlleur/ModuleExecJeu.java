@@ -1,14 +1,14 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Couleur;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.Deplacement;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.EvenementDeplacable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Direction;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Intensite;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Meteo;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.objets.ExecEnum.Transition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Deplacement;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.EvenementDeplacable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Direction;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Intensite;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Meteo;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Transition;
 
 public interface ModuleExecJeu {
 	public static final ModuleExecJeu Null = new ModuleExecJeu() {};

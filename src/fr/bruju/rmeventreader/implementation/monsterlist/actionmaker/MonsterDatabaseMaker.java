@@ -5,6 +5,7 @@ import java.util.Collection;
 import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
@@ -102,9 +103,30 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
 		if (leftOperandValue != POS_ID_COMBAT)
 			return false;
-
-		conditions.push(new ConditionOnBattleId(operatorValue, returnValue.get()));
-
+		
+		switch (operatorValue) {
+		case DIFFERENT:
+			conditions.push(new ConditionOnBattleId(Comparateur.DIFFERENT, returnValue.get()));
+			break;
+		case IDENTIQUE:
+			conditions.push(new ConditionOnBattleId(Comparateur.IDENTIQUE, returnValue.get()));
+			break;
+		case INF:
+			conditions.push(new ConditionOnBattleId(Comparateur.INF, returnValue.get()));
+			break;
+		case INFEGAL:
+			conditions.push(new ConditionOnBattleId(Comparateur.INFEGAL, returnValue.get()));
+			break;
+		case SUP:
+			conditions.push(new ConditionOnBattleId(Comparateur.SUP, returnValue.get()));
+			break;
+		case SUPEGAL:
+			conditions.push(new ConditionOnBattleId(Comparateur.SUPEGAL, returnValue.get()));
+			break;
+		default:
+			break;
+		}
+		
 		if (operatorValue == Operator.IDENTIQUE) {
 			database.addCombat(returnValue.get());
 		}
