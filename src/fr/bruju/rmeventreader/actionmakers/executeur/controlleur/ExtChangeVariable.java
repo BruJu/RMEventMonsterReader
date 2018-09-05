@@ -14,6 +14,25 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariablePlage;
 
 public interface ExtChangeVariable {
+	
+	public interface $ extends ExtChangeVariable, ModuleExecVariables {
+		@Override
+		default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
+			$(valeurGauche, nouvelleValeur);
+		}
+
+		@Override
+		default void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
+			$(valeurGauche, valeurDroite);
+		}
+
+		@Override
+		default void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
+				ValeurDroiteVariable valeurDroite) {
+			$(valeurGauche, operateur, valeurDroite);
+		}
+	}
+	
 	/*
 	 * Changement d'interrupteur
 	 */

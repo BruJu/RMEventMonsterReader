@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 /**
@@ -13,7 +13,7 @@ public class ConditionOnMonsterId implements Condition<Monstre> {
 	private boolean onMonstre;
 	
 	/** Opérateur */
-	private Operator operator;
+	private Comparateur operator;
 	
 	/** Valeur avec laquelle comparer */
 	private int value;
@@ -21,12 +21,12 @@ public class ConditionOnMonsterId implements Condition<Monstre> {
 	/**
 	 * Construit une condition sur l'id du monstre ou du combat où apparait le monstre
 	 * @param onMonster Si vrai teste l'id du monstre, si faux l'id du combat dans lequel le monstre apparait
-	 * @param operator L'opérateur de comparaison
+	 * @param comparateur L'opérateur de comparaison
 	 * @param value La valeur de référence
 	 */
-	public ConditionOnMonsterId(boolean onMonster, Operator operator, int value) {
+	public ConditionOnMonsterId(boolean onMonster, Comparateur comparateur, int value) {
 		this.onMonstre = onMonster;
-		this.operator = operator;
+		this.operator = comparateur;
 		this.value = value;
 	}
 

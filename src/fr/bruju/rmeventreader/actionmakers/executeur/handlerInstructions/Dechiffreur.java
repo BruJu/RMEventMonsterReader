@@ -200,7 +200,7 @@ class Dechiffreur {
 	public Condition dechiffrerCondition(int[] parametres, String s) {
 		switch (parametres[0]) {
 		case 0:
-			return new Condition.CondObjet(parametres[1], parametres[2] == 1);
+			return new Condition.CondInterrupteur(parametres[1], parametres[2] == 0);
 		case 1:
 		{
 			int idVariable = parametres[1];

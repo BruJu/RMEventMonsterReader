@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
@@ -24,7 +24,7 @@ public class ConditionOnMembreStat implements Condition<Combat> {
 	/**
 	 * Opérateur de comparaison
 	 */
-	private Operator operator;
+	private Comparateur operator;
 	
 	/**
 	 * Valeur de référence
@@ -38,7 +38,7 @@ public class ConditionOnMembreStat implements Condition<Combat> {
 	 * @param operatorValue L'opérateur de comparaison
 	 * @param value La valeur à laquelle la statistique sera comparée à droite de la comparaison
 	 */
-	public ConditionOnMembreStat(String nomStatistique, int position, Operator operatorValue, int value) {
+	public ConditionOnMembreStat(String nomStatistique, int position, Comparateur operatorValue, int value) {
 		this.nomStatistique = nomStatistique;
 		numeroMonstre = position;
 		operator = operatorValue;

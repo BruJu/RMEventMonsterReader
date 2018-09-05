@@ -11,6 +11,8 @@ import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.Remplis
 import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 
 public class DechiffreurInstructions {
+	public static boolean VERBOSE = false;
+	
 	private static Map<Integer, HandlerInstruction> instructionsConnues;
 	private static Map<Integer, HandlerInstructionRetour> instructionsConnuesClasse2;
 	
@@ -24,6 +26,9 @@ public class DechiffreurInstructions {
 	
 	public void executer(Instruction instruction) {
 		remplirInstructions();
+		
+		if (VERBOSE)
+			System.out.print("-- Instruction : " + instruction.toLigne());
 		
 		Integer code = instruction.code;
 		

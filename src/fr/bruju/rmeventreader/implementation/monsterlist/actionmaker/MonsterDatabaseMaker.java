@@ -2,10 +2,14 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondInterrupteur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
@@ -20,17 +24,18 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  * @author Bruju
  *
  */
-public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
+public class MonsterDatabaseMaker extends StackedActionMaker<Combat>
+		implements ModuleExecVariables, ExtCondition.$, ExtChangeVariable.$ {
 	/* ==================
 	 * StackedActionMaker
 	 * ================== */
-	
+
 	/** Variable contenant le numéro du combat */
 	private final int POS_ID_COMBAT;
-	
+
 	/** Interrupteur contenant l'information si c'est un combat de boss */
 	private final int POS_BOSSBATTLE;
-	
+
 	/**
 	 * Base de données
 	 */
@@ -43,7 +48,7 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	 */
 	public MonsterDatabaseMaker(MonsterDatabase monsterDatabase) {
 		database = monsterDatabase;
-		
+
 		POS_ID_COMBAT = database.contexte.getVariable("MonsterDB_IDCombat");
 		POS_BOSSBATTLE = database.contexte.getVariable("MonsterDB_BossBattle");
 	}
@@ -57,86 +62,71 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> {
 	 * Actions
 	 * ======= */
 
+	@Override
+	public ModuleExecVariables getExecVariables() {
+		return this;
+	}
+	
+	
+
 	// Switch
 
+
 	@Override
-	public boolean condOnSwitch(int number, boolean value) {
-		if (number == 509) {
+	public boolean interrupteur(CondInterrupteur condInterrupteur) {
+		if (condInterrupteur.interrupteur == 509) {
 			conditions.push(new ConditionPassThrought<Combat>());
 			return true;
 		}
+
+		if (condInterrupteur.interrupteur == POS_BOSSBATTLE) {
+			conditions.push(new ConditionEstUnBoss(condInterrupteur.etat));
+			return true;
+		}
 		
-		if (number != POS_BOSSBATTLE)
-			return false;
-
-		conditions.push(new ConditionEstUnBoss(value));
-
-		return true;
+		return false;
 	}
 
 	@Override
-	public void changeSwitch(Variable interrupteur, boolean value) {
-		if (!value) {
-			return;
-		}
-
-		int numeroInterrupteur = interrupteur.get();
+	public void changeSwitch(Variable interrupteur, boolean nouvelleValeur) {
+		int numeroInterrupteur = interrupteur.idVariable;
 
 		if (numeroInterrupteur == POS_BOSSBATTLE) {
 			getElementsFiltres().forEach(combat -> combat.declareBossBattle());
 		} else {
 			Pair<Integer, String> monstreTouche = database.contexte.getPropriete(numeroInterrupteur);
-			
+
 			if (monstreTouche == null) {
 				return;
 			}
 
 			getElementsFiltres().stream()
-					.map(combat -> combat.getMonstre(monstreTouche.getLeft(), Operator.AFFECTATION))
-					.forEach(monstre -> monstre.accessBool(Monstre.PROPRIETES).set(monstreTouche.getRight(), true));
+					.map(combat -> combat.getMonstre(monstreTouche.getLeft(), true))
+					.forEach(monstre -> monstre.accessBool(Monstre.PROPRIETES).set(monstreTouche.getRight(), nouvelleValeur));
 		}
 	}
 
-	// Variables
+	@Override
+	public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
+		getElementsFiltres().forEach(combat -> combat.applyModificator(valeurGauche.idVariable, valeurDroite.valeur));
+	}
 
 	@Override
-	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (leftOperandValue != POS_ID_COMBAT)
+	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
+		getElementsFiltres().forEach(combat -> combat.applyModificator(valeurGauche.idVariable, operateur, valeurDroite.valeur));
+	}
+
+	@Override
+	public boolean variableFixe(int idVariable, Comparateur comparateur, ValeurFixe droite) {
+		if (idVariable != POS_ID_COMBAT)
 			return false;
+
+		conditions.push(new ConditionOnBattleId(comparateur, droite.valeur));
 		
-		switch (operatorValue) {
-		case DIFFERENT:
-			conditions.push(new ConditionOnBattleId(Comparateur.DIFFERENT, returnValue.get()));
-			break;
-		case IDENTIQUE:
-			conditions.push(new ConditionOnBattleId(Comparateur.IDENTIQUE, returnValue.get()));
-			break;
-		case INF:
-			conditions.push(new ConditionOnBattleId(Comparateur.INF, returnValue.get()));
-			break;
-		case INFEGAL:
-			conditions.push(new ConditionOnBattleId(Comparateur.INFEGAL, returnValue.get()));
-			break;
-		case SUP:
-			conditions.push(new ConditionOnBattleId(Comparateur.SUP, returnValue.get()));
-			break;
-		case SUPEGAL:
-			conditions.push(new ConditionOnBattleId(Comparateur.SUPEGAL, returnValue.get()));
-			break;
-		default:
-			break;
-		}
-		
-		if (operatorValue == Operator.IDENTIQUE) {
-			database.addCombat(returnValue.get());
+		if (comparateur == Comparateur.IDENTIQUE) {
+			database.addCombat(droite.valeur);
 		}
 
 		return true;
 	}
-
-	@Override
-	public void changeVariable(Variable variable, Operator operator, ValeurFixe valeur) {
-		getElementsFiltres().forEach(combat -> combat.applyModificator(variable.get(), operator, valeur.get()));
-	}
-
 }

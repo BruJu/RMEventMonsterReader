@@ -2,8 +2,14 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
@@ -15,7 +21,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> {
+public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> implements ModuleExecMedia, ExtCondition.VariableEtendu {
 	// Constantes
 	/** Numéro de l'image qui affiche les noms */
 	private final int SHOW_PIC_ID_WITH_NAME;
@@ -56,34 +62,46 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> {
 	protected Collection<Monstre> getAllElements() {
 		return database.extractMonsters();
 	}
-
+	
 	/* ============
 	 * Action Maker
 	 * ============ */
 
+	// Configuration
+	
 	@Override
-	public void showPicture(int id, String pictureName) {
-		if (id != SHOW_PIC_ID_WITH_NAME) {
-			return;
-		}
-
-		Collection<Monstre> monstres = this.getElementsFiltres();
-
-		for (Monstre monstre : monstres) {
-			monstre.nom = pictureName;
-		}
+	public ModuleExecMedia getExecMedia() {
+		return this;
 	}
 
 	@Override
-	public boolean condOnVariable(int leftOperandValue, Operator operatorValue, ValeurFixe returnValue) {
-		if (!(leftOperandValue == VARIABLE_IDMONSTRE || leftOperandValue == VARIABLE_IDCOMBAT)) {
+	public boolean Flot_si(Condition condition) {
+		return $(condition);
+	}
+	
+	// Actions
+	
+	@Override
+	public void Image_afficher(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage,
+			int transparenceHaute, int transparenceBasse, int agrandissement, Couleur couleur, int saturation,
+			TypeEffet typeEffet, int intensiteEffet, boolean transparence, boolean defilementAvecCarte) {
+		
+		if (numeroImage == SHOW_PIC_ID_WITH_NAME) {
+			getElementsFiltres().forEach(monstre -> monstre.nom = nomImage);
+		}
+	}
+	
+	
+	@Override
+	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		if (variable == VARIABLE_IDMONSTRE) {
+			conditions.push(new ConditionOnMonsterId(true, comparateur, droite.valeur));
+			return true;
+		} else if (variable == VARIABLE_IDCOMBAT) {
+			conditions.push(new ConditionOnMonsterId(false, comparateur, droite.valeur));
+			return true;
+		} else {
 			return false;
 		}
-
-		conditions.push(
-				new ConditionOnMonsterId(leftOperandValue == VARIABLE_IDMONSTRE, operatorValue, returnValue.get()));
-
-		return true;
 	}
-
 }

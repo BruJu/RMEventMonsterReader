@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.actionmakers.composition.composant.condition;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
 
 public interface Condition extends Element {
 	@Override

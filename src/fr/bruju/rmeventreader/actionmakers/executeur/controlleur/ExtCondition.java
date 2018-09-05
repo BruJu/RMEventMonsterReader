@@ -22,6 +22,14 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 
 public interface ExtCondition {
+	public interface $ extends ExtCondition.VariableEtendu, ModuleExecFlot {
+		@Override
+		default boolean Flot_si(Condition condition) {
+			return $(condition);
+		}
+	}
+
+
 	public default boolean $(Condition condition) {
 		return condition.accept(this);
 	}

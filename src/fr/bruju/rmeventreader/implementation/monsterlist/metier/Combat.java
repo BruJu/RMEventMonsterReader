@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
@@ -64,12 +64,12 @@ public class Combat {
 	 * Donne le monstre à la position donnée. Si le monstre est null, le crée si l'opérateur donné n'est pas absorbant
 	 * à gauche.
 	 * @param position La position du monstre
-	 * @param operator L'opérateur qui veut appliquer une opération
+	 * @param creerSiInexistant L'opérateur qui veut appliquer une opération
 	 * @return Le monstre à la position donnée
 	 */
-	public Monstre getMonstre(Integer position, Operator operator) {
+	public Monstre getMonstre(Integer position, boolean creerSiInexistant) {
 		if (monstres[position] == null) {
-			if (operator.estAbsorbantAGauche())
+			if (!creerSiInexistant)
 				return null;
 			
 			monstres[position] = new Monstre(this);
@@ -133,22 +133,37 @@ public class Combat {
 	/**
 	 * Applique une modification des monstres dans le combat
 	 * @param idVariable L'id de la variable modifiée
-	 * @param operator L'opérateur à appliquer
+	 * @param operateur L'opérateur à appliquer
 	 * @param value La valeur appliquée
 	 */
-	public void applyModificator(int idVariable, Operator operator, int value) {
+	public void applyModificator(int idVariable, OpMathematique operateur, int value) {
 		Pair<Integer, String> paire = contexte.getStatistique(idVariable);
 		
 		if (paire == null)
 			return;
 		
-		Monstre monstre = getMonstre(paire.getLeft(), operator);
+		Monstre monstre = getMonstre(paire.getLeft(), !operateur.zeroAbsorbantAGauche);
 		
 		if (monstre == null) {
 			return;
 		}
 		
-		monstre.accessInt(Monstre.STATS).compute(paire.getRight(), (cle, valeur) -> operator.compute(valeur, value));
+		monstre.accessInt(Monstre.STATS).compute(paire.getRight(), (cle, valeur) -> operateur.calculer(valeur, value));
+	}
+
+	public void applyModificator(int idVariable, int valeur) {
+		Pair<Integer, String> paire = contexte.getStatistique(idVariable);
+		
+		if (paire == null)
+			return;
+		
+		Monstre monstre = getMonstre(paire.getLeft(), true);
+		
+		if (monstre == null) {
+			return;
+		}
+		
+		monstre.accessInt(Monstre.STATS).compute(paire.getRight(), (cle, v) -> valeur);
 	}
 	
 	/* ===========
@@ -211,6 +226,7 @@ public class Combat {
 	public String getCSV() {
 		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((this.isBossBattle()) ? "Boss" : "Non") + ";" + fonds;
 	}
+
 
 
 

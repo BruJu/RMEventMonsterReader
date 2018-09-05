@@ -2,17 +2,15 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
-import org.apache.commons.lang3.BooleanUtils;
-
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
@@ -37,10 +35,6 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements Modu
 	/**	Base de données de monstre */
 	private MonsterDatabase bdd;
 
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return super.getExecVariables();
-	}
 
 	/**
 	 * Instancie le faiseur d'action avec la base de données à compléter
@@ -60,63 +54,71 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements Modu
 	protected Collection<Combat> getAllElements() {
 		return bdd.extractBattles();
 	}
-
-
+	
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ValeurFixe returnValue) {
-		if (variable.idVariable != VARIABLE_ID_FOND) {
-			return;
-		}
-		
-		getElementsFiltres().forEach(c -> c.addFond(returnValue.valeur));
+	public boolean Flot_si(Condition condition) {
+		return gstConditions.$(condition);
 	}
 
 	@Override
 	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-		valeurGauche.appliquerG(variable -> {
-			if (variable.idVariable == VARIABLE_ID_FOND) {
-				valeurDroite.appliquerDroite(valeur -> {
-					getElementsFiltres().forEach(c -> c.addFond(valeur.valeur));
-					return null;
-				}, null, null);
-			}
-			return null;
-		}, null, null);
+		gstVariables.$(valeurGauche, valeurDroite);
 	}
+
+	
+	/* =======
+	 * Modules
+	 * ======= */
+	
+	private ExtCondition gstConditions = new Conditions();
+	private ExtChangeVariable gstVariables = new Variables();
 
 	@Override
-	public boolean Flot_si(Condition condition) {
-		boolean r = false;
-		
-		r = r | BooleanUtils.isTrue(condition.appliquerInterrupteur(cond -> this.superfonction(cond)));
-		r = r | BooleanUtils.isTrue(condition.appliquerVariable(cond -> condOnVariable(cond.variable, cond.comparateur, cond.valeurDroite)));
-		
-		return r;
+	public ModuleExecVariables getExecVariables() {
+		return this;
 	}
-
-	private boolean condOnVariable(int variable, Comparateur comparateur, FixeVariable valeurDroite) {
-		if (variable == VARIABLE_IDCOMBAT) {
+	
+	private class Variables implements ExtChangeVariable {
+		@Override
+		public void affecterVariable(Variable valeurGauche, ValeurFixe valeur) {
+			if (valeurGauche.idVariable == VARIABLE_ID_FOND) {
+				getElementsFiltres().forEach(c -> c.addFond(valeur.valeur));
+			}
+		}
+	}
+	
+	private class Conditions implements ExtCondition.VariableEtendu {
+		@Override
+		public boolean interrupteur(CondInterrupteur cond) {
+			int number = cond.interrupteur;
 			
-			valeurDroite.appliquerFV(
-					fixe -> {conditions.push(new ConditionOnBattleId(comparateur, fixe.valeur)); return null;},
-					v -> {conditions.push(new ConditionPassThrought<>()); return null;}
-					);
-		} else {
+			
+			if (number == SWITCH_IGNORE1 || number == SWITCH_IGNORE2) {
+				return false;
+			}
+			
 			conditions.push(new ConditionPassThrought<>());
+			return true;
 		}
-		
-		return true;
-	}
 
-	public boolean superfonction(CondInterrupteur cond) {
-		int number = cond.interrupteur;
-		
-		
-		if (number == this.SWITCH_IGNORE1 || number == this.SWITCH_IGNORE2) {
-			return false;
+		@Override
+		public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
+			conditions.push(new ConditionPassThrought<>());
+			return true;
+		}
+
+		@Override
+		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+			if (variable != VARIABLE_IDCOMBAT) {
+				conditions.push(new ConditionPassThrought<>());
+			} else {
+				conditions.push(new ConditionOnBattleId(comparateur, droite.valeur));
+			}
+			return true;
 		}
 		
-		conditions.push(new ConditionPassThrought<>());
-		return true;
 	}
+	
+	
+
 }

@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
@@ -25,7 +24,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
  *
  * @param <T> Le type sur lequel portent les conditions
  */
-public abstract class StackedActionMaker<T> implements ActionMakerDefalse, ExecuteurInstructions, ModuleExecFlot {
+public abstract class StackedActionMaker<T> implements ExecuteurInstructions, ModuleExecFlot {
 	/**
 	 * Liste des conditions actuellement traitées
 	 */
@@ -35,7 +34,7 @@ public abstract class StackedActionMaker<T> implements ActionMakerDefalse, Execu
 	 * Permet d'obtenir la liste des éléments filtrés par l'enchaînement courant de conditions
 	 * @return La liste des éléments qui respectent les conditions établies
 	 */
-	public Collection<T> getElementsFiltres() {
+	public final Collection<T> getElementsFiltres() {
 		return conditions.filter(getAllElements());
 	}
 	
@@ -45,30 +44,20 @@ public abstract class StackedActionMaker<T> implements ActionMakerDefalse, Execu
 	 */
 	protected abstract Collection<T> getAllElements();
 
-	@Override
-	public void condElse() {
-		conditions.revertTop();
-	}
-
-	@Override
-	public void condEnd() {
-		conditions.pop();
-	}
-	
 	
 
 	@Override
-	public ModuleExecFlot getExecFlot() {
+	public final ModuleExecFlot getExecFlot() {
 		return this;
 	}
 
 	@Override
-	public void Flot_siFin() {
+	public final void Flot_siFin() {
 		conditions.pop();
 	}
 	
 	@Override
-	public void Flot_siNon() {
+	public final void Flot_siNon() {
 		conditions.revertTop();
 	}
 }
