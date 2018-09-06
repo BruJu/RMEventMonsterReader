@@ -8,7 +8,6 @@ import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
 import fr.bruju.rmeventreader.implementation.printer.Printer;
-import fr.bruju.rmeventreader.implementation.random.EventChecker;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementationexec.equipementchecker.Verificateur;

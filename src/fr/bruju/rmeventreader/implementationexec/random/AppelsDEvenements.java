@@ -10,8 +10,15 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+/**
+ * Liste les appels à des évènements communs dans les évènements communs
+ * 
+ * @author Bruju
+ *
+ */
 public class AppelsDEvenements implements Runnable {
-	Map<Integer, TreeMap<Integer, Integer>> appels;
+	/** Association evenement commun - liste des evenements communs appelés et leur nombre */
+	private Map<Integer, TreeMap<Integer, Integer>> appels;
 	
 	@Override
 	public void run() {
@@ -31,9 +38,17 @@ public class AppelsDEvenements implements Runnable {
 	}
 	
 	
+	/**
+	 * Exécuteur qui parcours un évènement commun et liste le nombre d'appels à chaque autre évènement commun.
+	 * 
+	 * @author Bruju
+	 *
+	 */
 	public class Exec implements ExecuteurInstructionsTrue, ModuleExecFlot {
+		/** ID de l'évènement */
 		public final int id;
 		
+		/** Crée un exécuteur pour l'évènement commun donné */
 		public Exec(int id) {
 			this.id = id;
 		}
