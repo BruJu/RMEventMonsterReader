@@ -2,13 +2,12 @@ package fr.bruju.rmeventreader.actionmakers.composition.composant.condition;
 
 import java.util.Objects;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 
 /**
  * Condition portant sur une variable
@@ -24,7 +23,7 @@ public final class ConditionValeur implements Condition, ElementIntermediaire {
 	/** Opérande de gauche */
 	public final Valeur gauche;
 	/** Opérateur de comparaison */
-	public final Operator operateur;
+	public final Comparateur operateur;
 	/** Opérande de droite */
 	public final Valeur droite;
 
@@ -35,7 +34,7 @@ public final class ConditionValeur implements Condition, ElementIntermediaire {
 	 * @param operateur Opérateur de test
 	 * @param vDroite Opérande de droite
 	 */
-	public ConditionValeur(Valeur gauche, Operator operateur, Valeur vDroite) {
+	public ConditionValeur(Valeur gauche, Comparateur operateur, Valeur vDroite) {
 		this.gauche = gauche;
 		this.operateur = operateur;
 		this.droite = vDroite;
@@ -45,9 +44,9 @@ public final class ConditionValeur implements Condition, ElementIntermediaire {
 		this.gauche = interrupteur;
 		
 		if (valeur) {
-			this.operateur = Operator.IDENTIQUE;
+			this.operateur = Comparateur.IDENTIQUE;
 		} else {
-			this.operateur = Operator.DIFFERENT;
+			this.operateur = Comparateur.DIFFERENT;
 		}
 		
 		this.droite = new Constante(1);
@@ -64,7 +63,7 @@ public final class ConditionValeur implements Condition, ElementIntermediaire {
 
 	@Override
 	public String toString() {
-		return gauche.toString() + " " + Utilitaire.getSymbole(operateur) + " " + droite.toString();
+		return gauche.toString() + " " + operateur.symbole + " " + droite.toString();
 	}
 
 	/* ========

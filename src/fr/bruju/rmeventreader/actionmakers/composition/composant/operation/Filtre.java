@@ -1,12 +1,11 @@
 package fr.bruju.rmeventreader.actionmakers.composition.composant.operation;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +21,7 @@ public final class Filtre implements Operation, ElementIntermediaire {
 	 * COMPOSANT
 	 * ========= */
 	/** Opérateur de comparaison */
-	public final Operator operateur;
+	public final Comparateur operateur;
 	/** Opérande de droite de la comparaison */
 	public final Valeur valeurComparaison;
 	/** Calculs appliqués si la condition est vraie */
@@ -36,7 +35,7 @@ public final class Filtre implements Operation, ElementIntermediaire {
 	 * @param valeurFiltrage Si la valeur vérifie le test Valeur Opérateur valeurComparaison, applique la valeur de
 	 *            filtrage
 	 */
-	public Filtre(Operator operateur, Valeur valeurComparaison, Algorithme valeurFiltrage) {
+	public Filtre(Comparateur operateur, Valeur valeurComparaison, Algorithme valeurFiltrage) {
 		throw new RuntimeException("Not yet implemented");
 		/*
 		this.operateur = operateur;
@@ -51,7 +50,7 @@ public final class Filtre implements Operation, ElementIntermediaire {
 
 	@Override
 	public String toString() {
-		return "[Si " + Utilitaire.getSymbole(operateur) + " " + valeurComparaison.toString() + " alors "
+		return "[Si " + operateur.symbole + " " + valeurComparaison.toString() + " alors "
 				+ valeurFiltrage.toString() + "]";
 	}
 

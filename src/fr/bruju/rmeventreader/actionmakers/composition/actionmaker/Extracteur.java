@@ -1,11 +1,13 @@
 package fr.bruju.rmeventreader.actionmakers.composition.actionmaker;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction.Deducteur;
-import fr.bruju.rmeventreader.actionmakers.decrypter.AutoEventFactory;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 
 /**
  * Cette classe permet d'avoir un point d'entrée unique et simple pour extraire une composition.
@@ -15,13 +17,14 @@ import fr.bruju.rmeventreader.actionmakers.decrypter.AutoEventFactory;
  */
 public class Extracteur {
 
-	public Map<Integer, Algorithme> extraireAlgorithmes(Set<Integer> variablesPistees, String chemin) {
+	public Map<Integer, Algorithme> extraireAlgorithmes(Set<Integer> variablesPistees, List<Instruction> instructions) {
 		// Mise en place des structures
 		ComposeurInitial composeur = new ComposeurInitial(variablesPistees);
-		AutoEventFactory autoActionMaker = new AutoEventFactory(composeur, chemin);
+		
+		Explorateur.executer(composeur, instructions);
 		
 		// Extraction d'un premier résultat
-		autoActionMaker.run();
+		
 		Map<Integer, Algorithme> r = composeur.getResultat();
 		
 		// Simplifications ne se reposant pas sur des connaissances métier

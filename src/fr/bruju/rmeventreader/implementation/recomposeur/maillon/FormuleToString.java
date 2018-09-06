@@ -17,7 +17,6 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.NombreAleatoire;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurRetourneur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 	public static class Res {
@@ -86,7 +85,7 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 	protected Res traiter(ConditionValeur element) {
 		Res g = traiter(element.gauche);
 		Res d = traiter(element.droite);
-		String op = Utilitaire.getSymbole(element.operateur);
+		String op = element.operateur.symbole;
 		
 		return new Res(PRIO_CONDARME, g.s + " " + op + " " + d.s);
 	}
@@ -98,10 +97,10 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 		Integer i;
 		
 		switch (element.operateur) {
-		case DIVIDE:
+		case DIVISE:
 			i = PRIO_DIVIDE;
 			break;
-		case MINUS:
+		case MOINS:
 			i = PRIO_MINUS;
 			break;
 		case MODULO:
@@ -110,7 +109,7 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 		case PLUS:
 			i = PRIO_PLUS;
 			break;
-		case TIMES:
+		case FOIS:
 			i = PRIO_TIMES;
 			break;
 		default:
@@ -119,7 +118,7 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 		}
 		
 		
-		return new Res(i, Utilitaire.getSymbole(element.operateur) + " " + s);
+		return new Res(i, element.operateur.symbole + " " + s);
 	}
 
 	@Override

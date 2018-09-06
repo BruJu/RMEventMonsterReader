@@ -1,12 +1,11 @@
 package fr.bruju.rmeventreader.actionmakers.composition.composant.operation;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.Element;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.Visiteur;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +21,7 @@ public final class Calcul implements Operation, ElementIntermediaire {
 	 * ========= */
 
 	/** Opérateur */
-	public final Operator operateur;
+	public final OpMathematique operateur;
 	/** Opérande de droite */
 	public final Valeur droite;
 
@@ -32,7 +31,7 @@ public final class Calcul implements Operation, ElementIntermediaire {
 	 * @param operateur Un opérateur dans -, *, /, %
 	 * @param droite Valeur de droite
 	 */
-	public Calcul(Operator operateur, Valeur droite) {
+	public Calcul(OpMathematique operateur, Valeur droite) {
 		this.operateur = operateur;
 		this.droite = droite;
 	}
@@ -43,12 +42,12 @@ public final class Calcul implements Operation, ElementIntermediaire {
 
 	@Override
 	public String toString() {
-		return Utilitaire.getSymbole(operateur) + " " + droite.toString();
+		return operateur.symbole + " " + droite.toString();
 	}
 
 	@Override
 	public boolean cumuler(List<Operation> nouveauxComposants) {
-		if (this.operateur == Operator.IDENTIQUE && Constante.evaluer(droite) == 0) {
+		if (this.operateur == OpMathematique.AFFECTATION && Constante.evaluer(droite) == 0) {
 			return new Affectation(new Constante(0)).cumuler(nouveauxComposants);
 		}
 		

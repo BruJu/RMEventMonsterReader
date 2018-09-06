@@ -4,17 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.ActionMakerDefalse;
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.NombreAleatoire;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurAleatoire;
-import fr.bruju.rmeventreader.actionmakers.donnees.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondHerosPossedeObjet;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondInterrupteur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurAleatoire;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
@@ -25,7 +29,7 @@ import fr.bruju.rmeventreader.actionmakers.donnees.Variable;
  * @author Bruju
  *
  */
-public class ComposeurInitial implements ActionMakerDefalse {
+public class ComposeurInitial implements ExtChangeVariable.$$PasAffectation, ExtCondition.$$ {
 	/** Décalage donné aux interrupteurs */
 	public static final int OFFSET_SWITCH = 5000;
 	
@@ -73,55 +77,58 @@ public class ComposeurInitial implements ActionMakerDefalse {
 	// VARIABLE
 
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ValeurFixe valeurDroite) {
+	public void changerVariable(Variable variable, OpMathematique operator, ValeurFixe valeurDroite) {
 		etat.affecterVariable(variable.idVariable, operator, new Constante(valeurDroite.valeur));
 	}
 
 	@Override
-	public void changeVariable(Variable variable, Operator operator, ValeurAleatoire v) {
+	public void changerVariable(Variable variable, OpMathematique operator, ValeurAleatoire v) {
 		etat.affecterVariable(variable.idVariable, operator, new NombreAleatoire(v.valeurMin, v.valeurMax));
 	}
 
 	@Override
-	public void changeVariable(Variable variable, Operator operator, Variable v) {
+	public void changerVariable(Variable variable, OpMathematique operator, Variable v) {
 		etat.affecterVariable(variable.idVariable, operator, etat.getVariable(v.idVariable));
 	}
 
 	// CONDITIONS
 
+	
+
 	@Override
-	public boolean condOnSwitch(int number, boolean valeur) {
-		etat = etat.creerFils(new ConditionValeur(etat.getVariable(number + OFFSET_SWITCH), valeur));
+	public boolean herosObjet(CondHerosPossedeObjet c) {
+		etat = etat.creerFils(new ConditionArme(c.idHeros, c.idObjet));
 		return true;
 	}
 
 	@Override
-	public boolean condOnEquippedItem(int heroId, int itemId) {
-		etat = etat.creerFils(new ConditionArme(heroId, itemId));
+	public boolean interrupteur(CondInterrupteur c) {
+		etat = etat.creerFils(new ConditionValeur(etat.getVariable(c.interrupteur + OFFSET_SWITCH), c.etat));
 		return true;
 	}
 
 	@Override
-	public boolean condOnVariable(int idVariable, Operator operatorValue, ValeurFixe fixe) {
-		etat = etat.creerFils(new ConditionValeur(etat.getVariable(idVariable), operatorValue, 
-				new Constante(fixe.valeur)));
+	public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
+		etat = etat.creerFils(new ConditionValeur(etat.getVariable(variable), comparateur, 
+				etat.getVariable(droite.idVariable)));
 		return true;
 	}
 
 	@Override
-	public boolean condOnVariable(int idVariable, Operator operatorValue, Variable variable) {
-		etat = etat.creerFils(new ConditionValeur(etat.getVariable(idVariable), operatorValue, 
-				etat.getVariable(variable.idVariable)));
+	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		etat = etat.creerFils(new ConditionValeur(etat.getVariable(variable), comparateur, 
+				new Constante(droite.valeur)));
 		return true;
 	}
 
 	@Override
-	public void condElse() {
+	public void Flot_siFin() {
+		etat = etat.revenirAuPere();
+	}
+
+	@Override
+	public void Flot_siNon() {
 		etat = etat.getPetitFrere();
 	}
 
-	@Override
-	public void condEnd() {
-		etat = etat.revenirAuPere();
-	}
 }

@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur;
 
-import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
+import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
@@ -22,7 +25,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class Recomposition implements Runnable {
 	private final static String CHEMIN_PARAMETRES = "ressources\\recomposeur\\Parametres.txt";
-	private final static String CHEMIN_ATTAQUES = "ressources\\recomposeur\\attaques";
+	private final static String CHEMIN_ATTAQUES = "ressources\\Attaques.txt";
 
 	Parametres parametres;
 	BaseDeVariables base;
@@ -77,25 +80,31 @@ public class Recomposition implements Runnable {
 	}
 
 	private Arbre construireArbre() {
-		File dossierAttaques = new File(CHEMIN_ATTAQUES);
-
+		List<String[]> attaques;
+		
 		MonteurDArbre exp = new MonteurDArbre(base);
-
-		for (String nomPerso : dossierAttaques.list()) {
-			File sousDossier = new File(dossierAttaques + "/" + nomPerso);
-
-			for (String nomAttaqueTXT : sousDossier.list()) {
-				String nomAttaque = nomAttaqueTXT.substring(0, nomAttaqueTXT.length() - 4);
-
-				String fichierComplet = dossierAttaques + "\\" + nomPerso + "\\" + nomAttaqueTXT;
-
-				Map<Integer, Algorithme> extrait = new Extracteur().extraireAlgorithmes(base.getVariablesStatistiques(),
-						fichierComplet);
-
-				exp.add(nomPerso, nomAttaque, extrait);
-			}
-
+		
+		try {
+			attaques = FileReaderByLine.lireFichier(CHEMIN_ATTAQUES, 3);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
+		
+		
+		attaques.forEach(donnees -> {
+			String nomAttaque = donnees[2];
+			String nomPersonnage = donnees[1];
+			int evenementCommun = Integer.parseInt(donnees[0]);
+			
+			List<Instruction> instructions = LecteurDeCache.getEvenementCommun(evenementCommun).instructions;
+			
+			Map<Integer, Algorithme> extrait =
+					new Extracteur().extraireAlgorithmes(base.getVariablesStatistiques(), instructions);
+			
+			
+			exp.add(nomPersonnage, nomAttaque, extrait);
+		});
 
 		return exp.creerArbre();
 	}

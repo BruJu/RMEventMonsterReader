@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 
 /**
  * Gestionnaire de conditions sur la différence de valeur d'une variable
@@ -33,7 +33,7 @@ public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 	@Override
 	public Condition conditionVariable(ConditionValeur cond) {
 		if (!(base.equals(cond.gauche))
-				|| (cond.operateur != Operator.IDENTIQUE && cond.operateur != Operator.DIFFERENT)) {
+				|| (cond.operateur != Comparateur.IDENTIQUE && cond.operateur != Comparateur.DIFFERENT)) {
 			return cond;
 		}
 
@@ -43,13 +43,13 @@ public class GestionnaireVariableDifferent implements GestionnaireDeCondition {
 			return cond;
 		}
 
-		if (cond.operateur == Operator.IDENTIQUE) {
+		if (cond.operateur == Comparateur.IDENTIQUE) {
 			if (maDroite == saDroite.intValue()) {
 				return ConditionFixe.get(false);
 			}
 		}
 
-		if (cond.operateur == Operator.DIFFERENT) {
+		if (cond.operateur == Comparateur.DIFFERENT) {
 			if (maDroite == saDroite.intValue()) {
 				return ConditionFixe.get(true);
 			}

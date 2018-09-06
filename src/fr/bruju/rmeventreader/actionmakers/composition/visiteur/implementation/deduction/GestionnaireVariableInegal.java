@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
@@ -16,7 +16,7 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 	// Conditions de type x • constante
 	private Valeur base;
-	private Operator op;
+	private Comparateur op;
 	private int maDroite;
 
 	/**
@@ -27,7 +27,7 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 		this.base = cVariable.gauche;
 
 		
-		Pair<Operator, Integer> e = evaluerSansBorne(cVariable);
+		Pair<Comparateur, Integer> e = evaluerSansBorne(cVariable);
 		op = e.getLeft();
 		maDroite = e.getRight();
 		
@@ -43,23 +43,23 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 	 * @param cVariable La condition
 	 * @return Une paire opérateur et évaluation de la partie droite
 	 */
-	private Pair<Operator, Integer> evaluerSansBorne(ConditionValeur cVariable) {
+	private Pair<Comparateur, Integer> evaluerSansBorne(ConditionValeur cVariable) {
 		Integer evaluation = Constante.evaluer(cVariable.droite);
 		
 		if (evaluation == null)
 			return null;
 		
-		Operator operateur = cVariable.operateur;
+		Comparateur operateur = cVariable.operateur;
 		
-		if (operateur == Operator.INFEGAL) {
+		if (operateur == Comparateur.INFEGAL) {
 			// x <= 3 équivaut = x < 4
 			evaluation ++;
-			operateur = Operator.INF;
+			operateur = Comparateur.INF;
 		}
-		if (operateur == Operator.SUPEGAL) {
+		if (operateur == Comparateur.SUPEGAL) {
 			// x >= 3 équivaut à x > 2
 			evaluation --;
-			operateur = Operator.SUP;
+			operateur = Comparateur.SUP;
 		}
 		
 		return new Pair<>(operateur, evaluation);
@@ -74,23 +74,23 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 		/*
 		 * DIFFERENT
 		 */
-		if (cond.operateur == Operator.DIFFERENT) {
+		if (cond.operateur == Comparateur.DIFFERENT) {
 			return cond;
 		}
 		
-		Pair<Operator, Integer> autreEv = evaluerSansBorne(cond);
+		Pair<Comparateur, Integer> autreEv = evaluerSansBorne(cond);
 		
 		if (autreEv == null) {
 			return cond;
 		}
 		
-		Operator autreOp = autreEv.getLeft();
+		Comparateur autreOp = autreEv.getLeft();
 		int saDroite = autreEv.getRight();
 
 		/*
 		 * IDENTIQUE
 		 */
-		if (autreOp == Operator.IDENTIQUE) {
+		if (autreOp == Comparateur.IDENTIQUE) {
 			if (op.test(saDroite, maDroite)) {
 				// Est vérifiable, mais pas toujours
 				return cond;
@@ -114,7 +114,7 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 			// pour inférieur
 			// on veut qu'il y ait au moins un x tel que ma droite < x < sa droite
 			// <=> sa droite - ma droite >= 2
-			if (op == Operator.INF) {
+			if (op == Comparateur.INF) {
 				if (saDroite - maDroite >= 2) {
 					return cond;
 				} else {
@@ -126,7 +126,7 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 			// pour supérieur
 			// on veut au moins un x tel que sadroite < x < madroite
 			// <=> madroite - sadroite >= 2
-			if (op == Operator.SUP) {
+			if (op == Comparateur.SUP) {
 				if (-saDroite + maDroite >= 2) {
 					return cond;
 				} else {

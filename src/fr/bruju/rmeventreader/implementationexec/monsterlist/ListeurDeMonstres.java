@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
-import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementationexec.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementationexec.monsterlist.actionmaker.ExtracteurDeFond;
@@ -27,7 +26,6 @@ import fr.bruju.rmeventreader.implementationexec.monsterlist.metier.MonsterDatab
 import fr.bruju.rmeventreader.implementationexec.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-@SuppressWarnings("unused")
 public class ListeurDeMonstres implements Runnable {
 	private int option;
 	

@@ -106,7 +106,7 @@ public final class Constante implements Valeur, ElementFeuille, PasAlgorithme {
 							return null;
 						}
 
-						valeurNumerique = calc.operateur.compute(valeurNumerique, ((Constante) calc.droite).valeur);
+						valeurNumerique = calc.operateur.calculer(valeurNumerique, ((Constante) calc.droite).valeur);
 					} else {
 						return null;
 					}

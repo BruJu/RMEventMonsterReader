@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.bruju.rmeventreader.actionmakers.actionner.Operator;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
@@ -16,6 +15,7 @@ import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Opera
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
 
 /**
  * Un état mémoire représente l'état de la mémoire (contenu des variables et des interrupteurs) à un moment donné.
@@ -180,8 +180,8 @@ public class EtatMemoire {
 	 * @param operateur L'opérateur utilisé
 	 * @param vDroite L'opérande droite
 	 */
-	public void affecterVariable(Integer variable, Operator operator, Valeur vDroite) {
-		if (operator == Operator.AFFECTATION) {
+	public void affecterVariable(Integer variable, OpMathematique operator, Valeur vDroite) {
+		if (operator == OpMathematique.AFFECTATION) {
 			this.variables.put(variable, vDroite.toAlgorithme());
 		} else {
 			Calcul calcul = new Calcul(operator, vDroite);
