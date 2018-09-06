@@ -3,25 +3,16 @@
 
 Il s'agit d'une base de code permettant d'interpréter des instructions RPG Maker 2003.
 
-## Usage général
+## Motivation
 
 Dans la mesure où le jeu de données sur lequel se repose ce programme ne m'appartiennent pas, seul le programme de traitement est fourni.
 
+Ce programme se repose sur la librairie lcf2xml, dont les fichiers de sortie xml sont transformés en des fichiers plus compacts.
 
-Les instructions sont à mettre dans des fichiers texte sous la forme généré par le logiciel [RMEventFactory de Cherry](http://cherrytree.at/cms/lang/en/download/?did=11)
+Ces fichiers contiennent la liste des instructions de tout un projet RPG Maker, et le programme est capable de lire ces fichiers.
 
-Pour ce faire il faut :
-* Copier sous RPG Maker 2003 les instructions à reconnaître
-* Lire les évènements avec RMEventFactory
-* Copier la représentation des évènements sous format texte qui est donnée et l'enregistrer dans un fichier
+Le but étant de détourner les instructions pour en tirer des données. Par exemple on peut facilement créer une classe qui va déterminer la liste de toutes les musiques utilisées, et sur quelles cartes elles le sont.
 
-On peut ensuite afficher les instructions telles qu'elles sont comprises par ce programme avec les instructions
-
-~~~~
-ActionMaker printer = new Printer();
-Interpreter interpreter = new Interpreter(printer);
-interpreter.inputFile(new File(cheminVersLeFichier));
-~~~~
 
 
 ## Dépendances
@@ -29,6 +20,8 @@ interpreter.inputFile(new File(cheminVersLeFichier));
 ### CollectorsSimilaire
 
 Ce projet a une dépendance à ![CollectorBySimilarity](https://github.com/BruJu/CollectorBySimilarity/releases/tag/Kitten) afin de gérer plus facilement le regroupement d'éléments similaires.
+
+Toutes les dépendances sont dans le dossier lib.
 
 
 ## Reconnaissance de lettres
@@ -259,14 +252,11 @@ Et qu'on spécifie que Magie et Niveau sont des statistiques, ainsi que HPMonstr
 
 ### Solution
 
-Implémentation en cours
+Actuellement deux solutions sont proposées :
+
+- FormulaTracker qui génère des formules très longues et qui tente de les réduire avec des heuristiques
+
+- Recomposition qui génère des formules un peu plus exactes et plus courtes, mais qui ne dispose pas d'heuristique efficace pour réduire la taille des formules 
  
- 
-
-# Nouvelle Implémentation (WIP)
-
-
-
-
-
+Ces deux approches échouent pour le moment à produire un résultat acceptable.
 
