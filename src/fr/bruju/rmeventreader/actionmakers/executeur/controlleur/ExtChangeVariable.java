@@ -15,6 +15,13 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariablePlage;
 
 public interface ExtChangeVariable {
 	
+	public interface $$ extends ExecuteurInstructions, $ {
+		@Override
+		default ModuleExecVariables getExecVariables() {
+			return this;
+		}
+	}
+
 	public interface $ extends ExtChangeVariable, ModuleExecVariables {
 		@Override
 		default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {

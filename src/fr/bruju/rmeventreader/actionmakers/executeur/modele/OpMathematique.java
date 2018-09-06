@@ -33,6 +33,13 @@ public enum OpMathematique {
 		public int calculer(int gauche, int droite) {
 			return gauche / droite;
 		}
+	},
+	/* Opérateur mathématique par abus qui peut être utilisé lorsqu'on implémente les méthodes */
+	AFFECTATION("<-", false, 0) {
+		@Override
+		public int calculer(int gauche, int droite) {
+			return droite;
+		}
 	};
 
 	/* ============================

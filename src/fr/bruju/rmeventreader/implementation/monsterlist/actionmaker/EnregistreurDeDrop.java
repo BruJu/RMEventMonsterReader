@@ -1,14 +1,13 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
 
@@ -23,7 +22,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
  * : End of fork
  * </pre>
  */
-public class EnregistreurDeDrop implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
+public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition.$, ExtChangeVariable.$ {
 	/* ============
 	 * Construction
 	 * ============ */
@@ -62,24 +61,15 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ModuleExecVari
 	public ModuleExecFlot getExecFlot() {
 		return this;
 	}
-
-	private ExtCondition gestionConditions = new Conditions();
 	
 	/* =========
-	 * Exécuteur
+	 * Variables
 	 * ========= */
-	
-	@Override
-	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-		valeurGauche.appliquerG(variable -> valeurDroite.appliquerDroite(fixe -> affVar(variable.idVariable,
-				fixe.valeur), null, null), null, null);
-	}
-	
-	
 
-	public Void affVar(int idVariable, int valeurFixe) {
-		if (idVariable != VARIABLE_ID_DROP) {
-			return null;
+	@Override
+	public void affecterVariable(Variable variable, ValeurFixe fixe) {
+		if (variable.idVariable != VARIABLE_ID_DROP) {
+			return;
 		}
 		
 		if (dernierIfLu == -1) {
@@ -89,15 +79,24 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ModuleExecVari
 		db.extractMonsters()
 		  .stream()
 		  .filter(monstre -> monstre.getId() == dernierIfLu)
-		  .forEach(monstre -> monstre.nomDrop = Integer.toString(valeurFixe));
-		
-		return null;
+		  .forEach(monstre -> monstre.nomDrop = Integer.toString(fixe.valeur));
 	}
 
+	/* =========
+	 * Condition
+	 * ========= */
 	
-	@Override
-	public boolean Flot_si(Condition condition) {
-		return gestionConditions.$(condition);
+	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		if (variable != VARIABLE_ID_MONSTRE)
+			return false;
+		
+		if (comparateur != Comparateur.IDENTIQUE) {
+			throw new DropCompleterException(DropCompleterException.MessageCondition);
+		}
+
+		dernierIfLu = droite.valeur;
+		
+		return true;
 	}
 	
 	@Override
@@ -144,21 +143,6 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ModuleExecVari
 		}
 	}
 	
-	
-	private class Conditions implements ExtCondition.VariableEtendu {
-		@Override
-		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-			if (variable != VARIABLE_ID_MONSTRE)
-				return false;
-			
-			if (comparateur != Comparateur.IDENTIQUE) {
-				throw new DropCompleterException(DropCompleterException.MessageCondition);
-			}
 
-			dernierIfLu = droite.valeur;
-			
-			return false;
-		}
-	}
 	
 }

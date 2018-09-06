@@ -62,10 +62,10 @@ public class ListeurDeMonstres implements Runnable {
 			() -> Explorateur.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
 			
 			// Elements
-			/*
+			
 			new ElementsInit(baseDeDonnees, ce),
-			new AutoLibLcfXMLCache(new LectureDesElements(baseDeDonnees, contexte, ce), -1, 277, -1),
-			new ElementsFinalisation(baseDeDonnees, ce)*/
+			() -> Explorateur.lireEvenementCommun(new LectureDesElements(baseDeDonnees, contexte, ce), 277),
+			new ElementsFinalisation(baseDeDonnees, ce)
 		};
 		
 		for (Runnable action : listeDesActions) {

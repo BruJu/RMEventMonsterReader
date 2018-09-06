@@ -21,7 +21,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> implements ModuleExecMedia, ExtCondition.VariableEtendu {
+public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> implements ModuleExecMedia, ExtCondition {
 	// Constantes
 	/** Numéro de l'image qui affiche les noms */
 	private final int SHOW_PIC_ID_WITH_NAME;

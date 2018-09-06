@@ -11,9 +11,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVaria
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.Condition;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
@@ -31,7 +29,8 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  * @author Bruju
  *
  */
-public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExecVariables  {
+public class FinDeCombat extends StackedActionMaker<Combat>
+		implements ModuleExecVariables, ExtCondition.$, ExtChangeVariable.$ {
 	/* ==========
 	 * Constantes
 	 * ========== */
@@ -48,7 +47,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 	/* ========
 	 * Database
 	 * ======== */
-	
+
 	@Override
 	public void Flot_commentaire(String message) {
 		if (message.equals("ENNEMIS LEGENDAIRES")) {
@@ -73,11 +72,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 	 */
 	public FinDeCombat(MonsterDatabase db) {
 		this.db = db;
-		
+
 		VARIABLE_GAINEXP = db.contexte.getVariable("FinDeCombat_GainEXP");
 		SWITCH_BOSS = db.contexte.getVariable("FinDeCombat_SwitchBoss");
 		VARIABLES_EXP = db.contexte.getListeVariables("EXP");
-		
+
 		initierAssociationActionMaker();
 	}
 
@@ -86,14 +85,14 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 	 */
 	private void initierAssociationActionMaker() {
 		associationActionMaker = new HashMap<>();
-		
+
 		for (int idVariableHP : db.contexte.getListeVariables("HP")) {
 			associationActionMaker.put(idVariableHP, new ComportementIgnore());
 		}
 
 		int[] variablesCapa = db.contexte.getListeVariables("Capacité");
-		
-		for (int i = 0; i != db.contexte.getNbDeMonstres() ; i++) {
+
+		for (int i = 0; i != db.contexte.getNbDeMonstres(); i++) {
 			associationActionMaker.put(variablesCapa[i], new ComportementCapacite(i));
 			associationActionMaker.put(VARIABLES_EXP[i], new ComportementExperience(i));
 		}
@@ -106,90 +105,61 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 		return db.extractBattles();
 	}
 
-	
-	
-	
-	private ExtCondition gstCondition = new Conditions();
-	private ExtChangeVariable gstVariables = new Variables();
-
 	@Override
-	public boolean Flot_si(fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition condition) {
-		return gstCondition.$(condition);
+	public void affecterVariable(Variable valeurGauche, Variable valeurDroite) {
+		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
+
+		if (actionMaker != null) {
+			actionMaker.affecterVariable(valeurGauche, valeurDroite);
+		}
 	}
 
 	@Override
-	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-		gstVariables.$(valeurGauche, valeurDroite);
+	public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
+		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
+
+		if (actionMaker != null) {
+			actionMaker.affecterVariable(valeurGauche, valeurDroite);
+		}
 	}
 
 	@Override
-	public void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
-			ValeurDroiteVariable valeurDroite) {
-		gstVariables.$(valeurGauche, operateur, valeurDroite);
-	}
-	
-	
-	
-	private class Variables implements ExtChangeVariable {
-		@Override
-		public void affecterVariable(Variable valeurGauche, Variable valeurDroite) {
-			Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
-			
-			if (actionMaker != null) {
-				actionMaker.affecterVariable(valeurGauche, valeurDroite);
-			}
-		}
+	public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
+		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
 
-		@Override
-		public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
-			Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
-			
-			if (actionMaker != null) {
-				actionMaker.affecterVariable(valeurGauche, valeurDroite);
-			}
-		}
-
-		@Override
-		public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
-			Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
-			
-			if (actionMaker != null) {
-				actionMaker.changerVariable(valeurGauche, operateur, valeurDroite);
-			}
-		}
-
-		@Override
-		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
-			Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
-			
-			if (actionMaker != null) {
-				actionMaker.changerVariable(valeurGauche, operateur, valeurDroite);
-			}
+		if (actionMaker != null) {
+			actionMaker.changerVariable(valeurGauche, operateur, valeurDroite);
 		}
 	}
-	
-	
-	private class Conditions implements ExtCondition.VariableEtendu {
-		@Override
-		public boolean interrupteur(CondInterrupteur condInterrupteur) {
-			boolean estBoss = condInterrupteur.interrupteur == SWITCH_BOSS;
-			
-			if (estBoss) {
-				conditions.push(new ConditionEstUnBoss(condInterrupteur.etat));
-			}
-			
-			return estBoss;
+
+	@Override
+	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
+		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
+
+		if (actionMaker != null) {
+			actionMaker.changerVariable(valeurGauche, operateur, valeurDroite);
+		}
+	}
+
+	@Override
+	public boolean interrupteur(CondInterrupteur condInterrupteur) {
+		boolean estBoss = condInterrupteur.interrupteur == SWITCH_BOSS;
+
+		if (estBoss) {
+			conditions.push(new ConditionEstUnBoss(condInterrupteur.etat));
 		}
 
-		@Override
-		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-			Gestionnaires actionMaker = associationActionMaker.get(variable);
-			
-			if (actionMaker == null)
-				return false;
-			
-			return actionMaker.variableFixe(variable, comparateur, droite);
-		}
+		return estBoss;
+	}
+
+	@Override
+	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		Gestionnaires actionMaker = associationActionMaker.get(variable);
+
+		if (actionMaker == null)
+			return false;
+
+		return actionMaker.variableFixe(variable, comparateur, droite);
 	}
 
 	/* ==========
@@ -214,7 +184,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 	/**
 	 * Interface action maker avec une implémentation par défaut pour les traitements de conditions
 	 */
-	private interface Gestionnaires extends ExtCondition.VariableEtendu, ExtChangeVariable {
+	private interface Gestionnaires extends ExtCondition, ExtChangeVariable {
 	}
 
 	/**
@@ -240,15 +210,13 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 
 		@Override
 		public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
-			/*
 			Collection<Combat> elems = getElementsFiltres();
-			
+
 			if (!elems.isEmpty()) {
 				throw new FinDeCombatException("Affectation brute d'une récompense de capa");
 			}
-		 */
 		}
-		
+
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
 			getElementsFiltres().forEach(battle -> battle.addGainCapa(valeurDroite.valeur));
@@ -270,7 +238,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 		public ComportementExperience(int positionMonstre) {
 			this.positionMonstre = positionMonstre;
 		}
-		
+
 		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 			conditions.push(new ConditionOnMembreStat("EXP", positionMonstre, comparateur, droite.valeur));
 			return true;
@@ -279,13 +247,12 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 		public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
 			throw new FinDeCombatException("Modification d'une quantité d'exp gagnée");
 		}
-		
+
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
 			throw new FinDeCombatException("Modification d'une quantité d'exp gagnée");
 		}
 	}
 
-	
 	/**
 	 * Comportement concernant l'expérience totale
 	 */
@@ -310,40 +277,40 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ModuleExe
 		public void affecterVariable(Variable valeurGauche, Variable valeurDroite) {
 			modifierExp(valeurDroite, (a, b) -> b);
 		}
-		
+
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
 			modifierExp(valeurDroite, operateur::calculer);
 		}
-		
+
 		private void modifierExp(Variable valeurDroite, IntBinaryOperator fonctionDApplication) {
-			
+
 			int idMonstre = Utilitaire.getPosition(valeurDroite.idVariable, VARIABLES_EXP);
 
 			if (idMonstre == -1) {
 				throw new FinDeCombatException("Modifie un gain d'exp selon une variable qui n'est pas un gain d'exp");
 			}
-			
-			getElementsFiltres().forEach(c -> c.gainExp = fonctionDApplication.applyAsInt(c.gainExp,
-																					expDuMonstre(c, idMonstre)));
+
+			getElementsFiltres()
+					.forEach(c -> c.gainExp = fonctionDApplication.applyAsInt(c.gainExp, expDuMonstre(c, idMonstre)));
 		}
 
 		private Integer expDuMonstre(Combat combat, int position) {
 			Monstre monstre = combat.getMonstre(position);
-			
+
 			if (monstre == null) {
 				return 0;
 			} else {
 				return monstre.accessInt(Monstre.STATS).get("EXP");
 			}
 		}
-		
+
 	}
 
 	private class ConditionGainExpTotal implements Condition<Combat> {
 		private Comparateur comparateur;
 		private int expDeReference;
-		
+
 		public ConditionGainExpTotal(Comparateur comparateur, int expDeReference) {
 			this.comparateur = comparateur;
 			this.expDeReference = expDeReference;

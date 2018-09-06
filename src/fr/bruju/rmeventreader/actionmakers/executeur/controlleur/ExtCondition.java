@@ -22,10 +22,17 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 
 public interface ExtCondition {
-	public interface $ extends ExtCondition.VariableEtendu, ModuleExecFlot {
+	public interface $ extends ExtCondition, ModuleExecFlot {
 		@Override
 		default boolean Flot_si(Condition condition) {
 			return $(condition);
+		}
+	}
+	
+	public interface $$ extends ExecuteurInstructions, $ {
+		@Override
+		default ModuleExecFlot getExecFlot() {
+			return this;
 		}
 	}
 
@@ -90,33 +97,25 @@ public interface ExtCondition {
 		return false;
 	}
 
-	public default boolean variable(CondVariable condVariable) {
-		return false;
-	}
-
 	public default boolean interrupteur(CondInterrupteur condInterrupteur) {
 		return false;
 	}
-
 	
-	public static interface VariableEtendu extends ExtCondition {
-		@Override
-		public default boolean variable(CondVariable condVariable) {
-			if (condVariable.valeurDroite instanceof ValeurFixe) {
-				return variableFixe(condVariable.variable, condVariable.comparateur,
-						(ValeurFixe) condVariable.valeurDroite);
-			} else {
-				return variableVariable(condVariable.variable, condVariable.comparateur,
-						(Variable) condVariable.valeurDroite);
-			}
+	public default boolean variable(CondVariable condVariable) {
+		if (condVariable.valeurDroite instanceof ValeurFixe) {
+			return variableFixe(condVariable.variable, condVariable.comparateur,
+					(ValeurFixe) condVariable.valeurDroite);
+		} else {
+			return variableVariable(condVariable.variable, condVariable.comparateur,
+					(Variable) condVariable.valeurDroite);
 		}
+	}
 
-		public default boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
-			return false;
-		}
+	public default boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
+		return false;
+	}
 
-		public default boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-			return false;
-		}
+	public default boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		return false;
 	}
 }
