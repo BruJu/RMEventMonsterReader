@@ -6,7 +6,6 @@ import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
-import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.printer.PrintXML;
 import fr.bruju.rmeventreader.implementation.printer.Printer;
 import fr.bruju.rmeventreader.implementation.random.EventChecker;
@@ -14,6 +13,8 @@ import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementationexec.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementationexec.magasin.ChercheurDeMagasins;
+import fr.bruju.rmeventreader.implementationexec.monsterlist.ListeurDeMonstres;
+import fr.bruju.rmeventreader.implementationexec.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementationexec.random.ChercheurDImages;
 
 public class Principal {
@@ -23,7 +24,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 0;
+		int choix = 8;
 		int choixMap = -1;
 		
 		if (args.length != 0) {
@@ -44,7 +45,7 @@ public class Principal {
 				/* 6 */ new TestLectureCache(),
 				/* 7 */ new Verificateur(),
 				
-				/* 8 */ new EventChecker(),
+				/* 8 */ new AppelsDEvenements(),
 				/* 9 */ new ChercheurDImages(51),
 				/* 10 */ new ChercheurDeReferences(),
 				/* 11 */ new ChercheurDeMagasins(),
