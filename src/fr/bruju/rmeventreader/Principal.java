@@ -2,15 +2,12 @@ package fr.bruju.rmeventreader;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.actionmakers.xml.AutoLibLcfXMLCache;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
-import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
-import fr.bruju.rmeventreader.implementation.printer.PrintXML;
-import fr.bruju.rmeventreader.implementation.printer.Printer;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementationexec.equipementchecker.Verificateur;
+import fr.bruju.rmeventreader.implementationexec.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementationexec.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementationexec.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementationexec.random.AppelsDEvenements;
@@ -23,7 +20,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 8;
+		int choix = 1;
 		int choixMap = -1;
 		
 		if (args.length != 0) {
@@ -38,10 +35,10 @@ public class Principal {
 				/* 0 */ new ListeurDeMonstres(3),
 				/* 1 */ new FormulaTracker(),
 				/* 2 */ new Recomposition(),
-				/* 3 */ new PrintXML("ressources\\xml\\Map0001.xml", 1, 1),
+				/* 3 */ null,
 				/* 4 */ new Createur(),
 				/* 5 */ new Cache(choixMap),
-				/* 6 */ new TestLectureCache(),
+				/* 6 */ null,
 				/* 7 */ new Verificateur(),
 				
 				/* 8 */ new AppelsDEvenements(),
@@ -93,17 +90,6 @@ public class Principal {
 		}
 	}
 	
-	/**
-	 * Lit un fichier créé par la mise en cache et affiche les instructions trouvée
-	 *
-	 */
-	public static class TestLectureCache implements Runnable {
-		@Override
-		public void run() {
-			//new AutoLibLcfXMLCache(new Printer(), -1, 14, -1).run();
-			new AutoLibLcfXMLCache(new Printer(), 80, 162, -1).run();
-		}
-	}
 	
 
 }

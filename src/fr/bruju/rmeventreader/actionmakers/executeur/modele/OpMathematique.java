@@ -105,4 +105,29 @@ public enum OpMathematique {
 	public Integer getNeutre() {
 		return neutre;
 	}
+
+	
+	
+	
+	
+	
+	
+	// TODO : déplacer cette fonction
+	// Elle a été placée ici temporairement pour rapidement rendre la factorisation compatible, mais ce n'est pas
+	// une solution
+	public static OpMathematique sensConventionnel(OpMathematique operateur) {
+		switch (operateur) {
+		case AFFECTATION:
+			return AFFECTATION;
+		case DIVISE:
+		case FOIS:
+		case MODULO:
+			return FOIS;
+		case PLUS:
+		case MOINS:
+			return PLUS;
+		default:
+			return null;
+		}
+	}
 }

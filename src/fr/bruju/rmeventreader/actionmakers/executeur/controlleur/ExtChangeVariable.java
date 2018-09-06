@@ -15,6 +15,88 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariablePlage;
 
 public interface ExtChangeVariable {
 	
+	public interface $$PasAffectation extends $$ {
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, ValeurDivers valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, ValeurDivers valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, ValeurDeplacable valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, ValeurDeplacable valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, VariableHeros valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, VariableHeros valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, NombreObjet valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, NombreObjet valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, ValeurAleatoire valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, ValeurAleatoire valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, Pointeur valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, Pointeur valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, Variable valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, Variable valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+
+		@Override
+		default void affecterVariable(Pointeur valeurGauche, ValeurFixe valeurDroite) {
+			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
+		}
+	}
+
 	public interface $$ extends ExecuteurInstructions, $ {
 		@Override
 		default ModuleExecVariables getExecVariables() {
