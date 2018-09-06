@@ -10,25 +10,57 @@ import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.Handler
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.Remplisseur;
 import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 
+/**
+ * Un déchiffreur d'instructions qui permet d'appeler des fonctions ayant des noms plus explicites qu'un code et une
+ * liste d'arguments.
+ * 
+ * @author Bruju
+ *
+ */
 public class DechiffreurInstructions {
-	public static boolean VERBOSE = false;
-	
+	/* =======================================
+	 * Liste des instructions connues (static)
+	 * ======================================= */
+	/** Instructions connues */
 	private static Map<Integer, HandlerInstruction> instructionsConnues;
+	/** Instructions pouvant renvoyer un booléen connues */
 	private static Map<Integer, HandlerInstructionRetour> instructionsConnuesClasse2;
 	
+	/** Rempli la liste des instructions connues */
+	private static void remplirInstructions() {
+		if (instructionsConnues != null)
+			return;
+		
+		instructionsConnues = new HashMap<>();
+		instructionsConnuesClasse2 = new HashMap<>();
+		Stream.of(Remplisseur.getAll()).forEach(remplisseur -> 
+			remplisseur.remplirMap(instructionsConnues, instructionsConnuesClasse2)
+		);
+	}
+	
+	/* =========
+	 * Interface
+	 * ========= */
+	/** Exécuteur d'instructions associé */
 	private ExecuteurInstructions executeur;
+	/** Gestion des niveaux de conditions ignorées */
 	private Ignorance ignorance;
 
+	/**
+	 * Crée un déchiffreur qui utilise l'exécuteur donné
+	 * @param executeur L'exécuteur d'instructions
+	 */
 	public DechiffreurInstructions(ExecuteurInstructions executeur) {
 		this.executeur = executeur;
 		ignorance = null;
 	}
 	
+	/**
+	 * Appelle la méthode de l'exécuteur associé à l'instruction donnée
+	 * @param instruction L'instruction à exécuteur
+	 */
 	public void executer(Instruction instruction) {
 		remplirInstructions();
-		
-		if (VERBOSE)
-			System.out.print("-- Instruction : " + instruction.toLigne());
 		
 		Integer code = instruction.code;
 		
@@ -57,23 +89,12 @@ public class DechiffreurInstructions {
 		
 		System.out.println(" --> Instruction [" + instruction.toString(true) + "] non déchiffrable");
 	}
-	
-	private static void remplirInstructions() {
-		if (instructionsConnues != null)
-			return;
-		
-		instructionsConnues = new HashMap<>();
-		instructionsConnuesClasse2 = new HashMap<>();
-		Stream.of(Remplisseur.getAll()).forEach(remplisseur -> 
-			remplisseur.remplirMap(instructionsConnues, instructionsConnuesClasse2)
-		);
-	}
 
+	/**
+	 * Exécute les instructions données les unes aprés les autres
+	 * @param instructions La liste des instructions
+	 */
 	public void executer(List<Instruction> instructions) {
 		instructions.forEach(this::executer);
 	}
-	
-	
-	
-	
 }

@@ -1,5 +1,10 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
+/**
+ * Permet de déclarer que l'on fait un exécuteur qui s'occupe lui-même de tous les modules.
+ * @author Bruju
+ *
+ */
 public interface ExecuteurInstructionsEtoile extends ExecuteurInstructions, ModuleExecMessages, ModuleExecVariables,
 	ModuleExecEquipe, ModuleExecMedia, ModuleExecFlot, ModuleExecJeu, ModuleExecSysteme, ModuleExecIntegre {
 	@Override

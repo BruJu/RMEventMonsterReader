@@ -13,8 +13,21 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariablePlage;
 
+/**
+ * Fourni une interface explicitant toutes les combinaisons possibles pour la modification de variables, permettant
+ * d'implémenter aisément une implémentation partielle.
+ * 
+ * @author Bruju
+ *
+ */
 public interface ExtChangeVariable {
-	
+
+	/**
+	 * Transforme les affectations en changement de variables.
+	 * 
+	 * @author Bruju
+	 * @see $$
+	 */
 	public interface $$PasAffectation extends $$ {
 		@Override
 		default void affecterVariable(Pointeur valeurGauche, ValeurDivers valeurDroite) {
@@ -97,6 +110,12 @@ public interface ExtChangeVariable {
 		}
 	}
 
+	/**
+	 * Permet d'avoir à la fois le rôle d'exécuteur d'instructions et d'expliciteur de possibilités
+	 * 
+	 * @author Bruju
+	 *
+	 */
 	public interface $$ extends ExecuteurInstructions, $ {
 		@Override
 		default ModuleExecVariables getExecVariables() {
@@ -121,7 +140,7 @@ public interface ExtChangeVariable {
 			$(valeurGauche, operateur, valeurDroite);
 		}
 	}
-	
+
 	/*
 	 * Changement d'interrupteur
 	 */
@@ -144,30 +163,29 @@ public interface ExtChangeVariable {
 			}
 		}
 	}
-	
+
 	public default void inverseSwitch(Variable interrupteur) {
 	}
-	
+
 	public default void changeSwitch(Variable interrupteur, boolean nouvelleValeur) {
 	}
 
 	public default void inverseSwitch(Pointeur interrupteur) {
 	}
-	
+
 	public default void changeSwitch(Pointeur interrupteur, boolean nouvelleValeur) {
 	}
-	
 
 	/*
 	 * Changement de variable
 	 */
-	
+
 	public default void $(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
 		if (valeurGauche instanceof VariablePlage) {
 			((VariablePlage) valeurGauche).getList().forEach(variable -> $(variable, valeurDroite));
 			return;
 		}
-		
+
 		if (valeurDroite instanceof ValeurFixe) {
 			if (valeurGauche instanceof Variable) {
 				affecterVariable((Variable) valeurGauche, (ValeurFixe) valeurDroite);
@@ -219,50 +237,64 @@ public interface ExtChangeVariable {
 		}
 	}
 
+	public default void affecterVariable(Pointeur valeurGauche, ValeurDivers valeurDroite) {
+	}
 
-	public default void affecterVariable(Pointeur valeurGauche, ValeurDivers valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, ValeurDivers valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, ValeurDivers valeurDroite){}
+	public default void affecterVariable(Pointeur valeurGauche, ValeurDeplacable valeurDroite) {
+	}
 
-	public default void affecterVariable(Pointeur valeurGauche, ValeurDeplacable valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, ValeurDeplacable valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, ValeurDeplacable valeurDroite){}
+	public default void affecterVariable(Pointeur valeurGauche, VariableHeros valeurDroite) {
+	}
 
-	public default void affecterVariable(Pointeur valeurGauche, VariableHeros valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, VariableHeros valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, VariableHeros valeurDroite){}
+	public default void affecterVariable(Pointeur valeurGauche, NombreObjet valeurDroite) {
+	}
 
-	public default void affecterVariable(Pointeur valeurGauche, NombreObjet valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, NombreObjet valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, NombreObjet valeurDroite){}
+	public default void affecterVariable(Pointeur valeurGauche, ValeurAleatoire valeurDroite) {
+	}
 
-	public default void affecterVariable(Pointeur valeurGauche, ValeurAleatoire valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, ValeurAleatoire valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, ValeurAleatoire valeurDroite){}
+	public default void affecterVariable(Pointeur valeurGauche, Pointeur valeurDroite) {
+	}
 
-	public default void affecterVariable(Pointeur valeurGauche, Pointeur valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, Pointeur valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, Pointeur valeurDroite){}
+	public default void affecterVariable(Pointeur valeurGauche, Variable valeurDroite) {
+	}
 
-	public default void affecterVariable(Pointeur valeurGauche, Variable valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, Variable valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, Variable valeurDroite){}
+	public default void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
+	}
 
-	public default void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite){}
-	
-	public default void affecterVariable(Pointeur valeurGauche, ValeurFixe valeurDroite){}
+	public default void affecterVariable(Pointeur valeurGauche, ValeurFixe valeurDroite) {
+	}
 
-	
 	/*
 	 * Modification de variable
 	 */
-	
+
 	public default void $(ValeurGauche valeurGauche, OpMathematique operateur, ValeurDroiteVariable valeurDroite) {
 		if (valeurGauche instanceof VariablePlage) {
 			((VariablePlage) valeurGauche).getList().forEach(variable -> $(variable, operateur, valeurDroite));
 			return;
 		}
-		
+
 		if (valeurDroite instanceof ValeurFixe) {
 			if (valeurGauche instanceof Variable) {
 				changerVariable((Variable) valeurGauche, operateur, (ValeurFixe) valeurDroite);
@@ -314,52 +346,53 @@ public interface ExtChangeVariable {
 		}
 	}
 
-
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, ValeurDivers valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurDivers valeurDroite){}
-
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, ValeurDeplacable valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurDeplacable valeurDroite){}
-
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, VariableHeros valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, VariableHeros valeurDroite){}
-
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, NombreObjet valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, NombreObjet valeurDroite){}
-
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, ValeurAleatoire valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurAleatoire valeurDroite){}
-
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, Pointeur valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, Pointeur valeurDroite){}
-
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, Variable valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite){}
-
-	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite){}
-	
-	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite){}
-
-	
-	
-	/*
-	public default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, ValeurDivers valeurDroite) {
 	}
 
-	public default void Variables_changerVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurDivers valeurDroite) {
 	}
 
-	public default void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
-			ValeurDroiteVariable valeurDroite) {
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur,
+			ValeurDeplacable valeurDroite) {
 	}
-	*/
-	
-	
+
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur,
+			ValeurDeplacable valeurDroite) {
+	}
+
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, VariableHeros valeurDroite) {
+	}
+
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, VariableHeros valeurDroite) {
+	}
+
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, NombreObjet valeurDroite) {
+	}
+
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, NombreObjet valeurDroite) {
+	}
+
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, ValeurAleatoire valeurDroite) {
+	}
+
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurAleatoire valeurDroite) {
+	}
+
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, Pointeur valeurDroite) {
+	}
+
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, Pointeur valeurDroite) {
+	}
+
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, Variable valeurDroite) {
+	}
+
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
+	}
+
+	public default void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
+	}
+
+	public default void changerVariable(Pointeur valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
+	}
 }

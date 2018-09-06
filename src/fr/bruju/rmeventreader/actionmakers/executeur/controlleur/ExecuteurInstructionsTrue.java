@@ -1,5 +1,11 @@
 package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 
+/**
+ * Permet de déclarer un exécuteur qui explore toutes les branches par défaut
+ * 
+ * @author Bruju
+ *
+ */
 public interface ExecuteurInstructionsTrue extends ExecuteurInstructions {
 	@Override
 	public default ModuleExecMessages getExecMessages() {
