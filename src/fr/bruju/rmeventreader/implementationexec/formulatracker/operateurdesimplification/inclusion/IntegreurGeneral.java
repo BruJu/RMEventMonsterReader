@@ -11,6 +11,7 @@ import fr.bruju.rmeventreader.implementationexec.formulatracker.composant.condit
 import fr.bruju.rmeventreader.implementationexec.formulatracker.composant.condition.CSwitch;
 import fr.bruju.rmeventreader.implementationexec.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementationexec.formulatracker.composant.condition.Condition;
+import fr.bruju.rmeventreader.implementationexec.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementationexec.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementationexec.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementationexec.formulatracker.formule.attaques.FormuleDeDegats;
@@ -124,6 +125,10 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 		
 		if (gauche != cVariable.gauche || droite != cVariable.droite) {
 			cVariable = new CVariable(gauche, cVariable.operateur, droite);
+		}
+		
+		if (!(droite instanceof VConstante)) {
+			return CFixe.get(true);
 		}
 		
 		return traiterCondition(cVariable, (g, c) -> g.conditionVariable(c));

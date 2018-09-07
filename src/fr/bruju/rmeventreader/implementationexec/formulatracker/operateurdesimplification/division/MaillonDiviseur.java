@@ -41,15 +41,15 @@ public class MaillonDiviseur implements Maillon {
 				.appliquer(attaques)
 				
 				.setTitre("Arme")
-				.arme(1, a -> encyclopedie.get("OBJET", a))
-				.arme(2, a -> encyclopedie.get("OBJET", a))
-				.arme(3, a -> encyclopedie.get("OBJET", a))
-				.arme(4, a -> encyclopedie.get("OBJET", a))
-				.arme(5, a -> encyclopedie.get("OBJET", a))
-				.arme(6, a -> encyclopedie.get("OBJET", a))
-				.arme(7, a -> encyclopedie.get("OBJET", a))
-				.variableDecouverte(483, a -> a == null ? "Autre" : encyclopedie.get("OBJET", a))
-				.variableDecouverte(484, a -> a == null ? "Autre" : encyclopedie.get("OBJET", a))
+				.arme(1, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.arme(2, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.arme(3, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.arme(4, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.arme(5, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.arme(6, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.arme(7, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.variableDecouverte(483, a -> a == null ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
+				.variableDecouverte(484, a -> a == null ? "Autre" : encyclopedie.getSansSymbole("OBJET", a-1))
 				.appliquer(attaques)
 				
 				.setTitre("Quête")
@@ -59,7 +59,7 @@ public class MaillonDiviseur implements Maillon {
 				.appliquer(attaques)
 				
 				.setTitre("Période")
-				.disjonctionInterrupteurs(new int[] {8,9,10,11}, v -> encyclopedie.get("SWITCH", v))
+				.disjonctionInterrupteurs(new int[] {8,9,10,11}, v -> encyclopedie.get("SWITCH", v-1))
 				.appliquer(attaques);
 	}
 	

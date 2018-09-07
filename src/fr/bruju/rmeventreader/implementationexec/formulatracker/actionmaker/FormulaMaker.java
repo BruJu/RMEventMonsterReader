@@ -168,7 +168,10 @@ public class FormulaMaker implements ExtCondition.$$, ExtChangeVariable.$$PasAff
 
 	@Override
 	public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
-		// TODO si possible
+		Valeur vGauche = etat.getVariable(variable);
+		Valeur vDroite = etat.getVariable(droite.idVariable);
+
+		traiteurParDefaut.condOnVariable(vGauche, comparateur, vDroite);
 		return false;
 	}
 

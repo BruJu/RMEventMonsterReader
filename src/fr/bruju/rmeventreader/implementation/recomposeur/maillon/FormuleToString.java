@@ -151,7 +151,8 @@ public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 
 	@Override
 	protected Res traiter(Filtre element) {
-		throw new RuntimeException("Ne gère pas les filtres");
+		
+		return new Res(0, "["+element.operateur+ " " + traiter(element.valeurComparaison).s + " : " + traiter(element.valeurFiltrage).s+"]");
 	}
 
 	@Override

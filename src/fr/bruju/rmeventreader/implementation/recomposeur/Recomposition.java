@@ -62,6 +62,7 @@ public class Recomposition implements Runnable {
 
 		String sortie = fruits.stream().map(this::construireSortie).collect(Collectors.joining("\n"));
 
+		System.out.println(sortie);
 		enregistrerDansFichier(sortie);
 	}
 

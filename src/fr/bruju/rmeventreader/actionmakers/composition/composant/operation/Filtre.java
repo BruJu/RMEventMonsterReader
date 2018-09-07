@@ -36,12 +36,9 @@ public final class Filtre implements Operation, ElementIntermediaire {
 	 *            filtrage
 	 */
 	public Filtre(Comparateur operateur, Valeur valeurComparaison, Algorithme valeurFiltrage) {
-		throw new RuntimeException("Not yet implemented");
-		/*
 		this.operateur = operateur;
 		this.valeurComparaison = valeurComparaison;
 		this.valeurFiltrage = valeurFiltrage;
-		*/
 	}
 
 	/* ================
@@ -57,7 +54,6 @@ public final class Filtre implements Operation, ElementIntermediaire {
 	@Override
 	public boolean cumuler(List<Operation> nouveauxComposants) {
 		nouveauxComposants.add(this);
-		// TODO
 		return false;
 	}
 	

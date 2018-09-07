@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
+import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Filtre;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Operation;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
@@ -156,6 +158,13 @@ public class EtatMemoire {
 		
 		
 		listeDesVariables.forEach(idVariable -> {
+			
+			
+			if (essayerFiltre(idVariable)) {
+				return;
+			}
+			
+			
 			// Création de la conditionnelle
 			Algorithme g = filsGauche.variables.getOrDefault(idVariable, new Algorithme());
 			Algorithme d = filsDroit.variables.getOrDefault(idVariable, new Algorithme());
@@ -171,8 +180,28 @@ public class EtatMemoire {
 			this.variables.put(idVariable, fusion);
 		});
 	}
+	
 
-
+	private boolean essayerFiltre(Integer idVariable) {
+		if (!(condition instanceof ConditionValeur))
+			return false;
+		
+		ConditionValeur cv = (ConditionValeur) condition;
+		
+		if (!cv.gauche.equals(getVariable(idVariable))) {
+			return false;
+		}
+		
+		if (this.filsDroit.variables.containsKey(idVariable))
+			return false;
+		
+		if (!this.filsGauche.variables.containsKey(idVariable))
+			return false;
+		
+		this.variables.put(idVariable, new Algorithme(variables.get(idVariable), new Filtre(cv.operateur, cv.droite, this.filsGauche.variables.get(idVariable))));
+		
+		return true;
+	}
 
 	/**
 	 * Modifie la variable donnée avec l'opérateur et la valeur donnée
