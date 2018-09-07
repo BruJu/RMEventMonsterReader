@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Classe utilitaire permettant de lire des fichiers
@@ -15,6 +16,30 @@ import java.util.List;
  */
 public class FileReaderByLine {
 	private static final String COMMENTAIRE_STARTS_WITH = "//";
+	
+	public static boolean lectureFichierBrut(File file, Consumer<String> action) {
+		try {
+			FileReader fileReader = new FileReader(file);
+			BufferedReader buffer = new BufferedReader(fileReader);
+			String line;
+	
+			while (true) {
+				line = buffer.readLine();
+	
+				if (line == null) {
+					break;
+				}
+				
+				action.accept(line);
+			}
+	
+			buffer.close();
+		} catch (IOException e) {
+			return false;
+		}
+		
+		return true;
+	}
 	
 	/**
 	 * Lit un fichier en utilisant l'actionneur utilisé
