@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
  *
  */
 public class ChercheurDeReferences implements Runnable {
-	
+	/** Base de recherche */
 	private BaseDeRecherche baseDeRecherche;
 	
 
@@ -33,8 +33,6 @@ public class ChercheurDeReferences implements Runnable {
 		baseDeRecherche.afficher();	
 	}
 	
-
-	
 	/**
 	 * Cherche des références aux variables et les ajoute si des références sont trouvées
 	 * @param ref La référence à ajouter
@@ -42,30 +40,6 @@ public class ChercheurDeReferences implements Runnable {
 	 */
 	private void explorer(Reference ref, List<Instruction> instructions) {
 		// System.out.println("REFERENCE [" + ref.getString() + "]");
-		// Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
-		
-		String[] str = new String[] {
-				""
-				//"Hyurne-Quartier Sud-ouest ",
-				//"Logo NWP",
-				//"Hyurne-Quartier Nord-Est"
-				
-				
-		};
-		
-		if (ref.numero() < 0) {
-			Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
-		}
-		
-		for (String s : str) {
-			if (ref.getString().contains(s)) {
-				Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
-			}
-			
-			
-		}
+		Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
 	}
-	
-
-
 }

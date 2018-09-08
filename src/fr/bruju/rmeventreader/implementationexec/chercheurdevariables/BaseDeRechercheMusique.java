@@ -8,12 +8,14 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.SonParam;
 
+/**
+ * Recherche du nom de toutes les musiques utilisées dans le projet
+ * @author Bruju
+ *
+ */
 public class BaseDeRechercheMusique implements BaseDeRecherche {
-
+	/** Ensemble des musiques utilisées */
 	private Set<String> musiques = new HashSet<>();
-
-	public BaseDeRechercheMusique() {
-	}
 
 	@Override
 	public void afficher() {
@@ -25,7 +27,11 @@ public class BaseDeRechercheMusique implements BaseDeRecherche {
 		return new Chercheur();
 	}
 
-	
+	/**
+	 * Chercheur de musiques utilisées
+	 * @author Bruju
+	 *
+	 */
 	public class Chercheur implements ExecuteurInstructionsTrue, ModuleExecMedia {
 		@Override
 		public ModuleExecMedia getExecMedia() {
