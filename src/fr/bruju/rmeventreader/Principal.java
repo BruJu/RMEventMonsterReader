@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.MiseEnCache;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
+import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
+import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
+import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
+import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
+import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
+import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
-import fr.bruju.rmeventreader.implementationexec.chercheurdevariables.ChercheurDeReferences;
-import fr.bruju.rmeventreader.implementationexec.equipementchecker.Verificateur;
-import fr.bruju.rmeventreader.implementationexec.formulatracker.FormulaTracker;
-import fr.bruju.rmeventreader.implementationexec.magasin.ChercheurDeMagasins;
-import fr.bruju.rmeventreader.implementationexec.monsterlist.ListeurDeMonstres;
-import fr.bruju.rmeventreader.implementationexec.random.AppelsDEvenements;
-import fr.bruju.rmeventreader.implementationexec.random.ChercheurDImages;
 
 public class Principal {
 	/**
@@ -20,7 +20,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 2;
+		int choix = 10;
 		int choixMap = -1;
 		
 		if (args.length != 0) {
