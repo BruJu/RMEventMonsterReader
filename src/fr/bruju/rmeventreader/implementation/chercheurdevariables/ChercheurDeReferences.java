@@ -22,11 +22,11 @@ public class ChercheurDeReferences implements Runnable {
 		int option = 4;
 		
 		new Runnable[] {
-				() -> {baseDeRecherche = new BaseDeRechercheDeVariables(new int[] {961, 962, 963, 964});},
+				() -> {baseDeRecherche = new BaseDeRechercheDeVariables(new int[] {143});},
 				() -> {baseDeRecherche = new BaseDeRechercheTextuelle("narre");},
 				() -> {baseDeRecherche = new BaseDeRechercheVarAAOn(128);},
 				() -> {baseDeRecherche = new BaseDeRechercheMusique();},
-				() -> {baseDeRecherche = new BaseValeursAffectees(2972);}
+				() -> {baseDeRecherche = new BaseValeursAffectees(143);}
 		}[option].run();
 		
 		Explorateur.explorer(

@@ -18,6 +18,6 @@ public class Tous implements ValeurMembre {
 	@Override
 	public <T> T appliquerMembre(Function<Tous, T> fonctionTous, Function<ValeurFixe, T> fonctionFixe,
 			Function<Variable, T> fonctionVariable) {
-		return fonctionTous.apply(this);
+		return fonctionTous == null ? null : fonctionTous.apply(this);
 	}
 }

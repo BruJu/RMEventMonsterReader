@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.actionmakers.Encyclopedie;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
+import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable.$$PasAffectation;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.NombreObjet;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
@@ -20,6 +21,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import java.util.Objects;
 
 /**
  * Base de recherches des variables utilisées
@@ -28,7 +30,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  */
 public class BaseValeursAffectees implements BaseDeRecherche {
 	/** Liste des affectations de la variable */
-	private Map<Reference, Set<Integer>> affectationsTrouvees = new HashMap<>();
+	private Map<Reference, Set<Modification>> affectationsTrouvees = new HashMap<>();
 	/** Variable dont on veut connaître les valeurs affectées */
 	public final int variableTrackee;
 	
@@ -47,7 +49,7 @@ public class BaseValeursAffectees implements BaseDeRecherche {
 		affectationsTrouvees.forEach((reference, valeurs) -> {
 			String valeursS = valeurs
 					.stream()
-					.map(v -> v == Integer.MIN_VALUE ? "*" : v.toString())
+					.map(v -> v.toString())
 					.collect(Collectors.joining(", "));
 			System.out.println(reference.getString() + " : " + valeursS);
 		});
@@ -58,13 +60,61 @@ public class BaseValeursAffectees implements BaseDeRecherche {
 		return new Chercheur(ref);
 	}
 	
+	
+	public static class Modification implements Comparable<Modification> {
+		public final OpMathematique operateur;
+		public final Integer valeur;
+		
+		public Modification(OpMathematique operateur) {
+			this.operateur = operateur;
+			valeur = Integer.MIN_VALUE;
+		}
+		
+		public Modification(OpMathematique operateur, Integer valeur) {
+			this.operateur = operateur;
+			this.valeur = valeur;
+		}
+
+		@Override
+		public int compareTo(Modification arg0) {
+			int cmp = Integer.compare(this.operateur.ordinal(), arg0.operateur.ordinal());
+			
+			if (cmp != 0) {
+				return cmp;
+			}
+			
+			return Integer.compare(valeur, arg0.valeur);
+		}
+		
+		@Override
+		public String toString() {
+			return operateur.symbole + " " + ((valeur == Integer.MIN_VALUE) ? "*" : valeur); 
+		}
+		
+		@Override
+		public int hashCode() {
+			return Objects.hash(operateur, valeur);
+		}
+		
+		@Override
+		public boolean equals (Object object) {
+			if (object instanceof Modification) {
+				Modification that = (Modification) object;
+				return Objects.equals(this.operateur, that.operateur)
+						&& this.valeur == that.valeur;
+			}
+			return false;
+		}
+		
+	}
+
 	/**
 	 * Executeur d'instructions qui ajoute des références si il trouve des instructions en lien à des variables.
 	 * 
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructionsTrue, ExtChangeVariable.$$ {
+	public class Chercheur implements ExecuteurInstructionsTrue, ExtChangeVariable.$$PasAffectation {
 		/** Référence */
 		private Reference reference;
 
@@ -82,89 +132,63 @@ public class BaseValeursAffectees implements BaseDeRecherche {
 		public ModuleExecVariables getExecVariables() {
 			return this;
 		}
-
-		@Override
-		public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
-			if (valeurGauche.idVariable != variableTrackee)
-				return;
-			Integer valeur = valeurDroite.valeur;
-			
-			Utilitaire.Maps.ajouterElementDansSet(affectationsTrouvees, reference, valeur);
-		}
 		
 		/**
 		 * Comportement si autre chose qu'une affectation à une variable par une valeur fixe est produit
 		 * @param variable La variable modifiée
 		 */
-		public void autreChangement(Variable variable) {
+		public void autreChangement(Variable variable, OpMathematique operateur) {
 			if (variable.idVariable != variableTrackee)
 				return;
 			
-			Utilitaire.Maps.ajouterElementDansSet(affectationsTrouvees, reference, Integer.MIN_VALUE);
+			Utilitaire.Maps.ajouterElementDansSet(affectationsTrouvees, reference, new Modification(operateur));
 		}
 
 		@Override
-		public void affecterVariable(Variable valeurGauche, ValeurDivers valeurDroite) {
-			autreChangement(valeurGauche);		}
-
-		@Override
-		public void affecterVariable(Variable valeurGauche, ValeurDeplacable valeurDroite) {
-			autreChangement(valeurGauche);		}
-
-		@Override
-		public void affecterVariable(Variable valeurGauche, VariableHeros valeurDroite) {
-			autreChangement(valeurGauche);		}
-
-		@Override
-		public void affecterVariable(Variable valeurGauche, NombreObjet valeurDroite) {
-			autreChangement(valeurGauche);		}
-
-		@Override
-		public void affecterVariable(Variable valeurGauche, ValeurAleatoire valeurDroite) {
-			autreChangement(valeurGauche);		}
-
-		@Override
-		public void affecterVariable(Variable valeurGauche, Pointeur valeurDroite) {
-			autreChangement(valeurGauche);		}
-
-		@Override
-		public void affecterVariable(Variable valeurGauche, Variable valeurDroite) {
-			autreChangement(valeurGauche);		}
-
-		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurDivers valeurDroite) {
-			autreChangement(valeurGauche);		}
+			autreChangement(valeurGauche, operateur);
+		}
 
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurDeplacable valeurDroite) {
-			$$.super.changerVariable(valeurGauche, operateur, valeurDroite);
+			autreChangement(valeurGauche, operateur);
 		}
 
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, VariableHeros valeurDroite) {
-			$$.super.changerVariable(valeurGauche, operateur, valeurDroite);
+			autreChangement(valeurGauche, operateur);
 		}
 
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, NombreObjet valeurDroite) {
-			autreChangement(valeurGauche);		}
+			autreChangement(valeurGauche, operateur);
+		}
 
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurAleatoire valeurDroite) {
-			autreChangement(valeurGauche);		}
+			autreChangement(valeurGauche, operateur);
+		}
 
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, Pointeur valeurDroite) {
-			autreChangement(valeurGauche);		}
+			autreChangement(valeurGauche, operateur);
+		}
 
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
-			autreChangement(valeurGauche);		}
+			autreChangement(valeurGauche, operateur);
+		}
 
 		@Override
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
-			autreChangement(valeurGauche);
+			if (valeurGauche.idVariable != variableTrackee)
+				return;
+			
+			Integer valeur = valeurDroite.valeur;
+			
+			Utilitaire.Maps.ajouterElementDansSet(affectationsTrouvees, reference, new Modification(operateur, valeur));
 		}
+
 		
 		
 	}
