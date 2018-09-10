@@ -9,7 +9,6 @@ import fr.bruju.rmeventreader.actionmakers.Encyclopedie;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable.$$PasAffectation;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.NombreObjet;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
