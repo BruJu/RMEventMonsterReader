@@ -20,7 +20,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 10;
+		int choix = 1;
 		int choixMap = -1;
 		
 		if (args.length != 0) {

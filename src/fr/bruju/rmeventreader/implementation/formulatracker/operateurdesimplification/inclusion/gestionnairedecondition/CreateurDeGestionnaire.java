@@ -52,7 +52,7 @@ public class CreateurDeGestionnaire extends VisiteurRetourneur<GestionnaireDeCon
 		case INFEGAL:
 		case SUP:
 		case SUPEGAL:
-			return new GestionnaireVariableInegal(cVariable);
+			return new GestionnaireVariableInegalAdaptateur(cVariable);
 		default:
 			return null;
 		}

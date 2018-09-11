@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction;
 
+import java.util.Objects;
+
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.Condition;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
@@ -37,6 +39,20 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 
 		maDroite = md;
 	}
+	
+	
+	/**
+	 * Crée un gestionnaire de conditions avec un comparateur et une valeur à droite
+	 * @param op L'opérateur
+	 * @param maDroite La valeur droite
+	 */
+	public GestionnaireVariableInegal(Comparateur op, int maDroite) {
+		this.base = null;
+		this.op = op;
+		this.maDroite = maDroite;
+	}
+
+
 
 	/**
 	 * Transforme la condition en une condition sans inégalités contenant un égal et donne la valeur de sa partie droite
@@ -65,15 +81,77 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 		return new Pair<>(operateur, evaluation);
 	}
 
-	@Override
-	public Condition conditionVariable(ConditionValeur cond) {
-		if (!(base.equals(cond.gauche))) {
-			return cond;
+	/**
+	 * Traite une condition partiellement décrite avec ce gestionnaire
+	 * @param autreComparateur Le symbole de la condition à intégrer
+	 * @param autreEvaluation L'évaluation de la partie droite de la condition à intégrer
+	 * @return null si les deux conditions décrivent des parties différentes du domaine,
+	 * true si elle est toujours respectée, faux si les domaines décrits par les deux conditions sont incompatibles
+	 */
+	public Boolean traiter(Comparateur autreComparateur, int autreEvaluation) {
+		/* DIFFERENT */
+		if (autreComparateur == Comparateur.DIFFERENT) {
+			return null;
 		}
 		
 		/*
-		 * DIFFERENT
+		 * IDENTIQUE
 		 */
+		if (autreComparateur == Comparateur.IDENTIQUE) {
+			if (op.test(autreEvaluation, maDroite)) {
+				// Est vérifiable, mais pas toujours
+				return null;
+			} else {
+				// N'est jamais vérifiée
+				return Boolean.FALSE;
+			}
+		}
+		
+		/*
+		 * OPERATEURS INEGAUX
+		 */
+		
+		if (op == autreComparateur) {
+			if (op.test(autreEvaluation, maDroite)) {
+				return null;
+			} else {
+				return Boolean.TRUE;
+			}
+		} else {
+			// pour inférieur
+			// on veut qu'il y ait au moins un x tel que ma droite < x < sa droite
+			// <=> sa droite - ma droite >= 2
+			if (op == Comparateur.INF) {
+				if (autreEvaluation - maDroite >= 2) {
+					return null;
+				} else {
+					return Boolean.FALSE;
+				}
+			}
+			
+			
+			// pour supérieur
+			// on veut au moins un x tel que sadroite < x < madroite
+			// <=> madroite - sadroite >= 2
+			if (op == Comparateur.SUP) {
+				if (-autreEvaluation + maDroite >= 2) {
+					return null;
+				} else {
+					return Boolean.FALSE;
+				}
+			}
+		}
+
+		return null;
+	}
+	
+	@Override
+	public Condition conditionVariable(ConditionValeur cond) {
+		if (!(Objects.equals(base, cond.gauche))) {
+			return cond;
+		}
+		
+		/* DIFFERENT */
 		if (cond.operateur == Comparateur.DIFFERENT) {
 			return cond;
 		}
@@ -87,55 +165,13 @@ public class GestionnaireVariableInegal implements GestionnaireDeCondition {
 		Comparateur autreOp = autreEv.getLeft();
 		int saDroite = autreEv.getRight();
 
-		/*
-		 * IDENTIQUE
-		 */
-		if (autreOp == Comparateur.IDENTIQUE) {
-			if (op.test(saDroite, maDroite)) {
-				// Est vérifiable, mais pas toujours
-				return cond;
-			} else {
-				// N'est jamais vérifiée
-				return ConditionFixe.get(false);
-			}
-		}
+		Boolean resultat = traiter(autreOp, saDroite);
 		
-		/*
-		 * OPERATEURS INEGAUX
-		 */
-		
-		if (op == autreOp) {
-			if (op.test(saDroite, maDroite)) {
-				return cond;
-			} else {
-				return ConditionFixe.get(true);
-			}
+		if (resultat == null) {
+			return cond;
 		} else {
-			// pour inférieur
-			// on veut qu'il y ait au moins un x tel que ma droite < x < sa droite
-			// <=> sa droite - ma droite >= 2
-			if (op == Comparateur.INF) {
-				if (saDroite - maDroite >= 2) {
-					return cond;
-				} else {
-					return ConditionFixe.get(false);
-				}
-			}
-			
-			
-			// pour supérieur
-			// on veut au moins un x tel que sadroite < x < madroite
-			// <=> madroite - sadroite >= 2
-			if (op == Comparateur.SUP) {
-				if (-saDroite + maDroite >= 2) {
-					return cond;
-				} else {
-					return ConditionFixe.get(false);
-				}
-			}
+			return ConditionFixe.get(resultat);
 		}
-
-		return cond;
 	}
 
 }
