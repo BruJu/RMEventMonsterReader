@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables;
+package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,13 +6,15 @@ import java.util.Set;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMessages;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Recherche une chaîne dans tous les dialogues du jeu
  * @author Bruju
  *
  */
-public class BaseDeRechercheTextuelle implements BaseDeRecherche {
+public class Texte implements BaseDeRecherche {
 	/** Liste des évènements où la chaîne est utilisée*/
 	private Set<Reference> referencesConnues = new HashSet<>();
 	/** Chaîne à rechercher */
@@ -22,7 +24,7 @@ public class BaseDeRechercheTextuelle implements BaseDeRecherche {
 	 * Crée une base de recherche pour du texte
 	 * @param string La chaîne à rechercher
 	 */
-	public BaseDeRechercheTextuelle(String string) {
+	public Texte(String string) {
 		this.chaine = string;
 	}
 

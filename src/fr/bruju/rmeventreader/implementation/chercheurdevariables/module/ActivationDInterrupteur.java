@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables;
+package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +7,8 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Recherche des références qui activent un interrupteur donné
@@ -14,7 +16,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
  * @author Bruju
  *
  */
-public class BaseDeRechercheVarAAOn implements BaseDeRecherche {
+public class ActivationDInterrupteur implements BaseDeRecherche {
 	/** Références activant l'interrupteur */
 	private Set<Reference> referencesConnues = new HashSet<>();
 	/** Numéro de l'interrupteur */
@@ -24,7 +26,7 @@ public class BaseDeRechercheVarAAOn implements BaseDeRecherche {
 	 * Crée une base de recherche d'activation du switch donné
 	 * @param idSwitch L'interrupteur dont on veut connaître les évènements qui l'activent
 	 */
-	public BaseDeRechercheVarAAOn(int idSwitch) {
+	public ActivationDInterrupteur(int idSwitch) {
 		this.idSwitch = idSwitch;
 	}
 

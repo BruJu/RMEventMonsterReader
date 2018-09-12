@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables;
+package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,25 +19,27 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDivers;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
 
 /**
- * Base de recherches des variables utilisées
+ * Base de recherches des modifications apportées à une variable
  * @author Bruju
  *
  */
-public class BaseValeursAffectees implements BaseDeRecherche {
-	/** Liste des affectations de la variable */
-	private Map<Reference, Set<Modification>> affectationsTrouvees = new HashMap<>();
-	/** Variable dont on veut connaître les valeurs affectées */
+public class ModificationsDeVariable implements BaseDeRecherche {
+	/** Variable dont on veut connaître les valeurs */
 	public final int variableTrackee;
+	/** Liste des modifications de la variable */
+	private Map<Reference, Set<Modification>> affectationsTrouvees = new HashMap<>();
 	
 	/**
 	 * Crée une base de recherche des valeurs affectées à une variable
 	 * @param idVariable Id de la variable
 	 */
-	public BaseValeursAffectees(int idVariable) {
+	public ModificationsDeVariable(int idVariable) {
 		this.variableTrackee = idVariable;
 	}
 
@@ -87,7 +89,12 @@ public class BaseValeursAffectees implements BaseDeRecherche {
 		
 		@Override
 		public String toString() {
-			return operateur.symbole + " " + ((valeur == Integer.MIN_VALUE) ? "*" : valeur); 
+			String valeurEnString = ((valeur == Integer.MIN_VALUE) ? "*" : Integer.toString(valeur));
+			
+			if (operateur == OpMathematique.AFFECTATION)
+				return valeurEnString;
+			
+			return operateur.symbole + " " + valeurEnString; 
 		}
 		
 		@Override

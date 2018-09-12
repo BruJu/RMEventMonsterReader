@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
 import fr.bruju.rmeventreader.dictionnaires.modele.Page;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.ReferenceMap;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
 
 public class ChercheurDeMagasins implements Runnable {
 	private Map<Integer, Magasin> magasins;

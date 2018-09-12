@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables;
+package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,13 +7,15 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.SonParam;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Recherche du nom de toutes les musiques utilisées dans le projet
  * @author Bruju
  *
  */
-public class BaseDeRechercheMusique implements BaseDeRecherche {
+public class Musique implements BaseDeRecherche {
 	/** Ensemble des musiques utilisées */
 	private Set<String> musiques = new HashSet<>();
 

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables;
+package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,35 +15,37 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariablePlage;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.CombatComportementFuite;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.ConditionsDeCombat;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Vehicule;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros.Caracteristique;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Base de recherches des variables utilisées
  * @author Bruju
  *
  */
-public class BaseDeRechercheDeVariables implements BaseDeRecherche {
+public class ApparitionDeVariables implements BaseDeRecherche {
 	/** Liste des références pour chaque variable */
 	private HashMap<Integer, HashSet<Reference>> variablesCherchees = new HashMap<>();
 
-	public BaseDeRechercheDeVariables(int[] is) {
-		
+	/**
+	 * Crée une base de recherche de l'apprition des variables données
+	 * @param is La liste des variables
+	 */
+	public ApparitionDeVariables(int[] is) {
 		for (int id : is) {
 			variablesCherchees.put(id, new HashSet<>());
 		}
-		
-		
 	}
 
 	@Override
 	public void afficher() {
-		variablesCherchees.forEach(BaseDeRechercheDeVariables::afficher);
+		variablesCherchees.forEach(ApparitionDeVariables::afficher);
 	}
 
 	/**
@@ -87,11 +89,8 @@ public class BaseDeRechercheDeVariables implements BaseDeRecherche {
 			this.variablesCherchees = variablesCherchees;
 		}
 
-		/**
-		 * Ajoute une variable dont il faut pister les référénces
-		 * 
-		 * @param numero Le numéro de la variable
-		 */
+		
+		/** Note l'occurence de la variable donnée pour cette référence */
 		public void ajouterVariable(int numero) {
 			HashSet<Reference> set = variablesCherchees.get(numero);
 			if (set == null)
@@ -101,6 +100,7 @@ public class BaseDeRechercheDeVariables implements BaseDeRecherche {
 		}
 
 		
+		/** Note l'occurence de la variable donnée pour cette référence */
 		public Void ajouterVariable(Variable variable) {
 			ajouterVariable(variable.idVariable);
 			return null;
@@ -115,24 +115,7 @@ public class BaseDeRechercheDeVariables implements BaseDeRecherche {
 		public void SaisieMessages_saisieNombre(int idVariable, int nombreDeChiffres) {
 			ajouterVariable(idVariable);
 		}
-
-		public Void visit(Variable variable) {
-			ajouterVariable(variable.idVariable);
-			return null;
-		}
-
-		public Void visit(VariablePlage plage) {
-			int min = Math.min(plage.idVariableMin, plage.idVariableMax);
-			int max = Math.max(plage.idVariableMin, plage.idVariableMax);
-
-			for (int i = min; i <= max; i++) {
-				ajouterVariable(i);
-			}
-
-			return null;
-		}
-
-
+		
 		@Override
 		public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
 			valeurGauche.appliquerG(this::ajouterVariable, null, null);

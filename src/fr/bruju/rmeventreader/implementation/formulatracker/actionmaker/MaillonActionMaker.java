@@ -1,9 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
@@ -32,43 +29,26 @@ public class MaillonActionMaker implements Maillon {
 
 
 	private void attaquesParXML(Personnages contexte, Attaques attaques, String chemin) {
-		List<String[]> att;
 		try {
-			att = FileReaderByLine.lireFichier(chemin, 3);
+			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
+				String[] donnees = FileReaderByLine.splitter(ligne, 3);
+				
+				Attaque attaque = creerAttaqueXML(contexte,
+												donnees[1] + "-" + donnees[2],
+												Integer.parseInt(donnees[0]));
+				
+				attaques.ajouterAttaque(attaque);
+			});
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
-		
-		att.stream()
-			.map(d -> creerAttaqueXML(contexte, d[1] + "-" + d[2], Integer.parseInt(d[0])))
-			.forEach(attaques::ajouterAttaque);
 	}
-
-
 
 
 	private Attaque creerAttaqueXML(Personnages contexte, String nomAttaque, int numeroDEvent) {
-		System.out.println(nomAttaque);
-		
 		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
 		Explorateur.lireEvenementCommun(formulaMaker, numeroDEvent);
 		return new Attaque(nomAttaque, formulaMaker.getResultat());
-	}
-
-	public List<String[]> ajouterRepertoire(String cheminRepertoire) {
-		List<String[]> liste = new ArrayList<>();
-		File repertoire = new File(cheminRepertoire);
-
-		for (String fichier : repertoire.list()) {
-			liste.add(getNewAttaque(cheminRepertoire, fichier));
-		}
-		return liste;
-	}
-	
-	private String[] getNewAttaque(String chemin, String fichier) {
-		String cheminComplet = chemin + fichier;
-		String nomAttaque = fichier.substring(0, fichier.length() - 4);
-		return new String[] {nomAttaque, cheminComplet};
 	}
 }

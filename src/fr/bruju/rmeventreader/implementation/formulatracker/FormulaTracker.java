@@ -6,7 +6,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Att
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonEcritureFichier;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonSetAffichageCSV;
-import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonSetAffichagegetString;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.affichage.MaillonSystemOut;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.MaillonDiviseur;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.extension.Borne;
@@ -30,8 +29,6 @@ public class FormulaTracker implements Runnable {
 				new MaillonRetirerSiInutile(),
 				new Borne(),
 				new Encadrer(),
-				new MaillonSetAffichagegetString(),
-				new MaillonSystemOut(),
 				new MaillonDiviseur(),
 				new MaillonSetAffichageCSV(),
 				new MaillonSystemOut(),

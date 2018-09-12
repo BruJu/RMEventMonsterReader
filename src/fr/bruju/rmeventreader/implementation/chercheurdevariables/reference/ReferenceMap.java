@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables;
+package fr.bruju.rmeventreader.implementation.chercheurdevariables.reference;
 
 import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
