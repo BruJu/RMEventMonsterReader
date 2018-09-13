@@ -1,13 +1,13 @@
 package fr.bruju.rmeventreader.implementation.recomposeur;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class Parametres {
 	private Map<String, List<String[]>> donneesLues;
@@ -17,21 +17,14 @@ public class Parametres {
 		
 		AtomicReference<String> sectionActuelle = new AtomicReference<>();
 		
-		String patternSection = "== _ ==";
-		
 		try {
 			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
 				if (ligne.startsWith("== ") && ligne.endsWith(" ==")) {
 					// Changer de section
-					String nomSection = ligne.substring(3, ligne.length() - 3);
-					
-					donneesLues.putIfAbsent(nomSection, new ArrayList<>());
-					sectionActuelle.set(nomSection);
-					
+					sectionActuelle.set(ligne.substring(3, ligne.length() - 3));
 				} else {
-					String[] donnees = ligne.split(" ");
-					
-					donneesLues.get(sectionActuelle.get()).add(donnees);
+					// Ajouter des données à la section courante
+					Utilitaire.Maps.ajouterElementDansListe(donneesLues, sectionActuelle.get(), ligne.split(" "));
 				}
 			});
 		} catch (IOException e) {
