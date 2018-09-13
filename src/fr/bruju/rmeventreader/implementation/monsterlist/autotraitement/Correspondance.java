@@ -3,11 +3,9 @@ package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
@@ -65,12 +63,10 @@ public class Correspondance<T> implements Runnable {
 	 * Lit un fichier pour remplir les correspondances
 	 */
 	public void lireFichier(String chemin) throws IOException {
-		String pattern = "_ _";
-
 		FileReaderByLine.lireLeFichierSansCommentaires(chemin, line -> {
-			List<String> chaines = Recognizer.tryPattern(pattern, line);
+			String[] chaines = FileReaderByLine.splitter(line, 2);
 
-			map.put(chaines.get(0), chaines.get(1));
+			map.put(chaines[0], chaines[1]);
 		});
 	}
 

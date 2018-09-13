@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.filereader.Recognizer;
 
 public class Parametres {
 	private Map<String, List<String[]>> donneesLues;
@@ -22,11 +21,10 @@ public class Parametres {
 		
 		try {
 			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
-				List<String> nouvelleSection = Recognizer.tryPattern(patternSection, ligne);
-				
-				if (nouvelleSection != null) {
-					// Changer de section;
-					String nomSection = nouvelleSection.get(0);
+				if (ligne.startsWith("== ") && ligne.endsWith(" ==")) {
+					// Changer de section
+					String nomSection = ligne.substring(3, ligne.length() - 3);
+					
 					donneesLues.putIfAbsent(nomSection, new ArrayList<>());
 					sectionActuelle.set(nomSection);
 					

@@ -16,3 +16,4 @@ public interface BaseDeRecherche {
 	/** Affiche les résultats de la recherche */
 	public void afficher();
 }
+	

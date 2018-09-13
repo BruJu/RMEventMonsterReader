@@ -1,12 +1,10 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
-import fr.bruju.rmeventreader.filereader.Recognizer;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
@@ -27,8 +25,9 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  *
  */
 public class Correcteur implements Runnable {
+
 	/** Liste des actions reconnaissables */
-	private List<Action> actions;
+	private Map<String, Action> actions;
 	/** Base de données de monstres */
 	private MonsterDatabase db;
 	/** Nom du fichier */
@@ -40,12 +39,12 @@ public class Correcteur implements Runnable {
 	 * @param db La base de données à corriger
 	 */
 	public Correcteur(MonsterDatabase db, String filename) {
-		actions = new ArrayList<>();
-		actions.add(new ActionAddMonster());
-		actions.add(new ActionDeleteMonster());
-		actions.add(new ActionDeleteBattle());
-		this.filename = filename;
+		actions = new HashMap<>();
+		actions.put("ADDMONSTER", new ActionAddMonster());
+		actions.put("DELETEMONSTER", new ActionDeleteMonster());
+		actions.put("DELETEBATTLE", new ActionDeleteBattle());
 		
+		this.filename = filename;
 		this.db = db;
 	}
 
@@ -63,16 +62,10 @@ public class Correcteur implements Runnable {
 	 * @param ligne Ligne lue
 	 */
 	public void read(String ligne) {
-		for (Action action : actions) {
-			List<String> arguments = Recognizer.tryPattern(action.getPattern(), ligne);
-			
-			if (arguments != null) {
-				action.faire(db, arguments);
-				return;
-			}
-		}
+		String[] donnees = ligne.split(" ");
 		
-		throw new LigneNonReconnueException(ligne);
+		Action action = actions.get(donnees[0]);
+		action.faire(db, donnees);
 	}
 	
 	/* =================
@@ -83,10 +76,8 @@ public class Correcteur implements Runnable {
 	 * Actions réalisables à la lecture d'un pattern
 	 */
 	private static interface Action {
-		/** Donne le pattern reconnu */
-		public String getPattern();
 		/** Action exécutée à la lecture d'un pattern reconnu */
-		public void faire(MonsterDatabase db, List<String> arguments);
+		public void faire(MonsterDatabase db, String[] donnees);
 	}
 
 	/**
@@ -94,15 +85,10 @@ public class Correcteur implements Runnable {
 	 */
 	private static class ActionAddMonster implements Action {
 		@Override
-		public String getPattern() {
-			return "ADDMONSTER _ _ _";
-		}
-
-		@Override
-		public void faire(MonsterDatabase db, List<String> arguments) {
-			int idCombat  = Integer.parseInt(arguments.get(0));
-			int idSlot    = Integer.parseInt(arguments.get(1));
-			int idMonstre = Integer.parseInt(arguments.get(2));
+		public void faire(MonsterDatabase db, String[] arguments) {
+			int idCombat  = Integer.parseInt(arguments[1]);
+			int idSlot    = Integer.parseInt(arguments[2]);
+			int idMonstre = Integer.parseInt(arguments[3]);
 			
 			Combat combat = db.getBattleById(idCombat);
 			Monstre monstre = combat.getMonstre(idSlot);
@@ -115,14 +101,9 @@ public class Correcteur implements Runnable {
 	 */
 	private static class ActionDeleteMonster implements Action {
 		@Override
-		public String getPattern() {
-			return "DELETEMONSTER _ _";
-		}
-
-		@Override
-		public void faire(MonsterDatabase db, List<String> arguments) {
-			int idCombat  = Integer.parseInt(arguments.get(0));
-			int idSlot    = Integer.parseInt(arguments.get(1));
+		public void faire(MonsterDatabase db, String[] arguments) {
+			int idCombat  = Integer.parseInt(arguments[1]);
+			int idSlot    = Integer.parseInt(arguments[2]);
 			
 			Combat combat = db.getBattleById(idCombat);			
 			combat.remove(idSlot);
@@ -135,13 +116,8 @@ public class Correcteur implements Runnable {
 	 */
 	private static class ActionDeleteBattle implements Action {
 		@Override
-		public String getPattern() {
-			return "DELETEBATTLE _";
-		}
-
-		@Override
-		public void faire(MonsterDatabase db, List<String> arguments) {
-			int idCombat  = Integer.parseInt(arguments.get(0));
+		public void faire(MonsterDatabase db, String[] arguments) {
+			int idCombat  = Integer.parseInt(arguments[1]);
 			
 			db.removeBattle(idCombat);
 		}
