@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+
 /**
  * Classe utilitaire permettant de lire des fichiers
  *  
@@ -17,6 +19,13 @@ import java.util.function.Consumer;
 public class FileReaderByLine {
 	private static final String COMMENTAIRE_STARTS_WITH = "//";
 	
+	/**
+	 * Lit le fichier et applique à chaque ligne la fonction action
+	 * @param file Le fichier à lire
+	 * @param action L'action à appliquer à chaque ligne
+	 * @return Vrai si la lecture s'est bien déroulée. Faux si il y a eu une erreur (IOException levée en cours de
+	 * lecture)
+	 */
 	public static boolean lectureFichierBrut(File file, Consumer<String> action) {
 		try {
 			FileReader fileReader = new FileReader(file);
@@ -48,31 +57,12 @@ public class FileReaderByLine {
 	 * @return 
 	 */
 	public static boolean lectureFichierRessources(String chemin, ActionOnLine actionOnLine) {
-		try {
-			FileReader fileReader = new FileReader(new File(chemin));
-			BufferedReader buffer = new BufferedReader(fileReader);
-			String line;
-	
-			while (true) {
-				line = buffer.readLine();
-	
-				if (line == null) {
-					break;
-				}
-	
-				if (!line.equals("") && !line.startsWith(COMMENTAIRE_STARTS_WITH)) {
-					actionOnLine.read(line);
-				}
+		return lectureFichierBrut(new File(chemin), ligne -> {
+			if (!ligne.equals("") && !ligne.startsWith(COMMENTAIRE_STARTS_WITH)) {
+				actionOnLine.read(ligne);
 			}
-	
-			buffer.close();
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+		});
 	}
-	
 	
 	/**
 	 * Lit un fichier ressource (constitué de lignes avec des mots séparés par des espaces)
@@ -82,33 +72,26 @@ public class FileReaderByLine {
 	 */
 	public static List<String[]> lireFichier(String chemin, int nbArguments) {
 		List<String[]> valeursLues = new ArrayList<>();
-		
 		boolean r = lectureFichierRessources(chemin, donnee -> valeursLues.add(splitter(donnee, nbArguments)));
-		
-		return r ? valeursLues : null;		
+		return r ? valeursLues : null;
 	}
 	
+	/**
+	 * Sépare la chaîne donnée pour avoir un tableau d'exactement nbArguments. Le tableau en séparant les parties
+	 * séparées d'un espace. La séparation se fait de gauche à droite. Si il n'y en a pas assez des chaînes vides
+	 * sont ajoutées.
+	 * @param donnee La donnée à fragmenter
+	 * @param nbArguments Le nombre de chaînes voulues
+	 * @return Un tableau avec donnee fragmenté par les espaces
+	 */
 	public static String[] splitter(String donnee, int nbArguments) {
 		String[] split = donnee.split(" ", nbArguments);
-		
-		
-		if (split.length < nbArguments) {
-			String[] nouveauSplit = new String[nbArguments];
-			
-			for (int i = 0 ; i != split.length ; i++) {
-				nouveauSplit[i] = split[i];
-			}
-			for (int i = split.length ; i != nouveauSplit.length ; i++) {
-				nouveauSplit[i] = "";
-			}
-			
-			split = nouveauSplit;
-		}
-		
-		if (split.length != nbArguments) {
-			throw new LigneNonReconnueException("Fichier non valide " + donnee);
-		}
-		
+		Utilitaire.Arrays_aggrandir(split, nbArguments, FileReaderByLine::getChaineVide);
 		return split;
+	}
+	
+	/** Donne une chaîne vide */
+	private static String getChaineVide() {
+		return "";
 	}
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -271,5 +272,19 @@ public class Utilitaire {
 		default:
 			return Integer.MAX_VALUE;
 		}
+	}
+
+	public static <T> T[] Arrays_aggrandir(T[] tableau, int tailleVoulue, Supplier<T> provider) {
+		if (tableau.length == tailleVoulue) {
+			return tableau;
+		}
+		
+		T[] nouveauTableau = Arrays.copyOf(tableau, tailleVoulue);
+		
+		for (int i = tableau.length ; i != tailleVoulue ; i++) {
+			nouveauTableau[i] = provider.get();
+		}
+		
+		return nouveauTableau;
 	}
 }
