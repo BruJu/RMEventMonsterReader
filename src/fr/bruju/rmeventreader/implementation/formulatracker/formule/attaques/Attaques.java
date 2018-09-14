@@ -119,9 +119,9 @@ public class Attaques {
 	 */
 	public void determinerAffichageAttaques(
 			Function<List<String>, String> affichageHeader,
-			Function<String, String> affichageHeaderAttaque,
-			TriFunction<String, ModifStat, FormuleDeDegats, String> affichageFormule,
-			Function<String, String> affichageFooterAttaque) {
+			Function<IdentiteAttaque, String> affichageHeaderAttaque,
+			TriFunction<IdentiteAttaque, ModifStat, FormuleDeDegats, String> affichageFormule,
+			Function<IdentiteAttaque, String> affichageFooterAttaque) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(affichageHeader.apply(groupesSupplementaires));

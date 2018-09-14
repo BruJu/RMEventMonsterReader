@@ -6,6 +6,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.IdentiteAttaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
@@ -33,7 +34,7 @@ public class MaillonActionMaker implements Maillon {
 			String[] donnees = FileReaderByLine.splitter(ligne, 3);
 			
 			Attaque attaque = creerAttaqueXML(contexte,
-											donnees[1] + "-" + donnees[2],
+											new IdentiteAttaque(donnees[2], donnees[1]),
 											Integer.parseInt(donnees[0]));
 			
 			attaques.ajouterAttaque(attaque);
@@ -41,7 +42,7 @@ public class MaillonActionMaker implements Maillon {
 	}
 
 
-	private Attaque creerAttaqueXML(Personnages contexte, String nomAttaque, int numeroDEvent) {
+	private Attaque creerAttaqueXML(Personnages contexte, IdentiteAttaque nomAttaque, int numeroDEvent) {
 		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
 		Explorateur.lireEvenementCommun(formulaMaker, numeroDEvent);
 		return new Attaque(nomAttaque, formulaMaker.getResultat());

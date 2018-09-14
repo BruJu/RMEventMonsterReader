@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
+import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.IdentiteAttaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 
@@ -38,14 +39,13 @@ public class MaillonSetAffichageCSV implements Maillon {
 		return sb.toString();
 	}
 	
-	private String determinerAffichage(String nomAttaque, ModifStat modifStat, FormuleDeDegats formule) {
+	private String determinerAffichage(IdentiteAttaque nomAttaque, ModifStat modifStat, FormuleDeDegats formule) {
 		StringBuilder ligneCSV = new StringBuilder();
 		
 		// NomPerso ♦ Nom Attaque ♦
-		String[] decompNomAttaque = nomAttaque.split("-");
-		ligneCSV.append(decompNomAttaque[0])
+		ligneCSV.append(nomAttaque.nomLanceur)
 				.append("♦")
-				.append(decompNomAttaque[1])
+				.append(nomAttaque.nomAttaque)
 				.append("♦");
 
 		// Cible ♦ Statistique ♦ Opérateur ♦

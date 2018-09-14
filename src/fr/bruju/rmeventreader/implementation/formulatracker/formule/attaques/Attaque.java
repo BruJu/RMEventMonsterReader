@@ -27,7 +27,7 @@ import fr.bruju.util.similaire.CollectorBySimilarity;
  */
 public class Attaque {
 	/** Nom de l'attaque */
-	public final String nom;
+	public final IdentiteAttaque nom;
 
 	/** Association statistique modifiée - liste des formules */
 	private Map<ModifStat, List<FormuleDeDegats>> resultat;
@@ -38,7 +38,7 @@ public class Attaque {
 	 * @param nom Nom de l'attaque
 	 * @param resultat Association entre statistiques modifiées et liste des formules
 	 */
-	public Attaque(String nom, Map<ModifStat, List<FormuleDeDegats>> resultat) {
+	public Attaque(IdentiteAttaque nom, Map<ModifStat, List<FormuleDeDegats>> resultat) {
 		this.nom = nom;
 		this.resultat = resultat;
 	}
@@ -110,7 +110,7 @@ public class Attaque {
 	 * @param reduction La fonction pour réduire le résultat de deux formules
 	 * @return Le résultat de la fonction appliquée à toutes les formules
 	 */
-	public String returnForEach(TriFunction<String, ModifStat, FormuleDeDegats, String> fonctionFormule) {
+	public String returnForEach(TriFunction<IdentiteAttaque, ModifStat, FormuleDeDegats, String> fonctionFormule) {
 		if (resultat.isEmpty()) {
 			return "";
 		}
