@@ -17,9 +17,9 @@ public class MapRM implements ElementComposite<Evenement> {
 	public final List<String> arborescence;
 	public final List<Evenement> evenements;
 	
-	public MapRM(int id, MapArbre[] arbre) {
+	public MapRM(int id, List<MapArbre> arbre) {
 		this.id = id;
-		this.nom = arbre[id].nom;
+		this.nom = arbre.get(id).nom;
 		this.arborescence = new ArrayList<>();
 		this.evenements = new ArrayList<>();
 		
@@ -33,13 +33,13 @@ public class MapRM implements ElementComposite<Evenement> {
 		this.evenements = new ArrayList<>();
 	}
 
-	private static void remplirArbre(List<String> arborescence, int id, MapArbre[] arbre) {
+	private static void remplirArbre(List<String> arborescence, int id, List<MapArbre> arbre) {
 		if (id != 0) {
-			MapArbre paire = arbre[id];
+			MapArbre paire = arbre.get(id);
 			remplirArbre(arborescence, paire.idPere, arbre);
 		}
 		
-		arborescence.add(arbre[id].nom);
+		arborescence.add(arbre.get(id).nom);
 	}
 	
 	@Override

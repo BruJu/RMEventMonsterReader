@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.modele;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
@@ -13,19 +15,18 @@ public class MapArbre {
 		this.nom = nom;
 	}
 	
-	public static MapArbre[] extraireArbre(String fichierArbre) {
-		List<String[]> s = FileReaderByLine.lireFichier(fichierArbre, 3);
+	public static List<MapArbre> extraireArbre(String fichierArbre) {
+		List<MapArbre> resultat = new ArrayList<>();
 		
-		if (s == null)
-			return null;
-
+		boolean r = FileReaderByLine.lectureFichierRessources(fichierArbre, ligne -> {
+			String[] donnees = FileReaderByLine.splitter(ligne, 3);
+			
+			int parent = Integer.parseInt(donnees[1]);
+			String nom = donnees[2];
+			
+			resultat.add(new MapArbre(parent, nom));
+		});
 		
-		MapArbre[] arbre = new MapArbre[s.size()];
-		
-		for (int i = 0 ; i != s.size() ; i++) {
-			arbre[i] = new MapArbre(Integer.parseInt(s.get(i)[1]), s.get(i)[2]);
-		}
-		
-		return arbre;
+		return r ? resultat : null;
 	}
 }

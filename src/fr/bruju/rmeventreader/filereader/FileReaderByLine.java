@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -62,18 +60,6 @@ public class FileReaderByLine {
 				actionOnLine.read(ligne);
 			}
 		});
-	}
-	
-	/**
-	 * Lit un fichier ressource (constitué de lignes avec des mots séparés par des espaces)
-	 * @param chemin Le chemin vers le fichier
-	 * @param nbArguments Le nombre de mots par ligne
-	 * @return Une liste des mots de chaques lignes. Les mots sont stockés dans un tableau de String.
-	 */
-	private static List<String[]> lireFichier(String chemin, int nbArguments) {
-		List<String[]> valeursLues = new ArrayList<>();
-		boolean r = lectureFichierRessources(chemin, donnee -> valeursLues.add(splitter(donnee, nbArguments)));
-		return r ? valeursLues : null;
 	}
 	
 	/**

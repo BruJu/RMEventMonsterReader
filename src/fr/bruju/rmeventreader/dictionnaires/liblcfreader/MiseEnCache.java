@@ -112,14 +112,14 @@ public class MiseEnCache {
 	}
 	
 	private List<Integer> arbo(String prefixeDestination, String fichierArbre, String prefixeMaps) {
-		MapArbre[] arbre = MapArbre.extraireArbre(fichierArbre);
+		List<MapArbre> arbre = MapArbre.extraireArbre(fichierArbre);
 		return explorerCartes(prefixeDestination, prefixeMaps, arbre);
 	}
 
-	private List<Integer> explorerCartes(String prefixeDestination, String prefixeMaps, MapArbre[] arbre) {
+	private List<Integer> explorerCartes(String prefixeDestination, String prefixeMaps, List<MapArbre> arbre) {
 		List<Integer> mapVues = new ArrayList<>();
 		
-		for (int id = 1 ; id != arbre.length ; id++) {
+		for (int id = 1 ; id != arbre.size() ; id++) {
 			MapRM mapRM = new MapRM(id, arbre);
 
 			if (map(prefixeDestination, mapRM, prefixeMaps + Utilitaire_XML.transformerId(id) + ".xml"))
