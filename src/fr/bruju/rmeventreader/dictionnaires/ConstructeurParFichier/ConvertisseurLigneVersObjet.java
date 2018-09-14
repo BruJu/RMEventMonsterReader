@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier;
 
-import java.io.IOException;
-
 import fr.bruju.rmeventreader.dictionnaires.modele.Monteur;
 import fr.bruju.rmeventreader.filereader.ActionOnLine;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
@@ -27,14 +25,8 @@ public class ConvertisseurLigneVersObjet<R, M extends Monteur<R>> implements Act
 	 * @return null en cas d'échec, l'objet construit en lisant le fichier sinon
 	 */
 	public static <T, K extends Monteur<T>> T construire(String chemin, ConvertisseurLigneVersObjet<T, ?> ss) {
-		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ss);
-		} catch (IOException | LigneNonReconnueException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		return ss.build();
+		boolean r = FileReaderByLine.lectureFichierRessources(chemin, ss);
+		return r ? ss.build() : null;
 	}
 	
 	/**

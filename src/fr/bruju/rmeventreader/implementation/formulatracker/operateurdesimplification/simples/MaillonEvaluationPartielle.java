@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,11 +60,10 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantsRecursif
 		
 		List<String[]> ressources;
 		
-		try {
-			ressources = FileReaderByLine.lireFichier(chemin, 2);
-		} catch (IOException e) {
+		ressources = FileReaderByLine.lireFichier(chemin, 2);
+		
+		if (ressources == null)
 			return;
-		}
 		
 		ressources.forEach(paire -> {
 			

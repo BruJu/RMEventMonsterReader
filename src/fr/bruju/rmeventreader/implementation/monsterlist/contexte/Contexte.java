@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.contexte;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,12 +109,8 @@ public class Contexte {
 	 * Rempli le contexte à partir du fichier donné.
 	 */
 	public void remplirContexte(String fichier) {
-		try {
-			initierLectureFichier();
-			FileReaderByLine.lireLeFichierSansCommentaires(fichier, ligne -> etat.lireLigne(ligne));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		}
+		initierLectureFichier();
+		FileReaderByLine.lectureFichierRessources(fichier, ligne -> etat.lireLigne(ligne));	}
 	
 	/**
 	 * Donne la liste des variables concernant une statistique

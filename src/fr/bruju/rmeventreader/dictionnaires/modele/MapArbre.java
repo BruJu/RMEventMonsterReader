@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.dictionnaires.modele;
 
-import java.io.IOException;
 import java.util.List;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
@@ -15,13 +14,11 @@ public class MapArbre {
 	}
 	
 	public static MapArbre[] extraireArbre(String fichierArbre) {
-		List<String[]> s;
-		try {
-			s = FileReaderByLine.lireFichier(fichierArbre, 3);
-		} catch (IOException e) {
-			e.printStackTrace();
+		List<String[]> s = FileReaderByLine.lireFichier(fichierArbre, 3);
+		
+		if (s == null)
 			return null;
-		}
+
 		
 		MapArbre[] arbre = new MapArbre[s.size()];
 		

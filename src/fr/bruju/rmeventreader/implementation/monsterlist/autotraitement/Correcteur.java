@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,11 +49,7 @@ public class Correcteur implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(filename, this::read);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		FileReaderByLine.lectureFichierRessources(filename, this::read);
 	}
 
 	/**

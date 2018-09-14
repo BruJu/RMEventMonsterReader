@@ -27,7 +27,7 @@ public class Personnages {
 	 * @throws IOException
 	 */
 	public void lirePersonnagesDansFichier(String chemin) throws IOException {
-		FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
+		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
 			String[] donnees = ligne.split(" ");
 			
 			if (donnees == null || donnees.length != 3) {
@@ -54,28 +54,23 @@ public class Personnages {
 	 */
 	public void remplirVariablesNommees(Map<Integer, Valeur> variablesExistantes,
 			Map<Integer, Bouton> interrupteursExistants) {
-		
-		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(cheminNommes, ligne -> {
-				String[] donnees = ligne.split(" ");
-				
-				if (donnees == null || donnees.length != 3) {
-					throw new LigneNonReconnueException("");
-				}
-				
-				Integer numero = Integer.decode(donnees[0]);
-				boolean estVariable = donnees[1].equals("V");
-				String nom = donnees[2];
-				
-				if (estVariable) {
-					variablesExistantes.put(numero, new VBase(numero, nom));
-				} else {
-					interrupteursExistants.put(numero, new BBase(numero, nom));
-				}
-			});
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		FileReaderByLine.lectureFichierRessources(cheminNommes, ligne -> {
+			String[] donnees = ligne.split(" ");
+			
+			if (donnees == null || donnees.length != 3) {
+				throw new LigneNonReconnueException("");
+			}
+			
+			Integer numero = Integer.decode(donnees[0]);
+			boolean estVariable = donnees[1].equals("V");
+			String nom = donnees[2];
+			
+			if (estVariable) {
+				variablesExistantes.put(numero, new VBase(numero, nom));
+			} else {
+				interrupteursExistants.put(numero, new BBase(numero, nom));
+			}
+		});
 	}
 
 	/**

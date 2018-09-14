@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.imagereader.model;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,8 +21,7 @@ public class SymboleReconnus {
 	public List<Motif> getMotifs() {
 		List<Motif> motifs = new ArrayList<>();
 
-		try {
-			FileReaderByLine.lireLeFichier(new File(CHEMIN_MOTIFS_CONNUS), line -> {
+		boolean m = FileReaderByLine.lectureFichierRessources(CHEMIN_MOTIFS_CONNUS, line -> {
 				if (line.startsWith("//")) {
 					return;
 				}
@@ -48,10 +45,7 @@ public class SymboleReconnus {
 
 				motifs.add(new Motif(chaine, valeurs));
 			});
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-		return motifs;
+		return m ? motifs : null;
 	}
 }

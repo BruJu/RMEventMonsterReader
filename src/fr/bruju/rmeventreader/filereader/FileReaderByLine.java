@@ -40,58 +40,37 @@ public class FileReaderByLine {
 		
 		return true;
 	}
-	
-	/**
-	 * Lit un fichier en utilisant l'actionneur utilisé
-	 * @param file Le fichier
-	 * @param actionOnLine L'actionneur
-	 * @throws IOException
-	 */
-	public static void lireLeFichier(File file, ActionOnLine actionOnLine) throws IOException {
-		FileReader fileReader = new FileReader(file);
-		BufferedReader buffer = new BufferedReader(fileReader);
-		String line;
-
-		while (true) {
-			line = buffer.readLine();
-
-			if (line == null) {
-				break;
-			}
-
-			if (!line.equals("")) {
-				actionOnLine.read(line);
-			}
-		}
-
-		buffer.close();
-	}
-	
 
 	/**
 	 * Lit un fichier en utilisant l'actionneur donné. Considère que les lignes commençant par // sont des commentaires
 	 * @param chemin Le chemin vers le fichier
 	 * @param actionOnLine L'actionneur
-	 * @throws IOException
+	 * @return 
 	 */
-	public static void lireLeFichierSansCommentaires(String chemin, ActionOnLine actionOnLine) throws IOException {
-		FileReader fileReader = new FileReader(new File(chemin));
-		BufferedReader buffer = new BufferedReader(fileReader);
-		String line;
-
-		while (true) {
-			line = buffer.readLine();
-
-			if (line == null) {
-				break;
+	public static boolean lectureFichierRessources(String chemin, ActionOnLine actionOnLine) {
+		try {
+			FileReader fileReader = new FileReader(new File(chemin));
+			BufferedReader buffer = new BufferedReader(fileReader);
+			String line;
+	
+			while (true) {
+				line = buffer.readLine();
+	
+				if (line == null) {
+					break;
+				}
+	
+				if (!line.equals("") && !line.startsWith(COMMENTAIRE_STARTS_WITH)) {
+					actionOnLine.read(line);
+				}
 			}
-
-			if (!line.equals("") && !line.startsWith(COMMENTAIRE_STARTS_WITH)) {
-				actionOnLine.read(line);
-			}
+	
+			buffer.close();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
-
-		buffer.close();
 	}
 	
 	
@@ -100,32 +79,18 @@ public class FileReaderByLine {
 	 * @param chemin Le chemin vers le fichier
 	 * @param nbArguments Le nombre de mots par ligne
 	 * @return Une liste des mots de chaques lignes. Les mots sont stockés dans un tableau de String.
-	 * @throws IOException
 	 */
-	public static List<String[]> lireFichier(String chemin, int nbArguments) throws IOException {
+	public static List<String[]> lireFichier(String chemin, int nbArguments) {
 		List<String[]> valeursLues = new ArrayList<>();
 		
-		lireLeFichierSansCommentaires(chemin, donnee -> valeursLues.add(splitter(donnee, nbArguments)));
+		boolean r = lectureFichierRessources(chemin, donnee -> valeursLues.add(splitter(donnee, nbArguments)));
 		
-		return valeursLues;
+		return r ? valeursLues : null;		
 	}
 	
 	public static String[] splitter(String donnee, int nbArguments) {
-		String[] split = donnee.split(" ");
+		String[] split = donnee.split(" ", nbArguments);
 		
-		if (split.length > nbArguments) {
-			String[] nouveauSplit = new String[nbArguments];
-			
-			for (int i = nbArguments ; i != split.length ; i++) {
-				split[nbArguments-1] += " " + split[i];
-			}
-			
-			for (int i = 0 ; i != nouveauSplit.length ; i++) {
-				nouveauSplit[i] = split[i];
-			}
-			
-			split = nouveauSplit;
-		}
 		
 		if (split.length < nbArguments) {
 			String[] nouveauSplit = new String[nbArguments];

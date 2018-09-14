@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.contexte;
 
-import java.io.IOException;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -84,28 +82,24 @@ public class ContexteElementaire {
 	public void lireContexteElementaire(String chemin) {
 		AtomicBoolean etatActuel = new AtomicBoolean(true); // true = lecture d'élément ; false = lecture de parties
 		
-		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
-				if (ligne.equals("- Element -")) {
-					etatActuel.set(true);
-				} else if (ligne.equals("- Parties -")) {
-					etatActuel.set(false);
+		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+			if (ligne.equals("- Element -")) {
+				etatActuel.set(true);
+			} else if (ligne.equals("- Parties -")) {
+				etatActuel.set(false);
+			} else {
+				String[] decomposition = ligne.split(" ");
+				
+				String nom = decomposition[1];
+				Integer variable = Integer.decode(decomposition[0]);
+				
+				if (etatActuel.get()) {
+					elementsConnus.put(variable, nom);
 				} else {
-					String[] decomposition = ligne.split(" ");
-					
-					String nom = decomposition[1];
-					Integer variable = Integer.decode(decomposition[0]);
-					
-					if (etatActuel.get()) {
-						elementsConnus.put(variable, nom);
-					} else {
-						partiesConnues.put(variable, nom);
-					}
+					partiesConnues.put(variable, nom);
 				}
-			});
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			}
+		});
 	}
 	
 }

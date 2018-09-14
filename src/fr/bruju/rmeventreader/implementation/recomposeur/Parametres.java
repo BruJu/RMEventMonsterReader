@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.recomposeur;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,19 +16,15 @@ public class Parametres {
 		
 		AtomicReference<String> sectionActuelle = new AtomicReference<>();
 		
-		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
-				if (ligne.startsWith("== ") && ligne.endsWith(" ==")) {
-					// Changer de section
-					sectionActuelle.set(ligne.substring(3, ligne.length() - 3));
-				} else {
-					// Ajouter des données à la section courante
-					Utilitaire.Maps.ajouterElementDansListe(donneesLues, sectionActuelle.get(), ligne.split(" "));
-				}
-			});
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+			if (ligne.startsWith("== ") && ligne.endsWith(" ==")) {
+				// Changer de section
+				sectionActuelle.set(ligne.substring(3, ligne.length() - 3));
+			} else {
+				// Ajouter des données à la section courante
+				Utilitaire.Maps.ajouterElementDansListe(donneesLues, sectionActuelle.get(), ligne.split(" "));
+			}
+		});
 	}
 	
 	public List<String[]> getParametres(String nomSection) {

@@ -63,7 +63,7 @@ public class Correspondance<T> implements Runnable {
 	 * Lit un fichier pour remplir les correspondances
 	 */
 	public void lireFichier(String chemin) throws IOException {
-		FileReaderByLine.lireLeFichierSansCommentaires(chemin, line -> {
+		FileReaderByLine.lectureFichierRessources(chemin, line -> {
 			String[] chaines = FileReaderByLine.splitter(line, 2);
 
 			map.put(chaines[0], chaines[1]);

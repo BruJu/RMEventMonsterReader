@@ -43,8 +43,7 @@ public class ElementsFinalisation implements Runnable {
 
 		int bonusCalc = monstre.accessInt(Monstre.STATS).get("Niveau");
 		bonusCalc = (bonusCalc / 7) * 5;
-
-		System.out.println(bonusCalc);
+		
 		int bonus = bonusCalc; // Java refuse de prendre bonusCalc directement
 
 		monstre.accessInt(ContexteElementaire.ELEMENTS).compute("Physique", (n, v) -> v + bonus / 2);

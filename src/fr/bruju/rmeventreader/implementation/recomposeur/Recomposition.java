@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.recomposeur;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -85,13 +84,10 @@ public class Recomposition implements Runnable {
 		
 		MonteurDArbre exp = new MonteurDArbre(base);
 		
-		try {
-			attaques = FileReaderByLine.lireFichier(CHEMIN_ATTAQUES, 3);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		attaques = FileReaderByLine.lireFichier(CHEMIN_ATTAQUES, 3);
 		
+		if (attaques == null)
+			return null;
 		
 		attaques.forEach(donnees -> {
 			String nomAttaque = donnees[2];

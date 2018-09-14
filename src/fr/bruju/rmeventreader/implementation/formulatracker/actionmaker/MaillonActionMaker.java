@@ -29,20 +29,15 @@ public class MaillonActionMaker implements Maillon {
 
 
 	private void attaquesParXML(Personnages contexte, Attaques attaques, String chemin) {
-		try {
-			FileReaderByLine.lireLeFichierSansCommentaires(chemin, ligne -> {
-				String[] donnees = FileReaderByLine.splitter(ligne, 3);
-				
-				Attaque attaque = creerAttaqueXML(contexte,
-												donnees[1] + "-" + donnees[2],
-												Integer.parseInt(donnees[0]));
-				
-				attaques.ajouterAttaque(attaque);
-			});
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
+		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+			String[] donnees = FileReaderByLine.splitter(ligne, 3);
+			
+			Attaque attaque = creerAttaqueXML(contexte,
+											donnees[1] + "-" + donnees[2],
+											Integer.parseInt(donnees[0]));
+			
+			attaques.ajouterAttaque(attaque);
+		});
 	}
 
 

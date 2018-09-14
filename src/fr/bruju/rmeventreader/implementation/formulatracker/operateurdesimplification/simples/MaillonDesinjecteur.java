@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -60,12 +59,10 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 		conditionsADesinjecter = new HashMap<>();
 		List<String[]> ressources;
 
-		try {
-			ressources = FileReaderByLine.lireFichier(chemin, 3);
-		} catch (IOException e) {
-			e.printStackTrace();
+		ressources = FileReaderByLine.lireFichier(chemin, 3);
+		
+		if (ressources == null)
 			return;
-		}
 
 		for (String[] tableau : ressources) {
 			String nomDuMonstre = tableau[0];
