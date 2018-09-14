@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
 
 /**
@@ -67,7 +66,7 @@ public class VCalcul implements Valeur {
 	 */
 	@Override
 	public int getPriorite() {
-		return Utilitaire.getPriorite(operateur);
+		return operateur.priorite;
 	}
 	
 	@Override

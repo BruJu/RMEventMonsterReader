@@ -4,7 +4,7 @@ public enum OpMathematique {
 	/* =================
 	 * OPERATEURS CONNUS
 	 * ================= */
-	PLUS("+", false, 0) {
+	PLUS("+", false, 0, 8) {
 		@Override
 		public int calculer(int gauche, int droite) {
 			return gauche + droite;
@@ -16,7 +16,7 @@ public enum OpMathematique {
 			return gauche - droite;
 		}
 	},
-	FOIS("x", true, 1) {
+	FOIS("x", true, 1, 9) {
 		@Override
 		public int calculer(int gauche, int droite) {
 			return gauche * droite;
@@ -35,7 +35,7 @@ public enum OpMathematique {
 		}
 	},
 	/* Opérateur mathématique par abus qui peut être utilisé lorsqu'on implémente les méthodes */
-	AFFECTATION("<-", false, 0) {
+	AFFECTATION("<-", false, 0, 7) {
 		@Override
 		public int calculer(int gauche, int droite) {
 			return droite;
@@ -58,10 +58,14 @@ public enum OpMathematique {
 	/** Element neutre */
 	public int neutre;
 	
-	OpMathematique(String symbole, boolean zeroAbsorbantAGauche, int neutre) {
+	/** Priorite de l'opérateur */
+	public int priorite;
+	
+	OpMathematique(String symbole, boolean zeroAbsorbantAGauche, int neutre, int priorite) {
 		this.symbole = symbole;
 		this.zeroAbsorbantAGauche = zeroAbsorbantAGauche;
 		this.neutre = neutre;
+		this.priorite = priorite;
 	}
 
 	OpMathematique(String symbole, OpMathematique oppose, boolean zeroAbsorbantAGauche, int neutre) {
@@ -70,6 +74,7 @@ public enum OpMathematique {
 		oppose.oppose = this;
 		this.zeroAbsorbantAGauche = zeroAbsorbantAGauche;
 		this.neutre = neutre;
+		this.priorite = oppose.priorite;
 	}
 
 	/* ========
@@ -130,4 +135,5 @@ public enum OpMathematique {
 			return null;
 		}
 	}
+
 }

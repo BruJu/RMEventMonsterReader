@@ -13,8 +13,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
-
 public class Utilitaire {
 	
 	/**
@@ -255,23 +253,6 @@ public class Utilitaire {
 		}
 		
 		return -1;
-	}
-
-	public static int getPriorite(OpMathematique operateur) {
-		switch (operateur) {
-		case MODULO:
-			return 9;
-		case FOIS:
-		case DIVISE:
-			return 9;
-		case MOINS:
-		case PLUS:
-			return 8;
-		case AFFECTATION:
-			return 7;
-		default:
-			return Integer.MAX_VALUE;
-		}
 	}
 
 	public static <T> T[] Arrays_aggrandir(T[] tableau, int tailleVoulue, Supplier<T> provider) {
