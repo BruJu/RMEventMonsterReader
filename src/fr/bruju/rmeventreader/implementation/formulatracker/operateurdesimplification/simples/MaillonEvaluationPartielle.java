@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
@@ -58,18 +57,12 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantsRecursif
 		interrupteurs = new HashMap<>();
 		variables = new HashMap<>();
 		
-		List<String[]> ressources;
-		
-		ressources = FileReaderByLine.lireFichier(chemin, 2);
-		
-		if (ressources == null)
-			return;
-		
-		ressources.forEach(paire -> {
+		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+			String[] donnees = ligne.split(" ");
 			
-			String idStr = paire[0];
+			String idStr = donnees[0];
 			Integer idInt = Integer.parseInt(idStr);
-			String valeur = paire[1];
+			String valeur = donnees[1];
 			
 			if (valeur.equals("ON")) {
 				interrupteurs.put(idInt, true);

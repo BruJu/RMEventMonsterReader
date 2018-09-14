@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,15 +48,11 @@ public class MaillonSuppresseur extends ConstructeurDeComposantsRecursif impleme
 	 * @return Vrai si la lecture a réussi
 	 */
 	private boolean extraireValeursASupprimer(String filename) {
-		List<String[]> valeurs = FileReaderByLine.lireFichier(filename, 1);
+		valeursRetirees = new ArrayList<>();
 		
-		if (valeurs == null)
-			return false;
-
-		valeursRetirees = valeurs.stream().map(v -> v[0]).map(v -> new VBase(Integer.parseInt(v)))
-				.collect(Collectors.toList());
-
-		return true;
+		return FileReaderByLine.lectureFichierRessources(filename, ligne -> {
+			valeursRetirees.add(new VBase(Integer.parseInt(ligne)));
+		});
 	}
 
 	// =================================================================================================================
@@ -67,7 +63,7 @@ public class MaillonSuppresseur extends ConstructeurDeComposantsRecursif impleme
 	/**
 	 * Valeurs à retirer
 	 */
-	private Collection<? extends Valeur> valeursRetirees;
+	private List<Valeur> valeursRetirees;
 
 	@Override
 	protected Composant modifier(CVariable cVariable) {

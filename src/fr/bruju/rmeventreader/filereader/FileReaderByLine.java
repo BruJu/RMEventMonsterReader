@@ -70,7 +70,7 @@ public class FileReaderByLine {
 	 * @param nbArguments Le nombre de mots par ligne
 	 * @return Une liste des mots de chaques lignes. Les mots sont stockés dans un tableau de String.
 	 */
-	public static List<String[]> lireFichier(String chemin, int nbArguments) {
+	private static List<String[]> lireFichier(String chemin, int nbArguments) {
 		List<String[]> valeursLues = new ArrayList<>();
 		boolean r = lectureFichierRessources(chemin, donnee -> valeursLues.add(splitter(donnee, nbArguments)));
 		return r ? valeursLues : null;

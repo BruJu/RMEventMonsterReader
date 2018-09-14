@@ -57,21 +57,17 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 	 */
 	private void remplirAvecFichier(String chemin) {
 		conditionsADesinjecter = new HashMap<>();
-		List<String[]> ressources;
-
-		ressources = FileReaderByLine.lireFichier(chemin, 3);
 		
-		if (ressources == null)
-			return;
-
-		for (String[] tableau : ressources) {
+		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+			String[] tableau = ligne.split(" ", 3);
+			
 			String nomDuMonstre = tableau[0];
 			int idVariable = Integer.parseInt(tableau[1]);
 			int valeur = Integer.parseInt(tableau[2]);
 
 			CVariable condition = new CVariable(new VBase(idVariable), Comparateur.IDENTIQUE, new VConstante(valeur));
 			Utilitaire.Maps.ajouterElementDansListe(conditionsADesinjecter, nomDuMonstre, condition);
-		}
+		});
 	}
 
 	// =================================================================================================================

@@ -80,16 +80,11 @@ public class Recomposition implements Runnable {
 	}
 
 	private Arbre construireArbre() {
-		List<String[]> attaques;
-		
 		MonteurDArbre exp = new MonteurDArbre(base);
 		
-		attaques = FileReaderByLine.lireFichier(CHEMIN_ATTAQUES, 3);
-		
-		if (attaques == null)
-			return null;
-		
-		attaques.forEach(donnees -> {
+		FileReaderByLine.lectureFichierRessources(CHEMIN_ATTAQUES, ligne -> {
+			String[] donnees = FileReaderByLine.splitter(ligne, 3);
+			
 			String nomAttaque = donnees[2];
 			String nomPersonnage = donnees[1];
 			int evenementCommun = Integer.parseInt(donnees[0]);
