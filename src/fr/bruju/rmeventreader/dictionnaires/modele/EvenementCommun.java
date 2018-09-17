@@ -10,6 +10,7 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAtt
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
+import fr.bruju.rmeventreader.rmobjets.RMEvenementCommun;
 
 public class EvenementCommun implements ElementComposite<Instruction> {
 	public final int id;
@@ -24,6 +25,11 @@ public class EvenementCommun implements ElementComposite<Instruction> {
 		this.trigger = trigger;
 		this.variable = variable;
 		this.instructions = new ArrayList<>();
+	}
+	
+	
+	public RMEvenementCommun getRMEvenementCommun() {
+		return new Adaptations.$EvenementCommun(this);
 	}
 
 	@Override

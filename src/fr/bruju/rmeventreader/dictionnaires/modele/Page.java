@@ -11,6 +11,7 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Instr;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
+import fr.bruju.rmeventreader.rmobjets.RMPage;
 
 public class Page implements ElementComposite<Instruction> {
 	public final int id;
@@ -28,6 +29,11 @@ public class Page implements ElementComposite<Instruction> {
 		this.conditions = new LinkedHashMap<>();
 		this.instructions = new ArrayList<>();
 	}
+	
+	public RMPage getRMPage() {
+		return new Adaptations.$Page(this);
+	}
+
 	
 	public static Page creerPageSimple() {
 		return new Page(1);

@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.modele;
 
+import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+
 public class Instruction {
 	public final int code;
 	public final String string;
@@ -10,7 +12,12 @@ public class Instruction {
 		this.string = string;
 		this.parameters = parameters;
 	}
-	
+
+
+	public RMInstruction getRMInstruction() {
+		return new Adaptations.$Instruction(this);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
