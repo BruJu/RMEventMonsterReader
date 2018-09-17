@@ -181,7 +181,7 @@ class Dechiffreur {
 				System.out.print("[" + i + "] = " + parametres[i] + " ; ");
 			}
 		}
-		System.out.println("s");
+		System.out.println(s);
 	}
 
 	public ArrierePlanCombat arrierePlan(int type, int equipiers, int typeTerrain, String nomPanorama) {
