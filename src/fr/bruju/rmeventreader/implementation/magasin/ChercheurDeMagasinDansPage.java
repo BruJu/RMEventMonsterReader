@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Direction;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
-import fr.bruju.rmeventreader.rmobjets.RMMap;
+import fr.bruju.lcfreader.rmobjets.RMMap;
 
 public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, ModuleExecVariables, ModuleExecJeu {
 	private Map<Integer, Magasin> magasins;

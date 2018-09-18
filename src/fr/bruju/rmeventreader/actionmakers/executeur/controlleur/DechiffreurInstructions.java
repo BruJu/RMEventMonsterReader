@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.HandlerInstruction;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.HandlerInstructionRetour;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.Remplisseur;
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
 
 /**
  * Un déchiffreur d'instructions qui permet d'appeler des fonctions ayant des noms plus explicites qu'un code et une

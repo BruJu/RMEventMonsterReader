@@ -21,7 +21,14 @@ Le but étant de détourner les instructions pour en tirer des données. Par exe
 
 Ce projet a une dépendance à ![CollectorBySimilarity](https://github.com/BruJu/CollectorBySimilarity/releases/tag/Kitten) afin de gérer plus facilement le regroupement d'éléments similaires.
 
-Toutes les dépendances sont dans le dossier lib.
+Sauf mention du contraire, toutes les dépendances sont dans le dossier lib.
+
+### JavaLCFReader
+
+Il y a une dépendance à ![JavaLCFReader](https://github.com/BruJu/JavaLCFReader) pour la lecture des fichiers LCF.
+
+Cette dépendance n'est PAS présente dans le dossier lib.
+
 
 
 ## Reconnaissance de lettres

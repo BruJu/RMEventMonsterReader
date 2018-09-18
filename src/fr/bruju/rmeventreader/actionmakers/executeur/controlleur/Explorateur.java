@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
-import fr.bruju.rmeventreader.rmobjets.RMEvenement;
-import fr.bruju.rmeventreader.rmobjets.RMEvenementCommun;
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
-import fr.bruju.rmeventreader.rmobjets.RMMap;
-import fr.bruju.rmeventreader.rmobjets.RMPage;
+import fr.bruju.lcfreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMMap;
+import fr.bruju.lcfreader.rmobjets.RMPage;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriConsumer;
 
 /**

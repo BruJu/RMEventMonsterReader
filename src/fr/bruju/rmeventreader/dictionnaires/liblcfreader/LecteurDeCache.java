@@ -10,8 +10,8 @@ import fr.bruju.rmeventreader.dictionnaires.modele.Contexte;
 import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.modele.EvenementCommun;
 import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
-import fr.bruju.rmeventreader.rmobjets.RMEvenement;
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class LecteurDeCache {

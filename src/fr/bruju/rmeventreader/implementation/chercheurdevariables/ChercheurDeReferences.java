@@ -12,7 +12,7 @@ import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Refe
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApparitionDeVariables;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Musique;
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
 
 /**
  * Cherche les références à des variables codées en dur dans tout un projet

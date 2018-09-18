@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAtt
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.PaireIDString;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
-import fr.bruju.rmeventreader.rmobjets.RMEvenementCommun;
+import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
 
 public class EvenementCommun implements ElementComposite<Instruction> {
 	public final int id;

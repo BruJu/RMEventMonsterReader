@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.reference;
 
-import fr.bruju.rmeventreader.rmobjets.RMEvenement;
-import fr.bruju.rmeventreader.rmobjets.RMMap;
-import fr.bruju.rmeventreader.rmobjets.RMPage;
+import fr.bruju.lcfreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMMap;
+import fr.bruju.lcfreader.rmobjets.RMPage;
 
 /**
  * Référence à un évènement sur une carte

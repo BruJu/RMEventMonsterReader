@@ -18,7 +18,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeD
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.Unificateur;
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 

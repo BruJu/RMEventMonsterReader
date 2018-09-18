@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.dictionnaires.modele;
 
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
 
 public class Instruction {
 	public final int code;

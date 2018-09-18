@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
-import fr.bruju.rmeventreader.rmobjets.RMEvenement;
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
-import fr.bruju.rmeventreader.rmobjets.RMMap;
-import fr.bruju.rmeventreader.rmobjets.RMPage;
+import fr.bruju.lcfreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMMap;
+import fr.bruju.lcfreader.rmobjets.RMPage;
 
 public class ChercheurDeMagasins implements Runnable {
 	private Map<Integer, Magasin> magasins;

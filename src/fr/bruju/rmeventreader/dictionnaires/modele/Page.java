@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Instr;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.LigneAttendue;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
-import fr.bruju.rmeventreader.rmobjets.RMPage;
+import fr.bruju.lcfreader.rmobjets.RMPage;
 
 public class Page implements ElementComposite<Instruction> {
 	public final int id;

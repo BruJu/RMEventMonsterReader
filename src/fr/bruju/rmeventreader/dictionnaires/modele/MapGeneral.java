@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.Passe;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.base.TableauInt;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.BoucleTraitement;
 import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.decorateur.TraitementObjet;
-import fr.bruju.rmeventreader.rmobjets.RMMap;
+import fr.bruju.lcfreader.rmobjets.RMMap;
 
 public class MapGeneral implements ElementComposite<Evenement> {
 	public final MapRM map;

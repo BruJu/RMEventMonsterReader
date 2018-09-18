@@ -7,7 +7,7 @@ import java.util.Set;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction.Deducteur;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
-import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+import fr.bruju.lcfreader.rmobjets.RMInstruction;
 
 /**
  * Cette classe permet d'avoir un point d'entrée unique et simple pour extraire une composition.

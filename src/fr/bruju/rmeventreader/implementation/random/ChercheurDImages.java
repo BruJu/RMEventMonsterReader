@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
-import fr.bruju.rmeventreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 

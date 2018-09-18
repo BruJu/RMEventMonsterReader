@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import fr.bruju.rmeventreader.rmobjets.RMEvenement;
-import fr.bruju.rmeventreader.rmobjets.RMEvenementCommun;
-import fr.bruju.rmeventreader.rmobjets.RMFabrique;
-import fr.bruju.rmeventreader.rmobjets.RMMap;
-import fr.bruju.rmeventreader.rmobjets.RMPage;
+import fr.bruju.lcfreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
+import fr.bruju.lcfreader.rmobjets.RMFabrique;
+import fr.bruju.lcfreader.rmobjets.RMMap;
+import fr.bruju.lcfreader.rmobjets.RMPage;
 
 public class FabriqueCache implements RMFabrique {
 	private static FabriqueCache instance;
