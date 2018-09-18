@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.reference;
 
-import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
-import fr.bruju.rmeventreader.dictionnaires.modele.Page;
+import fr.bruju.rmeventreader.rmobjets.RMEvenement;
+import fr.bruju.rmeventreader.rmobjets.RMMap;
+import fr.bruju.rmeventreader.rmobjets.RMPage;
 
 /**
  * Référence à un évènement sur une carte
@@ -38,8 +38,8 @@ public class ReferenceMap implements Reference {
 		this.nomEvent = nomEvent;
 	}
 
-	public ReferenceMap(MapGeneral map, Evenement event, Page page) {
-		this(map.map.id, event.id, page.id, map.map.getNom(), event.nom);
+	public ReferenceMap(RMMap map, RMEvenement event, RMPage page) {
+		this(map.id(), event.id(), page.id(), map.nom(), event.nom());
 	}
 
 	@Override

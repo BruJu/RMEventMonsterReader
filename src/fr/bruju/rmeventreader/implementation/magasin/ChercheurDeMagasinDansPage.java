@@ -8,18 +8,17 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVaria
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Direction;
-import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
-import fr.bruju.rmeventreader.dictionnaires.modele.MapRM;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
+import fr.bruju.rmeventreader.rmobjets.RMMap;
 
 public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, ModuleExecVariables, ModuleExecJeu {
 	private Map<Integer, Magasin> magasins;
-	private MapRM map;
+	private RMMap map;
 	private Integer magasinActuel;
 	private ReferenceMap ref;
 
-	public ChercheurDeMagasinDansPage(MapGeneral map, ReferenceMap ref, Map<Integer, Magasin> magasins) {
-		this.map = map.map;
+	public ChercheurDeMagasinDansPage(RMMap map, ReferenceMap ref, Map<Integer, Magasin> magasins) {
+		this.map = map;
 		this.magasins = magasins;
 		this.ref = ref;
 	}
@@ -54,7 +53,7 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, Mo
 
 	private void ajouterMagasin() {
 		if (magasinActuel == null) {
-			System.out.println(map.getNom());
+			System.out.println(map.nom());
 			System.out.println(ref.getString());
 		}
 		
@@ -62,8 +61,8 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, Mo
 		if (magasins.containsKey(magasinActuel))
 			return;
 		
-		System.out.println("Nouveau magasin : " + magasinActuel + " ; " + map.getNom()); 
+		System.out.println("Nouveau magasin : " + magasinActuel + " ; " + map.nom()); 
 		
-		magasins.put(magasinActuel, new Magasin(magasinActuel, map.getNom()));
+		magasins.put(magasinActuel, new Magasin(magasinActuel, map.nom()));
 	}
 }

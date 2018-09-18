@@ -7,7 +7,7 @@ import java.util.Set;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction.Deducteur;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
-import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.rmobjets.RMInstruction;
 
 /**
  * Cette classe permet d'avoir un point d'entrée unique et simple pour extraire une composition.
@@ -17,7 +17,8 @@ import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
  */
 public class Extracteur {
 
-	public Map<Integer, Algorithme> extraireAlgorithmes(Set<Integer> variablesPistees, List<Instruction> instructions) {
+	public Map<Integer, Algorithme> extraireAlgorithmes(Set<Integer> variablesPistees,
+			List<RMInstruction> instructions) {
 		// Mise en place des structures
 		ComposeurInitial composeur = new ComposeurInitial(variablesPistees);
 		

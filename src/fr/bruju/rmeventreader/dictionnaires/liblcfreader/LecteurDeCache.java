@@ -9,23 +9,18 @@ import fr.bruju.rmeventreader.dictionnaires.ConstructeurParFichier.Convertisseur
 import fr.bruju.rmeventreader.dictionnaires.modele.Contexte;
 import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
 import fr.bruju.rmeventreader.dictionnaires.modele.EvenementCommun;
-import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
 import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
+import fr.bruju.rmeventreader.rmobjets.RMEvenement;
+import fr.bruju.rmeventreader.rmobjets.RMInstruction;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class LecteurDeCache {
-	
-	
-	
-	
-	
-
-	public static List<Instruction> chargerInstructions(int idMap, int idEvent, int idPage) {
+	static List<RMInstruction> chargerInstructions(int idMap, int idEvent, int idPage) {
 		try {
 			if (idMap == -1 || idPage == -1)
-				return getEvenementCommun(idEvent).instructions;
+				return getEvenementCommun(idEvent).getRMEvenementCommun().instructions();
 			else
-				return getEvenement(idMap, idEvent).pages.get(idPage - 1).instructions;
+				return getEvenement(idMap, idEvent).getRMEvenement().pages().get(idPage - 1).instructions();
 		} catch (NullPointerException e) {
 			return null;
 		}
@@ -36,18 +31,19 @@ public class LecteurDeCache {
 		return ConvertisseurLigneVersObjet.construire(prefixe + "General.txt", MapGeneral.sousObjet());
 	}
 	
-	public static List<Evenement> getEvenementsDepuisMapGeneral(MapGeneral mapGeneral) {
+	static List<RMEvenement> getEvenementsDepuisMapGeneral(MapGeneral mapGeneral) {
 		String prefixe = "cache_xml\\Map" + Utilitaire_XML.transformerId(mapGeneral.map.id) + "\\";
 		
 		return mapGeneral.evenements
 				.stream()
 				.map(numero -> mapGeneral.evenementsComplexes.contains(numero) ?
 						getEvenementComplexe(prefixe, mapGeneral.map.id, numero) : getEvenementSimple(numero))
+				.map(evenement -> evenement.getRMEvenement())
 				.collect(Collectors.toList());
 	}
 
 
-	public static EvenementCommun getEvenementCommun(int idEvent) {
+	static EvenementCommun getEvenementCommun(int idEvent) {
 		String fichier = "cache_xml\\EC\\EC" + Utilitaire_XML.transformerId(idEvent) + ".txt";
 		EvenementCommun ec = ConvertisseurLigneVersObjet.construire(fichier, EvenementCommun.sousObjet());
 		return ec;
@@ -80,7 +76,7 @@ public class LecteurDeCache {
 	}
 	
 
-	public static Pair<Integer, Set<Integer>> getInformations() {
+	static Pair<Integer, Set<Integer>> getInformations() {
 		Contexte ec = ConvertisseurLigneVersObjet.construire("cache_xml\\Contexte.txt" , Contexte.sousObjet());
 		
 		return new Pair<>(ec.nombreEC, ec.maps);

@@ -24,7 +24,7 @@ public class AppelsDEvenements implements Runnable {
 	public void run() {
 		appels = new HashMap<>();
 		
-		Explorateur.explorer(ec -> Explorateur.executer(new Exec(ec.id), ec.instructions), null);
+		Explorateur.explorer(ec -> Explorateur.executer(new Exec(ec.id()), ec.instructions()), null);
 		
 		System.out.println("Evenement Commun ; Nombre d'appels à 277 Check Elem ; Nombre d'appels à 232 Check Relation");
 		appels.entrySet()

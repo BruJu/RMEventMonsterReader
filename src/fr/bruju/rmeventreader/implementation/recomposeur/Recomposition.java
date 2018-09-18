@@ -8,8 +8,7 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
-import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
@@ -19,6 +18,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeD
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.Unificateur;
+import fr.bruju.rmeventreader.rmobjets.RMInstruction;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -89,7 +89,10 @@ public class Recomposition implements Runnable {
 			String nomPersonnage = donnees[1];
 			int evenementCommun = Integer.parseInt(donnees[0]);
 			
-			List<Instruction> instructions = LecteurDeCache.getEvenementCommun(evenementCommun).instructions;
+			List<RMInstruction> instructions =
+					FabriqueCache.getInstance().evenementCommun(evenementCommun).instructions();
+			
+			
 			
 			Map<Integer, Algorithme> extrait =
 					new Extracteur().extraireAlgorithmes(base.getVariablesStatistiques(), instructions);

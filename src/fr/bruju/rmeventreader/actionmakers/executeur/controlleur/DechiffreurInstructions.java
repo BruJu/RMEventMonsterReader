@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.HandlerInstruction;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.HandlerInstructionRetour;
 import fr.bruju.rmeventreader.actionmakers.executeur.handlerInstructions.Remplisseur;
-import fr.bruju.rmeventreader.dictionnaires.modele.Instruction;
+import fr.bruju.rmeventreader.rmobjets.RMInstruction;
 
 /**
  * Un déchiffreur d'instructions qui permet d'appeler des fonctions ayant des noms plus explicites qu'un code et une
@@ -59,10 +59,10 @@ public class DechiffreurInstructions {
 	 * Appelle la méthode de l'exécuteur associé à l'instruction donnée
 	 * @param instruction L'instruction à exécuteur
 	 */
-	public void executer(Instruction instruction) {
+	public void executer(RMInstruction instruction) {
 		remplirInstructions();
 		
-		Integer code = instruction.code;
+		Integer code = instruction.code();
 		
 		if (ignorance != null) {
 			ignorance = ignorance.appliquerCode(code);
@@ -73,28 +73,28 @@ public class DechiffreurInstructions {
 		HandlerInstruction fonction = instructionsConnues.get(code);
 		
 		if (fonction != null) {
-			fonction.traiter(executeur, instruction.parameters, instruction.string);
+			fonction.traiter(executeur, instruction.parametres(), instruction.argument());
 			return;
 		}
 		
 		HandlerInstructionRetour classe2 = instructionsConnuesClasse2.get(code);
 		
 		if (classe2 != null) {
-			if (!classe2.traiter(executeur, instruction.parameters, instruction.string)) {
+			if (!classe2.traiter(executeur, instruction.parametres(), instruction.argument())) {
 				ignorance = classe2.ignorer();	
 			}
 			
 			return;
 		}
 		
-		System.out.println(" --> Instruction [" + instruction.toString(true) + "] non déchiffrable");
+		System.out.println(" --> Instruction [" + code + "] non déchiffrable");
 	}
 
 	/**
 	 * Exécute les instructions données les unes aprés les autres
 	 * @param instructions La liste des instructions
 	 */
-	public void executer(List<Instruction> instructions) {
+	public void executer(List<RMInstruction> instructions) {
 		instructions.forEach(this::executer);
 	}
 }

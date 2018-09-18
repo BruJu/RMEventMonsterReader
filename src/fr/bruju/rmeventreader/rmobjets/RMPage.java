@@ -19,5 +19,5 @@ public interface RMPage {
 	 * Donne la liste des instructions de la page
 	 * @return La liste des instructions de la page
 	 */
-	public List<RMInstruction> evenements();
+	public List<RMInstruction> instructions();
 }

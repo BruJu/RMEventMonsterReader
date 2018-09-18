@@ -12,9 +12,8 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
-import fr.bruju.rmeventreader.dictionnaires.modele.Evenement;
-import fr.bruju.rmeventreader.dictionnaires.modele.MapGeneral;
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
+import fr.bruju.rmeventreader.rmobjets.RMEvenement;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 
@@ -29,22 +28,19 @@ public class ChercheurDImages implements Runnable {
 	
 	@Override
 	public void run() {
-		MapGeneral map = LecteurDeCache.getMapGeneral(numeroDeMap);
-		
-		List<Evenement> evenements = LecteurDeCache.getEvenementsDepuisMapGeneral(map);
+		List<RMEvenement> evenements = FabriqueCache.getInstance().map(numeroDeMap).evenements();
 		
 		evenements.forEach(evenement -> {
-			int idEvent = evenement.id;
+			int idEvent = evenement.id();
 			DechiffreurInstructions dechiffreur = new DechiffreurInstructions(new AnalyseurDInstructions(idEvent));
 			
-			evenement.pages.forEach(page -> dechiffreur.executer(page.instructions));
+			evenement.pages().forEach(page -> dechiffreur.executer(page.instructions()));
 		});
 		
 		utilisations.forEach((image, events) -> {
 			System.out.println(image + ":" +
 					events
 						.stream()
-						//.filter(id -> id != 54 && id != 1 && id != 73)
 						.map(numero -> convertir(numero, evenements))
 						.collect(Collectors.joining(",")));
 		});
@@ -52,10 +48,10 @@ public class ChercheurDImages implements Runnable {
 	
 	
 	
-	private String convertir(Integer numero, List<Evenement> evenements) {
-		for (Evenement evenement : evenements) {
-			if (evenement.id == numero) {
-				return numero + "[" + evenement.nom + ";" + evenement.x + ";" + evenement.y +"]";
+	private String convertir(Integer numero, List<RMEvenement> evenements) {
+		for (RMEvenement evenement : evenements) {
+			if (evenement.id() == numero) {
+				return numero + "[" + evenement.nom() + ";" + evenement.x() + ";" + evenement.y() +"]";
 			}
 		}
 		

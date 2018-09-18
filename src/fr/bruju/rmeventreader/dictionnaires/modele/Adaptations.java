@@ -3,9 +3,11 @@ package fr.bruju.rmeventreader.dictionnaires.modele;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
 import fr.bruju.rmeventreader.rmobjets.RMEvenement;
 import fr.bruju.rmeventreader.rmobjets.RMEvenementCommun;
 import fr.bruju.rmeventreader.rmobjets.RMInstruction;
+import fr.bruju.rmeventreader.rmobjets.RMMap;
 import fr.bruju.rmeventreader.rmobjets.RMPage;
 
 /**
@@ -17,7 +19,44 @@ import fr.bruju.rmeventreader.rmobjets.RMPage;
  *
  */
 class Adaptations {
+	// TODO : les objets manipulés sont censés être immutabls. On pourrait utiliser cette propriété pour accélérer
+	// certaines méthodes. Néanmoins, ces classes étant vouées à disparaître, ce n'est surement pas rentable de
+	// le faire
+	
 	private Adaptations() {
+	}
+	
+	static class $Map implements RMMap {
+		private MapGeneral map;
+		private List<RMEvenement> evenements;
+
+		$Map(MapGeneral mapGeneral) {
+			this.map = mapGeneral;
+			definirEvenements();
+		}
+		
+		private void definirEvenements() {
+			evenements = map.evenements
+							.stream()
+							.map(idEvenement -> LecteurDeCache.getEvenement(map.map.id, idEvenement))
+							.map(ev -> ev.getRMEvenement())
+							.collect(Collectors.toList());
+		}
+
+		@Override
+		public int id() {
+			return map.map.id;
+		}
+
+		@Override
+		public String nom() {
+			return map.map.getNom();
+		}
+
+		@Override
+		public List<RMEvenement> evenements() {
+			return evenements;
+		}
 	}
 	
 	static class $EvenementCommun implements RMEvenementCommun {
@@ -60,7 +99,7 @@ class Adaptations {
 		}
 
 		@Override
-		public List<RMInstruction> evenements() {
+		public List<RMInstruction> instructions() {
 			return page.instructions.stream().map(Instruction::getRMInstruction).collect(Collectors.toList());
 		}
 	}
