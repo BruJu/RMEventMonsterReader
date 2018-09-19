@@ -3,9 +3,10 @@ package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 import java.util.List;
 import java.util.function.Consumer;
 
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
+import fr.bruju.rmeventreader.dictionnaires.FabriqueMiLCFMiXML;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
+import fr.bruju.lcfreader.rmobjets.RMFabrique;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
@@ -26,13 +27,10 @@ public class Explorateur {
 	 */
 	public static void explorer(Consumer<RMEvenementCommun> actionSurLesEvenementCommuns,
 			TriConsumer<RMMap, RMEvenement, RMPage> actionSurLesPages) {
-		//Pair<Integer, Set<Integer>> infos = LecteurDeCache.getInformations();
-		
-		
-		
+		RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
 		
 		if (actionSurLesEvenementCommuns != null) {
-			FabriqueCache.getInstance().evenementsCommuns().forEach(actionSurLesEvenementCommuns::accept);
+			usine.evenementsCommuns().forEach(actionSurLesEvenementCommuns::accept);
 		}
 		
 		if (actionSurLesPages != null) {
@@ -40,7 +38,7 @@ public class Explorateur {
 			Consumer<RMMap> actionMap = rmMap -> rmMap.evenements().forEach(ev -> ev.pages().forEach(page ->
 								actionSurLesPages.consume(rmMap, ev, page)));
 			
-			FabriqueCache.getInstance().maps().forEach(actionMap);
+			usine.maps().forEach(actionMap);
 		}
 	}
 
@@ -62,7 +60,7 @@ public class Explorateur {
 	 * @param idPage Numéro de la page
 	 */
 	public static void lireEvenementMap(ExecuteurInstructions executeur, int idMap, int idEvenement, int idPage) {
-		executer(executeur, FabriqueCache.getInstance().page(idMap, idEvenement, idPage).instructions());
+		executer(executeur, FabriqueMiLCFMiXML.getInstance().page(idMap, idEvenement, idPage).instructions());
 	}
 
 	/**
@@ -71,6 +69,6 @@ public class Explorateur {
 	 * @param idEvenement Le numéro de l'évènement commun
 	 */
 	public static void lireEvenementCommun(ExecuteurInstructions executeur, int idEvenement) {
-		executer(executeur, FabriqueCache.getInstance().evenementCommun(idEvenement).instructions());
+		executer(executeur, FabriqueMiLCFMiXML.getInstance().evenementCommun(idEvenement).instructions());
 	}
 }

@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
+import fr.bruju.rmeventreader.dictionnaires.FabriqueMiLCFMiXML;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
-import fr.bruju.lcfreader.modele.FabriqueLCF;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMFabrique;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
@@ -20,7 +20,7 @@ public class ChercheurDeMagasins implements Runnable {
 	public Map<Integer, Magasin> chercher() {
 		Explorateur.explorer(null, this::chercherMagasin);
 		
-		RMFabrique usine = new FabriqueLCF("ressources\\FichiersBruts");
+		RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
 		
 		List<RMInstruction> niveaux = usine.page(461, 88, 1).instructions();
 		List<RMInstruction> objets = usine.page(461, 5, 1).instructions();

@@ -11,9 +11,10 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
+import fr.bruju.rmeventreader.dictionnaires.FabriqueMiLCFMiXML;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMFabrique;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 
@@ -28,7 +29,9 @@ public class ChercheurDImages implements Runnable {
 	
 	@Override
 	public void run() {
-		List<RMEvenement> evenements = FabriqueCache.getInstance().map(numeroDeMap).evenements();
+		RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
+		
+		List<RMEvenement> evenements = usine.map(numeroDeMap).evenements();
 		
 		evenements.forEach(evenement -> {
 			int idEvent = evenement.id();

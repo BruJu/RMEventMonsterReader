@@ -64,6 +64,10 @@ public class DechiffreurInstructions {
 		
 		Integer code = instruction.code();
 		
+		if (code == 10) {
+			return;
+		}
+		
 		if (ignorance != null) {
 			ignorance = ignorance.appliquerCode(code);
 			return;
