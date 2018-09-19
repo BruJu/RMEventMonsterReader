@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
+import fr.bruju.lcfreader.modele.FabriqueLCF;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
+import fr.bruju.lcfreader.rmobjets.RMFabrique;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
@@ -17,14 +18,15 @@ public class ChercheurDeMagasins implements Runnable {
 	private Map<Integer, Magasin> magasins;
 
 	public Map<Integer, Magasin> chercher() {
-		magasins = new HashMap<>();
-
 		Explorateur.explorer(null, this::chercherMagasin);
-
-		List<RMInstruction> niveaux = FabriqueCache.getInstance().page(461, 88, 1).instructions();
+		
+		RMFabrique usine = new FabriqueLCF("ressources\\FichiersBruts");
+		
+		List<RMInstruction> niveaux = usine.page(461, 88, 1).instructions();
+		List<RMInstruction> objets = usine.page(461, 5, 1).instructions();
+		
+		magasins = new HashMap<>();
 		Explorateur.executer(new RemplisseurDeNiveaux(magasins), niveaux);
-
-		List<RMInstruction> objets = FabriqueCache.getInstance().page(461, 5, 1).instructions();
 		Explorateur.executer(new RemplisseurDObjets(magasins), objets);
 
 		return magasins;
