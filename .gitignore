@@ -29,3 +29,7 @@ out/
 build.xml
 manifest.mf
 nbproject/
+
+# hprof
+java.hprof.txt
+out.hprof
