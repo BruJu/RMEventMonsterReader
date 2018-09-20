@@ -57,7 +57,6 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, Mo
 			System.out.println(ref.getString());
 		}
 		
-		
 		if (magasins.containsKey(magasinActuel))
 			return;
 		
