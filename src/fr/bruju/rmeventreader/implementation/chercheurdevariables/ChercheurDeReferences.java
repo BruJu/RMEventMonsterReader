@@ -28,14 +28,14 @@ public class ChercheurDeReferences implements Runnable {
 
 	@Override
 	public void run() {
-		int option = 1;
+		int option = 4;
 		
 		new Runnable[] {
 				/* 0 */ () -> {baseDeRecherche = new ApparitionDeVariables(new int[] {3065});},
 				/* 1 */ () -> {baseDeRecherche = new Texte("olinale");},
 				/* 2 */ () -> {baseDeRecherche = new ActivationDInterrupteur(3113);},
 				/* 3 */ () -> {baseDeRecherche = new Musique();},
-				/* 4 */ () -> {baseDeRecherche = new ModificationsDeVariable(2456);},
+				/* 4 */ () -> {baseDeRecherche = new ModificationsDeVariable(5);},
 				/* 5 */ () -> {baseDeRecherche = new ApprentissageSort(3, 112);}
 		}[option].run();
 

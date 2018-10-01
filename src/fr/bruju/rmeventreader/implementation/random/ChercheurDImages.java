@@ -31,10 +31,9 @@ public class ChercheurDImages implements Runnable {
 	public void run() {
 		RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
 		
-		List<RMEvenement> evenements = usine.map(numeroDeMap).evenements();
+		Map<Integer, RMEvenement> evenements = usine.map(numeroDeMap).evenements();
 		
-		evenements.forEach(evenement -> {
-			int idEvent = evenement.id();
+		evenements.forEach((idEvent, evenement) -> {
 			DechiffreurInstructions dechiffreur = new DechiffreurInstructions(new AnalyseurDInstructions(idEvent));
 			
 			evenement.pages().forEach(page -> dechiffreur.executer(page.instructions()));
@@ -44,21 +43,15 @@ public class ChercheurDImages implements Runnable {
 			System.out.println(image + ":" +
 					events
 						.stream()
-						.map(numero -> convertir(numero, evenements))
+						.map(numero -> convertir(numero, evenements.get(numero)))
 						.collect(Collectors.joining(",")));
 		});
 	}
 	
 	
 	
-	private String convertir(Integer numero, List<RMEvenement> evenements) {
-		for (RMEvenement evenement : evenements) {
-			if (evenement.id() == numero) {
+	private String convertir(Integer numero, RMEvenement evenement) {
 				return numero + "[" + evenement.nom() + ";" + evenement.x() + ";" + evenement.y() +"]";
-			}
-		}
-		
-		return "???";
 	}
 
 

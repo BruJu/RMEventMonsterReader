@@ -12,7 +12,7 @@ public class Objet implements Comparable<Objet> {
 	}
 	
 	public Objet(Integer idObjet) {
-		this(idObjet, new Encyclopedie().getSansSymbole("OBJET", idObjet-1));
+		this(idObjet, new Encyclopedie().getSansSymbole("OBJET", idObjet));
 	}
 
 	public String getString() {

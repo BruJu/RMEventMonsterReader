@@ -30,12 +30,12 @@ public class Explorateur {
 		RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
 		
 		if (actionSurLesEvenementCommuns != null) {
-			usine.evenementsCommuns().forEach(actionSurLesEvenementCommuns::accept);
+			usine.evenementsCommuns().values().forEach(actionSurLesEvenementCommuns::accept);
 		}
 		
 		if (actionSurLesPages != null) {
 			// Applique à chaque page de chaque évènement de la map
-			Consumer<RMMap> actionMap = rmMap -> rmMap.evenements().forEach(ev -> ev.pages().forEach(page ->
+			Consumer<RMMap> actionMap = rmMap -> rmMap.evenements().values().forEach(ev -> ev.pages().forEach(page ->
 								actionSurLesPages.consume(rmMap, ev, page)));
 			
 			usine.maps().forEach(actionMap);

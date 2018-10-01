@@ -1,9 +1,11 @@
 package fr.bruju.rmeventreader.dictionnaires.modele;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.liblcfreader.LecteurDeCache;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
@@ -28,7 +30,7 @@ class Adaptations {
 	
 	static class $Map implements RMMap {
 		private MapGeneral map;
-		private List<RMEvenement> evenements;
+		private Map<Integer, RMEvenement> evenements;
 
 		$Map(MapGeneral mapGeneral) {
 			this.map = mapGeneral;
@@ -38,9 +40,8 @@ class Adaptations {
 		private void definirEvenements() {
 			evenements = map.evenements
 							.stream()
-							.map(idEvenement -> LecteurDeCache.getEvenement(map.map.id, idEvenement))
-							.map(ev -> ev.getRMEvenement())
-							.collect(Collectors.toList());
+							.map(idEvenement -> new Pair<>(idEvenement, LecteurDeCache.getEvenement(map.map.id, idEvenement).getRMEvenement()))
+							.collect(Pair.toMap());
 		}
 
 		@Override
@@ -54,7 +55,7 @@ class Adaptations {
 		}
 
 		@Override
-		public List<RMEvenement> evenements() {
+		public Map<Integer, RMEvenement> evenements() {
 			return evenements;
 		}
 	}

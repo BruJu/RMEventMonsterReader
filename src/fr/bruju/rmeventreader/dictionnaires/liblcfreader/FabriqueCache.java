@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.dictionnaires.liblcfreader;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -9,6 +10,7 @@ import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
 import fr.bruju.lcfreader.rmobjets.RMFabrique;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class FabriqueCache implements RMFabrique {
 	private static FabriqueCache instance;
@@ -49,8 +51,10 @@ public class FabriqueCache implements RMFabrique {
 	}
 
 	@Override
-	public List<RMEvenementCommun> evenementsCommuns() {
+	public Map<Integer, RMEvenementCommun> evenementsCommuns() {
 		int nombreDEC = LecteurDeCache.getInformations().getLeft();
-		return IntStream.range(0, nombreDEC).mapToObj(id -> evenementCommun(id+1)).collect(Collectors.toList());
+		return IntStream.range(0, nombreDEC)
+				        .mapToObj(id -> new Pair<>(id, evenementCommun(id+1)))
+				        .collect(Pair.toMap());
 	}
 }
