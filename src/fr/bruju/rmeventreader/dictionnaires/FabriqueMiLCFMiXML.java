@@ -1,17 +1,13 @@
 package fr.bruju.rmeventreader.dictionnaires;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
 import fr.bruju.lcfreader.rmobjets.RMFabrique;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.services.Arborescence;
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.FabriqueCache;
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 
 public class FabriqueMiLCFMiXML implements RMFabrique {
 	/* =========
