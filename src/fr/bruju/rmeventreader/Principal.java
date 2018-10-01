@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.dictionnaires.liblcfreader.CreateurDeRessources;
+import fr.bruju.rmeventreader.dictionnaires.CreateurDeRessources;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
@@ -19,7 +19,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 0;
+		int choix = 8;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -27,19 +27,15 @@ public class Principal {
 		
 		
 		Runnable[] options = {
-				/* 0 */ new ListeurDeMonstres(3),
-				/* 1 */ new FormulaTracker(),
-				/* 2 */ new Recomposition(),
-				/* 3 */ null,
-				/* 4 */ new Createur(),
-				/* 5 */ null,
-				/* 6 */ null,
-				/* 7 */ new Verificateur(),
-				
-				/* 8 */ new AppelsDEvenements(),
-				/* 9 */ new ChercheurDImages(51),
-				/* 10 */ new ChercheurDeReferences(),
-				/* 11 */ new ChercheurDeMagasins(),
+				/* 00 */ new ListeurDeMonstres(3),
+				/* 01 */ new FormulaTracker(),
+				/* 02 */ new Recomposition(),
+				/* 03 */ new Createur(),
+				/* 04 */ new Verificateur(),
+				/* 05 */ new AppelsDEvenements(),
+				/* 06 */ new ChercheurDImages(51),
+				/* 07 */ new ChercheurDeReferences(),
+				/* 08 */ new ChercheurDeMagasins(),
 		};
 		
 		options[choix].run();
@@ -49,15 +45,14 @@ public class Principal {
 	
 	
 	/**
-	 * Crée des ressources (liste des objets, variables, switch, event communs et personnages) à partir des fichiers
+	 * Crée des ressources (liste des objets, variables, switch et personnages) à partir des fichiers
 	 * xml générés par lcf2xml
 	 *
 	 */
 	public static class Createur implements Runnable {
 		@Override
 		public void run() {
-			new CreateurDeRessources("ressources_gen\\").extraireBDD("ressources\\xml\\RPG_RT_DB.xml");
-			new CreateurDeRessources("ressources_gen\\").extraireArbre("ressources\\xml\\RPG_RT_T.xml");
+			new CreateurDeRessources("ressources_gen\\").extraireBDD();
 		}
 	}
 	
