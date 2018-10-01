@@ -38,7 +38,7 @@ public class Explorateur {
 			Consumer<RMMap> actionMap = rmMap -> rmMap.evenements().values().forEach(ev -> ev.pages().forEach(page ->
 								actionSurLesPages.consume(rmMap, ev, page)));
 			
-			usine.maps().forEach(actionMap);
+			usine.maps().values().forEach(actionMap);
 		}
 	}
 
