@@ -8,28 +8,11 @@ target/
 .git
 bin/
 
-# Compteur de lignes dans le projet
-src/fr/nblignes.sh
-
 # Fichiers non propriétaires
 ressources/
 sorties/
-diff*
 ressources_gen/
 cache_xml/
-Parametres.bat
-
-# IntelliJ
-.idea/*
-*.iml
-out/
-/nbproject/private/
-
-# Netbeans
-build.xml
-manifest.mf
-nbproject/
 
 # hprof
 java.hprof.txt
-out.hprof

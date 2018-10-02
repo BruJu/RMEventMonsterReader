@@ -12,19 +12,17 @@ import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 
+/** Classe principale */
 public class Principal {
-	/**
-	 * Fonction principale
-	 */
+	/** Fonction principale */
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 8;
+		int choix = 6;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
 		}
-		
 		
 		Runnable[] options = {
 				/* 00 */ new ListeurDeMonstres(3),

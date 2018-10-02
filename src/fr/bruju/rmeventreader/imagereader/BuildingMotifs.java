@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.bruju.rmeventreader.Parametre;
 import fr.bruju.rmeventreader.imagereader.model.MatricePixels;
 import fr.bruju.rmeventreader.imagereader.model.Motif;
 import fr.bruju.rmeventreader.imagereader.model.SymboleReconnus;
@@ -29,7 +30,7 @@ import fr.bruju.rmeventreader.imagereader.traitement.ImageReader;
  */
 public class BuildingMotifs {
 	private static String IGNORE_NAME = "UNKNOWN_NAME"; // Monstres dont l'image contenant le nom n'a pas pu être obtenue
-	private static String CHEMIN_PREFIX = "ressources\\Picture\\"; // Préfixe du repertoire où sont les images
+	private static String CHEMIN_PREFIX = "Picture\\"; // Préfixe du repertoire où sont les images
 	private static String CHEMIN_SUFFIXE = ".PNG"; // Suffixe du chemin où sont les images
 
 	/**
@@ -77,7 +78,7 @@ public class BuildingMotifs {
 				continue;
 			}
 
-			String filename = CHEMIN_PREFIX + image + CHEMIN_SUFFIXE;
+			String filename = Parametre.get("DOSSIER") + CHEMIN_PREFIX + image + CHEMIN_SUFFIXE;
 
 			ImageReader ir = new ImageReader();
 
