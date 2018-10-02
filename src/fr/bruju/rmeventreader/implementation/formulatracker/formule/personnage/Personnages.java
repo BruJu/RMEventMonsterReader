@@ -7,6 +7,7 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
@@ -14,7 +15,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 
 public class Personnages {
 	/** Chemin vers la liste des variables et interrutpeurs nommés */
-	private static String cheminNommes = "ressources/formulatracker/Nommes.txt";
+	private static String cheminNommes = Ressources.NOMS;
 	
 	/** Map associant nom de personnage et objet */
 	private Map<String, PersonnageReel> personnagesReels = new HashMap<>();

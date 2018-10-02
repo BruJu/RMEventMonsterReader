@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
@@ -29,8 +30,7 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantsRecursif
 
 	@Override
 	public void traiter(Attaques attaques) {
-		remplirAvecFichier("ressources/formulatracker/Injection.txt");
-		
+		remplirAvecFichier(Ressources.INJECTION);
 		attaques.transformerComposants(this::traiter);
 	}
 

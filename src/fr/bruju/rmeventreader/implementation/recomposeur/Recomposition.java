@@ -24,7 +24,7 @@ import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class Recomposition implements Runnable {
-	private final static String CHEMIN_PARAMETRES = "ressources\\recomposeur\\Parametres.txt";
+	private final static String CHEMIN_PARAMETRES = "ressources\\Recomposition.txt";
 	private final static String CHEMIN_ATTAQUES = "ressources\\Attaques.txt";
 
 	Parametres parametres;

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.IdentiteAttaque;
@@ -19,13 +20,13 @@ public class MaillonActionMaker implements Maillon {
 	public void traiter(Attaques attaques) {
 		Personnages contexte = new Personnages();
 		try {
-			contexte.lirePersonnagesDansFichier("ressources/formulatracker/Statistiques.txt");
+			contexte.lirePersonnagesDansFichier(Ressources.STATISTIQUES);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
 		
-		attaquesParXML(contexte, attaques, "ressources/Attaques.txt");
+		attaquesParXML(contexte, attaques, Ressources.ATTAQUES);
 	}
 
 

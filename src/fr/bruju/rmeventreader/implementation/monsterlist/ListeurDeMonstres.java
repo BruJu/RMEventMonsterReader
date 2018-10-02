@@ -27,6 +27,15 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class ListeurDeMonstres implements Runnable {
+
+	/** Fichier ressource contenant les données à lire */
+	public static final String FICHIER_RESSOURCE_CONTEXTE = "ressources\\monsterlist\\Resistances.txt";
+	public static final String FICHIER_PARAMETRES = "ressources/monsterlist/Parametres.txt";
+	public static final String ZONES = "ressources/monsterlist/Zones.txt";
+	public static final String CORRECTION = "ressources/Correction.txt";
+	public static final String MONSTRES = "ressources/Dico/Monstres.txt";
+	public static final String OBJETS = "ressources/Dico/Objets.txt";
+	
 	private int option;
 	
 	public ListeurDeMonstres(int option) {
@@ -36,11 +45,11 @@ public class ListeurDeMonstres implements Runnable {
 	public void run() {
 		// Contexte général
 		Contexte contexte = new Contexte();
-		contexte.remplirContexte("ressources/monsterlist/Parametres.txt");
+		contexte.remplirContexte(FICHIER_PARAMETRES);
 		
 		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
-		ce.lireContexteElementaire(ContexteElementaire.FICHIER_RESSOURCE_CONTEXTE);
+		ce.lireContexteElementaire(FICHIER_RESSOURCE_CONTEXTE);
 		
 		// Base de données des monstres
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
@@ -50,12 +59,12 @@ public class ListeurDeMonstres implements Runnable {
 			() -> Explorateur.lireEvenementMap(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
 			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
 			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , "ressources/monsterlist/Zones.txt"),
-			new Correcteur(baseDeDonnees                                           , "ressources/Correction.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , ZONES),
+			new Correcteur(baseDeDonnees                                           , CORRECTION),
 			() -> Explorateur.lireEvenementMap(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , "ressources/Dico/Monstres.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , MONSTRES),
 			() -> Explorateur.lireEvenementMap(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , "ressources/Dico/Objets.txt"),
+			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , OBJETS),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			() -> Explorateur.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
 			

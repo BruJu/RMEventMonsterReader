@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
@@ -36,7 +37,7 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 
 	@Override
 	public void traiter(Attaques attaques) {
-		remplirAvecFichier("ressources/formulatracker/desinjection.txt");
+		remplirAvecFichier(Ressources.DESINJECTION);
 		
 		attaques.modifierFormules((nomStat, formule) -> Attaques.generalisationDeLaTransformationDeComposants(formule,
 				composant -> desinjecter(composant, conditionsADesinjecter.get(nomStat))));

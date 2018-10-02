@@ -26,14 +26,6 @@ public class ContexteElementaire {
 	
 	// Fichiers ressources
 
-	/** Fichier ressource contenant les données à lire */
-	public static final String FICHIER_RESSOURCE_CONTEXTE = "ressources\\monsterlist\\Resistances.txt";
-	/** Prefixe des scripts de sous fonctions */
-	public static final String RESSOURCES_PREFIXE = "ressources\\monsterlist\\Elements\\";
-	/** Fichier contenant le script de départ des éléments */
-	public static final String PREMIERFICHIER = "ressources/monsterlist/Elements/Premier.txt";
-	/** Fichier contenant le sous script appelé lors du premier script */
-	public static final String SECONDFICHIER = "ressources/monsterlist/Elements/Second.txt";
 	
 	// Données dans les monstres
 	
