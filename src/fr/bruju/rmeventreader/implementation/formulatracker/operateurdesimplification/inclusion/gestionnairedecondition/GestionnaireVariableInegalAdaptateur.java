@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition;
 
-import fr.bruju.rmeventreader.actionmakers.composition.visiteur.implementation.deduction.GestionnaireVariableInegal;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.deduction.GestionnaireVariableInegal;
 
 /**
  * Gestionnaire de conditions avec une base inégale

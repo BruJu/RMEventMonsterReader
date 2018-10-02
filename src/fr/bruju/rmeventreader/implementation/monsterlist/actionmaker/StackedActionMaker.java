@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
 
 /**

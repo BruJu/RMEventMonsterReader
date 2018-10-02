@@ -3,20 +3,20 @@ package fr.bruju.rmeventreader.implementation.recomposeur.maillon;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionArme;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionFixe;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.condition.ConditionValeur;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Affectation;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Calcul;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Conditionnelle;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.Filtre;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.operation.SousAlgorithme;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.NombreAleatoire;
-import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurRetourneur;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.operation.Affectation;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.operation.Calcul;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.operation.Conditionnelle;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.operation.Filtre;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.operation.SousAlgorithme;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
+import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.template.VisiteurRetourneur;
 
 public class FormuleToString extends VisiteurRetourneur<FormuleToString.Res> {
 	public static class Res {

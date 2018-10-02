@@ -1,13 +1,13 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.operations.unification;
 
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Resultat;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.BaseDeVariables;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Personnage;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
+import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.template.VisiteurConstructeur;
 
 public class Unificateur extends VisiteurConstructeur {
 	private Personnage source;

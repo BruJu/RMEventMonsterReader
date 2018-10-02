@@ -2,12 +2,12 @@ package fr.bruju.rmeventreader.implementation.magasin;
 
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecJeu;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.Direction;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecJeu;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
+import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Direction;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 

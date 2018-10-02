@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.equipementchecker;
 
 import java.util.TreeMap;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
 
 /**
  * Ce module a pour but de vérifier si les équipements des personnages donnent autant de statistiques qu'ils n'en

@@ -2,13 +2,13 @@ package fr.bruju.rmeventreader.implementation.magasin;
 
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecFlot;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurGauche;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondVariable;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
+import fr.bruju.rmeventreader.actionmakers.modele.Condition;
+import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
+import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 
 public class RemplisseurDeNiveaux implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
 

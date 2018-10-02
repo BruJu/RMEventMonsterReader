@@ -3,10 +3,10 @@ package fr.bruju.rmeventreader.implementation.recomposeur;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Constante;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Entree;
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.actionmakers.composition.visiteur.template.VisiteurConstructeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.template.VisiteurConstructeur;
 
 public class Injecteur extends VisiteurConstructeur {
 	Map<Integer, Integer> assocuiationsVariablesValeurs;

@@ -2,20 +2,20 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecVariables;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.Condition.CondInterrupteur;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
+import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
+import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
+import fr.bruju.rmeventreader.actionmakers.modele.Variable;
+import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**

@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.IdentiteAttaque;

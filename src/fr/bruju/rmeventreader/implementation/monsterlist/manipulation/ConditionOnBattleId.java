@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.modele.Comparateur;
+import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 
 /**

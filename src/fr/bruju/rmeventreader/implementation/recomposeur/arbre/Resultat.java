@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.arbre;
 
-import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
+import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.exploitation.Statistique;
 
 public class Resultat {

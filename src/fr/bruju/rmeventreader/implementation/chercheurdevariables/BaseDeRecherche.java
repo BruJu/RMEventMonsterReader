@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables;
 
-import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
