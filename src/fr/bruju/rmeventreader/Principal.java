@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.dictionnaires.CreateurDeRessources;
+import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
@@ -30,7 +30,7 @@ public class Principal {
 				/* 00 */ new ListeurDeMonstres(3),
 				/* 01 */ new FormulaTracker(),
 				/* 02 */ new Recomposition(),
-				/* 03 */ new Createur(),
+				/* 03 */ () -> Encyclopedie.getInstance().ecrireRessource("ressources_gen\\"),
 				/* 04 */ new Verificateur(),
 				/* 05 */ new AppelsDEvenements(),
 				/* 06 */ new ChercheurDImages(51),
@@ -42,19 +42,4 @@ public class Principal {
 		
 		System.out.println("#### Fin ####");
 	}
-	
-	
-	/**
-	 * Crée des ressources (liste des objets, variables, switch et personnages) à partir des fichiers
-	 * xml générés par lcf2xml
-	 *
-	 */
-	public static class Createur implements Runnable {
-		@Override
-		public void run() {
-			new CreateurDeRessources("ressources_gen\\").extraireBDD();
-		}
-	}
-	
-
 }

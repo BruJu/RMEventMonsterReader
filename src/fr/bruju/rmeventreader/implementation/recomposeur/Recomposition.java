@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.composition.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.actionmakers.composition.composant.valeur.Algorithme;
-import fr.bruju.rmeventreader.dictionnaires.FabriqueMiLCFMiXML;
+import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
 import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
@@ -90,7 +90,7 @@ public class Recomposition implements Runnable {
 			String nomPersonnage = donnees[1];
 			int evenementCommun = Integer.parseInt(donnees[0]);
 			
-			RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
+			RMFabrique usine = LecteurDeLCF$.getInstance();
 			
 			List<RMInstruction> instructions = usine.evenementCommun(evenementCommun).instructions();
 			

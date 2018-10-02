@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.actionmakers.Encyclopedie;
+import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies.Arme;
@@ -26,7 +26,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class MaillonDiviseur implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
-		Encyclopedie encyclopedie = new Encyclopedie();
+		Encyclopedie encyclopedie = Encyclopedie.getInstance();
 		
 		
 		Builder builder = new Builder();

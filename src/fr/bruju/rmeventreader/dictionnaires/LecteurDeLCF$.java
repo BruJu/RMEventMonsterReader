@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.dictionnaires;
 
 import fr.bruju.lcfreader.services.LecteurDeLCF;
 
-public class FabriqueMiLCFMiXML extends LecteurDeLCF {
+public class LecteurDeLCF$ extends LecteurDeLCF {
 	// En l'état actuel, il s'agit simplement d'un point d'entrée unique vers la classe implémentant la lecture de
 	// fichiers
 	
@@ -10,15 +10,15 @@ public class FabriqueMiLCFMiXML extends LecteurDeLCF {
 	 * SINGLETON
 	 * ========= */
 	
-	private static FabriqueMiLCFMiXML instance;
+	private static LecteurDeLCF$ instance;
 
-	private FabriqueMiLCFMiXML() {
+	private LecteurDeLCF$() {
 		super("ressources\\FichiersBruts\\");
 	}
 
-	public static FabriqueMiLCFMiXML getInstance() {
+	public static LecteurDeLCF$ getInstance() {
 		if (null == instance) {
-			instance = new FabriqueMiLCFMiXML();
+			instance = new LecteurDeLCF$();
 		}
 		return instance;
 	}

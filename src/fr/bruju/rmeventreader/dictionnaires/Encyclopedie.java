@@ -1,19 +1,30 @@
-package fr.bruju.rmeventreader.actionmakers;
+package fr.bruju.rmeventreader.dictionnaires;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class Encyclopedie {
+	private static Encyclopedie instance;
+
+	private Encyclopedie() {
+	}
+
+	public static Encyclopedie getInstance() {
+		if (null == instance) {
+			instance = new Encyclopedie();
+		}
+		return instance;
+	}
+	
+	
 	private static final String[][] dictionnairesConnus = {
-			{ "PERSO", "ressources_gen/bdd_heros.txt"},
-			{ "SWITCH", "ressources_gen/bdd_switch.txt"},
-			{ "VARIABLE", "ressources_gen/bdd_variables.txt"},
-			{ "OBJET", "ressources_gen/bdd_objets.txt"}
+			{ "PERSO", "actors", "bdd_heros"},
+			{ "SWITCH", "switches", "bdd_switch"},
+			{ "VARIABLE", "variables", "bdd_variables"},
+			{ "OBJET", "items", "bdd_objets"}
 	};
 
 	private Map<String, Dictionnaire> map = new HashMap<>();
@@ -36,41 +47,53 @@ public class Encyclopedie {
 
 	private void assurerExistanceDictionnaire(String nomDuDictionnaire) {
 		if (map.get(nomDuDictionnaire) == null) {
-			map.put(nomDuDictionnaire, new Dictionnaire(getChemin(nomDuDictionnaire)));
+			map.put(nomDuDictionnaire, new Dictionnaire(getAttributs(nomDuDictionnaire)));
 		}
 	}
 
-	private String getChemin(String nomDuDictionnaire) {
+	private String[] getAttributs(String nomDuDictionnaire) {
 		for (String[] dicoConnu : dictionnairesConnus) {
 			if (dicoConnu[0].equals(nomDuDictionnaire)) {
-				return dicoConnu[1];
+				return dicoConnu;
 			}
 		}
 		
 		return null;
 	}
+	
+	
+	public void ecrireRessource(String dossier) {
+		for (String[] dicoConnu : dictionnairesConnus) {
+			String nomDuDictionnaire = dicoConnu[0];
+			assurerExistanceDictionnaire(nomDuDictionnaire);
+			map.get(nomDuDictionnaire).ecrireFichier(dossier);
+		}
+	}
 
 	private class Dictionnaire {
-		private String[] donneesExtraites;
-		private int premierIndex;
+		private List<String> donneesExtraites;
+		private final String fichier;
 
-		private Dictionnaire(String chemin) {
-			lireFichier(chemin);
-		}
-
-		private void lireFichier(String chemin) {
-			File fichier = new File(chemin);
-			
-			List<String> valeursLues = new ArrayList<>();
-			
-			FileReaderByLine.lectureFichierBrut(fichier, valeursLues::add);
-			
-			donneesExtraites = valeursLues.toArray(new String[0]);
-			premierIndex = 1;
+		private Dictionnaire(String[] attributs) {
+			donneesExtraites = LecteurDeLCF$.getInstance().getListeDeNoms(attributs[1]);
+			fichier = attributs[2];
 		}
 
 		private String extraire(int index) {
-			return donneesExtraites[index - premierIndex];
+			return donneesExtraites.get(index - 1);
+		}
+		
+
+
+		public void ecrireFichier(String dossier) {
+			String chemin = dossier + fichier + ".txt";
+			
+			StringBuilder sb = new StringBuilder();
+			for (String valeur : donneesExtraites) {
+				sb.append(valeur + "\n");
+			}
+			
+			Utilitaire.Fichier_Ecrire(chemin, sb.toString());
 		}
 		
 		/**

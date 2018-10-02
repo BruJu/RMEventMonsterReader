@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstru
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.FixeVariable;
-import fr.bruju.rmeventreader.dictionnaires.FabriqueMiLCFMiXML;
+import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ExecEnum.TypeEffet;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMFabrique;
@@ -28,7 +28,7 @@ public class ChercheurDImages implements Runnable {
 	
 	@Override
 	public void run() {
-		RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
+		RMFabrique usine = LecteurDeLCF$.getInstance();
 		
 		Map<Integer, RMEvenement> evenements = usine.map(numeroDeMap).evenements();
 		

@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.actionmakers.executeur.controlleur;
 import java.util.List;
 import java.util.function.Consumer;
 
-import fr.bruju.rmeventreader.dictionnaires.FabriqueMiLCFMiXML;
+import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
 import fr.bruju.lcfreader.rmobjets.RMFabrique;
@@ -27,7 +27,7 @@ public class Explorateur {
 	 */
 	public static void explorer(Consumer<RMEvenementCommun> actionSurLesEvenementCommuns,
 			TriConsumer<RMMap, RMEvenement, RMPage> actionSurLesPages) {
-		RMFabrique usine = FabriqueMiLCFMiXML.getInstance();
+		RMFabrique usine = LecteurDeLCF$.getInstance();
 		
 		if (actionSurLesEvenementCommuns != null) {
 			usine.evenementsCommuns().values().forEach(actionSurLesEvenementCommuns::accept);
@@ -60,7 +60,7 @@ public class Explorateur {
 	 * @param idPage Numéro de la page
 	 */
 	public static void lireEvenementMap(ExecuteurInstructions executeur, int idMap, int idEvenement, int idPage) {
-		executer(executeur, FabriqueMiLCFMiXML.getInstance().page(idMap, idEvenement, idPage).instructions());
+		executer(executeur, LecteurDeLCF$.getInstance().page(idMap, idEvenement, idPage).instructions());
 	}
 
 	/**
@@ -69,6 +69,6 @@ public class Explorateur {
 	 * @param idEvenement Le numéro de l'évènement commun
 	 */
 	public static void lireEvenementCommun(ExecuteurInstructions executeur, int idEvenement) {
-		executer(executeur, FabriqueMiLCFMiXML.getInstance().evenementCommun(idEvenement).instructions());
+		executer(executeur, LecteurDeLCF$.getInstance().evenementCommun(idEvenement).instructions());
 	}
 }

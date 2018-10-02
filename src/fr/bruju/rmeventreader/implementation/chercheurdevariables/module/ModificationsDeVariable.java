@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.Encyclopedie;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExtChangeVariable;
@@ -19,6 +18,7 @@ import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurDivers;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.executeur.modele.VariableHeros;
+import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -45,7 +45,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 
 	@Override
 	public void afficher() {
-		System.out.println("== Valeurs possibles pour : " + this.variableTrackee + " " + new Encyclopedie().get("VARIABLE", this.variableTrackee));
+		System.out.println("== Valeurs possibles pour : " + this.variableTrackee + " " + Encyclopedie.getInstance().get("VARIABLE", this.variableTrackee));
 		
 		affectationsTrouvees.forEach((reference, valeurs) -> {
 			String valeursS = valeurs
