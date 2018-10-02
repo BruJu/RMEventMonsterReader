@@ -7,21 +7,20 @@ Il s'agit d'une base de code permettant d'interpréter des instructions RPG Make
 
 Dans la mesure où le jeu de données sur lequel se repose ce programme ne m'appartiennent pas, seul le programme de traitement est fourni.
 
-Ce programme se repose sur la librairie lcf2xml, dont les fichiers de sortie xml sont transformés en des fichiers plus compacts.
-
 Ces fichiers contiennent la liste des instructions de tout un projet RPG Maker, et le programme est capable de lire ces fichiers.
 
 Le but étant de détourner les instructions pour en tirer des données. Par exemple on peut facilement créer une classe qui va déterminer la liste de toutes les musiques utilisées, et sur quelles cartes elles le sont.
 
 
 
-## Dépendances
+## Librairies utilisées
 
-### CollectorsSimilaire
+Sauf mention du contraire, la librairie décrite est dans le dossier lib
+
+### CollectorBySimilarity
 
 Ce projet a une dépendance à ![CollectorBySimilarity](https://github.com/BruJu/CollectorBySimilarity/releases/tag/Kitten) afin de gérer plus facilement le regroupement d'éléments similaires.
 
-Sauf mention du contraire, toutes les dépendances sont dans le dossier lib.
 
 ### JavaLCFReader
 
