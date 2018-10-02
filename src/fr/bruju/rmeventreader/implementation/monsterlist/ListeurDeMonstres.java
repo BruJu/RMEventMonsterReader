@@ -34,7 +34,6 @@ public class ListeurDeMonstres implements Runnable {
 	public static final String ZONES = "ressources/monsterlist/Zones.txt";
 	public static final String CORRECTION = "ressources/Correction.txt";
 	public static final String MONSTRES = "ressources/Dico/Monstres.txt";
-	public static final String OBJETS = "ressources/Dico/Objets.txt";
 	
 	private int option;
 	
@@ -59,12 +58,12 @@ public class ListeurDeMonstres implements Runnable {
 			() -> Explorateur.lireEvenementMap(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
 			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
 			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.fond() , ZONES),
 			new Correcteur(baseDeDonnees                                           , CORRECTION),
 			() -> Explorateur.lireEvenementMap(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.nom()  , MONSTRES),
 			() -> Explorateur.lireEvenementMap(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
-			new Correspondance<>(baseDeDonnees, Correspondance.Remplacement.drop() , OBJETS),
+			new Correspondance(baseDeDonnees, Correspondance.fond(ZONES)),
+			new Correspondance(baseDeDonnees, Correspondance.nom(MONSTRES)),
+			new Correspondance(baseDeDonnees, Correspondance.drop()),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
 			() -> Explorateur.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
 			

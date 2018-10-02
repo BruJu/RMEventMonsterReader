@@ -75,6 +75,7 @@ public class Correcteur implements Runnable {
 		public void faire(MonsterDatabase db, String[] donnees);
 	}
 
+	
 	/**
 	 * Action réalisée pour ajouter un monstre
 	 */
@@ -91,6 +92,7 @@ public class Correcteur implements Runnable {
 		}
 	}
 
+	
 	/**
 	 * Action réalisée pour supprimer un monstre
 	 */
