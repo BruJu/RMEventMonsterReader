@@ -10,7 +10,7 @@ import java.util.Objects;
 public class ReferenceEC implements Reference {
 	/** Numéro de l'évènement commun référencé */
 	public final int eventCommun;
-	
+	/** Nom de l'évènement commun */
 	public final String nom;
 
 	/**
@@ -36,13 +36,24 @@ public class ReferenceEC implements Reference {
 		return false;
 	}
 
-	@Override
-	public long numero() {
-		return -10000 + eventCommun;
-	}
 
 	@Override
 	public String getString() {
 		return "Evenement Commun " + this.eventCommun + " " + this.nom;
+	}
+
+	@Override
+	public int idCarte() {
+		return 0;
+	}
+
+	@Override
+	public int idEvenement() {
+		return eventCommun;
+	}
+	
+	@Override
+	public int idPage() {
+		return 0;
 	}
 }

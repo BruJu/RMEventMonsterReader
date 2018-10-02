@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
@@ -18,7 +18,7 @@ import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Refe
  */
 public class ActivationDInterrupteur implements BaseDeRecherche {
 	/** Références activant l'interrupteur */
-	private Set<Reference> referencesConnues = new HashSet<>();
+	private Set<Reference> referencesConnues = new TreeSet<>();
 	/** Numéro de l'interrupteur */
 	private int idSwitch;
 

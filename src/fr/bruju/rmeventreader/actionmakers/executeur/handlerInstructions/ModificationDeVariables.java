@@ -61,11 +61,16 @@ class ModificationDeVariables implements Remplisseur {
 	}
 	
 	private void changerSwitch(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-		try {ValeurGauche valeurGauche = d.dechiffrerValeurGauche (parametres[0], parametres[1], parametres[2]);
-
-		Boolean nouvelleValeur = d.dechiffrerBooleen(parametres[3]);
-		executeur.getExecVariables().Variables_changerSwitch(valeurGauche, nouvelleValeur);
+		try {
+			ValeurGauche valeurGauche = d.dechiffrerValeurGauche (parametres[0], parametres[1], parametres[2]);
+			Boolean nouvelleValeur = d.dechiffrerBooleen(parametres[3]);
+			executeur.getExecVariables().Variables_changerSwitch(valeurGauche, nouvelleValeur);
 		} catch (ArgumentInconnuException e) {
+			// Aë : instruction sans effet et connue 
+			if (parametres[0] == 29968776) {
+				return;
+			}
+			
 			System.out.print("ChangeVariable - ");
 			d.afficher(parametres, new int[0], chaine);
 		}

@@ -22,29 +22,20 @@ public class ReferenceMap implements Reference {
 	/** Nom de l'évènement */
 	public final String nomEvent;
 	
+
 	/**
-	 * Crée une référence à une map
-	 * @param numeroMap Numéro de la carte
-	 * @param numeroEvent Numéro de l'évènement
-	 * @param numeroPage Numéro de la page
-	 * @param nomMap Nom de la map
-	 * @param nomEvent Nom de l'évènement
+	 * Crée une référence à une page d'un évènement sur une carte
+	 * @param map La carte
+	 * @param event L'évènement
+	 * @param page La page
 	 */
-	public ReferenceMap(int numeroMap, int numeroEvent, int numeroPage, String nomMap, String nomEvent) {
-		this.numeroMap = numeroMap;
-		this.numeroEvent = numeroEvent;
-		this.numeroPage = numeroPage;
-		this.nomMap = nomMap;
-		this.nomEvent = nomEvent;
-	}
-
 	public ReferenceMap(RMMap map, RMEvenement event, RMPage page) {
-		this(map.id(), event.id(), page.id(), map.nom(), event.nom());
-	}
-
-	@Override
-	public long numero() {
-		return 5000 * numeroMap + numeroEvent * 20 + numeroPage;
+		numeroMap = map.id();
+		numeroEvent = event.id();
+		numeroPage = page.id();
+		
+		nomMap = map.nom();
+		nomEvent = "[" + event.x() + ", " + event.y() + "] " + event.nom();
 	}
 
 	@Override
@@ -52,5 +43,18 @@ public class ReferenceMap implements Reference {
 		return "(" + numeroMap + ", " + numeroEvent + ", " + numeroPage + ") " + nomMap + " : " + nomEvent;
 	}
 
+	@Override
+	public int idCarte() {
+		return numeroMap;
+	}
 
+	@Override
+	public int idEvenement() {
+		return numeroEvent;
+	}
+
+	@Override
+	public int idPage() {
+		return numeroPage;
+	}
 }

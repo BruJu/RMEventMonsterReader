@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Set;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsTrue;
@@ -17,7 +17,7 @@ import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Refe
  */
 public class ApprentissageSort implements BaseDeRecherche {
 	/** Liste des références trouvées */
-	private Set<Reference> references = new HashSet<>();
+	private Set<Reference> references = new TreeSet<>();
 	/** Id du héros */
 	public final int idHeros;
 	/** Id du sort */

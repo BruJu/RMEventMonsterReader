@@ -28,7 +28,7 @@ public class ChercheurDeReferences implements Runnable {
 
 	@Override
 	public void run() {
-		int option = 4;
+		int option = 1;
 		
 		new Runnable[] {
 				/* 0 */ () -> {baseDeRecherche = new ApparitionDeVariables(new int[] {3065});},
@@ -57,11 +57,11 @@ public class ChercheurDeReferences implements Runnable {
 	 */
 	private void explorer(Reference ref, List<RMInstruction> instructions) {
 		boolean affichage;
-		affichage = ref.numero() > 0 && this.derniereReference < 0;
-		affichage |= (ref.numero() / (5000 * 25)) > (this.derniereReference / (5000 * 25));
+		affichage = ref.idCarte() > 0 && this.derniereReference == -1;
+		affichage |= (ref.idCarte() / 25) > this.derniereReference;
 		
 		if (affichage) {
-			this.derniereReference = (int) ref.numero();
+			this.derniereReference = ref.idCarte() / 25;
 			System.out.print("•");
 		}
 		

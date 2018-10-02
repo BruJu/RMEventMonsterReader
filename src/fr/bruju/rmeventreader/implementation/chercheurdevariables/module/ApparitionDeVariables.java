@@ -1,7 +1,9 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructionsEtoile;
@@ -31,7 +33,7 @@ import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Refe
  */
 public class ApparitionDeVariables implements BaseDeRecherche {
 	/** Liste des références pour chaque variable */
-	private HashMap<Integer, HashSet<Reference>> variablesCherchees = new HashMap<>();
+	private Map<Integer, Set<Reference>> variablesCherchees = new TreeMap<>();
 
 	/**
 	 * Crée une base de recherche de l'apprition des variables données
@@ -39,7 +41,7 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 	 */
 	public ApparitionDeVariables(int[] is) {
 		for (int id : is) {
-			variablesCherchees.put(id, new HashSet<>());
+			variablesCherchees.put(id, new TreeSet<>());
 		}
 	}
 
@@ -53,7 +55,7 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 	 * @param variable La variable
 	 * @param references sa liste de références
 	 */
-	private static void afficher(Integer variable, HashSet<Reference> references) {
+	private static void afficher(Integer variable, Set<Reference> references) {
 		System.out.println("==" + variable + "==");
 		
 		references.forEach(reference -> System.out.println(reference.getString()));
@@ -76,7 +78,7 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 		/** Référence à ajouter */
 		private Reference reference;
 		/** Map d'association variables - références à compléter */
-		private HashMap<Integer, HashSet<Reference>> variablesCherchees;
+		private Map<Integer, Set<Reference>> variablesCherchees;
 
 		/**
 		 * Crée un nouveau chercheur de références à une variable
@@ -84,7 +86,7 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 		 * @param reference La référence
 		 * @param variablesCherchees Map à compléter
 		 */
-		public Chercheur(Reference reference, HashMap<Integer, HashSet<Reference>> variablesCherchees) {
+		public Chercheur(Reference reference, Map<Integer, Set<Reference>> variablesCherchees) {
 			this.reference = reference;
 			this.variablesCherchees = variablesCherchees;
 		}
@@ -92,7 +94,7 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 		
 		/** Note l'occurence de la variable donnée pour cette référence */
 		public void ajouterVariable(int numero) {
-			HashSet<Reference> set = variablesCherchees.get(numero);
+			Set<Reference> set = variablesCherchees.get(numero);
 			if (set == null)
 				return;
 

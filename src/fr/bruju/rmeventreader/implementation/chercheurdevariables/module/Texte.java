@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.executeur.controlleur.ExecuteurInstructions;
@@ -16,7 +16,7 @@ import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Refe
  */
 public class Texte implements BaseDeRecherche {
 	/** Liste des évènements où la chaîne est utilisée*/
-	private Set<Reference> referencesConnues = new HashSet<>();
+	private Set<Reference> referencesConnues = new TreeSet<>();
 	/** Chaîne à rechercher */
 	private String chaine;
 

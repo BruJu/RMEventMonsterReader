@@ -27,13 +27,16 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class ListeurDeMonstres implements Runnable {
-
-	/** Fichier ressource contenant les données à lire */
-	public static final String FICHIER_RESSOURCE_CONTEXTE = "ressources\\monsterlist\\Resistances.txt";
-	public static final String FICHIER_PARAMETRES = "ressources/monsterlist/Parametres.txt";
-	public static final String ZONES = "ressources/monsterlist/Zones.txt";
-	public static final String CORRECTION = "ressources/Correction.txt";
-	public static final String MONSTRES = "ressources/Dico/Monstres.txt";
+	/** Variables où se situent les statistiques des monstres + autres positions de variables */
+	public static final String PARAMETRES = "ressources/ListeurDeMonstres_Parametres.txt";
+	/** Nom des éléments et des parties du corps */
+	public static final String ELEMENTS   = "ressources/ListeurDeMonstres_Elements.txt";
+	/** Correspondance id du fond - nom du lieu */
+	public static final String ZONES      = "ressources/ListeurDeMonstres_Zone.txt";
+	/** Correction de combats buggés pour ne pas les afficher */
+	public static final String CORRECTION = "ressources/ListeurDeMonstres_Correction.txt";
+	/** Correspondance id de l'image affichant le nom du monstre - texte */
+	public static final String MONSTRES   = "ressources/ListeurDeMonstres_Nom.txt";
 	
 	private int option;
 	
@@ -44,11 +47,11 @@ public class ListeurDeMonstres implements Runnable {
 	public void run() {
 		// Contexte général
 		Contexte contexte = new Contexte();
-		contexte.remplirContexte(FICHIER_PARAMETRES);
+		contexte.remplirContexte(PARAMETRES);
 		
 		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
-		ce.lireContexteElementaire(FICHIER_RESSOURCE_CONTEXTE);
+		ce.lireContexteElementaire(ELEMENTS);
 		
 		// Base de données des monstres
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
@@ -58,7 +61,7 @@ public class ListeurDeMonstres implements Runnable {
 			() -> Explorateur.lireEvenementMap(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
 			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
 			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
-			new Correcteur(baseDeDonnees                                           , CORRECTION),
+			new Correcteur(baseDeDonnees, CORRECTION),
 			() -> Explorateur.lireEvenementMap(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
 			() -> Explorateur.lireEvenementMap(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
 			new Correspondance(baseDeDonnees, Correspondance.fond(ZONES)),
