@@ -35,7 +35,6 @@ public interface ExecuteurInstructions {
 		return ModuleExecFlot.NullFalse;
 	}
 	
-
 	/** Donne le module gérant les instructions liées à l'état de la partie */
 	public default ModuleExecJeu getExecJeu() {
 		return ModuleExecJeu.Null;

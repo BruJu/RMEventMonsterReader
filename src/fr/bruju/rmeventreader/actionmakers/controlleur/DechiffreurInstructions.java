@@ -21,6 +21,7 @@ public class DechiffreurInstructions {
 	/* =======================================
 	 * Liste des instructions connues (static)
 	 * ======================================= */
+	
 	/** Instructions pouvant renvoyer un booléen connues */
 	private static Map<Integer, Traiteur> instructionsConnuesClasse2;
 	
@@ -43,6 +44,7 @@ public class DechiffreurInstructions {
 	 * ========= */
 	/** Exécuteur d'instructions associé */
 	private ExecuteurInstructions executeur;
+	
 	/** Gestion des niveaux de conditions ignorées */
 	private Ignorance ignorance;
 
