@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
@@ -10,6 +9,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Ide
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
  * Maillon permettant d'initialiser la base d'attaques en fonction d'un fichier ressources statistiques et des
@@ -45,7 +46,7 @@ public class MaillonActionMaker implements Maillon {
 
 	private Attaque creerAttaqueXML(Personnages contexte, IdentiteAttaque nomAttaque, int numeroDEvent) {
 		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
-		Explorateur.lireEvenementCommun(formulaMaker, numeroDEvent);
+		PROJET.lireEvenementCommun(formulaMaker, numeroDEvent);
 		return new Attaque(nomAttaque, formulaMaker.getResultat());
 	}
 }

@@ -19,10 +19,11 @@ import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.modele.VariableHeros;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
-import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
  * Base de recherches des modifications apportées à une variable
@@ -45,7 +46,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 
 	@Override
 	public void afficher() {
-		System.out.println("== Valeurs possibles pour : " + this.variableTrackee + " " + Encyclopedie.getInstance().get("VARIABLE", this.variableTrackee));
+		System.out.println("== Valeurs possibles pour : " + this.variableTrackee + " " + PROJET.extraireVariable(variableTrackee));
 		
 		affectationsTrouvees.forEach((reference, valeurs) -> {
 			String valeursS = valeurs

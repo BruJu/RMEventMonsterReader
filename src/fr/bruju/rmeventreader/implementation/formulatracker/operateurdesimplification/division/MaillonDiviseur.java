@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies.Arme;
@@ -14,6 +13,8 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies.Variable1Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies.VariableDecouverte;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.strategies.VariableEnsemble;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
  * Maillon divisant les données pour faciliter la compréhension de l'affichage.
@@ -26,9 +27,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 public class MaillonDiviseur implements Maillon {
 	@Override
 	public void traiter(Attaques attaques) {
-		Encyclopedie encyclopedie = Encyclopedie.getInstance();
-		
-		
 		Builder builder = new Builder();
 		
 		builder.setTitre("Sous-Attaque")
@@ -41,15 +39,15 @@ public class MaillonDiviseur implements Maillon {
 				.appliquer(attaques)
 				
 				.setTitre("Arme")
-				.arme(1, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.arme(2, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.arme(3, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.arme(4, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.arme(5, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.arme(6, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.arme(7, a -> a == 0 ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.variableDecouverte(483, a -> a == null ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
-				.variableDecouverte(484, a -> a == null ? "Autre" : encyclopedie.getSansSymbole("OBJET", a))
+				.arme(1, a -> a == 0 ? "Autre" : PROJET.extraireObjet(a))
+				.arme(2, a -> a == 0 ? "Autre" : PROJET.extraireObjet(a))
+				.arme(3, a -> a == 0 ? "Autre" : PROJET.extraireObjet(a))
+				.arme(4, a -> a == 0 ? "Autre" : PROJET.extraireObjet(a))
+				.arme(5, a -> a == 0 ? "Autre" : PROJET.extraireObjet(a))
+				.arme(6, a -> a == 0 ? "Autre" : PROJET.extraireObjet(a))
+				.arme(7, a -> a == 0 ? "Autre" : PROJET.extraireObjet(a))
+				.variableDecouverte(483, a -> a == null ? "Autre" : PROJET.extraireObjet(a))
+				.variableDecouverte(484, a -> a == null ? "Autre" : PROJET.extraireObjet(a))
 				.appliquer(attaques)
 				
 				.setTitre("Quête")
@@ -59,7 +57,7 @@ public class MaillonDiviseur implements Maillon {
 				.appliquer(attaques)
 				
 				.setTitre("Période")
-				.disjonctionInterrupteurs(new int[] {8,9,10,11}, v -> encyclopedie.get("SWITCH", v))
+				.disjonctionInterrupteurs(new int[] {8,9,10,11}, v -> PROJET.extraireInterrupteur(v))
 				.appliquer(attaques);
 	}
 	

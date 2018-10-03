@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.magasin;
 
-import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class Objet implements Comparable<Objet> {
 	public final int id;
@@ -12,7 +12,7 @@ public class Objet implements Comparable<Objet> {
 	}
 	
 	public Objet(Integer idObjet) {
-		this(idObjet, Encyclopedie.getInstance().getSansSymbole("OBJET", idObjet));
+		this(idObjet, PROJET.extraireObjet(idObjet));
 	}
 
 	public String getString() {

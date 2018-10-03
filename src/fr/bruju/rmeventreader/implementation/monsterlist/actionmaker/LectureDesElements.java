@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
@@ -25,6 +24,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionO
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class LectureDesElements extends StackedActionMaker<Monstre>
 	implements ExtChangeVariable.$, ExtCondition.$ {
@@ -122,7 +123,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre>
 		if (estFini)
 			return;
 		
-		Explorateur.lireEvenementCommun(this, numero);
+		PROJET.lireEvenementCommun(this, numero);
 	}
 
 	
@@ -168,7 +169,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre>
 		if (actionsPage.get(eventPage - 1) == null) {
 			Page p = new Page();
 			
-			Explorateur.lireEvenement(p, 53, EVENT_SOUS_FONCTIONS, eventPage);
+			PROJET.lireEvenement(p, 53, EVENT_SOUS_FONCTIONS, eventPage);
 			
 			actionsPage.set(eventPage - 1, p.getResult());
 		}

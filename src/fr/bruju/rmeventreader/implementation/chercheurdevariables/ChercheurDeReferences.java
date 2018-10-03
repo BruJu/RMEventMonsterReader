@@ -1,17 +1,18 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables;
 
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApprentissageSort;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ModificationsDeVariable;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 import java.util.function.Supplier;
 
-import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ActivationDInterrupteur;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Texte;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApparitionDeVariables;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApprentissageSort;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ModificationsDeVariable;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Musique;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Texte;
 
 /**
  * Cherche les références à des variables codées en dur dans tout un projet
@@ -39,9 +40,9 @@ public class ChercheurDeReferences implements Runnable {
 		}[option].get());
 
 		System.out.print("[");
-		Explorateur.referencerEvenementsCommuns(baseDeRecherche::getExecuteur);
+		PROJET.referencerEvenementsCommuns(baseDeRecherche::getExecuteur);
 		System.out.print("•");
-		Explorateur.referencerCartes(this::explorer);
+		PROJET.referencerCartes(this::explorer);
 		System.out.println("]");
 		
 		baseDeRecherche.afficher();	

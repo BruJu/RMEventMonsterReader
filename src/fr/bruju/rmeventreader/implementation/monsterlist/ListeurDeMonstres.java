@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
@@ -25,6 +24,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class ListeurDeMonstres implements Runnable {
 	/** Variables où se situent les statistiques des monstres + autres positions de variables */
@@ -57,23 +58,23 @@ public class ListeurDeMonstres implements Runnable {
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
 		
 		Runnable[] listeDesActions = new Runnable[] {
-			() -> Explorateur.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
-			() -> Explorateur.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
-			() -> Explorateur.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
-			() -> Explorateur.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
+			() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
+			() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
+			() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
+			() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
 			new Correcteur(baseDeDonnees, CORRECTION),
-			() -> Explorateur.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
-			() -> Explorateur.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
+			() -> PROJET.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
+			() -> PROJET.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
 			new Correspondance(baseDeDonnees, Correspondance.fond(ZONES)),
 			new Correspondance(baseDeDonnees, Correspondance.nom(MONSTRES)),
 			new Correspondance(baseDeDonnees, Correspondance.drop()),
 			new SommeurDePointsDeCapacites(baseDeDonnees),
-			() -> Explorateur.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
+			() -> PROJET.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
 			
 			// Elements
 			
 			new ElementsInit(baseDeDonnees, ce),
-			() -> Explorateur.lireEvenementCommun(new LectureDesElements(baseDeDonnees, contexte, ce), 277),
+			() -> PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, contexte, ce), 277),
 			new ElementsFinalisation(baseDeDonnees, ce)
 		};
 		

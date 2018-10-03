@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.implementation.recomposeur.actionmaker.ComposeurInitial;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
@@ -21,6 +20,8 @@ import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.deduction.Dedu
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class Recomposition implements Runnable {
 	private final static String CHEMIN_PARAMETRES = "ressources\\Recomposition.txt";
@@ -90,7 +91,7 @@ public class Recomposition implements Runnable {
 			String nomPersonnage = donnees[1];
 			
 			ComposeurInitial composeur = new ComposeurInitial(base.getVariablesStatistiques());
-			Explorateur.lireEvenementCommun(composeur, evenementCommun);
+			PROJET.lireEvenementCommun(composeur, evenementCommun);
 			
 			// Extraction d'un premier résultat
 			

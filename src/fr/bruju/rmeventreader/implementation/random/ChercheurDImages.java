@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
@@ -14,6 +13,8 @@ import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.TypeEffet;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMPage;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
  * Module parcourant tous les évènements d'une carte et identifiant les images utilisées par chaque évènement pour
@@ -38,7 +39,7 @@ public class ChercheurDImages implements Runnable {
 	
 	@Override
 	public void run() {
-		Explorateur.explorerCarte(numeroDeMap, this::lireUnePage);
+		PROJET.explorerCarte(numeroDeMap, this::lireUnePage);
 		utilisations.forEach(this::afficherUneUtilisationDImage);
 	}
 	
@@ -48,7 +49,7 @@ public class ChercheurDImages implements Runnable {
 	 * @param page La page qui contient les instructions
 	 */
 	private void lireUnePage(RMEvenement evenement, RMPage page) {
-		Explorateur.executer(new AnalyseurDInstructions(new EvenementLu(evenement)), page.instructions());
+		PROJET.executer(new AnalyseurDInstructions(new EvenementLu(evenement)), page.instructions());
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.actionmakers;
+package fr.bruju.rmeventreader.actionmakers.projet;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -9,12 +9,12 @@ import fr.bruju.rmeventreader.actionmakers.controlleur.DechiffreurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.reference.ReferenceEC;
 import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
-import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
+import fr.bruju.lcfreader.services.LecteurDeLCF;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriConsumer;
 
 /**
@@ -24,17 +24,24 @@ import fr.bruju.rmeventreader.utilitaire.lambda.TriConsumer;
  * @author Bruju
  *
  */
-public class Explorateur {
+public class Explorateur implements ExplorateurDInstructions {
+	/** Projet rattaché à l'explorateur */
+	private final LecteurDeLCF lecteur;
+	
+	/**
+	 * Crée un explorateur rattaché au projet donné
+	 * @param lecteur Le projet de rattachement
+	 */
+	public Explorateur(LecteurDeLCF lecteur) {
+		this.lecteur = lecteur;
+	}
+	
 	/* ==============================================
 	 * Niveau d'abstraction 1 : Lire des instructions
 	 * ============================================== */
 	
-	/**
-	 * Exécute l'exécuteur sur toutes les instructions données
-	 * @param executeur L'exécuteur
-	 * @param instructions La liste d'instructions
-	 */
-	public static void executer(ExecuteurInstructions executeur, List<RMInstruction> instructions) {
+	@Override
+	public void executer(ExecuteurInstructions executeur, List<RMInstruction> instructions) {
 		DechiffreurInstructions dechiffreur = new DechiffreurInstructions(executeur);
 		dechiffreur.executer(instructions);
 	}
@@ -43,57 +50,37 @@ public class Explorateur {
 	 * Niveau d'abstraction 2 : Lire des évènements
 	 * ============================================ */
 	
-	/**
-	 * Exécute l'exécuteur sur l'évènement à l'endroit donné
-	 * @param executeur L'exécuteur
-	 * @param idMap Numéro de la map
-	 * @param idEvenement Numéro de l'évènement
-	 * @param idPage Numéro de la page
-	 */
-	public static void lireEvenement(ExecuteurInstructions executeur, int idMap, int idEvenement, int idPage) {
-		executer(executeur, LecteurDeLCF$.getInstance().page(idMap, idEvenement, idPage).instructions());
+	@Override
+	public void lireEvenement(ExecuteurInstructions executeur, int idMap, int idEvenement, int idPage) {
+		executer(executeur, lecteur.page(idMap, idEvenement, idPage).instructions());
 	}
 
-	/**
-	 * Exécute l'exécuteur sur l'évènement commun donné
-	 * @param executeur L'exécuteur
-	 * @param idEvenement Le numéro de l'évènement commun
-	 */
-	public static void lireEvenementCommun(ExecuteurInstructions executeur, int idEvenement) {
-		executer(executeur, LecteurDeLCF$.getInstance().evenementCommun(idEvenement).instructions());
+	@Override
+	public void lireEvenementCommun(ExecuteurInstructions executeur, int idEvenement) {
+		executer(executeur, lecteur.evenementCommun(idEvenement).instructions());
 	}
 	
 	
-
 	/* ================================================================
 	 * Niveau d'abstraction 3 : Lire tous les évènements d'un même type
 	 * ================================================================ */
 	
-	/**
-	 * Permet d'explorer tout un projet
-	 * @param actionSurLesEvenementCommuns Action réalisée pour chaque évènement commun
-	 */
-	public static void explorerEvenementsCommuns(Consumer<RMEvenementCommun> actionSurLesEvenementCommuns) {
-		LecteurDeLCF$.getInstance().evenementsCommuns().values().forEach(actionSurLesEvenementCommuns::accept);
+	@Override
+	public void explorerEvenementsCommuns(Consumer<RMEvenementCommun> actionSurLesEvenementCommuns) {
+		lecteur.evenementsCommuns().values().forEach(actionSurLesEvenementCommuns::accept);
 	}
 
-	/**
-	 * Permet d'explorer tout un projet
-	 * @param actionSurLesPages Action réalisée pour chaque page d'évènement de chaque carte
-	 */
-	public static void explorerEvenements(TriConsumer<RMMap, RMEvenement, RMPage> actionSurLesPages) {
+	@Override
+	public void explorerEvenements(TriConsumer<RMMap, RMEvenement, RMPage> actionSurLesPages) {
 		// Applique à chaque page de chaque évènement de la map
 		Consumer<RMMap> actionMap = rmMap -> rmMap.evenements().values().forEach(ev -> ev.pages().forEach(page ->
 							actionSurLesPages.consume(rmMap, ev, page)));
-		LecteurDeLCF$.getInstance().maps().values().forEach(actionMap);
+		lecteur.maps().values().forEach(actionMap);
 	}
 
-	/**
-	 * Permet d'explorer les évènements d'une carte
-	 * @param actionSurLesPages Action réalisée pour chaque page d'évènement de la carte
-	 */
-	public static void explorerCarte(int idCarte, BiConsumer<RMEvenement, RMPage> actionSurLesPages) {
-		RMMap carte = LecteurDeLCF$.getInstance().map(idCarte);
+	@Override
+	public void explorerCarte(int idCarte, BiConsumer<RMEvenement, RMPage> actionSurLesPages) {
+		RMMap carte = lecteur.map(idCarte);
 		
 		for (RMEvenement evenement : carte.evenements().values()) {
 			for (RMPage page : evenement.pages()) {
@@ -106,15 +93,16 @@ public class Explorateur {
 	 * Niveau d'abstraction 4 : Lire tous les évènements d'un même type en retenant l'identité
 	 * ======================================================================================= */
 	
-	
-	public static void referencerEvenementsCommuns(Function<ReferenceEC, ExecuteurInstructions> generateur) {
-		for (RMEvenementCommun evenementCommun : LecteurDeLCF$.getInstance().evenementsCommuns().values()) {
+	@Override
+	public void referencerEvenementsCommuns(Function<ReferenceEC, ExecuteurInstructions> generateur) {
+		for (RMEvenementCommun evenementCommun : lecteur.evenementsCommuns().values()) {
 			executer(generateur.apply(new ReferenceEC(evenementCommun)), evenementCommun.instructions());
 		}
 	}
 	
-	public static void referencerCartes(Function<ReferenceMap, ExecuteurInstructions> generateur) {
-		for (RMMap carte : LecteurDeLCF$.getInstance().maps().values()) {
+	@Override
+	public void referencerCartes(Function<ReferenceMap, ExecuteurInstructions> generateur) {
+		for (RMMap carte : lecteur.maps().values()) {
 			for (RMEvenement evenement : carte.evenements().values()) {
 				for (RMPage page : evenement.pages()) {
 					executer(generateur.apply(new ReferenceMap(carte, evenement, page)), page.instructions());
@@ -122,5 +110,4 @@ public class Explorateur {
 			}
 		}
 	}
-	
 }

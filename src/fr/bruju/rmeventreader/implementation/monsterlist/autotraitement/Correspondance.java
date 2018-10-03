@@ -5,11 +5,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
  * Action consistant à faire remplacer des valeurs par d'autres à travers un dictionnaire.
@@ -126,7 +127,7 @@ public class Correspondance implements Runnable {
 					if (idObjet == 0) {
 						monstre.nomDrop = "";
 					} else {
-						monstre.nomDrop = Encyclopedie.getInstance().get("OBJET", idObjet);
+						monstre.nomDrop = PROJET.extraireObjet(idObjet);
 					}
 				}
 			}
