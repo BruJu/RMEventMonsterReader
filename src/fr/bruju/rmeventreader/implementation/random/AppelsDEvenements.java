@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -45,7 +44,7 @@ public class AppelsDEvenements implements Runnable {
 	 * @author Bruju
 	 *
 	 */
-	public class Exec implements ExecuteurInstructionsTrue, ModuleExecFlot {
+	public class Exec implements ExecuteurInstructionsTrue {
 		/** ID de l'évènement */
 		public final int id;
 		
@@ -70,11 +69,6 @@ public class AppelsDEvenements implements Runnable {
 			}
 			
 			return true;
-		}
-
-		@Override
-		public ModuleExecFlot getExecFlot() {
-			return this;
 		}
 	}
 	

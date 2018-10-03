@@ -6,7 +6,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsEtoile;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.modele.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
@@ -74,7 +74,7 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructionsEtoile {
+	public class Chercheur implements ExecuteurInstructionsTrue {
 		/** Référence à ajouter */
 		private Reference reference;
 		/** Map d'association variables - références à compléter */

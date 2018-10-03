@@ -1,19 +1,30 @@
 package fr.bruju.rmeventreader.actionmakers.controlleur;
 
+import fr.bruju.rmeventreader.actionmakers.modele.ArrierePlanCombat;
+import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.modele.Deplacement;
 import fr.bruju.rmeventreader.actionmakers.modele.EvenementDeplacable;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
+import fr.bruju.rmeventreader.actionmakers.modele.SonParam;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.modele.VariableHeros;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.ChoixQCM;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.ClasseCarac;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.ClasseComp;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.CombatComportementFuite;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.ConditionsDeCombat;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Direction;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Intensite;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Meteo;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Position;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.SujetTransition;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Transition;
+import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.actionmakers.modele.VariableHeros.Caracteristique;
 
 /**
@@ -26,31 +37,12 @@ import fr.bruju.rmeventreader.actionmakers.modele.VariableHeros.Caracteristique;
  *
  */
 public interface ExecuteurInstructions {
-	/** Donne le module gérant les instructions liées aux messages */
-	public default ModuleExecMessages getExecMessages() {
-		return ModuleExecMessages.NullFalse;
-	}
 
-	/** Donne le module gérant les instructions liées aux images, vidéos et musiques */
-	public default ModuleExecMedia getExecMedia() {
-		return ModuleExecMedia.Null;
-	}
-
-	/** Donne le module gérant les instructions liées à la gestion du flot d'instructions */
-	public default ModuleExecFlot getExecFlot() {
-		return ModuleExecFlot.NullFalse;
-	}
-
-	/** Donne le module gérant les instructions liées aux systèmes */
-	public default ModuleExecSysteme getExecSysteme() {
-		return ModuleExecSysteme.Null;
-	}
-
-	/** Donne le module gérant les instructions liés aux systèmes intégrés de RPG Maker */
-	public default ModuleExecIntegre getExecIntegre() {
-		return ModuleExecIntegre.NullFalse;
+	public default boolean getBooleenParDefaut() {
+		return false;
 	}
 	
+
 	/*
 	 * VARIABLES
 	 */
@@ -291,4 +283,270 @@ public interface ExecuteurInstructions {
 	
 	public default void Chrono_modifier(int numeroChrono, FixeVariable dechiffrerFixeVariable) {
 	}
+	
+	
+	/*
+	 * SYSTEME
+	 */
+	
+	public default void Systeme_changerClasse(int idHeros, int idClasse, boolean revenirAuNiveau1, ClasseComp competences,
+			ClasseCarac caracBase, boolean montrerCompetencesApprises) {
+		
+	}
+
+	/**
+	 * 
+	 * @param etire Vrai = étiré, Faux = Mosaique
+	 * @param premierePolice Vrai = première police, Faux = seconde police
+	 * @param nomApparence Nom du fichier contenant l'apparence
+	 */
+	public default void Systeme_modifierApparence(boolean etire, boolean premierePolice, String nomApparence) {
+	}
+
+	public default void Systeme_modifierApparenceHeros(int idHeros, String charset, int numeroCharset,
+			boolean transparent) {
+	}
+
+	public default void Systeme_modifierApparenceVehicule(ExecEnum.Vehicule vehicule, String charset,
+			int numeroCharset) {
+	}
+
+	public default void Systeme_modifierCommandes(int idHeros, boolean ajout, int numeroCommande) {
+		
+	}
+	public default void Systeme_modifierEffetSonore(ExecEnum.EffetSonore son, String nom, SonParam parametres) {
+	}
+	
+	public default void Systeme_modifierFaceset(int idHeros, String faceset, int numeroFaceset) {
+	}
+
+	public default void Systeme_modifierGrade(int idHeros, String nouveauGrade) {
+	}
+
+	public default void Systeme_modifierMusique(ExecEnum.Musique musique, String nom, int temspFondu,
+			SonParam parametres) {
+	}
+
+	public default void Systeme_modifierNom(int idHeros, String nouveauNom) {
+	}
+
+	public default void Systeme_modifierTransition(SujetTransition sujetTransition, boolean entrant,
+			Transition transition) {
+		
+	}
+	public default void Systeme_peutFuir(boolean etat) {
+		
+	}
+
+	public default void Systeme_peutOuvrirLeMenu(boolean etat) {
+		
+	}
+	
+	public default void Systeme_peutSauvegarder(boolean etat) {
+		
+	}
+
+	public default void Systeme_peutSeTeleporter(boolean etat) {
+		
+	}
+	
+	public default void Messages_afficherMessage(String chaine) {
+	}
+
+	public default void Messages_afficherSuiteMessage(String chaine) {
+	}
+
+	public default void Messages_modifierOptions(boolean transparent, Position position,
+			boolean positionnementAuto, boolean bloquant) {	
+	}
+
+	public default boolean SaisieMessages_initierQCM(ChoixQCM choixLorsDeLAnnulation) {
+		return getBooleenParDefaut();
+	}
+
+	public default boolean SaisieMessages_choixQCM(String texte, ChoixQCM numero) {
+		return getBooleenParDefaut();
+	}
+
+
+	public default void SaisieMessages_finQCM() {
+	}
+
+	public default void SaisieMessages_saisieNombre(int idVariable, int nombreDeChiffres) {
+	}
+
+	public default void SaisieMessages_SaisieNom(int idHeros, boolean lettres, boolean afficherNomParDefaut) {
+	}
+
+	public default void Messages_appuiTouche(int numeroVariable, boolean bloquant, int enregistrementTempsMis, boolean haut,
+			boolean droite, boolean bas, boolean gauche, boolean entree, boolean annuler, boolean maj, boolean chiffres,
+			boolean symboles) {
+		
+	}
+	
+	/*
+	 * FLOT
+	 */
+	
+	public default void Flot_appelEvenementCarte(FixeVariable evenement, FixeVariable page) {
+		
+	}
+
+	public default void Flot_appelEvenementCommun(int numero) {
+		
+	}
+
+	public default void Flot_boucleDebut() {
+		
+	}
+	
+	public default void Flot_boucleFin() {
+		
+	}
+
+	public default void Flot_boucleSortir() {
+		
+	}
+	
+	public default void Flot_commentaire(String message) {
+		
+	}
+
+	public default void Flot_effacerCetEvenement() {
+		
+	}
+
+	public default void Flot_etiquette(int numero) {
+		
+	}
+
+	public default void Flot_sautEtiquette(int numero) {
+		
+	}
+
+	public default boolean Flot_si(Condition condition) {
+		return getBooleenParDefaut();
+	}
+	
+	public default void Flot_siFin() {
+		
+	}
+	public default void Flot_siNon() {
+	}
+
+	public default void Flot_stopperCetEvenement() {
+		
+	}
+	
+	/*
+	 * SYSTEME PRE INTEGRES
+	 */
+	
+	public default boolean Magasin_auberge(boolean type1, int prix) {
+		return getBooleenParDefaut();
+	}
+
+	public default void Magasin_aubergeFinBranche() {
+	}
+
+	public default boolean Magasin_aubergeNonRepos() {
+		return getBooleenParDefaut();
+	}
+
+	public default boolean Magasin_aubergeRepos() {
+		return getBooleenParDefaut();
+	}
+
+	public default boolean Magasin_magasin(int dialogue, int[] objetsAchetables, boolean ventePossible) {
+		return getBooleenParDefaut();
+	}
+
+	public default boolean Magasin_magasinBrancheNonVente() {
+		return getBooleenParDefaut();
+	}
+
+	public default boolean Magasin_magasinBrancheVente() {
+		return getBooleenParDefaut();
+	}
+
+	public default void Magasin_magasinFinBranche() {
+	}
+
+
+	public default boolean Combat_brancheDefaite() {
+		return getBooleenParDefaut();
+	}
+
+	public default boolean Combat_brancheFuite() {
+		return getBooleenParDefaut();
+	}
+
+	public default boolean Combat_brancheVictoire() {
+		return getBooleenParDefaut();
+	}
+
+
+	public default void Combat_finBranche() {
+	}
+
+	public default boolean Combat_lancerCombat(FixeVariable idCombat, ConditionsDeCombat conditions, ArrierePlanCombat arrierePlan,
+			CombatComportementFuite fuite, boolean defaitePossible, boolean avantage) {
+		return getBooleenParDefaut();
+	}
+
+	/**
+	 * Simule une attaque sur la cible
+	 * @param cible Cible de l'attaque
+	 * @param puissance Puissance de l'attaque
+	 * @param effetDefense Effet de la défense en %
+	 * @param effetIntel Effet de l'intelligence en %
+	 * @param variance Variance de l'attaque
+	 * @param degatsEnregistresDansVariable 0 si pas d'enregistrement des dégâts infligés dans une variable, la
+	 * variable sinon
+	 */
+	public default void Combat_simulerAttaque(ValeurMembre cible, int puissance, int effetDefense, int effetIntel,
+			int variance, int degatsEnregistresDansVariable) {
+	}
+	
+	/*
+	 * MEDIA
+	 */
+	
+	public default void Media_arreterMusique(int tempsFondu) {
+		
+	}
+	public default void Media_jouerFilm(String nomFilm, FixeVariable x, FixeVariable y, int longueur, int largeur) {
+		
+	}
+
+	public default void Media_jouerMusique(String nomMusique, int tempsFondu, SonParam parametresMusicaux) {
+		
+	}
+
+	public default void Media_jouerMusiqueMemorisee() {
+		
+	}
+
+	public default void Media_jouerSon(String nomSon, SonParam parametresSonore) {
+		
+	}
+
+	public default void Media_memoriserMusique() {
+		
+	}
+
+	public default void Image_afficher(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
+			int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
+			int intensiteEffet, boolean transparence, boolean defilementAvecCarte) {
+		
+	}
+	public default void Image_deplacer(int numeroImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
+			int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
+			int intensiteEffet, int temps, boolean pause) {
+		
+	}
+	
+	public default void Image_effacer(int id) {
+	}
 }
+

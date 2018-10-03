@@ -10,9 +10,9 @@ class AffichageDeMessages implements Remplisseur {
 	@Override
 	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		// ShowMessage
-		handlers.put(10110, (e, t, c) -> e.getExecMessages().Messages_afficherMessage(c));
+		handlers.put(10110, (e, t, c) -> e.Messages_afficherMessage(c));
 		// ShowMessage Followup
-		handlers.put(20110, (e, t, c) -> e.getExecMessages().Messages_afficherSuiteMessage(c));
+		handlers.put(20110, (e, t, c) -> e.Messages_afficherSuiteMessage(c));
 		// MessageOption
 		handlers.put(10120, this::changeMessageOptions);
 		handlers.put(10130, (e, t, c) -> {});	// TODO changement de portrait
@@ -20,7 +20,7 @@ class AffichageDeMessages implements Remplisseur {
 		classe2.put(10140, new Traiteur() {
 			@Override
 			public boolean traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-				return executeur.getExecMessages().SaisieMessages_initierQCM(extraireChoixQCM(parametres[0]));
+				return executeur.SaisieMessages_initierQCM(extraireChoixQCM(parametres[0]));
 			}
 
 			@Override
@@ -29,11 +29,11 @@ class AffichageDeMessages implements Remplisseur {
 			}
 		});
 
-		handlers.put(20140, (e, p, c) -> e.getExecMessages().SaisieMessages_choixQCM(c, extraireChoixQCM(p[0]+1)));
+		handlers.put(20140, (e, p, c) -> e.SaisieMessages_choixQCM(c, extraireChoixQCM(p[0]+1)));
 		
 		handlers.put(20141, this::finQCM);
 		// Saisie de nombres
-		handlers.put(10150, (e, t, c) -> e.getExecMessages().SaisieMessages_saisieNombre(t[1], t[0]));
+		handlers.put(10150, (e, t, c) -> e.SaisieMessages_saisieNombre(t[1], t[0]));
 		
 		handlers.put(10740, this::saisieDeNom);
 		
@@ -50,7 +50,7 @@ class AffichageDeMessages implements Remplisseur {
 		boolean entree = parametres[3] == 1;
 		boolean annuler = parametres[4] == 1;
 		if (parametres.length <= 5) {
-			executeur.getExecMessages().Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
+			executeur.Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
 					false, false, false, false, entree, annuler, false, false, false);
 			return;
 		}
@@ -63,7 +63,7 @@ class AffichageDeMessages implements Remplisseur {
 		boolean droite = parametres[12] == 1;
 		boolean haut = parametres[13] == 1;
 		
-		executeur.getExecMessages().Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
+		executeur.Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
 				haut, droite, bas, gauche, entree, annuler, maj, chiffres, symboles);
 	}
 	
@@ -71,7 +71,7 @@ class AffichageDeMessages implements Remplisseur {
 		int idHeros = parametres[0];
 		boolean lettres = parametres[1] == 0;
 		boolean afficherNomParDefaut = parametres[2] == 1;
-		executeur.getExecMessages().SaisieMessages_SaisieNom(idHeros, lettres, afficherNomParDefaut);
+		executeur.SaisieMessages_SaisieNom(idHeros, lettres, afficherNomParDefaut);
 	}
 	
 	
@@ -80,7 +80,7 @@ class AffichageDeMessages implements Remplisseur {
 	 * === */
 
 	private void finQCM(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-		executeur.getExecMessages().SaisieMessages_finQCM();
+		executeur.SaisieMessages_finQCM();
 	}
 	
 
@@ -89,7 +89,7 @@ class AffichageDeMessages implements Remplisseur {
 	 * === */
 	
 	private void changeMessageOptions(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-		executeur.getExecMessages().Messages_modifierOptions(
+		executeur.Messages_modifierOptions(
 				parametres[0] == 1,
 				extrairePosition(parametres[1]),
 				parametres[2] == 1,

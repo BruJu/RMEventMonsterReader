@@ -27,7 +27,7 @@ class GestionCombat implements Remplisseur {
 				boolean defaiteAutorisee = parametres[4] == 1;
 				ExecEnum.CombatComportementFuite fuite = ExecEnum.CombatComportementFuite.values()[parametres[3]];
 				
-				return executeur.getExecIntegre().Combat_lancerCombat(idCombat, conditions, arrierePlan, fuite, defaiteAutorisee,
+				return executeur.Combat_lancerCombat(idCombat, conditions, arrierePlan, fuite, defaiteAutorisee,
 						avantage);
 			}
 
@@ -40,24 +40,24 @@ class GestionCombat implements Remplisseur {
 		handlers.put(20710, new TraiteurSansRetour() {
 			@Override
 			public void executer(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-				executeur.getExecIntegre().Combat_brancheVictoire();
+				executeur.Combat_brancheVictoire();
 			}
 		});
 
 		handlers.put(20711, new TraiteurSansRetour() {
 			@Override
 			public void executer(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-				executeur.getExecIntegre().Combat_brancheFuite();
+				executeur.Combat_brancheFuite();
 			}
 		});
 
 		handlers.put(20712, new TraiteurSansRetour() {
 			@Override
 			public void executer(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-				executeur.getExecIntegre().Combat_brancheDefaite();
+				executeur.Combat_brancheDefaite();
 			}
 		});
-		handlers.put(20713, (e, p, s) -> e.getExecIntegre().Combat_finBranche());
+		handlers.put(20713, (e, p, s) -> e.Combat_finBranche());
 	}
 
 	private void simulerAttaque(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -67,7 +67,7 @@ class GestionCombat implements Remplisseur {
 		int effetIntel = parametres[4];
 		int variance = parametres[5];
 		int degatsEnregistresDansVariable = parametres[6] == 0 ? 0 : parametres[7];
-		executeur.getExecIntegre().Combat_simulerAttaque(cible, puissance, effetDefense, effetIntel, variance,
+		executeur.Combat_simulerAttaque(cible, puissance, effetDefense, effetIntel, variance,
 				degatsEnregistresDansVariable);
 	}
 }

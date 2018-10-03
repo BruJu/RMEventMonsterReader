@@ -10,20 +10,20 @@ class GestionMagasin implements Remplisseur {
 	@Override
 	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		handlers.put(10720, this::magasin);
-		handlers.put(20720, (e, p, s) -> e.getExecIntegre().Magasin_magasinBrancheVente());
-		handlers.put(20720, (e, p, s) -> e.getExecIntegre().Magasin_magasinBrancheNonVente());
-		handlers.put(20720, (e, p, s) -> e.getExecIntegre().Magasin_magasinFinBranche());
+		handlers.put(20720, (e, p, s) -> e.Magasin_magasinBrancheVente());
+		handlers.put(20720, (e, p, s) -> e.Magasin_magasinBrancheNonVente());
+		handlers.put(20720, (e, p, s) -> e.Magasin_magasinFinBranche());
 		handlers.put(10730, this::auberge);
-		handlers.put(20730, (e, p, s) -> e.getExecIntegre().Magasin_aubergeRepos());
-		handlers.put(20731, (e, p, s) -> e.getExecIntegre().Magasin_aubergeNonRepos());
-		handlers.put(20732, (e, p, s) -> e.getExecIntegre().Magasin_aubergeFinBranche());
+		handlers.put(20730, (e, p, s) -> e.Magasin_aubergeRepos());
+		handlers.put(20731, (e, p, s) -> e.Magasin_aubergeNonRepos());
+		handlers.put(20732, (e, p, s) -> e.Magasin_aubergeFinBranche());
 	}
 
 	private void auberge(ExecuteurInstructions executeur, int[] parametres, String s) {
 		boolean type1 = parametres[0] == 0;
 		int prix = parametres[1];
 		
-		executeur.getExecIntegre().Magasin_auberge(type1, prix);
+		executeur.Magasin_auberge(type1, prix);
 	}
 	
 	@SuppressWarnings("unused")
@@ -38,6 +38,6 @@ class GestionMagasin implements Remplisseur {
 		else
 			objetsAchetables = Arrays.copyOfRange(parametres, 4, parametres.length);
 		
-		executeur.getExecIntegre().Magasin_magasin(dialogue, objetsAchetables, ventePossible);
+		executeur.Magasin_magasin(dialogue, objetsAchetables, ventePossible);
 	}
 }

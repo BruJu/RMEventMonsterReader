@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
@@ -45,15 +44,6 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition.$
 
 		this.VARIABLE_ID_MONSTRE = db.contexte.getVariable("EnregistreurDrop_MonstreID");
 		this.VARIABLE_ID_DROP = db.contexte.getVariable("EnregistreurDrop_CombatID");
-	}
-
-	/* =======
-	 * Modules
-	 * ======= */
-
-	@Override
-	public ModuleExecFlot getExecFlot() {
-		return this;
 	}
 	
 	/* =========

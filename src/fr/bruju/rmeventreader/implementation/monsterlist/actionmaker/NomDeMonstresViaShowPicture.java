@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
@@ -21,7 +20,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> implements ModuleExecMedia, ExtCondition {
+public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> implements ExtCondition {
 	// Constantes
 	/** Numéro de l'image qui affiche les noms */
 	private final int SHOW_PIC_ID_WITH_NAME;
@@ -68,11 +67,6 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> imp
 	 * ============ */
 
 	// Configuration
-	
-	@Override
-	public ModuleExecMedia getExecMedia() {
-		return this;
-	}
 
 	@Override
 	public boolean Flot_si(Condition condition) {

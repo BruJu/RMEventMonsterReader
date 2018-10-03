@@ -5,7 +5,6 @@ import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.modele.SonParam;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
@@ -34,12 +33,7 @@ public class Musique implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructionsTrue, ModuleExecMedia {
-		@Override
-		public ModuleExecMedia getExecMedia() {
-			return this;
-		}
-
+	public class Chercheur implements ExecuteurInstructionsTrue {
 		@Override
 		public void Media_jouerMusique(String nomMusique, int tempsFondu, SonParam parametresMusicaux) {
 			musiques.add(nomMusique);

@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
 
 /**
@@ -24,7 +23,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
  *
  * @param <T> Le type sur lequel portent les conditions
  */
-public abstract class StackedActionMaker<T> implements ExecuteurInstructions, ModuleExecFlot {
+public abstract class StackedActionMaker<T> implements ExecuteurInstructions {
 	/**
 	 * Liste des conditions actuellement traitées
 	 */
@@ -43,14 +42,7 @@ public abstract class StackedActionMaker<T> implements ExecuteurInstructions, Mo
 	 * @return Une liste de tous les éléments non filtrés
 	 */
 	protected abstract Collection<T> getAllElements();
-
 	
-
-	@Override
-	public final ModuleExecFlot getExecFlot() {
-		return this;
-	}
-
 	@Override
 	public final void Flot_siFin() {
 		conditions.pop();

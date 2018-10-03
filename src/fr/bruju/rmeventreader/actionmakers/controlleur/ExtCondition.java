@@ -22,7 +22,7 @@ import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVehiculeUtilise;
 
 public interface ExtCondition {
-	public interface $ extends ExtCondition, ModuleExecFlot {
+	public interface $ extends ExtCondition, ExecuteurInstructions {
 		@Override
 		default boolean Flot_si(Condition condition) {
 			return $(condition);
@@ -30,10 +30,7 @@ public interface ExtCondition {
 	}
 	
 	public interface $$ extends ExecuteurInstructions, $ {
-		@Override
-		default ModuleExecFlot getExecFlot() {
-			return this;
-		}
+		
 	}
 
 

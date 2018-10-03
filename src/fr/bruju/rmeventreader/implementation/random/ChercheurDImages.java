@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.TypeEffet;
@@ -101,7 +100,7 @@ public class ChercheurDImages implements Runnable {
 	 * Exécuteur chargé de répertorier dans la classe mère l'évènement qu'on lui a donné dans le constructeur pour
 	 * toutes les images qu'on lui demandera de modifier à l'écran.
 	 */
-	public class AnalyseurDInstructions implements ExecuteurInstructionsTrue, ModuleExecMedia {
+	public class AnalyseurDInstructions implements ExecuteurInstructionsTrue {
 		/** Evènement à ajouter */
 		public final EvenementLu evenement;
 		
@@ -120,11 +119,6 @@ public class ChercheurDImages implements Runnable {
 		 */
 		private void utiliseImage(int numeroImage) {
 			Utilitaire.Maps.ajouterElementDansSet(utilisations, numeroImage, evenement);
-		}
-
-		@Override
-		public ModuleExecMedia getExecMedia() {
-			return this;
 		}
 		
 		@Override

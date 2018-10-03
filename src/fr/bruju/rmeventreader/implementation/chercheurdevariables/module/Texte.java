@@ -5,7 +5,6 @@ import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecMessages;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 
@@ -44,7 +43,7 @@ public class Texte implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class ChercheurTexte implements ExecuteurInstructionsTrue, ModuleExecMessages {
+	public class ChercheurTexte implements ExecuteurInstructionsTrue {
 		/** Reference à ajouter */
 		private Reference reference;
 
@@ -54,11 +53,6 @@ public class Texte implements BaseDeRecherche {
 		 */
 		public ChercheurTexte(Reference reference) {
 			this.reference = reference;
-		}
-
-		@Override
-		public ModuleExecMessages getExecMessages() {
-			return this;
 		}
 
 		@Override

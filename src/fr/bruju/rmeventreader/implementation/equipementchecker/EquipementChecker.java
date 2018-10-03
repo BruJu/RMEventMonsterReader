@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.equipementchecker;
 import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
@@ -13,7 +12,7 @@ import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondHerosPossedeObje
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 
-public class EquipementChecker implements ExecuteurInstructions, ModuleExecFlot {
+public class EquipementChecker implements ExecuteurInstructions {
 	/** Numéro du héros */
 	private int idHeros;
 
@@ -44,12 +43,6 @@ public class EquipementChecker implements ExecuteurInstructions, ModuleExecFlot 
 	/* ================================
 	 * MONTEUR D'ENSEMBLE D'EQUIPEMENTS
 	 * ================================ */
-
-
-	@Override
-	public ModuleExecFlot getExecFlot() {
-		return this;
-	}
 
 	/**
 	 * Détermine que l'objet en cours de lecture est trop complexe pour être stockée dans le système très simple mis en
