@@ -117,13 +117,10 @@ public interface ExtChangeVariable {
 	 *
 	 */
 	public interface $$ extends ExecuteurInstructions, $ {
-		@Override
-		default ModuleExecVariables getExecVariables() {
-			return this;
-		}
+		
 	}
 
-	public interface $ extends ExtChangeVariable, ModuleExecVariables {
+	public interface $ extends ExtChangeVariable, ExecuteurInstructions {
 		@Override
 		default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
 			$(valeurGauche, nouvelleValeur);

@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
@@ -79,10 +78,6 @@ public class LectureDesElements extends StackedActionMaker<Monstre>
 		return bdd.extractMonsters();
 	}
 
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
-	}
 	
 	
 

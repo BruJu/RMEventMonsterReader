@@ -4,7 +4,6 @@ import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
@@ -52,11 +51,6 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition.$
 	 * Modules
 	 * ======= */
 
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
-	}
-	
 	@Override
 	public ModuleExecFlot getExecFlot() {
 		return this;

@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.NombreObjet;
 import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
 import fr.bruju.rmeventreader.actionmakers.modele.Pointeur;
@@ -133,11 +132,6 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 		 */
 		public Chercheur(Reference reference) {
 			this.reference = reference;
-		}
-
-		@Override
-		public ModuleExecVariables getExecVariables() {
-			return this;
 		}
 		
 		/**

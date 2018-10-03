@@ -4,7 +4,6 @@ import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
@@ -14,7 +13,7 @@ import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondHerosPossedeObje
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 
-public class EquipementChecker implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
+public class EquipementChecker implements ExecuteurInstructions, ModuleExecFlot {
 	/** Numéro du héros */
 	private int idHeros;
 
@@ -46,10 +45,6 @@ public class EquipementChecker implements ExecuteurInstructions, ModuleExecVaria
 	 * MONTEUR D'ENSEMBLE D'EQUIPEMENTS
 	 * ================================ */
 
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
-	}
 
 	@Override
 	public ModuleExecFlot getExecFlot() {

@@ -3,15 +3,13 @@ package fr.bruju.rmeventreader.implementation.magasin;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecJeu;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Direction;
 import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 
-public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, ModuleExecVariables, ModuleExecJeu {
+public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue {
 	private Map<Integer, Magasin> magasins;
 	private RMMap map;
 	private Integer magasinActuel;
@@ -21,16 +19,6 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, Mo
 		this.map = map;
 		this.magasins = magasins;
 		this.ref = ref;
-	}
-	
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
-	}
-
-	@Override
-	public ModuleExecJeu getExecJeu() {
-		return this;
 	}
 
 	@Override

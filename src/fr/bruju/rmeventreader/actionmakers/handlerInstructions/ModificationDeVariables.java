@@ -30,14 +30,14 @@ class ModificationDeVariables implements Remplisseur {
 		FixeVariable objet = d.dechiffrerFixeVariable(parametres[1], parametres[2]);
 		FixeVariable quantite = d.dechiffrerFixeVariable(parametres[3], parametres[4]);
 		
-		executeur.getExecVariables().Variables_modifierObjets(ajouter, objet, quantite);
+		executeur.Variables_modifierObjets(ajouter, objet, quantite);
 	}
 	
 	private void modifierArgent(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 		FixeVariable quantite = d.dechiffrerFixeVariable(parametres[1], parametres[2]);
 		boolean ajouter = parametres[0] == 0;
 		
-		executeur.getExecVariables().Variables_modifierArgent(ajouter, quantite);
+		executeur.Variables_modifierArgent(ajouter, quantite);
 	}
 	
 	private void modifierChrono(ExecuteurInstructions executeur, int[] parametres, String chaine) {
@@ -45,15 +45,15 @@ class ModificationDeVariables implements Remplisseur {
 		
 		switch (parametres[0]) {
 		case 0:
-			executeur.getExecJeu().Chrono_modifier(numeroChrono, d.dechiffrerFixeVariable(parametres[1], parametres[2]));
+			executeur.Chrono_modifier(numeroChrono, d.dechiffrerFixeVariable(parametres[1], parametres[2]));
 			return;
 		case 1:
 			boolean afficherChrono = parametres[3] == 1;
 			boolean continuerPendantCombat = parametres[4] == 1;
-			executeur.getExecJeu().Chrono_lancer(numeroChrono, afficherChrono, continuerPendantCombat);
+			executeur.Chrono_lancer(numeroChrono, afficherChrono, continuerPendantCombat);
 			return;
 		case 2:
-			executeur.getExecJeu().Chrono_arreter(numeroChrono);
+			executeur.Chrono_arreter(numeroChrono);
 			return;
 		default:
 			throw new ArgumentInconnuException("ModifierChrono Type " + parametres[0]);
@@ -64,7 +64,7 @@ class ModificationDeVariables implements Remplisseur {
 		try {
 			ValeurGauche valeurGauche = d.dechiffrerValeurGauche (parametres[0], parametres[1], parametres[2]);
 			Boolean nouvelleValeur = d.dechiffrerBooleen(parametres[3]);
-			executeur.getExecVariables().Variables_changerSwitch(valeurGauche, nouvelleValeur);
+			executeur.Variables_changerSwitch(valeurGauche, nouvelleValeur);
 		} catch (ArgumentInconnuException e) {
 			// Aë : instruction sans effet et connue 
 			if (parametres[0] == 29968776) {
@@ -82,9 +82,9 @@ class ModificationDeVariables implements Remplisseur {
 		ValeurDroiteVariable valeurDroite = d.dechiffrerValeurDroiteVariable(parametres[4], parametres[5], parametres[6]);
 		
 		if (operateur == null) {
-			executeur.getExecVariables().Variables_affecterVariable(valeurGauche, valeurDroite);
+			executeur.Variables_affecterVariable(valeurGauche, valeurDroite);
 		} else {
-			executeur.getExecVariables().Variables_changerVariable(valeurGauche, operateur, valeurDroite);
+			executeur.Variables_changerVariable(valeurGauche, operateur, valeurDroite);
 		}
 	}
 

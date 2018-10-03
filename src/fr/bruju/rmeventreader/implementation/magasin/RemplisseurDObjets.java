@@ -4,26 +4,19 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 
-public class RemplisseurDObjets implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
+public class RemplisseurDObjets implements ExecuteurInstructions, ModuleExecFlot {
 
 	Integer idEnCoursDELecture = null;
 	private Map<Integer, Magasin> magasins;
 	
 	public RemplisseurDObjets(Map<Integer, Magasin> magasins) {
 		this.magasins = magasins;
-	}
-	
-
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
 	}
 	
 	

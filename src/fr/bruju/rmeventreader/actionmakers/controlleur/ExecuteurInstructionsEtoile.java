@@ -5,23 +5,13 @@ package fr.bruju.rmeventreader.actionmakers.controlleur;
  * @author Bruju
  *
  */
-public interface ExecuteurInstructionsEtoile extends ExecuteurInstructions, ModuleExecMessages, ModuleExecVariables,
-	ModuleExecEquipe, ModuleExecMedia, ModuleExecFlot, ModuleExecJeu, ModuleExecSysteme, ModuleExecIntegre {
-	@Override
-	public default ModuleExecEquipe getExecEquipe() {
-		return this;
-	}
-
+public interface ExecuteurInstructionsEtoile extends ExecuteurInstructions, ModuleExecMessages,
+	ModuleExecMedia, ModuleExecFlot, ModuleExecSysteme, ModuleExecIntegre {
 	@Override
 	public default ModuleExecMessages getExecMessages() {
 		return this;
 	}
-
-	@Override
-	public default ModuleExecVariables getExecVariables() {
-		return this;
-	}
-
+	
 	@Override
 	public default ModuleExecMedia getExecMedia() {
 		return this;
@@ -29,11 +19,6 @@ public interface ExecuteurInstructionsEtoile extends ExecuteurInstructions, Modu
 
 	@Override
 	public default ModuleExecFlot getExecFlot() {
-		return this;
-	}
-
-	@Override
-	public default ModuleExecJeu getExecJeu() {
 		return this;
 	}
 

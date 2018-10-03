@@ -4,13 +4,12 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 
-public class RemplisseurDeNiveaux implements ExecuteurInstructions, ModuleExecVariables, ModuleExecFlot {
+public class RemplisseurDeNiveaux implements ExecuteurInstructions, ModuleExecFlot {
 
 	Integer idEnCoursDELecture = null;
 	private Map<Integer, Magasin> magasins;
@@ -18,16 +17,6 @@ public class RemplisseurDeNiveaux implements ExecuteurInstructions, ModuleExecVa
 	public RemplisseurDeNiveaux(Map<Integer, Magasin> magasins) {
 		this.magasins = magasins;
 	}
-	
-	
-
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
-	}
-	
-	
-
 
 
 	@Override

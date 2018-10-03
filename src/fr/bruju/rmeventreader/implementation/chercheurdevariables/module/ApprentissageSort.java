@@ -5,7 +5,6 @@ import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecEquipe;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
@@ -45,18 +44,13 @@ public class ApprentissageSort implements BaseDeRecherche {
 	}
 	
 	/** Chercheur de l'apprentissage du sort */
-	public class Chercheur implements ExecuteurInstructionsTrue, ModuleExecEquipe {
+	public class Chercheur implements ExecuteurInstructionsTrue {
 		/** Référence à ajouter */
 		private Reference reference;
 
 		/** Crée le chercheur */
 		public Chercheur(Reference reference) {
 			this.reference = reference;
-		}
-
-		@Override
-		public ModuleExecEquipe getExecEquipe() {
-			return this;
 		}
 
 		@Override

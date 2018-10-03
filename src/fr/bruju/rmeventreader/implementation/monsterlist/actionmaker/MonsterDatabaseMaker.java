@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
@@ -25,7 +24,7 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  *
  */
 public class MonsterDatabaseMaker extends StackedActionMaker<Combat>
-		implements ModuleExecVariables, ExtCondition.$, ExtChangeVariable.$ {
+		implements ExtCondition.$, ExtChangeVariable.$ {
 	/* ==================
 	 * StackedActionMaker
 	 * ================== */
@@ -61,13 +60,6 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat>
 	/* =======
 	 * Actions
 	 * ======= */
-
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
-	}
-	
-	
 
 	// Switch
 

@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
@@ -49,12 +48,6 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtC
 	@Override
 	protected Collection<Combat> getAllElements() {
 		return bdd.extractBattles();
-	}
-
-
-	@Override
-	public ModuleExecVariables getExecVariables() {
-		return this;
 	}
 
 	/* ===========

@@ -20,11 +20,11 @@ class GestionJeu implements Remplisseur {
 		
 		handlers.put(10810, this::teleporter);
 		handlers.put(10820, this::memoriserPosition);
-		handlers.put(10830, (e, p, s) -> e.getExecJeu().Jeu_revenirPosition(p[0], p[1], p[2]));
-		handlers.put(10840, (e, p, s) -> e.getExecJeu().Jeu_entrerVehicule());
+		handlers.put(10830, (e, p, s) -> e.Jeu_revenirPosition(p[0], p[1], p[2]));
+		handlers.put(10840, (e, p, s) -> e.Jeu_entrerVehicule());
 		handlers.put(10850, this::deplacerVehicule);
 		handlers.put(10860, this::deplacerEvenement);
-		handlers.put(10870, (e, p, s) -> e.getExecJeu().Jeu_inverserEvenements(new EvenementDeplacable(p[0]),
+		handlers.put(10870, (e, p, s) -> e.Jeu_inverserEvenements(new EvenementDeplacable(p[0]),
 				new EvenementDeplacable(p[1])));
 		
 		handlers.put(10910, this::stockerIdTerrain);
@@ -38,33 +38,33 @@ class GestionJeu implements Remplisseur {
 		handlers.put(11050, this::tremblementEcran);
 		
 		handlers.put(11060, this::defilement);
-		handlers.put(11070, (e, p, s) -> e.getExecJeu().Jeu_modifierMeteo(ExecEnum.Meteo.values()[p[0]],
+		handlers.put(11070, (e, p, s) -> e.Jeu_modifierMeteo(ExecEnum.Meteo.values()[p[0]],
 															ExecEnum.Intensite.values()[p[1]]));
 		
 		handlers.put(11210, this::afficherAnimation);
-		handlers.put(11310, (e, p, s) -> e.getExecJeu().Jeu_transparenceHeros(p[0] == 0));
+		handlers.put(11310, (e, p, s) -> e.Jeu_transparenceHeros(p[0] == 0));
 		handlers.put(11320, this::flasherEvenement);
 		handlers.put(11330, this::deplacement);
 		
-		handlers.put(11340, (e,p,s) -> e.getExecJeu().Jeu_toutDeplacer());
-		handlers.put(11350, (e,p,s) -> e.getExecJeu().Jeu_toutStopper());
+		handlers.put(11340, (e,p,s) -> e.Jeu_toutDeplacer());
+		handlers.put(11350, (e,p,s) -> e.Jeu_toutStopper());
 		
-		handlers.put(11410, (e,p,s) -> {if (p.length == 1 || p[1] == 0) e.getExecJeu().Jeu_attendre(p[0]); else e.getExecJeu().Jeu_attendreAppuiTouche();});
+		handlers.put(11410, (e,p,s) -> {if (p.length == 1 || p[1] == 0) e.Jeu_attendre(p[0]); else e.Jeu_attendreAppuiTouche();});
 	
-		handlers.put(11710, (e,p,s) -> e.getExecJeu().Jeu_modifierChipset(p[0]));
+		handlers.put(11710, (e,p,s) -> e.Jeu_modifierChipset(p[0]));
 		handlers.put(11720, this::panorama);
 		
-		handlers.put(11740, (e,p,s) -> e.getExecJeu().Jeu_modifierFrequenceRencontres(p[0]));
+		handlers.put(11740, (e,p,s) -> e.Jeu_modifierFrequenceRencontres(p[0]));
 		
 		handlers.put(11750, this::modifierCarreau);
 		handlers.put(11810, this::modifierTeleporteur);
 		handlers.put(11830, this::pointDeFuite);
-		handlers.put(11910, (e,p,s) -> e.getExecJeu().Jeu_ouvrirMenuSauvegarde());
-		handlers.put(11950, (e,p,s) -> e.getExecJeu().Jeu_ouvrirMenu());
+		handlers.put(11910, (e,p,s) -> e.Jeu_ouvrirMenuSauvegarde());
+		handlers.put(11950, (e,p,s) -> e.Jeu_ouvrirMenu());
 		
 
-		handlers.put(12420, (e,p,s) -> e.getExecJeu().Jeu_finDuJeu());
-		handlers.put(12510, (e,p,s) -> e.getExecJeu().Jeu_ecranTitre());
+		handlers.put(12420, (e,p,s) -> e.Jeu_finDuJeu());
+		handlers.put(12510, (e,p,s) -> e.Jeu_ecranTitre());
 		
 	}
 	
@@ -75,7 +75,7 @@ class GestionJeu implements Remplisseur {
 		
 		int switchActive = parametres[3] == 0 ? 0 : parametres[4];
 		
-		executeur.getExecJeu().Jeu_definirPointDeFuite(map, x, y, switchActive);
+		executeur.Jeu_definirPointDeFuite(map, x, y, switchActive);
 	}
 	
 	
@@ -88,9 +88,9 @@ class GestionJeu implements Remplisseur {
 		
 		if (ajouter) {
 			int switchActive = parametres[4] == 0 ? 0 : parametres[5];
-			executeur.getExecJeu().Jeu_ajouterTeleporteur(map, x, y, switchActive);
+			executeur.Jeu_ajouterTeleporteur(map, x, y, switchActive);
 		} else {
-			executeur.getExecJeu().Jeu_retirerTeleporteur(map, x, y);
+			executeur.Jeu_retirerTeleporteur(map, x, y);
 		}
 	}
 	
@@ -99,14 +99,14 @@ class GestionJeu implements Remplisseur {
 		int remplace = parametres[1];
 		int remplacant = parametres[2];
 		
-		executeur.getExecJeu().Jeu_modifierCarreau(coucheHaute, remplace, remplacant);
+		executeur.Jeu_modifierCarreau(coucheHaute, remplace, remplacant);
 	}
 
 	private void panorama(ExecuteurInstructions executeur, int[] parametres, String nomPanorama) {
 		int defilementHorizontal = defiler(parametres[0], parametres[1], parametres[2]);
 		int defilementVertical = defiler(parametres[3], parametres[4], parametres[5]);
 		
-		executeur.getExecJeu().Jeu_changerPanorama(nomPanorama, defilementHorizontal, defilementVertical);
+		executeur.Jeu_changerPanorama(nomPanorama, defilementHorizontal, defilementVertical);
 	}
 	
 	
@@ -129,7 +129,7 @@ class GestionJeu implements Remplisseur {
 		boolean repeter = parametres[2] == 1;
 		boolean ignorerBloquage = parametres[3] == 1;
 		
-		executeur.getExecJeu().Jeu_deplacer(deplacable, vitesse, repeter, ignorerBloquage, new Deplacement());
+		executeur.Jeu_deplacer(deplacable, vitesse, repeter, ignorerBloquage, new Deplacement());
 	}
 	
 	private void flasherEvenement(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -139,7 +139,7 @@ class GestionJeu implements Remplisseur {
 		EvenementDeplacable deplacable = new EvenementDeplacable(parametres[0]);
 		boolean pause = parametres[6] == 0;
 		
-		executeur.getExecJeu().Jeu_flasherEvenement(deplacable, couleur, intensite, pause, tempsDixiemeDeSec);
+		executeur.Jeu_flasherEvenement(deplacable, couleur, intensite, pause, tempsDixiemeDeSec);
 	}
 	
 	private void afficherAnimation(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -148,16 +148,16 @@ class GestionJeu implements Remplisseur {
 		boolean pause = parametres[2] == 1;
 		boolean pleinEcran = parametres[3] == 1;
 		
-		executeur.getExecJeu().Jeu_afficherAnimation(deplacable, numeroAnimation, pause, pleinEcran);
+		executeur.Jeu_afficherAnimation(deplacable, numeroAnimation, pause, pleinEcran);
 	}
 	
 
 	private void defilement(ExecuteurInstructions executeur, int[] parametres, String s) {
 		if (parametres[0] == 0) {
-			executeur.getExecJeu().Jeu_defilementBloquer();
+			executeur.Jeu_defilementBloquer();
 			return;
 		} else if (parametres[0] == 1) {
-			executeur.getExecJeu().Jeu_defilementReprendre();
+			executeur.Jeu_defilementReprendre();
 			return;
 		}
 		
@@ -165,13 +165,13 @@ class GestionJeu implements Remplisseur {
 		boolean pause = parametres[4] == 1;
 		
 		if (parametres[0] == 3) {
-			executeur.getExecJeu().Jeu_defilementRetour(vitesse, pause);
+			executeur.Jeu_defilementRetour(vitesse, pause);
 		}
 		
 		ExecEnum.Direction direction = ExecEnum.Direction.values()[parametres[1]];
 		int nombreDeCases = parametres[2];
 		
-		executeur.getExecJeu().Jeu_defilementPonctuel(vitesse, pause, direction, nombreDeCases);
+		executeur.Jeu_defilementPonctuel(vitesse, pause, direction, nombreDeCases);
 	}
 	
 
@@ -184,17 +184,17 @@ class GestionJeu implements Remplisseur {
 		
 		
 		if (parametres.length <= 4 || parametres[4] == 0) {
-			executeur.getExecJeu().Jeu_tremblementPonctuel(force, intensite, temps, bloquant);
+			executeur.Jeu_tremblementPonctuel(force, intensite, temps, bloquant);
 			return;
 		}
 		
 		if (parametres[4] == 1) {
-			executeur.getExecJeu().Jeu_tremblementCommencer(force, intensite);
+			executeur.Jeu_tremblementCommencer(force, intensite);
 			return;
 		}
 		
 		if (parametres[4] == 2) {
-			executeur.getExecJeu().Jeu_tremblementStop();
+			executeur.Jeu_tremblementStop();
 			return;
 		}
 		
@@ -204,7 +204,7 @@ class GestionJeu implements Remplisseur {
 		int statut = parametres.length >= 7 ? parametres[6] : 0;
 		
 		if (statut == 2) {
-			executeur.getExecJeu().Jeu_flashStop();
+			executeur.Jeu_flashStop();
 			return;
 		}
 		
@@ -214,7 +214,7 @@ class GestionJeu implements Remplisseur {
 		boolean pause = parametres[5] == 1;
 		boolean flashUnique = statut == 1;
 		
-		executeur.getExecJeu().Jeu_flashLancer(couleur, intensite, tempsMs, pause, flashUnique);
+		executeur.Jeu_flashLancer(couleur, intensite, tempsMs, pause, flashUnique);
 	}
 
 	
@@ -225,24 +225,24 @@ class GestionJeu implements Remplisseur {
 		int tempsMs = parametres[4];
 		boolean pause = parametres[5] == 1;
 		
-		executeur.getExecJeu().Jeu_tonEcran(couleur, saturation, tempsMs, pause);
+		executeur.Jeu_tonEcran(couleur, saturation, tempsMs, pause);
 	}
 	
 	
 	
 	private void afficherEcran(ExecuteurInstructions executeur, int[] parametres, String s) {
 		if (parametres[0] == -1) {
-			executeur.getExecJeu().Jeu_afficherEcran(ExecEnum.Transition.DEFAUT);
+			executeur.Jeu_afficherEcran(ExecEnum.Transition.DEFAUT);
 		} else {
-			executeur.getExecJeu().Jeu_afficherEcran(ExecEnum.Transition.values()[parametres[0]]);
+			executeur.Jeu_afficherEcran(ExecEnum.Transition.values()[parametres[0]]);
 		}
 	}
 
 	private void effacerEcran(ExecuteurInstructions executeur, int[] parametres, String s) {
 		if (parametres[0] == -1) {
-			executeur.getExecJeu().Jeu_cacherEcran(ExecEnum.Transition.DEFAUT);
+			executeur.Jeu_cacherEcran(ExecEnum.Transition.DEFAUT);
 		} else {
-			executeur.getExecJeu().Jeu_cacherEcran(ExecEnum.Transition.values()[parametres[0]]);
+			executeur.Jeu_cacherEcran(ExecEnum.Transition.values()[parametres[0]]);
 		}
 	}
 
@@ -250,14 +250,14 @@ class GestionJeu implements Remplisseur {
 		FixeVariable x = d.dechiffrerFixeVariable(parametres[0], parametres[1]);
 		FixeVariable y = d.dechiffrerFixeVariable(parametres[0], parametres[2]);
 		
-		executeur.getExecJeu().Jeu_stockerIdEvenement(x, y, parametres[3]);
+		executeur.Jeu_stockerIdEvenement(x, y, parametres[3]);
 	}
 	
 	private void stockerIdTerrain(ExecuteurInstructions executeur, int[] parametres, String s) {
 		FixeVariable x = d.dechiffrerFixeVariable(parametres[0], parametres[1]);
 		FixeVariable y = d.dechiffrerFixeVariable(parametres[0], parametres[2]);
 		
-		executeur.getExecJeu().Jeu_stockerIdTerrain(x, y, parametres[3]);
+		executeur.Jeu_stockerIdTerrain(x, y, parametres[3]);
 	}
 
 	private void deplacerEvenement(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -266,7 +266,7 @@ class GestionJeu implements Remplisseur {
 		FixeVariable x = d.dechiffrerFixeVariable(parametres[1], parametres[2]);
 		FixeVariable y = d.dechiffrerFixeVariable(parametres[1], parametres[3]);
 		
-		executeur.getExecJeu().Jeu_deplacerEvenement(deplacable, x, y);
+		executeur.Jeu_deplacerEvenement(deplacable, x, y);
 	}
 	
 	private void deplacerVehicule(ExecuteurInstructions executeur, int[] parametres, String s) {
@@ -274,17 +274,17 @@ class GestionJeu implements Remplisseur {
 		FixeVariable z = d.dechiffrerFixeVariable(parametres[1], parametres[2]);
 		FixeVariable x = d.dechiffrerFixeVariable(parametres[1], parametres[3]);
 		FixeVariable y = d.dechiffrerFixeVariable(parametres[1], parametres[4]);
-		executeur.getExecJeu().Jeu_deplacerVehicule(vehicule, z, x, y);
+		executeur.Jeu_deplacerVehicule(vehicule, z, x, y);
 	}
 	
 	
 	private void teleporter(ExecuteurInstructions executeur, int[] parametres, String s) {
-		executeur.getExecJeu().Jeu_teleporter(parametres[0], parametres[1], parametres[2],
+		executeur.Jeu_teleporter(parametres[0], parametres[1], parametres[2],
 				parametres.length <= 3 ? ExecEnum.Direction.INCHANGEE : ExecEnum.Direction.values()[parametres[3]]);
 	}
 
 	private void memoriserPosition(ExecuteurInstructions executeur, int[] p, String s) {
-		executeur.getExecJeu().Jeu_memoriserPosition(p[0], p[1], p[2]);
+		executeur.Jeu_memoriserPosition(p[0], p[1], p[2]);
 	}
 	
 	
