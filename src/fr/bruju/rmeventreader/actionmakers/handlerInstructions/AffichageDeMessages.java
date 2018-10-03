@@ -8,9 +8,8 @@ import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum;
 
 class AffichageDeMessages implements Remplisseur {
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
+	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		// ShowMessage
-		handlers.put(10110, (e, t, c) -> e.getExecMessages().Messages_afficherMessage(c));
 		handlers.put(10110, (e, t, c) -> e.getExecMessages().Messages_afficherMessage(c));
 		// ShowMessage Followup
 		handlers.put(20110, (e, t, c) -> e.getExecMessages().Messages_afficherSuiteMessage(c));
@@ -18,14 +17,14 @@ class AffichageDeMessages implements Remplisseur {
 		handlers.put(10120, this::changeMessageOptions);
 		handlers.put(10130, (e, t, c) -> {});	// TODO changement de portrait
 		// Choix multiples
-		classe2.put(10140, new HandlerInstructionRetour() {
+		classe2.put(10140, new Traiteur() {
 			@Override
 			public boolean traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 				return executeur.getExecMessages().SaisieMessages_initierQCM(extraireChoixQCM(parametres[0]));
 			}
 
 			@Override
-			public Ignorance ignorer() {
+			public Ignorance creerIgnorance() {
 				return new Ignorance(10140, 20141);
 			}
 		});
@@ -54,7 +53,6 @@ class AffichageDeMessages implements Remplisseur {
 			executeur.getExecMessages().Messages_appuiTouche(numeroVariable, bloquant, enregistrementTempsMis,
 					false, false, false, false, entree, annuler, false, false, false);
 			return;
-			// TODO : compatiblité
 		}
 		
 		boolean maj = parametres[5] == 1;

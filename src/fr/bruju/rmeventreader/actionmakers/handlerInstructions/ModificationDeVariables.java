@@ -12,7 +12,7 @@ class ModificationDeVariables implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
+	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		// Modification d'interrupteurs
 		handlers.put(10210, this::changerSwitch);
 		// Modification de variable

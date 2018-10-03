@@ -13,10 +13,10 @@ class GestionCombat implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 	
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
+	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		handlers.put(10500, this::simulerAttaque);
 
-		classe2.put(10710, new HandlerInstructionRetour() {
+		classe2.put(10710, new Traiteur() {
 			@Override
 			public boolean traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 				FixeVariable idCombat = d.dechiffrerFixeVariable(parametres[0], parametres[1]);
@@ -32,28 +32,28 @@ class GestionCombat implements Remplisseur {
 			}
 
 			@Override
-			public Ignorance ignorer() {
+			public Ignorance creerIgnorance() {
 				return new Ignorance(10710, 20713);
 			}
 		});
 
-		handlers.put(20710, new HandlerInstruction() {
+		handlers.put(20710, new TraiteurSansRetour() {
 			@Override
-			public void traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+			public void executer(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 				executeur.getExecIntegre().Combat_brancheVictoire();
 			}
 		});
 
-		handlers.put(20711, new HandlerInstruction() {
+		handlers.put(20711, new TraiteurSansRetour() {
 			@Override
-			public void traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+			public void executer(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 				executeur.getExecIntegre().Combat_brancheFuite();
 			}
 		});
 
-		handlers.put(20712, new HandlerInstruction() {
+		handlers.put(20712, new TraiteurSansRetour() {
 			@Override
-			public void traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
+			public void executer(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 				executeur.getExecIntegre().Combat_brancheDefaite();
 			}
 		});

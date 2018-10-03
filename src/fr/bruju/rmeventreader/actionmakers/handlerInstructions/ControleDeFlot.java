@@ -11,7 +11,7 @@ class ControleDeFlot implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
+	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		handlers.put(12110, (e,p,s) -> e.getExecFlot().Flot_etiquette(p[0]));
 		handlers.put(12120, (e,p,s) -> e.getExecFlot().Flot_sautEtiquette(p[0]));
 		handlers.put(12210, (e,p,s) -> e.getExecFlot().Flot_boucleDebut());
@@ -23,7 +23,7 @@ class ControleDeFlot implements Remplisseur {
 		
 		handlers.put(12330, this::evenement);
 
-		classe2.put(12010, new HandlerInstructionRetour() {
+		classe2.put(12010, new Traiteur() {
 
 			@Override
 			public boolean traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
@@ -31,7 +31,7 @@ class ControleDeFlot implements Remplisseur {
 			}
 
 			@Override
-			public Ignorance ignorer() {
+			public Ignorance creerIgnorance() {
 				return new Ignorance(12010, 22011);
 			}
 		});

@@ -10,7 +10,7 @@ class GestionSysteme implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 	
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
+	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		handlers.put(10610, (e, p, s) -> e.getExecSysteme().Systeme_modifierNom(p[0], s));
 		handlers.put(10620, (e, p, s) -> e.getExecSysteme().Systeme_modifierGrade(p[0], s));
 		handlers.put(10630, this::modifierCharsetHeros);

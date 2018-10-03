@@ -12,7 +12,7 @@ class GestionImages implements Remplisseur {
 	private Dechiffreur d = Dechiffreur.getInstance();
 	
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
+	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		handlers.put(11110, this::afficherImage);
 		handlers.put(11120, this::deplacerImage);
 		handlers.put(11130, (e, p, s) -> e.getExecMedia().Image_effacer(p[0]));

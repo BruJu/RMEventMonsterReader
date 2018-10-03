@@ -8,7 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 
 class GestionMagasin implements Remplisseur {
 	@Override
-	public void remplirMap(Map<Integer, HandlerInstruction> handlers, Map<Integer, HandlerInstructionRetour> classe2) {
+	public void remplirMap(Map<Integer, TraiteurSansRetour> handlers, Map<Integer, Traiteur> classe2) {
 		handlers.put(10720, this::magasin);
 		handlers.put(20720, (e, p, s) -> e.getExecIntegre().Magasin_magasinBrancheVente());
 		handlers.put(20720, (e, p, s) -> e.getExecIntegre().Magasin_magasinBrancheNonVente());
