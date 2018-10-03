@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -87,6 +88,19 @@ public class Explorateur {
 		LecteurDeLCF$.getInstance().maps().values().forEach(actionMap);
 	}
 
+	/**
+	 * Permet d'explorer les évènements d'une carte
+	 * @param actionSurLesPages Action réalisée pour chaque page d'évènement de la carte
+	 */
+	public static void explorerCarte(int idCarte, BiConsumer<RMEvenement, RMPage> actionSurLesPages) {
+		RMMap carte = LecteurDeLCF$.getInstance().map(idCarte);
+		
+		for (RMEvenement evenement : carte.evenements().values()) {
+			for (RMPage page : evenement.pages()) {
+				actionSurLesPages.accept(evenement, page);
+			}
+		}
+	}
 
 	/* =======================================================================================
 	 * Niveau d'abstraction 4 : Lire tous les évènements d'un même type en retenant l'identité

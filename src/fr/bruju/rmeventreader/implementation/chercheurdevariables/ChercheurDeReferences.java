@@ -1,18 +1,17 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables;
 
-import java.util.List;
-
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApprentissageSort;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ModificationsDeVariable;
+
+import java.util.function.Supplier;
+
 import fr.bruju.rmeventreader.actionmakers.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
-import fr.bruju.rmeventreader.actionmakers.reference.ReferenceEC;
-import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ActivationDInterrupteur;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Texte;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApparitionDeVariables;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Musique;
-import fr.bruju.lcfreader.rmobjets.RMInstruction;
 
 /**
  * Cherche les références à des variables codées en dur dans tout un projet
@@ -24,29 +23,25 @@ public class ChercheurDeReferences implements Runnable {
 	private BaseDeRecherche baseDeRecherche;
 
 	/** Derniere reference */
-	private int derniereReference = -1;
+	private int dernierGroupe = 0;
 
 	@Override
 	public void run() {
 		int option = 1;
 		
-		new Runnable[] {
-				/* 0 */ () -> {baseDeRecherche = new ApparitionDeVariables(new int[] {3065});},
-				/* 1 */ () -> {baseDeRecherche = new Texte("olinale");},
-				/* 2 */ () -> {baseDeRecherche = new ActivationDInterrupteur(3113);},
-				/* 3 */ () -> {baseDeRecherche = new Musique();},
-				/* 4 */ () -> {baseDeRecherche = new ModificationsDeVariable(5);},
-				/* 5 */ () -> {baseDeRecherche = new ApprentissageSort(3, 112);}
-		}[option].run();
+		baseDeRecherche = (BaseDeRecherche) (new Supplier[] {
+				/* 0 */ () -> new ApparitionDeVariables(new int[] {3065}),
+				/* 1 */ () -> new Texte("olinale"),
+				/* 2 */ () -> new ActivationDInterrupteur(3113),
+				/* 3 */ () -> new Musique(),
+				/* 4 */ () -> new ModificationsDeVariable(5),
+				/* 5 */ () -> new ApprentissageSort(3, 112)
+		}[option].get());
 
 		System.out.print("[");
-		
-		Explorateur.explorerEvenementsCommuns(ec -> explorer(new ReferenceEC(ec.id(), ec.nom()), ec.instructions()));
-		
-		
-		Explorateur.explorerEvenements((map, event, page) -> explorer(new ReferenceMap(map, event, page),
-					page.instructions()));
-		
+		Explorateur.referencerEvenementsCommuns(baseDeRecherche::getExecuteur);
+		System.out.print("•");
+		Explorateur.referencerCartes(this::explorer);
 		System.out.println("]");
 		
 		baseDeRecherche.afficher();	
@@ -57,16 +52,14 @@ public class ChercheurDeReferences implements Runnable {
 	 * @param ref La référence à ajouter
 	 * @param instructions Les instructions à explorer
 	 */
-	private void explorer(Reference ref, List<RMInstruction> instructions) {
-		boolean affichage;
-		affichage = ref.idCarte() > 0 && this.derniereReference == -1;
-		affichage |= (ref.idCarte() / 25) > this.derniereReference;
+	private ExecuteurInstructions explorer(Reference ref) {
+		int groupeDeLaCarte = ref.idCarte() / 25;
 		
-		if (affichage) {
-			this.derniereReference = ref.idCarte() / 25;
+		if (groupeDeLaCarte > this.dernierGroupe) {
+			this.dernierGroupe = ref.idCarte() / 25;
 			System.out.print("•");
 		}
 		
-		Explorateur.executer(baseDeRecherche.getExecuteur(ref), instructions);
+		return baseDeRecherche.getExecuteur(ref);
 	}
 }

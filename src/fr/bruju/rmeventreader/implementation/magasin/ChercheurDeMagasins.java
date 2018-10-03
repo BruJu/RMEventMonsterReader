@@ -1,16 +1,12 @@
 package fr.bruju.rmeventreader.implementation.magasin;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
-import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
-import fr.bruju.lcfreader.rmobjets.RMFabrique;
-import fr.bruju.lcfreader.rmobjets.RMInstruction;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
 
@@ -19,17 +15,9 @@ public class ChercheurDeMagasins implements Runnable {
 
 	public Map<Integer, Magasin> chercher() {
 		magasins = new HashMap<>();
-		
 		Explorateur.explorerEvenements(this::chercherMagasin);
-		
-		RMFabrique usine = LecteurDeLCF$.getInstance();
-		
-		List<RMInstruction> niveaux = usine.page(461, 88, 1).instructions();
-		List<RMInstruction> objets = usine.page(461, 5, 1).instructions();
-		
-		Explorateur.executer(new RemplisseurDeNiveaux(magasins), niveaux);
-		Explorateur.executer(new RemplisseurDObjets(magasins), objets);
-
+		Explorateur.lireEvenement(new RemplisseurDeNiveaux(magasins), 461, 88, 1);
+		Explorateur.lireEvenement(new RemplisseurDObjets(magasins), 461, 5, 1);
 		return magasins;
 	}
 

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
-import fr.bruju.rmeventreader.implementation.recomposeur.actionmaker.Extracteur;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
+import fr.bruju.rmeventreader.implementation.recomposeur.actionmaker.ComposeurInitial;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
@@ -17,8 +17,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeD
 import fr.bruju.rmeventreader.implementation.recomposeur.maillon.FormuleToString;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.Unificateur;
-import fr.bruju.lcfreader.rmobjets.RMFabrique;
-import fr.bruju.lcfreader.rmobjets.RMInstruction;
+import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.deduction.Deducteur;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -86,18 +85,19 @@ public class Recomposition implements Runnable {
 		LecteurDeFichiersLigneParLigne.lectureFichierRessources(CHEMIN_ATTAQUES, ligne -> {
 			String[] donnees = LecteurDeFichiersLigneParLigne.diviser(ligne, 3);
 			
+			int evenementCommun = Integer.parseInt(donnees[0]);
 			String nomAttaque = donnees[2];
 			String nomPersonnage = donnees[1];
-			int evenementCommun = Integer.parseInt(donnees[0]);
 			
-			RMFabrique usine = LecteurDeLCF$.getInstance();
+			ComposeurInitial composeur = new ComposeurInitial(base.getVariablesStatistiques());
+			Explorateur.lireEvenementCommun(composeur, evenementCommun);
 			
-			List<RMInstruction> instructions = usine.evenementCommun(evenementCommun).instructions();
+			// Extraction d'un premier résultat
 			
+			Map<Integer, Algorithme> extrait = composeur.getResultat();
 			
-			
-			Map<Integer, Algorithme> extrait =
-					new Extracteur().extraireAlgorithmes(base.getVariablesStatistiques(), instructions);
+			// Simplifications ne se reposant pas sur des connaissances métier
+			extrait.replaceAll((key, algo) -> (Algorithme) new Deducteur().traiter(algo));
 			
 			
 			exp.add(nomPersonnage, nomAttaque, extrait);
@@ -105,6 +105,7 @@ public class Recomposition implements Runnable {
 
 		return exp.creerArbre();
 	}
+
 
 	private static void enregistrerDansFichier(String sortie) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");

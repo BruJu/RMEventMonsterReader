@@ -5,73 +5,127 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.DechiffreurInstructions;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecMedia;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.TypeEffet;
-import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
-import fr.bruju.lcfreader.rmobjets.RMFabrique;
+import fr.bruju.lcfreader.rmobjets.RMPage;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-
-
+/**
+ * Module parcourant tous les évènements d'une carte et identifiant les images utilisées par chaque évènement pour
+ * en afficher la liste
+ * 
+ * @author Bruju
+ *
+ */
 public class ChercheurDImages implements Runnable {
+	/** Numéro de la carte */
 	private int numeroDeMap;
-	private Map<Integer, Set<Integer>> utilisations = new HashMap<>();
+	/** Association entre numéro d'image et évènements l'utilisant */
+	private Map<Integer, Set<EvenementLu>> utilisations = new HashMap<>();
 	
+	/**
+	 * Crée un module de recherche des numéros d'image utilisé par chaque évènement
+	 * @param numeroDeMap Numéro de la carte
+	 */
 	public ChercheurDImages(int numeroDeMap) {
 		this.numeroDeMap = numeroDeMap;
 	}
 	
 	@Override
 	public void run() {
-		RMFabrique usine = LecteurDeLCF$.getInstance();
-		
-		Map<Integer, RMEvenement> evenements = usine.map(numeroDeMap).evenements();
-		
-		evenements.forEach((idEvent, evenement) -> {
-			DechiffreurInstructions dechiffreur = new DechiffreurInstructions(new AnalyseurDInstructions(idEvent));
-			
-			evenement.pages().forEach(page -> dechiffreur.executer(page.instructions()));
-		});
-		
-		utilisations.forEach((image, events) -> {
-			System.out.println(image + ":" +
-					events
-						.stream()
-						.map(numero -> convertir(numero, evenements.get(numero)))
-						.collect(Collectors.joining(",")));
-		});
+		Explorateur.explorerCarte(numeroDeMap, this::lireUnePage);
+		utilisations.forEach(this::afficherUneUtilisationDImage);
 	}
 	
-	
-	
-	private String convertir(Integer numero, RMEvenement evenement) {
-				return numero + "[" + evenement.nom() + ";" + evenement.x() + ";" + evenement.y() +"]";
+	/**
+	 * Rempli la table d'association id d'image - évènements avec la page donné 
+	 * @param evenement L'évènement responsable de la génération de la page
+	 * @param page La page qui contient les instructions
+	 */
+	private void lireUnePage(RMEvenement evenement, RMPage page) {
+		Explorateur.executer(new AnalyseurDInstructions(new EvenementLu(evenement)), page.instructions());
 	}
+	
+	/**
+	 * Affiche la liste des évènements utilisant l'image donné au format
+	 * <pr>idImage:idEvenement1[Nom;x;y],idEvenement2[Nom;x;y] (...)
+	 * @param idImg Le numéro de l'image
+	 * @param utilisations La liste des évènements l'utilisant
+	 */
+	private void afficherUneUtilisationDImage(Integer idImg, Set<EvenementLu> utilisations) {
+		String texte = idImg + ":" + utilisations.stream().map(EvenementLu::toString).collect(Collectors.joining(","));
+		System.out.println(texte);
+	}
+	
+	/** Représente les données qui seront affichées poru un évènement */
+	private class EvenementLu implements Comparable<EvenementLu> {
+		// On refait une classe car RMEvenement n'implémente pas Comparable
+		/** Id de l'évènement */
+		public final int id;
+		/** Nom de l'évènement */
+		public final String nom;
+		/** Position en X de l'évènement */
+		public final int x;
+		/** Position en Y de l'évènement */
+		public final int y;
+		
+		/**
+		 * Crée un évènement lu à partir d'un RMEvenement
+		 * @param evenement L'évènement à transformer
+		 */
+		public EvenementLu(RMEvenement evenement) {
+			id = evenement.id();
+			nom = evenement.nom();
+			x = evenement.x();
+			y = evenement.y();
+		}
+		
+		@Override
+		public String toString() {
+			return id + "[" + nom + ";" + x + ";" + y + "]";
+		}
 
-
-
+		@Override
+		public int compareTo(EvenementLu that) {
+			return Integer.compare(id, that.id);
+		}
+	}
+	
+	/**
+	 * Exécuteur chargé de répertorier dans la classe mère l'évènement qu'on lui a donné dans le constructeur pour
+	 * toutes les images qu'on lui demandera de modifier à l'écran.
+	 */
 	public class AnalyseurDInstructions implements ExecuteurInstructionsTrue, ModuleExecMedia {
-		public final int numeroEvent;
+		/** Evènement à ajouter */
+		public final EvenementLu evenement;
+		
+		/**
+		 * Crée un analyseur d'insturction qui se chargera d'ajouter l'évènement donné pour tous les numéros d'image
+		 * qu'on lui demande d'afficher
+		 * @param evenement L'évènement
+		 */
+		public AnalyseurDInstructions(EvenementLu evenement) {
+			this.evenement = evenement;
+		}
 
+		/**
+		 * Ajoute dans la table des utilisations l'image numéroImage pour l'évènement de cet objet
+		 * @param numeroImage Le numéro de l'image
+		 */
 		private void utiliseImage(int numeroImage) {
-			Utilitaire.Maps.ajouterElementDansSet(utilisations, numeroImage, numeroEvent);
+			Utilitaire.Maps.ajouterElementDansSet(utilisations, numeroImage, evenement);
 		}
 
 		@Override
 		public ModuleExecMedia getExecMedia() {
 			return this;
 		}
-
-		public AnalyseurDInstructions(int numeroEvent) {
-			this.numeroEvent = numeroEvent;
-		}
-
-	
+		
 		@Override
 		public void Image_afficher(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage,
 				int transparenceHaute, int transparenceBasse, int agrandissement, Couleur couleur, int saturation,
