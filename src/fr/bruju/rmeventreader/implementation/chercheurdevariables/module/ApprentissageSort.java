@@ -8,8 +8,8 @@ import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecEquipe;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurMembre;
+import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Base de recherches des variables utilisées

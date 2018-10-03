@@ -6,8 +6,8 @@ import java.util.Set;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecMessages;
+import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Recherche une chaîne dans tous les dialogues du jeu

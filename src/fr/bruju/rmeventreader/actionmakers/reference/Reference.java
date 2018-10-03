@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables.reference;
+package fr.bruju.rmeventreader.actionmakers.reference;
 
 /**
  * Référence à un évènement

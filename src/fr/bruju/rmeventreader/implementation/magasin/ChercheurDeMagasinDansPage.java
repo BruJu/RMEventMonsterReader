@@ -8,7 +8,7 @@ import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Direction;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
+import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 
 public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue, ModuleExecVariables, ModuleExecJeu {

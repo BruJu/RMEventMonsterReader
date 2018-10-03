@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.equipementchecker;
 
 import java.util.TreeMap;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
 
 /**
  * Ce module a pour but de vérifier si les équipements des personnages donnent autant de statistiques qu'ils n'en
@@ -34,7 +34,7 @@ public class Verificateur implements Runnable {
 		System.out.println("------------- PERSONNAGE " + idPerso);
 
 		EquipementChecker onEquip = new EquipementChecker(idPerso);
-		Explorateur.lireEvenementMap(onEquip, idMap, idEvent, 1);
+		Explorateur.lireEvenement(onEquip, idMap, idEvent, 1);
 	
 
 		EquipementChecker onDesequip = new EquipementChecker(idPerso);

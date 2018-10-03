@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
-import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecFlot;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -24,7 +24,7 @@ public class AppelsDEvenements implements Runnable {
 	public void run() {
 		appels = new HashMap<>();
 		
-		Explorateur.explorer(ec -> Explorateur.executer(new Exec(ec.id()), ec.instructions()), null);
+		Explorateur.explorerEvenementsCommuns(ec -> Explorateur.executer(new Exec(ec.id()), ec.instructions()));
 		
 		System.out.println("Evenement Commun ; Nombre d'appels à 277 Check Elem ; Nombre d'appels à 232 Check Relation");
 		appels.entrySet()

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.deduction.Deducteur;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables.reference;
+package fr.bruju.rmeventreader.actionmakers.reference;
 
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMMap;

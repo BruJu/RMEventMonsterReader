@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
@@ -57,13 +57,13 @@ public class ListeurDeMonstres implements Runnable {
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
 		
 		Runnable[] listeDesActions = new Runnable[] {
-			() -> Explorateur.lireEvenementMap(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
-			() -> Explorateur.lireEvenementMap(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
-			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
-			() -> Explorateur.lireEvenementMap(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
+			() -> Explorateur.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
+			() -> Explorateur.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
+			() -> Explorateur.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
+			() -> Explorateur.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
 			new Correcteur(baseDeDonnees, CORRECTION),
-			() -> Explorateur.lireEvenementMap(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
-			() -> Explorateur.lireEvenementMap(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
+			() -> Explorateur.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
+			() -> Explorateur.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
 			new Correspondance(baseDeDonnees, Correspondance.fond(ZONES)),
 			new Correspondance(baseDeDonnees, Correspondance.nom(MONSTRES)),
 			new Correspondance(baseDeDonnees, Correspondance.drop()),

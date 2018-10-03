@@ -1,6 +1,8 @@
-package fr.bruju.rmeventreader.implementation.chercheurdevariables.reference;
+package fr.bruju.rmeventreader.actionmakers.reference;
 
 import java.util.Objects;
+
+import fr.bruju.lcfreader.rmobjets.RMEvenementCommun;
 
 /**
  * Référence à un évènement commun
@@ -20,6 +22,11 @@ public class ReferenceEC implements Reference {
 	public ReferenceEC(int eventCommun, String nom) {
 		this.eventCommun = eventCommun;
 		this.nom = nom;
+	}
+
+	public ReferenceEC(RMEvenementCommun evenementCommun) {
+		this.eventCommun = evenementCommun.id();
+		this.nom = evenementCommun.nom();
 	}
 
 	@Override

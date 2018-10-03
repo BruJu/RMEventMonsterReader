@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 
 import java.io.IOException;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;

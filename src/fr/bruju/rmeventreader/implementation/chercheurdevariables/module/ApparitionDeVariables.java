@@ -23,8 +23,8 @@ import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.ConditionsDeCombat;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Vehicule;
 import fr.bruju.rmeventreader.actionmakers.modele.VariableHeros.Caracteristique;
+import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Base de recherches des variables utilisées

@@ -7,8 +7,8 @@ import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
+import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 
 /**
  * Recherche des références qui activent un interrupteur donné

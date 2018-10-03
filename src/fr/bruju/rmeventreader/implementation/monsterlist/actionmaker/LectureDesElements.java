@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ModuleExecVariables;
@@ -168,7 +168,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre>
 		if (actionsPage.get(eventPage - 1) == null) {
 			Page p = new Page();
 			
-			Explorateur.lireEvenementMap(p, 53, EVENT_SOUS_FONCTIONS, eventPage);
+			Explorateur.lireEvenement(p, 53, EVENT_SOUS_FONCTIONS, eventPage);
 			
 			actionsPage.set(eventPage - 1, p.getResult());
 		}

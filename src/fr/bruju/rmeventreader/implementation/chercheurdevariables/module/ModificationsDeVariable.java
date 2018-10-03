@@ -18,9 +18,9 @@ import fr.bruju.rmeventreader.actionmakers.modele.ValeurDivers;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.modele.VariableHeros;
+import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import java.util.Objects;
 

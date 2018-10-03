@@ -4,12 +4,12 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApprentissageSort;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ModificationsDeVariable;
-import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.Explorateur;
+import fr.bruju.rmeventreader.actionmakers.reference.Reference;
+import fr.bruju.rmeventreader.actionmakers.reference.ReferenceEC;
+import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ActivationDInterrupteur;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Texte;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.Reference;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceEC;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.reference.ReferenceMap;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApparitionDeVariables;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Musique;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
@@ -41,9 +41,11 @@ public class ChercheurDeReferences implements Runnable {
 
 		System.out.print("[");
 		
-		Explorateur.explorer(
-				ec -> this.explorer(new ReferenceEC(ec.id(), ec.nom()), ec.instructions()),
-				(map, event, page) -> explorer(new ReferenceMap(map, event, page), page.instructions()));
+		Explorateur.explorerEvenementsCommuns(ec -> explorer(new ReferenceEC(ec.id(), ec.nom()), ec.instructions()));
+		
+		
+		Explorateur.explorerEvenements((map, event, page) -> explorer(new ReferenceMap(map, event, page),
+					page.instructions()));
 		
 		System.out.println("]");
 		
