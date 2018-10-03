@@ -120,7 +120,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructionsTrue, ExtChangeVariable.$$PasAffectation {
+	public class Chercheur implements ExecuteurInstructionsTrue, ExtChangeVariable.SansAffectation {
 		/** Référence */
 		private Reference reference;
 

@@ -28,8 +28,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  * @author Bruju
  *
  */
-public class FinDeCombat extends StackedActionMaker<Combat>
-		implements ExtCondition.$, ExtChangeVariable.$ {
+public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondition, ExtChangeVariable {
 	/* ==========
 	 * Constantes
 	 * ========== */

@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionP
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
-public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtChangeVariable.$, ExtCondition.$ {
+public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtChangeVariable, ExtCondition {
 	/* ==================
 	 * StackedActionMaker
 	 * ================== */

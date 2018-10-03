@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
-import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
@@ -66,12 +65,6 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> imp
 	 * Action Maker
 	 * ============ */
 
-	// Configuration
-
-	@Override
-	public boolean Flot_si(Condition condition) {
-		return $(condition);
-	}
 	
 	// Actions
 	

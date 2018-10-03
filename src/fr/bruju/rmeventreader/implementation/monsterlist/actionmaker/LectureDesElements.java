@@ -26,8 +26,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
-public class LectureDesElements extends StackedActionMaker<Monstre>
-	implements ExtChangeVariable.$, ExtCondition.$ {
+public class LectureDesElements extends StackedActionMaker<Monstre> implements ExtChangeVariable, ExtCondition {
 	/* =============
 	 * SCRIPT GLOBAL
 	 * ============= */
@@ -216,7 +215,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre>
 	 * Ces pages ne contiennent que des instruction du type "modifier une variable" ou "modifier un interrupteur".
 	 *
 	 */
-	public class Page implements ExtChangeVariable.$ {
+	public class Page implements ExtChangeVariable {
 		/** Liste des actions réaliser vues */
 		private List<Consumer<Monstre>> actionsARealiser = new ArrayList<>();
 

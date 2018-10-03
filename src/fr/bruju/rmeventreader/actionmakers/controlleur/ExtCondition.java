@@ -21,15 +21,9 @@ import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondObjet;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVehiculeUtilise;
 
-public interface ExtCondition {
-	public interface $ extends ExtCondition, ExecuteurInstructions {
-		@Override
-		default boolean Flot_si(Condition condition) {
-			return $(condition);
-		}
-	}
-
-	public default boolean $(Condition condition) {
+public interface ExtCondition extends ExecuteurInstructions {
+	@Override
+	default boolean Flot_si(Condition condition) {
 		return condition.accept(this);
 	}
 

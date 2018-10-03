@@ -33,7 +33,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
  * @author Bruju
  *
  */
-public class FormulaMaker implements ExtCondition.$, ExtChangeVariable.$$PasAffectation {
+public class FormulaMaker implements ExtCondition, ExtChangeVariable.SansAffectation {
 	/** Un objet permettant de convertir des valeurs ActionMaker en valeurs FormulaTracker */
 	private Traducteur traducteur;
 	/** Un objet appelé lorsqu'une ligne quelconque est lue */

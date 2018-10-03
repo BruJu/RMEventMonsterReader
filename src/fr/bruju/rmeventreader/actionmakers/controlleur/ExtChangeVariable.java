@@ -20,7 +20,7 @@ import fr.bruju.rmeventreader.actionmakers.modele.VariablePlage;
  * @author Bruju
  *
  */
-public interface ExtChangeVariable {
+public interface ExtChangeVariable extends ExecuteurInstructions {
 
 	/**
 	 * Transforme les affectations en changement de variables.
@@ -28,7 +28,7 @@ public interface ExtChangeVariable {
 	 * @author Bruju
 	 * @see $$
 	 */
-	public interface $$PasAffectation extends $ {
+	public interface SansAffectation extends ExtChangeVariable {
 		@Override
 		default void affecterVariable(Pointeur valeurGauche, ValeurDivers valeurDroite) {
 			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
@@ -109,29 +109,12 @@ public interface ExtChangeVariable {
 			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
 		}
 	}
-	
-	public interface $ extends ExtChangeVariable, ExecuteurInstructions {
-		@Override
-		default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
-			$(valeurGauche, nouvelleValeur);
-		}
-
-		@Override
-		default void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-			$(valeurGauche, valeurDroite);
-		}
-
-		@Override
-		default void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
-				ValeurDroiteVariable valeurDroite) {
-			$(valeurGauche, operateur, valeurDroite);
-		}
-	}
 
 	/*
 	 * Changement d'interrupteur
 	 */
-	public default void $(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
+	@Override
+	public default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
 		if (nouvelleValeur == null) {
 			if (valeurGauche instanceof Variable) {
 				inverseSwitch((Variable) valeurGauche);
@@ -167,9 +150,11 @@ public interface ExtChangeVariable {
 	 * Changement de variable
 	 */
 
-	public default void $(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
+	@Override
+	public default void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
 		if (valeurGauche instanceof VariablePlage) {
-			((VariablePlage) valeurGauche).getList().forEach(variable -> $(variable, valeurDroite));
+			((VariablePlage) valeurGauche).getList()
+				.forEach(variable -> Variables_affecterVariable(variable, valeurDroite));
 			return;
 		}
 
@@ -276,9 +261,13 @@ public interface ExtChangeVariable {
 	 * Modification de variable
 	 */
 
-	public default void $(ValeurGauche valeurGauche, OpMathematique operateur, ValeurDroiteVariable valeurDroite) {
+
+	@Override
+	default void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur,
+			ValeurDroiteVariable valeurDroite) {
 		if (valeurGauche instanceof VariablePlage) {
-			((VariablePlage) valeurGauche).getList().forEach(variable -> $(variable, operateur, valeurDroite));
+			((VariablePlage) valeurGauche).getList()
+				.forEach(variable -> Variables_changerVariable(variable, operateur, valeurDroite));
 			return;
 		}
 

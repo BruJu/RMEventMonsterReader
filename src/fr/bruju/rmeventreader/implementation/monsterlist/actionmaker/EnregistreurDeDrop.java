@@ -20,7 +20,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
  * : End of fork
  * </pre>
  */
-public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition.$, ExtChangeVariable.$ {
+public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, ExtChangeVariable {
 	/* ============
 	 * Construction
 	 * ============ */
