@@ -45,7 +45,7 @@ public class ActivationDInterrupteur implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class ChercheurDeOn implements ExecuteurInstructionsTrue, ExtChangeVariable.$$ {
+	public class ChercheurDeOn implements ExecuteurInstructionsTrue, ExtChangeVariable.$ {
 		/** Référence à ajouter si une activation de switch est trouvé */
 		private Reference ref;
 

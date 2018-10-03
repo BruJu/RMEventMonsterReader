@@ -28,11 +28,6 @@ public interface ExtCondition {
 			return $(condition);
 		}
 	}
-	
-	public interface $$ extends ExecuteurInstructions, $ {
-		
-	}
-
 
 	public default boolean $(Condition condition) {
 		return condition.accept(this);

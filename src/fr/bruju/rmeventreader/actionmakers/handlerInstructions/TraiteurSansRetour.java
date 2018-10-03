@@ -4,11 +4,11 @@ import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.controlleur.Ignorance;
 
 public interface TraiteurSansRetour extends Traiteur {
-	public void executer(ExecuteurInstructions executeur, int[] parametres, String chaine);
+	public void $10630_modifierCharsetHeros(ExecuteurInstructions executeur, int[] parametres, String chaine);
 
 	@Override
 	public default boolean traiter(ExecuteurInstructions executeur, int[] parametres, String chaine) {
-		executer(executeur, parametres, chaine);
+		$10630_modifierCharsetHeros(executeur, parametres, chaine);
 		return true;
 	}
 

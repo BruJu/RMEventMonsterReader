@@ -216,7 +216,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre>
 	 * Ces pages ne contiennent que des instruction du type "modifier une variable" ou "modifier un interrupteur".
 	 *
 	 */
-	public class Page implements ExtChangeVariable.$$ {
+	public class Page implements ExtChangeVariable.$ {
 		/** Liste des actions réaliser vues */
 		private List<Consumer<Monstre>> actionsARealiser = new ArrayList<>();
 

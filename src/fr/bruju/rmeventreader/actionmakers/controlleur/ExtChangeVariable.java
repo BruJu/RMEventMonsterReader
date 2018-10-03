@@ -28,7 +28,7 @@ public interface ExtChangeVariable {
 	 * @author Bruju
 	 * @see $$
 	 */
-	public interface $$PasAffectation extends $$ {
+	public interface $$PasAffectation extends $ {
 		@Override
 		default void affecterVariable(Pointeur valeurGauche, ValeurDivers valeurDroite) {
 			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
@@ -109,17 +109,7 @@ public interface ExtChangeVariable {
 			changerVariable(valeurGauche, OpMathematique.AFFECTATION, valeurDroite);
 		}
 	}
-
-	/**
-	 * Permet d'avoir à la fois le rôle d'exécuteur d'instructions et d'expliciteur de possibilités
-	 * 
-	 * @author Bruju
-	 *
-	 */
-	public interface $$ extends ExecuteurInstructions, $ {
-		
-	}
-
+	
 	public interface $ extends ExtChangeVariable, ExecuteurInstructions {
 		@Override
 		default void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {

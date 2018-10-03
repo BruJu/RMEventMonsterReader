@@ -1,14 +1,13 @@
 package fr.bruju.rmeventreader.actionmakers.controlleur;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
-import fr.bruju.rmeventreader.actionmakers.handlerInstructions.TraiteurSansRetour;
 import fr.bruju.rmeventreader.actionmakers.handlerInstructions.Traiteur;
-import fr.bruju.rmeventreader.actionmakers.handlerInstructions.Remplisseur;
+import fr.bruju.rmeventreader.actionmakers.handlerInstructions.DechiffrageDesInstructions;
 
 /**
  * Un déchiffreur d'instructions qui permet d'appeler des fonctions ayant des noms plus explicites qu'un code et une
@@ -23,20 +22,15 @@ public class DechiffreurInstructions {
 	 * ======================================= */
 	
 	/** Instructions pouvant renvoyer un booléen connues */
-	private static Map<Integer, Traiteur> instructionsConnuesClasse2;
+	private static Map<Integer, Traiteur> instructionsConnues;
 	
 	/** Rempli la liste des instructions connues */
 	private static void remplirInstructions() {
-		if (instructionsConnuesClasse2 != null)
+		if (instructionsConnues != null)
 			return;
 		
-		Map<Integer, TraiteurSansRetour> instructionsConnues = new HashMap<>();
-		instructionsConnuesClasse2 = new HashMap<>();
-		Stream.of(Remplisseur.getAll()).forEach(remplisseur -> 
-			remplisseur.remplirMap(instructionsConnues, instructionsConnuesClasse2)
-		);
-		
-		instructionsConnuesClasse2.putAll(instructionsConnues);
+		instructionsConnues = new HashMap<>();
+		new DechiffrageDesInstructions().remplirMap(instructionsConnues);
 	}
 	
 	/* =========
@@ -66,15 +60,15 @@ public class DechiffreurInstructions {
 	public void executer(RMInstruction instruction) {
 		int code = instruction.code();
 		
-		if (code == 10) {
-			
-		} else if (ignorance != null) {
+		if (ignorance != null) {
 			ignorance = ignorance.appliquerCode(code);
 		} else {
-			Traiteur traiteur = instructionsConnuesClasse2.get(code);
+			Traiteur traiteur = instructionsConnues.get(code);
 		
 			if (traiteur == null) {
-				System.out.println(" --> Instruction [" + code + "] non déchiffrable");
+				System.out.println(" --> Instruction [" + code + "] non déchiffrable "
+						+ "<" + instruction.argument() + "> "
+						+ Arrays.toString(instruction.parametres()));
 			} else {
 				if (!traiteur.traiter(executeur, instruction.parametres(), instruction.argument())) {
 					ignorance = traiteur.creerIgnorance();	

@@ -29,7 +29,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Nombre
  * @author Bruju
  *
  */
-public class ComposeurInitial implements ExtChangeVariable.$$PasAffectation, ExtCondition.$$ {
+public class ComposeurInitial implements ExtChangeVariable.$$PasAffectation, ExtCondition.$ {
 	/** Décalage donné aux interrupteurs */
 	public static final int OFFSET_SWITCH = 5000;
 	
