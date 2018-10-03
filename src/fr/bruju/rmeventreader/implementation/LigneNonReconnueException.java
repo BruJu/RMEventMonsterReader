@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.filereader;
+package fr.bruju.rmeventreader.implementation;
 
 /**
  * Exception jetée lorsqu'une ligne n'est pas reconnue

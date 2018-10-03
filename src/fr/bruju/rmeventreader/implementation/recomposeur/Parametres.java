@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class Parametres {
@@ -16,7 +16,7 @@ public class Parametres {
 		
 		AtomicReference<String> sectionActuelle = new AtomicReference<>();
 		
-		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
 			if (ligne.startsWith("== ") && ligne.endsWith(" ==")) {
 				// Changer de section
 				sectionActuelle.set(ligne.substring(3, ligne.length() - 3));

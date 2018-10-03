@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.dictionnaires.LecteurDeLCF$;
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.recomposeur.actionmaker.Extracteur;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
@@ -20,6 +19,7 @@ import fr.bruju.rmeventreader.implementation.recomposeur.operations.desinjection
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.Unificateur;
 import fr.bruju.lcfreader.rmobjets.RMFabrique;
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -83,8 +83,8 @@ public class Recomposition implements Runnable {
 	private Arbre construireArbre() {
 		MonteurDArbre exp = new MonteurDArbre(base);
 		
-		FileReaderByLine.lectureFichierRessources(CHEMIN_ATTAQUES, ligne -> {
-			String[] donnees = FileReaderByLine.splitter(ligne, 3);
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(CHEMIN_ATTAQUES, ligne -> {
+			String[] donnees = LecteurDeFichiersLigneParLigne.diviser(ligne, 3);
 			
 			String nomAttaque = donnees[2];
 			String nomPersonnage = donnees[1];

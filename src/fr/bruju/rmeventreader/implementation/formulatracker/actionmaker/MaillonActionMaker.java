@@ -3,13 +3,13 @@ package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 import java.io.IOException;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.Explorateur;
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.IdentiteAttaque;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Maillon permettant d'initialiser la base d'attaques en fonction d'un fichier ressources statistiques et des
@@ -31,8 +31,8 @@ public class MaillonActionMaker implements Maillon {
 
 
 	private void attaquesParXML(Personnages contexte, Attaques attaques, String chemin) {
-		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
-			String[] donnees = FileReaderByLine.splitter(ligne, 3);
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
+			String[] donnees = LecteurDeFichiersLigneParLigne.diviser(ligne, 3);
 			
 			Attaque attaque = creerAttaqueXML(contexte,
 											new IdentiteAttaque(donnees[2], donnees[1]),

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**
@@ -110,7 +110,7 @@ public class Contexte {
 	 */
 	public void remplirContexte(String fichier) {
 		initierLectureFichier();
-		FileReaderByLine.lectureFichierRessources(fichier, ligne -> etat.lireLigne(ligne));	}
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(fichier, ligne -> etat.lireLigne(ligne));	}
 	
 	/**
 	 * Donne la liste des variables concernant une statistique

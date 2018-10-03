@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Lit des paramètres dans le fichier ressources/Parametres.txt 
@@ -24,7 +24,7 @@ public class Parametre {
 	private void remplir() {
 		parametres = new HashMap<>();
 		
-		FileReaderByLine.lectureFichierRessources(FICHIER, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(FICHIER, ligne -> {
 			String[] paire = ligne.split(" ", 2);
 			parametres.put(paire[0], paire[1]);
 		});

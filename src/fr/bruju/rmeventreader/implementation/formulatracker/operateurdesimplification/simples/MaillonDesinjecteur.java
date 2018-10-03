@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
@@ -20,6 +19,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Att
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
@@ -59,7 +59,7 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 	private void remplirAvecFichier(String chemin) {
 		conditionsADesinjecter = new HashMap<>();
 		
-		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
 			String[] tableau = ligne.split(" ", 3);
 			
 			String nomDuMonstre = tableau[0];

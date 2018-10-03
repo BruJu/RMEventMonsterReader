@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
@@ -15,6 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Injecte des valeurs lues dans un fichier du type "30 ON", "170 7" pour dire que l'interrupteur 30 est activé et que
@@ -57,7 +57,7 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantsRecursif
 		interrupteurs = new HashMap<>();
 		variables = new HashMap<>();
 		
-		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
 			String[] donnees = ligne.split(" ");
 			
 			String idStr = donnees[0];

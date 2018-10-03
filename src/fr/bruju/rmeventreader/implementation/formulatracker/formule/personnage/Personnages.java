@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
-import fr.bruju.rmeventreader.filereader.LigneNonReconnueException;
+import fr.bruju.rmeventreader.implementation.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 public class Personnages {
 	/** Chemin vers la liste des variables et interrutpeurs nommés */
@@ -28,7 +28,7 @@ public class Personnages {
 	 * @throws IOException
 	 */
 	public void lirePersonnagesDansFichier(String chemin) throws IOException {
-		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
 			String[] donnees = ligne.split(" ");
 			
 			if (donnees == null || donnees.length != 3) {
@@ -55,7 +55,7 @@ public class Personnages {
 	 */
 	public void remplirVariablesNommees(Map<Integer, Valeur> variablesExistantes,
 			Map<Integer, Bouton> interrupteursExistants) {
-		FileReaderByLine.lectureFichierRessources(cheminNommes, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(cheminNommes, ligne -> {
 			String[] donnees = ligne.split(" ");
 			
 			if (donnees == null || donnees.length != 3) {

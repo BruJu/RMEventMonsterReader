@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Cette classe récupère la liste des motifs à reconnaître.
@@ -21,7 +21,7 @@ public class SymboleReconnus {
 	public List<Motif> getMotifs() {
 		List<Motif> motifs = new ArrayList<>();
 
-		boolean m = FileReaderByLine.lectureFichierRessources(CHEMIN_MOTIFS_CONNUS, line -> {
+		boolean m = LecteurDeFichiersLigneParLigne.lectureFichierRessources(CHEMIN_MOTIFS_CONNUS, line -> {
 				if (line.startsWith("//")) {
 					return;
 				}

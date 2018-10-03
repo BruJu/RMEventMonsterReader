@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.dictionnaires.Encyclopedie;
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Action consistant à faire remplacer des valeurs par d'autres à travers un dictionnaire.
@@ -78,8 +78,8 @@ public class Correspondance implements Runnable {
 		 * Lit un fichier pour remplir les correspondances
 		 */
 		private void lireFichier(String chemin) throws IOException {
-			FileReaderByLine.lectureFichierRessources(chemin, line -> {
-				String[] chaines = FileReaderByLine.splitter(line, 2);
+			LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, line -> {
+				String[] chaines = LecteurDeFichiersLigneParLigne.diviser(line, 2);
 
 				map.put(chaines[0], chaines[1]);
 			});

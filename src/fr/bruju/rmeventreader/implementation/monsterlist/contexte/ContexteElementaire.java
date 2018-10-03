@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /** 
  * Lit des fichiers du type
@@ -74,7 +74,7 @@ public class ContexteElementaire {
 	public void lireContexteElementaire(String chemin) {
 		AtomicBoolean etatActuel = new AtomicBoolean(true); // true = lecture d'élément ; false = lecture de parties
 		
-		FileReaderByLine.lectureFichierRessources(chemin, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
 			if (ligne.equals("- Element -")) {
 				etatActuel.set(true);
 			} else if (ligne.equals("- Parties -")) {

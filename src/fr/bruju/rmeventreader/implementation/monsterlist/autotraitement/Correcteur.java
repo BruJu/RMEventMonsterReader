@@ -3,10 +3,10 @@ package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.filereader.FileReaderByLine;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Corrige la liste des monstres en utilisant un fichier
@@ -49,7 +49,7 @@ public class Correcteur implements Runnable {
 
 	@Override
 	public void run() {
-		FileReaderByLine.lectureFichierRessources(filename, this::read);
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(filename, this::read);
 	}
 
 	/**
