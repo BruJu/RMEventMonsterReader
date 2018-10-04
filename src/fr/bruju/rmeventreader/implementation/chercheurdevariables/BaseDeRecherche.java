@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.reference.Reference;
+import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.rmdechiffreur.reference.Reference;
 
 /**
  * Interface définissant les objets centralisant les résultats obtenus lors d'une recherche

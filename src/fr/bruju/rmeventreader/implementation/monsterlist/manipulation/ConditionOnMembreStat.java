@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
-import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 /**
  * Condition sur une statistique d'un monstre

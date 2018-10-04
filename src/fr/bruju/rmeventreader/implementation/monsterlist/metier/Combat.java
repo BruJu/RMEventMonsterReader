@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**

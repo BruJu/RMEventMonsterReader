@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.simples;
 
-import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 
 /**
  * Maillon supprimant les formules appliquant l'opérateur donné

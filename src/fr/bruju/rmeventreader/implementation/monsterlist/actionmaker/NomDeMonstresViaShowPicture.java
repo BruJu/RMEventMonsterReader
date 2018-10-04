@@ -2,15 +2,15 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
-import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
-import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
-import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
-import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtCondition;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Couleur;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.FixeVariable;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurFixe;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ExecEnum.TypeEffet;
 
 /**
  * Complète la base de données en lisant des affichages d'images et des conditions sur le numéro du combat et le numéro

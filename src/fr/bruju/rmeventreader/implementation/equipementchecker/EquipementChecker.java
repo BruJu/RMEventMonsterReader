@@ -2,15 +2,15 @@ package fr.bruju.rmeventreader.implementation.equipementchecker;
 
 import java.util.TreeMap;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
-import fr.bruju.rmeventreader.actionmakers.modele.Condition;
-import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
-import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
-import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondHerosPossedeObjet;
-import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondInterrupteur;
-import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
+import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurGauche;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondInterrupteur;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondVariable;
 
 public class EquipementChecker implements ExecuteurInstructions {
 	/** Numéro du héros */

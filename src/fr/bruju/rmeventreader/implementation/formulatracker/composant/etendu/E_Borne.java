@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu;
 
-import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 import java.util.Objects;
 

@@ -1,8 +1,5 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.actionmaker;
 
-import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
-import fr.bruju.rmeventreader.actionmakers.modele.ValeurAleatoire;
-import fr.bruju.rmeventreader.actionmakers.modele.ValeurFixe;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CArme;
@@ -12,6 +9,9 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VAleatoire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurAleatoire;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurFixe;
 
 /**
  * Convertisseur de variables de type ActionMaker en variables de type FormulaTracker

@@ -2,12 +2,12 @@ package fr.bruju.rmeventreader.implementation.magasin;
 
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
-import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Direction;
-import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
 import fr.bruju.lcfreader.rmobjets.RMMap;
+import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurDroiteVariable;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurGauche;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.ExecEnum.Direction;
+import fr.bruju.rmeventreader.rmdechiffreur.reference.ReferenceMap;
 
 public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 	private Map<Integer, Magasin> magasins;

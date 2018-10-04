@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 
 import java.util.function.BinaryOperator;
 
-import fr.bruju.rmeventreader.actionmakers.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
@@ -11,6 +10,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 
 /**
  * Factorise partiellement les calculs dans la valeur

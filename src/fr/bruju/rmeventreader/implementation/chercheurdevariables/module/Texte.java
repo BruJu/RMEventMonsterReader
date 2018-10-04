@@ -3,9 +3,9 @@ package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 import java.util.TreeSet;
 import java.util.Set;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
+import fr.bruju.rmeventreader.rmdechiffreur.reference.Reference;
 
 /**
  * Recherche une chaîne dans tous les dialogues du jeu

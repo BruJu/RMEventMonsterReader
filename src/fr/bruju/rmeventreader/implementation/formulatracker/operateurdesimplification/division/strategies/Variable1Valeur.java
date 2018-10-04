@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBase;
@@ -15,6 +14,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplific
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireVariableDifferent;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireVariableIdentique;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 public class Variable1Valeur implements StrategieDeDivision {
 	

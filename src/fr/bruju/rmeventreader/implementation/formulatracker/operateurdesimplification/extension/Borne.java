@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 
 import java.util.Objects;
 
-import fr.bruju.rmeventreader.actionmakers.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CVariable;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.etendu.E_Borne;
@@ -13,6 +12,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Val
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
+import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 /**
  * Maillon transformant les ternaires du type si a > b alors b sinon a en max / min.
