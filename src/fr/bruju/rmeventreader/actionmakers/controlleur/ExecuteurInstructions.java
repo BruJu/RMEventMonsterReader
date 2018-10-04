@@ -604,182 +604,370 @@ public interface ExecuteurInstructions {
 		
 	}
 	
-	
+	/**
+	 * Modifie un des effets sonores
+	 * @param son L'effet sonore à modifier
+	 * @param nom Le nom du fichier contenant le nouvel effet sonore
+	 * @param parametres Les paramètres sonores
+	 */
 	public default void Systeme_modifierEffetSonore(ExecEnum.EffetSonore son, String nom, SonParam parametres) {
 	}
 	
+	/**
+	 * Modifie le portrait d'un héros
+	 * @param idHeros Le numéro du héros
+	 * @param faceset La planche contenant les portraits
+	 * @param numeroFaceset Le numéro du nouveau portrait
+	 */
 	public default void Systeme_modifierFaceset(int idHeros, String faceset, int numeroFaceset) {
 	}
 
+	/**
+	 * Modifie le grade d'un héros
+	 * @param idHeros Le numéro du héros
+	 * @param nouveauGrade Le nouveau grade
+	 */
 	public default void Systeme_modifierGrade(int idHeros, String nouveauGrade) {
 	}
 
+	/**
+	 * Modifie une des musiques du système
+	 * @param musique La musique modifiée
+	 * @param nom Le nom de la musique modifiée
+	 * @param temspFondu Le temps de fondu pour jouer la musique
+	 * @param parametres Les paramètres sonores
+	 */
 	public default void Systeme_modifierMusique(ExecEnum.Musique musique, String nom, int temspFondu,
 			SonParam parametres) {
 	}
 
+	/**
+	 * Modifie le nom d'un des héros
+	 * @param idHeros Le numéro du héros
+	 * @param nouveauNom Son nouveau nom
+	 */
 	public default void Systeme_modifierNom(int idHeros, String nouveauNom) {
 	}
 
+	/**
+	 * Modifie une des transitions du jeu
+	 * @param sujetTransition La transition modifiée
+	 * @param entrant Si vrai, la transition entrant est modifiée, sinon la sortante
+	 * @param transition La transition (DEFAUT est banni)
+	 */
 	public default void Systeme_modifierTransition(SujetTransition sujetTransition, boolean entrant,
 			Transition transition) {
 		
 	}
+	
+	/**
+	 * Modifie la possibilité de fuire la zone
+	 * @param etat Si vrai les sorts de fuite peuvent être utilisés
+	 */
 	public default void Systeme_peutFuir(boolean etat) {
 		
 	}
 
+	/**
+	 * Modifie la possibilité d'ouvrir le menu
+	 * @param etat Si vrai le joueur peut ouvrir le menu
+	 */
 	public default void Systeme_peutOuvrirLeMenu(boolean etat) {
 		
 	}
 	
+	/**
+	 * Modifie la possibilité de sauvegarder dans le menu
+	 * @param etat Si vrai active la possibilité de sauvegarder dans le menu
+	 */
 	public default void Systeme_peutSauvegarder(boolean etat) {
 		
 	}
 
+	/**
+	 * Modifie la possibilité d'utiliser le sort de téléportation
+	 * @param etat Si vrai le joueur peut utiliser les magies de téléportation
+	 */
 	public default void Systeme_peutSeTeleporter(boolean etat) {
 		
 	}
 	
+	/**
+	 * Affiche le message contenu dans la chaîne. Cet affichage peut être suivi d'autres Messages_affficherSuiteMessage.
+	 * @param chaine La ligne à afficher
+	 */
 	public default void Messages_afficherMessage(String chaine) {
 	}
 
+	/**
+	 * Affiche une nouvelle ligne de dialogue au sein d'un message déjà affiché
+	 * @param chaine La ligne à afficher
+	 */
 	public default void Messages_afficherSuiteMessage(String chaine) {
 	}
 
+	/**
+	 * Modifie les options d'affichage de message
+	 * @param transparent Si vrai la boite de dialogue est transparente
+	 * @param position La position par défaut
+	 * @param positionnementAuto Si vrai, la position par défaut peut ne pas être respectée si le joueur est à la
+	 * position où la boite aurait dû s'afficher
+	 * @param bloquant Si vrai, afficher le message bloque le jeu
+	 */
 	public default void Messages_modifierOptions(boolean transparent, Position position,
 			boolean positionnementAuto, boolean bloquant) {	
 	}
 
+	/**
+	 * Initie un QCM
+	 * @param choixLorsDeLAnnulation Le choix pris si le joueur appuie sur Echap
+	 * @return Vrai si on souhaite explorer les possibilités du QCM
+	 */
 	public default boolean SaisieMessages_initierQCM(ChoixQCM choixLorsDeLAnnulation) {
 		return getBooleenParDefaut();
 	}
 
-	public default boolean SaisieMessages_choixQCM(String texte, ChoixQCM numero) {
-		return getBooleenParDefaut();
+	/**
+	 * Représente un des choix du QCM
+	 * @param texte Le texte représentant le choix
+	 * @param numero Le numéro du choix
+	 */
+	public default void SaisieMessages_choixQCM(String texte, ChoixQCM numero) {
+		
 	}
 
-
+	/**
+	 * Déclare la fin d'un QCM
+	 */
 	public default void SaisieMessages_finQCM() {
 	}
 
+	/**
+	 * Demande au joueur de saisir un nombre
+	 * @param idVariable La variable qui va stocker le nombre
+	 * @param nombreDeChiffres Le nombre de chiffres possibles
+	 */
 	public default void SaisieMessages_saisieNombre(int idVariable, int nombreDeChiffres) {
 	}
 
+	/**
+	 * Demande au joueur de saisir le nom d'un personnage
+	 * @param idHeros Le numéro du personnage
+	 * @param lettres Si vrai, les letres sont affichées par défaut pour être saisies
+	 * @param afficherNomParDefaut Si vrai le nom du personnage est préinscrit
+	 */
 	public default void SaisieMessages_SaisieNom(int idHeros, boolean lettres, boolean afficherNomParDefaut) {
 	}
 
+	/**
+	 * Permet de recevoir l'appuie sur une touche
+	 * @param numeroVariable Le numéro de la variable où sera inscrite la touche sur laquelle le joeuur a appuyé
+	 * @param bloquant Si vrai l'évènement est bloqué jusqu'à l'appuie sur une touche
+	 * @param enregistrementTempsMis Si différent de -1, le temps d'attente sera inscrit dans la variable à ce numéro
+	 * @param haut Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param droite Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param bas Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param gauche Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param entree Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param annuler Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param maj Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param chiffres Si vrai, l'appuie sur cette touche finira l'instruction
+	 * @param symboles Si vrai, l'appuie sur cette touche finira l'instruction
+	 */
 	public default void Messages_appuiTouche(int numeroVariable, boolean bloquant, int enregistrementTempsMis, boolean haut,
 			boolean droite, boolean bas, boolean gauche, boolean entree, boolean annuler, boolean maj, boolean chiffres,
 			boolean symboles) {
 		
 	}
 	
-	/*
-	 * FLOT
+	/**
+	 * Exécute les instructions contenues dans l'évènement indiqué. evenement et page sont de même type
+	 * @param evenement L'évènement contenant les instructions
+	 * @param page La page contenant les instructions
 	 */
-	
 	public default void Flot_appelEvenementCarte(FixeVariable evenement, FixeVariable page) {
 		
 	}
 
+	/**
+	 * Exécute les instructions contenues dans un évènement commun
+	 * @param numero Le numéro de l'évènement commun
+	 */
 	public default void Flot_appelEvenementCommun(int numero) {
 		
 	}
 
+	/**
+	 * Commence une boucle
+	 */
 	public default void Flot_boucleDebut() {
 		
 	}
 	
+	/**
+	 * Termine une boucle (retourne au début)
+	 */
 	public default void Flot_boucleFin() {
 		
 	}
 
+	/**
+	 * Sort de la boucle en cours
+	 */
 	public default void Flot_boucleSortir() {
 		
 	}
 	
+	/**
+	 * Affiche un commentaire (aucun effet en jeu)
+	 * @param message Le commentaire
+	 */
 	public default void Flot_commentaire(String message) {
 		
 	}
 
+	/**
+	 * Efface l'évènement en cours
+	 */
 	public default void Flot_effacerCetEvenement() {
 		
 	}
 
+	/**
+	 * Pose une étiquette
+	 * @param numero Le numéro de l'étiquette
+	 */
 	public default void Flot_etiquette(int numero) {
 		
 	}
 
+	/**
+	 * Saut vers une étiquette
+	 * @param numero Le numéro de l'étiquette
+	 */
 	public default void Flot_sautEtiquette(int numero) {
 		
 	}
 
+	/**
+	 * Commence une condition
+	 * @param condition La condition
+	 * @return Vrai si le contenu est exploré
+	 */
 	public default boolean Flot_si(Condition condition) {
 		return getBooleenParDefaut();
 	}
 	
+	/**
+	 * Termine un bloc conditionnel
+	 */
 	public default void Flot_siFin() {
 		
 	}
+	
+	/**
+	 * Déclare le début des instructions exétuées si la condition est fausse 
+	 */
 	public default void Flot_siNon() {
 	}
 
+	/**
+	 * Met fin à l'exécution des instructions
+	 */
 	public default void Flot_stopperCetEvenement() {
 		
 	}
 	
-	/*
-	 * SYSTEME PRE INTEGRES
-	 */
 	
-	public default boolean Magasin_auberge(boolean type1, int prix) {
-		return getBooleenParDefaut();
+	/**
+	 * Affiche l'interface d'une auberge 
+	 * @param type1 Détermine si l'ensemble de message des auberges 1 ou 2 sont affichées (si vrai, affiche le premier
+	 * ensemble)
+	 * @param prix Le prix d'une nuit
+	 */
+	public default void Magasin_auberge(boolean type1, int prix) {
 	}
+	
 
+	/**
+	 * Déclare la fin des instructions d'une auberge
+	 */
 	public default void Magasin_aubergeFinBranche() {
 	}
 
-	public default boolean Magasin_aubergeNonRepos() {
-		return getBooleenParDefaut();
+	/**
+	 * Déclare le début des instructions exécutées si le joueur ne se repose pas dans l'aubrge
+	 */
+	public default void Magasin_aubergeNonRepos() {
 	}
 
-	public default boolean Magasin_aubergeRepos() {
-		return getBooleenParDefaut();
+	/**
+	 * Déclare le début des instructions exécutées si le joueur se repose dans l'auberge
+	 */
+	public default void Magasin_aubergeRepos() {
 	}
 
-	public default boolean Magasin_magasin(int dialogue, int[] objetsAchetables, boolean ventePossible) {
-		return getBooleenParDefaut();
+	/**
+	 * Appelle un magasin
+	 * @param dialogue Ensemble de dialogues choisis dans la base de données
+	 * @param objetsAchetables La liste des identifiants des objets achetables. Si null le joueur ne peut pas acheter
+	 * @param ventePossible Si vrai le joueur peut vendre ses objets dans le magasin
+	 */
+	public default void Magasin_magasin(int dialogue, int[] objetsAchetables, boolean ventePossible) {
+	}
+	
+	/**
+	 * Début des instructions exécutées si le joueur n'achète rien 
+	 */
+	public default void Magasin_magasinBrancheNonVente() {
 	}
 
-	public default boolean Magasin_magasinBrancheNonVente() {
-		return getBooleenParDefaut();
+	/**
+	 * Début des instructions exécutées si le joueur achète quelque chose
+	 */
+	public default void Magasin_magasinBrancheVente() {
 	}
 
-	public default boolean Magasin_magasinBrancheVente() {
-		return getBooleenParDefaut();
-	}
-
+	/**
+	 * Fin des instructions exécutées selon les actions du joueur avec le magasin
+	 */
 	public default void Magasin_magasinFinBranche() {
 	}
-
-
-	public default boolean Combat_brancheDefaite() {
-		return getBooleenParDefaut();
+	
+	/**
+	 * Branche explorée en cas de défaite lors d'un combat
+	 */
+	public default void Combat_brancheDefaite() {
 	}
 
-	public default boolean Combat_brancheFuite() {
-		return getBooleenParDefaut();
+	/**
+	 * Branche explorée en cas de fuite lors d'un combat
+	 */
+	public default void Combat_brancheFuite() {
 	}
 
-	public default boolean Combat_brancheVictoire() {
-		return getBooleenParDefaut();
+	/**
+	 * Branche explorée en cas de victoire lors d'un combat
+	 */
+	public default void Combat_brancheVictoire() {
 	}
 
-
+	/**
+	 * Fin d'un bloc des instructions spécifiques à l'issue d'un combat scripté
+	 */
 	public default void Combat_finBranche() {
 	}
 
+	/**
+	 * Lance un combat scripté
+	 * @param idCombat Le numéro du combat
+	 * @param conditions Les conditions de combat
+	 * @param arrierePlan L'arrière plan choisit
+	 * @param fuite L'attitude à adopter en cas de fuite
+	 * @param defaitePossible Vrai si le joueur peut perdre
+	 * @param avantage Vrai si le joueur l'avantage sur ce combat
+	 * @return Vrai si les sous instructions doivent être explorées
+	 */
 	public default boolean Combat_lancerCombat(FixeVariable idCombat, ConditionsDeCombat conditions, ArrierePlanCombat arrierePlan,
 			CombatComportementFuite fuite, boolean defaitePossible, boolean avantage) {
 		return getBooleenParDefaut();
@@ -799,44 +987,107 @@ public interface ExecuteurInstructions {
 			int variance, int degatsEnregistresDansVariable) {
 	}
 	
-	/*
-	 * MEDIA
-	 */
 	
+	/**
+	 * Arrête la musique
+	 * @param tempsFondu Le temps de fondu en secondes
+	 */
 	public default void Media_arreterMusique(int tempsFondu) {
 		
 	}
+	
+	/**
+	 * Jouer un film. x et y sont de même type
+	 * @param nomFilm Le nom du film
+	 * @param x La position en x
+	 * @param y La position en y
+	 * @param longueur La longueur de la vidéo en pixels
+	 * @param largeur La largeur de la vidéo en pixels
+	 */
 	public default void Media_jouerFilm(String nomFilm, FixeVariable x, FixeVariable y, int longueur, int largeur) {
 		
 	}
 
+	/**
+	 * Joue une musique
+	 * @param nomMusique Le nom de la musique
+	 * @param tempsFondu Le temps de fondu
+	 * @param parametresMusicaux Les paramètres sonores
+	 */
 	public default void Media_jouerMusique(String nomMusique, int tempsFondu, SonParam parametresMusicaux) {
 		
 	}
 
+	/**
+	 * Joue une musique qui a été mémorisée
+	 */
 	public default void Media_jouerMusiqueMemorisee() {
 		
 	}
 
+	/**
+	 * Joue un son
+	 * @param nomSon Le nom de l'effet sonore
+	 * @param parametresSonore Les paramètres sonores
+	 */
 	public default void Media_jouerSon(String nomSon, SonParam parametresSonore) {
 		
 	}
 
+	/**
+	 * Mémorise la musique en cours de lecture
+	 */
 	public default void Media_memoriserMusique() {
 		
 	}
 
+	/**
+	 * Affiche une image
+	 * @param numeroImage Le numéro de l'image
+	 * @param nomImage Le nom du fichier
+	 * @param xImage La position en x de l'image
+	 * @param yImage La position en y de l'image (même type que xImage)
+	 * @param transparenceHaute La valeur de la transparence haute
+	 * @param transparenceBasse La valeur de la transparence basse
+	 * @param agrandissement Le zoom effectué
+	 * @param couleur La couleur de l'image
+	 * @param saturation La saturation
+	 * @param typeEffet L'effet appliqué sur l'image
+	 * @param intensiteEffet L'intensité de cet effet
+	 * @param transparence Si vrai, la transparence du fichier de l'image de base est utilisée
+	 * @param defilementAvecCarte Vrai si l'image défile avec la caméra
+	 */
 	public default void Image_afficher(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
 			int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
 			int intensiteEffet, boolean transparence, boolean defilementAvecCarte) {
 		
 	}
+	
+	/**
+	 * Déplace une image
+	 * @param numeroImage Numéro de l'image déplacée
+	 * @param xImage La position en x de l'image
+	 * @param yImage La position en y de l'image
+	 * @param transparenceHaute La valeur de la transparence haute
+	 * @param transparenceBasse La valeur de la transparence basse
+	 * @param agrandissement Le zoom effectué
+	 * @param couleur La couleur de l'image
+	 * @param saturation La saturation
+	 * @param typeEffet L'effet appliqué sur l'image
+	 * @param intensiteEffet L'intensité de cet effet
+	 * @param temps Le temps pour passer de l'état actuel de l'état voulu spécifié
+	 * @param pause Si vrai l'évènement est mis en pause pendant le déplacement
+	 */
 	public default void Image_deplacer(int numeroImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
 			int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
 			int intensiteEffet, int temps, boolean pause) {
 		
 	}
 	
+	/**
+	 * Efface l'image dont l'id a été donné
+	 * @param id Le numéro de l'image
+	 */
 	public default void Image_effacer(int id) {
 	}
 }
