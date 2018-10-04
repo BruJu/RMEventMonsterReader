@@ -189,6 +189,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 			conditions.push(new ConditionPassThrought<Combat>());
 			return true;
 		}
+
+		@Override
+		public boolean getBooleenParDefaut() {
+			return false;
+		}
 	}
 
 	/**
@@ -220,6 +225,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 			conditions.push(new ConditionOnMembreStat("Capacité", positionMonstre, comparateur, droite.valeur));
 			return true;
 		}
+
+		@Override
+		public boolean getBooleenParDefaut() {
+			return false;
+		}
 	}
 
 	/**
@@ -243,6 +253,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 		public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
 			throw new FinDeCombatException("Modification d'une quantité d'exp gagnée");
+		}
+
+		@Override
+		public boolean getBooleenParDefaut() {
+			return false;
 		}
 	}
 
@@ -298,6 +313,11 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 			}
 		}
 
+		@Override
+		public boolean getBooleenParDefaut() {
+			return false;
+		}
+
 	}
 
 	private class ConditionGainExpTotal implements Condition<Combat> {
@@ -318,5 +338,10 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 		public boolean filter(Combat element) {
 			return comparateur.test(element.gainExp, expDeReference);
 		}
+	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
 	}
 }

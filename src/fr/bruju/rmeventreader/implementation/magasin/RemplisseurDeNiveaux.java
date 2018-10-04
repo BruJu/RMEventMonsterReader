@@ -58,6 +58,12 @@ public class RemplisseurDeNiveaux implements ExecuteurInstructions {
 	public void Flot_siFin() {
 		idEnCoursDELecture = null;
 	}
+
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
 	
 	
 	

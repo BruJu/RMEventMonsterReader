@@ -4,7 +4,6 @@ import java.util.TreeSet;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 
@@ -43,7 +42,7 @@ public class Texte implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class ChercheurTexte implements ExecuteurInstructionsTrue {
+	public class ChercheurTexte implements ExecuteurInstructions {
 		/** Reference à ajouter */
 		private Reference reference;
 

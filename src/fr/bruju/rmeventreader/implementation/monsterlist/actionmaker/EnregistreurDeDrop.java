@@ -126,6 +126,12 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 			super("DropCompleter :" + message);
 		}
 	}
+
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
 	
 
 	

@@ -18,90 +18,94 @@ import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondHerosPossedeSort
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondMusiqueJoueePlusDUneFois;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondObjet;
-import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition.CondVehiculeUtilise;
 
+/**
+ * Classe implémentant un visiteur par défaut des conditions. Le but étant de permettre d'implémenter facilement les
+ * conditions que l'on souhaite.
+ * 
+ * @author Bruju
+ *
+ */
 public interface ExtCondition extends ExecuteurInstructions {
 	@Override
-	default boolean Flot_si(Condition condition) {
+	public default boolean Flot_si(Condition condition) {
 		return condition.accept(this);
+	}
+	
+	/**
+	 * Booléen retourné par défaut pour les conditions non traitées
+	 * @return Le booléen retourné par défaut pour les conditions non traitées
+	 */
+	public default boolean conditionRetourDeBase() {
+		return getBooleenParDefaut();
 	}
 
 	public default boolean herosStatut(CondHerosAStatut condHerosAStatut) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean herosSort(CondHerosPossedeSort condHerosPossedeSort) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean herosVivant(CondHerosAAuMoinsHp condHerosAAuMoinsHp) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean herosNiveau(CondHerosNiveauMin condHerosNiveauMin) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean herosNomme(CondHerosAPourNom condHerosAPourNom) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean herosPresent(CondHerosDansLEquipe condHerosDansLEquipe) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean musiqueABoucle(CondMusiqueJoueePlusDUneFois condMusiqueJoueePlusDUneFois) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean eventDemarreParAppui(CondEventDemarreParAppui condEventDemarreParAppui) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean vehicule(CondVehiculeUtilise condVehiculeUtilise) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean direction(CondDirection condDirection) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean objet(CondObjet condObjet) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean argent(CondArgent condArgent) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean chrono(CondChrono condChrono) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean interrupteur(CondInterrupteur condInterrupteur) {
-		return false;
-	}
-	
-	public default boolean variable(CondVariable condVariable) {
-		if (condVariable.valeurDroite instanceof ValeurFixe) {
-			return variableFixe(condVariable.variable, condVariable.comparateur,
-					(ValeurFixe) condVariable.valeurDroite);
-		} else {
-			return variableVariable(condVariable.variable, condVariable.comparateur,
-					(Variable) condVariable.valeurDroite);
-		}
+		return conditionRetourDeBase();
 	}
 
 	public default boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
-		return false;
+		return conditionRetourDeBase();
 	}
 
 	public default boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-		return false;
+		return conditionRetourDeBase();
 	}
 }

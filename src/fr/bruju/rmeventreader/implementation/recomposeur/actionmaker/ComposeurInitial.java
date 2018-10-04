@@ -131,4 +131,9 @@ public class ComposeurInitial implements ExtChangeVariable.SansAffectation, ExtC
 		etat = etat.getPetitFrere();
 	}
 
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
+
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.TypeEffet;
@@ -100,7 +100,7 @@ public class ChercheurDImages implements Runnable {
 	 * Exécuteur chargé de répertorier dans la classe mère l'évènement qu'on lui a donné dans le constructeur pour
 	 * toutes les images qu'on lui demandera de modifier à l'écran.
 	 */
-	public class AnalyseurDInstructions implements ExecuteurInstructionsTrue {
+	public class AnalyseurDInstructions implements ExecuteurInstructions {
 		/** Evènement à ajouter */
 		public final EvenementLu evenement;
 		
@@ -138,6 +138,11 @@ public class ChercheurDImages implements Runnable {
 		@Override
 		public void Image_effacer(int id) {
 			utiliseImage(id);
+		}
+
+		@Override
+		public boolean getBooleenParDefaut() {
+			return true;
 		}
 	}
 }

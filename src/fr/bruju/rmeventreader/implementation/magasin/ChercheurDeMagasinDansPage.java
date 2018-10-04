@@ -2,14 +2,14 @@ package fr.bruju.rmeventreader.implementation.magasin;
 
 import java.util.Map;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurDroiteVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurGauche;
 import fr.bruju.rmeventreader.actionmakers.modele.ExecEnum.Direction;
 import fr.bruju.rmeventreader.actionmakers.reference.ReferenceMap;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 
-public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue {
+public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 	private Map<Integer, Magasin> magasins;
 	private RMMap map;
 	private Integer magasinActuel;
@@ -51,5 +51,10 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructionsTrue {
 		System.out.println("Nouveau magasin : " + magasinActuel + " ; " + map.nom()); 
 		
 		magasins.put(magasinActuel, new Magasin(magasinActuel, map.nom()));
+	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return true;
 	}
 }

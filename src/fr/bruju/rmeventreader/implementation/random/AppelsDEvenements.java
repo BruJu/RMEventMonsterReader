@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
+import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
@@ -44,7 +44,7 @@ public class AppelsDEvenements implements Runnable {
 	 * @author Bruju
 	 *
 	 */
-	public class Exec implements ExecuteurInstructionsTrue {
+	public class Exec implements ExecuteurInstructions {
 		/** ID de l'évènement */
 		public final int id;
 		
@@ -68,6 +68,11 @@ public class AppelsDEvenements implements Runnable {
 				}
 			}
 			
+			return true;
+		}
+
+		@Override
+		public boolean getBooleenParDefaut() {
 			return true;
 		}
 	}

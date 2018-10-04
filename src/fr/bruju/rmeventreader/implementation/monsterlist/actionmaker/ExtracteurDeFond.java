@@ -93,4 +93,9 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtC
 		return true;
 	}
 
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
+
 }

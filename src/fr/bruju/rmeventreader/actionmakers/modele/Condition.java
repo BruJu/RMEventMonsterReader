@@ -126,7 +126,11 @@ public interface Condition {
 
 		@Override
 		public boolean accept(ExtCondition extCondition) {
-			return extCondition.variable(this);
+			if (valeurDroite instanceof ValeurFixe) {
+				return extCondition.variableFixe(variable, comparateur, (ValeurFixe) valeurDroite);
+			} else {
+				return extCondition.variableVariable(variable, comparateur, (Variable) valeurDroite);
+			}
 		}
 	}
 	

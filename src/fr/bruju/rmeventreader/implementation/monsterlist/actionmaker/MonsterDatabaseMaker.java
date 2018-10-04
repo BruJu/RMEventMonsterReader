@@ -120,4 +120,9 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> implements 
 
 		return true;
 	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
 }

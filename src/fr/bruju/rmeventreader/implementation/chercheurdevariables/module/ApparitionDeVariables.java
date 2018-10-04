@@ -6,7 +6,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.modele.ArrierePlanCombat;
 import fr.bruju.rmeventreader.actionmakers.modele.Condition;
 import fr.bruju.rmeventreader.actionmakers.modele.Couleur;
@@ -74,7 +73,7 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructionsTrue {
+	public class Chercheur implements ExecuteurInstructions {
 		/** Référence à ajouter */
 		private Reference reference;
 		/** Map d'association variables - références à compléter */
@@ -91,6 +90,10 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 			this.variablesCherchees = variablesCherchees;
 		}
 
+		@Override
+		public boolean getBooleenParDefaut() {
+			return true;
+		}
 		
 		/** Note l'occurence de la variable donnée pour cette référence */
 		public void ajouterVariable(int numero) {
@@ -106,11 +109,6 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 		public Void ajouterVariable(Variable variable) {
 			ajouterVariable(variable.idVariable);
 			return null;
-		}
-		
-		@Override
-		public boolean getBooleenParDefaut() {
-			return true;
 		}
 
 		@Override

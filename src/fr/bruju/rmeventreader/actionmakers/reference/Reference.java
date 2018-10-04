@@ -25,8 +25,21 @@ public interface Reference extends Comparable<Reference> {
 		}
 	}
 	
-	
+	/**
+	 * Renvoie le numéro de la carte
+	 * @return Le numéro de la carte (0 pour les évènements communs)
+	 */
 	public int idCarte();
+	
+	/**
+	 * Renvoie le numéro de la page
+	 * @return Le numéro de la page (0 pour les évènements communs)
+	 */
 	public int idPage();
+	
+	/**
+	 * Renvoie le numéro de l'évènement
+	 * @return Le numéro de l'évènement
+	 */
 	public int idEvenement();
 }

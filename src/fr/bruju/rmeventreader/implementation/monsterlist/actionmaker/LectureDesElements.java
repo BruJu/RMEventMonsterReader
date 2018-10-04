@@ -248,5 +248,15 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 			actionsARealiser.add(monstre -> monstre.accessInt(ContexteElementaire.ELEMENTS).compute(nomElement,
 					(nom, valeur) -> operateur.calculer(valeur, valeurDroite.valeur)));
 		}
+
+		@Override
+		public boolean getBooleenParDefaut() {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
 	}
 }

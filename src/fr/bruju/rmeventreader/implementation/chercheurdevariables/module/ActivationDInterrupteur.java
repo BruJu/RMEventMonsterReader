@@ -4,7 +4,6 @@ import java.util.TreeSet;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExtChangeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
@@ -45,7 +44,7 @@ public class ActivationDInterrupteur implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class ChercheurDeOn implements ExecuteurInstructionsTrue, ExtChangeVariable {
+	public class ChercheurDeOn implements ExecuteurInstructions, ExtChangeVariable {
 		/** Référence à ajouter si une activation de switch est trouvé */
 		private Reference ref;
 
@@ -55,6 +54,11 @@ public class ActivationDInterrupteur implements BaseDeRecherche {
 		 */
 		public ChercheurDeOn(Reference ref) {
 			this.ref = ref;
+		}
+		
+		@Override
+		public boolean getBooleenParDefaut() {
+			return true;
 		}
 
 		@Override

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.bruju.lcfreader.rmobjets.RMInstruction;
-import fr.bruju.rmeventreader.actionmakers.handlerInstructions.Traiteur;
-import fr.bruju.rmeventreader.actionmakers.handlerInstructions.DechiffrageDesInstructions;
 
 /**
  * Un déchiffreur d'instructions qui permet d'appeler des fonctions ayant des noms plus explicites qu'un code et une
@@ -20,6 +18,9 @@ public class DechiffreurInstructions {
 	 * Liste des instructions connues (static)
 	 * ======================================= */
 	
+	/** Booléen qui permet de savoir si le programme doit afficher les instructions avec erreur ou non */
+	public static boolean AFFICHER_ERREURS = false;
+	
 	/** Instructions dont le décryptage est connu */
 	private static Map<Integer, Traiteur> instructionsConnues;
 	
@@ -30,6 +31,16 @@ public class DechiffreurInstructions {
 	private static void remplirInstructions() {
 		if (instructionsConnues == null) {
 			instructionsConnues = new DechiffrageDesInstructions().getTraiteurs();
+		}
+	}
+	
+	/**
+	 * Affiche l'erreur dans la console si AFFICHE_ERREUR est vrai
+	 * @param chaine La chaîne à afficher
+	 */
+	static void afficherErreur(String chaine) {
+		if (AFFICHER_ERREURS) {
+			System.out.print(chaine);
 		}
 	}
 	
@@ -58,21 +69,27 @@ public class DechiffreurInstructions {
 	public void executer(RMInstruction instruction) {
 		int code = instruction.code();
 		
-		if (ignorance != null) {
-			ignorance = ignorance.appliquerCode(code);
-		} else {
+		if (ignorance == null) {
 			Traiteur traiteur = instructionsConnues.get(code);
-		
-			if (traiteur == null) {
-				System.out.println(" --> Instruction [" + code + "] non déchiffrable "
-						+ "<" + instruction.argument() + "> "
-						+ Arrays.toString(instruction.parametres()));
+			
+			if (traiteur != null) {
+				ignorance = traiteur.executer(executeur, instruction.parametres(), instruction.argument());
 			} else {
-				if (!traiteur.traiter(executeur, instruction.parametres(), instruction.argument())) {
-					ignorance = traiteur.creerIgnorance();	
-				}
+				instructionInconnue(instruction);
 			}
+		} else {
+			ignorance = ignorance.appliquerCode(code);
 		}
+	}
+
+	/**
+	 * Affiche un message expliquant que l'instruction est inconnue, avec ses paramètres
+	 * @param instruction L'instruction
+	 */
+	private void instructionInconnue(RMInstruction instruction) {
+		afficherErreur(" --> Instruction [" + instruction.code() + "] non déchiffrable "
+				+ "<" + instruction.argument() + "> "
+				+ Arrays.toString(instruction.parametres()) + "\n");
 	}
 
 	/**

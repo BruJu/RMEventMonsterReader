@@ -4,7 +4,6 @@ import java.util.TreeSet;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructionsTrue;
 import fr.bruju.rmeventreader.actionmakers.modele.FixeVariable;
 import fr.bruju.rmeventreader.actionmakers.modele.ValeurMembre;
 import fr.bruju.rmeventreader.actionmakers.reference.Reference;
@@ -44,7 +43,7 @@ public class ApprentissageSort implements BaseDeRecherche {
 	}
 	
 	/** Chercheur de l'apprentissage du sort */
-	public class Chercheur implements ExecuteurInstructionsTrue {
+	public class Chercheur implements ExecuteurInstructions {
 		/** Référence à ajouter */
 		private Reference reference;
 
@@ -53,6 +52,11 @@ public class ApprentissageSort implements BaseDeRecherche {
 			this.reference = reference;
 		}
 
+		@Override
+		public boolean getBooleenParDefaut() {
+			return true;
+		}
+		
 		@Override
 		public void Equipe_modifierCompetence(ValeurMembre cible, boolean ajouter, FixeVariable sort) {
 			// La compraison avec == TRUE est utile parce que trois valeurs sont possibles (true, false et null)

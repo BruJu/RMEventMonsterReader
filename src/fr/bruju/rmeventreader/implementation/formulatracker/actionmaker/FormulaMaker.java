@@ -299,4 +299,9 @@ public class FormulaMaker implements ExtCondition, ExtChangeVariable.SansAffecta
 						paire.getRight()));
 		}
 	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
 }

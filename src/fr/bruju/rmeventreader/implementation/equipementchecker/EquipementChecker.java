@@ -160,4 +160,9 @@ public class EquipementChecker implements ExecuteurInstructions {
 		}
 		return null;
 	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
 }

@@ -91,4 +91,9 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> imp
 			return false;
 		}
 	}
+
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
 }

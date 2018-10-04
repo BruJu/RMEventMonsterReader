@@ -42,9 +42,7 @@ public interface ExecuteurInstructions {
 	 * toutes les branches, faux si on ne veut pas les explorer.
 	 * @return La valeur par défaut de retour des instructions à retour booléen
 	 */
-	public default boolean getBooleenParDefaut() {
-		return false;
-	}
+	public boolean getBooleenParDefaut();
 	
 	/**
 	 * Simule un changement de la valeur d'interrupteurs

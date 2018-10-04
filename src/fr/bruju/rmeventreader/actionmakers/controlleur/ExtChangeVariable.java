@@ -21,12 +21,10 @@ import fr.bruju.rmeventreader.actionmakers.modele.VariablePlage;
  *
  */
 public interface ExtChangeVariable extends ExecuteurInstructions {
-
 	/**
 	 * Transforme les affectations en changement de variables.
 	 * 
 	 * @author Bruju
-	 * @see $$
 	 */
 	public interface SansAffectation extends ExtChangeVariable {
 		@Override
