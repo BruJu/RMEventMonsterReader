@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.actionmakers.handlerInstructions;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.actionmakers.controlleur.ExecuteurInstructions;
@@ -21,23 +22,24 @@ import fr.bruju.rmeventreader.actionmakers.modele.Variable;
 import fr.bruju.rmeventreader.actionmakers.modele.VariableHeros;
 
 public class DechiffrageDesInstructions  {
+	/** Le déchiffreur est static pour que les classes internes puissent y accédées en étant static */
+	private static Dechiffreur d = Dechiffreur.getInstance();
+	
+	/** Permet d'adapter la Map<Integer, Traiteur> pour utiliser put des TraiteurSansRetour exprimés en lambda */
 	private static interface RedirectionDeMap {
 		public void put(int code, TraiteurSansRetour traiteur);
 	}
 	
 	
 	
-	public void remplirMap(Map<Integer, Traiteur> classe2) {
-		// Utilisation d'une petite astuce pour que l'on puisse déclarer en lambda des TraiteurSansRetour sans
-		// que Java ne considère qu'on put des Traiteur.
+	public Map<Integer, Traiteur> getTraiteurs() {
+		Map<Integer, Traiteur> classe2 = new HashMap<>();
 		RedirectionDeMap classe1 = classe2::put;
 		
 		// Instructions à implémenter
-		
 		classe1.put(10130, (e, t, c) -> {});	// TODO changement de portrait
 		
 		// Instructions implémentées
-		
 		classe1.put(   10, (e, t, c) -> {});
 		classe1.put(10110, (e, t, c) -> e.Messages_afficherMessage(c));
 		classe1.put(10120, this::$10120_changeMessageOptions);
@@ -147,6 +149,8 @@ public class DechiffrageDesInstructions  {
 		// RPG Maker 2003
 		classe1.put(1008, this::$X1008_modifierClasse);
 		classe1.put(1009, this::$X1009_modifierCommandes);
+		
+		return classe2;
 	}
 	
 	private static class $10140_initierQCM implements Traiteur {
@@ -193,8 +197,7 @@ public class DechiffrageDesInstructions  {
 			return executeur.Flot_si(d.dechiffrerCondition(parametres, chaine));
 		}
 	}
-	
-	private static Dechiffreur d = Dechiffreur.getInstance();
+
 	
 	private void $10120_changeMessageOptions(ExecuteurInstructions executeur, int[] parametres, String chaine) {
 		executeur.Messages_modifierOptions(
@@ -722,14 +725,15 @@ public class DechiffrageDesInstructions  {
 		boolean ajouter = parametres[0] == 0;
 		
 		int map = parametres[1];
-		int x = parametres[2];
-		int y = parametres[3];
 		
 		if (ajouter) {
+			int x = parametres[2];
+			int y = parametres[3];
+			
 			int switchActive = parametres[4] == 0 ? 0 : parametres[5];
 			executeur.Jeu_ajouterTeleporteur(map, x, y, switchActive);
 		} else {
-			executeur.Jeu_retirerTeleporteur(map, x, y);
+			executeur.Jeu_retirerTeleporteur(map);
 		}
 	}
 	

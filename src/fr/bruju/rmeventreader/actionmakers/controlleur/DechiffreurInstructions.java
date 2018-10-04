@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.actionmakers.controlleur;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,16 +20,17 @@ public class DechiffreurInstructions {
 	 * Liste des instructions connues (static)
 	 * ======================================= */
 	
-	/** Instructions pouvant renvoyer un booléen connues */
+	/** Instructions dont le décryptage est connu */
 	private static Map<Integer, Traiteur> instructionsConnues;
 	
-	/** Rempli la liste des instructions connues */
+	/**
+	 * Rempli la liste des instructions connues. Fonction static pour ne pas recréer tous les traiteurs à chaque
+	 * nouveau déchiffrage
+	 */
 	private static void remplirInstructions() {
-		if (instructionsConnues != null)
-			return;
-		
-		instructionsConnues = new HashMap<>();
-		new DechiffrageDesInstructions().remplirMap(instructionsConnues);
+		if (instructionsConnues == null) {
+			instructionsConnues = new DechiffrageDesInstructions().getTraiteurs();
+		}
 	}
 	
 	/* =========
@@ -48,9 +48,7 @@ public class DechiffreurInstructions {
 	 */
 	public DechiffreurInstructions(ExecuteurInstructions executeur) {
 		remplirInstructions();
-		
 		this.executeur = executeur;
-		ignorance = null;
 	}
 	
 	/**
