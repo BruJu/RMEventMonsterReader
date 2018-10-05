@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
  * </code>
  */
-public class BuildingMotifs {
+public class ReconnaisseurDImages {
 	
 	private static String CHEMIN_SUFFIXE = ".PNG"; // Suffixe du chemin où sont les images
 	
@@ -47,7 +47,7 @@ public class BuildingMotifs {
 	
 	List<Motif> motifsInconnus = new ArrayList<>();
 	
-	public BuildingMotifs(String dossier) {
+	public ReconnaisseurDImages(String dossier) {
 		this.dossier = dossier;
 		chainesReconnues = new HashMap<>();
 		motifs = Motif.listerLesMotifs();

@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.Parametre;
-import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
+import fr.bruju.rmeventreader.imagereader.ReconnaisseurDImages;
 import fr.bruju.rmeventreader.imagereader.Motif;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
@@ -118,9 +120,15 @@ public class ListeurDeMonstres implements Runnable {
 		
 	}
 	
-	private static void sauvegarder(MonsterDatabase bdd) {
+	
+	public static String getTimeStamp() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		return sdf.format(timestamp);
+	}
+	
+	private static void sauvegarder(MonsterDatabase bdd) {
+		String timeStamp = getTimeStamp();
 
 		String[] aEnregistrer = new String[] {
 				"Liste",
@@ -139,7 +147,7 @@ public class ListeurDeMonstres implements Runnable {
 		int i = 0;
 		
 		while (i != aEnregistrer.length) {
-			Utilitaire.Fichier_Ecrire("sorties/monstres_" + aEnregistrer[i] +"_" + sdf.format(timestamp) + ".txt",
+			Utilitaire.Fichier_Ecrire("sorties/monstres_" + aEnregistrer[i] +"_" + timeStamp + ".txt",
 					aEnregistrer[i+1]);
 			
 			i = i + 2;
@@ -160,23 +168,45 @@ public class ListeurDeMonstres implements Runnable {
 		System.out.println();
 		
 		
-		BuildingMotifs chercheurDeMotifs = new BuildingMotifs(Parametre.get("DOSSIER") + "Picture\\");
+		ReconnaisseurDImages chercheurDeMotifs = new ReconnaisseurDImages(Parametre.get("DOSSIER") + "Picture\\");
 		monstresInconnus.stream().map(monstre -> monstre.nom).forEach(chercheurDeMotifs::identifier);
 		
 		
+		String nomEnErreurs = chercheurDeMotifs.listeLesErreurs();
+		if (!nomEnErreurs.equals("")) {
+			System.out.println("== Noms non identifiés ==");
+			System.out.println(nomEnErreurs);
+		}
 		
+		String motifsNonReconnus = chercheurDeMotifs
+				.getMotifsInconnus()
+				.stream()
+				.map(Motif::getChaineDeNonReconnaissance)
+				.collect(Collectors.joining("\n"));
+		if (!motifsNonReconnus.equals("")) {
+			System.out.println("== Motifs non reconnus ==");
+			System.out.println(motifsNonReconnus);
+		}
 		
-		System.out.println("== Identification == ");
-		System.out.println(chercheurDeMotifs.getNomsIdentifies());
-		
-		System.out.println();
-		System.out.println(chercheurDeMotifs.listeLesErreurs());
-
-		chercheurDeMotifs.getMotifsInconnus()
-						 .stream()
-						 .map(Motif::getChaineDeNonReconnaissance)
-						 .forEach(System.out::println);
+		String nomsIdentifies = chercheurDeMotifs.getNomsIdentifies();
+		if (!nomsIdentifies.equals("")) {
+			System.out.println("== Noms identifiés ==");
+			System.out.println(nomsIdentifies);
+			
+			inscrireDesNomsDeMonstres("\n// Monstres identifiés le " + getTimeStamp() + "\n" + nomsIdentifies);
+		}
 		
 		return true;
+	}
+
+	private static void inscrireDesNomsDeMonstres(String nomsIdentifies) {
+		try {
+			FileWriter fileWriter = new FileWriter(MONSTRES, true);
+			fileWriter.write(nomsIdentifies);
+			fileWriter.close();
+		} catch (IOException e) {
+			System.out.println("Les nouveaux noms n'ont pas eu être inscrits dans le fichier");
+			e.printStackTrace();
+		}
 	}
 }

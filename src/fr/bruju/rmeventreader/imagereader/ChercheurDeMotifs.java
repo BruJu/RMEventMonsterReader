@@ -14,7 +14,7 @@ public class ChercheurDeMotifs {
 
 	/** Liste des motifs connus */
 	private List<Motif> motifs;
-	
+	/** Liste des motifs inconnus */
 	private List<Motif> motifsInconnus;
 
 	
