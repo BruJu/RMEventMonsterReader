@@ -1,22 +1,23 @@
 package fr.bruju.rmeventreader.imagereader.model;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 /**
  * Représentation simplifiée de l'image
  */
 public class MatricePixels {
-	/**
-	 * Hauteur de l'image
-	 */
-	private int hauteur;
+	/** Hauteur de l'image */
+	public final int hauteur;
 
-	/**
-	 * Longueur de l'image
-	 */
-	private int longueur;
+	/** Longueur de l'image */
+	public final int longueur;
 
-	/**
-	 * Tableau montrant la liste des pixels où le rouge est plus clair
-	 */
+	/** Tableau montrant la liste des pixels où le rouge est plus clair */
 	private boolean[][] pixelsAllumes;
 
 	/**
@@ -44,24 +45,6 @@ public class MatricePixels {
 	}
 
 	/**
-	 * Renvoie la longueur de l'image
-	 * 
-	 * @return La longueur de l'image
-	 */
-	public int getLongueur() {
-		return this.longueur;
-	}
-
-	/**
-	 * Renvoie la hauteur de l'image
-	 * 
-	 * @return La hauteur de l'image
-	 */
-	public int getHauteur() {
-		return this.hauteur;
-	}
-
-	/**
 	 * Affiche la matrice des pixels reconnus
 	 */
 	public void afficher() {
@@ -73,4 +56,33 @@ public class MatricePixels {
 		}
 	}
 
+	
+	/**
+	 * Lit l'image donnée et reconnait les pixels qui sont allumés Un pixel est considéré comme allumé si sa composante
+	 * de rouge est supérieure à 50
+	 * 
+	 * @param chemin Le chemin vers l'image
+	 * @return Un objet contenant une matrice avec les pixels allumés
+	 * @throws IOException
+	 */
+	public static MatricePixels lireImage(String chemin) throws IOException {
+		File file = new File(chemin);
+
+		BufferedImage image = ImageIO.read(file);
+
+		int hauteur = image.getHeight();
+		int longueur = image.getWidth();
+
+		boolean[][] pixelsAllumes = new boolean[longueur][hauteur];
+
+		for (int x = 0; x != longueur; x++) {
+			for (int y = 0; y != hauteur; y++) {
+				Color color = new Color(image.getRGB(x, y));
+
+				pixelsAllumes[x][y] = color.getRed() > 50;
+			}
+		}
+
+		return new MatricePixels(hauteur, longueur, pixelsAllumes);
+	}
 }

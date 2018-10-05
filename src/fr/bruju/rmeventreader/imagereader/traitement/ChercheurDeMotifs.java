@@ -9,40 +9,26 @@ import fr.bruju.rmeventreader.imagereader.model.Motif;
  * Cette classe recherche des motifs dans une matrice de pixels
  */
 public class ChercheurDeMotifs {
-
-	/**
-	 * Nombre de colonnes vides pour considérer que c'est un espace
-	 */
+	/** Nombre de colonnes vides consécutives à lire pour afficher un espace */
 	private static int LARGEUR_ESPACE = 4;
 
-	/**
-	 * Matrice de pixels à fouiller
-	 */
+	/** Matrice de pixels à fouiller */
 	private MatricePixels matrice;
 
-	/**
-	 * Liste des motifs connus
-	 */
+	/** Liste des motifs connus */
 	private List<Motif> motifs;
 
-	/**
-	 * Colonne actuelle de recherche de motif
-	 */
+	
+	/** Colonne actuelle de recherche de motif */
 	private int colActuelle = 0;
 
-	/**
-	 * Nombre de colonnes vides entre le précédent motif et l'actuel
-	 */
+	/** Nombre de colonnes vides entre le précédent motif et l'actuel */
 	private int nombreDeColonnesVides = 0;
 
-	/**
-	 * Booléen représentant si on n'a pas encore lu de lettres;
-	 */
+	/** Booléen représentant si on n'a pas encore lu de lettres */
 	private boolean premierPassage = true;
 
-	/**
-	 * Vrai si au moins un motif du mot n'a pas été reconnu
-	 */
+	/** Vrai si au moins un motif du mot n'a pas été reconnu */
 	private boolean malReconnu = false;
 
 	/**
@@ -105,7 +91,7 @@ public class ChercheurDeMotifs {
 	private int[] reconnaitreMotif() {
 		nombreDeColonnesVides = colActuelle;
 
-		while (colActuelle != matrice.getLongueur()) {
+		while (colActuelle != matrice.longueur) {
 			int firstCross = getFirstCross();
 
 			if (firstCross != -1) {
@@ -134,7 +120,7 @@ public class ChercheurDeMotifs {
 		int lastCross;
 
 		while (true) {
-			if (colActuelle == matrice.getLongueur())
+			if (colActuelle == matrice.longueur)
 				break;
 
 			firstCross = getFirstCross();
@@ -196,7 +182,7 @@ public class ChercheurDeMotifs {
 	 * @return La position de la première croix en partant du haut sur la ligne colActuelle ou -1 si il n'y en a pas
 	 */
 	private int getFirstCross() {
-		for (int ligne = 0; ligne != matrice.getHauteur(); ligne++) {
+		for (int ligne = 0; ligne != matrice.hauteur; ligne++) {
 			if (matrice.get(colActuelle, ligne)) {
 				return ligne;
 			}
@@ -211,9 +197,9 @@ public class ChercheurDeMotifs {
 	 * @return La position de la première croix en partant du bas sur la ligne colActuelle ou -1 si il n'y en a pas
 	 */
 	private int getLastCross() {
-		for (int ligne = 0; ligne != matrice.getHauteur(); ligne++) {
-			if (matrice.get(colActuelle, matrice.getHauteur() - 1 - ligne)) {
-				return matrice.getHauteur() - 1 - ligne;
+		for (int ligne = 0; ligne != matrice.hauteur; ligne++) {
+			if (matrice.get(colActuelle, matrice.hauteur - 1 - ligne)) {
+				return matrice.hauteur - 1 - ligne;
 			}
 		}
 

@@ -4,8 +4,10 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.Parametre;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
@@ -145,46 +147,25 @@ public class ListeurDeMonstres implements Runnable {
 	}
 
 	private static boolean interrompreSiOCR(MonsterDatabase baseDeDonnees) {
-		{
-			Object[] monstresInconnus = baseDeDonnees.extractMonsters().stream()
-					.filter(m -> m != null)
-					.filter(m -> m.nom.substring(0, 2).equals("id"))
-					.toArray();
-			
-			if (monstresInconnus.length == 0) {
-				return false;
-			}
-			
-			System.out.println("== Des monstres n'ont pas été reconnus ==");
-			
-			for (Object m : monstresInconnus) {
-				System.out.println(((Monstre) m).getString());
-			}
-			
-			System.out.println();
+		List<Monstre> monstresInconnus = baseDeDonnees.extractMonsters().stream()
+				.filter(m -> m != null && m.nom.startsWith("id"))
+				.collect(Collectors.toList());
+		
+		if (monstresInconnus.isEmpty()) {
+			return false;
 		}
 		
-		{
-			List<String> monstresInconnus = new ArrayList<>();
-			
-			for (Monstre monstre : baseDeDonnees.extractMonsters()) {
-				if (monstre == null)
-					continue;
-				
-				if (!monstre.nom.substring(0, 2).equals("id"))
-					continue;
-				
-				monstresInconnus.add(monstre.nom);
-			}
-			
-			
-			BuildingMotifs chercheurDeMotifs = new BuildingMotifs(monstresInconnus);
-			chercheurDeMotifs.lancer();
-			
-			System.out.println("== Identification == ");
-			chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
-			
-			return true;
-		}
+		System.out.println("== Des monstres n'ont pas été reconnus ==");
+		monstresInconnus.forEach(monstre -> System.out.println(monstre.nom));
+		System.out.println();
+		
+		String[] nomsDesMonstres = monstresInconnus.stream().map(monstre -> monstre.nom).toArray(String[]::new);
+		
+		BuildingMotifs chercheurDeMotifs = new BuildingMotifs(Parametre.get("DOSSIER") + "Picture\\", nomsDesMonstres);
+		
+		System.out.println("== Identification == ");
+		chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
+		
+		return true;
 	}
 }

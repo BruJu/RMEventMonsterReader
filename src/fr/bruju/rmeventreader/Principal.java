@@ -26,7 +26,7 @@ public class Principal {
 		}
 		
 		Runnable[] options = {
-				/* 00 */ new ListeurDeMonstres(3),
+				/* 00 */ new ListeurDeMonstres(7),
 				/* 01 */ new FormulaTracker(),
 				/* 02 */ new Recomposition(),
 				/* 03 */ () -> PROJET.ecrireRessource("ressources_gen\\"),

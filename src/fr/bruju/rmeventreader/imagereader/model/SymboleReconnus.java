@@ -21,7 +21,7 @@ public class SymboleReconnus {
 	public List<Motif> getMotifs() {
 		List<Motif> motifs = new ArrayList<>();
 
-		boolean m = LecteurDeFichiersLigneParLigne.lectureFichierRessources(CHEMIN_MOTIFS_CONNUS, line -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(CHEMIN_MOTIFS_CONNUS, line -> {
 				Scanner scanner = new Scanner(line);
 
 				String chaine = scanner.next();
@@ -40,6 +40,6 @@ public class SymboleReconnus {
 				motifs.add(new Motif(chaine, valeurs));
 			});
 
-		return m ? motifs : null;
+		return motifs;
 	}
 }
