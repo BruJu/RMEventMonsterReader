@@ -22,14 +22,10 @@ public class SymboleReconnus {
 		List<Motif> motifs = new ArrayList<>();
 
 		boolean m = LecteurDeFichiersLigneParLigne.lectureFichierRessources(CHEMIN_MOTIFS_CONNUS, line -> {
-				if (line.startsWith("//")) {
-					return;
-				}
-				
 				Scanner scanner = new Scanner(line);
 
 				String chaine = scanner.next();
-
+				
 				List<Integer> valeursMotif = new ArrayList<>();
 
 				while (scanner.hasNextInt()) {
@@ -37,11 +33,9 @@ public class SymboleReconnus {
 				}
 
 				scanner.close();
-
-				int[] valeurs = new int[valeursMotif.size()];
-				for (int i = 0; i != valeursMotif.size(); i++) {
-					valeurs[i] = valeursMotif.get(i);
-				}
+				
+				
+				int[] valeurs = valeursMotif.stream().mapToInt(valeur -> valeur).toArray();
 
 				motifs.add(new Motif(chaine, valeurs));
 			});

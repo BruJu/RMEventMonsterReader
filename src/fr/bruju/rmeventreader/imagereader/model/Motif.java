@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.imagereader.model;
 
+import java.util.Arrays;
+
 /**
  * Motif preexistant
  */
@@ -43,15 +45,7 @@ public class Motif {
 	 * @return Vrai si candidat et le motif représenté sont identiques
 	 */
 	public boolean comparer(int[] candidat) {
-		if (composition.length != candidat.length)
-			return false;
-
-		for (int i = 0; i != composition.length; i++) {
-			if (candidat[i] != composition[i])
-				return false;
-		}
-
-		return true;
+		return Arrays.equals(composition, candidat);
 	}
 
 	/**
