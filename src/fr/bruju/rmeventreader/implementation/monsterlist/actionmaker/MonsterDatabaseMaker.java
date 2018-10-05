@@ -29,10 +29,10 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> implements 
 	 * ================== */
 
 	/** Variable contenant le numéro du combat */
-	private final int POS_ID_COMBAT;
+	private final int POS_ID_COMBAT = 435;
 
 	/** Interrupteur contenant l'information si c'est un combat de boss */
-	private final int POS_BOSSBATTLE;
+	private final int POS_BOSSBATTLE = 190;
 
 	/**
 	 * Base de données
@@ -46,9 +46,6 @@ public class MonsterDatabaseMaker extends StackedActionMaker<Combat> implements 
 	 */
 	public MonsterDatabaseMaker(MonsterDatabase monsterDatabase) {
 		database = monsterDatabase;
-
-		POS_ID_COMBAT = database.contexte.getVariable("MonsterDB_IDCombat");
-		POS_BOSSBATTLE = database.contexte.getVariable("MonsterDB_BossBattle");
 	}
 
 	@Override

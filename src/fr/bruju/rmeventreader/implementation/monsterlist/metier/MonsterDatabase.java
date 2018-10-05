@@ -23,7 +23,6 @@ public class MonsterDatabase {
 	/** Association numéro de combat - combat*/
 	private Map<Integer, Combat> combats = new HashMap<>();
 	
-	/** Contexte de variables*/
 	public final Contexte contexte;
 	
 	/* =======================
@@ -91,7 +90,7 @@ public class MonsterDatabase {
 	 * @return Une nouvelle base de données avec les combats filtrés
 	 */
 	public MonsterDatabase filtrer(Predicate<Combat> predicat) {
-		MonsterDatabase nouvelleDb = new MonsterDatabase(this.contexte);
+		MonsterDatabase nouvelleDb = new MonsterDatabase(contexte);
 		
 		nouvelleDb.combats = new LinkedHashMap<>();
 		

@@ -22,13 +22,13 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> implements ExtCondition {
 	// Constantes
 	/** Numéro de l'image qui affiche les noms */
-	private final int SHOW_PIC_ID_WITH_NAME;
+	private final int SHOW_PIC_ID_WITH_NAME = 19;
 
 	/** Numéro de la variable contenant l'id des monstres */
-	private final int VARIABLE_IDMONSTRE;
+	private final int VARIABLE_IDMONSTRE = 559;
 
 	/** Numéro de la variable contenant l'id du combat */
-	private final int VARIABLE_IDCOMBAT;
+	private final int VARIABLE_IDCOMBAT = 435;
 
 	/* ==========================
 	 * Instanciation de la classe
@@ -46,10 +46,6 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> imp
 	 */
 	public NomDeMonstresViaShowPicture(MonsterDatabase database) {
 		this.database = database;
-
-		SHOW_PIC_ID_WITH_NAME = database.contexte.getVariable("LecturePicture_IDPicture");
-		VARIABLE_IDMONSTRE    = database.contexte.getVariable("LecturePicture_IDMonstre");
-		VARIABLE_IDCOMBAT     = database.contexte.getVariable("LecturePicture_IDCombat");
 	}
 
 	/* ====================

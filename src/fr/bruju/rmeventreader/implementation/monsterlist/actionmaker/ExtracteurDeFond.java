@@ -19,14 +19,14 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtC
 	 * ================== */
 
 	/** Numéro de la variable contenant le fond */
-	private final int VARIABLE_ID_FOND;
+	private final int VARIABLE_ID_FOND = 1430;
 	/** Numéro de la variable contenant l'id du combat */
-	private final int VARIABLE_IDCOMBAT;
+	private final int VARIABLE_IDCOMBAT = 435;
 
 	/** Condition sur un switch ignoré */
-	private final int SWITCH_IGNORE1;
+	private final int SWITCH_IGNORE1 = 478;
 	/** Condition sur un switch ignoré */
-	private final int SWITCH_IGNORE2;
+	private final int SWITCH_IGNORE2 = 1089;
 
 	/** Base de données de monstre */
 	private MonsterDatabase bdd;
@@ -38,11 +38,6 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtC
 	 */
 	public ExtracteurDeFond(MonsterDatabase database) {
 		this.bdd = database;
-
-		VARIABLE_IDCOMBAT = database.contexte.getVariable("MonsterDB_IDCombat");
-		VARIABLE_ID_FOND = database.contexte.getVariable("MonsterDB_FondCombat");
-		SWITCH_IGNORE1 = database.contexte.getVariable("ExtacteurFond_IgnoreSwitch1");
-		SWITCH_IGNORE2 = database.contexte.getVariable("ExtacteurFond_IgnoreSwitch2");
 	}
 
 	@Override

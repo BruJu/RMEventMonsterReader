@@ -25,9 +25,9 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 	 * Construction
 	 * ============ */
 	/** Variable contenant l'id du monstre */
-	private final int VARIABLE_ID_MONSTRE;
+	private final int VARIABLE_ID_MONSTRE = 552;
 	/** Variable contenant l'id de l'objet */
-	private final int VARIABLE_ID_DROP;
+	private final int VARIABLE_ID_DROP = 2120;
 	
 	/** Dernier if lu */
 	private int dernierIfLu = -1;
@@ -41,9 +41,6 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 	 */
 	public EnregistreurDeDrop(MonsterDatabase db) {
 		this.db = db;
-
-		this.VARIABLE_ID_MONSTRE = db.contexte.getVariable("EnregistreurDrop_MonstreID");
-		this.VARIABLE_ID_DROP = db.contexte.getVariable("EnregistreurDrop_CombatID");
 	}
 	
 	/* =========

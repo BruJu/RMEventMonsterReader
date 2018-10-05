@@ -35,9 +35,9 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 	/** Variables avec la position des gains d'expérience */
 	private final int[] VARIABLES_EXP;
 	/** Variable contenant les gains d'exp totaux */
-	private final int VARIABLE_GAINEXP;
+	private final int VARIABLE_GAINEXP = 4976;
 	/** Switch déclarant un combat de boss */
-	private final int SWITCH_BOSS;
+	private final int SWITCH_BOSS = 190;
 
 	/** Association numéro de variable - sous action maker */
 	private Map<Integer, Gestionnaires> associationActionMaker;
@@ -66,8 +66,6 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 	public FinDeCombat(MonsterDatabase db) {
 		this.db = db;
 
-		VARIABLE_GAINEXP = db.contexte.getVariable("FinDeCombat_GainEXP");
-		SWITCH_BOSS = db.contexte.getVariable("FinDeCombat_SwitchBoss");
 		VARIABLES_EXP = db.contexte.getListeVariables("EXP");
 
 		initierAssociationActionMaker();
@@ -85,7 +83,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 		int[] variablesCapa = db.contexte.getListeVariables("Capacité");
 
-		for (int i = 0; i != db.contexte.getNbDeMonstres(); i++) {
+		for (int i = 0; i != Combat.NOMBRE_DE_MONSTRES; i++) {
 			associationActionMaker.put(variablesCapa[i], new ComportementCapacite(i));
 			associationActionMaker.put(VARIABLES_EXP[i], new ComportementExperience(i));
 		}

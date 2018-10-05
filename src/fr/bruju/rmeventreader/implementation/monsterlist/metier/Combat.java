@@ -16,6 +16,8 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  *
  */
 public class Combat {
+	public static final int NOMBRE_DE_MONSTRES = 3;
+	
 	/* =========
 	 * ATTRIBUTS
 	 * ========= */
@@ -31,22 +33,21 @@ public class Combat {
 	private int gainCapa = 0;
 	/** Vrai si c'est un combat de boss*/
 	private boolean bossBattle = false;
-	/** Contexte */
-	public final Contexte contexte;
 	/** Liste des fonds utilisés pour ce combat */
 	public List<String> fonds = new ArrayList<>();
+
+	public final Contexte contexte;
 	
 	/**
 	 * Construit un nouveau combat avec l'id donné
 	 * @param id L'id du combat
 	 */
 	public Combat(Contexte contexte, int id) {
-		this.contexte = contexte;
 		this.id = id;
-		monstres = new Monstre[contexte.getNbDeMonstres()];
+		monstres = new Monstre[NOMBRE_DE_MONSTRES];
+		this.contexte = contexte;
 	}
-	
-	
+
 	/* ==================
 	 * ACCES AUX MONSTRES
 	 * ================== */
@@ -226,6 +227,8 @@ public class Combat {
 	public String getCSV() {
 		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((this.isBossBattle()) ? "Boss" : "Non") + ";" + fonds;
 	}
+
+
 
 
 

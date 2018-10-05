@@ -48,7 +48,6 @@ public class ListeurDeMonstres implements Runnable {
 	public void run() {
 		// Contexte général
 		Contexte contexte = new Contexte();
-		contexte.remplirContexte(PARAMETRES);
 		
 		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
@@ -74,7 +73,7 @@ public class ListeurDeMonstres implements Runnable {
 			// Elements
 			
 			new ElementsInit(baseDeDonnees, ce),
-			() -> PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, contexte, ce), 277),
+			() -> PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, ce), 277),
 			new ElementsFinalisation(baseDeDonnees, ce)
 		};
 		

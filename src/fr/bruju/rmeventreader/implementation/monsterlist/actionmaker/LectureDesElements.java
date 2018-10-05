@@ -16,7 +16,6 @@ import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmdechiffreur.modele.ValeurFixe;
 import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmeventreader.implementation.LigneNonReconnueException;
-import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionFausse;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnMonsterId;
@@ -34,9 +33,9 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 	// -- Constantes
 
 	/** ID de la variable contenant l'id du monstre ciblé */
-	private final int ID_VARIABLE_MONSTRE_CIBLE;
+	private final int ID_VARIABLE_MONSTRE_CIBLE = 552;
 	/** ID de l'évènement contenant les sous fonctions tockées par actionsPage */
-	private final int EVENT_SOUS_FONCTIONS;
+	private final int EVENT_SOUS_FONCTIONS = 99;
 
 	// -- Attributs
 
@@ -52,16 +51,11 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 	 * Crée un gestionnaire de script d'affectations des résistances élémentaires
 	 * 
 	 * @param bdd La base de données de monstre
-	 * @param contexteBase Le contexte de base (fichier Parametres.txt)
 	 * @param contexte Le contexte élémentaire (fichier Resistances.txt)
 	 */
-	public LectureDesElements(MonsterDatabase bdd, Contexte contexteBase, ContexteElementaire contexte) {
+	public LectureDesElements(MonsterDatabase bdd, ContexteElementaire contexte) {
 		this.bdd = bdd;
 		this.contexte = contexte;
-
-		// Extrait du contexte général les constantes
-		ID_VARIABLE_MONSTRE_CIBLE = contexteBase.getVariable("Elements_VariableMonstreCible");
-		EVENT_SOUS_FONCTIONS = contexteBase.getVariable("Elements_EventSousFonction");
 	}
 
 	/* ===================

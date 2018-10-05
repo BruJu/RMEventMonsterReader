@@ -35,15 +35,11 @@ public class Monstre {
 	/** Nom du drop */
 	public String nomDrop = "";
 
-	/** Contexte */
-	public final Contexte contexte;
-
 	/**
 	 * Construit un monstre pour le combat donné
 	 */
 	public Monstre(Combat combat) {
 		this.combat = combat;
-		this.contexte = combat.contexte;
 		remplirStats();
 	}
 
@@ -51,6 +47,8 @@ public class Monstre {
 	 * Rempli les propriétés et les statistiques avec des valeurs par défaut
 	 */
 	private void remplirStats() {
+		Contexte contexte = combat.contexte;
+		
 		donnees.put(STATS, new Donnees<Integer>(this, contexte.getStatistiques(), 0, v -> v.toString()));
 		donnees.put(PROPRIETES,
 				new Donnees<Boolean>(this, contexte.getProprietes(), false, v -> (v) ? "Immunisé" : "•"));
