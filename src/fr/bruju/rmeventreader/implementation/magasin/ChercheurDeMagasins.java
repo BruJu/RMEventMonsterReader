@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
-import fr.bruju.rmeventreader.rmdechiffreur.reference.ReferenceMap;
+import fr.bruju.rmdechiffreur.reference.ReferenceMap;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 

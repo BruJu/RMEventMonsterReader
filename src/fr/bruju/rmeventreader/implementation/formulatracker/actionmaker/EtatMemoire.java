@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
@@ -16,7 +17,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VBa
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**

@@ -13,9 +13,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.division.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
 import fr.bruju.util.similaire.CollectorBySimilarity;
 

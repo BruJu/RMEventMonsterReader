@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur;
 
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 
 import java.util.Objects;
 

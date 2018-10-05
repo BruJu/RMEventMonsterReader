@@ -2,19 +2,19 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
+import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
+import fr.bruju.rmdechiffreur.controlleur.ExtCondition;
+import fr.bruju.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+import fr.bruju.rmdechiffreur.modele.Variable;
+import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 /**

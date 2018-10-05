@@ -2,8 +2,8 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 
 import java.util.Collection;
 
+import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
 
 /**
  * Cette classe est une implémentation partielle des ActionMakerWithConditionalInterest.

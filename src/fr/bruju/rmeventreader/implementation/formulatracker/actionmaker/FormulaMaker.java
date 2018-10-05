@@ -5,6 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
+import fr.bruju.rmdechiffreur.controlleur.ExtCondition;
+import fr.bruju.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
+import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+import fr.bruju.rmdechiffreur.modele.Variable;
+import fr.bruju.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
+import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.Bouton;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.Condition;
@@ -14,17 +24,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.For
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurAleatoire;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres

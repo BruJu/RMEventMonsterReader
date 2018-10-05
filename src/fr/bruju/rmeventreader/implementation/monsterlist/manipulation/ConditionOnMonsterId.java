@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
+import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 /**
  * Condition sur les id des monstres et l'id du combat où ils apparraissent

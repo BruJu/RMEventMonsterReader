@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BConstant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.bouton.BStatistique;
@@ -18,7 +19,6 @@ import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VSt
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.visiteur.VisiteurDeComposants;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 
 
 /**

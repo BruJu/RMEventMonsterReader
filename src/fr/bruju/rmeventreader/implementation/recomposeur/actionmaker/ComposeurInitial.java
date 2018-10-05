@@ -4,21 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
+import fr.bruju.rmdechiffreur.controlleur.ExtCondition;
+import fr.bruju.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
+import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+import fr.bruju.rmdechiffreur.modele.Variable;
+import fr.bruju.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
+import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionArme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.NombreAleatoire;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurAleatoire;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondInterrupteur;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres

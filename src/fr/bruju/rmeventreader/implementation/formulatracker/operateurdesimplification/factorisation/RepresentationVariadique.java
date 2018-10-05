@@ -3,11 +3,11 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 
 // TODO : documenter cette classe / la retravailler

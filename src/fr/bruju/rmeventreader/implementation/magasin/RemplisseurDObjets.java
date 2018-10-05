@@ -2,12 +2,12 @@ package fr.bruju.rmeventreader.implementation.magasin;
 
 import java.util.Map;
 
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurDroiteVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurGauche;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Condition.CondVariable;
+import fr.bruju.rmdechiffreur.ExecuteurInstructions;
+import fr.bruju.rmdechiffreur.modele.Condition;
+import fr.bruju.rmdechiffreur.modele.ValeurDroiteVariable;
+import fr.bruju.rmdechiffreur.modele.ValeurGauche;
+import fr.bruju.rmdechiffreur.modele.Variable;
+import fr.bruju.rmdechiffreur.modele.Condition.CondVariable;
 
 public class RemplisseurDObjets implements ExecuteurInstructions {
 

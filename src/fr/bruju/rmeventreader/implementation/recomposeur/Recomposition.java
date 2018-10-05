@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.implementation.recomposeur.actionmaker.ComposeurInitial;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.recomposeur.arbre.MonteurDArbre;
@@ -19,7 +20,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.operations.unification.
 import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.deduction.Deducteur;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 

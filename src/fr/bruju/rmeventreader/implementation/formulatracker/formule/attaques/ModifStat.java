@@ -3,8 +3,8 @@ package fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.personnage.Statistique;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 
 import java.util.Objects;
 

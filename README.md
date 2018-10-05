@@ -1,13 +1,11 @@
 
-# Objectif du programme
+# RMEventReader
 
-Il s'agit d'une base de code permettant d'interpréter des instructions RPG Maker 2003.
 
-## Motivation
 
-Dans la mesure où le jeu de données sur lequel se repose ce programme ne m'appartiennent pas, seul le programme de traitement est fourni.
+## Qu'est-ce que c'est ?
 
-Ces fichiers contiennent la liste des instructions de tout un projet RPG Maker, et le programme est capable de lire ces fichiers.
+Il s'agit d'une liste d'implémentations d'Exécuteurs d'instructions pour des cas pratiques qui m'interessent.
 
 Le but étant de détourner les instructions pour en tirer des données. Par exemple on peut facilement créer une classe qui va déterminer la liste de toutes les musiques utilisées, et sur quelles cartes elles le sont.
 
@@ -15,31 +13,29 @@ Le but étant de détourner les instructions pour en tirer des données. Par exe
 
 ## Librairies utilisées
 
-Sauf mention du contraire, la librairie décrite est dans le dossier lib
+Aucune librairie, sauf CollectorBySimilarity n'est présente dans le dossier lib.
 
-### CollectorBySimilarity
-
-Ce projet a une dépendance à ![CollectorBySimilarity](https://github.com/BruJu/CollectorBySimilarity/releases/tag/Kitten) afin de gérer plus facilement le regroupement d'éléments similaires.
-
-
-### JavaLCFReader
-
-Il y a une dépendance à ![JavaLCFReader](https://github.com/BruJu/JavaLCFReader) pour la lecture des fichiers LCF.
-
-Cette dépendance n'est PAS présente dans le dossier lib.
+* CollectorBySimilarity : Un collecteur dont le but est de grouper les éléments selon une fonction d'égalité
+* JavaLCFReader : Une librairie qui décrypte les fichiers LCF pour les transformer en objet.
+* RMDechiffreur : Une librairie qui déchiffre les instructions RPG Maker extraites des fichiers LCF.
 
 
 
-## Reconnaissance de lettres
+## Modules implémentés
 
-### Problème
+
+### Reconnaissance de lettres
+
+
+
+#### Problème
 
 
 Les noms des ennemis sont écris sur des images en orange sur fond transparent. Ils ne sont pas disponibles autrement.
 
 Le package imagereader traite ce problème en appliquant une pseudo reconnaissance automatique de lettres.
 
-### imagereader
+#### imagereader
 
 Le principe est le suivant :
 * On analyse l'image qui contient le nom et on extrait une matrice avec vrai à l'endroit où on estime qu'il y a du texte et faux ailleurs.
@@ -48,7 +44,7 @@ Le principe est le suivant :
 * Si le motif n'est pas dans la base de motif, on invite l'utilisateur a ajouté le motif reconnu dans la base de motifs. Sa seule tâche sera de remplacer le ? de la ligne par ce qu'il voit.
 * Une fois tous les motifs de l'image vus, le programme restitue une chaîne qui est l'enchaînement des lettres représentées par le motif.
 
-### Exemple
+#### Exemple
 
 Le programme utilise une table de conversion en nom d'image et texte écrit sur l'image. (non fournie)
 
@@ -62,32 +58,26 @@ Dans cet exemple, on suppose que le programme a besoin de la chaîne contenue da
 == Des monstres n'ont pas été reconnus ==
 idmonstre76-2, 76, 51, 160, 3, 140, 4550, 288, 237, 162, 206, 237, 262,  
 
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                          X                                                                             
-                                                                                XX                                                                                                                      
-                                                                                XX                                                                                                                      
-                                                                               X  X    XXXX   XXXX   XXXX    XXXX   XXXX  X  X XXX                                                                      
-                                                                               X  X   X      X           X  X      X      X  XX   X                                                                     
-                                                                              X    X  X      X           X  X      X      X  X    X                                                                     
-                                                                              X    X   XXX    XXX    XXXXX   XXX    XXX   X  X    X                                                                     
-                                                                              XXXXXX      X      X  X    X      X      X  X  X    X                                                                     
-                                                                             X      X     X      X  X    X      X      X  X  X    X                                                                     
-                                                                             X      X XXXX   XXXX    XXXXX  XXXX   XXXX   X  X    X                                                                     
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                              X                                                                             
+    XX                                                                                                                      
+    XX                                                                                                                      
+   X  X    XXXX   XXXX   XXXX    XXXX   XXXX  X  X XXX                                                                      
+   X  X   X      X           X  X      X      X  XX   X                                                                     
+  X    X  X      X           X  X      X      X  X    X                                                                     
+  X    X   XXX    XXX    XXXXX   XXX    XXX   X  X    X                                                                     
+  XXXXXX      X      X  X    X      X      X  X  X    X                                                                     
+ X      X     X      X  X    X      X      X  X  X    X                                                                     
+ X      X XXXX   XXXX    XXXXX  XXXX   XXXX   X  X    X                                                                     
+                                                
+                                                
+                                                                                                                                                          
 Motif non reconnu :
    xx
    xx
@@ -149,33 +139,21 @@ Si on ajoute la ligne "s 30 1 1 14 16 16 15" aux motifsconnus.txt
 ~~~~
 == Des monstres n'ont pas été reconnus ==
 idmonstre76-2, 76, 51, 160, 3, 140, 4550, 288, 237, 162, 206, 237, 262,  
-
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                          X                                                                             
-                                                                                XX                                                                                                                      
-                                                                                XX                                                                                                                      
-                                                                               X  X    XXXX   XXXX   XXXX    XXXX   XXXX  X  X XXX                                                                      
-                                                                               X  X   X      X           X  X      X      X  XX   X                                                                     
-                                                                              X    X  X      X           X  X      X      X  X    X                                                                     
-                                                                              X    X   XXX    XXX    XXXXX   XXX    XXX   X  X    X                                                                     
-                                                                              XXXXXX      X      X  X    X      X      X  X  X    X                                                                     
-                                                                             X      X     X      X  X    X      X      X  X  X    X                                                                     
-                                                                             X      X XXXX   XXXX    XXXXX  XXXX   XXXX   X  X    X                                                                     
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
-                                                                                                                                                                                                        
+                                                  
+                                                                                                                            
+                                              X                                                                             
+    XX                                                                                                                      
+    XX                                                                                                                      
+   X  X    XXXX   XXXX   XXXX    XXXX   XXXX  X  X XXX                                                                      
+   X  X   X      X           X  X      X      X  XX   X                                                                     
+  X    X  X      X           X  X      X      X  X    X                                                                     
+  X    X   XXX    XXX    XXXXX   XXX    XXX   X  X    X                                                                     
+  XXXXXX      X      X  X    X      X      X  X  X    X                                                                     
+ X      X     X      X  X    X      X      X  X  X    X                                                                     
+ X      X XXXX   XXXX    XXXXX  XXXX   XXXX   X  X    X                                                                     
+                                                
+                                                
+                                                                                                                                                   
 Motif non reconnu :
    xx
    xx

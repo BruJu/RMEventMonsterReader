@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.manipulation;
 
+import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 /**
  * Condition sur l'id d'un combat

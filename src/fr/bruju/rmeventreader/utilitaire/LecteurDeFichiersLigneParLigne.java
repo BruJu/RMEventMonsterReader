@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+
 /**
  * Classe utilitaire permettant de lire des fichiers
  *  

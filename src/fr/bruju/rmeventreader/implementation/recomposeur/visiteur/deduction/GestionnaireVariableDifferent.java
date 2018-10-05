@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.visiteur.deduction;
 
+import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 /**
  * Gestionnaire de conditions sur la différence de valeur d'une variable

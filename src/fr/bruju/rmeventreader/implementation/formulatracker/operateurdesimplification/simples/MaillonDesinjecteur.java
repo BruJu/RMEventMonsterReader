@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.formulatracker.composant.condition.CFixe;
@@ -18,9 +20,7 @@ import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Att
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Le désinjecteur lit un fichier ressource du type "Nom de personnage IDVariable Valeur" et supprime les conditions en

@@ -2,12 +2,12 @@ package fr.bruju.rmeventreader.implementation.recomposeur.composant.condition;
 
 import java.util.Objects;
 
+import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Constante;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.template.Visiteur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 /**
  * Condition portant sur une variable

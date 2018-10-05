@@ -3,9 +3,9 @@ package fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplifi
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.implementation.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 /**
  * Maillon écrivant les résultats dans le fichier sorties/sortieTIMESTAMP.txt

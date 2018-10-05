@@ -1,11 +1,11 @@
 package fr.bruju.rmeventreader.implementation.recomposeur.composant.operation;
 
+import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.Element;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.ElementIntermediaire;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.template.Visiteur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
 
 import java.util.List;
 import java.util.Objects;

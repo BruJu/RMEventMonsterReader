@@ -8,6 +8,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
+import fr.bruju.rmdechiffreur.controlleur.ExtCondition;
+import fr.bruju.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmdechiffreur.modele.FixeVariable;
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmeventreader.implementation.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
@@ -16,13 +23,6 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionO
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtCondition;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Comparateur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.FixeVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Variable;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 

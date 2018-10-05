@@ -5,20 +5,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExtChangeVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.NombreObjet;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Pointeur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurAleatoire;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurDeplacable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurDivers;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ValeurFixe;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.VariableHeros;
-import fr.bruju.rmeventreader.rmdechiffreur.reference.Reference;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmdechiffreur.ExecuteurInstructions;
+import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
+import fr.bruju.rmdechiffreur.modele.NombreObjet;
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmdechiffreur.modele.Pointeur;
+import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
+import fr.bruju.rmdechiffreur.modele.ValeurDeplacable;
+import fr.bruju.rmdechiffreur.modele.ValeurDivers;
+import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+import fr.bruju.rmdechiffreur.modele.Variable;
+import fr.bruju.rmdechiffreur.modele.VariableHeros;
+import fr.bruju.rmdechiffreur.reference.Reference;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+
 import java.util.Objects;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;

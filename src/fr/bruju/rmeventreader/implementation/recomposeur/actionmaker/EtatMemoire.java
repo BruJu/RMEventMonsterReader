@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionValeur;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.operation.Affectation;
@@ -17,7 +18,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.composant.operation.Ope
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Entree;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.OpMathematique;
 
 /**
  * Un état mémoire représente l'état de la mémoire (contenu des variables et des interrupteurs) à un moment donné.

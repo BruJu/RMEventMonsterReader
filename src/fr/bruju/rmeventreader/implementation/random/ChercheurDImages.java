@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMPage;
-import fr.bruju.rmeventreader.rmdechiffreur.controlleur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.Couleur;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.FixeVariable;
-import fr.bruju.rmeventreader.rmdechiffreur.modele.ExecEnum.TypeEffet;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmdechiffreur.ExecuteurInstructions;
+import fr.bruju.rmdechiffreur.modele.Couleur;
+import fr.bruju.rmdechiffreur.modele.FixeVariable;
+import fr.bruju.rmdechiffreur.modele.ExecEnum.TypeEffet;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 

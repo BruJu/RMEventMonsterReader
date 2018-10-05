@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.implementation.recomposeur.Parametres;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.recomposeur.composant.condition.ConditionFixe;
@@ -18,7 +19,6 @@ import fr.bruju.rmeventreader.implementation.recomposeur.formulededegats.GroupeD
 import fr.bruju.rmeventreader.implementation.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
 import fr.bruju.rmeventreader.implementation.recomposeur.visiteur.template.VisiteurConstructeur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class PreTraitementDesinjection implements StructureDInjectionDeHeader {
 
