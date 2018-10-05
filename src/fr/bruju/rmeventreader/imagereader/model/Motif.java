@@ -1,30 +1,51 @@
 package fr.bruju.rmeventreader.imagereader.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Motif preexistant
  */
 public class Motif {
+	/** Chemin vers la liste des motifs connus */
+	private static final String CHEMIN_MOTIFS_CONNUS = "metaressources/ocr/motifsconnus.txt";
+
 	/**
-	 * Chaîne représentée par le motif
+	 * Renvoie la liste des motifs déjà connus, qui sont dans metaressources/ocr/motifsconnus.txt
 	 */
+	public static List<Motif> listerLesMotifs() {
+		return LecteurDeFichiersLigneParLigne.listerRessources(CHEMIN_MOTIFS_CONNUS, Motif::new);
+	}
+	
+	
+	/** Chaîne représentée par le motif */
 	private String lettre;
 
-	/**
-	 * Représentation numérique du motif
-	 */
+	/** Représentation numérique du motif */
 	private int[] composition;
 
-	/**
-	 * Crée un motif préconnu
-	 * 
-	 * @param chaine Chaîne représentée par le motif
-	 * @param composition Représentation numérique du motif
-	 */
-	public Motif(String chaine, int[] composition) {
-		this.lettre = chaine;
-		this.composition = composition;
+	
+	public Motif(String serialisation) {
+		Scanner scanner = new Scanner(serialisation);
+		lettre = scanner.next();
+		composition = lireTousLesNombres(scanner);
+		scanner.close();
+	}
+
+	private int[] lireTousLesNombres(Scanner scanner) {
+		List<Integer> valeursMotif = new ArrayList<>();
+
+		while (scanner.hasNextInt()) {
+			valeursMotif.add(scanner.nextInt());
+		}
+		
+		int[] valeurs = valeursMotif.stream().mapToInt(valeur -> valeur).toArray();
+		
+		return valeurs;
 	}
 
 	/**

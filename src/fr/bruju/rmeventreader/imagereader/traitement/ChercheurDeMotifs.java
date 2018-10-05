@@ -223,7 +223,7 @@ public class ChercheurDeMotifs {
 		}
 
 		if (!malReconnu) {
-			matrice.afficher();
+			System.out.println(matrice.getString());
 		}
 
 		malReconnu = true;

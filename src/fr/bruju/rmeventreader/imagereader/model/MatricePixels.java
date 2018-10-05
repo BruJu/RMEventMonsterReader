@@ -19,6 +19,7 @@ public class MatricePixels {
 
 	/** Tableau montrant la liste des pixels où le rouge est plus clair */
 	private boolean[][] pixelsAllumes;
+	
 
 	/**
 	 * Construit un reconnaissuer de motifs à partir d'une matrice de pixels allumés
@@ -45,20 +46,26 @@ public class MatricePixels {
 	}
 
 	/**
-	 * Affiche la matrice des pixels reconnus
+	 * Donne la matrice des pixels reconnus
+	 * @return Une chaîne représentant l'image avec des croix pour les pixels considérés comme allumés et des espaces
+	 * pour les pixels considérés éteints.
 	 */
-	public void afficher() {
-		for (int ligne = 0; ligne != hauteur; ligne++) {
-			for (int colonne = 0; colonne != longueur; colonne++) {
-				System.out.print(pixelsAllumes[colonne][ligne] ? "X" : " ");
+	public String getString() {
+		StringBuilder sb = new StringBuilder();
+		
+		for (int ligne = 0; ligne != hauteur ; ligne++) {
+			for (int colonne = 0; colonne != longueur ; colonne++) {
+				sb.append(pixelsAllumes[colonne][ligne] ? "X" : " ");
 			}
-			System.out.println();
+			sb.append("\n");
 		}
+		
+		return sb.toString();
 	}
 
 	
 	/**
-	 * Lit l'image donnée et reconnait les pixels qui sont allumés Un pixel est considéré comme allumé si sa composante
+	 * Lit l'image donnée et reconnait les pixels qui sont allumés. Un pixel est considéré comme allumé si sa composante
 	 * de rouge est supérieure à 50
 	 * 
 	 * @param chemin Le chemin vers l'image

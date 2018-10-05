@@ -3,7 +3,10 @@ package fr.bruju.rmeventreader.utilitaire;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
@@ -33,6 +36,24 @@ public class LecteurDeFichiersLigneParLigne {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Lit un fichier dont le nom est passé en argument, mappe les lignes lues avec un objet crée via le mapper, puis
+	 * retourne la liste des objets ainsi créés sous forme de liste. Les lignes vides et les lignes commençant par
+	 * "//" sont ignorés.
+	 * @param chemin Le chemin vers le fichier
+	 * @param mapper La fonction associant à une chaîne l'objet à lister.
+	 * @return Une liste de tous les objets créés en lisant les lignes du fichier
+	 */
+	public static <T> List<T> listerRessources(String chemin, Function<String, T> mapper) {
+		try (Stream<String> flux = Files.lines(Paths.get(chemin))) {
+			return flux.filter(LecteurDeFichiersLigneParLigne::filtrer)
+					   .map(mapper)
+				       .collect(Collectors.toList());
+		} catch (IOException e) {
+			return null;
+		}
 	}
 	
 	/**

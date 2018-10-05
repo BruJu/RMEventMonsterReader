@@ -7,7 +7,6 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.imagereader.model.MatricePixels;
 import fr.bruju.rmeventreader.imagereader.model.Motif;
-import fr.bruju.rmeventreader.imagereader.model.SymboleReconnus;
 import fr.bruju.rmeventreader.imagereader.traitement.ChercheurDeMotifs;
 
 /**
@@ -43,7 +42,7 @@ public class BuildingMotifs {
 		
 		chainesReconnues = new HashMap<>();
 		
-		List<Motif> motifs = new SymboleReconnus().getMotifs();
+		List<Motif> motifs = Motif.listerLesMotifs();
 		
 		for (String nomImage : nomsDesImages) {
 			if (!chainesReconnues.containsKey(nomImage)) {
