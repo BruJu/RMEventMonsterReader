@@ -51,16 +51,49 @@ public class MatricePixels {
 	 * pour les pixels considérés éteints.
 	 */
 	public String getString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder[] renduDesLignes = new StringBuilder[hauteur];
+		
+		int premierLigneRemplie = -1;
+		int derniereLigneRemplie = -1;
 		
 		for (int ligne = 0; ligne != hauteur ; ligne++) {
+			boolean nonVide = false;
+			
+			StringBuilder sbLigne = new StringBuilder();
 			for (int colonne = 0; colonne != longueur ; colonne++) {
-				sb.append(pixelsAllumes[colonne][ligne] ? "X" : " ");
+				boolean croix = pixelsAllumes[colonne][ligne];
+				
+				if (croix) {
+					sbLigne.append("X");
+					nonVide = true;
+				} else {
+					sbLigne.append(" ");
+				}
 			}
-			sb.append("\n");
+			
+			if (nonVide) {
+				if (premierLigneRemplie == -1) {
+					premierLigneRemplie = ligne;
+				}
+				
+				derniereLigneRemplie = ligne;
+			}
+			
+			renduDesLignes[ligne] = sbLigne;
 		}
 		
-		return sb.toString();
+		if (derniereLigneRemplie == -1) {
+			return "";
+		}
+		
+		StringBuilder stringBuilderGlobal = new StringBuilder();
+		
+		for (int i = premierLigneRemplie ; i <= derniereLigneRemplie ; i++) {
+			StringBuilder ligne = renduDesLignes[i];
+			stringBuilderGlobal.append(ligne).append("\n");
+		}
+		
+		return stringBuilderGlobal.toString();
 	}
 
 	

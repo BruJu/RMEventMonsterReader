@@ -36,7 +36,7 @@ public class ReconnaisseurDImages {
 	
 	private StringJoiner fichiersIntrouvables = new StringJoiner(", ");
 	private StringJoiner fichiersIOException = new StringJoiner(", ");
-	private StringJoiner fichiersSymbolesManquants = new StringJoiner(", ");
+	private List<String> fichiersSymbolesManquants = new ArrayList<>();
 	
 	/** Dossier contenant les images */
 	private final String dossier;
@@ -72,7 +72,7 @@ public class ReconnaisseurDImages {
 			nomIdentifie = new ChercheurDeMotifs(matrice, motifs, motifsInconnus).reconnaitre();
 			
 			if (nomIdentifie == null) {
-				fichiersSymbolesManquants.add(nomImage);
+				fichiersSymbolesManquants.add(matrice.getString());
 			}
 		} catch (FileNotFoundException e) {
 			fichiersIntrouvables.add(nomImage);
@@ -113,8 +113,10 @@ public class ReconnaisseurDImages {
 			sb.append("Fichiers ayant jeté une exception : ").append(fichiersIOException.toString());
 		}
 
-		if (fichiersSymbolesManquants.length() != 0) {
-			sb.append("Fichiers avec des symboles inconnus : ").append(fichiersSymbolesManquants.toString());
+		if (fichiersSymbolesManquants.size() != 0) {
+			sb.append("Fichiers avec des symboles inconnus :\n");
+			fichiersSymbolesManquants.forEach(image -> sb.append(image).append("\n"));
+			
 		}
 		
 		return sb.toString();

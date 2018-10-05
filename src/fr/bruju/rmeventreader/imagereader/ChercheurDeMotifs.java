@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.imagereader;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,9 +27,6 @@ public class ChercheurDeMotifs {
 
 	/** Booléen représentant si on n'a pas encore lu de lettres */
 	private boolean premierPassage = true;
-
-	/** Vrai si au moins un motif du mot n'a pas été reconnu */
-	private boolean malReconnu = false;
 
 	/**
 	 * Crée un chercheur de motifs
@@ -88,123 +86,54 @@ public class ChercheurDeMotifs {
 	 * @return Le motif trouvé sous forme numérique
 	 */
 	private int[] chercherProchainMotif() {
-		nombreDeColonnesVides = colActuelle;
-
-		while (colActuelle != matrice.longueur) {
-			int firstCross = getFirstCross();
-
-			if (firstCross != -1) {
-				nombreDeColonnesVides = colActuelle - nombreDeColonnesVides;
-				return cadrer();
-			}
-
-			colActuelle++;
-		}
-
 		nombreDeColonnesVides = 0;
-		return null;
-	}
-
-	/**
-	 * Permet d'encadrer le motif trouvé, en supposant que l'on connait déjà la borne de gauche qui est dans colActuelle
-	 * 
-	 * @return Le motif trouvé sous forme numérique
-	 */
-	private int[] cadrer() {
-		int xMin = colActuelle;
-		int yMin = -1;
-		int yMax = -1;
-
-		int firstCross;
-		int lastCross;
-
-		while (true) {
-			if (colActuelle == matrice.longueur)
+		int[] valeurs = new int[matrice.hauteur];
+		int multiplicateur = 1;
+		
+		while (colActuelle != matrice.longueur) {
+			boolean colonneVide = true;
+			
+			for (int ligne = 0 ; ligne != matrice.hauteur ; ligne++) {
+				if (matrice.get(colActuelle, ligne)) {
+					valeurs[ligne] += multiplicateur;
+					colonneVide = false;
+				}
+			}
+			
+			if (!colonneVide) { // Colonne non vide
+				multiplicateur *= 2;
+			} else if (multiplicateur == 1) { // Colonne vide (première ou suivant une autre colonne vide)
+				nombreDeColonnesVides++;
+			} else { // Colonne vide après une colonne non vide
 				break;
-
-			firstCross = getFirstCross();
-
-			if (firstCross == -1)
-				break;
-
-			lastCross = getLastCross();
-
-			if (yMin == -1 || yMin > firstCross) {
-				yMin = firstCross;
 			}
 
-			if (yMax == -1 || yMax < lastCross) {
-				yMax = lastCross;
-			}
-
+			
 			colActuelle++;
 		}
-
-		int xMax = colActuelle - 1;
-
-		return designerMotif(xMin, xMax, yMin, yMax);
-	}
-
-	/**
-	 * Converti les bornes trouvées pour un motif en une série de nombres le représentant
-	 * 
-	 * @param xMin La borne gauche
-	 * @param xMax La borne droite
-	 * @param yMin La borne haute
-	 * @param yMax La borne basse
-	 * @return La liste des nombres représentant le motif Avec xi le nombre à la ligne i, si xi mod 2^p = 1, alors le
-	 *         pixel (i-1, p) est allumé sur le motif
-	 */
-	private int[] designerMotif(int xMin, int xMax, int yMin, int yMax) {
-		int[] representation = new int[yMax - yMin + 1];
-
-		for (int l = yMin; l <= yMax; l++) {
-			int somme = 0;
-			int pow = 1;
-			for (int c = xMin; c <= xMax; c++) {
-				if (matrice.get(c, l)) {
-					somme = somme + pow;
-				}
-
-				pow = pow * 2;
-			}
-
-			representation[l - yMin] = somme;
+		
+		if (multiplicateur == 1) {
+			return null;
+		} else {
+			return recadrer(valeurs);
 		}
-
-		return representation;
 	}
-
-	/**
-	 * Recherche la croix la plus haute sur la colonne
-	 * 
-	 * @return La position de la première croix en partant du haut sur la ligne colActuelle ou -1 si il n'y en a pas
-	 */
-	private int getFirstCross() {
-		for (int ligne = 0; ligne != matrice.hauteur; ligne++) {
-			if (matrice.get(colActuelle, ligne)) {
-				return ligne;
-			}
+	
+	private int[] recadrer(int[] tableau) {
+		int xMin, xMax;
+		
+		for (xMin = 0 ; tableau[xMin] == 0 ; xMin++);
+		for (xMax = tableau.length - 1 ; tableau[xMax] == 0 ; xMax--);
+		
+		int[] nouveauTableau = new int[xMax - xMin + 1];
+		
+		for (int i = 0 ; i != nouveauTableau.length ; i++) {
+			nouveauTableau[i] = tableau[xMin + i];
 		}
-
-		return -1;
+		
+		return nouveauTableau;
 	}
-
-	/**
-	 * Recherche la croix la plus basse sur la colonne
-	 * 
-	 * @return La position de la première croix en partant du bas sur la ligne colActuelle ou -1 si il n'y en a pas
-	 */
-	private int getLastCross() {
-		for (int ligne = 0; ligne != matrice.hauteur; ligne++) {
-			if (matrice.get(colActuelle, matrice.hauteur - 1 - ligne)) {
-				return matrice.hauteur - 1 - ligne;
-			}
-		}
-
-		return -1;
-	}
-
+	
 	/**
 	 * Cherche le motif donné dans la base de motifs.
 	 * 
@@ -220,13 +149,6 @@ public class ChercheurDeMotifs {
 				return motif.getSymboleDesigne();
 			}
 		}
-
-		if (!malReconnu) {
-			System.out.println(matrice.getString());
-		}
-
-		malReconnu = true;
-
 		
 		Motif motifNonReconnu = new Motif(tab);
 		motifs.add(motifNonReconnu);

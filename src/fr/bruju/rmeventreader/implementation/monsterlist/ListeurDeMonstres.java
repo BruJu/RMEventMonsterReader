@@ -193,7 +193,7 @@ public class ListeurDeMonstres implements Runnable {
 			System.out.println("== Noms identifiés ==");
 			System.out.println(nomsIdentifies);
 			
-			inscrireDesNomsDeMonstres("\n// Monstres identifiés le " + getTimeStamp() + "\n" + nomsIdentifies);
+			//inscrireDesNomsDeMonstres("\n// Monstres identifiés le " + getTimeStamp() + "\n" + nomsIdentifies);
 		}
 		
 		return true;
