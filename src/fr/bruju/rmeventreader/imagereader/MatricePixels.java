@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.imagereader.model;
+package fr.bruju.rmeventreader.imagereader;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

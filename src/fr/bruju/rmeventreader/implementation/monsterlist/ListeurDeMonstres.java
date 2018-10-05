@@ -2,13 +2,13 @@ package fr.bruju.rmeventreader.implementation.monsterlist;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.Parametre;
 import fr.bruju.rmeventreader.imagereader.BuildingMotifs;
+import fr.bruju.rmeventreader.imagereader.Motif;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.FinDeCombat;
@@ -159,12 +159,23 @@ public class ListeurDeMonstres implements Runnable {
 		monstresInconnus.forEach(monstre -> System.out.println(monstre.nom));
 		System.out.println();
 		
-		String[] nomsDesMonstres = monstresInconnus.stream().map(monstre -> monstre.nom).toArray(String[]::new);
 		
-		BuildingMotifs chercheurDeMotifs = new BuildingMotifs(Parametre.get("DOSSIER") + "Picture\\", nomsDesMonstres);
+		BuildingMotifs chercheurDeMotifs = new BuildingMotifs(Parametre.get("DOSSIER") + "Picture\\");
+		monstresInconnus.stream().map(monstre -> monstre.nom).forEach(chercheurDeMotifs::identifier);
+		
+		
+		
 		
 		System.out.println("== Identification == ");
-		chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
+		System.out.println(chercheurDeMotifs.getNomsIdentifies());
+		
+		System.out.println();
+		System.out.println(chercheurDeMotifs.listeLesErreurs());
+
+		chercheurDeMotifs.getMotifsInconnus()
+						 .stream()
+						 .map(Motif::getChaineDeNonReconnaissance)
+						 .forEach(System.out::println);
 		
 		return true;
 	}

@@ -1,9 +1,6 @@
-package fr.bruju.rmeventreader.imagereader.traitement;
+package fr.bruju.rmeventreader.imagereader;
 
 import java.util.List;
-
-import fr.bruju.rmeventreader.imagereader.model.MatricePixels;
-import fr.bruju.rmeventreader.imagereader.model.Motif;
 
 /**
  * Cette classe recherche des motifs dans une matrice de pixels
@@ -17,6 +14,8 @@ public class ChercheurDeMotifs {
 
 	/** Liste des motifs connus */
 	private List<Motif> motifs;
+	
+	private List<Motif> motifsInconnus;
 
 	
 	/** Colonne actuelle de recherche de motif */
@@ -37,9 +36,10 @@ public class ChercheurDeMotifs {
 	 * @param matrice La matrice à fouiller
 	 * @param motifs Les motifs connus
 	 */
-	public ChercheurDeMotifs(MatricePixels matrice, List<Motif> motifs) {
+	public ChercheurDeMotifs(MatricePixels matrice, List<Motif> motifs, List<Motif> motifsInconnus) {
 		this.matrice = matrice;
 		this.motifs = motifs;
+		this.motifsInconnus = motifsInconnus;
 	}
 
 	/**
@@ -53,29 +53,28 @@ public class ChercheurDeMotifs {
 		colActuelle = 0;
 		premierPassage = true;
 
-		String s = "";
-
-		while (true) {
-			// Lecture du motif suivant
-			int[] tab = reconnaitreMotif();
-
-			if (tab == null)
-				break;
-
-			// Fouille de motif
-			String c = trouverMotif(tab);
-
-			// Recherche d'espace
-			if (!premierPassage && this.nombreDeColonnesVides >= LARGEUR_ESPACE) {
-				c = " " + c;
+		StringBuilder chaineConstruite = new StringBuilder();
+		
+		boolean unCaractereInconnu = false;
+		int[] compositionDuMotif;
+		
+		while ((compositionDuMotif = chercherProchainMotif()) != null) {
+			String c = identifierMotif(compositionDuMotif);
+			
+			if (c == null) {
+				unCaractereInconnu = true;
 			} else {
-				premierPassage = false;
-			}
+				if (!premierPassage && this.nombreDeColonnesVides >= LARGEUR_ESPACE) {
+					chaineConstruite.append(" ");
+				}
 
-			s = s + c;
+				chaineConstruite.append(c);
+			}
+			
+			premierPassage = false;
 		}
 
-		return s;
+		return unCaractereInconnu ? null : chaineConstruite.toString();
 	}
 
 	/* =========================
@@ -88,7 +87,7 @@ public class ChercheurDeMotifs {
 	 * 
 	 * @return Le motif trouvé sous forme numérique
 	 */
-	private int[] reconnaitreMotif() {
+	private int[] chercherProchainMotif() {
 		nombreDeColonnesVides = colActuelle;
 
 		while (colActuelle != matrice.longueur) {
@@ -215,7 +214,7 @@ public class ChercheurDeMotifs {
 	 * @param tab La représentation du motif
 	 * @return La chaîne représentant le motif
 	 */
-	private String trouverMotif(int[] tab) {
+	private String identifierMotif(int[] tab) {
 		for (Motif motif : motifs) {
 			if (motif.comparer(tab)) {
 				return motif.getSymboleDesigne();
@@ -228,21 +227,11 @@ public class ChercheurDeMotifs {
 
 		malReconnu = true;
 
-		System.out.println("Motif non reconnu :");
+		
+		Motif motifNonReconnu = new Motif(tab);
+		motifs.add(motifNonReconnu);
+		motifsInconnus.add(motifNonReconnu);
 
-		Motif.dessinerUnMotif(tab);
-
-		System.out.print("?");
-
-		for (int valeur : tab) {
-			System.out.print(" " + valeur);
-		}
-
-		System.out.println();
-
-		motifs.add(new Motif('?', tab));
-
-		return "?";
+		return null;
 	}
-
 }
