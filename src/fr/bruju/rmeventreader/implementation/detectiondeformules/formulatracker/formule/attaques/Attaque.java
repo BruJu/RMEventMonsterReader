@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.division.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
@@ -27,7 +28,7 @@ import fr.bruju.util.similaire.CollectorBySimilarity;
  */
 public class Attaque {
 	/** Nom de l'attaque */
-	public final IdentiteAttaque nom;
+	public final AttaqueALire noms;
 
 	/** Association statistique modifiée - liste des formules */
 	private Map<ModifStat, List<FormuleDeDegats>> resultat;
@@ -38,8 +39,8 @@ public class Attaque {
 	 * @param nom Nom de l'attaque
 	 * @param resultat Association entre statistiques modifiées et liste des formules
 	 */
-	public Attaque(IdentiteAttaque nom, Map<ModifStat, List<FormuleDeDegats>> resultat) {
-		this.nom = nom;
+	public Attaque(AttaqueALire noms, Map<ModifStat, List<FormuleDeDegats>> resultat) {
+		this.noms = noms;
 		this.resultat = resultat;
 	}
 
@@ -110,7 +111,7 @@ public class Attaque {
 	 * @param reduction La fonction pour réduire le résultat de deux formules
 	 * @return Le résultat de la fonction appliquée à toutes les formules
 	 */
-	public String returnForEach(TriFunction<IdentiteAttaque, ModifStat, FormuleDeDegats, String> fonctionFormule) {
+	public String returnForEach(TriFunction<AttaqueALire, ModifStat, FormuleDeDegats, String> fonctionFormule) {
 		if (resultat.isEmpty()) {
 			return "";
 		}
@@ -121,7 +122,7 @@ public class Attaque {
 					    .stream()
 					    .flatMap(entry -> entry.getValue()
 									   .stream()
-									   .map(formule -> fonctionFormule.apply(nom, entry.getKey(), formule)))
+									   .map(formule -> fonctionFormule.apply(noms, entry.getKey(), formule)))
 					    .reduce((s1, s2) -> s1 + s2)
 					    .get();
 		} catch (NoSuchElementException e) {

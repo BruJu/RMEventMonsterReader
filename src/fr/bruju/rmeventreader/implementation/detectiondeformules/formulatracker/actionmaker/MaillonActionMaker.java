@@ -2,13 +2,13 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker
 
 import java.io.IOException;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaques;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.IdentiteAttaque;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -27,26 +27,14 @@ public class MaillonActionMaker implements Maillon {
 			return;
 		}
 		
-		attaquesParXML(contexte, attaques, Ressources.ATTAQUES);
+		for (AttaqueALire attaque : ListeDesAttaques.extraireAttaquesALire()) {
+			attaques.ajouterAttaque(lireEvenementAttaque(contexte, attaque));
+		}
 	}
 
-
-	private void attaquesParXML(Personnages contexte, Attaques attaques, String chemin) {
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
-			String[] donnees = LecteurDeFichiersLigneParLigne.diviser(ligne, 3);
-			
-			Attaque attaque = creerAttaqueXML(contexte,
-											new IdentiteAttaque(donnees[2], donnees[1]),
-											Integer.parseInt(donnees[0]));
-			
-			attaques.ajouterAttaque(attaque);
-		});
-	}
-
-
-	private Attaque creerAttaqueXML(Personnages contexte, IdentiteAttaque nomAttaque, int numeroDEvent) {
+	private Attaque lireEvenementAttaque(Personnages contexte, AttaqueALire attaque) {
 		FormulaMaker formulaMaker = new FormulaMaker(contexte, false);
-		PROJET.lireEvenementCommun(formulaMaker, numeroDEvent);
-		return new Attaque(nomAttaque, formulaMaker.getResultat());
+		PROJET.lireEvenementCommun(formulaMaker, attaque.numeroEvenementCommun);
+		return new Attaque(attaque, formulaMaker.getResultat());
 	}
 }

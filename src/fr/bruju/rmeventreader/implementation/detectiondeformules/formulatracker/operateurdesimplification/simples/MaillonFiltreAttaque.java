@@ -20,7 +20,7 @@ public class MaillonFiltreAttaque implements Maillon {
 
 	@Override
 	public void traiter(Attaques attaques) {
-		attaques.filterAttaques(attaque -> attaque.nom.equals(attaqueConservee));
+		attaques.filterAttaques(attaque -> attaque.noms.nomAttaque.equals(attaqueConservee));
 	}
 
 }

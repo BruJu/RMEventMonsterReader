@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.condition.Condition;
@@ -119,17 +120,17 @@ public class Attaques {
 	 */
 	public void determinerAffichageAttaques(
 			Function<List<String>, String> affichageHeader,
-			Function<IdentiteAttaque, String> affichageHeaderAttaque,
-			TriFunction<IdentiteAttaque, ModifStat, FormuleDeDegats, String> affichageFormule,
-			Function<IdentiteAttaque, String> affichageFooterAttaque) {
+			Function<AttaqueALire, String> affichageHeaderAttaque,
+			TriFunction<AttaqueALire, ModifStat, FormuleDeDegats, String> affichageFormule,
+			Function<AttaqueALire, String> affichageFooterAttaque) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(affichageHeader.apply(groupesSupplementaires));
 		
 		forEach(attaque -> {
-			sb.append(affichageHeaderAttaque.apply(attaque.nom));
+			sb.append(affichageHeaderAttaque.apply(attaque.noms));
 			sb.append(attaque.returnForEach(affichageFormule));
-			sb.append(affichageFooterAttaque.apply(attaque.nom));
+			sb.append(affichageFooterAttaque.apply(attaque.noms));
 		});
 		
 		this.affichage = sb.toString();

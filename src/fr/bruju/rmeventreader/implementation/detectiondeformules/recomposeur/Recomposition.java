@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.actionmaker.ComposeurInitial;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.arbre.Arbre;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.arbre.MonteurDArbre;
@@ -18,14 +19,12 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.mai
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.operations.desinjection.PreTraitementDesinjection;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.operations.unification.Unificateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.visiteur.deduction.Deducteur;
-import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.rmeventreader.utilitaire.Triplet;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class Recomposition implements Runnable {
 	private final static String CHEMIN_PARAMETRES = "ressources\\Recomposition.txt";
-	private final static String CHEMIN_ATTAQUES = "ressources\\Attaques.txt";
 
 	Parametres parametres;
 	BaseDeVariables base;
@@ -83,15 +82,9 @@ public class Recomposition implements Runnable {
 	private Arbre construireArbre() {
 		MonteurDArbre exp = new MonteurDArbre(base);
 		
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(CHEMIN_ATTAQUES, ligne -> {
-			String[] donnees = LecteurDeFichiersLigneParLigne.diviser(ligne, 3);
-			
-			int evenementCommun = Integer.parseInt(donnees[0]);
-			String nomAttaque = donnees[2];
-			String nomPersonnage = donnees[1];
-			
+		ListeDesAttaques.extraireAttaquesALire().forEach(attaque -> {
 			ComposeurInitial composeur = new ComposeurInitial(base.getVariablesStatistiques());
-			PROJET.lireEvenementCommun(composeur, evenementCommun);
+			PROJET.lireEvenementCommun(composeur, attaque.numeroEvenementCommun);
 			
 			// Extraction d'un premier résultat
 			
@@ -101,7 +94,7 @@ public class Recomposition implements Runnable {
 			extrait.replaceAll((key, algo) -> (Algorithme) new Deducteur().traiter(algo));
 			
 			
-			exp.add(nomPersonnage, nomAttaque, extrait);
+			exp.add(attaque.nomPersonnage, attaque.nomAttaque, extrait);
 		});
 
 		return exp.creerArbre();
