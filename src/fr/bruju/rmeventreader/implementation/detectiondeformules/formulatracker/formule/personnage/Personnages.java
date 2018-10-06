@@ -1,12 +1,12 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.LigneNonReconnueException;
 import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Individu;
+import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.VariablesAssociees;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.Bouton;
@@ -15,39 +15,28 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 public class Personnages {
-	/** Chemin vers la liste des variables et interrutpeurs nommés */
-	private static String cheminNommes = Ressources.NOMS;
-	
 	/** Map associant nom de personnage et objet */
-	private Map<String, Individu<StatPerso>> personnagesReels = new HashMap<>();
+	private Map<String, Individu<StatPerso>> personnagesReels;
 
-	/**
-	 * Lit la liste des variables associées aux personnages dans le fichier donné. Le format doit être
-	 * "NomDuPersonnage NomDeLaStatistique Numéro". Il est possible d'assigner des interrupteurs en prefixant le numéro
-	 * par un S. 
-	 * @param chemin Chemin du fichier
-	 * @throws IOException
-	 */
-	public void lirePersonnagesDansFichier(String chemin) throws IOException {
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
-			String[] donnees = ligne.split(" ");
-			
-			if (donnees == null || donnees.length != 3) {
-				throw new LigneNonReconnueException("");
-			}
-
-			String nomPersonnage = donnees[0];
-			String nomStatistique = donnees[1];
-			
-			boolean estPropriete = donnees[2].charAt(0) == 'S';
-			
-			Integer numeroVariable = Integer.decode((estPropriete ? donnees[2].substring(1) : donnees[2]));
-
-			injecter(nomPersonnage, nomStatistique, numeroVariable, !estPropriete);
-		});
+	
+	public Personnages() {
+		personnagesReels = VariablesAssociees.remplirStatistiques(this::injecter, StatPerso::new);
 	}
 	
 
+	/**
+	 * Ajoute la statistique pour le personnage donné à la carte des personnages / statistiques connus.
+	 */
+	private void injecter(Individu<StatPerso> perso, String nomStatistique, Integer numeroVariable, boolean estPropriete) {
+		if (estPropriete) {
+			perso.getVariablesAssociees().addPropriete(nomStatistique, numeroVariable);
+		} else {
+			perso.getVariablesAssociees().addStatistique(nomStatistique, numeroVariable);
+		}
+	}
+	
+	
+	
 	/**
 	 * Rempli les variables nommées dans les map données. Le fichier est au format "Numéro Type Nom" où le type est V
 	 * pour les variables et S pour les interrupteurs.
@@ -56,7 +45,7 @@ public class Personnages {
 	 */
 	public void remplirVariablesNommees(Map<Integer, Valeur> variablesExistantes,
 			Map<Integer, Bouton> interrupteursExistants) {
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(cheminNommes, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(Ressources.NOMS, ligne -> {
 			String[] donnees = ligne.split(" ");
 			
 			if (donnees == null || donnees.length != 3) {
@@ -82,21 +71,5 @@ public class Personnages {
 		return personnagesReels.values();
 	}
 
-	/**
-	 * Ajoute la statistique pour le personnage donné à la carte des personnages / statistiques connus.
-	 */
-	private void injecter(String nomPersonnage, String nomStatistique, Integer numeroVariable, boolean estStat) {
-		Individu<StatPerso> perso = personnagesReels.get(nomPersonnage);
-
-		if (perso == null) {
-			perso = new Individu<>(nomPersonnage, StatPerso::new);
-			personnagesReels.put(nomPersonnage, perso);
-		}
-
-		if (estStat)
-			perso.getVariablesAssociees().addStatistique(nomStatistique, numeroVariable);
-		else
-			perso.getVariablesAssociees().addPropriete(nomStatistique, numeroVariable);
-	}
 
 }

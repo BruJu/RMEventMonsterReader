@@ -32,9 +32,7 @@ public class Recomposition implements Runnable {
 	public void run() {
 		parametres = new Parametres(CHEMIN_PARAMETRES);
 		base = new BaseDeVariables();
-
-		base.remplir(parametres);
-
+		
 		visionArbre();
 
 		/*		Opérations dans FormulaTracker :
