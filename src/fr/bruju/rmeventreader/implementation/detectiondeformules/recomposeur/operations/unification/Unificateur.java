@@ -34,7 +34,7 @@ public class Unificateur extends VisiteurConstructeur {
 			return null; 
 		}
 		
-		Statistique statFusionnee = unifie.getStatistiques().get(r1.stat.nom);
+		Statistique statFusionnee = unifie.getVariablesAssociees().statistiques.get(r1.stat.nom);
 		return new Resultat(statFusionnee, reponse1);
 	}
 
@@ -47,7 +47,7 @@ public class Unificateur extends VisiteurConstructeur {
 		if (nomStatistique == null) {
 			return element;
 		} else {
-			return new Entree(destination.getStatistiques().get(nomStatistique).position);
+			return new Entree(destination.getVariablesAssociees().statistiques.get(nomStatistique).position);
 		}
 	}
 	
