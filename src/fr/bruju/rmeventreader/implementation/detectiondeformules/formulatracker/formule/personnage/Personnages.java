@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.LigneNonReconnueException;
@@ -20,22 +19,8 @@ public class Personnages {
 
 	
 	public Personnages() {
-		personnagesReels = VariablesAssociees.remplirStatistiques(this::injecter, StatPerso::new);
+		personnagesReels = VariablesAssociees.remplirStatistiques(StatPerso::new);
 	}
-	
-
-	/**
-	 * Ajoute la statistique pour le personnage donné à la carte des personnages / statistiques connus.
-	 */
-	private void injecter(Individu<StatPerso> perso, String nomStatistique, Integer numeroVariable, boolean estPropriete) {
-		if (estPropriete) {
-			perso.getVariablesAssociees().addPropriete(nomStatistique, numeroVariable);
-		} else {
-			perso.getVariablesAssociees().addStatistique(nomStatistique, numeroVariable);
-		}
-	}
-	
-	
 	
 	/**
 	 * Rempli les variables nommées dans les map données. Le fichier est au format "Numéro Type Nom" où le type est V

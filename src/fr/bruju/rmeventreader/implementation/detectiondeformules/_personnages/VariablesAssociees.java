@@ -8,14 +8,8 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 public interface VariablesAssociees {
-	public static interface StatistiqueExtraite<T extends VariablesAssociees> {
-		public void appliquer(Individu<T> personnage, String nomStatistique, int numero, boolean estUnInterrupteur);
-	}
-	
-	public static <T extends VariablesAssociees> Map<String, Individu<T>>
-		remplirStatistiques(StatistiqueExtraite<T> fonctionAppliquee,
-							Function<Individu<T>, T> fonctionDInstanciation
-				) {
+	public static <T extends VariablesAssociees> Map<String, Individu<T>> remplirStatistiques(
+													Function<Individu<T>, T> fonctionDInstanciation) {
 		Map<String, Individu<T>> individus = new HashMap<>();
 		
 		LecteurDeFichiersLigneParLigne.lectureFichierRessources(Ressources.STATISTIQUES, ligne -> {
@@ -33,9 +27,15 @@ public interface VariablesAssociees {
 				individus.put(nomPersonnage, individu);
 			}
 			
-			fonctionAppliquee.appliquer(individu, nomStatistique, numeroVariable, estPropriete);
+			individu.getVariablesAssociees().ajouterStatistique(nomStatistique, numeroVariable, estPropriete);
 		});
 		
 		return individus;
 	}
+	
+	
+	public void ajouterStatistique(String nomStatistique, Integer numeroVariable, boolean estPropriete);
+	
+	
+	
 }
