@@ -3,13 +3,13 @@ package fr.bruju.rmeventreader;
 import java.io.IOException;
 
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.FormulaTracker;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
-import fr.bruju.rmeventreader.implementation.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
-import fr.bruju.rmeventreader.implementation.recomposeur.Recomposition;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
