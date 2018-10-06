@@ -23,7 +23,7 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
  * @author Bruju
  *
  */
-public class MonsterDatabaseMaker extends StackedActionMaker<Combat> implements ExtCondition, ExtChangeVariable {
+public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements ExtCondition, ExtChangeVariable {
 	/* ==================
 	 * StackedActionMaker
 	 * ================== */

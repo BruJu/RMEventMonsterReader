@@ -13,22 +13,17 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionP
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 
-public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtChangeVariable, ExtCondition {
+public class ExtracteurDeFond extends ExecuteurAFiltre<Combat> implements ExtChangeVariable, ExtCondition {
+	private static final int VARIABLE_ID_FOND = 1430;
+	private static final int VARIABLE_ID_COMBAT = 435;
+	private static final int SWITCH_IGNORE1 = 478;
+	private static final int SWITCH_IGNORE2 = 1089;
+	
 	/* ==================
 	 * StackedActionMaker
 	 * ================== */
 
-	/** Numéro de la variable contenant le fond */
-	private final int VARIABLE_ID_FOND = 1430;
-	/** Numéro de la variable contenant l'id du combat */
-	private final int VARIABLE_IDCOMBAT = 435;
-
-	/** Condition sur un switch ignoré */
-	private final int SWITCH_IGNORE1 = 478;
-	/** Condition sur un switch ignoré */
-	private final int SWITCH_IGNORE2 = 1089;
-
-	/** Base de données de monstre */
+	/** Base de données de monstres */
 	private MonsterDatabase bdd;
 
 	/**
@@ -44,7 +39,12 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtC
 	protected Collection<Combat> getAllElements() {
 		return bdd.extractBattles();
 	}
-
+	
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
+	
 	/* ===========
 	 * EXTVARIABLE
 	 * =========== */
@@ -80,17 +80,11 @@ public class ExtracteurDeFond extends StackedActionMaker<Combat> implements ExtC
 
 	@Override
 	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-		if (variable != VARIABLE_IDCOMBAT) {
+		if (variable != VARIABLE_ID_COMBAT) {
 			conditions.push(new ConditionPassThrought<>());
 		} else {
 			conditions.push(new ConditionOnBattleId(comparateur, droite.valeur));
 		}
 		return true;
 	}
-
-	@Override
-	public boolean getBooleenParDefaut() {
-		return false;
-	}
-
 }

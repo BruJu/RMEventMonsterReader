@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -109,14 +110,16 @@ public class MonsterDatabase {
 	
 	/**
 	 * Affiche dans la console la liste des combats avec des monstres sans nom
+	 * @return 
 	 */
-	public void trouverLesCombatsAvecDesNomsInconnus() {
-		extractBattles().stream()
+	public List<Combat> trouverLesCombatsAvecDesNomsInconnus() {
+		return extractBattles()
+						.stream()
 						.filter(battle -> battle.getMonstersStream()
 							                 	.filter(m -> m.nom.equals("UNKNOWN_NAME"))
 							                 	.findAny()
 							                 	.isPresent())
-						.forEach(battle -> System.out.println(battle.getString()));
+						.collect(Collectors.toList());
 	}
 	
 	

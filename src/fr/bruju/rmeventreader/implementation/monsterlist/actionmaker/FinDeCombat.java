@@ -28,77 +28,68 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondition, ExtChangeVariable {
-	/* ==========
-	 * Constantes
-	 * ========== */
+public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtCondition, ExtChangeVariable {
+	private static final int VARIABLE_GAIN_EXP_TOTAL = 4976;
+	private static final int INTERRUPTEUR_COMBAT_DE_BOSS = 190;
+	
+	/** Base de données */
+	private MonsterDatabase bdd;
+	
 	/** Variables avec la position des gains d'expérience */
-	private final int[] VARIABLES_EXP;
-	/** Variable contenant les gains d'exp totaux */
-	private final int VARIABLE_GAINEXP = 4976;
-	/** Switch déclarant un combat de boss */
-	private final int SWITCH_BOSS = 190;
-
-	/** Association numéro de variable - sous action maker */
-	private Map<Integer, Gestionnaires> associationActionMaker;
-
-	/* ========
-	 * Database
-	 * ======== */
+	private Map<Integer, Gestionnaire> sousGestionnaires;
+	
+	/**
+	 * Construit un exécuteur dont le but est de déterminer les gains totaux d'un combat
+	 * 
+	 * @param bdd La base de données
+	 */
+	public FinDeCombat(MonsterDatabase bdd) {
+		this.bdd = bdd;
+		initierAssociationActionMaker();
+	}
 
 	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
+	}
+	
+	@Override
 	public void Flot_commentaire(String message) {
+		// Interrompt le traitement lorsque le commentaire ENNEMIS LEGENDAIRES est rencontré
 		if (message.equals("ENNEMIS LEGENDAIRES")) {
 			conditions.push(new ConditionFausse<>());
 		}
-	}
-	
-	/**
-	 * Base de données
-	 */
-	private MonsterDatabase db;
-
-	/**
-	 * Construit un action maker dont le but est de déterminer les gains totaux d'un combat
-	 * 
-	 * @param db La base de données
-	 */
-	public FinDeCombat(MonsterDatabase db) {
-		this.db = db;
-
-		VARIABLES_EXP = db.contexte.getListeVariables("EXP");
-
-		initierAssociationActionMaker();
 	}
 
 	/**
 	 * Met dans la map les comportements à adopter pour certaines variables
 	 */
 	private void initierAssociationActionMaker() {
-		associationActionMaker = new HashMap<>();
+		sousGestionnaires = new HashMap<>();
 
-		for (int idVariableHP : db.contexte.getListeVariables("HP")) {
-			associationActionMaker.put(idVariableHP, new ComportementIgnore());
+		for (int idVariableHP : bdd.contexte.getListeVariables("HP")) {
+			sousGestionnaires.put(idVariableHP, new ComportementIgnore());
 		}
 
-		int[] variablesCapa = db.contexte.getListeVariables("Capacité");
+		int[] variablesCapa = bdd.contexte.getListeVariables("Capacité");
+		int[] variablesExpe = bdd.contexte.getListeVariables("EXP");
 
 		for (int i = 0; i != Combat.NOMBRE_DE_MONSTRES; i++) {
-			associationActionMaker.put(variablesCapa[i], new ComportementCapacite(i));
-			associationActionMaker.put(VARIABLES_EXP[i], new ComportementExperience(i));
+			sousGestionnaires.put(variablesCapa[i], new ComportementCapacite(i));
+			sousGestionnaires.put(variablesExpe[i], new ComportementExperience(i));
 		}
 
-		associationActionMaker.put(VARIABLE_GAINEXP, new ComportementGlobalExperience());
+		sousGestionnaires.put(VARIABLE_GAIN_EXP_TOTAL, new ComportementGlobalExperience());
 	}
 
 	@Override
 	protected Collection<Combat> getAllElements() {
-		return db.extractBattles();
+		return bdd.extractBattles();
 	}
 
 	@Override
 	public void affecterVariable(Variable valeurGauche, Variable valeurDroite) {
-		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
+		Gestionnaire actionMaker = sousGestionnaires.get(valeurGauche.idVariable);
 
 		if (actionMaker != null) {
 			actionMaker.affecterVariable(valeurGauche, valeurDroite);
@@ -107,7 +98,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 	@Override
 	public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
-		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
+		Gestionnaire actionMaker = sousGestionnaires.get(valeurGauche.idVariable);
 
 		if (actionMaker != null) {
 			actionMaker.affecterVariable(valeurGauche, valeurDroite);
@@ -116,7 +107,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
-		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
+		Gestionnaire actionMaker = sousGestionnaires.get(valeurGauche.idVariable);
 
 		if (actionMaker != null) {
 			actionMaker.changerVariable(valeurGauche, operateur, valeurDroite);
@@ -125,7 +116,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
-		Gestionnaires actionMaker = associationActionMaker.get(valeurGauche.idVariable);
+		Gestionnaire actionMaker = sousGestionnaires.get(valeurGauche.idVariable);
 
 		if (actionMaker != null) {
 			actionMaker.changerVariable(valeurGauche, operateur, valeurDroite);
@@ -134,7 +125,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 	@Override
 	public boolean interrupteur(CondInterrupteur condInterrupteur) {
-		boolean estBoss = condInterrupteur.interrupteur == SWITCH_BOSS;
+		boolean estBoss = condInterrupteur.interrupteur == INTERRUPTEUR_COMBAT_DE_BOSS;
 
 		if (estBoss) {
 			conditions.push(new ConditionEstUnBoss(condInterrupteur.etat));
@@ -145,12 +136,12 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 	@Override
 	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-		Gestionnaires actionMaker = associationActionMaker.get(variable);
+		Gestionnaire gestionnaire = sousGestionnaires.get(variable);
 
-		if (actionMaker == null)
+		if (gestionnaire == null)
 			return false;
 
-		return actionMaker.variableFixe(variable, comparateur, droite);
+		return gestionnaire.variableFixe(variable, comparateur, droite);
 	}
 
 	/* ==========
@@ -169,19 +160,17 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 	}
 
 	/* =================
-	 * Sous Action Maker
+	 * Sous Gestionnaires
 	 * ================= */
 
-	/**
-	 * Interface action maker avec une implémentation par défaut pour les traitements de conditions
-	 */
-	private interface Gestionnaires extends ExtCondition, ExtChangeVariable {
+	/** Définition d'un gestionnaire (sous exécuteur à qui on délègue les tâches) */
+	private interface Gestionnaire extends ExtCondition, ExtChangeVariable {
 	}
 
 	/**
 	 * Comportement lorsqu'une action concernant une variable ignorée est déclenchée
 	 */
-	private class ComportementIgnore implements Gestionnaires {
+	private class ComportementIgnore implements Gestionnaire {
 		@Override
 		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 			conditions.push(new ConditionPassThrought<Combat>());
@@ -197,7 +186,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 	/**
 	 * Comportement concernant une capacité
 	 */
-	private class ComportementCapacite implements Gestionnaires {
+	private class ComportementCapacite implements Gestionnaire {
 		private int positionMonstre;
 
 		public ComportementCapacite(int positionMonstre) {
@@ -233,7 +222,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 	/**
 	 * Comportement concernant l'expérience d'un monstre
 	 */
-	private class ComportementExperience implements Gestionnaires {
+	private class ComportementExperience implements Gestionnaire {
 		private int positionMonstre;
 
 		public ComportementExperience(int positionMonstre) {
@@ -262,7 +251,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 	/**
 	 * Comportement concernant l'expérience totale
 	 */
-	private class ComportementGlobalExperience implements Gestionnaires {
+	private class ComportementGlobalExperience implements Gestionnaire {
 		@Override
 		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 			conditions.push(new ConditionGainExpTotal(comparateur, droite.valeur));
@@ -290,8 +279,7 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 		}
 
 		private void modifierExp(Variable valeurDroite, IntBinaryOperator fonctionDApplication) {
-
-			int idMonstre = Utilitaire.getPosition(valeurDroite.idVariable, VARIABLES_EXP);
+			int idMonstre = Utilitaire.getPosition(valeurDroite.idVariable, bdd.contexte.getListeVariables("EXP"));
 
 			if (idMonstre == -1) {
 				throw new FinDeCombatException("Modifie un gain d'exp selon une variable qui n'est pas un gain d'exp");
@@ -303,19 +291,13 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 
 		private Integer expDuMonstre(Combat combat, int position) {
 			Monstre monstre = combat.getMonstre(position);
-
-			if (monstre == null) {
-				return 0;
-			} else {
-				return monstre.accessInt(Monstre.STATS).get("EXP");
-			}
+			return monstre == null ? 0 : monstre.accessInt(Monstre.STATS).get("EXP");
 		}
 
 		@Override
 		public boolean getBooleenParDefaut() {
 			return false;
 		}
-
 	}
 
 	private class ConditionGainExpTotal implements Condition<Combat> {
@@ -336,10 +318,5 @@ public class FinDeCombat extends StackedActionMaker<Combat> implements ExtCondit
 		public boolean filter(Combat element) {
 			return comparateur.test(element.gainExp, expDeReference);
 		}
-	}
-
-	@Override
-	public boolean getBooleenParDefaut() {
-		return false;
 	}
 }

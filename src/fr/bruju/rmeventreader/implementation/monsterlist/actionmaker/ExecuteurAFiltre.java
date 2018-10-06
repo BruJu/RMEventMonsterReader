@@ -23,7 +23,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
  *
  * @param <T> Le type sur lequel portent les conditions
  */
-public abstract class StackedActionMaker<T> implements ExecuteurInstructions {
+public abstract class ExecuteurAFiltre<T> implements ExecuteurInstructions {
 	/**
 	 * Liste des conditions actuellement traitées
 	 */

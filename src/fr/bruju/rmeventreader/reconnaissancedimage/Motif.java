@@ -167,7 +167,7 @@ public class Motif {
 	}
 
 	/**
-	 * Donne une chaîne qu'il faudrait insérer dans le fichier des motifsconnus pour reconnâitre ce motif, avec le
+	 * Donne une chaîne qu'il faudrait insérer dans le fichier des motifsconnus pour reconnaître ce motif, avec le
 	 * motif dessiné au dessus de la chaîne. A noter que la détection du motif n'est pas faite (un utilisateur humain
 	 * doit remplacer le ? désignant la lettre du motif par la vraie chaîne représentée)
 	 * @return Une chaîne représentant le motif non reconnu. Par exemple pour le motif "tt"

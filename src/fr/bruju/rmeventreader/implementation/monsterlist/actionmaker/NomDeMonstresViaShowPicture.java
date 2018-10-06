@@ -19,16 +19,10 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> implements ExtCondition {
-	// Constantes
-	/** Numéro de l'image qui affiche les noms */
-	private final int SHOW_PIC_ID_WITH_NAME = 19;
-
-	/** Numéro de la variable contenant l'id des monstres */
-	private final int VARIABLE_IDMONSTRE = 559;
-
-	/** Numéro de la variable contenant l'id du combat */
-	private final int VARIABLE_IDCOMBAT = 435;
+public class NomDeMonstresViaShowPicture extends ExecuteurAFiltre<Monstre> implements ExtCondition {
+	private static final int ID_IMAGE_AFFICHANt_LES_NOMS = 19;
+	private static final int VARIABLE_IDMONSTRE = 559;
+	private static final int VARIABLE_IDCOMBAT = 435;
 
 	/* ==========================
 	 * Instanciation de la classe
@@ -37,15 +31,15 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> imp
 	/**
 	 * Base de données de monstre
 	 */
-	private MonsterDatabase database;
+	private MonsterDatabase baseDeDonnees;
 
 	/**
 	 * Instancie le faiseur d'action avec la base de données à compléter
 	 * 
-	 * @param database La base de données à compléter
+	 * @param baseDeDonnees La base de données à compléter
 	 */
-	public NomDeMonstresViaShowPicture(MonsterDatabase database) {
-		this.database = database;
+	public NomDeMonstresViaShowPicture(MonsterDatabase baseDeDonnees) {
+		this.baseDeDonnees = baseDeDonnees;
 	}
 
 	/* ====================
@@ -54,7 +48,7 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> imp
 
 	@Override
 	protected Collection<Monstre> getAllElements() {
-		return database.extractMonsters();
+		return baseDeDonnees.extractMonsters();
 	}
 	
 	/* ============
@@ -69,7 +63,7 @@ public class NomDeMonstresViaShowPicture extends StackedActionMaker<Monstre> imp
 			int transparenceHaute, int transparenceBasse, int agrandissement, Couleur couleur, int saturation,
 			TypeEffet typeEffet, int intensiteEffet, boolean transparence, boolean defilementAvecCarte) {
 		
-		if (numeroImage == SHOW_PIC_ID_WITH_NAME) {
+		if (numeroImage == ID_IMAGE_AFFICHANt_LES_NOMS) {
 			getElementsFiltres().forEach(monstre -> monstre.nom = nomImage);
 		}
 	}

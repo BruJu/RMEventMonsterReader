@@ -25,7 +25,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
-public class LectureDesElements extends StackedActionMaker<Monstre> implements ExtChangeVariable, ExtCondition {
+public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements ExtChangeVariable, ExtCondition {
 	/* =============
 	 * SCRIPT GLOBAL
 	 * ============= */
@@ -70,10 +70,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 	protected Collection<Monstre> getAllElements() {
 		return bdd.extractMonsters();
 	}
-
 	
-	
-
 	/* -------------------------
 	 * Modification des monstres
 	 * ------------------------- */
@@ -96,7 +93,6 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 		int eventNumber = ((ValeurFixe) evenement).valeur;
 		int eventPage = ((ValeurFixe) page).valeur;
 		
-		
 		if (eventNumber != EVENT_SOUS_FONCTIONS) {
 			throw new LigneNonReconnueException("Script général : appel d'évènement sur la carte sur " + eventNumber);
 		}
@@ -108,17 +104,12 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 
 	@Override
 	public void Flot_appelEvenementCommun(int numero) {
-		if (estFini)
+		if (estFini) {
 			return;
+		}
 		
 		PROJET.lireEvenementCommun(this, numero);
 	}
-
-	
-	
-	
-	
-	
 	
 	@Override
 	public void changeSwitch(Variable interrupteur,	boolean nouvelleValeur) {
@@ -159,16 +150,13 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 			
 			PROJET.lireEvenement(p, 53, EVENT_SOUS_FONCTIONS, eventPage);
 			
-			actionsPage.set(eventPage - 1, p.getResult());
+			actionsPage.set(eventPage - 1, p.getPage());
 		}
 	}
 
 	/* -----------------------------------
 	 * Conditions sur le numéro du monstre
 	 * ----------------------------------- */
-
-	
-	
 
 	@Override
 	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
@@ -182,7 +170,6 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 			return true;
 		}
 		
-		//this.conditions.push(new ConditionFausse<>());
 		return false;
 	}
 
@@ -218,7 +205,7 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 		 * 
 		 * @return Une liste d'actions à réaliser sur un monstre qui appellerait la page
 		 */
-		public ActionPage getResult() {
+		public ActionPage getPage() {
 			return monstre -> actionsARealiser.forEach(action -> action.accept(monstre));
 		}
 
@@ -228,7 +215,6 @@ public class LectureDesElements extends StackedActionMaker<Monstre> implements E
 
 			actionsARealiser.add(monstre -> monstre.accessBool(ContexteElementaire.PARTIES).set(nomPartie, value));
 		}
-
 		
 		@Override
 		public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {

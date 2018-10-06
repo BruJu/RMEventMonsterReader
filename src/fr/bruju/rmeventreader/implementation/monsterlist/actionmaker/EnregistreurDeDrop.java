@@ -7,6 +7,7 @@ import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmdechiffreur.modele.ValeurFixe;
 import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 
 /**
@@ -16,31 +17,34 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
  * Instructions d'intéret :
  * <pre>
  * <> Fork Condition: If Variable [552] == 0 then ...
- * <> Change Variable: [2120] = 0
+ *  <> Change Variable: [2120] = 0
  * : End of fork
  * </pre>
  */
 public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, ExtChangeVariable {
+	private static final int VARIABLE_ID_MONSTRE = 552;
+	private static final int VARIABLE_ID_DROP = 2120;
+	
 	/* ============
 	 * Construction
 	 * ============ */
-	/** Variable contenant l'id du monstre */
-	private final int VARIABLE_ID_MONSTRE = 552;
-	/** Variable contenant l'id de l'objet */
-	private final int VARIABLE_ID_DROP = 2120;
-	
-	/** Dernier if lu */
-	private int dernierIfLu = -1;
 	
 	/** Base de données à remplir */
-	private MonsterDatabase db;
+	private MonsterDatabase bdd;
+	
+	private int derniereConditionLue = -1;
 	
 	/**
 	 * Instancie un enregistreur de drops
-	 * @param db La base de données à compléter
+	 * @param bdd La base de données à compléter
 	 */
-	public EnregistreurDeDrop(MonsterDatabase db) {
-		this.db = db;
+	public EnregistreurDeDrop(MonsterDatabase bdd) {
+		this.bdd = bdd;
+	}
+	
+	@Override
+	public boolean getBooleenParDefaut() {
+		return false;
 	}
 	
 	/* =========
@@ -53,41 +57,43 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 			return;
 		}
 		
-		if (dernierIfLu == -1) {
-			throw new DropCompleterException(DropCompleterException.MessageChangement);
+		if (derniereConditionLue == -1) {
+			throw new EnregistreurDeDropException(EnregistreurDeDropException.MessageChangement);
 		}
 		
-		db.extractMonsters()
-		  .stream()
-		  .filter(monstre -> monstre.getId() == dernierIfLu)
-		  .forEach(monstre -> monstre.nomDrop = Integer.toString(fixe.valeur));
+		for (Monstre monstre : bdd.extractMonsters()) {
+			if (monstre.getId() == derniereConditionLue) {
+				monstre.nomDrop = Integer.toString(fixe.valeur);
+			}
+		}
 	}
 
 	/* =========
 	 * Condition
 	 * ========= */
 	
+	@Override
 	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		if (variable != VARIABLE_ID_MONSTRE)
 			return false;
 		
 		if (comparateur != Comparateur.IDENTIQUE) {
-			throw new DropCompleterException(DropCompleterException.MessageCondition);
+			throw new EnregistreurDeDropException(EnregistreurDeDropException.MessageCondition);
 		}
 
-		dernierIfLu = droite.valeur;
+		derniereConditionLue = droite.valeur;
 		
 		return true;
 	}
 	
 	@Override
 	public void Flot_siNon() {
-		throw new DropCompleterException("Condition Else");
+		throw new EnregistreurDeDropException("Condition Else");
 	}
 	
 	@Override
 	public void Flot_siFin() {
-		dernierIfLu = -1; 
+		derniereConditionLue = -1; 
 	}
 	
 	
@@ -98,7 +104,7 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 	/**
 	 * Exceptions jetées par le Drop Completer
 	 */
-	public static class DropCompleterException extends RuntimeException {
+	public static class EnregistreurDeDropException extends RuntimeException {
 		/**
 		 * Message signalant l'affectation d'un drop sans connaître l'id du monstre
 		 */
@@ -119,17 +125,8 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 		 * Crée une exception avec le message donné
 		 * @param message Le message décrivant l'erreur
 		 */
-		public DropCompleterException(String message) {
+		public EnregistreurDeDropException(String message) {
 			super("DropCompleter :" + message);
 		}
 	}
-
-
-	@Override
-	public boolean getBooleenParDefaut() {
-		return false;
-	}
-	
-
-	
 }

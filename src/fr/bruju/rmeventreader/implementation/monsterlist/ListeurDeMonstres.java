@@ -24,6 +24,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.reconnaissancedimage.Motif;
@@ -85,11 +86,16 @@ public class ListeurDeMonstres implements Runnable {
 			action.run();
 		}
 
-		if (interrompreSiOCR(baseDeDonnees)) {
+		if (nomsDeMonstresManquant(baseDeDonnees)) {
 			return;
 		}
 
-		baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
+		List<Combat> combatsAvecNomsInconnus = baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
+		if (!combatsAvecNomsInconnus.isEmpty()) {
+			combatsAvecNomsInconnus.forEach(battle -> System.out.println(battle.getString()));
+			return;
+		}
+		
 		
 		switch (option) {
 		case 0:
@@ -154,7 +160,7 @@ public class ListeurDeMonstres implements Runnable {
 		}
 	}
 
-	private static boolean interrompreSiOCR(MonsterDatabase baseDeDonnees) {
+	private static boolean nomsDeMonstresManquant(MonsterDatabase baseDeDonnees) {
 		List<Monstre> monstresInconnus = baseDeDonnees.extractMonsters().stream()
 				.filter(m -> m != null && m.nom.startsWith("id"))
 				.collect(Collectors.toList());
@@ -199,6 +205,10 @@ public class ListeurDeMonstres implements Runnable {
 		return true;
 	}
 
+	/**
+	 * Inscrit dans le fichier avec les noms des monstres la liste des noms identifiés
+	 * @param nomsIdentifies La chaîne à inscrire
+	 */
 	private static void inscrireDesNomsDeMonstres(String nomsIdentifies) {
 		try {
 			FileWriter fileWriter = new FileWriter(MONSTRES, true);
