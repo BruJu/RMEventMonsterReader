@@ -79,12 +79,14 @@ public class FormulaMaker implements ExtCondition, ExtChangeVariable.SansAffecta
 			Map<Integer, Bouton> interrupteursExistants) {
 		Map<Integer, TraiteurEnregistreur> traiteursSpeciaux = new HashMap<>();
 
-		contexte.getPersonnages().stream().flatMap(p -> p.getStatistiques().values().stream()).forEach(stat -> {
+		contexte.getPersonnages().stream().map(individu -> individu.getVariablesAssociees().statistiques)
+			.flatMap(p -> p.values().stream()).forEach(stat -> {
 			variablesExistantes.put(stat.position, new VStatistique(stat));
 			traiteursSpeciaux.put(stat.position, new TraiteurEnregistreur(stat));
 		});
 		
-		contexte.getPersonnages().stream().flatMap(p -> p.getProprietes().values().stream()).forEach(stat -> 
+		contexte.getPersonnages().stream().map(individu -> individu.getVariablesAssociees().proprietes)
+			.flatMap(p -> p.values().stream()).forEach(stat -> 
 			interrupteursExistants.put(stat.position, new BStatistique(stat)));
 		
 		contexte.remplirVariablesNommees(variablesExistantes, interrupteursExistants);

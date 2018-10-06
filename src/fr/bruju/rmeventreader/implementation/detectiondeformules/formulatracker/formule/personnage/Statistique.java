@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Personne;
+
 /**
  * Une statistique posséde par un personnage
  * @author Bruju
@@ -7,7 +9,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker
  */
 public class Statistique {
 	/** Personnage possédant la statistique */
-	public final Personnage possesseur;
+	public final Personne<StatPerso> possesseur;
 	/** Nom de la statistique */
 	public final String nom;
 	/** Numéro de la variable si la statistique appartient à un personnage réel */
@@ -19,7 +21,7 @@ public class Statistique {
 	 * @param nom Le nom de la statistique
 	 * @param position Le numéro de la variable dans laquelle est stockée la statistique
 	 */
-	public Statistique(Personnage possesseur, String nom, int position) {
+	public Statistique(Personne<StatPerso> possesseur, String nom, int position) {
 		this.possesseur = possesseur;
 		this.nom = nom;
 		this.position = position;

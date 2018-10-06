@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.LigneNonReconnueException;
+import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Individu;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.Bouton;
@@ -18,7 +19,7 @@ public class Personnages {
 	private static String cheminNommes = Ressources.NOMS;
 	
 	/** Map associant nom de personnage et objet */
-	private Map<String, PersonnageReel> personnagesReels = new HashMap<>();
+	private Map<String, Individu<StatPerso>> personnagesReels = new HashMap<>();
 
 	/**
 	 * Lit la liste des variables associées aux personnages dans le fichier donné. Le format doit être
@@ -77,7 +78,7 @@ public class Personnages {
 	/**
 	 * Donne la liste des personnages identifiés
 	 */
-	public Collection<PersonnageReel> getPersonnages() {
+	public Collection<Individu<StatPerso>> getPersonnages() {
 		return personnagesReels.values();
 	}
 
@@ -85,17 +86,17 @@ public class Personnages {
 	 * Ajoute la statistique pour le personnage donné à la carte des personnages / statistiques connus.
 	 */
 	private void injecter(String nomPersonnage, String nomStatistique, Integer numeroVariable, boolean estStat) {
-		PersonnageReel perso = personnagesReels.get(nomPersonnage);
+		Individu<StatPerso> perso = personnagesReels.get(nomPersonnage);
 
 		if (perso == null) {
-			perso = new PersonnageReel(nomPersonnage);
+			perso = new Individu<>(nomPersonnage, StatPerso::new);
 			personnagesReels.put(nomPersonnage, perso);
 		}
 
 		if (estStat)
-			perso.addStatistique(nomStatistique, numeroVariable);
+			perso.getVariablesAssociees().addStatistique(nomStatistique, numeroVariable);
 		else
-			perso.addPropriete(nomStatistique, numeroVariable);
+			perso.getVariablesAssociees().addPropriete(nomStatistique, numeroVariable);
 	}
 
 }

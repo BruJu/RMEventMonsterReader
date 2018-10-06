@@ -10,6 +10,9 @@ import java.util.TreeSet;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Groupe;
+import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Individu;
+import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Personne;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BConstant;
@@ -32,9 +35,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.ModifStat;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Personnage;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.PersonnageReel;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.PersonnageUnifie;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.StatPerso;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.Maillon;
 import fr.bruju.rmeventreader.utilitaire.Pair;
@@ -71,7 +72,7 @@ public class MaillonUnificateur extends VisiteurRetourneur<Composant> implements
 			}
 
 			String nomStatistique = f1.getLeft().stat.nom;
-			Statistique statChezPersoUnifie = personnageUnifie.getStatistiques().get(nomStatistique);
+			Statistique statChezPersoUnifie = personnageUnifie.getVariablesAssociees().statistiques.get(nomStatistique);
 
 			ModifStat m = new ModifStat(statChezPersoUnifie, f1.getLeft().operateur);
 
@@ -109,10 +110,10 @@ public class MaillonUnificateur extends VisiteurRetourneur<Composant> implements
 	// =================================================================================================================
 	//              - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT -
 
-	Map<Set<PersonnageReel>, PersonnageUnifie> personnagesUnifies = new HashMap<>();
+	Map<Set<Individu<StatPerso>>, Groupe<StatPerso>> personnagesUnifies = new HashMap<>();
 
 	private Composant second;
-	private PersonnageUnifie personnageUnifie;
+	private Groupe<StatPerso> personnageUnifie;
 
 	public void viderPersonnageUnifieActuel() {
 		personnageUnifie = null;
@@ -134,10 +135,10 @@ public class MaillonUnificateur extends VisiteurRetourneur<Composant> implements
 		}
 
 		return zunifier(p.statistique, ((BStatistique) second).statistique,
-				personnage -> new BStatistique(personnage.getProprietes().get(p.statistique.nom)));
+				personnage -> new BStatistique(personnage.getVariablesAssociees().proprietes.get(p.statistique.nom)));
 	}
 
-	private Composant zunifier(Statistique premier, Statistique second, Function<Personnage, Composant> creation) {
+	private Composant zunifier(Statistique premier, Statistique second, Function<Personne<StatPerso>, Composant> creation) {
 		// Cas 2 : La statistique n'est pas la même chez des personnages différents. L'unification est impossible
 		if (!premier.nom.equals(second.nom)) {
 			return null;
@@ -146,10 +147,10 @@ public class MaillonUnificateur extends VisiteurRetourneur<Composant> implements
 		// Cas 3 : La statistique est identique
 
 		// Détermination du personnage unifié
-		Personnage p1 = premier.possesseur;
-		Personnage p2 = second.possesseur;
+		Personne<StatPerso> p1 = premier.possesseur;
+		Personne<StatPerso> p2 = second.possesseur;
 
-		PersonnageUnifie unifie = getPersonnageUnifie(p1, p2);
+		Groupe<StatPerso> unifie = getPersonnageUnifie(p1, p2);
 
 		if (unifie.equals(personnageUnifie)) {
 			// ok
@@ -171,18 +172,18 @@ public class MaillonUnificateur extends VisiteurRetourneur<Composant> implements
 		}
 
 		return zunifier(p.statistique, ((VStatistique) second).statistique,
-				personnage -> new VStatistique(personnage.getStatistiques().get(p.statistique.nom)));
+				personnage -> new VStatistique(personnage.getVariablesAssociees().statistiques.get(p.statistique.nom)));
 	}
 
-	private PersonnageUnifie getPersonnageUnifie(Personnage p1, Personnage p2) {
-		Set<PersonnageReel> personnagesReels = new TreeSet<>();
-		personnagesReels.addAll(p1.getPersonnagesReels());
-		personnagesReels.addAll(p2.getPersonnagesReels());
+	private Groupe<StatPerso> getPersonnageUnifie(Personne<StatPerso> p1, Personne<StatPerso> p2) {
+		Set<Individu<StatPerso>> personnagesReels = new TreeSet<>();
+		personnagesReels.addAll(p1.getIndividus());
+		personnagesReels.addAll(p2.getIndividus());
 
-		PersonnageUnifie pU = personnagesUnifies.get(personnagesReels);
+		Groupe<StatPerso> pU = personnagesUnifies.get(personnagesReels);
 
 		if (pU == null) {
-			pU = new PersonnageUnifie(personnagesReels);
+			pU = new Groupe<>(personnagesReels, StatPerso::new);
 			personnagesUnifies.put(personnagesReels, pU);
 		}
 
