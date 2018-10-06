@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Personne;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.Parametres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.composant.condition.ConditionFixe;
@@ -13,7 +14,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.com
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.composant.valeur.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.composant.valeur.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.composant.valeur.Entree;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.exploitation.Personnage;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.exploitation.StatsRecomposition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.exploitation.Statistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.formulededegats.GroupeDeConditions;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.operations.interfaces.StructureDInjectionDeHeader;
@@ -56,7 +57,7 @@ public class PreTraitementDesinjection implements StructureDInjectionDeHeader {
 	}
 	
 
-	private Map<Integer, Integer> extraire(Personnage possesseur) {
+	private Map<Integer, Integer> extraire(Personne<StatsRecomposition> possesseur) {
 		return cartesConnues.get(possesseur.getNom());
 	}
 
