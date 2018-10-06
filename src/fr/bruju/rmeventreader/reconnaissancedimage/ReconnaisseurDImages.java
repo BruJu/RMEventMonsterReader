@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.imagereader;
+package fr.bruju.rmeventreader.reconnaissancedimage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,14 +26,13 @@ import java.util.stream.Collectors;
  * </code>
  */
 public class ReconnaisseurDImages {
+	/** Extension des fichiers image */
+	private static String CHEMIN_SUFFIXE = ".PNG";
 	
-	private static String CHEMIN_SUFFIXE = ".PNG"; // Suffixe du chemin où sont les images
-	
-	/**
-	 * Chaines reconnues
-	 */
+	/** Chaines reconnues */
 	private Map<String, String> chainesReconnues;
 	
+	/** Chaînes non reconnues */
 	private StringJoiner fichiersIntrouvables = new StringJoiner(", ");
 	private StringJoiner fichiersIOException = new StringJoiner(", ");
 	private List<String> fichiersSymbolesManquants = new ArrayList<>();
@@ -41,10 +40,10 @@ public class ReconnaisseurDImages {
 	/** Dossier contenant les images */
 	private final String dossier;
 	
-	
 	/** Motifs connus */
 	List<Motif> motifs;
 	
+	/** Liste des motifs non reconnus */
 	List<Motif> motifsInconnus = new ArrayList<>();
 	
 	public ReconnaisseurDImages(String dossier) {

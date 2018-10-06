@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.imagereader;
+package fr.bruju.rmeventreader.reconnaissancedimage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,6 +112,10 @@ public class Motif {
 		return lettre;
 	}
 
+	/**
+	 * Donne une chaîne permettant de sérialiser le motif
+	 * @return La sérialisation du motif
+	 */
 	public String serialiser() {
 		StringBuilder sb = new StringBuilder();
 		
@@ -132,19 +136,20 @@ public class Motif {
 	 * Dessine le motif donné sous forme numérique
 	 * 
 	 * @param tab Motif sous forme numérique
+	 * @return Une représentation en chaîne du motif
 	 */
 	public String dessinerMotif() {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (int valeur : composition) {
 			dessinerUneLigneDeMotif(stringBuilder, valeur);
 		}
-		
 		return stringBuilder.toString();
 	}
 
 	/**
 	 * Dessine une ligne de motif à partir du nombre donné
 	 * 
+	 * @param stringBuilder Constructeur de chaîne à remplir
 	 * @param valeur Le nombre représentant la ligne
 	 */
 	private static void dessinerUneLigneDeMotif(StringBuilder stringBuilder, int valeur) {
@@ -161,6 +166,25 @@ public class Motif {
 		stringBuilder.append("\n");
 	}
 
+	/**
+	 * Donne une chaîne qu'il faudrait insérer dans le fichier des motifsconnus pour reconnâitre ce motif, avec le
+	 * motif dessiné au dessus de la chaîne. A noter que la détection du motif n'est pas faite (un utilisateur humain
+	 * doit remplacer le ? désignant la lettre du motif par la vraie chaîne représentée)
+	 * @return Une chaîne représentant le motif non reconnu. Par exemple pour le motif "tt"
+	 * <pre>
+	 * Motif non reconnu :
+     *  x   x
+     *  x   x
+     * xxxxxxxx
+     *  x   x
+     *  x   x
+     *  x   x
+     *  x   x
+     *   xx  xx
+     * 
+	 * ? 34 34 255 34 34 34 34 204
+	 * </pre>
+	 */
 	public String getChaineDeNonReconnaissance() {
 		StringBuilder sb = new StringBuilder();
 		
@@ -170,4 +194,6 @@ public class Motif {
 		
 		return sb.toString();
 	}
+	
+	
 }

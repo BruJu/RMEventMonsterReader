@@ -1,12 +1,11 @@
-package fr.bruju.rmeventreader.imagereader;
+package fr.bruju.rmeventreader.reconnaissancedimage;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Cette classe recherche des motifs dans une matrice de pixels
  */
-public class ChercheurDeMotifs {
+class ChercheurDeMotifs {
 	/** Nombre de colonnes vides consécutives à lire pour afficher un espace */
 	private static int LARGEUR_ESPACE = 4;
 
@@ -24,9 +23,6 @@ public class ChercheurDeMotifs {
 
 	/** Nombre de colonnes vides entre le précédent motif et l'actuel */
 	private int nombreDeColonnesVides = 0;
-
-	/** Booléen représentant si on n'a pas encore lu de lettres */
-	private boolean premierPassage = true;
 
 	/**
 	 * Crée un chercheur de motifs
@@ -49,8 +45,6 @@ public class ChercheurDeMotifs {
 	public String reconnaitre() {
 		// Initialisation des paramètres du parcours
 		colActuelle = 0;
-		premierPassage = true;
-
 		StringBuilder chaineConstruite = new StringBuilder();
 		
 		boolean unCaractereInconnu = false;
@@ -62,17 +56,15 @@ public class ChercheurDeMotifs {
 			if (c == null) {
 				unCaractereInconnu = true;
 			} else {
-				if (!premierPassage && this.nombreDeColonnesVides >= LARGEUR_ESPACE) {
+				if (nombreDeColonnesVides >= LARGEUR_ESPACE) {
 					chaineConstruite.append(" ");
 				}
 
 				chaineConstruite.append(c);
 			}
-			
-			premierPassage = false;
 		}
 
-		return unCaractereInconnu ? null : chaineConstruite.toString();
+		return unCaractereInconnu ? null : chaineConstruite.toString().trim();
 	}
 
 	/* =========================
@@ -94,7 +86,7 @@ public class ChercheurDeMotifs {
 			boolean colonneVide = true;
 			
 			for (int ligne = 0 ; ligne != matrice.hauteur ; ligne++) {
-				if (matrice.get(colActuelle, ligne)) {
+				if (matrice.estAllume(colActuelle, ligne)) {
 					valeurs[ligne] += multiplicateur;
 					colonneVide = false;
 				}
@@ -107,18 +99,18 @@ public class ChercheurDeMotifs {
 			} else { // Colonne vide après une colonne non vide
 				break;
 			}
-
 			
 			colActuelle++;
 		}
 		
-		if (multiplicateur == 1) {
-			return null;
-		} else {
-			return recadrer(valeurs);
-		}
+		return (multiplicateur == 1) ? null : recadrer(valeurs);
 	}
 	
+	/**
+	 * Donne un nouveau tableau d'entier identiques à celui donné en paramètres, mais dont on a enlevé les cases
+	 * contenant que des 0 au début du tableau et à la fin du tableau (un peu comme si on avait une chaîne, et que ces
+	 * 0 représentaient des espaces, et qu'on faisait un trim).
+	 */
 	private int[] recadrer(int[] tableau) {
 		int xMin, xMax;
 		

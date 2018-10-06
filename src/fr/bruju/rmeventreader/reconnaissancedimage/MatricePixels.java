@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.imagereader;
+package fr.bruju.rmeventreader.reconnaissancedimage;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 /**
  * Représentation simplifiée de l'image
  */
-public class MatricePixels {
+class MatricePixels {
 	/** Hauteur de l'image */
 	public final int hauteur;
 
@@ -41,7 +41,7 @@ public class MatricePixels {
 	 * @param y La coordonnée y
 	 * @return Vrai si le pixel en x,y est allumé
 	 */
-	public boolean get(int x, int y) {
+	public boolean estAllume(int x, int y) {
 		return pixelsAllumes[x][y];
 	}
 
@@ -54,16 +54,14 @@ public class MatricePixels {
 		StringBuilder[] renduDesLignes = new StringBuilder[hauteur];
 		
 		int premierLigneRemplie = -1;
-		int derniereLigneRemplie = -1;
+		int derniereLigneRemplie = -2;
 		
 		for (int ligne = 0; ligne != hauteur ; ligne++) {
 			boolean nonVide = false;
-			
 			StringBuilder sbLigne = new StringBuilder();
+			
 			for (int colonne = 0; colonne != longueur ; colonne++) {
-				boolean croix = pixelsAllumes[colonne][ligne];
-				
-				if (croix) {
+				if (pixelsAllumes[colonne][ligne]) {
 					sbLigne.append("X");
 					nonVide = true;
 				} else {
@@ -80,10 +78,6 @@ public class MatricePixels {
 			}
 			
 			renduDesLignes[ligne] = sbLigne;
-		}
-		
-		if (derniereLigneRemplie == -1) {
-			return "";
 		}
 		
 		StringBuilder stringBuilderGlobal = new StringBuilder();

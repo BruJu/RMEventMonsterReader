@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.Parametre;
-import fr.bruju.rmeventreader.imagereader.ReconnaisseurDImages;
-import fr.bruju.rmeventreader.imagereader.Motif;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.ExtracteurDeFond;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.FinDeCombat;
@@ -28,6 +26,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.BDDReduite;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.reconnaissancedimage.Motif;
+import fr.bruju.rmeventreader.reconnaissancedimage.ReconnaisseurDImages;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -193,7 +193,7 @@ public class ListeurDeMonstres implements Runnable {
 			System.out.println("== Noms identifiés ==");
 			System.out.println(nomsIdentifies);
 			
-			//inscrireDesNomsDeMonstres("\n// Monstres identifiés le " + getTimeStamp() + "\n" + nomsIdentifies);
+			inscrireDesNomsDeMonstres("\n// Monstres identifiés le " + getTimeStamp() + "\n" + nomsIdentifies);
 		}
 		
 		return true;
