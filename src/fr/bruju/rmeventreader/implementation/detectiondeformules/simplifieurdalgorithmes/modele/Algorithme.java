@@ -5,12 +5,10 @@ import java.util.List;
 
 public class Algorithme {
 	private List<Instruction> instructions = new ArrayList<>();
-	
-	
-	public void ajouterInstruction(Instruction instruction) {
-		instructions.add(instruction);
+
+	public void ajouterInstruction(int idVariable, int valeur) {
+		instructions.add(new Instruction(idVariable, valeur));
 	}
-	
 	
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
@@ -21,5 +19,8 @@ public class Algorithme {
 		}
 		
 		return sb.toString();
+	}
+
+	public void ajouterCondition(Condition conditionSeparatrice, Algorithme algorithmeVrai, Algorithme algorithmeFaux) {
 	}
 }

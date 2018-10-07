@@ -1,10 +1,13 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele;
 
 public class Variable implements Expression {
-	public final String nomVariable;
-	
-	public Variable(String nomVariable) {
-		this.nomVariable = nomVariable;
+	public final int numeroVariable;
+
+
+
+
+	public Variable(int numeroVariable) {
+		this.numeroVariable = numeroVariable;
 	}
 
 
@@ -12,7 +15,7 @@ public class Variable implements Expression {
 
 	@Override
 	public String getString() {
-		return nomVariable;
+		return "V[" + String.format("%04d", numeroVariable) + "]";
 	}
 
 }

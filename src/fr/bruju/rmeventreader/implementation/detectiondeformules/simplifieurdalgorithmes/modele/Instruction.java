@@ -6,7 +6,7 @@ public class Instruction {
 	
 	
 	public Instruction(int idVariable, int valeur) {
-		this.variableAssignee = new Variable("VAR["+idVariable+"]"); // Ne pas faire ça
+		this.variableAssignee = new Variable(idVariable);
 		this.expression = new Constante(valeur);
 	}
 
