@@ -2,6 +2,8 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Groupe;
 import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Individu;
@@ -28,15 +30,22 @@ public class StatPerso implements VariablesAssociees {
 		statistiques = new HashMap<>();
 		proprietes = new HashMap<>();
 
-		personnageAssocie.getIndividus().stream().map(personnageReel -> personnageReel.getVariablesAssociees().statistiques)
-				.flatMap(map -> map.keySet().stream())
-				.forEach(nomStat -> statistiques.putIfAbsent(nomStat, new Statistique(personnageAssocie, nomStat, -1)));
-		
-		personnageAssocie.getIndividus().stream().map(personnageReel -> personnageReel.getVariablesAssociees().proprietes)
-				.flatMap(map -> map.keySet().stream())
-				.forEach(nomStat -> proprietes.putIfAbsent(nomStat, new Statistique(personnageAssocie, nomStat, -1)));
-
+		ajouterMaps(stats -> stats.statistiques);
+		ajouterMaps(stats -> stats.proprietes);
 	}
+	
+	private void ajouterMaps(Function<StatPerso, Map<String, Statistique>> getter) {
+		Map<String, Statistique> thisMap = getter.apply(this);
+		
+		personnageAssocie.getIndividus()
+						 .stream()
+						 .map(personnageReel -> getter.apply(personnageReel.getVariablesAssociees()).keySet())
+						 .flatMap(Set::stream)
+						 .forEach(nomStat -> thisMap.putIfAbsent(nomStat,
+								 								 new Statistique(personnageAssocie, nomStat, -1)));
+	}
+	
+	
 	
 	@Override
 	public void ajouterStatistique(String nom, Integer position, boolean estPropriete) {
