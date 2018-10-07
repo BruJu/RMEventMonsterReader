@@ -1,13 +1,19 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele;
 
-public class Variable implements Expression {
+import fr.bruju.rmdechiffreur.modele.Variable;
+
+public class ExprVariable implements Expression {
 	public final int numeroVariable;
 
 
 
 
-	public Variable(int numeroVariable) {
+	public ExprVariable(int numeroVariable) {
 		this.numeroVariable = numeroVariable;
+	}
+
+	public ExprVariable(Variable valeurDroite) {
+		numeroVariable = valeurDroite.idVariable;
 	}
 
 

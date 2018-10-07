@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Algorithme {
-	private List<Instruction> instructions = new ArrayList<>();
+	private List<InstructionGenerale> instructions = new ArrayList<>();
 
-	public void ajouterInstruction(int idVariable, int valeur) {
-		instructions.add(new Instruction(idVariable, valeur));
+
+	public void ajouterInstruction(Instruction instruction) {
+		instructions.add(instruction);
 	}
 	
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (Instruction instruction : instructions) {
+		for (InstructionGenerale instruction : instructions) {
 			instruction.append(sb);
 			sb.append("\n");
 		}
@@ -22,5 +23,8 @@ public class Algorithme {
 	}
 
 	public void ajouterCondition(Condition conditionSeparatrice, Algorithme algorithmeVrai, Algorithme algorithmeFaux) {
+		instructions.add(new BlocConditionnel(conditionSeparatrice, algorithmeVrai, algorithmeFaux));
+		
 	}
+
 }

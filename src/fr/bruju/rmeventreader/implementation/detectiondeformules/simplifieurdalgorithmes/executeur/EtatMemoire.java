@@ -2,11 +2,11 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Condition;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Instruction;
 
 public class EtatMemoire {
 	public final EtatMemoire pere;
 	
-	@SuppressWarnings("unused")
 	private Condition conditionSeparatrice;
 	private EtatMemoire filsGauche;
 	private EtatMemoire filsDroit;
@@ -46,6 +46,10 @@ public class EtatMemoire {
 
 	public Algorithme getAlgorithme() {
 		return algorithme;
+	}
+
+	public void nouvelleInstruction(Instruction instruction) {
+		algorithme.ajouterInstruction(instruction);
 	}
 	
 

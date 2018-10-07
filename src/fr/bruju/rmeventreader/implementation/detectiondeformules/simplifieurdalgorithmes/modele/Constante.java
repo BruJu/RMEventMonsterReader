@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele;
 
+import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+
 public class Constante implements Expression {
 	public final int valeur;
 
@@ -10,6 +12,10 @@ public class Constante implements Expression {
 
 	public Constante(int valeur) {
 		this.valeur = valeur;
+	}
+
+	public Constante(ValeurFixe valeurFixe) {
+		this.valeur = valeurFixe.valeur;
 	}
 	
 	

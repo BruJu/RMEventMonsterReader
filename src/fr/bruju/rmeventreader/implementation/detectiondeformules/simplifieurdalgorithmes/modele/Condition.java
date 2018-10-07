@@ -12,4 +12,8 @@ public class Condition {
 		this.comparateur = comparateur;
 		this.droite = droite;
 	}
+
+	public String getString() {
+		return gauche.getString() + " " + comparateur + " " + droite.getString();
+	}
 }

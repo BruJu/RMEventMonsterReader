@@ -11,11 +11,8 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 
 public class Simplifieur implements Runnable {
-	
-	
 	@Override
 	public void run() {
-		
 		List<AttaqueALire> attaquesALire = ListeDesAttaques.extraireAttaquesALire();
 		
 		AttaqueALire uneAttaque = attaquesALire.get(42);
@@ -23,7 +20,6 @@ public class Simplifieur implements Runnable {
 		Algorithme algorithme = creerAlgorithme(uneAttaque);
 		
 		System.out.println(algorithme.getString());
-		
 	}
 
 	private Algorithme creerAlgorithme(AttaqueALire attaque) {
