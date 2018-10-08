@@ -12,13 +12,25 @@ public class BlocConditionnel implements InstructionGenerale {
 	
 	@Override
 	public void append(ListeurDInstructions sb) {
-		sb.append("Si ").append(condition.getString()).ln().tab();
+		if (estVide()) {
+			return;
+		}
+		
+		sb.append("Si ").append(condition.getString()).tab().ln();
 		siVrai.append(sb);
-		sb.ln()
-		  .retrait().append("Sinon").tab().ln();
-		siFaux.append(sb);
-		sb.ln()
-		  .retrait().append("Fin si").ln();
+		
+		if (!siFaux.estVide()) {
+			sb.ln().retrait().append("Sinon").tab().ln();
+			siFaux.append(sb);
+		}
+		
+
+		sb.retrait().append("Fin si").ln();
+	}
+
+	@Override
+	public boolean estVide() {
+		return siVrai.estVide() && siFaux.estVide();
 	}
 	
 	

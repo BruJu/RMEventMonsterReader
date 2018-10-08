@@ -11,6 +11,15 @@ public class Algorithme {
 		instructions.add(instruction);
 	}
 	
+	public boolean estVide() {
+		for (InstructionGenerale instruction : instructions) {
+			if (!instruction.estVide())
+				return false;
+		}
+		
+		return true;
+	}
+	
 	public String getString() {
 		ListeurDInstructions sb = new ListeurDInstructions();
 		append(sb);
@@ -19,7 +28,6 @@ public class Algorithme {
 
 	public void ajouterCondition(Condition conditionSeparatrice, Algorithme algorithmeVrai, Algorithme algorithmeFaux) {
 		instructions.add(new BlocConditionnel(conditionSeparatrice, algorithmeVrai, algorithmeFaux));
-		
 	}
 
 	public void append(ListeurDInstructions sb) {

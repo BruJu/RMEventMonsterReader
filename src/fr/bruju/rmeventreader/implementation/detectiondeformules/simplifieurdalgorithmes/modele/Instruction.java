@@ -23,4 +23,9 @@ public class Instruction implements InstructionGenerale {
 		  .append(expression.getString())
 		  .ln();
 	}
+
+	@Override
+	public boolean estVide() {
+		return false;
+	}
 }

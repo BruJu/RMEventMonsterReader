@@ -4,4 +4,5 @@ public interface InstructionGenerale {
 
 	void append(ListeurDInstructions sb);
 
+	boolean estVide();
 }
