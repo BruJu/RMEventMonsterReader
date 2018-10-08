@@ -11,12 +11,14 @@ public class BlocConditionnel implements InstructionGenerale {
 	}
 	
 	@Override
-	public void append(StringBuilder sb) {
-		sb.append("Si " + condition.getString() + "\n")
-		  .append(siVrai.getString())
-		  .append("Sinon\n")
-		  .append(siFaux.getString())
-		  .append("Fin si");
+	public void append(ListeurDInstructions sb) {
+		sb.append("Si ").append(condition.getString()).ln().tab();
+		siVrai.append(sb);
+		sb.ln()
+		  .retrait().append("Sinon").tab().ln();
+		siFaux.append(sb);
+		sb.ln()
+		  .retrait().append("Fin si").ln();
 	}
 	
 	

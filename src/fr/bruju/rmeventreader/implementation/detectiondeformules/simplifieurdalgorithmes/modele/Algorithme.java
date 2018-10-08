@@ -12,19 +12,20 @@ public class Algorithme {
 	}
 	
 	public String getString() {
-		StringBuilder sb = new StringBuilder();
-		
-		for (InstructionGenerale instruction : instructions) {
-			instruction.append(sb);
-			sb.append("\n");
-		}
-		
+		ListeurDInstructions sb = new ListeurDInstructions();
+		append(sb);
 		return sb.toString();
 	}
 
 	public void ajouterCondition(Condition conditionSeparatrice, Algorithme algorithmeVrai, Algorithme algorithmeFaux) {
 		instructions.add(new BlocConditionnel(conditionSeparatrice, algorithmeVrai, algorithmeFaux));
 		
+	}
+
+	public void append(ListeurDInstructions sb) {
+		for (InstructionGenerale instruction : instructions) {
+			instruction.append(sb);
+		}
 	}
 
 }

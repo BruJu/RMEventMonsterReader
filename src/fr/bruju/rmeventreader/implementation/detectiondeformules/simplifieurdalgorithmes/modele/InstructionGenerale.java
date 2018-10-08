@@ -2,6 +2,6 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 public interface InstructionGenerale {
 
-	void append(StringBuilder sb);
+	void append(ListeurDInstructions sb);
 
 }

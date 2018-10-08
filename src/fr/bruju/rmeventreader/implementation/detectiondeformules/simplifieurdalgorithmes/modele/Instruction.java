@@ -17,9 +17,10 @@ public class Instruction implements InstructionGenerale {
 	}
 
 	@Override
-	public void append(StringBuilder sb) {
+	public void append(ListeurDInstructions sb) {
 		sb.append("V[" + String.format("%04d", variableAssignee) +"]")
 		  .append(" = ")
-		  .append(expression.getString());
+		  .append(expression.getString())
+		  .ln();
 	}
 }
