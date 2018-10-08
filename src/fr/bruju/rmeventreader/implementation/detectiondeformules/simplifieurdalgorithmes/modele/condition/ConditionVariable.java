@@ -1,9 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition;
 
 import fr.bruju.rmdechiffreur.modele.Comparateur;
-import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 
 public class ConditionVariable implements Condition {
@@ -18,9 +16,9 @@ public class ConditionVariable implements Condition {
 	}
 
 	
-	public ConditionVariable(CondInterrupteur condInterrupteur) {
-		this.gauche = new ExprVariable(-condInterrupteur.interrupteur);
-		this.comparateur = condInterrupteur.etat ? Comparateur.IDENTIQUE : Comparateur.DIFFERENT;
+	public ConditionVariable(Expression gauche, boolean estVrai) {
+		this.gauche = gauche;
+		this.comparateur = estVrai ? Comparateur.IDENTIQUE : Comparateur.DIFFERENT;
 		this.droite = new Constante(1);
 	}
 

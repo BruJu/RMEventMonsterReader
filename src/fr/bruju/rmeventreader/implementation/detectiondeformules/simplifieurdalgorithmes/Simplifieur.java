@@ -14,12 +14,8 @@ public class Simplifieur implements Runnable {
 	@Override
 	public void run() {
 		List<AttaqueALire> attaquesALire = ListeDesAttaques.extraireAttaquesALire();
-		
-		
 		AttaqueALire uneAttaque = attaquesALire.get(11);
-		
 		Algorithme algorithme = creerAlgorithme(uneAttaque);
-		
 		System.out.println(algorithme.getString());
 	}
 

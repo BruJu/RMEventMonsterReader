@@ -1,22 +1,15 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme;
 
-import fr.bruju.rmdechiffreur.modele.OpMathematique;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
 
 public class InstructionAffectation implements InstructionGenerale {
-	private ExprVariable variableAssignee;
+	private VariableInstanciee variableAssignee;
 	private Expression expression;
 	
-	
-	public InstructionAffectation(int idVariable, OpMathematique operateur, Expression expression) {
-		this.variableAssignee = new ExprVariable(idVariable);
-		if (operateur == OpMathematique.AFFECTATION) {
-			this.expression = expression;
-		} else {
-			this.expression = new Calcul(new ExprVariable(idVariable), operateur, expression);
-		}
+	public InstructionAffectation(VariableInstanciee variableAssignee, Expression expression) {
+		this.variableAssignee = variableAssignee;
+		this.expression = expression;
 	}
 
 	@Override
