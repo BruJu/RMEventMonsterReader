@@ -1,13 +1,15 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 
 public class Algorithme {
 	private List<InstructionGenerale> instructions = new ArrayList<>();
 
 
-	public void ajouterInstruction(Instruction instruction) {
+	public void ajouterInstruction(InstructionGenerale instruction) {
 		instructions.add(instruction);
 	}
 	

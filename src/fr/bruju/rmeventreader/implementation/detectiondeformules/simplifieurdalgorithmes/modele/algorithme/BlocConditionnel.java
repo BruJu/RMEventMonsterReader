@@ -1,4 +1,6 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme;
+
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 
 public class BlocConditionnel implements InstructionGenerale {
 	public final Condition condition;
@@ -20,11 +22,10 @@ public class BlocConditionnel implements InstructionGenerale {
 		siVrai.append(sb);
 		
 		if (!siFaux.estVide()) {
-			sb.ln().retrait().append("Sinon").tab().ln();
+			sb.retrait().append("Sinon").tab().ln();
 			siFaux.append(sb);
 		}
 		
-
 		sb.retrait().append("Fin si").ln();
 	}
 
@@ -32,8 +33,4 @@ public class BlocConditionnel implements InstructionGenerale {
 	public boolean estVide() {
 		return siVrai.estVide() && siFaux.estVide();
 	}
-	
-	
-	
-	
 }

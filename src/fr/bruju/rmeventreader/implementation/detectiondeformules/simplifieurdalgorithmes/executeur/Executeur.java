@@ -4,17 +4,19 @@ import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
 import fr.bruju.rmdechiffreur.controlleur.ExtCondition;
 import fr.bruju.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
 import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
 import fr.bruju.rmdechiffreur.modele.ValeurFixe;
 import fr.bruju.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Algorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Condition;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Constante;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Instruction;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.NombreAleatoire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.ExprVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionObjet;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
@@ -23,17 +25,17 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
-		etatMemoire.nouvelleInstruction(new Instruction(valeurGauche.idVariable, operateur, new Constante(valeurDroite.valeur)));
+		etatMemoire.nouvelleInstruction(new InstructionAffectation(valeurGauche.idVariable, operateur, new Constante(valeurDroite.valeur)));
 	}
 	
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurAleatoire valeurDroite) {
-		etatMemoire.nouvelleInstruction(new Instruction(valeurGauche.idVariable, operateur, new NombreAleatoire(valeurDroite)));
+		etatMemoire.nouvelleInstruction(new InstructionAffectation(valeurGauche.idVariable, operateur, new NombreAleatoire(valeurDroite)));
 	}
 	
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
-		etatMemoire.nouvelleInstruction(new Instruction(valeurGauche.idVariable, operateur, new ExprVariable(valeurDroite)));
+		etatMemoire.nouvelleInstruction(new InstructionAffectation(valeurGauche.idVariable, operateur, new ExprVariable(valeurDroite)));
 	}
 	
 	public Algorithme extraireAlgorithme() {
@@ -52,15 +54,15 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 
 	@Override
 	public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
-		etatMemoire = etatMemoire.separer(new Condition(new ExprVariable(variable), comparateur, new ExprVariable(droite)));
-		
+		ConditionVariable c = new ConditionVariable(new ExprVariable(variable), comparateur, new ExprVariable(droite));
+		etatMemoire = etatMemoire.separer(c);
 		return true;
 	}
 
 	@Override
 	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-		etatMemoire = etatMemoire.separer(new Condition(new ExprVariable(variable), comparateur, new Constante(droite)));
-		
+		ConditionVariable c = new ConditionVariable(new ExprVariable(variable), comparateur, new Constante(droite));
+		etatMemoire = etatMemoire.separer(c);
 		return true;
 	}
 
@@ -76,12 +78,20 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 
 	@Override
 	public boolean interrupteur(CondInterrupteur condInterrupteur) {
-		etatMemoire = etatMemoire.separer(new Condition(new ExprVariable(1), Comparateur.DIFFERENT, new Constante(-777)));
-		
+		etatMemoire = etatMemoire.separer(new ConditionVariable(condInterrupteur));
+		return true;
+	}
+
+	@Override
+	public boolean herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
+		etatMemoire = etatMemoire.separer(new ConditionObjet(condHerosPossedeObjet));
 		return true;
 	}
 	
 	
 	
+	
+	
 
 }
+

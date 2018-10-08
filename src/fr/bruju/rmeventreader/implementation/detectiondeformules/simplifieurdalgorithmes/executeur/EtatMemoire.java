@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Algorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Condition;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.Instruction;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 
 public class EtatMemoire {
 	public final EtatMemoire pere;
@@ -48,7 +48,7 @@ public class EtatMemoire {
 		return algorithme;
 	}
 
-	public void nouvelleInstruction(Instruction instruction) {
+	public void nouvelleInstruction(InstructionGenerale instruction) {
 		algorithme.ajouterInstruction(instruction);
 	}
 	
