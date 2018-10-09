@@ -4,8 +4,8 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
 
 public class InstructionAffectation implements InstructionGenerale {
-	private VariableInstanciee variableAssignee;
-	private Expression expression;
+	public final VariableInstanciee variableAssignee;
+	public final Expression expression;
 	
 	public InstructionAffectation(VariableInstanciee variableAssignee, Expression expression) {
 		this.variableAssignee = variableAssignee;

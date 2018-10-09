@@ -8,11 +8,11 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 public class Algorithme {
 	private List<InstructionGenerale> instructions = new ArrayList<>();
 
-
 	public void ajouterInstruction(InstructionGenerale instruction) {
 		instructions.add(instruction);
 	}
 	
+
 	public boolean estVide() {
 		for (InstructionGenerale instruction : instructions) {
 			if (!instruction.estVide())

@@ -1,13 +1,9 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableUtilisee;
 
-public class EtatMemoireFils extends EtatMemoire {
+public final class EtatMemoireFils extends EtatMemoire {
 	public final EtatMemoire pere;
-	
-	
-	
 	
 	public EtatMemoireFils getFrere() {
 		return pere.filsDroit;
@@ -18,28 +14,11 @@ public class EtatMemoireFils extends EtatMemoire {
 		return pere;
 	}
 	
-
 	public EtatMemoireFils(EtatMemoire pere) {
 		this.pere = pere;
 	}
 	
-	
-
-	
-
-
-	protected final VariableUtilisee getValeurManquante(int numeroDeCase) {
+	protected VariableUtilisee getValeurManquante(int numeroDeCase) {
 		return pere.getValeur(numeroDeCase);
 	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

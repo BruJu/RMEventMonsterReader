@@ -31,8 +31,9 @@ public abstract class EtatMemoire {
 	protected EtatMemoireFils filsGauche;
 	protected EtatMemoireFils filsDroit;
 
-	protected Map<Integer, VariableUtilisee> variablesActuelles = new HashMap<>();
+	private Map<Integer, VariableUtilisee> variablesActuelles = new HashMap<>();
 	
+
 	
 	public EtatMemoireFils separer(Condition conditionSeparatrice) {
 		this.conditionSeparatrice = conditionSeparatrice;
@@ -48,13 +49,14 @@ public abstract class EtatMemoire {
 		filsGauche = null;
 		filsDroit = null;
 	}
-
+	
 	private final void integrerInstanciations() {
 		Stream.of(filsGauche, filsDroit)
-		      .map(etat -> etat.variablesActuelles.keySet())
+		      .map(etat -> ((EtatMemoire) etat).variablesActuelles.keySet())
 		      .flatMap(Set::stream)
 		      .forEach(this::actualiserViaFils);		
 	}
+
 
 	private final void actualiserViaFils(int numeroDeVariable) {
 		VariableUtilisee variableGauche = filsGauche.getValeur(numeroDeVariable);
