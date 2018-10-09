@@ -2,6 +2,8 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
@@ -15,13 +17,12 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionObjet;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.AgregatDeVariables;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableUtilisee;
 
 public abstract class EtatMemoire {
 	protected Algorithme algorithme = new Algorithme();
@@ -30,7 +31,8 @@ public abstract class EtatMemoire {
 	protected EtatMemoireFils filsGauche;
 	protected EtatMemoireFils filsDroit;
 
-	private Map<Integer, VariableInstanciee> variablesActuelles = new HashMap<>();
+	protected Map<Integer, VariableUtilisee> variablesActuelles = new HashMap<>();
+	
 	
 	public EtatMemoireFils separer(Condition conditionSeparatrice) {
 		this.conditionSeparatrice = conditionSeparatrice;
@@ -42,9 +44,25 @@ public abstract class EtatMemoire {
 	
 	protected final void accumulerFils() {
 		algorithme.ajouterCondition(conditionSeparatrice, filsGauche.getAlgorithme(), filsDroit.getAlgorithme());
+		integrerInstanciations();
 		filsGauche = null;
 		filsDroit = null;
 	}
+
+	private final void integrerInstanciations() {
+		Stream.of(filsGauche, filsDroit)
+		      .map(etat -> etat.variablesActuelles.keySet())
+		      .flatMap(Set::stream)
+		      .forEach(this::actualiserViaFils);		
+	}
+
+	private final void actualiserViaFils(int numeroDeVariable) {
+		VariableUtilisee variableGauche = filsGauche.getValeur(numeroDeVariable);
+		VariableUtilisee variableDroite = filsDroit.getValeur(numeroDeVariable);
+		VariableUtilisee agregat = AgregatDeVariables.combiner(variableGauche, variableDroite);
+		variablesActuelles.put(numeroDeVariable, agregat);
+	}
+
 
 
 	private void nouvelleInstruction(InstructionGenerale instruction) {
@@ -78,7 +96,7 @@ public abstract class EtatMemoire {
 	}
 
 	public void nouvelleInstruction(int idVariable, OpMathematique operateur, Expression droite) {
-		VariableInstanciee ancienEtatGauche = getValeur(idVariable);
+		VariableUtilisee ancienEtatGauche = getValeur(idVariable);
 		
 		Expression droiteDuCalcul;
 		
@@ -88,7 +106,10 @@ public abstract class EtatMemoire {
 			droiteDuCalcul = new Calcul(ancienEtatGauche, operateur, droite);
 		}
 		
-		nouvelleInstruction(new InstructionAffectation(ancienEtatGauche.nouvelleInstance(), droiteDuCalcul));
+		VariableInstanciee nouvelleInstance = ancienEtatGauche.nouvelleInstance();
+		this.variablesActuelles.put(idVariable, nouvelleInstance);
+		
+		nouvelleInstruction(new InstructionAffectation(nouvelleInstance, droiteDuCalcul));
 	}
 	
 
@@ -100,7 +121,7 @@ public abstract class EtatMemoire {
 	
 	
 
-	public final VariableInstanciee getValeur(int numeroDeCase) {
+	public final VariableUtilisee getValeur(int numeroDeCase) {
 		if (variablesActuelles.containsKey(numeroDeCase)) {
 			return variablesActuelles.get(numeroDeCase);
 		} else {
@@ -108,7 +129,7 @@ public abstract class EtatMemoire {
 		}
 	}
 	
-	protected abstract VariableInstanciee getValeurManquante(int numeroDeCase);
+	protected abstract VariableUtilisee getValeurManquante(int numeroDeCase);
 	
 	
 	
