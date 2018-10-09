@@ -2,13 +2,15 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 public class CaseMemoire {
 	public final int numeroCase;
+	private VariableInstanciee premiereInstance;
 
 	public CaseMemoire(int numeroCase) {
 		this.numeroCase = numeroCase;
+		premiereInstance = new VariableInstanciee(this);
 	}
 	
 	public VariableInstanciee premiereInstance() {
-		return new VariableInstanciee(this);
+		return premiereInstance;
 	}
 	
 	

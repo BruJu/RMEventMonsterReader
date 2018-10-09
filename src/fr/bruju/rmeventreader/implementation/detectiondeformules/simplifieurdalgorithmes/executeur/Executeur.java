@@ -16,7 +16,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
-	private EtatMemoireFils etatMemoire = new EtatMemoireFils();
+	private EtatMemoire etatMemoire = new EtatMemoirePere();
 	
 	
 	@Override
@@ -62,12 +62,12 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 
 	@Override
 	public void Flot_siFin() {
-		etatMemoire = etatMemoire.revenirAuPere();
+		etatMemoire = ((EtatMemoireFils) etatMemoire).revenirAuPere();
 	}
 
 	@Override
 	public void Flot_siNon() {
-		etatMemoire = etatMemoire.getFrere();
+		etatMemoire = ((EtatMemoireFils) etatMemoire).getFrere();
 	}
 
 	@Override
