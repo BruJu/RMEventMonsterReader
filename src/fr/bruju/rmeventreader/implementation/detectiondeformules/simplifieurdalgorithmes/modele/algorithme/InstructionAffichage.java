@@ -20,4 +20,9 @@ public class InstructionAffichage implements InstructionGenerale {
 		return false;
 	}
 
+
+	@Override
+	public void accept(VisiteurDAlgorithme visiteur) {
+		visiteur.visit(this);
+	}
 }

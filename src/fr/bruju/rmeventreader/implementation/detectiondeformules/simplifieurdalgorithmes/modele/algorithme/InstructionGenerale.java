@@ -5,4 +5,7 @@ public interface InstructionGenerale {
 	void append(ListeurDInstructions sb);
 
 	boolean estVide();
+	
+	
+	public void accept(VisiteurDAlgorithme visiteur);
 }

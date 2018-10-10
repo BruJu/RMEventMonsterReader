@@ -24,4 +24,10 @@ public class InstructionAffectation implements InstructionGenerale {
 	public boolean estVide() {
 		return false;
 	}
+	
+
+	@Override
+	public void accept(VisiteurDAlgorithme visiteur) {
+		visiteur.visit(this);
+	}
 }

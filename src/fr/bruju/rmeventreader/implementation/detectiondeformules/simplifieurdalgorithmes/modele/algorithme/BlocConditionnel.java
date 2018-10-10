@@ -33,4 +33,9 @@ public class BlocConditionnel implements InstructionGenerale {
 	public boolean estVide() {
 		return siVrai.estVide() && siFaux.estVide();
 	}
+
+	@Override
+	public void accept(VisiteurDAlgorithme visiteur) {
+		visiteur.visit(this);
+	}
 }

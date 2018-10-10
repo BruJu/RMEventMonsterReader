@@ -5,6 +5,7 @@ import java.util.List;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur.Executeur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.Inliner;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
@@ -17,6 +18,7 @@ public class Simplifieur implements Runnable {
 		AttaqueALire uneAttaque = attaquesALire.get(1);
 		System.out.println(uneAttaque.nomAttaque + " " + uneAttaque.nomPersonnage);
 		Algorithme algorithme = creerAlgorithme(uneAttaque);
+		new Inliner(algorithme).run();
 		System.out.println(algorithme.getString());
 	}
 

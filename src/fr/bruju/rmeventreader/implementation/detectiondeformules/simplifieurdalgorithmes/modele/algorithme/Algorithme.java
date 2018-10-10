@@ -8,7 +8,6 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableUtilisee;
 
 public class Algorithme {
 	private List<InstructionGenerale> instructions = new ArrayList<>();
@@ -34,8 +33,7 @@ public class Algorithme {
 		VariableInstanciee variableAssignee = derniereInstruction.variableAssignee;
 		Expression nouvelleDroite;
 		
-		
-		if (operateur == operateur.AFFECTATION) {
+		if (operateur == OpMathematique.AFFECTATION) {
 			nouvelleDroite = expression;
 		} else {
 			nouvelleDroite = new Calcul(derniereInstruction.expression, operateur, expression);
@@ -72,6 +70,10 @@ public class Algorithme {
 		for (InstructionGenerale instruction : instructions) {
 			instruction.append(sb);
 		}
+	}
+
+	public void accept(VisiteurDAlgorithme visiteurDAlgorithme) {
+		instructions.forEach(visiteurDAlgorithme::visit);
 	}
 
 }
