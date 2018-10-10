@@ -6,6 +6,7 @@ public class BlocConditionnel implements InstructionGenerale {
 	public final Condition condition;
 	public final Algorithme siVrai;
 	public final Algorithme siFaux;
+	
 	public BlocConditionnel(Condition condition, Algorithme siVrai, Algorithme siFaux) {
 		this.condition = condition;
 		this.siVrai = siVrai;

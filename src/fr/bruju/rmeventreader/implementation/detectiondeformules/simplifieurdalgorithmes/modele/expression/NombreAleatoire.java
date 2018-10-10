@@ -16,6 +16,10 @@ public class NombreAleatoire implements Expression {
 		valeurMax = valeur.valeurMax;
 	}
 
+	@Override
+	public void accept(VisiteurDExpression visiteurDExpression) {
+		visiteurDExpression.visit(this);
+	}
 	
 	
 	

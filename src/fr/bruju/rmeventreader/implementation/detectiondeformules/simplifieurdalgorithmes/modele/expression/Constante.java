@@ -18,6 +18,10 @@ public class Constante implements Expression {
 		this.valeur = valeurFixe.valeur;
 	}
 	
-	
+
+	@Override
+	public void accept(VisiteurDExpression visiteurDExpression) {
+		visiteurDExpression.visit(this);
+	}
 	
 }

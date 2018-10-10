@@ -21,4 +21,8 @@ public class Calcul implements Expression {
 		return "(" + gauche.getString() + " " + operande.symbole + " " + droite.getString() + ")";
 	}
 
+	@Override
+	public void accept(VisiteurDExpression visiteurDExpression) {
+		visiteurDExpression.visit(this);
+	}
 }

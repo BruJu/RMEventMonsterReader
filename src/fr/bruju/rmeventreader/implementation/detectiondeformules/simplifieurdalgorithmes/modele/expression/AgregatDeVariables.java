@@ -73,4 +73,10 @@ public class AgregatDeVariables implements VariableUtilisee {
 	}
 
 
+	@Override
+	public void accept(VisiteurDExpression visiteurDExpression) {
+		visiteurDExpression.visit(this);
+	}
+
+
 }

@@ -48,4 +48,9 @@ public class VariableInstanciee implements VariableUtilisee {
 	public void ajouterVariables(Set<VariableInstanciee> ensemble) {
 		ensemble.add(this);
 	}
+
+	@Override
+	public void accept(VisiteurDExpression visiteurDExpression) {
+		visiteurDExpression.visit(this);
+	}
 }
