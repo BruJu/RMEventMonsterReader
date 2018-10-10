@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplification;
@@ -9,10 +10,13 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffichage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.VisiteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
 
 public class Inliner implements Simplification, VisiteurDAlgorithme.IntegreConditionnel {
-	HashMap<InstructionAffectation, InstructionAffectation> utilisations = new HashMap<>();
+	Map<CaseMemoire, DefinitionUtilisation> utilisations = new HashMap<>();
+	
+	//HashMap<InstructionAffectation, InstructionAffectation> utilisations = new HashMap<>();
 	
 	@Override
 	public Algorithme simplifier(Algorithme algorithme) {
@@ -20,34 +24,42 @@ public class Inliner implements Simplification, VisiteurDAlgorithme.IntegreCondi
 		
 		return algorithme;
 	}
+	
+	public void noterUtilisation(InstructionAffectation instruction, VariableInstanciee variable) {
+		CaseMemoire caseMemoire = variable.caseMemoire;
+		
+		DefinitionUtilisation utilisation = utilisations.get(caseMemoire);
+		if (utilisation == null) {
+			return;
+		}
+		
+		utilisation.ajouterUtilisation(instruction);
+	}
 
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
+
 		ListeurDePresence listeur = new ListeurDePresence();
 		listeur.visit(instructionAffectation.expression);
 		Set<VariableInstanciee> variablesPresentes = listeur.variablesPresentes;
 		
-		for (VariableInstanciee present : variablesPresentes) {
-			for (InstructionAffectation affectation : utilisations.keySet()) {
-				if (affectation.variableAssignee != present) {
-					continue;
-				}
-				
-				actualiserUtilisation(affectation, instructionAffectation);
+		for (VariableInstanciee variable : variablesPresentes) {
+			noterUtilisation(instructionAffectation, variable);
+		}
+		
+		CaseMemoire caseMemoire = instructionAffectation.variableAssignee.caseMemoire;
+		
+		DefinitionUtilisation definition = utilisations.get(caseMemoire);
+		if (definition != null) {
+			if (definition.estMorte()) {
+				System.out.println(definition.variable.getString() + " est morte");
+			} else if (definition.estAUtilisationUnique()) {
+				System.out.println(definition.variable.getString() + " n'a qu'une utilisation");
 			}
 		}
 		
-		utilisations.put(instructionAffectation, null);
-	}
-
-	private void actualiserUtilisation(InstructionAffectation precedent,
-			InstructionAffectation actuel) {
-		
-		if (utilisations.get(precedent) == null) {
-			utilisations.put(precedent, actuel);
-		} else {
-			utilisations.remove(precedent);
-		}
+		DefinitionUtilisation nouvelleDefinition = new DefinitionUtilisation(instructionAffectation);
+		utilisations.put(caseMemoire, nouvelleDefinition);
 	}
 
 	@Override
@@ -61,19 +73,6 @@ public class Inliner implements Simplification, VisiteurDAlgorithme.IntegreCondi
 	}
 
 	private void fermerUtilisations() {
-		/*
-		 * Les effets ne doivent être explorés que quand la variable est réecrite
-		utilisations.forEach((instructionAffectee, utilisation) -> {
-			if (utilisation == null) {
-				System.out.print(instructionAffectee.variableAssignee.getString() + " inutile ;");
-			} else {
-				System.out.print(instructionAffectee.variableAssignee.getString() + " dans " + utilisation.variableAssignee.getString() + " ;");
-			}
-			System.out.println();
-			
-		});
-		*/
-		
 		utilisations.clear();
 	}
 
