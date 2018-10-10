@@ -66,11 +66,11 @@ public abstract class EtatMemoire {
 	}
 
 
-
+	/*
 	private void nouvelleInstruction(InstructionGenerale instruction) {
 		algorithme.ajouterInstruction(instruction);
 	}
-	
+	*/
 	
 	
 	public Algorithme getAlgorithme() {
@@ -98,6 +98,10 @@ public abstract class EtatMemoire {
 	}
 
 	public void nouvelleInstruction(int idVariable, OpMathematique operateur, Expression droite) {
+		if (algorithme.accumuler(idVariable, operateur, droite)) {
+			return;
+		}
+		
 		VariableUtilisee ancienEtatGauche = getValeur(idVariable);
 		
 		Expression droiteDuCalcul;
@@ -111,7 +115,7 @@ public abstract class EtatMemoire {
 		VariableInstanciee nouvelleInstance = ancienEtatGauche.nouvelleInstance();
 		this.variablesActuelles.put(idVariable, nouvelleInstance);
 		
-		nouvelleInstruction(new InstructionAffectation(nouvelleInstance, droiteDuCalcul));
+		algorithme.ajouterInstruction(new InstructionAffectation(nouvelleInstance, droiteDuCalcul));
 	}
 	
 
