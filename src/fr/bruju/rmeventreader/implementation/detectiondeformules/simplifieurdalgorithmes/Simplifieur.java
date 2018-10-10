@@ -12,22 +12,38 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 
 public class Simplifieur implements Runnable {
+	private static final CreateurDAlgorithme createur = new Initiateur();
+	private static final Simplification[] simplifications = new Simplification[] {
+			new Inliner()
+			
+	};
+	
+	
 	@Override
 	public void run() {
-		List<AttaqueALire> attaquesALire = ListeDesAttaques.extraireAttaquesALire();
-		AttaqueALire uneAttaque = attaquesALire.get(1);
-		System.out.println(uneAttaque.nomAttaque + " " + uneAttaque.nomPersonnage);
-		Algorithme algorithme = creerAlgorithme(uneAttaque);
-		new Inliner(algorithme).run();
+		Algorithme algorithme = createur.creerAlgorithme();
+		
+		for (Simplification simplification : simplifications) {
+			algorithme = simplification.simplifier(algorithme);
+		}
+		
 		System.out.println(algorithme.getString());
 	}
-
-	private Algorithme creerAlgorithme(AttaqueALire attaque) {
-		Executeur executeur = new Executeur();
-		PROJET.lireEvenementCommun(executeur, attaque.numeroEvenementCommun);
-		return executeur.extraireAlgorithme();
+	
+	private static class Initiateur implements CreateurDAlgorithme {
+		@Override
+		public Algorithme creerAlgorithme() {
+			List<AttaqueALire> attaquesALire = ListeDesAttaques.extraireAttaquesALire();
+			AttaqueALire attaque = attaquesALire.get(1);
+			System.out.println(attaque.nomAttaque + " " + attaque.nomPersonnage);
+			
+			Executeur executeur = new Executeur();
+			PROJET.lireEvenementCommun(executeur, attaque.numeroEvenementCommun);
+			return executeur.extraireAlgorithme();
+		}
 	}
 	
-	
-	
+	private static interface CreateurDAlgorithme {
+		public Algorithme creerAlgorithme();
+	}
 }
