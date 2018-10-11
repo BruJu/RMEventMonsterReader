@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,22 +11,34 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffichage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.VisiteurDAlgorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
 
 public class Reecrivain implements VisiteurDAlgorithme {
 	private Algorithme source;
 	private Algorithme resultat;
 	private Set<InstructionAffectation> ignorer;
-	private Map<InstructionGenerale, List<InstructionAffectation>> inliner;
+	private Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> inliner;
 
 	public Reecrivain(Algorithme algorithme, Set<InstructionAffectation> instructionsAIgnorer,
 			Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables) {
 		this.source = algorithme;
 		this.ignorer = instructionsAIgnorer;
-		this.inliner = affectationsInlinables;
+		transformerEnMapDeMap(affectationsInlinables);
+	}
+
+	private void transformerEnMapDeMap(Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables) {
+		inliner = new HashMap<>();
+		
+		affectationsInlinables.forEach((destination, sources) -> {
+			Map<VariableInstanciee, InstructionAffectation> carteInterne = new HashMap<>();
+			sources.forEach(instruction -> carteInterne.put(instruction.variableAssignee, instruction));
+			inliner.put(destination, carteInterne);
+		});
 	}
 
 	@Override
 	public void visit(BlocConditionnel blocConditionnel) {
+		// TODO : reecrire la condition
 		Algorithme sourcePere = source;
 		Algorithme resultatPere = resultat;
 		
@@ -51,12 +64,12 @@ public class Reecrivain implements VisiteurDAlgorithme {
 		}
 		
 		InstructionAffectation instructionAAjouter;
-		List<InstructionAffectation> instructionsAIntegrer = inliner.get(instructionAffectation);
+		Map<VariableInstanciee, InstructionAffectation> instructionsAIntegrer = inliner.get(instructionAffectation);
 		
 		if (instructionsAIntegrer == null) {
 			instructionAAjouter = instructionAffectation;
 		} else {
-			Integrateur integrateur = new Integrateur(instructionsAIntegrer);
+			Integrateur integrateur = new Integrateur(instructionAffectation, inliner);
 			integrateur.visit(instructionAffectation.expression);
 			instructionAAjouter = new InstructionAffectation(instructionAffectation.variableAssignee,
 					integrateur.getResultat());

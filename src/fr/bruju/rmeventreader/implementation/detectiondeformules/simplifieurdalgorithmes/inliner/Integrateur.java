@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.AgregatDeVariables;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
@@ -14,18 +15,32 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VisiteurDExpression;
 
 public class Integrateur implements VisiteurDExpression {
-	private Map<VariableInstanciee, Expression> variablesAIntegrer = new HashMap<>();
+	private Map<VariableInstanciee, InstructionAffectation> variablesAIntegrerInterne;
+	private Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> variablesAIntegrer;
 	private Expression resultat;
 
-	public Integrateur(List<InstructionAffectation> instructionsAIntegrer) {
-		for (InstructionAffectation instruction : instructionsAIntegrer) {
-			variablesAIntegrer.put(instruction.variableAssignee, instruction.expression);
+	public Integrateur(InstructionAffectation instructionAffectation, 
+			Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> variablesAIntegrer) {
+		this.variablesAIntegrerInterne = variablesAIntegrer.get(instructionAffectation);
+		this.variablesAIntegrer = variablesAIntegrer;
+		
+		if (variablesAIntegrerInterne == null) {
+			variablesAIntegrerInterne = new HashMap<>();
 		}
 	}
 
 	@Override
 	public void visit(VariableInstanciee composant) {
-		resultat = variablesAIntegrer.getOrDefault(composant, composant);
+		InstructionAffectation reecriture = variablesAIntegrerInterne.get(composant);
+		
+		if (reecriture == null) {
+			resultat = composant;
+		} else {
+			Expression expression = reecriture.expression;
+			Integrateur fils = new Integrateur(reecriture, variablesAIntegrer);
+			fils.visit(expression);
+			resultat = fils.getResultat();
+		}
 	}
 
 	@Override
