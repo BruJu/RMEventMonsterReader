@@ -36,7 +36,4 @@ public class ListeurDePresence implements VisiteurDExpression {
 	@Override
 	public void visit(NombreAleatoire composant) {
 	}
-
-
-
 }
