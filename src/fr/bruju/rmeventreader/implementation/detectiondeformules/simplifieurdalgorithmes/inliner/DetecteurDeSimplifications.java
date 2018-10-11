@@ -2,13 +2,10 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplification;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffichage;
@@ -16,21 +13,17 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.VisiteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.CaseMemoire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-public class InlinerV2 implements Simplification, VisiteurDAlgorithme {
+public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
+	private Set<Integer> variablesMortes = new HashSet<>();
+	private Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
 	
-	Set<Integer> variablesMortes = new HashSet<>(); 
-	Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
+	private Set<InstructionAffectation> instructionsAIgnorer = new HashSet<>(); // Mortes + inlinées
+	private Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables = new HashMap<>();
 
-	@Override
-	public Algorithme simplifier(Algorithme algorithme) {
-		algorithme.acceptInverse(this);
-		return algorithme;
-	}
-	
 	public void noterExpression(InstructionGenerale instruction, Expression expression) {
 		ListeurDePresence listeur = new ListeurDePresence();
 		listeur.visit(expression);
@@ -58,14 +51,16 @@ public class InlinerV2 implements Simplification, VisiteurDAlgorithme {
 		noterExpression(instructionAffectation, instructionAffectation.expression);
 	}
 
-	private void tuer(int numeroVariableAffectee, InstructionAffectation instructionAffectation) {
+	private void tuer(int numeroVariableAffectee, InstructionAffectation instructionActuelle) {
 		if (variablesMortes.contains(numeroVariableAffectee)) {
-			System.out.println(instructionAffectation.variableAssignee.getString() + " est mort");
+			instructionsAIgnorer.add(instructionActuelle);
 		} else {
 			variablesMortes.add(numeroVariableAffectee);
 			
-			if (variablesVivantes.remove(numeroVariableAffectee) != null) {
-				System.out.println(instructionAffectation.variableAssignee.getString() + " est inlinable");
+			InstructionGenerale utilisatrice = variablesVivantes.remove(numeroVariableAffectee);
+			if (utilisatrice != null) {
+				instructionsAIgnorer.add(instructionActuelle);
+				Utilitaire.Maps.ajouterElementDansListe(affectationsInlinables, utilisatrice, instructionActuelle);
 			}
 		}
 	}
@@ -108,8 +103,5 @@ public class InlinerV2 implements Simplification, VisiteurDAlgorithme {
 	public void visit(InstructionAffichage instructionAffichage) {
 		// Ignoré
 	}
-
-
-
 
 }
