@@ -1,9 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.simples;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.Ressources;
+import fr.bruju.rmeventreader.implementation.detectiondeformules._variables.EtatInitial;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BConstant;
@@ -14,7 +11,6 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.visiteur.ConstructeurDeComposantsRecursif;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /**
  * Injecte des valeurs lues dans un fichier du type "30 ON", "170 7" pour dire que l'interrupteur 30 est activé et que
@@ -30,60 +26,21 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantsRecursif
 
 	@Override
 	public void traiter(Attaques attaques) {
-		remplirAvecFichier(Ressources.INJECTION);
+		this.etatDesVariables = EtatInitial.getEtatInitial();
 		attaques.transformerComposants(this::traiter);
 	}
 
 	// =================================================================================================================
 	// =================================================================================================================
 	// =================================================================================================================
-	//        - LECTURE DE RESSOURCES - LECTURE DE RESSOURCES - LECTURE DE RESSOURCES - LECTURE DE RESSOURCES - 
-	
-	/**
-	 * Evaluations connues d'interrupteurs
-	 */
-	private Map<Integer, Boolean> interrupteurs;
-	
-	/**
-	 * Evaluations connues de variables
-	 */
-	private Map<Integer, Integer> variables;
-	
-	/**
-	 * Rempli les évaluations connues avec le fichier donné
-	 * @param chemin Le fichier ressource
-	 */
-	public void remplirAvecFichier(String chemin) {
-		interrupteurs = new HashMap<>();
-		variables = new HashMap<>();
-		
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
-			String[] donnees = ligne.split(" ");
-			
-			String idStr = donnees[0];
-			Integer idInt = Integer.parseInt(idStr);
-			String valeur = donnees[1];
-			
-			if (valeur.equals("ON")) {
-				interrupteurs.put(idInt, true);
-			} else if (valeur.equals("OFF")) {
-				interrupteurs.put(idInt, false);
-			} else {
-				variables.put(idInt, Integer.parseInt(valeur));
-			}
-		});
-	}
-	
-
-	// =================================================================================================================
-	// =================================================================================================================
-	// =================================================================================================================
 	//              - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT - CONSTRUCTEUR DE COMPOSANT -
 
+	private EtatInitial etatDesVariables;
+	
 	@Override
 	protected Composant modifier(BBase composant) {
 		int numero = composant.numero;
-		Boolean valeur = interrupteurs.get(numero);
+		Boolean valeur = etatDesVariables.getInterrupteur(numero);
 		
 		return (valeur == null) ? composant : BConstant.get(valeur);
 	}
@@ -107,7 +64,7 @@ public class MaillonEvaluationPartielle extends ConstructeurDeComposantsRecursif
 	 * @return La nouvelle valeur en tenant compte de l'évaluation actuelle
 	 */
 	private Valeur injecterVariable(Valeur composant, int numero) {
-		Integer valeur = variables.get(numero);		
+		Integer valeur = etatDesVariables.getValeur(numero);
 		return (valeur == null) ? composant : new VConstante(valeur);
 	}
 }

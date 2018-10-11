@@ -22,15 +22,12 @@ public class Simplifieur implements Runnable {
 	@Override
 	public void run() {
 		Algorithme algorithme = createur.creerAlgorithme();
-		System.out.println(algorithme.getString());
 		
 		for (Simplification simplification : simplifications) {
-			System.out.println("----------------------------");
 			algorithme = simplification.simplifier(algorithme);
-			System.out.println(algorithme.getString());
 		}
-		
-		
+
+		System.out.println(algorithme.getString());
 	}
 	
 	private static class Initiateur implements CreateurDAlgorithme {

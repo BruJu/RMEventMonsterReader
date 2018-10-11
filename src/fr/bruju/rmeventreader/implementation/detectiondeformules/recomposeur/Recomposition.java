@@ -48,7 +48,7 @@ public class Recomposition implements Runnable {
 
 		// Traitements de l'arbre
 		
-		arbre.transformerAlgorithmes(new Injecteur(parametres))
+		arbre.transformerAlgorithmes(new Injecteur())
 			.pimp(new PreTraitementDesinjection(parametres))
 			.unifier((r1, r2) -> Unificateur.fusionner(r1, r2, base));
 		

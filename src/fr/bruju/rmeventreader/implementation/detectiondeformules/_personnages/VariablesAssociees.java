@@ -4,15 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.Ressources;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 public interface VariablesAssociees {
+	static String FICHIER_PERSONNAGES = "ressources/formulatracker/Statistiques.txt";
+	
 	public static <T extends VariablesAssociees> Map<String, Individu<T>> remplirStatistiques(
 													Function<Individu<T>, T> fonctionDInstanciation) {
 		Map<String, Individu<T>> individus = new HashMap<>();
 		
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(Ressources.STATISTIQUES, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(FICHIER_PERSONNAGES, ligne -> {
 			String[] donnees = ligne.split(" ", 3);
 			
 			String nomPersonnage = donnees[0];
