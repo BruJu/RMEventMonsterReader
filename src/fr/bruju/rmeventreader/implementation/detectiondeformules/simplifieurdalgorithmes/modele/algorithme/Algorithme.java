@@ -76,5 +76,10 @@ public class Algorithme {
 	public void accept(VisiteurDAlgorithme visiteurDAlgorithme) {
 		instructions.forEach(visiteurDAlgorithme::visit);
 	}
-
+	
+	public void acceptInverse(VisiteurDAlgorithme visiteurDAlgorithme) {
+		for (int i = instructions.size() - 1 ; i >= 0 ; i--) {
+			instructions.get(i).accept(visiteurDAlgorithme);
+		}
+	}
 }

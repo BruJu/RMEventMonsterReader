@@ -6,6 +6,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaque
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur.Executeur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.Inliner;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerV2;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
@@ -14,7 +15,7 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 public class Simplifieur implements Runnable {
 	private static final CreateurDAlgorithme createur = new Initiateur();
 	private static final Simplification[] simplifications = new Simplification[] {
-			new Inliner()
+			new InlinerV2()
 			
 	};
 	
@@ -34,7 +35,7 @@ public class Simplifieur implements Runnable {
 		@Override
 		public Algorithme creerAlgorithme() {
 			List<AttaqueALire> attaquesALire = ListeDesAttaques.extraireAttaquesALire();
-			AttaqueALire.afficher(attaquesALire);
+			//AttaqueALire.afficher(attaquesALire);
 			
 			AttaqueALire attaque = attaquesALire.get(11);
 			System.out.println(attaque.nomAttaque + " " + attaque.nomPersonnage);
