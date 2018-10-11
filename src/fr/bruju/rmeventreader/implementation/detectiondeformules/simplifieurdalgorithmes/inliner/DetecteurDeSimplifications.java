@@ -21,9 +21,9 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	private Set<Integer> variablesMortes = new HashSet<>();
 	private Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
 	
-	private Set<InstructionAffectation> instructionsAIgnorer = new HashSet<>(); // Mortes + inlinées
-	private Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables = new HashMap<>();
-
+	final Set<InstructionAffectation> instructionsAIgnorer = new HashSet<>(); // Mortes + inlinées
+	final Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables = new HashMap<>();
+	
 	public void noterExpression(InstructionGenerale instruction, Expression expression) {
 		ListeurDePresence listeur = new ListeurDePresence();
 		listeur.visit(expression);
@@ -31,17 +31,19 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 		
 		for (VariableInstanciee variable : variablesPresentes) {
 			int numeroDeCase = variable.caseMemoire.numeroCase;
-			variablesMortes.remove(numeroDeCase);
+			boolean etaitMort = variablesMortes.remove(numeroDeCase);
 			
-			modifierVariablesVivantes(numeroDeCase, instruction);
+			modifierVariablesVivantes(etaitMort, numeroDeCase, instruction);
 		}
 	}
 	
-	private void modifierVariablesVivantes(int numeroDeCase, InstructionGenerale instruction) {
+	private void modifierVariablesVivantes(boolean etaitMort, int numeroDeCase, InstructionGenerale instruction) {
 		if (variablesVivantes.containsKey(numeroDeCase)) {
 			variablesVivantes.put(numeroDeCase, null);
 		} else {
-			variablesVivantes.put(numeroDeCase, instruction);
+			if (etaitMort) {
+				variablesVivantes.put(numeroDeCase, instruction);
+			}
 		}
 	}
 
@@ -77,8 +79,10 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 		
 		variablesMortes = variablesMortesSi;
 		blocConditionnel.siVrai.acceptInverse(this);
+		variablesVivantes.clear();
 		variablesMortes = variablesMortesSinon;
 		blocConditionnel.siFaux.acceptInverse(this);
+		variablesVivantes.clear();
 
 		variablesMortes = variablesMortesApres;
 		variablesMortes.clear();
