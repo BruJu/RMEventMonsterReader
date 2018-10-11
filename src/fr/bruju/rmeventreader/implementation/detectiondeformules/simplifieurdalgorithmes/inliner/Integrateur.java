@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
@@ -19,7 +18,7 @@ public class Integrateur implements VisiteurDExpression {
 	private Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> variablesAIntegrer;
 	private Expression resultat;
 
-	public Integrateur(InstructionAffectation instructionAffectation, 
+	public Integrateur(InstructionGenerale instructionAffectation, 
 			Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> variablesAIntegrer) {
 		this.variablesAIntegrerInterne = variablesAIntegrer.get(instructionAffectation);
 		this.variablesAIntegrer = variablesAIntegrer;

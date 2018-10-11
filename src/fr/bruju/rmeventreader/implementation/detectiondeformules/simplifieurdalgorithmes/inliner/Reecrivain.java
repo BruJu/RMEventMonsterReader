@@ -11,6 +11,9 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffichage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.VisiteurDAlgorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
 
 public class Reecrivain implements VisiteurDAlgorithme {
@@ -38,7 +41,23 @@ public class Reecrivain implements VisiteurDAlgorithme {
 
 	@Override
 	public void visit(BlocConditionnel blocConditionnel) {
-		// TODO : reecrire la condition
+		Condition condition;
+		
+		if (!inliner.containsKey(blocConditionnel)) {
+			condition = blocConditionnel.condition;
+		} else {
+			ConditionVariable conditionVariable = (ConditionVariable) blocConditionnel.condition;
+			
+			Integrateur integrateur = new Integrateur(blocConditionnel, inliner);
+			integrateur.visit(conditionVariable.gauche);
+			Expression nouvelleGauche = integrateur.getResultat();
+
+			integrateur.visit(conditionVariable.droite);
+			Expression nouvelleDroite = integrateur.getResultat();
+			
+			condition = new ConditionVariable(nouvelleGauche, conditionVariable.comparateur, nouvelleDroite);
+		}
+		
 		Algorithme sourcePere = source;
 		Algorithme resultatPere = resultat;
 		
@@ -47,7 +66,7 @@ public class Reecrivain implements VisiteurDAlgorithme {
 		
 		source = sourcePere;
 		resultat = resultatPere;
-		resultat.ajouterCondition(blocConditionnel.condition, filsVrai, filsFaux);
+		resultat.ajouterCondition(condition, filsVrai, filsFaux);
 	}
 
 	private Algorithme construireResultat(Algorithme source) {

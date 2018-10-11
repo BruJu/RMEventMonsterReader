@@ -49,11 +49,12 @@ public class AgregatDeVariables implements VariableUtilisee {
 		}
 		
 		sb.append(String.format("%04d", caseMemoire.numeroCase * coef));
-		
+		/*
 		for (VariableInstanciee variable : ensemble) {
 			sb.append(".")
 		  	  .append(String.format("%03d", variable.id));
 		}
+		*/
 		sb.append(":")
 		  .append(nom.trim())
 		  .append("]");

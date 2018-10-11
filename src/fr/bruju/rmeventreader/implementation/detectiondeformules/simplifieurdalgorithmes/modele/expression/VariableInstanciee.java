@@ -29,8 +29,8 @@ public class VariableInstanciee implements VariableUtilisee {
 		}
 		
 		sb.append(String.format("%04d", caseMemoire.numeroCase * coef))
-		  .append(".")
-		  .append(String.format("%03d", id))
+		  //.append(".")
+		  //.append(String.format("%03d", id))
 		  .append(":")
 		  .append(nom.trim())
 		  .append("]");
