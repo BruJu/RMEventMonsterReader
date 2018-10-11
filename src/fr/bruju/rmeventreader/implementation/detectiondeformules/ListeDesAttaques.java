@@ -39,6 +39,14 @@ public class ListeDesAttaques {
 			}
 			return false;
 		}
+
+		public static void afficher(List<AttaqueALire> attaquesALire) {
+			int i = 0;
+			for (AttaqueALire attaque : attaquesALire) {
+				System.out.println(i + " " + attaque.nomPersonnage + " " + attaque.nomAttaque);
+				i++;
+			}
+		}
 	}
 	
 	/**

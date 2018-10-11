@@ -11,11 +11,11 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 
 public class Algorithme {
 	private List<InstructionGenerale> instructions = new ArrayList<>();
-	private int derniereVariable = -1;
+	private int derniereVariable = 0;
 
 	public void ajouterInstruction(InstructionGenerale instruction) {
 		instructions.add(instruction);
-		derniereVariable = - 1;
+		derniereVariable = 0;
 	}
 	
 	public void ajouterInstruction(InstructionAffectation instruction) {
@@ -64,6 +64,7 @@ public class Algorithme {
 
 	public void ajouterCondition(Condition conditionSeparatrice, Algorithme algorithmeVrai, Algorithme algorithmeFaux) {
 		instructions.add(new BlocConditionnel(conditionSeparatrice, algorithmeVrai, algorithmeFaux));
+		this.derniereVariable = 0;
 	}
 
 	public void append(ListeurDInstructions sb) {
