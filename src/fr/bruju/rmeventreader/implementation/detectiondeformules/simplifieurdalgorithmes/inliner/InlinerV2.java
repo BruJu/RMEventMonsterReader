@@ -23,6 +23,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 public class InlinerV2 implements Simplification, VisiteurDAlgorithme {
 	
 	Set<Integer> variablesMortes = new HashSet<>(); 
+	Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
 
 	@Override
 	public Algorithme simplifier(Algorithme algorithme) {
@@ -30,21 +31,31 @@ public class InlinerV2 implements Simplification, VisiteurDAlgorithme {
 		return algorithme;
 	}
 	
-	public void noterExpression(Expression expression) {
+	public void noterExpression(InstructionGenerale instruction, Expression expression) {
 		ListeurDePresence listeur = new ListeurDePresence();
 		listeur.visit(expression);
 		Set<VariableInstanciee> variablesPresentes = listeur.variablesPresentes;
 		
 		for (VariableInstanciee variable : variablesPresentes) {
-			variablesMortes.remove(variable.caseMemoire.numeroCase);
+			int numeroDeCase = variable.caseMemoire.numeroCase;
+			variablesMortes.remove(numeroDeCase);
+			
+			modifierVariablesVivantes(numeroDeCase, instruction);
 		}
 	}
 	
-	
+	private void modifierVariablesVivantes(int numeroDeCase, InstructionGenerale instruction) {
+		if (variablesVivantes.containsKey(numeroDeCase)) {
+			variablesVivantes.put(numeroDeCase, null);
+		} else {
+			variablesVivantes.put(numeroDeCase, instruction);
+		}
+	}
+
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
 		tuer(instructionAffectation.variableAssignee.caseMemoire.numeroCase, instructionAffectation);
-		noterExpression(instructionAffectation.expression);
+		noterExpression(instructionAffectation, instructionAffectation.expression);
 	}
 
 	private void tuer(int numeroVariableAffectee, InstructionAffectation instructionAffectation) {
@@ -52,13 +63,18 @@ public class InlinerV2 implements Simplification, VisiteurDAlgorithme {
 			System.out.println(instructionAffectation.variableAssignee.getString() + " est mort");
 		} else {
 			variablesMortes.add(numeroVariableAffectee);
+			
+			if (variablesVivantes.remove(numeroVariableAffectee) != null) {
+				System.out.println(instructionAffectation.variableAssignee.getString() + " est inlinable");
+			}
 		}
 	}
 
 	@Override
 	public void visit(BlocConditionnel blocConditionnel) {
-		noterCondition(blocConditionnel.condition);
+		noterCondition(blocConditionnel, blocConditionnel.condition);
 		
+		variablesVivantes.clear();
 		Set<Integer> variablesMortesSi = new HashSet<>(variablesMortes);
 		Set<Integer> variablesMortesSinon = new HashSet<>(variablesMortes);
 		Set<Integer> variablesMortesApres = variablesMortes;
@@ -77,15 +93,14 @@ public class InlinerV2 implements Simplification, VisiteurDAlgorithme {
 				variablesMortes.add(caseMemoire);
 			}
 		});
-		
 	}
 
-	private void noterCondition(Condition condition) {
+	private void noterCondition(BlocConditionnel blocConditionnel, Condition condition) {
 		if (condition instanceof ConditionVariable) { // La liste des conditions n'est pas amenée à évoluer
 			ConditionVariable cVariable = (ConditionVariable) condition;
 			
-			noterExpression(cVariable.gauche);
-			noterExpression(cVariable.droite);
+			noterExpression(blocConditionnel, cVariable.gauche);
+			noterExpression(blocConditionnel, cVariable.droite);
 		}
 	}
 
