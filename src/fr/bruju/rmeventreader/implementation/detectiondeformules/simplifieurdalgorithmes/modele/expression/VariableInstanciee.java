@@ -7,10 +7,19 @@ import java.util.Set;
 public class VariableInstanciee implements VariableUtilisee {
 	public final CaseMemoire caseMemoire;
 	public final int id = (int) (Math.random() * 1000);
+	public final Integer evaluation;
 	
 	public VariableInstanciee(CaseMemoire caseMemoire) {
 		this.caseMemoire = caseMemoire;
+		evaluation = null;
 	}
+	
+
+	public VariableInstanciee(CaseMemoire caseMemoire, Integer valeurInitiale) {
+		this.caseMemoire = caseMemoire;
+		this.evaluation = valeurInitiale;
+	}
+
 
 	@Override
 	public String getString() {
@@ -52,5 +61,10 @@ public class VariableInstanciee implements VariableUtilisee {
 	@Override
 	public void accept(VisiteurDExpression visiteurDExpression) {
 		visiteurDExpression.visit(this);
+	}
+	
+	@Override
+	public Integer evaluer() {
+		return evaluation;
 	}
 }

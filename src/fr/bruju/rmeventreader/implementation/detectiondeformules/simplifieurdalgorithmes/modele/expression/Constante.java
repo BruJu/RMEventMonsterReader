@@ -24,4 +24,8 @@ public class Constante implements Expression {
 		visiteurDExpression.visit(this);
 	}
 	
+	@Override
+	public Integer evaluer() {
+		return valeur;
+	}
 }

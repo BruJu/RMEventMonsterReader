@@ -4,4 +4,5 @@ public interface Condition {
 
 	String getString();
 
+	Boolean tester();
 }

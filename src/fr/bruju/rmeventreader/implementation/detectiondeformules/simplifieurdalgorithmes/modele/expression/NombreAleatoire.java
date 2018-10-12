@@ -22,5 +22,9 @@ public class NombreAleatoire implements Expression {
 	}
 	
 	
+	@Override
+	public Integer evaluer() {
+		return null;
+	}
 	
 }

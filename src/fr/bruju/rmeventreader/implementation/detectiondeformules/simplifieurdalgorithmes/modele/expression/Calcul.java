@@ -25,4 +25,18 @@ public class Calcul implements Expression {
 	public void accept(VisiteurDExpression visiteurDExpression) {
 		visiteurDExpression.visit(this);
 	}
+	
+
+
+	@Override
+	public Integer evaluer() {
+		Integer evalGauche = gauche.evaluer();
+		Integer evalDroite = droite.evaluer();
+		
+		if (evalGauche == null || evalDroite == null) {
+			return null;
+		} else {
+			return operande.calculer(evalGauche, evalDroite);
+		}
+	}
 }

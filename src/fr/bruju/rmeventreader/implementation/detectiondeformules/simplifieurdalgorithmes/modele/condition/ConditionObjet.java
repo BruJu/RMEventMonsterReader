@@ -16,4 +16,9 @@ public class ConditionObjet implements Condition {
 		return PROJET.extraireHeros(condObjet.idHeros) + " a " + PROJET.extraireObjet(condObjet.idObjet);
 	}
 
+	@Override
+	public Boolean tester() {
+		return null;
+	}
+
 }

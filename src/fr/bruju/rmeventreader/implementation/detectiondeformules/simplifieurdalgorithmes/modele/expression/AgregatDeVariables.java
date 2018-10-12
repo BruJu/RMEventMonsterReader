@@ -80,4 +80,11 @@ public class AgregatDeVariables implements VariableUtilisee {
 	}
 
 
+	@Override
+	public Integer evaluer() {
+		// TODO : si toutes les instances ont la même évaluation, renvoyer cette évaluation
+		return null;
+	}
+
+
 }

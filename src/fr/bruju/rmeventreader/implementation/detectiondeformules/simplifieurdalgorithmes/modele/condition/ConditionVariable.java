@@ -27,4 +27,19 @@ public class ConditionVariable implements Condition {
 	public String getString() {
 		return gauche.getString() + " " + comparateur + " " + droite.getString();
 	}
+
+
+	@Override
+	public Boolean tester() {
+		Integer valeurGauche = gauche.evaluer();
+		Integer valeurDroite = droite.evaluer();
+		
+		if (valeurGauche == null || valeurDroite == null) {
+			return null;
+		} else {
+			return comparateur.test(valeurGauche, valeurDroite);
+		}
+	}
+	
+	
 }

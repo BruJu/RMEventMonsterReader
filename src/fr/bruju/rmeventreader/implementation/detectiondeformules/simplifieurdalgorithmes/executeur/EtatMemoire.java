@@ -12,6 +12,7 @@ import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
 import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionObjet;
@@ -35,7 +36,7 @@ public abstract class EtatMemoire {
 
 	
 	public EtatMemoireFils separer(Condition conditionSeparatrice) {
-		this.conditionSeparatrice = conditionSeparatrice;
+		this.conditionSeparatrice = conditionSeparatrice;		
 		filsGauche = new EtatMemoireFils(this);
 		filsDroit = new EtatMemoireFils(this);
 		return filsGauche;
@@ -43,12 +44,31 @@ public abstract class EtatMemoire {
 
 	
 	protected final void accumulerFils() {
-		algorithme.ajouterCondition(conditionSeparatrice, filsGauche.getAlgorithme(), filsDroit.getAlgorithme());
-		integrerInstanciations();
+		Boolean test = conditionSeparatrice.tester();
+		if (test != null) {
+			EtatMemoireFils fils = test ? filsGauche : filsDroit;
+			accumulerUnSeulFils(fils);
+		} else {
+			Algorithme brancheVrai = filsGauche.getAlgorithme();
+			Algorithme brancheFaux = filsDroit.getAlgorithme();
+			BlocConditionnel instruction = new BlocConditionnel(conditionSeparatrice, brancheVrai, brancheFaux);
+			algorithme.ajouterInstruction(instruction);
+			
+			integrerInstanciations();
+		}
+		
 		filsGauche = null;
 		filsDroit = null;
 	}
 	
+	private void accumulerUnSeulFils(EtatMemoireFils fils) {
+		Algorithme algorithme = fils.getAlgorithme();
+		this.algorithme.ajouter(algorithme);
+		
+		((EtatMemoire) fils).variablesActuelles.forEach(variablesActuelles::put);
+	}
+
+
 	private final void integrerInstanciations() {
 		Stream.of(filsGauche, filsDroit)
 		      .map(etat -> ((EtatMemoire) etat).variablesActuelles.keySet())
@@ -63,14 +83,6 @@ public abstract class EtatMemoire {
 		VariableUtilisee agregat = AgregatDeVariables.combiner(variableGauche, variableDroite);
 		variablesActuelles.put(numeroDeVariable, agregat);
 	}
-
-
-	/*
-	private void nouvelleInstruction(InstructionGenerale instruction) {
-		algorithme.ajouterInstruction(instruction);
-	}
-	*/
-	
 	
 	public Algorithme getAlgorithme() {
 		return algorithme;
@@ -97,10 +109,6 @@ public abstract class EtatMemoire {
 	}
 
 	public void nouvelleInstruction(int idVariable, OpMathematique operateur, Expression droite) {
-		if (algorithme.accumuler(idVariable, operateur, droite)) {
-			return;
-		}
-		
 		VariableUtilisee ancienEtatGauche = getValeur(idVariable);
 		
 		Expression droiteDuCalcul;

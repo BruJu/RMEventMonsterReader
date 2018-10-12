@@ -66,7 +66,8 @@ public class Reecrivain implements VisiteurDAlgorithme {
 		
 		source = sourcePere;
 		resultat = resultatPere;
-		resultat.ajouterCondition(condition, filsVrai, filsFaux);
+		
+		resultat.ajouterInstruction(new BlocConditionnel(condition, filsVrai, filsFaux));
 	}
 
 	private Algorithme construireResultat(Algorithme source) {
