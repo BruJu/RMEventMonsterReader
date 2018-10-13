@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -70,6 +71,17 @@ public class Utilitaire {
 			
 			if (value == null) {
 				value = supplier.get();
+				map.put(key, value);
+			}
+			
+			return value;
+		}
+		
+		public static <K, V> V getAvecInitialisation(Map<K, V> map, K key, Function<K, V> initialisateur) {
+			V value = map.get(key);
+			
+			if (value == null) {
+				value = initialisateur.apply(key);
 				map.put(key, value);
 			}
 			

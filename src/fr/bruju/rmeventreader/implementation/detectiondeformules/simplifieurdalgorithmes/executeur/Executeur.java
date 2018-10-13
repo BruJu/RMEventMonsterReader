@@ -16,7 +16,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
-	private EtatMemoire etatMemoire = new EtatMemoirePere();
+	private EtatMemoire etatMemoire = new EtatMemoire();
 	
 	
 	@Override
@@ -35,7 +35,7 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	}
 	
 	public Algorithme extraireAlgorithme() {
-		return etatMemoire.getAlgorithme();
+		return etatMemoire.algorithme;
 	}
 	
 	@Override
@@ -62,12 +62,12 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 
 	@Override
 	public void Flot_siFin() {
-		etatMemoire = ((EtatMemoireFils) etatMemoire).revenirAuPere();
+		etatMemoire = etatMemoire.revenirAuPere();
 	}
 
 	@Override
 	public void Flot_siNon() {
-		etatMemoire = ((EtatMemoireFils) etatMemoire).getFrere();
+		etatMemoire = etatMemoire.getFrere();
 	}
 
 	@Override
@@ -81,11 +81,5 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 		etatMemoire = etatMemoire.separer(condHerosPossedeObjet);
 		return true;
 	}
-	
-	
-	
-	
-	
-
 }
 

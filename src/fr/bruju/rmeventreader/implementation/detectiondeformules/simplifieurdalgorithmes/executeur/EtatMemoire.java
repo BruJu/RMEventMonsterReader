@@ -2,8 +2,6 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
 
 import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
@@ -21,22 +19,49 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire.Maps;
 
-public abstract class EtatMemoire {
-	protected Algorithme algorithme = new Algorithme();
+public final class EtatMemoire {
+	/* =========
+	 * ATTRIBUTS
+	 * ========= */
 	
+	// Map globale des variables instanciées (permet d'avoir toujours le même objet)
+	private final Map<Integer, ExprVariable> variablesActuelles;
+	
+	// Identification d'un état mémoire
+	public final EtatMemoire pere;
+	public final Algorithme algorithme;
+	
+	// Gestion de la structure d'arbre
 	private Condition conditionSeparatrice;
-	protected EtatMemoireFils filsGauche;
-	protected EtatMemoireFils filsDroit;
+	protected EtatMemoire filsGauche;
+	protected EtatMemoire filsDroit;
 
-	private Map<Integer, ExprVariable> variablesActuelles = new HashMap<>();
+
+	/* =============
+	 * CONSTRUCTEURS
+	 * ============= */
+	
+	public EtatMemoire() {
+		this.pere = null;
+		this.variablesActuelles = new HashMap<>();
+		this.algorithme = new Algorithme();
+	}
+	
+	public EtatMemoire(EtatMemoire pere) {
+		this.pere = pere;
+		this.variablesActuelles = pere.variablesActuelles;
+		this.algorithme = new Algorithme();
+	}
 	
 
 	
-	public EtatMemoireFils separer(Condition conditionSeparatrice) {
+	
+	public EtatMemoire separer(Condition conditionSeparatrice) {
 		this.conditionSeparatrice = conditionSeparatrice;		
-		filsGauche = new EtatMemoireFils(this);
-		filsDroit = new EtatMemoireFils(this);
+		filsGauche = new EtatMemoire(this);
+		filsDroit = new EtatMemoire(this);
 		return filsGauche;
 	}
 
@@ -44,11 +69,11 @@ public abstract class EtatMemoire {
 	protected final void accumulerFils() {
 		Boolean test = conditionSeparatrice.tester();
 		if (test != null) {
-			EtatMemoireFils fils = test ? filsGauche : filsDroit;
+			EtatMemoire fils = test ? filsGauche : filsDroit;
 			accumulerUnSeulFils(fils);
 		} else {
-			Algorithme brancheVrai = filsGauche.getAlgorithme();
-			Algorithme brancheFaux = filsDroit.getAlgorithme();
+			Algorithme brancheVrai = filsGauche.algorithme;
+			Algorithme brancheFaux = filsDroit.algorithme;
 			BlocConditionnel instruction = new BlocConditionnel(conditionSeparatrice, brancheVrai, brancheFaux);
 			algorithme.ajouterInstruction(instruction);
 		}
@@ -57,38 +82,33 @@ public abstract class EtatMemoire {
 		filsDroit = null;
 	}
 	
-	private void accumulerUnSeulFils(EtatMemoireFils fils) {
-		Algorithme algorithme = fils.getAlgorithme();
+	private void accumulerUnSeulFils(EtatMemoire fils) {
+		Algorithme algorithme = fils.algorithme;
 		this.algorithme.ajouter(algorithme);
 		
-		((EtatMemoire) fils).variablesActuelles.forEach(variablesActuelles::put);
+		fils.variablesActuelles.forEach(variablesActuelles::put);
 	}
 
 
 
 
-
-	
-	public Algorithme getAlgorithme() {
-		return algorithme;
-	}
 	
 
-	public EtatMemoireFils separer(CondInterrupteur condInterrupteur) {
+	public EtatMemoire separer(CondInterrupteur condInterrupteur) {
 		return separer(new ConditionVariable(getValeur(-condInterrupteur.interrupteur), condInterrupteur.etat));
 	}
 
-	public EtatMemoireFils separer(CondHerosPossedeObjet condHerosPossedeObjet) {
+	public EtatMemoire separer(CondHerosPossedeObjet condHerosPossedeObjet) {
 		return separer(new ConditionObjet(condHerosPossedeObjet));
 	}
 
-	public EtatMemoireFils separer(int variable, Comparateur comparateur, Variable droite) {
+	public EtatMemoire separer(int variable, Comparateur comparateur, Variable droite) {
 		Expression exprGauche = getValeur(variable);
 		Expression exprDroite = getValeur(droite.idVariable);
 		return separer(new ConditionVariable(exprGauche, comparateur, exprDroite));
 	}
 
-	public EtatMemoireFils separer(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public EtatMemoire separer(int variable, Comparateur comparateur, ValeurFixe droite) {
 		Expression exprGauche = getValeur(variable);
 		return separer(new ConditionVariable(exprGauche, comparateur, new Constante(droite.valeur)));
 	}
@@ -116,20 +136,21 @@ public abstract class EtatMemoire {
 		nouvelleInstruction(idVariable, operateur, droite);
 	}
 	
-	
-
 	public final ExprVariable getValeur(int numeroDeCase) {
-		if (variablesActuelles.containsKey(numeroDeCase)) {
-			return variablesActuelles.get(numeroDeCase);
-		} else {
-			return getValeurManquante(numeroDeCase);
-		}
+		return Maps.getAvecInitialisation(variablesActuelles, numeroDeCase, ExprVariable::new);
 	}
 	
-	protected abstract ExprVariable getValeurManquante(int numeroDeCase);
+	// Etat Memoire fils
 	
+	public EtatMemoire getFrere() {
+		return pere.filsDroit;
+	}
 	
-	
-	
+	public EtatMemoire revenirAuPere() {
+		pere.accumulerFils();
+		return pere;
+	}
+
+
 	
 }
