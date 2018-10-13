@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules._variables;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
@@ -47,5 +48,9 @@ public class EtatInitial {
 	public Boolean getInterrupteur(int idInterrupteur) {
 		Integer valeur = getValeur(-idInterrupteur);
 		return valeur == null ? null : valeur == 1;
+	}
+
+	public void forEach(BiConsumer<Integer, Integer> fonction) {
+		valeursAffectees.forEach(fonction);
 	}
 }

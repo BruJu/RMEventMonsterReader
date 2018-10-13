@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
@@ -9,6 +10,7 @@ import fr.bruju.rmdechiffreur.modele.ValeurFixe;
 import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
 import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules._variables.EtatInitial;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
@@ -27,7 +29,7 @@ public final class EtatMemoire {
 	 * ========= */
 	
 	// Map globale des variables instanciées (permet d'avoir toujours le même objet)
-	private final Map<Integer, ExprVariable> variablesActuelles;
+	private final Map<Integer, ExprVariable> variables;
 	
 	// Identification d'un état mémoire
 	public final EtatMemoire pere;
@@ -38,6 +40,9 @@ public final class EtatMemoire {
 	protected EtatMemoire filsGauche;
 	protected EtatMemoire filsDroit;
 
+	
+	// Etat des variables
+	private Map<Integer, Integer> valeursActuelles;
 
 	/* =============
 	 * CONSTRUCTEURS
@@ -45,17 +50,31 @@ public final class EtatMemoire {
 	
 	public EtatMemoire() {
 		this.pere = null;
-		this.variablesActuelles = new HashMap<>();
+		this.variables = new HashMap<>();
 		this.algorithme = new Algorithme();
+		valeursActuelles = new HashMap<>();
+		
+		remplirValeursActuelles();
 	}
 	
+	private void remplirValeursActuelles() {
+		EtatInitial etatInitial = EtatInitial.getEtatInitial();
+		
+		etatInitial.forEach(this::initialiserValeur);
+	}
+
 	public EtatMemoire(EtatMemoire pere) {
 		this.pere = pere;
-		this.variablesActuelles = pere.variablesActuelles;
+		this.variables = pere.variables;
 		this.algorithme = new Algorithme();
+		valeursActuelles = new HashMap<>(pere.valeursActuelles);
 	}
 	
 
+	private void initialiserValeur(Integer idVariable, Integer valeur) {
+		variables.put(idVariable, new ExprVariable(idVariable));
+		valeursActuelles.put(idVariable, valeur);
+	}
 	
 	
 	public EtatMemoire separer(Condition conditionSeparatrice) {
@@ -70,28 +89,35 @@ public final class EtatMemoire {
 		Boolean test = conditionSeparatrice.tester();
 		if (test != null) {
 			EtatMemoire fils = test ? filsGauche : filsDroit;
-			accumulerUnSeulFils(fils);
+			algorithme.ajouter(fils.algorithme);
+			valeursActuelles = fils.valeursActuelles;
 		} else {
 			Algorithme brancheVrai = filsGauche.algorithme;
 			Algorithme brancheFaux = filsDroit.algorithme;
 			BlocConditionnel instruction = new BlocConditionnel(conditionSeparatrice, brancheVrai, brancheFaux);
 			algorithme.ajouterInstruction(instruction);
+			combinerValeursActuelles();
 		}
 		
 		filsGauche = null;
 		filsDroit = null;
 	}
+
 	
-	private void accumulerUnSeulFils(EtatMemoire fils) {
-		Algorithme algorithme = fils.algorithme;
-		this.algorithme.ajouter(algorithme);
-		
-		fils.variablesActuelles.forEach(variablesActuelles::put);
+
+	private void combinerValeursActuelles() {
+		this.valeursActuelles.clear();
+		this.variables.keySet().forEach(this::actualiserValeurActuelle);
 	}
-
-
-
-
+	
+	private void actualiserValeurActuelle(Integer idVariable) {
+		Integer vrai = filsGauche.valeursActuelles.get(idVariable);
+		Integer faux = filsGauche.valeursActuelles.get(idVariable);
+		
+		if (Objects.equals(vrai, faux)) {
+			valeursActuelles.put(idVariable, vrai);
+		}
+	}
 	
 
 	public EtatMemoire separer(CondInterrupteur condInterrupteur) {
@@ -114,17 +140,17 @@ public final class EtatMemoire {
 	}
 
 	public void nouvelleInstruction(int idVariable, OpMathematique operateur, Expression droite) {
-		ExprVariable variableGauche = getValeur(idVariable);
+		ExprVariable variableGauche = getVariable(idVariable);
 		
 		Expression droiteDuCalcul;
 		
 		if (operateur == OpMathematique.AFFECTATION) {
 			droiteDuCalcul = droite;
 		} else {
-			droiteDuCalcul = new Calcul(variableGauche, operateur, droite);
+			droiteDuCalcul = new Calcul(getValeur(idVariable), operateur, droite);
 		}
 		
-		this.variablesActuelles.put(idVariable, variableGauche);
+		valeursActuelles.put(idVariable, droiteDuCalcul.evaluer());
 		
 		algorithme.ajouterInstruction(new InstructionAffectation(variableGauche, droiteDuCalcul));
 	}
@@ -132,12 +158,19 @@ public final class EtatMemoire {
 
 
 	public void nouvelleInstruction(int idVariable, OpMathematique operateur, Variable valeurDroite) {
-		Expression droite = getValeur(valeurDroite.idVariable);
+		Expression droite = getVariable(valeurDroite.idVariable);
 		nouvelleInstruction(idVariable, operateur, droite);
 	}
 	
-	public final ExprVariable getValeur(int numeroDeCase) {
-		return Maps.getAvecInitialisation(variablesActuelles, numeroDeCase, ExprVariable::new);
+	
+	public final Expression getValeur(int idVariable) {
+		Integer valeur = valeursActuelles.get(idVariable);
+		
+		return valeur != null ? new Constante(valeur) : getVariable(idVariable);
+	}
+	
+	public final ExprVariable getVariable(int numeroDeCase) {
+		return Maps.getAvecInitialisation(variables, numeroDeCase, ExprVariable::new);
 	}
 	
 	// Etat Memoire fils
