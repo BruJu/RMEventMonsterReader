@@ -5,21 +5,20 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.AgregatDeVariables;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VisiteurDExpression;
 
 public class Integrateur implements VisiteurDExpression {
-	private Map<VariableInstanciee, InstructionAffectation> variablesAIntegrerInterne;
-	private Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> variablesAIntegrer;
+	private Map<ExprVariable, InstructionAffectation> variablesAIntegrerInterne;
+	private Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> variablesAIntegrer;
 	private Expression resultat;
 
 	public Integrateur(InstructionGenerale instructionAffectation, 
-			Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> variablesAIntegrer) {
+			Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> variablesAIntegrer) {
 		this.variablesAIntegrerInterne = variablesAIntegrer.get(instructionAffectation);
 		this.variablesAIntegrer = variablesAIntegrer;
 		
@@ -29,7 +28,7 @@ public class Integrateur implements VisiteurDExpression {
 	}
 
 	@Override
-	public void visit(VariableInstanciee composant) {
+	public void visit(ExprVariable composant) {
 		InstructionAffectation reecriture = variablesAIntegrerInterne.get(composant);
 		
 		if (reecriture == null) {
@@ -57,11 +56,6 @@ public class Integrateur implements VisiteurDExpression {
 		resultat = origine;
 
 		resultat = new Calcul(gauche, composant.operande, droite);
-	}
-	
-	@Override
-	public void visit(AgregatDeVariables composant) {
-		resultat = composant;
 	}
 
 	@Override

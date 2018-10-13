@@ -1,0 +1,48 @@
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
+
+public class ExprVariable implements Expression {
+	public final int idVariable;
+
+	public ExprVariable(int idVariable) {
+		this.idVariable = idVariable;
+	}
+
+	@Override
+	public String getString() {
+		StringBuilder sb = new StringBuilder();
+		String nom;
+		int coef;
+		
+		if (idVariable < 0) {
+			coef = -1;
+			sb.append("S[");
+			nom = PROJET.extraireInterrupteur(-idVariable);
+		} else {
+			coef = 1;
+			sb.append("V[");
+			nom = PROJET.extraireVariable(idVariable);
+		}
+		
+		sb.append(String.format("%04d", idVariable * coef))
+		  .append(":")
+		  .append(nom.trim())
+		  .append("]");
+		
+		return sb.toString();
+	}
+
+	@Override
+	public void accept(VisiteurDExpression visiteurDExpression) {
+		visiteurDExpression.visit(this);
+	}
+
+	@Override
+	public Integer evaluer() {
+		return null;
+	}
+	
+	
+
+}

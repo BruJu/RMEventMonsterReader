@@ -14,13 +14,13 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 
 public class Reecrivain implements VisiteurDAlgorithme {
 	private Algorithme source;
 	private Algorithme resultat;
 	private Set<InstructionAffectation> ignorer;
-	private Map<InstructionGenerale, Map<VariableInstanciee, InstructionAffectation>> inliner;
+	private Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> inliner;
 
 	public Reecrivain(Algorithme algorithme, Set<InstructionAffectation> instructionsAIgnorer,
 			Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables) {
@@ -33,7 +33,7 @@ public class Reecrivain implements VisiteurDAlgorithme {
 		inliner = new HashMap<>();
 		
 		affectationsInlinables.forEach((destination, sources) -> {
-			Map<VariableInstanciee, InstructionAffectation> carteInterne = new HashMap<>();
+			Map<ExprVariable, InstructionAffectation> carteInterne = new HashMap<>();
 			sources.forEach(instruction -> carteInterne.put(instruction.variableAssignee, instruction));
 			inliner.put(destination, carteInterne);
 		});
@@ -84,7 +84,7 @@ public class Reecrivain implements VisiteurDAlgorithme {
 		}
 		
 		InstructionAffectation instructionAAjouter;
-		Map<VariableInstanciee, InstructionAffectation> instructionsAIntegrer = inliner.get(instructionAffectation);
+		Map<ExprVariable, InstructionAffectation> instructionsAIntegrer = inliner.get(instructionAffectation);
 		
 		if (instructionsAIntegrer == null) {
 			instructionAAjouter = instructionAffectation;

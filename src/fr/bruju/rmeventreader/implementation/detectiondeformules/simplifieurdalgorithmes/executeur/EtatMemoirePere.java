@@ -3,20 +3,19 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules._variables.EtatInitial;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.CaseMemoire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
+
 
 public class EtatMemoirePere extends EtatMemoire {
-	private EtatInitial instanciations = EtatInitial.getEtatInitial();
-	private Map<Integer, CaseMemoire> casesMemoire = new HashMap<>();
+	//private EtatInitial instanciations = EtatInitial.getEtatInitial();
+	private Map<Integer, ExprVariable> casesMemoire = new HashMap<>();
 	
 	@Override
-	protected VariableInstanciee getValeurManquante(int numeroDeCase) {
+	protected ExprVariable getValeurManquante(int numeroDeCase) {
 		if (!casesMemoire.containsKey(numeroDeCase)) {
-			casesMemoire.put(numeroDeCase, new CaseMemoire(numeroDeCase, instanciations.getValeur(numeroDeCase)));
+			casesMemoire.put(numeroDeCase, new ExprVariable(numeroDeCase));
 		}
 		
-		return casesMemoire.get(numeroDeCase).premiereInstance();
+		return casesMemoire.get(numeroDeCase);
 	}
 }

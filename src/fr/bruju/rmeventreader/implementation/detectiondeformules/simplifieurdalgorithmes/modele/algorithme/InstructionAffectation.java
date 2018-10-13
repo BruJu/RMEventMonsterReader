@@ -1,13 +1,13 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
 
 public class InstructionAffectation implements InstructionGenerale {
-	public final VariableInstanciee variableAssignee;
+	public final ExprVariable variableAssignee;
 	public final Expression expression;
 	
-	public InstructionAffectation(VariableInstanciee variableAssignee, Expression expression) {
+	public InstructionAffectation(ExprVariable variableAssignee, Expression expression) {
 		this.variableAssignee = variableAssignee;
 		this.expression = expression;
 	}

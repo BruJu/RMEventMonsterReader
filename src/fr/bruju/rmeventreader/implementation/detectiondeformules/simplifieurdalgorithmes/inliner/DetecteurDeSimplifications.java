@@ -14,7 +14,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
@@ -27,10 +27,10 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	public void noterExpression(InstructionGenerale instruction, Expression expression) {
 		ListeurDePresence listeur = new ListeurDePresence();
 		listeur.visit(expression);
-		Set<VariableInstanciee> variablesPresentes = listeur.variablesPresentes;
+		Set<ExprVariable> variablesPresentes = listeur.variablesPresentes;
 		
-		for (VariableInstanciee variable : variablesPresentes) {
-			int numeroDeCase = variable.caseMemoire.numeroCase;
+		for (ExprVariable variable : variablesPresentes) {
+			int numeroDeCase = variable.idVariable;
 			boolean etaitMort = variablesMortes.remove(numeroDeCase);
 			
 			modifierVariablesVivantes(etaitMort, numeroDeCase, instruction);
@@ -49,7 +49,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
-		tuer(instructionAffectation.variableAssignee.caseMemoire.numeroCase, instructionAffectation);
+		tuer(instructionAffectation.variableAssignee.idVariable, instructionAffectation);
 		noterExpression(instructionAffectation, instructionAffectation.expression);
 	}
 

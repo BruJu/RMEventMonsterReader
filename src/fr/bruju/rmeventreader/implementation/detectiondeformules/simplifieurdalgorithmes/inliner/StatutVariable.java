@@ -1,12 +1,12 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 
 public enum StatutVariable {
 	DEFINIE,
 	MORTE;
 	
-	public static StatutVariable tuer(VariableInstanciee cle, StatutVariable ancienStatut) {
+	public static StatutVariable tuer(ExprVariable cle, StatutVariable ancienStatut) {
 		return StatutVariable.MORTE;
 	}
 }

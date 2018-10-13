@@ -5,10 +5,9 @@ public interface VisiteurDExpression {
 		expression.accept(this);
 	}
 	
-	public void visit(AgregatDeVariables composant);
 	public void visit(Calcul composant);
 	public void visit(Constante composant);
 	public void visit(NombreAleatoire composant);
-	public void visit(VariableInstanciee composant);
+	public void visit(ExprVariable composant);
 	
 }

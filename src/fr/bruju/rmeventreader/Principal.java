@@ -20,7 +20,7 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 7;
+		int choix = 9;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);

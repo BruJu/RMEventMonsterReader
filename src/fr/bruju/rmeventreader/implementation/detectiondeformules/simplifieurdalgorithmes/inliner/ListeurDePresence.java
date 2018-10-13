@@ -3,20 +3,15 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import java.util.HashSet;
 import java.util.Set;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.AgregatDeVariables;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VariableInstanciee;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VisiteurDExpression;
 
 public class ListeurDePresence implements VisiteurDExpression {	
-	public final Set<VariableInstanciee> variablesPresentes = new HashSet<>();
+	public final Set<ExprVariable> variablesPresentes = new HashSet<>();
 
-	@Override
-	public void visit(AgregatDeVariables composant) {
-		composant.ajouterVariables(variablesPresentes);
-	}
 
 	@Override
 	public void visit(Calcul composant) {
@@ -25,7 +20,7 @@ public class ListeurDePresence implements VisiteurDExpression {
 	}
 	
 	@Override
-	public void visit(VariableInstanciee composant) {
+	public void visit(ExprVariable composant) {
 		variablesPresentes.add(composant);
 	}
 
