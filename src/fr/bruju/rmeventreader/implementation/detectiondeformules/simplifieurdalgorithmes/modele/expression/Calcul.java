@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import java.util.Objects;
 
 public class Calcul implements Expression {
 	public final Expression gauche;
@@ -39,4 +40,27 @@ public class Calcul implements Expression {
 			return operande.calculer(evalGauche, evalDroite);
 		}
 	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gauche, operande, droite);
+	}
+
+
+
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Calcul) {
+			Calcul that = (Calcul) object;
+			return Objects.equals(this.gauche, that.gauche) && Objects.equals(this.operande, that.operande)
+					&& Objects.equals(this.droite, that.droite);
+		}
+		return false;
+	}
+	
+	
 }

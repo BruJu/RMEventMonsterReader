@@ -78,7 +78,7 @@ public class Utilitaire {
 			return value;
 		}
 		
-		public static <K, V> V getAvecInitialisation(Map<K, V> map, K key, Function<K, V> initialisateur) {
+		public static <K, V> V getY(Map<K, V> map, K key, Function<K, V> initialisateur) {
 			V value = map.get(key);
 			
 			if (value == null) {

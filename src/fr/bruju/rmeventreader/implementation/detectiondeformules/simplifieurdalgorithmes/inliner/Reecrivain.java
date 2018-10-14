@@ -19,6 +19,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 public class Reecrivain implements VisiteurDAlgorithme {
 	private Algorithme source;
 	private Algorithme resultat;
+	
 	private Set<InstructionAffectation> ignorer;
 	private Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> inliner;
 

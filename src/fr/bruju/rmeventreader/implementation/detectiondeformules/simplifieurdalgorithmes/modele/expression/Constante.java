@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
 
 import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+import java.util.Objects;
 
 public class Constante implements Expression {
 	public final int valeur;
@@ -24,6 +25,20 @@ public class Constante implements Expression {
 		visiteurDExpression.visit(this);
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(valeur);
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Constante) {
+			Constante that = (Constante) object;
+			return this.valeur == that.valeur;
+		}
+		return false;
+	}
+
 	@Override
 	public Integer evaluer() {
 		return valeur;

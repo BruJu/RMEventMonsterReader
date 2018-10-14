@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
 
 import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
+import java.util.Objects;
 
 public class NombreAleatoire implements Expression {
 	public final int valeurMin;
@@ -25,6 +26,20 @@ public class NombreAleatoire implements Expression {
 	@Override
 	public Integer evaluer() {
 		return null;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(valeurMin, valeurMax);
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof NombreAleatoire) {
+			NombreAleatoire that = (NombreAleatoire) object;
+			return this.valeurMin == that.valeurMin && this.valeurMax == that.valeurMax;
+		}
+		return false;
 	}
 	
 }

@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
 import fr.bruju.rmdechiffreur.controlleur.ExtCondition;
@@ -20,10 +23,21 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
 	private CABasique constructeur = new CABasique();
+	
+	private Map<Integer, ExprVariable> variablesInstanciees = new HashMap<>();
+	
+	private ExprVariable getVariable(int idVariable) {
+		return Utilitaire.Maps.getY(variablesInstanciees, idVariable, ExprVariable::new);
+	}
+	
+	private ExprVariable getVariable(Variable variable) {
+		return getVariable(variable.idVariable);
+	}
 	
 	public Algorithme extraireAlgorithme() {
 		return constructeur.get();
@@ -43,17 +57,17 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
-		nouvelleAffectation(new ExprVariable(valeurGauche.idVariable), operateur, new Constante(valeurDroite.valeur));
+		nouvelleAffectation(getVariable(valeurGauche), operateur, new Constante(valeurDroite.valeur));
 	}
 	
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurAleatoire valeurDroite) {
-		nouvelleAffectation(new ExprVariable(valeurGauche.idVariable), operateur, new NombreAleatoire(valeurDroite));
+		nouvelleAffectation(getVariable(valeurGauche), operateur, new NombreAleatoire(valeurDroite));
 	}
 	
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
-		nouvelleAffectation(new ExprVariable(valeurGauche.idVariable), operateur, new ExprVariable(valeurDroite.idVariable));
+		nouvelleAffectation(getVariable(valeurGauche), operateur, new ExprVariable(valeurDroite.idVariable));
 	}
 
 	@Override
@@ -76,7 +90,7 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 
 	@Override
 	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-		ExprVariable exprGauche = new ExprVariable(variable);
+		ExprVariable exprGauche = getVariable(variable);
 		Expression exprDroite = new Constante(droite.valeur);
 		constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
 		return true;
@@ -94,7 +108,7 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 
 	@Override
 	public boolean interrupteur(CondInterrupteur condInterrupteur) {
-		ExprVariable interrupteur = new ExprVariable(-condInterrupteur.interrupteur);
+		ExprVariable interrupteur = getVariable(-condInterrupteur.interrupteur);
 		constructeur.commencerCondition(new ConditionVariable(interrupteur, condInterrupteur.etat));
 		return true;
 	}

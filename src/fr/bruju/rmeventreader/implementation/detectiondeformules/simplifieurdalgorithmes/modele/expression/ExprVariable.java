@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
+import java.util.Objects;
 
 public class ExprVariable implements Expression {
 	public final int idVariable;
@@ -41,6 +42,20 @@ public class ExprVariable implements Expression {
 	@Override
 	public Integer evaluer() {
 		return null;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(idVariable);
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof ExprVariable) {
+			ExprVariable that = (ExprVariable) object;
+			return this.idVariable == that.idVariable;
+		}
+		return false;
 	}
 	
 	
