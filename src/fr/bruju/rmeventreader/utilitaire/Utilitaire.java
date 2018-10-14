@@ -13,6 +13,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 public class Utilitaire {
 	
@@ -141,6 +142,20 @@ public class Utilitaire {
 			}
 			
 			liste.add(element);
+		}
+
+		public static <K, V> void combiner(Map<K, V> destination, Map<K, V> source1, Map<K, V> source2,
+				BinaryOperator<V> fonctionDeCombinaison) {
+			Stream.of(source1.keySet(), source2.keySet())
+				  .flatMap(Set::stream)
+				  .distinct()
+				  .forEach(cle -> {
+					  V valeur1 = source1.get(cle);
+					  V valeur2 = source2.get(cle);
+					  if (valeur1 != null || valeur2 != null) {
+						  destination.put(cle, fonctionDeCombinaison.apply(valeur1, valeur2));
+					  }
+				  });
 		}
 	}
 
