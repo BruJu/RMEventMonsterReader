@@ -29,8 +29,6 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
 	
-	private PileDeBooleens etat = new PileDeBooleens();
-	
 	private ConstructeurValue constructeur = new ConstructeurValue();
 	
 	private Map<Integer, ExprVariable> variablesInstanciees = new HashMap<>();
@@ -88,18 +86,14 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	public int variableVariable(int variable, Comparateur comparateur, Variable droite) {
 		ExprVariable exprGauche = new ExprVariable(variable);
 		Expression exprDroite = new ExprVariable(droite.idVariable);
-		constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
-		
-		return 0;
+		return constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
 	}
 	
 	@Override
 	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		ExprVariable exprGauche = getVariable(variable);
 		Expression exprDroite = new Constante(droite.valeur);
-		constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
-		
-		return 0;
+		return constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
 	}
 
 	@Override
@@ -115,14 +109,12 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	@Override
 	public int interrupteur(CondInterrupteur condInterrupteur) {
 		ExprVariable interrupteur = getVariable(-condInterrupteur.interrupteur);
-		constructeur.commencerCondition(new ConditionVariable(interrupteur, condInterrupteur.etat));
-		return 0;
+		return constructeur.commencerCondition(new ConditionVariable(interrupteur, condInterrupteur.etat));
 	}
 
 	@Override
 	public int herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
-		constructeur.commencerCondition(new ConditionObjet(condHerosPossedeObjet));
-		return 0;
+		return constructeur.commencerCondition(new ConditionObjet(condHerosPossedeObjet));
 	}
 }
 

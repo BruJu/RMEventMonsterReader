@@ -94,8 +94,6 @@ public class ConstructeurValue implements ConstructeurDAlgorithme {
 			}
 		}
 		
-		
-		
 		Element element = new Element(algorithmeCourant, condition, valeursCourantes);
 		pile.push(element);
 		element.utiliser();
@@ -134,6 +132,7 @@ public class ConstructeurValue implements ConstructeurDAlgorithme {
 		
 		@Override
 		public void recevoirSinon() {
+			throw new UnsupportedOperationException("Partiel a reçu un sinon");
 		}
 		
 		@Override
