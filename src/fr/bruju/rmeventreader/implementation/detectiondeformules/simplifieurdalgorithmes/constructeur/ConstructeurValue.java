@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.constructeur;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Stack;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules._variables.EtatInitial;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur.SubstitutionDeValeurs;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
@@ -16,21 +15,21 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-public class CABasique implements ConstructeurDAlgorithme {
+public class ConstructeurValue implements ConstructeurDAlgorithme {
 	
 	private Algorithme algorithmeCourant = new Algorithme();
-	private Stack<Element> pile = new Stack<>();
+	private Stack<ExplorationConditionnelle> pile = new Stack<>();
 	
 	private Map<Integer, Integer> valeursCourantes = null;
 	
 	
-	public CABasique() {
+	public ConstructeurValue() {
 		EtatInitial etatInitial = EtatInitial.getEtatInitial();
 		valeursCourantes = new HashMap<>();
 		etatInitial.forEach(valeursCourantes::put);
 	}
 	
-	public CABasique(Map<Integer, Integer> valeursInitiales) {
+	public ConstructeurValue(Map<Integer, Integer> valeursInitiales) {
 		this.valeursCourantes = new HashMap<>(valeursInitiales);
 	}
 	
@@ -87,44 +86,31 @@ public class CABasique implements ConstructeurDAlgorithme {
 			}
 			
 			Boolean test = cv.tester();
+			
 			if (test != null) {
-				Element element = new Element(algorithmeCourant, condition, valeursCourantes, test);
-				pile.push(element);
-				algorithmeCourant = element.vrai;
-				valeursCourantes = element.valeursCourantesVrai;
-
-				return 0;
+				pile.push(new ExplorationPartielle());
+				pile.peek().utiliser();
+				return test ? 1 : 2;
 			}
-			
-			
-			
-			
 		}
 		
 		
 		
 		Element element = new Element(algorithmeCourant, condition, valeursCourantes);
 		pile.push(element);
-		algorithmeCourant = element.vrai;
-		valeursCourantes = element.valeursCourantesVrai;
-
+		element.utiliser();
+		
 		return 0;
 	}
 
 	@Override
 	public void conditionElse() {
-		algorithmeCourant = pile.peek().faux;
-		valeursCourantes = pile.peek().valeursCourantesFaux;
+		pile.peek().recevoirSinon();
 	}
 
 	@Override
 	public void conditionFinie() {
-		Element element = pile.pop();
-		element.integrer();
-		algorithmeCourant = element.pere;
-		
-		valeursCourantes = element.getValeursCourantes();
-
+		pile.pop().recevoirFin();
 	}
 
 	
@@ -134,16 +120,35 @@ public class CABasique implements ConstructeurDAlgorithme {
 
 
 
+	public static interface ExplorationConditionnelle {
+		public void utiliser();
+		public void recevoirSinon();
+		public void recevoirFin();
+	}
+	
+	
+	public class ExplorationPartielle implements ExplorationConditionnelle {
+		@Override
+		public void recevoirFin() {
+		}
+		
+		@Override
+		public void recevoirSinon() {
+		}
+		
+		@Override
+		public void utiliser() {
+		}
+	}
+	
 
-	public static class Element {
+	public class Element implements ExplorationConditionnelle {
 		private final Algorithme pere;
 		private final Condition condition;
 		private final Algorithme vrai;
 		private final Map<Integer, Integer> valeursCourantesVrai;
 		private final Algorithme faux;
 		private final Map<Integer, Integer> valeursCourantesFaux;
-		
-		private final Boolean c;
 
 		public Element(Algorithme pere, Condition condition, Map<Integer, Integer> valeursCourantes) {
 			this.pere = pere;
@@ -152,33 +157,33 @@ public class CABasique implements ConstructeurDAlgorithme {
 			this.valeursCourantesVrai = new HashMap<>(valeursCourantes);
 			this.faux = new Algorithme();
 			this.valeursCourantesFaux = new HashMap<>(valeursCourantes);
-			c = null;
-		}
-		
-		public Element(Algorithme pere, Condition condition, Map<Integer, Integer> valeursCourantes, Boolean c) {
-			this.pere = pere;
-			this.condition = condition;
-			this.vrai = new Algorithme();
-			this.valeursCourantesVrai = new HashMap<>(valeursCourantes);
-			this.faux = new Algorithme();
-			this.valeursCourantesFaux = new HashMap<>(valeursCourantes);
-			this.c = c;
-		}
-		
-		public void integrer() {
-			if (c != null) {
-				pere.ajouter(c ? vrai : faux);
-			} else {
-				pere.ajouterInstruction(new BlocConditionnel(condition, vrai, faux));
-			}
 		}
 		
 		public Map<Integer, Integer> getValeursCourantes() {
 			Map<Integer, Integer> valeursCourantes = new HashMap<>();
 			
-			Utilitaire.Maps.combiner(valeursCourantes, valeursCourantesVrai, valeursCourantesFaux, CABasique::combiner);
+			Utilitaire.Maps.combiner(valeursCourantes, valeursCourantesVrai, valeursCourantesFaux, ConstructeurValue::combiner);
 			
 			return valeursCourantes;
+		}
+
+		@Override
+		public void recevoirSinon() {
+			ConstructeurValue.this.algorithmeCourant = faux;
+			ConstructeurValue.this.valeursCourantes = valeursCourantesFaux;
+		}
+
+		@Override
+		public void recevoirFin() {
+			pere.ajouterInstruction(new BlocConditionnel(condition, vrai, faux));
+			ConstructeurValue.this.algorithmeCourant = pere;
+			ConstructeurValue.this.valeursCourantes = getValeursCourantes();
+		}
+
+		@Override
+		public void utiliser() {
+			ConstructeurValue.this.algorithmeCourant = vrai;
+			ConstructeurValue.this.valeursCourantes = valeursCourantesVrai;
 		}
 	}
 	

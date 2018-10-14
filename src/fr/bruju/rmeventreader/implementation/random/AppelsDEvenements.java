@@ -61,14 +61,14 @@ public class AppelsDEvenements implements Runnable {
 		}
 
 		@Override
-		public boolean Flot_si(Condition condition) {
+		public int Flot_si(Condition condition) {
 			if (condition instanceof Condition.CondObjet) {
 				if (((Condition.CondObjet) condition).idObjet == 1) {
-					return false;
+					return 3;
 				}
 			}
 			
-			return true;
+			return 0;
 		}
 
 		@Override

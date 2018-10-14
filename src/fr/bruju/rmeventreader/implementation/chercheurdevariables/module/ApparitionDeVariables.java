@@ -277,9 +277,9 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 		}
 
 		@Override
-		public boolean Flot_si(Condition condition) {
+		public int Flot_si(Condition condition) {
 			condition.appliquerVariable(this::visit);
-			return true;
+			return 0;
 		}
 
 

@@ -110,11 +110,11 @@ public class EquipementChecker implements ExecuteurInstructions {
 	}
 
 	@Override
-	public boolean Flot_si(Condition condition) {
+	public int Flot_si(Condition condition) {
 		condition.appliquer(this::conditionInterrupteur, this::conditionVariable, null, null, null, null, null, null,
 				null, null, null, null, null, null, this::conditionObjetEquipe, null);
 
-		return true;
+		return 0;
 	}
 
 	public Void conditionInterrupteur(CondInterrupteur cond) {

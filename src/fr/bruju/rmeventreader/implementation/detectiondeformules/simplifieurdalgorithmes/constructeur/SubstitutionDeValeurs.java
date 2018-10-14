@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.constructeur;
 
 import java.util.Map;
 
@@ -21,5 +21,4 @@ public class SubstitutionDeValeurs extends VisiteurReecrivainDExpression {
 		
 		return valeur == null ? composant : new Constante(valeur);
 	}
-
 }

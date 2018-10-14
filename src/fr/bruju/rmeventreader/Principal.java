@@ -20,14 +20,14 @@ public class Principal {
 	public static void main(String[] args) throws IOException {
 		System.out.println("#### Début ####");
 
-		int choix = 9;
+		int choix = 0;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
 		}
 		
 		Runnable[] options = {
-				/* 00 */ new ListeurDeMonstres(7),
+				/* 00 */ new ListeurDeMonstres(3),
 				/* 01 */ new FormulaTracker(),
 				/* 02 */ new Recomposition(),
 				/* 03 */ () -> PROJET.ecrireRessource("ressources_gen\\"),

@@ -13,7 +13,7 @@ import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
 import fr.bruju.rmdechiffreur.modele.ValeurFixe;
 import fr.bruju.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.CABasique;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.constructeur.ConstructeurValue;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionObjet;
@@ -23,11 +23,15 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
+import fr.bruju.rmeventreader.utilitaire.PileDeBooleens;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
-	private CABasique constructeur = new CABasique();
+	
+	private PileDeBooleens etat = new PileDeBooleens();
+	
+	private ConstructeurValue constructeur = new ConstructeurValue();
 	
 	private Map<Integer, ExprVariable> variablesInstanciees = new HashMap<>();
 	
@@ -76,24 +80,26 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	}
 
 	@Override
-	public boolean conditionRetourDeBase() {
-		return false;
+	public int conditionRetourDeBase() {
+		return 3;
 	}
 
 	@Override
-	public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
+	public int variableVariable(int variable, Comparateur comparateur, Variable droite) {
 		ExprVariable exprGauche = new ExprVariable(variable);
 		Expression exprDroite = new ExprVariable(droite.idVariable);
 		constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
-		return true;
+		
+		return 0;
 	}
-
+	
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		ExprVariable exprGauche = getVariable(variable);
 		Expression exprDroite = new Constante(droite.valeur);
 		constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
-		return true;
+		
+		return 0;
 	}
 
 	@Override
@@ -107,16 +113,16 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	}
 
 	@Override
-	public boolean interrupteur(CondInterrupteur condInterrupteur) {
+	public int interrupteur(CondInterrupteur condInterrupteur) {
 		ExprVariable interrupteur = getVariable(-condInterrupteur.interrupteur);
 		constructeur.commencerCondition(new ConditionVariable(interrupteur, condInterrupteur.etat));
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
+	public int herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
 		constructeur.commencerCondition(new ConditionObjet(condHerosPossedeObjet));
-		return true;
+		return 0;
 	}
 }
 

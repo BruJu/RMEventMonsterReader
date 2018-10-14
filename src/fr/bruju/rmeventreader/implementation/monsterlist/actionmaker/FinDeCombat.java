@@ -124,22 +124,22 @@ public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtConditio
 	}
 
 	@Override
-	public boolean interrupteur(CondInterrupteur condInterrupteur) {
+	public int interrupteur(CondInterrupteur condInterrupteur) {
 		boolean estBoss = condInterrupteur.interrupteur == INTERRUPTEUR_COMBAT_DE_BOSS;
 
 		if (estBoss) {
 			conditions.push(new ConditionEstUnBoss(condInterrupteur.etat));
 		}
 
-		return estBoss;
+		return estBoss ? 0 : 3;
 	}
 
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		Gestionnaire gestionnaire = sousGestionnaires.get(variable);
 
 		if (gestionnaire == null)
-			return false;
+			return 3;
 
 		return gestionnaire.variableFixe(variable, comparateur, droite);
 	}
@@ -172,9 +172,9 @@ public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtConditio
 	 */
 	private class ComportementIgnore implements Gestionnaire {
 		@Override
-		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 			conditions.push(new ConditionPassThrought<Combat>());
-			return true;
+			return 0;
 		}
 
 		@Override
@@ -208,9 +208,9 @@ public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtConditio
 		}
 
 		@Override
-		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 			conditions.push(new ConditionOnMembreStat("Capacité", positionMonstre, comparateur, droite.valeur));
-			return true;
+			return 0;
 		}
 
 		@Override
@@ -229,9 +229,9 @@ public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtConditio
 			this.positionMonstre = positionMonstre;
 		}
 
-		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 			conditions.push(new ConditionOnMembreStat("EXP", positionMonstre, comparateur, droite.valeur));
-			return true;
+			return 0;
 		}
 
 		public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
@@ -253,9 +253,9 @@ public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtConditio
 	 */
 	private class ComportementGlobalExperience implements Gestionnaire {
 		@Override
-		public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+		public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 			conditions.push(new ConditionGainExpTotal(comparateur, droite.valeur));
-			return true;
+			return 0;
 		}
 
 		@Override

@@ -159,18 +159,18 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 	 * ----------------------------------- */
 
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		if (variable == ID_VARIABLE_MONSTRE_CIBLE) {
 			this.conditions.push(new ConditionOnMonsterId(true, comparateur, droite.valeur));
-			return true;
+			return 0;
 		}
 
 		if (variable == 42) {
 			this.conditions.push(new ConditionVariable<>(false));
-			return true;
+			return 0;
 		}
 		
-		return false;
+		return 3;
 	}
 
 	

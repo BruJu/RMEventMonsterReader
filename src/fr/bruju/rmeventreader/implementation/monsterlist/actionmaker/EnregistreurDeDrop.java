@@ -73,9 +73,9 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 	 * ========= */
 	
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		if (variable != VARIABLE_ID_MONSTRE)
-			return false;
+			return 3;
 		
 		if (comparateur != Comparateur.IDENTIQUE) {
 			throw new EnregistreurDeDropException(EnregistreurDeDropException.MessageCondition);
@@ -83,7 +83,7 @@ public class EnregistreurDeDrop implements ExecuteurInstructions, ExtCondition, 
 
 		derniereConditionLue = droite.valeur;
 		
-		return true;
+		return 0;
 	}
 	
 	@Override

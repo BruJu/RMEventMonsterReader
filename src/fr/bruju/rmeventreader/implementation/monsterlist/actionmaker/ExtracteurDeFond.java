@@ -61,30 +61,30 @@ public class ExtracteurDeFond extends ExecuteurAFiltre<Combat> implements ExtCha
 	 * ============ */
 
 	@Override
-	public boolean interrupteur(CondInterrupteur cond) {
+	public int interrupteur(CondInterrupteur cond) {
 		int number = cond.interrupteur;
 
 		if (number == SWITCH_IGNORE1 || number == SWITCH_IGNORE2) {
-			return false;
+			return 3;
 		}
 
 		conditions.push(new ConditionPassThrought<>());
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
+	public int variableVariable(int variable, Comparateur comparateur, Variable droite) {
 		conditions.push(new ConditionPassThrought<>());
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		if (variable != VARIABLE_ID_COMBAT) {
 			conditions.push(new ConditionPassThrought<>());
 		} else {
 			conditions.push(new ConditionOnBattleId(comparateur, droite.valeur));
 		}
-		return true;
+		return 0;
 	}
 }

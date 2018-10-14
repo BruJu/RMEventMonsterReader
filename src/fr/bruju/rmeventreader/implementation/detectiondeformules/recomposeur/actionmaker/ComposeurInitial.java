@@ -96,29 +96,29 @@ public class ComposeurInitial implements ExtChangeVariable.SansAffectation, ExtC
 	
 
 	@Override
-	public boolean herosObjet(CondHerosPossedeObjet c) {
+	public int herosObjet(CondHerosPossedeObjet c) {
 		etat = etat.creerFils(new ConditionArme(c.idHeros, c.idObjet));
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean interrupteur(CondInterrupteur c) {
+	public int interrupteur(CondInterrupteur c) {
 		etat = etat.creerFils(new ConditionValeur(etat.getVariable(c.interrupteur + OFFSET_SWITCH), c.etat));
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
+	public int variableVariable(int variable, Comparateur comparateur, Variable droite) {
 		etat = etat.creerFils(new ConditionValeur(etat.getVariable(variable), comparateur, 
 				etat.getVariable(droite.idVariable)));
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		etat = etat.creerFils(new ConditionValeur(etat.getVariable(variable), comparateur, 
 				new Constante(droite.valeur)));
-		return true;
+		return 0;
 	}
 
 	@Override

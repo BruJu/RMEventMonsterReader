@@ -41,10 +41,10 @@ public class RemplisseurDObjets implements ExecuteurInstructions {
 	}
 	
 	@Override
-	public boolean Flot_si(Condition condition) {
+	public int Flot_si(Condition condition) {
 		condition.appliquerVariable(this::condVariable);
 		
-		return true;
+		return 0;
 	}
 	
 	public Void condVariable(CondVariable c) {

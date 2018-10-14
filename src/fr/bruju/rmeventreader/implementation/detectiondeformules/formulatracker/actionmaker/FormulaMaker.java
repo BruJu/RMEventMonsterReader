@@ -155,35 +155,35 @@ public class FormulaMaker implements ExtCondition, ExtChangeVariable.SansAffecta
 	// CONDITIONS
 
 	@Override
-	public boolean herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
+	public int herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
 		traiteurParDefaut.condOnEquippedItem(condHerosPossedeObjet.idHeros, condHerosPossedeObjet.idObjet);
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean interrupteur(CondInterrupteur condInterrupteur) {
+	public int interrupteur(CondInterrupteur condInterrupteur) {
 		Bouton interrupteur = etat.getInterrupteur(condInterrupteur.interrupteur);
 
 		traiteurParDefaut.condOnSwitch(interrupteur, condInterrupteur.etat);
-		return true;
+		return 0;
 	}
 
 	@Override
-	public boolean variableVariable(int variable, Comparateur comparateur, Variable droite) {
+	public int variableVariable(int variable, Comparateur comparateur, Variable droite) {
 		Valeur vGauche = etat.getVariable(variable);
 		Valeur vDroite = etat.getVariable(droite.idVariable);
 
 		traiteurParDefaut.condOnVariable(vGauche, comparateur, vDroite);
-		return false;
+		return 0;
 	}
 
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		Valeur vGauche = etat.getVariable(variable);
 		Valeur vDroite = traducteur.getValue(droite);
 
 		traiteurParDefaut.condOnVariable(vGauche, comparateur, vDroite);
-		return true;
+		return 0;
 	}
 	
 

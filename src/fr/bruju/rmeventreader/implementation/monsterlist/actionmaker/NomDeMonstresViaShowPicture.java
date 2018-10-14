@@ -70,15 +70,15 @@ public class NomDeMonstresViaShowPicture extends ExecuteurAFiltre<Monstre> imple
 	
 	
 	@Override
-	public boolean variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
 		if (variable == VARIABLE_IDMONSTRE) {
 			conditions.push(new ConditionOnMonsterId(true, comparateur, droite.valeur));
-			return true;
+			return 0;
 		} else if (variable == VARIABLE_IDCOMBAT) {
 			conditions.push(new ConditionOnMonsterId(false, comparateur, droite.valeur));
-			return true;
+			return 0;
 		} else {
-			return false;
+			return 3;
 		}
 	}
 

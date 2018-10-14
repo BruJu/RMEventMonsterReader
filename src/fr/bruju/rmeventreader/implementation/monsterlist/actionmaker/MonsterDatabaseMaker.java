@@ -61,18 +61,18 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 
 
 	@Override
-	public boolean interrupteur(CondInterrupteur condInterrupteur) {
+	public int interrupteur(CondInterrupteur condInterrupteur) {
 		if (condInterrupteur.interrupteur == 509) {
 			conditions.push(new ConditionPassThrought<Combat>());
-			return true;
+			return 0;
 		}
 
 		if (condInterrupteur.interrupteur == POS_BOSSBATTLE) {
 			conditions.push(new ConditionEstUnBoss(condInterrupteur.etat));
-			return true;
+			return 0;
 		}
 		
-		return false;
+		return 3;
 	}
 
 	@Override
@@ -105,9 +105,9 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 	}
 
 	@Override
-	public boolean variableFixe(int idVariable, Comparateur comparateur, ValeurFixe droite) {
+	public int variableFixe(int idVariable, Comparateur comparateur, ValeurFixe droite) {
 		if (idVariable != POS_ID_COMBAT)
-			return false;
+			return 3;
 
 		conditions.push(new ConditionOnBattleId(comparateur, droite.valeur));
 		
@@ -115,7 +115,7 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 			database.addCombat(droite.valeur);
 		}
 
-		return true;
+		return 0;
 	}
 
 	@Override
