@@ -30,6 +30,10 @@ public class CABasique implements ConstructeurDAlgorithme {
 		etatInitial.forEach(valeursCourantes::put);
 	}
 	
+	public CABasique(Map<Integer, Integer> valeursInitiales) {
+		this.valeursCourantes = new HashMap<>(valeursInitiales);
+	}
+	
 	
 
 	public Algorithme get() {
@@ -75,7 +79,7 @@ public class CABasique implements ConstructeurDAlgorithme {
 			SubstitutionDeValeurs substitueur = new SubstitutionDeValeurs(valeursCourantes);
 			
 			Expression gauche = substitueur.explorer(cv.gauche);
-			Expression droite = substitueur.explorer(cv.gauche);
+			Expression droite = substitueur.explorer(cv.droite);
 			
 			if (gauche != cv.gauche || droite != cv.droite) {
 				cv = new ConditionVariable(gauche, cv.comparateur, droite);

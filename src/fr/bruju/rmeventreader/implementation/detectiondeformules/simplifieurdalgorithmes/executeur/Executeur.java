@@ -23,8 +23,6 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
-	//private EtatMemoire etatMemoire = new EtatMemoire();
-	
 	private CABasique constructeur = new CABasique();
 	
 	public Algorithme extraireAlgorithme() {
