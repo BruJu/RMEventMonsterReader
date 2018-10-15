@@ -27,6 +27,9 @@ import fr.bruju.rmeventreader.utilitaire.PileDeBooleens;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
+
+
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
 	
 	private ConstructeurValue constructeur = new ConstructeurValue();
@@ -115,6 +118,7 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	@Override
 	public int herosObjet(CondHerosPossedeObjet condHerosPossedeObjet) {
 		return constructeur.commencerCondition(new ConditionObjet(condHerosPossedeObjet));
-	}
+	}	
+	
 }
 

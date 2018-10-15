@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import java.util.HashSet;
 import java.util.Set;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Borne;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
@@ -30,5 +31,11 @@ public class ListeurDePresence implements VisiteurDExpression {
 
 	@Override
 	public void visit(NombreAleatoire composant) {
+	}
+
+	@Override
+	public void visit(Borne composant) {
+		visit(composant.variable);
+		visit(composant.borne);
 	}
 }

@@ -15,7 +15,19 @@ public abstract class VisiteurReecrivainDExpression implements VisiteurDExpressi
 			return new Calcul(gauche, composant.operande, droite);
 		}
 	}
-	
+
+	public Expression explorer(Borne composant) {
+		Expression gauche = explorer(composant.variable);
+		Expression droite = explorer(composant.borne);
+		
+		if (gauche == composant.variable && droite == composant.borne) {
+			return composant;
+		} else if (gauche == null || droite == null) {
+			return null;
+		} else {
+			return new Borne(gauche, droite, composant.estBorneMax);
+		}
+	}
 	
 	public Expression explorer(Constante composant) {
 		return composant;
@@ -47,4 +59,11 @@ public abstract class VisiteurReecrivainDExpression implements VisiteurDExpressi
 	public final void visit(ExprVariable composant) {
 		expression = explorer(composant);
 	}
+	
+	public final void visit(Borne composant) {
+		expression = explorer(composant);
+	}
+	
+	
+	
 }

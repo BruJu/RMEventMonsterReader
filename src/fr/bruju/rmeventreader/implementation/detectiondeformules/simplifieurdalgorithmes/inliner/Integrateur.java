@@ -5,17 +5,14 @@ import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Calcul;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VisiteurDExpression;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.VisiteurReecrivainDExpression;
 
-public class Integrateur implements VisiteurDExpression {
+public class Integrateur extends VisiteurReecrivainDExpression {
 	private Map<ExprVariable, InstructionAffectation> variablesAIntegrerInterne;
 	private Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> variablesAIntegrer;
-	private Expression resultat;
+	
 
 	public Integrateur(InstructionGenerale instructionAffectation, 
 			Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> variablesAIntegrer) {
@@ -27,49 +24,17 @@ public class Integrateur implements VisiteurDExpression {
 		}
 	}
 
+
 	@Override
-	public void visit(ExprVariable composant) {
+	public Expression explorer(ExprVariable composant) {
 		InstructionAffectation reecriture = variablesAIntegrerInterne.get(composant);
 		
 		if (reecriture == null) {
-			resultat = composant;
+			return composant;
 		} else {
 			Expression expression = reecriture.expression;
 			Integrateur fils = new Integrateur(reecriture, variablesAIntegrer);
-			fils.visit(expression);
-			resultat = fils.getResultat();
+			return fils.explorer(expression);
 		}
 	}
-
-	@Override
-	public void visit(Calcul composant) {
-		Expression origine = resultat;
-		Expression gauche;
-		Expression droite;
-		
-		visit(composant.gauche);
-		gauche = resultat;
-		
-		visit(composant.droite);
-		droite = resultat;
-		
-		resultat = origine;
-
-		resultat = new Calcul(gauche, composant.operande, droite);
-	}
-
-	@Override
-	public void visit(Constante composant) {
-		resultat = composant;
-	}
-
-	@Override
-	public void visit(NombreAleatoire composant) {
-		resultat = composant;
-	}
-
-	public Expression getResultat() {
-		return resultat;
-	}
-
 }

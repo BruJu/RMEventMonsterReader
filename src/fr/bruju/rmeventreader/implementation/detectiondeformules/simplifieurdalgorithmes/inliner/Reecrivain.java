@@ -50,11 +50,8 @@ public class Reecrivain implements VisiteurDAlgorithme {
 			ConditionVariable conditionVariable = (ConditionVariable) blocConditionnel.condition;
 			
 			Integrateur integrateur = new Integrateur(blocConditionnel, inliner);
-			integrateur.visit(conditionVariable.gauche);
-			Expression nouvelleGauche = integrateur.getResultat();
-
-			integrateur.visit(conditionVariable.droite);
-			Expression nouvelleDroite = integrateur.getResultat();
+			Expression nouvelleGauche = integrateur.explorer(conditionVariable.gauche);
+			Expression nouvelleDroite = integrateur.explorer(conditionVariable.droite);
 			
 			condition = new ConditionVariable(nouvelleGauche, conditionVariable.comparateur, nouvelleDroite);
 		}
@@ -91,9 +88,8 @@ public class Reecrivain implements VisiteurDAlgorithme {
 			instructionAAjouter = instructionAffectation;
 		} else {
 			Integrateur integrateur = new Integrateur(instructionAffectation, inliner);
-			integrateur.visit(instructionAffectation.expression);
 			instructionAAjouter = new InstructionAffectation(instructionAffectation.variableAssignee,
-					integrateur.getResultat());
+					integrateur.explorer(instructionAffectation.expression));
 		}
 		
 		resultat.ajouterInstruction(instructionAAjouter);
