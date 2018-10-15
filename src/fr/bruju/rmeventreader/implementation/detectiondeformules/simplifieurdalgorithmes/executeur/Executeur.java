@@ -23,11 +23,9 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
-import fr.bruju.rmeventreader.utilitaire.PileDeBooleens;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 
-import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {

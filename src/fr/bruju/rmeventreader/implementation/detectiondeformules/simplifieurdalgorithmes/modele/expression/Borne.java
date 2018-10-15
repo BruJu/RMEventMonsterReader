@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
 
+import fr.bruju.rmdechiffreur.modele.Comparateur;
+
 public class Borne implements Expression {
 	public final Expression variable;
 	public final Expression borne;
@@ -13,6 +15,10 @@ public class Borne implements Expression {
 		this.estBorneMax = estBorneMax;
 	}
 
+	public Borne(Expression variable, Expression droite, Comparateur comparateur) {
+		this(variable, droite, comparateur == Comparateur.INF || comparateur == Comparateur.INFEGAL);
+	}
+
 	@Override
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
@@ -22,7 +28,7 @@ public class Borne implements Expression {
 			sb.append("min(");
 		}
 		
-		sb.append(variable.getString()).append(", ").append(borne.getString()).append("");
+		sb.append(variable.getString()).append(", ").append(borne.getString()).append(")");
 		
 		return sb.toString();
 	}

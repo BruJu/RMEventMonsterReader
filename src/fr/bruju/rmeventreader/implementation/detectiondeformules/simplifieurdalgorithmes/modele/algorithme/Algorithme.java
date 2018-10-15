@@ -45,4 +45,8 @@ public class Algorithme {
 	public void ajouter(Algorithme algorithme) {
 		algorithme.instructions.forEach(instructions::add);
 	}
+
+	public int nombreDInstructions() {
+		return instructions.size();
+	}
 }

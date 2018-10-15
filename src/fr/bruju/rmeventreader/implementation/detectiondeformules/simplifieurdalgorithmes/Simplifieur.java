@@ -14,6 +14,7 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 public class Simplifieur implements Runnable {
 	private static final CreateurDAlgorithme createur = new Initiateur();
 	private static final Simplification[] simplifications = new Simplification[] {
+			new Borneur(),
 			new InlinerGlobal()
 			
 	};
