@@ -3,7 +3,6 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
@@ -20,14 +19,13 @@ public class Reecrivain implements VisiteurDAlgorithme {
 	private Algorithme source;
 	private Algorithme resultat;
 	
-	private Set<InstructionAffectation> ignorer;
+	//private Set<InstructionAffectation> ignorer;
 	private Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> inliner;
 
-	public Reecrivain(Algorithme algorithme, Set<InstructionAffectation> instructionsAIgnorer,
-			Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables) {
+	public Reecrivain(Algorithme algorithme, DetecteurDeSimplifications detecteur) {
 		this.source = algorithme;
-		this.ignorer = instructionsAIgnorer;
-		transformerEnMapDeMap(affectationsInlinables);
+		//this.ignorer = detecteur.instructionsAIgnorer;
+		transformerEnMapDeMap(detecteur.affectationsInlinables);
 	}
 
 	private void transformerEnMapDeMap(Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables) {
@@ -77,7 +75,7 @@ public class Reecrivain implements VisiteurDAlgorithme {
 
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
-		if (ignorer.contains(instructionAffectation)) {
+		if (inliner.containsKey(instructionAffectation)) {
 			return;
 		}
 		

@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur.Executeur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 

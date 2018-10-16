@@ -12,12 +12,7 @@ public class InlinerGlobal implements Simplification {
 		DetecteurDeSimplifications detecteur = new DetecteurDeSimplifications();
 		algorithme.acceptInverse(detecteur);
 		
-		Reecrivain reecrivain = new Reecrivain(algorithme,
-				detecteur.instructionsAIgnorer, detecteur.affectationsInlinables);
+		Reecrivain reecrivain = new Reecrivain(algorithme, detecteur);
 		return reecrivain.produireResultat();
 	}
-	
-
-
-
 }

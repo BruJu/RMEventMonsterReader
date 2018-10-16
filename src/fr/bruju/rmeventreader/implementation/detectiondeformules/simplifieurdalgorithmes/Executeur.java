@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.executeur;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
 
 import java.util.HashMap;
 import java.util.Map;
