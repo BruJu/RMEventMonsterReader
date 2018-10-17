@@ -111,7 +111,7 @@ public class EtatMemoire {
 	 * @return La valeur contenue dans la variable
 	 */
 	public Valeur getVariable(Integer idVariable) {
-		return extraireDonnee(this, idVariable, etat -> etat.variables, numero -> new VBase(numero));
+		return extraireDonnee(this, idVariable, etat -> etat.variables, VBase::new);
 	}
 
 
@@ -121,7 +121,7 @@ public class EtatMemoire {
 	 * @return La valeur contenue dans l'interrupteur
 	 */
 	public Bouton getInterrupteur(int idSwitch) {
-		return extraireDonnee(this, idSwitch, etat -> etat.interrupteurs, numero -> new BBase(numero));
+		return extraireDonnee(this, idSwitch, etat -> etat.interrupteurs, BBase::new);
 	}
 
 	/**
@@ -165,9 +165,9 @@ public class EtatMemoire {
 	private void integrerFils() {
 		// Combinaisons
 		combinerDonnees(this, etat -> etat.variables, (v1, v2) -> new VTernaire(condition, v1, v2),
-				id -> getVariable(id));
+				this::getVariable);
 		combinerDonnees(this, etat -> etat.interrupteurs, (v1, v2) -> new BTernaire(condition, v1, v2),
-				id -> getInterrupteur(id));
+				this::getInterrupteur);
 
 		// Supression des enfants
 		this.condition = null;

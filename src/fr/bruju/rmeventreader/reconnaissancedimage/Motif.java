@@ -78,15 +78,12 @@ public class Motif {
 			valeursMotif.add(scanner.nextInt());
 		}
 		
-		int[] valeurs = valeursMotif.stream().mapToInt(valeur -> valeur).toArray();
-		
-		return valeurs;
+		return valeursMotif.stream().mapToInt(valeur -> valeur).toArray();
 	}
 
 	/**
 	 * Crée un motif préconnu
-	 * 
-	 * @param lettre Lettre représentée par le motif
+	 *
 	 * @param composition Représentation numérique du motif
 	 */
 	public Motif(int[] composition) {
@@ -133,9 +130,8 @@ public class Motif {
 	}
 	
 	/**
-	 * Dessine le motif donné sous forme numérique
-	 * 
-	 * @param tab Motif sous forme numérique
+	 * Dessine le motif sous forme numérique
+	 *
 	 * @return Une représentation en chaîne du motif
 	 */
 	public String dessinerMotif() {

@@ -20,7 +20,7 @@ public class ConstructeurValue implements ConstructeurDAlgorithme {
 	private Algorithme algorithmeCourant = new Algorithme();
 	private Stack<ExplorationConditionnelle> pile = new Stack<>();
 	
-	private Map<Integer, Integer> valeursCourantes = null;
+	private Map<Integer, Integer> valeursCourantes;
 	
 	
 	public ConstructeurValue() {

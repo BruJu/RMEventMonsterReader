@@ -30,13 +30,17 @@ public class EtatInitial {
 			String idStr = donnees[0];
 			Integer idInt = Integer.parseInt(idStr);
 			String valeur = donnees[1];
-			
-			if (valeur.equals("ON")) {
-				valeursAffectees.put(-idInt, 1);
-			} else if (valeur.equals("OFF")) {
-				valeursAffectees.put(-idInt, 0);
-			} else {
-				valeursAffectees.put(idInt, Integer.parseInt(valeur));
+
+			switch (valeur) {
+				case "ON":
+					valeursAffectees.put(-idInt, 1);
+					break;
+				case "OFF":
+					valeursAffectees.put(-idInt, 0);
+					break;
+				default:
+					valeursAffectees.put(idInt, Integer.parseInt(valeur));
+					break;
 			}
 		});
 	}

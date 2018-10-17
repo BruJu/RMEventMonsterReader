@@ -43,7 +43,7 @@ public class ApprentissageSort implements BaseDeRecherche {
 	}
 	
 	/** Chercheur de l'apprentissage du sort */
-	public class Chercheur implements ExecuteurInstructions {
+	private class Chercheur implements ExecuteurInstructions {
 		/** Référence à ajouter */
 		private Reference reference;
 

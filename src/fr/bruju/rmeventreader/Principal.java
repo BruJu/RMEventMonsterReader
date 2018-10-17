@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.FormulaTracker;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.recomposeur.Recomposition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplifieur;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
@@ -29,7 +28,7 @@ public class Principal {
 		Runnable[] options = {
 				/* 00 */ new ListeurDeMonstres(3),
 				/* 01 */ new FormulaTracker(),
-				/* 02 */ new Recomposition(),
+				/* 02 */ null,
 				/* 03 */ () -> PROJET.ecrireRessource("ressources_gen\\"),
 				/* 04 */ new Verificateur(),
 				/* 05 */ new AppelsDEvenements(),

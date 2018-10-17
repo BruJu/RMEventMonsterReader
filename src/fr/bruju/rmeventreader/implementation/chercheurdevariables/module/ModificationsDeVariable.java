@@ -50,7 +50,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 		affectationsTrouvees.forEach((reference, valeurs) -> {
 			String valeursS = valeurs
 					.stream()
-					.map(v -> v.toString())
+					.map(Modification::toString)
 					.collect(Collectors.joining(", "));
 			System.out.println(reference.getString() + " : " + valeursS);
 		});
@@ -62,7 +62,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 	}
 	
 	
-	public static class Modification implements Comparable<Modification> {
+	private static class Modification implements Comparable<Modification> {
 		public final OpMathematique operateur;
 		public final Integer valeur;
 		
@@ -107,7 +107,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 			if (object instanceof Modification) {
 				Modification that = (Modification) object;
 				return Objects.equals(this.operateur, that.operateur)
-						&& this.valeur == that.valeur;
+						&& Objects.equals(this.valeur, that.valeur);
 			}
 			return false;
 		}
@@ -120,7 +120,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation {
+	private class Chercheur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation {
 		/** Référence */
 		private Reference reference;
 
@@ -128,7 +128,6 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 		 * Crée un nouveau chercheur de références à une variable
 		 * 
 		 * @param reference La référence
-		 * @param variablesCherchees Map à compléter
 		 */
 		public Chercheur(Reference reference) {
 			this.reference = reference;
@@ -194,8 +193,5 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 			
 			Utilitaire.Maps.ajouterElementDansSet(affectationsTrouvees, reference, new Modification(operateur, valeur));
 		}
-
-		
-		
 	}
 }

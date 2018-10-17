@@ -75,21 +75,25 @@ public class ContexteElementaire {
 		AtomicBoolean etatActuel = new AtomicBoolean(true); // true = lecture d'élément ; false = lecture de parties
 		
 		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
-			if (ligne.equals("- Element -")) {
-				etatActuel.set(true);
-			} else if (ligne.equals("- Parties -")) {
-				etatActuel.set(false);
-			} else {
-				String[] decomposition = ligne.split(" ");
-				
-				String nom = decomposition[1];
-				Integer variable = Integer.decode(decomposition[0]);
-				
-				if (etatActuel.get()) {
-					elementsConnus.put(variable, nom);
-				} else {
-					partiesConnues.put(variable, nom);
-				}
+			switch (ligne) {
+				case "- Element -":
+					etatActuel.set(true);
+					break;
+				case "- Parties -":
+					etatActuel.set(false);
+					break;
+				default:
+					String[] decomposition = ligne.split(" ");
+
+					String nom = decomposition[1];
+					Integer variable = Integer.decode(decomposition[0]);
+
+					if (etatActuel.get()) {
+						elementsConnus.put(variable, nom);
+					} else {
+						partiesConnues.put(variable, nom);
+					}
+					break;
 			}
 		});
 	}

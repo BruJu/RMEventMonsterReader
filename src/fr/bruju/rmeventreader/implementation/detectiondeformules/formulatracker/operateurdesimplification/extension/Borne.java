@@ -80,11 +80,7 @@ public class Borne extends ConstructeurDeComposantsRecursif implements Maillon {
 		
 		
 		// TODO : faire un traitement plus exact
-		if (retour instanceof VAleatoire && condition instanceof VConstante) {
-			return true;
-		}
-		
-		return false;
+		return retour instanceof VAleatoire && condition instanceof VConstante;
 	}
 
 

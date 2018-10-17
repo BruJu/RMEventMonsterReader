@@ -7,7 +7,7 @@ import java.util.List;
  */
 class ChercheurDeMotifs {
 	/** Nombre de colonnes vides consécutives à lire pour afficher un espace */
-	private static int LARGEUR_ESPACE = 4;
+	private static final int LARGEUR_ESPACE = 4;
 
 	/** Matrice de pixels à fouiller */
 	private MatricePixels matrice;

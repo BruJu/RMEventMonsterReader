@@ -215,10 +215,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 		T elementReforge = sontIdentiques ? elementBase : getPere.apply(resultats);
 		
 		// Traiter l'élément actuel
-		Composant elementTraite = transformation.apply(elementReforge);
-		
-		// Retour
-		return elementTraite;
+		return transformation.apply(elementReforge);
 	}
 	
 
@@ -331,7 +328,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	@Override
 	protected final Composant traiter(VTernaire variableTernaire) {
 		return transformerTernaire(
-				(condition, vrai, faux) -> new VTernaire(condition, vrai, faux),
+				VTernaire::new,
 				variableTernaire, variableTernaire.condition, variableTernaire.siVrai, variableTernaire.siFaux,
 				this::modifier);
 	}
@@ -339,7 +336,7 @@ public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composa
 	@Override
 	protected final Composant traiter(BTernaire boutonTernaire) {
 		return transformerTernaire(
-				(condition, vrai, faux) -> new BTernaire(condition, vrai, faux),
+				BTernaire::new,
 				boutonTernaire, boutonTernaire.condition, boutonTernaire.siVrai, boutonTernaire.siFaux,
 				this::modifier);
 	}

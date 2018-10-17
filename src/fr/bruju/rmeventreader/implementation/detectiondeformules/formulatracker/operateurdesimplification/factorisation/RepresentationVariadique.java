@@ -67,7 +67,7 @@ public class RepresentationVariadique {
 	}
 
 	public boolean possedeHP() {
-		return this.facteurs.stream().map(p -> p.getLeft()).filter(v -> v instanceof VStatistique)
+		return this.facteurs.stream().map(Pair::getLeft).filter(v -> v instanceof VStatistique)
 				.anyMatch(v -> ((VStatistique) v).statistique.nom.equals("HP"));
 	}
 

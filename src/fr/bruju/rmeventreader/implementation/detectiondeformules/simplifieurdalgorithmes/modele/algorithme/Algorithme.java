@@ -43,7 +43,7 @@ public class Algorithme {
 	}
 
 	public void ajouter(Algorithme algorithme) {
-		algorithme.instructions.forEach(instructions::add);
+		instructions.addAll(algorithme.instructions);
 	}
 
 	public int nombreDInstructions() {

@@ -42,7 +42,7 @@ public class Texte implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class ChercheurTexte implements ExecuteurInstructions {
+	private class ChercheurTexte implements ExecuteurInstructions {
 		/** Reference à ajouter */
 		private Reference reference;
 

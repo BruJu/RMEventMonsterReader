@@ -42,7 +42,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 	public FormuleDeDegats integrer(FormuleDeDegats formuleBase) {
 		int tailleCondition = conditionsGeree.size();
 		
-		formuleBase.conditions.stream().forEach(this::ajouterCondition);
+		formuleBase.conditions.forEach(this::ajouterCondition);
 		
 		
 		Valeur formule = formuleBase.formule;
@@ -102,7 +102,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 
 	@Override
 	protected Composant modifier(CArme cArme) {
-		return traiterCondition(cArme, (g, c) -> g.conditionArme(c));
+		return traiterCondition(cArme, GestionnaireDeCondition::conditionArme);
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 			cSwitch = new CSwitch(nouveauBouton, cSwitch.valeur);
 		}
 		
-		return traiterCondition(cSwitch, (g, c) -> g.conditionSwitch(c));
+		return traiterCondition(cSwitch, GestionnaireDeCondition::conditionSwitch);
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class IntegreurGeneral extends ConstructeurDeComposantsRecursif {
 			return CFixe.get(true);
 		}
 		
-		return traiterCondition(cVariable, (g, c) -> g.conditionVariable(c));
+		return traiterCondition(cVariable, GestionnaireDeCondition::conditionVariable);
 	}
 	
 	@SuppressWarnings("unchecked")

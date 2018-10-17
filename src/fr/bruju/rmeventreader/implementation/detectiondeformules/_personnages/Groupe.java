@@ -24,11 +24,11 @@ public class Groupe<T extends VariablesAssociees> implements Personne<T> {
 			sb.append("Monstre[");
 
 			individus.stream().map(p -> p.getNom().substring(7, p.getNom().length())).sorted()
-					.forEach(numero -> sb.append(numero));
+					.forEach(sb::append);
 
 			sb.append("]");
 		} else {
-			sb.append(individus.stream().map(p -> p.getNom()).collect(Collectors.joining("/")));
+			sb.append(individus.stream().map(Individu::getNom).collect(Collectors.joining("/")));
 		}
 		
 		if (sb.toString().equals("Monstre[123]")) {

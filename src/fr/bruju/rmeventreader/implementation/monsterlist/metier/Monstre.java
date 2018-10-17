@@ -49,9 +49,9 @@ public class Monstre {
 	private void remplirStats() {
 		Contexte contexte = combat.contexte;
 		
-		donnees.put(STATS, new Donnees<Integer>(this, contexte.getStatistiques(), 0, v -> v.toString()));
+		donnees.put(STATS, new Donnees<Integer>(this, contexte.getStatistiques(), 0, Object::toString));
 		donnees.put(PROPRIETES,
-				new Donnees<Boolean>(this, contexte.getProprietes(), false, v -> (v) ? "Immunisé" : "•"));
+				new Donnees<>(this, contexte.getProprietes(), false, v -> (v) ? "Immunisé" : "•"));
 	}
 
 	/* ==========
@@ -214,7 +214,7 @@ public class Monstre {
 		sb.append("IDMonstre;Nom;Drop");
 		
 		String donneesStr = donnees.values().stream()
-									.map(donnees -> donnees.getHeader())
+									.map(Donnees::getHeader)
 									.collect(Collectors.joining(";"));
 		
 		donneesStr = donneesStr.substring(donneesStr.indexOf(";"));

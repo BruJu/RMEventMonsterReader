@@ -33,7 +33,7 @@ public class Personnages {
 		LecteurDeFichiersLigneParLigne.lectureFichierRessources(Ressources.NOMS, ligne -> {
 			String[] donnees = ligne.split(" ");
 			
-			if (donnees == null || donnees.length != 3) {
+			if (donnees.length != 3) {
 				throw new LigneNonReconnueException("");
 			}
 			

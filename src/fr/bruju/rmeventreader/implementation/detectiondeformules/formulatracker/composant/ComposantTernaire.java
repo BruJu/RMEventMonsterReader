@@ -43,7 +43,7 @@ public abstract class ComposantTernaire<T extends Composant> implements Composan
 	@Override
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append("[(")
 		  .append(condition.getString())
 		  .append(") ?")

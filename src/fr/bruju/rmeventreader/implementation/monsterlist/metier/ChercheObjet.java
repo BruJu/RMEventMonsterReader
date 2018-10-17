@@ -12,10 +12,10 @@ public class ChercheObjet {
 					.filter(monstre -> !monstre.nomDrop.equals(""))
 					.filter(monstre -> !monstre.nomDrop.equals(" "))
 					.flatMap(monstre -> monstre.combat.fonds.stream().map(zone -> new String[] {monstre.nomDrop, zone, monstre.nom}))
-					.map(c -> new Ensemble(c))
+					.map(Ensemble::new)
 					.sorted()
 					.distinct()
-					.map(ensemble -> ensemble.toString())
+					.map(Ensemble::toString)
 					.collect(Collectors.joining("\n"));
 	}
 	

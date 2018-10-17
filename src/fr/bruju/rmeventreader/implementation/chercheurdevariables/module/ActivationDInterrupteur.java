@@ -19,7 +19,7 @@ public class ActivationDInterrupteur implements BaseDeRecherche {
 	/** Références activant l'interrupteur */
 	private Set<Reference> referencesConnues = new TreeSet<>();
 	/** Numéro de l'interrupteur */
-	private int idSwitch;
+	private final int idSwitch;
 
 	/**
 	 * Crée une base de recherche d'activation du switch donné
@@ -44,7 +44,7 @@ public class ActivationDInterrupteur implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class ChercheurDeOn implements ExecuteurInstructions, ExtChangeVariable {
+	private class ChercheurDeOn implements ExecuteurInstructions, ExtChangeVariable {
 		/** Référence à ajouter si une activation de switch est trouvé */
 		private Reference ref;
 
@@ -52,7 +52,7 @@ public class ActivationDInterrupteur implements BaseDeRecherche {
 		 * Construit un chercheur d'activation de l'interrupteur pour la référence donnée
 		 * @param ref La référence
 		 */
-		public ChercheurDeOn(Reference ref) {
+		ChercheurDeOn(Reference ref) {
 			this.ref = ref;
 		}
 		
@@ -63,7 +63,7 @@ public class ActivationDInterrupteur implements BaseDeRecherche {
 
 		@Override
 		public void changeSwitch(Variable interrupteur, boolean nouvelleValeur) {
-			if (interrupteur.idVariable == idSwitch && nouvelleValeur == true) {
+			if (interrupteur.idVariable == idSwitch && nouvelleValeur) {
 				referencesConnues.add(ref);
 			}
 		}	

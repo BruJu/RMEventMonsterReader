@@ -65,7 +65,7 @@ public class BDDReduite {
 			
 			// Zones d'apparitions
 			List<String> zonesDapparition = mv.stream().map(monstre -> monstre.combat.fonds)
-											.flatMap(fond -> fond.stream())
+											.flatMap(Collection::stream)
 											.distinct()
 											.sorted()
 											.collect(Collectors.toList());

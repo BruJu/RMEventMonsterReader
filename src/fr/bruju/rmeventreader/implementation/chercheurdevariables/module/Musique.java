@@ -32,7 +32,7 @@ public class Musique implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructions {
+	private class Chercheur implements ExecuteurInstructions {
 		@Override
 		public void Media_jouerMusique(String nomMusique, int tempsFondu, SonParam parametresMusicaux) {
 			musiques.add(nomMusique);

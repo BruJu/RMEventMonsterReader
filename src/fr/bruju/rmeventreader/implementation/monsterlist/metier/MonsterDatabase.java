@@ -1,10 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -78,7 +74,7 @@ public class MonsterDatabase {
 	 * Donne la liste de tous les monstres de la base de données
 	 */
 	public Collection<Monstre> extractMonsters() {
-		return combats.values().stream().flatMap(combat -> combat.getMonstersStream()).collect(Collectors.toList());
+		return combats.values().stream().flatMap(Combat::getMonstersStream).collect(Collectors.toList());
 	}
 
 	/* ======
@@ -97,7 +93,7 @@ public class MonsterDatabase {
 		
 		this.combats.values().stream()
 			.filter(predicat)
-			.sorted((c1, c2) -> Integer.compare(c1.id, c2.id))
+			.sorted(Comparator.comparingInt(c2 -> c2.id))
 			.forEach(c -> nouvelleDb.combats.put(c.id, c));
 		
 		return nouvelleDb;
@@ -116,9 +112,7 @@ public class MonsterDatabase {
 		return extractBattles()
 						.stream()
 						.filter(battle -> battle.getMonstersStream()
-							                 	.filter(m -> m.nom.equals("UNKNOWN_NAME"))
-							                 	.findAny()
-							                 	.isPresent())
+							                 	.anyMatch(m -> m.nom.equals("UNKNOWN_NAME")))
 						.collect(Collectors.toList());
 	}
 	
@@ -132,13 +126,13 @@ public class MonsterDatabase {
 	 * @return Une chaîne avec la liste des combats
 	 */
 	public String getString() {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		
 		for (Combat combat : combats.values()) {
-			s = s + "\n" + combat.getString();
+			s.append("\n").append(combat.getString());
 		}
 		
-		return s;
+		return s.toString();
 	}
 	
 	/**
@@ -161,7 +155,7 @@ public class MonsterDatabase {
 		sb.append(extractMonsters().stream().findAny().get().getCSVHeader(true));
 		
 		combats.values().stream()
-					.flatMap(combat -> combat.getMonstersStream())
+					.flatMap(Combat::getMonstersStream)
 					.forEach(monstre -> {sb.append("\n"); sb.append(monstre.getCSV(true)); });
 		
 		return sb.toString();

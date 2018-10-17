@@ -10,6 +10,8 @@ import fr.bruju.rmdechiffreur.modele.ExecEnum.Direction;
 import fr.bruju.rmdechiffreur.reference.ReferenceMap;
 
 public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
+	public static final int MAP_MAGASINS = 461;
+	public static final int VARIABLE_ID_MAGASIN = 1209;
 	private Map<Integer, Magasin> magasins;
 	private RMMap map;
 	private Integer magasinActuel;
@@ -23,7 +25,7 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 
 	@Override
 	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-		Boolean gaucheOk = valeurGauche.appliquerG(v -> v.idVariable == 1209, null, null);
+		Boolean gaucheOk = valeurGauche.appliquerG(v -> v.idVariable == VARIABLE_ID_MAGASIN, null, null);
 		Integer droite = valeurDroite.appliquerDroite(v -> v.valeur, null, null);
 		
 		if (gaucheOk == Boolean.TRUE && droite != null) {
@@ -34,7 +36,7 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 
 	@Override
 	public void Jeu_teleporter(int idMap, int x, int y, Direction direction) {
-		if (idMap == 461) {
+		if (idMap == MAP_MAGASINS) {
 			ajouterMagasin();
 		}
 	}

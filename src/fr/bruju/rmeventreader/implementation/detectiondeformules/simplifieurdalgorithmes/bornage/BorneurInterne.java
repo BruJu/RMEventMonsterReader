@@ -56,16 +56,21 @@ public class BorneurInterne implements VisiteurDAlgorithme {
 				Integer evalMaxCondition = evaluateurMax.evaluer(condition.droite);
 				Integer evalMaxAffectee = evaluateurMax.evaluer(instructionAffectation.expression);
 
+				// FIXME : si a <= 0 ; a = 1~5 est actuellement interprété comme a = min(a, 0~5) au lieu de min(a, 1~5)
+				NombreAleatoire aleatoire = null;
+
 				if (estBorneMin) {
 					if (evalMaxCondition.equals(evalMinAffectee) || evalMaxCondition.equals(evalMinAffectee - 1)) {
-						NombreAleatoire aleatoire =  new NombreAleatoire(evalMinCondition, evalMaxAffectee);
-						borne = new Borne(condition.gauche, aleatoire, estBorneMin);
+						aleatoire = new NombreAleatoire(evalMinCondition, evalMaxAffectee);
 					}
 				} else {
 					if (evalMinCondition.equals(evalMaxAffectee) || evalMinCondition.equals(evalMaxAffectee + 1)) {
-						NombreAleatoire aleatoire =  new NombreAleatoire(evalMinAffectee, evalMaxCondition);
-						borne = new Borne(condition.gauche, aleatoire, estBorneMin);
+						aleatoire = new NombreAleatoire(evalMinAffectee, evalMaxCondition);
 					}
+				}
+
+				if (aleatoire != null) {
+					borne = new Borne(condition.gauche, aleatoire, estBorneMin);
 				}
 			}
 		}

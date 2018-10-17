@@ -29,10 +29,10 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 	 * ================== */
 
 	/** Variable contenant le numéro du combat */
-	private final int POS_ID_COMBAT = 435;
+	private static final int POS_ID_COMBAT = 435;
 
 	/** Interrupteur contenant l'information si c'est un combat de boss */
-	private final int POS_BOSSBATTLE = 190;
+	private static final int POS_BOSSBATTLE = 190;
 
 	/**
 	 * Base de données
@@ -63,7 +63,7 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 	@Override
 	public int interrupteur(CondInterrupteur condInterrupteur) {
 		if (condInterrupteur.interrupteur == 509) {
-			conditions.push(new ConditionPassThrought<Combat>());
+			conditions.push(new ConditionPassThrought<>());
 			return 0;
 		}
 
@@ -80,7 +80,7 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 		int numeroInterrupteur = interrupteur.idVariable;
 
 		if (numeroInterrupteur == POS_BOSSBATTLE) {
-			getElementsFiltres().forEach(combat -> combat.declareBossBattle());
+			getElementsFiltres().forEach(Combat::declareBossBattle);
 		} else {
 			Pair<Integer, String> monstreTouche = database.contexte.getPropriete(numeroInterrupteur);
 

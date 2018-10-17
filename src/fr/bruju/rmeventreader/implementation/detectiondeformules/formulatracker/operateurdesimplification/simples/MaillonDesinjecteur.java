@@ -37,7 +37,7 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 
 	@Override
 	public void traiter(Attaques attaques) {
-		remplirAvecFichier(Ressources.DESINJECTION);
+		remplirAvecFichier();
 		
 		attaques.modifierFormules((nomStat, formule) -> Attaques.generalisationDeLaTransformationDeComposants(formule,
 				composant -> desinjecter(composant, conditionsADesinjecter.get(nomStat))));
@@ -56,10 +56,10 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 	/**
 	 * Rempli la carte de conditions à désinjecter en fonction du nom du fichier donné.
 	 */
-	private void remplirAvecFichier(String chemin) {
+	private void remplirAvecFichier() {
 		conditionsADesinjecter = new HashMap<>();
 		
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
+		LecteurDeFichiersLigneParLigne.lectureFichierRessources(Ressources.DESINJECTION, ligne -> {
 			String[] tableau = ligne.split(" ", 3);
 			
 			String nomDuMonstre = tableau[0];
@@ -105,7 +105,7 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 	private void remplirConditions(Collection<? extends Condition> conditionsAEnlever) {
 		CreateurDeGestionnaire createur = new CreateurDeGestionnaire();
 
-		gestionnaires = conditionsAEnlever.stream().map(c -> createur.getGestionnaire(c)).collect(Collectors.toList());
+		gestionnaires = conditionsAEnlever.stream().map(createur::getGestionnaire).collect(Collectors.toList());
 	}
 
 	@Override

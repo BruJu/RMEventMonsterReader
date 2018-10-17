@@ -33,6 +33,6 @@ public class Individu<T extends VariablesAssociees> implements Personne<T>, Comp
 
 	@Override
 	public int compareTo(Personne<T> arg0) {
-		return getNom().compareTo(arg0.getNom());
+		return nom.compareTo(arg0.getNom());
 	}
 }

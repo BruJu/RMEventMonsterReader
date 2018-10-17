@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.Valeur;
 
@@ -37,7 +38,7 @@ public class FormuleDeDegats {
 
 		if (conditions != null) {
 			sb.append("[");
-			sb.append(conditions.stream().map(c -> c.getString()).collect(Collectors.joining(" ")));
+			sb.append(conditions.stream().map(Composant::getString).collect(Collectors.joining(" ")));
 			sb.append("] ");  
 		}
 		sb.append("=>");

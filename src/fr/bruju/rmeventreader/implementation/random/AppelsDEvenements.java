@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.random;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -17,6 +18,8 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
  *
  */
 public class AppelsDEvenements implements Runnable {
+	public static final int EC_CHECK_ELEM = 277;
+	public static final int EC_CHECK_RELATIONS = 232;
 	/** Association evenement commun - liste des evenements communs appelés et leur nombre */
 	private Map<Integer, TreeMap<Integer, Integer>> appels;
 	
@@ -29,11 +32,12 @@ public class AppelsDEvenements implements Runnable {
 		System.out.println("Evenement Commun ; Nombre d'appels à 277 Check Elem ; Nombre d'appels à 232 Check Relation");
 		appels.entrySet()
 			  .stream()
-			  .sorted((entry1, entry2) -> Integer.compare(entry1.getKey(), entry2.getKey()))
-			  .filter(entry -> entry.getValue().get(277) != null || entry.getValue().get(232) != null)
+			  .sorted(Comparator.comparingInt(Map.Entry::getKey))
+			  .filter(entry -> entry.getValue().get(EC_CHECK_ELEM) != null
+					  || entry.getValue().get(EC_CHECK_RELATIONS) != null)
 			  .map(entry -> entry.getKey()
-					  + " ; " + entry.getValue().getOrDefault(277, 0)
-					  + " ; " + entry.getValue().getOrDefault(232, 0))
+					  + " ; " + entry.getValue().getOrDefault(EC_CHECK_ELEM, 0)
+					  + " ; " + entry.getValue().getOrDefault(EC_CHECK_RELATIONS, 0))
 			  .forEach(System.out::println);
 	}
 	
@@ -44,7 +48,7 @@ public class AppelsDEvenements implements Runnable {
 	 * @author Bruju
 	 *
 	 */
-	public class Exec implements ExecuteurInstructions {
+	private class Exec implements ExecuteurInstructions {
 		/** ID de l'évènement */
 		public final int id;
 		
@@ -56,7 +60,7 @@ public class AppelsDEvenements implements Runnable {
 		@Override
 		public void Flot_appelEvenementCommun(int numero) {
 			Utilitaire.Maps
-				.getX(appels, id, () -> new TreeMap<>())
+				.getX(appels, id, TreeMap::new)
 				.compute(numero, (cle, ex) -> ex == null ? 1 : ex + 1);
 		}
 

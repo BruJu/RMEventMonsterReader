@@ -120,8 +120,8 @@ public class EquipementData {
 		
 		TreeMap<Integer, EquipementData> nouveau = new TreeMap<>();
 		
-		Utilitaire.Maps.fusionnerDans(nouveau, bonus, v -> v, (d, s) -> ajouter(d, s));
-		Utilitaire.Maps.fusionnerDans(nouveau, malus, v -> v, (d, s) -> ajouter(d, s));
+		Utilitaire.Maps.fusionnerDans(nouveau, bonus, v -> v, EquipementData::ajouter);
+		Utilitaire.Maps.fusionnerDans(nouveau, malus, v -> v, EquipementData::ajouter);
 		
 		return nouveau;
 	}

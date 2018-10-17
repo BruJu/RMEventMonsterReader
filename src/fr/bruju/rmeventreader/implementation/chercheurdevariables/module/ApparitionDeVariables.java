@@ -73,7 +73,12 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 	 * @author Bruju
 	 *
 	 */
-	public class Chercheur implements ExecuteurInstructions {
+	private class Chercheur implements ExecuteurInstructions {
+		/** PicPointerPatch : Images dont le numéro est dans une variable */
+		public static final int DEBUT_IMAGES_POINTEES = 10000;
+		/** PicPointerPatch : Images dont le numéro est dans une variable et le numéro du fichier dans la suivante */
+		public static final int DEBUT_IMAGES_DOUBLEMENT_POINTEES = 50000;
+
 		/** Référence à ajouter */
 		private Reference reference;
 		/** Map d'association variables - références à compléter */
@@ -242,12 +247,12 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 		public void Image_afficher(int numeroImage, String nomImage, FixeVariable xImage, FixeVariable yImage,
 				int transparenceHaute, int transparenceBasse, int agrandissement, Couleur couleur, int saturation,
 				TypeEffet typeEffet, int intensiteEffet, boolean transparence, boolean defilementAvecCarte) {
-			if (numeroImage >= 10000 && numeroImage <= 50000) {
-				this.ajouterVariable(numeroImage - 10000);
+			if (numeroImage >= DEBUT_IMAGES_POINTEES && numeroImage <= DEBUT_IMAGES_DOUBLEMENT_POINTEES) {
+				this.ajouterVariable(numeroImage - DEBUT_IMAGES_POINTEES);
 			}
-			if (numeroImage >= 50000) {
-				this.ajouterVariable(numeroImage - 50000);
-				this.ajouterVariable(numeroImage - 50000 + 1);
+			if (numeroImage >= DEBUT_IMAGES_DOUBLEMENT_POINTEES) {
+				this.ajouterVariable(numeroImage - DEBUT_IMAGES_DOUBLEMENT_POINTEES);
+				this.ajouterVariable(numeroImage - DEBUT_IMAGES_DOUBLEMENT_POINTEES + 1);
 			}
 		}
 
@@ -255,12 +260,12 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 		public void Image_deplacer(int numeroImage, FixeVariable xImage, FixeVariable yImage, int transparenceHaute,
 				int transparenceBasse, int agrandissement, Couleur couleur, int saturation, TypeEffet typeEffet,
 				int intensiteEffet, int temps, boolean pause) {
-			if (numeroImage >= 10000 && numeroImage <= 50000) {
-				this.ajouterVariable(numeroImage - 10000);
+			if (numeroImage >= DEBUT_IMAGES_POINTEES && numeroImage <= DEBUT_IMAGES_DOUBLEMENT_POINTEES) {
+				this.ajouterVariable(numeroImage - DEBUT_IMAGES_POINTEES);
 			}
-			if (numeroImage >= 50000) {
-				this.ajouterVariable(numeroImage - 50000);
-				this.ajouterVariable(numeroImage - 50000 + 1);
+			if (numeroImage >= DEBUT_IMAGES_DOUBLEMENT_POINTEES) {
+				this.ajouterVariable(numeroImage - DEBUT_IMAGES_DOUBLEMENT_POINTEES);
+				this.ajouterVariable(numeroImage - DEBUT_IMAGES_DOUBLEMENT_POINTEES + 1);
 			}
 		}
 

@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaques;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.ConditionAffichable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.FormuleDeDegats;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.Maillon;
@@ -59,14 +61,14 @@ public class MaillonSetAffichageCSV implements Maillon {
 		
 		modifStat.getConditions().forEach(groupe -> {
 			ligneCSV.append(groupe.conditions.stream()
-					.map(condition -> condition.appliquerAffichage())
+					.map(ConditionAffichable::appliquerAffichage)
 					.collect(Collectors.joining(",")));
 			
 			ligneCSV.append("♦");
 		});
 		
 		ligneCSV.append(
-		formule.conditions.stream().map(condition -> condition.getString()).collect(Collectors.joining(","))
+		formule.conditions.stream().map(Composant::getString).collect(Collectors.joining(","))
 		).append("♦")
 		.append(formule.formule.getString());
 		

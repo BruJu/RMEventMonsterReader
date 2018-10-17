@@ -1,11 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
@@ -50,7 +45,7 @@ public class Attaque {
 	 * @param transformation La fonction de transformation de formule
 	 */
 	void modifierFormule(UnaryOperator<FormuleDeDegats> transformation) {
-		resultat.replaceAll((cle, liste) -> liste.stream().map(transformation).filter(formule -> formule != null)
+		resultat.replaceAll((cle, liste) -> liste.stream().map(transformation).filter(Objects::nonNull)
 				.collect(Collectors.toList()));
 	}
 
@@ -62,7 +57,7 @@ public class Attaque {
 	void modifierFormule(BiFunction<String, FormuleDeDegats, FormuleDeDegats> transformation) {
 		resultat.replaceAll((cle, liste) -> liste.stream()
 				.map(formule -> transformation.apply(cle.stat.possesseur.getNom(), formule))
-				.filter(formule -> formule != null).collect(Collectors.toList()));
+				.filter(Objects::nonNull).collect(Collectors.toList()));
 	}
 
 	/**

@@ -120,7 +120,7 @@ public class Utilitaire {
 		public static <K, V> void ajouterElementDansListe(Map<K, List<V>> map, K cle, V element) {
 			List<V> liste = map.get(cle);
 			if (liste == null) {
-				liste = new ArrayList<V>();
+				liste = new ArrayList<>();
 				map.put(cle, liste);
 			}
 			
@@ -137,7 +137,7 @@ public class Utilitaire {
 		public static <K, V> void ajouterElementDansSet(Map<K, Set<V>> map, K cle, V element) {
 			Set<V> liste = map.get(cle);
 			if (liste == null) {
-				liste = new TreeSet<V>();
+				liste = new TreeSet<>();
 				map.put(cle, liste);
 			}
 			

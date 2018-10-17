@@ -39,8 +39,8 @@ public class ElementsInit implements Runnable {
 	 */
 	private void initialiserMonstre(Monstre monstre) {
 		monstre.donnees.put(ContexteElementaire.ELEMENTS,
-				new Donnees<Integer>(monstre, contexte.getElements(), 0, v -> v.toString()));
+				new Donnees<>(monstre, contexte.getElements(), 0, Object::toString));
 		monstre.donnees.put(ContexteElementaire.PARTIES,
-				new Donnees<Boolean>(monstre, contexte.getParties(), false, v -> v ? "x" : " "));
+				new Donnees<>(monstre, contexte.getParties(), false, v -> v ? "x" : " "));
 	}
 }

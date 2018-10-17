@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
@@ -83,7 +84,7 @@ public class Combat {
 	 * Donne un flux de monstres contenant la liste des monstres de ce combat
 	 */
 	public Stream<Monstre> getMonstersStream() {
-		return Arrays.stream(monstres).filter(m -> m != null);
+		return Arrays.stream(monstres).filter(Objects::nonNull);
 	}
 
 	/**
@@ -194,7 +195,7 @@ public class Combat {
 		if (this.bossBattle) {
 			s.append("=== Boss " + id);
 		} else {
-			s.append("=== Combat " + id);
+			s.append("=== Combat ").append(id);
 		}
 		
 		s.append(" ; CAPA = ")
@@ -225,7 +226,7 @@ public class Combat {
 	 * Donne une représentation en CSV du combat
 	 */
 	public String getCSV() {
-		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((this.isBossBattle()) ? "Boss" : "Non") + ";" + fonds;
+		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((bossBattle) ? "Boss" : "Non") + ";" + fonds;
 	}
 
 

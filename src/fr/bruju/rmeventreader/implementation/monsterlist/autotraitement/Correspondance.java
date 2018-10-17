@@ -36,7 +36,6 @@ public class Correspondance implements Runnable {
 	 * 
 	 * @param database La base de données
 	 * @param remplaceur Les fonctions de remplacement
-	 * @param filename Le fichier ressources qui contient des lignes de la forme valeurARemplacer valeurRemplacée
 	 */
 	public Correspondance(MonsterDatabase database, Remplaceur<?> remplaceur) {
 		this.database = database;
@@ -57,8 +56,8 @@ public class Correspondance implements Runnable {
 			fonctionDExtraction(bdd).forEach(this::remplacer);
 		}
 		
-		public abstract void remplacer(T monstre);
-		public abstract Collection<T> fonctionDExtraction(MonsterDatabase bdd);
+		protected abstract void remplacer(T monstre);
+		protected abstract Collection<T> fonctionDExtraction(MonsterDatabase bdd);
 	}
 
 	private static abstract class RemplacementABaseDeFichier<T> extends Remplaceur<T> {
@@ -120,10 +119,10 @@ public class Correspondance implements Runnable {
 			@Override
 			public void remplacer(Monstre monstre) {
 				String nomPresent = monstre.nomDrop;
-				
+
 				if (!nomPresent.equals("")) {
 					int idObjet = Integer.parseInt(nomPresent);
-					
+
 					if (idObjet == 0) {
 						monstre.nomDrop = "";
 					} else {

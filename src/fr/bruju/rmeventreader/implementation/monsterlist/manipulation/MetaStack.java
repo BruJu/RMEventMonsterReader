@@ -52,6 +52,6 @@ public class MetaStack<T> {
 	 * les conditions de la pile.
 	 */
 	public Collection<T> filter(Collection<T> listeAFiltrer) {
-		return ConditionManipulator.<T>filterList(elements, listeAFiltrer);
+		return ConditionManipulator.filterList(elements, listeAFiltrer);
 	}	
 }

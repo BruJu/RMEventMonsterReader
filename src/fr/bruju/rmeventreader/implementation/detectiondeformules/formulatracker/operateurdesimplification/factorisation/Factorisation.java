@@ -83,35 +83,23 @@ public class Factorisation extends ConstructeurDeComposantsRecursif implements M
 	private Valeur factoriser(Valeur base, BinaryOperator<Valeur> fonctionDeCreation, OpMathematique operateurBase,
 			Valeur gauche, Valeur droite) {
 
-		
-		Valeur gaucheFact = gauche;
-		Valeur droiteFact = droite;
-
-		OpMathematique operateurGauche = connaitreOperateur(gaucheFact);
-		OpMathematique operateurDroite = connaitreOperateur(gaucheFact);
+		OpMathematique operateurGauche = connaitreOperateur(gauche);
+		OpMathematique operateurDroite = connaitreOperateur(droite);
 
 		OpMathematique operateurMax = operateurMax(operateurGauche, operateurDroite);
 
 		if (operateurMax == null || (operateurBase != null && operateurBase == operateurMax)) {
 			// Pas de factorisation possible
-			if (gaucheFact == gauche && droiteFact == droite) {
-				return base;
-			} else {
-				return fonctionDeCreation.apply(gaucheFact, droiteFact);
-			}
+			return base;
 		}
 
-		RepresentationVariadique rg = builder.creerRepresentationVariadique(gaucheFact, operateurMax);
-		RepresentationVariadique rd = builder.creerRepresentationVariadique(droiteFact, operateurMax);
+		RepresentationVariadique rg = builder.creerRepresentationVariadique(gauche, operateurMax);
+		RepresentationVariadique rd = builder.creerRepresentationVariadique(droite, operateurMax);
 
 		RepresentationVariadique rfactoG = rg.factoriserGauche(rd);
 
 		if (rfactoG == null) {
-			if (gaucheFact == gauche) {
-				return base;
-			} else {
-				return fonctionDeCreation.apply(gaucheFact, droiteFact);
-			}
+			return base;
 		}
 			
 		

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public class ReconnaisseurDImages {
 	/** Extension des fichiers image */
-	private static String CHEMIN_SUFFIXE = ".PNG";
+	private static final String CHEMIN_SUFFIXE = ".PNG";
 	
 	/** Chaines reconnues */
 	private Map<String, String> chainesReconnues;

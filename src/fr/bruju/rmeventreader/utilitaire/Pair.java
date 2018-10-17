@@ -70,7 +70,7 @@ public class Pair<T1, T2> {
 	 * Donne la partie gauche de la paire
 	 */
 	public static <K, V> K k(Pair<K, V> paire) {
-		return paire.getLeft();
+		return paire.t1;
 	}
 
 	/**

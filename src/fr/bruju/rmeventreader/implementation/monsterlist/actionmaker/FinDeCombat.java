@@ -173,7 +173,7 @@ public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtConditio
 	private class ComportementIgnore implements Gestionnaire {
 		@Override
 		public int variableFixe(int variable, Comparateur comparateur, ValeurFixe droite) {
-			conditions.push(new ConditionPassThrought<Combat>());
+			conditions.push(new ConditionPassThrought<>());
 			return 0;
 		}
 
