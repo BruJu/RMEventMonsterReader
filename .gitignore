@@ -12,7 +12,11 @@ bin/
 ressources/
 sorties/
 ressources_gen/
-cache_xml/
 
 # hprof
 java.hprof.txt
+
+# Intellij
+.idea/
+*.iml
+*.iws

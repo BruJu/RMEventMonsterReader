@@ -51,6 +51,9 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	public void visit(InstructionAffectation instructionAffectation) {
 		tuer(instructionAffectation.variableAssignee.idVariable, instructionAffectation);
 		noterExpression(instructionAffectation, instructionAffectation.expression);
+		// TODO
+		// si cette instruction est morte, toutes les expressions qui ne font que déclarer des variables pour cette
+		// instrution sont mortes aussi
 	}
 
 	private void tuer(int numeroVariableAffectee, InstructionAffectation instructionActuelle) {

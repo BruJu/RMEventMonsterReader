@@ -1,9 +1,8 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.sun.org.apache.bcel.internal.generic.Instruction;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
@@ -14,29 +13,33 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
+import fr.bruju.rmeventreader.utilitaire.Pair;
 
 public class Reecrivain implements VisiteurDAlgorithme {
 	private Algorithme source;
 	private Algorithme resultat;
 	
-	//private Set<InstructionAffectation> ignorer;
+	private Set<InstructionAffectation> ignorer;
 	private Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> inliner;
 
 	public Reecrivain(Algorithme algorithme, DetecteurDeSimplifications detecteur) {
 		this.source = algorithme;
-		//this.ignorer = detecteur.instructionsAIgnorer;
-		transformerEnMapDeMap(detecteur.affectationsInlinables);
+
+		this.ignorer = detecteur.instructionsAIgnorer;
+
+		this.inliner = new HashMap<>();
+
+		detecteur.affectationsInlinables.forEach(this::ajouter);
 	}
 
-	private void transformerEnMapDeMap(Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables) {
-		inliner = new HashMap<>();
-		
-		affectationsInlinables.forEach((destination, sources) -> {
-			Map<ExprVariable, InstructionAffectation> carteInterne = new HashMap<>();
-			sources.forEach(instruction -> carteInterne.put(instruction.variableAssignee, instruction));
-			inliner.put(destination, carteInterne);
-		});
+	private void ajouter(InstructionGenerale instructionModifiee, List<InstructionAffectation> affectations) {
+		Map<ExprVariable, InstructionAffectation> carte = affectations.stream()
+				.map(affectation -> new Pair<>(affectation.variableAssignee, affectation))
+				.collect(Pair.toMap());
+
+		inliner.put(instructionModifiee, carte);
 	}
+
 
 	@Override
 	public void visit(BlocConditionnel blocConditionnel) {
@@ -75,7 +78,7 @@ public class Reecrivain implements VisiteurDAlgorithme {
 
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
-		if (inliner.containsKey(instructionAffectation)) {
+		if (ignorer.contains(instructionAffectation)) {
 			return;
 		}
 		

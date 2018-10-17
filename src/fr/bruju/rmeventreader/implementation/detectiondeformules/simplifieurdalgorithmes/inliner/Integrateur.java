@@ -18,10 +18,6 @@ public class Integrateur extends VisiteurReecrivainDExpression {
 			Map<InstructionGenerale, Map<ExprVariable, InstructionAffectation>> variablesAIntegrer) {
 		this.variablesAIntegrerInterne = variablesAIntegrer.get(instructionAffectation);
 		this.variablesAIntegrer = variablesAIntegrer;
-		
-		if (variablesAIntegrerInterne == null) {
-			variablesAIntegrerInterne = new HashMap<>();
-		}
 	}
 
 
@@ -33,8 +29,12 @@ public class Integrateur extends VisiteurReecrivainDExpression {
 			return composant;
 		} else {
 			Expression expression = reecriture.expression;
-			Integrateur fils = new Integrateur(reecriture, variablesAIntegrer);
-			return fils.explorer(expression);
+
+			if (variablesAIntegrer.containsKey(reecriture)) {
+				return new Integrateur(reecriture, variablesAIntegrer).explorer(expression);
+			} else {
+				return expression;
+			}
 		}
 	}
 }

@@ -30,4 +30,13 @@ public class InstructionAffectation implements InstructionGenerale {
 	public void accept(VisiteurDAlgorithme visiteur) {
 		visiteur.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder()
+				.append(variableAssignee.getString())
+				.append(" = ")
+				.append(expression.getString())
+				.toString();
+	}
 }
