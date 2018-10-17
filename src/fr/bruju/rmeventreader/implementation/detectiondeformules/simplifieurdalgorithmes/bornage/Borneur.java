@@ -12,7 +12,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 
 /**
- * Transforme les instructions du type "si a > b ; a = b" en "a = max(a, b)"
+ * Transforme les instructions du type "si a > b ; a = b" en "a = min(a, b)"
  * 
  * @author Bruju
  *
@@ -47,29 +47,10 @@ public class Borneur implements VisiteurDAlgorithme, Simplification {
 		}
 			
 		ConditionVariable cv = (ConditionVariable) blocConditionnel.condition;
-		
-		Expression gauche = cv.gauche;
-		Expression droite = cv.droite;
-		
-		BorneurInterne borneurInterne = new BorneurInterne(gauche, droite);
-		borneurInterne.visit(blocConditionnel.siVrai);
-		
-		if (!borneurInterne.bornageReussit()) {
-			return false;
-		}
-		
-		InstructionAffectation affectationBornee = creerAffectationDeBornage(cv);
-		
-		nouvelAlgorithme.ajouterInstruction(affectationBornee);
-		return true;
+
+		return new BorneurInterne(cv).completer(blocConditionnel, nouvelAlgorithme);
 	}
 
-	private InstructionAffectation creerAffectationDeBornage(ConditionVariable cv) {
-		ExprVariable variable = (ExprVariable) cv.gauche;
-		Expression expressionBorne = new Borne(cv.gauche, cv.droite, cv.comparateur);
-		
-		return new InstructionAffectation(variable, expressionBorne);
-	}
 	
 	// Instructions recopiées
 

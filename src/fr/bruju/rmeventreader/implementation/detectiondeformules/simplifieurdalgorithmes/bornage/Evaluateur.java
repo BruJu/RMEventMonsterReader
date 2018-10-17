@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage;
 
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.*;
@@ -40,7 +40,7 @@ public abstract class Evaluateur implements VisiteurDExpression {
 		visit(composant.borne);
 		int borne = resultat;
 
-		if (composant.estBorneMax) {
+		if (composant.estBorneMin) {
 			resultat = Math.max(gauche, borne);
 		} else {
 			resultat = Math.min(gauche, borne);

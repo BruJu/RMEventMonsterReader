@@ -25,7 +25,7 @@ public abstract class VisiteurReecrivainDExpression implements VisiteurDExpressi
 		} else if (gauche == null || droite == null) {
 			return null;
 		} else {
-			return new Borne(gauche, droite, composant.estBorneMax);
+			return new Borne(gauche, droite, composant.estBorneMin);
 		}
 	}
 	

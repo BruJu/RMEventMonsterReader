@@ -7,6 +7,11 @@ public class NombreAleatoire implements Expression {
 	public final int valeurMin;
 	public final int valeurMax;
 
+	public NombreAleatoire(int valeurMin, int valeurMax) {
+		this.valeurMin = valeurMin;
+		this.valeurMax = valeurMax;
+	}
+
 	@Override
 	public String getString() {
 		return Integer.toString(valeurMin) + "~" + Integer.toString(valeurMax);

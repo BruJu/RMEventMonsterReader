@@ -1,10 +1,11 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffichage;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.VisiteurDAlgorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
+import fr.bruju.rmdechiffreur.modele.Comparateur;
+import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.*;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Borne;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
 
 /**
  * Visiteur renvoyant vrai si la dernière instruction d'affectation visitée possède les mêmes termes que ceux passés
@@ -14,32 +15,86 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
  *
  */
 public class BorneurInterne implements VisiteurDAlgorithme {
-	private Expression gauche;
-	private Expression droite;
-	private boolean resultat = true;
+	private final ConditionVariable condition;
+	private final boolean estBorneMin;
+	private InstructionAffectation instruction = null;
+	private boolean dejaUtilise = false;
 
-	public BorneurInterne(Expression gauche, Expression droite) {
-		this.gauche = gauche;
-		this.droite = droite;
-	}
 
-	public boolean bornageReussit() {
-		return resultat;
+	public BorneurInterne(ConditionVariable condition) {
+		this.condition = condition;
+
+		Comparateur comparateur = condition.comparateur;
+		this.estBorneMin = comparateur == Comparateur.INF || comparateur == Comparateur.INFEGAL;
 	}
 
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
-		resultat = instructionAffectation.expression.equals(droite)
-				&& instructionAffectation.variableAssignee.equals(gauche);
+		if (dejaUtilise || instruction != null) {
+			dejaUtilise = true;
+			instruction = null;
+			return;
+		}
+
+		if (!instructionAffectation.variableAssignee.equals(condition.gauche)) {
+			dejaUtilise = true;
+			return;
+		}
+
+		Borne borne = null;
+
+		if (instructionAffectation.expression.equals(condition.droite)) {
+			borne = new Borne(condition.gauche, condition.droite, estBorneMin);
+		} else {
+			Evaluateur evaluateurMin = new Evaluateur.Minimum();
+			Evaluateur evaluateurMax = new Evaluateur.Maximum();
+
+			Integer evalMinCondition = evaluateurMin.evaluer(condition.droite);
+			Integer evalMinAffectee = evaluateurMin.evaluer(instructionAffectation.expression);
+
+			if (evalMinCondition != null && evalMinAffectee != null) {
+				Integer evalMaxCondition = evaluateurMax.evaluer(condition.droite);
+				Integer evalMaxAffectee = evaluateurMax.evaluer(instructionAffectation.expression);
+
+				if (estBorneMin) {
+					if (evalMaxCondition.equals(evalMinAffectee) || evalMaxCondition.equals(evalMinAffectee - 1)) {
+						NombreAleatoire aleatoire =  new NombreAleatoire(evalMinCondition, evalMaxAffectee);
+						borne = new Borne(condition.gauche, aleatoire, estBorneMin);
+					}
+				} else {
+					if (evalMinCondition.equals(evalMaxAffectee) || evalMinCondition.equals(evalMaxAffectee + 1)) {
+						NombreAleatoire aleatoire =  new NombreAleatoire(evalMinAffectee, evalMaxCondition);
+						borne = new Borne(condition.gauche, aleatoire, estBorneMin);
+					}
+				}
+			}
+		}
+
+		if (borne != null) {
+			instruction = new InstructionAffectation(instructionAffectation.variableAssignee, borne);
+		} else {
+			dejaUtilise = true;
+		}
 	}
 	
 	@Override
 	public void visit(BlocConditionnel blocConditionnel) {
-		resultat = false;
+		dejaUtilise = true;
 	}
 
 	@Override
 	public void visit(InstructionAffichage instructionAffichage) {
-		resultat = false;
+		dejaUtilise = true;
+	}
+
+	public boolean completer(BlocConditionnel blocConditionnel, Algorithme nouvelAlgorithme) {
+		visit(blocConditionnel.siVrai);
+
+		if (dejaUtilise || instruction == null) {
+			return false;
+		} else {
+			nouvelAlgorithme.ajouterInstruction(instruction);
+			return true;
+		}
 	}
 }

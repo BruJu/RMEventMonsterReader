@@ -1,28 +1,22 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
 
-import fr.bruju.rmdechiffreur.modele.Comparateur;
-
 public class Borne implements Expression {
 	public final Expression variable;
 	public final Expression borne;
-	public final boolean estBorneMax;
+	public final boolean estBorneMin;
 	
 	
 
-	public Borne(Expression variable, Expression borne, boolean estBorneMax) {
+	public Borne(Expression variable, Expression borne, boolean estBorneMin) {
 		this.variable = variable;
 		this.borne = borne;
-		this.estBorneMax = estBorneMax;
-	}
-
-	public Borne(Expression variable, Expression droite, Comparateur comparateur) {
-		this(variable, droite, comparateur == Comparateur.INF || comparateur == Comparateur.INFEGAL);
+		this.estBorneMin = estBorneMin;
 	}
 
 	@Override
 	public String getString() {
 		StringBuilder sb = new StringBuilder();
-		if (estBorneMax) {
+		if (estBorneMin) {
 			sb.append("max(");
 		} else {
 			sb.append("min(");
@@ -46,7 +40,7 @@ public class Borne implements Expression {
 		if (a == null || b == null) {
 			return null;
 		} else {
-			if (estBorneMax) {
+			if (estBorneMin) {
 				return Math.max(a, b);
 			} else {
 				return Math.min(a, b);
