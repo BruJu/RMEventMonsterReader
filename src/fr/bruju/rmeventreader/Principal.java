@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader;
 
 import java.io.IOException;
 
+import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplifieur;
@@ -16,7 +17,7 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 /** Classe principale */
 public class Principal {
 	/** Fonction principale */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		System.out.println("#### Début ####");
 
 		int choix = 9;
@@ -28,7 +29,7 @@ public class Principal {
 		Runnable[] options = {
 				/* 00 */ new ListeurDeMonstres(3),
 				/* 01 */ new FormulaTracker(),
-				/* 02 */ null,
+				/* 02 */ new Lanceur(),
 				/* 03 */ () -> PROJET.ecrireRessource("ressources_gen\\"),
 				/* 04 */ new Verificateur(),
 				/* 05 */ new AppelsDEvenements(),
@@ -41,5 +42,23 @@ public class Principal {
 		options[choix].run();
 		
 		System.out.println("#### Fin ####");
+	}
+
+
+	private static class Lanceur implements Runnable {
+		@Override
+		public void run() {
+			PROJET.lireEvenement(new ExecuteurInstructions() {
+				@Override
+				public boolean getBooleenParDefaut() {
+					return true;
+				}
+
+				@Override
+				public void Messages_afficherMessage(String chaine) {
+					System.out.println(chaine);
+				}
+			}, 1, 2, 1);
+		}
 	}
 }

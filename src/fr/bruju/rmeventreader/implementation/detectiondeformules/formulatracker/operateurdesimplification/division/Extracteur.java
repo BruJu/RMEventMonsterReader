@@ -35,7 +35,7 @@ public abstract class Extracteur implements VisiteurDeComposants {
 	 * @param conditions Les conditions extraites
 	 */
 	public void extraire(Composant composant, Set<Condition> conditions) {
-		this.conditions = conditions;;
+		this.conditions = conditions;
 		visit(composant);
 	}
 

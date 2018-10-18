@@ -69,15 +69,13 @@ public class Correspondance implements Runnable {
 		}
 		
 		public RemplacementABaseDeFichier(String fichier) {
-			try {
-				lireFichier(fichier);
-			} catch (IOException e) { }
+			lireFichier(fichier);
 		}
 		
 		/**
 		 * Lit un fichier pour remplir les correspondances
 		 */
-		private void lireFichier(String chemin) throws IOException {
+		private void lireFichier(String chemin) {
 			LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, line -> {
 				String[] chaines = LecteurDeFichiersLigneParLigne.diviser(line, 2);
 

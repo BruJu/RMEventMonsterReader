@@ -49,24 +49,25 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
-		tuer(instructionAffectation.variableAssignee.idVariable, instructionAffectation);
-		noterExpression(instructionAffectation, instructionAffectation.expression);
-		// TODO
-		// si cette instruction est morte, toutes les expressions qui ne font que déclarer des variables pour cette
-		// instrution sont mortes aussi
+		if (!tuer(instructionAffectation.variableAssignee.idVariable, instructionAffectation)) {
+			noterExpression(instructionAffectation, instructionAffectation.expression);
+		}
 	}
 
-	private void tuer(int numeroVariableAffectee, InstructionAffectation instructionActuelle) {
+	private boolean tuer(int numeroVariableAffectee, InstructionAffectation instructionActuelle) {
 		if (variablesMortes.contains(numeroVariableAffectee)) {
 			instructionsAIgnorer.add(instructionActuelle);
+			return true;
 		} else {
 			variablesMortes.add(numeroVariableAffectee);
-			
+
 			InstructionGenerale utilisatrice = variablesVivantes.remove(numeroVariableAffectee);
 			if (utilisatrice != null) {
 				instructionsAIgnorer.add(instructionActuelle);
 				Utilitaire.Maps.ajouterElementDansListe(affectationsInlinables, utilisatrice, instructionActuelle);
 			}
+
+			return false;
 		}
 	}
 

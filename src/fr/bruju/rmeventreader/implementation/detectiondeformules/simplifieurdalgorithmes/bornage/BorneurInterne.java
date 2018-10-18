@@ -56,7 +56,7 @@ public class BorneurInterne implements VisiteurDAlgorithme {
 				Integer evalMaxCondition = evaluateurMax.evaluer(condition.droite);
 				Integer evalMaxAffectee = evaluateurMax.evaluer(instructionAffectation.expression);
 
-				// FIXME : si a <= 0 ; a = 1~5 est actuellement interprété comme a = min(a, 0~5) au lieu de min(a, 1~5)
+				// TODO : si a <= 0 ; a = 1~5 est actuellement interprété comme a = min(a, 0~5) au lieu de min(a, 1~5)
 				NombreAleatoire aleatoire = null;
 
 				if (estBorneMin) {
