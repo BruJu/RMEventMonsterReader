@@ -53,7 +53,6 @@ public class ChercheurDeReferences implements Runnable {
 	/**
 	 * Cherche des références aux variables et les ajoute si des références sont trouvées
 	 * @param ref La référence à ajouter
-	 * @param instructions Les instructions à explorer
 	 */
 	private ExecuteurInstructions explorer(Reference ref) {
 		int groupeDeLaCarte = ref.idCarte() / 25;

@@ -20,7 +20,7 @@ public class Principal {
 	public static void main(String[] args) {
 		System.out.println("#### Début ####");
 
-		int choix = 9;
+		int choix = 8;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -29,36 +29,17 @@ public class Principal {
 		Runnable[] options = {
 				/* 00 */ new ListeurDeMonstres(3),
 				/* 01 */ new FormulaTracker(),
-				/* 02 */ new Lanceur(),
-				/* 03 */ () -> PROJET.ecrireRessource("ressources_gen\\"),
-				/* 04 */ new Verificateur(),
-				/* 05 */ new AppelsDEvenements(),
-				/* 06 */ new ChercheurDImages(51),
-				/* 07 */ new ChercheurDeReferences(),
-				/* 08 */ new ChercheurDeMagasins(),
-				/* 09 */ new Simplifieur()
+				/* 02 */ () -> PROJET.ecrireRessource("ressources_gen\\"),
+				/* 03 */ new Verificateur(),
+				/* 04 */ new AppelsDEvenements(),
+				/* 05 */ new ChercheurDImages(51),
+				/* 06 */ new ChercheurDeReferences(),
+				/* 07 */ new ChercheurDeMagasins(),
+				/* 08 */ new Simplifieur()
 		};
 		
 		options[choix].run();
 		
 		System.out.println("#### Fin ####");
-	}
-
-
-	private static class Lanceur implements Runnable {
-		@Override
-		public void run() {
-			PROJET.lireEvenement(new ExecuteurInstructions() {
-				@Override
-				public boolean getBooleenParDefaut() {
-					return true;
-				}
-
-				@Override
-				public void Messages_afficherMessage(String chaine) {
-					System.out.println(chaine);
-				}
-			}, 1, 2, 1);
-		}
 	}
 }
