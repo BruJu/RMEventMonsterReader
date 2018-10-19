@@ -20,10 +20,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 	private Map<Integer, VivaciteVariable> vivacites = new HashMap<>();
-/*
-	private Set<Integer> variablesMortes = new HashSet<>();
-	private Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
-*/
+
 	final Set<InstructionAffectation> instructionsAIgnorer = new HashSet<>(); // Mortes + inlinées
 	final Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables = new HashMap<>();
 	
@@ -34,55 +31,15 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 		
 		for (ExprVariable variable : variablesPresentes) {
 			int numeroDeCase = variable.idVariable;
-
 			Utilitaire.Maps.getX(vivacites, numeroDeCase, VivaciteVariable::new).faireVivre(instruction);
+		}
+	}
 
-			/*
-			boolean etaitMort = variablesMortes.remove(numeroDeCase);
-			
-			modifierVariablesVivantes(etaitMort, numeroDeCase, instruction);*/
-		}
-	}
-/*
-	private void modifierVariablesVivantes(boolean etaitMort, int numeroDeCase, InstructionGenerale instruction) {
-		if (variablesVivantes.containsKey(numeroDeCase)) {
-			variablesVivantes.put(numeroDeCase, null);
-		} else {
-			if (etaitMort) {
-				variablesVivantes.put(numeroDeCase, instruction);
-			}
-		}
-	}
-*/
+
 	@Override
 	public void visit(InstructionAffectation instructionAffectation) {
 		int numeroDeCase = instructionAffectation.variableAssignee.idVariable;
 		Utilitaire.Maps.getX(vivacites, numeroDeCase, VivaciteVariable::new).tuer(instructionAffectation, this);
-
-		/*
-		if (!tuer(instructionAffectation.variableAssignee.idVariable, instructionAffectation)) {
-			noterExpression(instructionAffectation, instructionAffectation.expression);
-		}*/
-	}
-
-	private boolean tuer(int numeroVariableAffectee, InstructionAffectation instructionActuelle) {
-		return true;
-		/*
-		if (variablesMortes.contains(numeroVariableAffectee)) {
-			instructionsAIgnorer.add(instructionActuelle);
-			return true;
-		} else {
-			variablesMortes.add(numeroVariableAffectee);
-
-			InstructionGenerale utilisatrice = variablesVivantes.remove(numeroVariableAffectee);
-			if (utilisatrice != null) {
-				instructionsAIgnorer.add(instructionActuelle);
-				Utilitaire.Maps.ajouterElementDansListe(affectationsInlinables, utilisatrice, instructionActuelle);
-			}
-
-			return false;
-		}
-		*/
 	}
 
 	@Override
@@ -98,33 +55,6 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 		blocConditionnel.siFaux.acceptInverse(this);
 
 		vivacites = deviation.consolider();
-
-
-
-
-		/*
-		variablesVivantes.clear();
-		Set<Integer> variablesMortesSi = new HashSet<>(variablesMortes);
-		Set<Integer> variablesMortesSinon = new HashSet<>(variablesMortes);
-		Set<Integer> variablesMortesApres = variablesMortes;
-
-
-		variablesMortes = variablesMortesSi;
-		blocConditionnel.siVrai.acceptInverse(this);
-		variablesVivantes.clear();
-		variablesMortes = variablesMortesSinon;
-		blocConditionnel.siFaux.acceptInverse(this);
-		variablesVivantes.clear();
-
-		variablesMortes = variablesMortesApres;
-		variablesMortes.clear();
-		
-		variablesMortesSi.forEach(caseMemoire -> {
-			if (variablesMortesSinon.contains(caseMemoire)) {
-				variablesMortes.add(caseMemoire);
-			}
-		});
-		*/
 	}
 
 	private void noterCondition(BlocConditionnel blocConditionnel, Condition condition) {
