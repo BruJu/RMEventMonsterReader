@@ -4,12 +4,14 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplification;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 
+import java.util.HashSet;
+
 
 public class InlinerGlobal implements Simplification {
 	
 	@Override
 	public Algorithme simplifier(Algorithme algorithme) {
-		DetecteurDeSimplifications detecteur = new DetecteurDeSimplifications();
+		DetecteurDeSimplifications detecteur = new DetecteurDeSimplifications(new Integer[] {514, 516, 517});
 		algorithme.acceptInverse(detecteur);
 		
 		Reecrivain reecrivain = new Reecrivain(algorithme, detecteur);

@@ -20,8 +20,6 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
-	//private Map<Integer, VivaciteVariable> vivacites = new HashMap<>();
-
 	private Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
 
 	private int nombreDiInstructionsVisitees = 0;
@@ -29,6 +27,13 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 	final Set<InstructionAffectation> instructionsAIgnorer = new HashSet<>(); // Mortes + inlinées
 	final Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables = new HashMap<>();
+
+
+	public DetecteurDeSimplifications(Integer[] variablesDeSortie) {
+		for (Integer integer : variablesDeSortie) {
+			variablesVivantes.put(integer, null);
+		}
+	}
 	
 	public void noterExpression(InstructionGenerale instruction, Expression expression) {
 		ListeurDePresence listeur = new ListeurDePresence();
@@ -43,8 +48,6 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			} else {
 				variablesVivantes.put(numeroDeCase, instruction);
 			}
-
-			//Utilitaire.Maps.getX(vivacites, numeroDeCase, VivaciteVariable::new).faireVivre(instruction);
 		}
 	}
 
@@ -70,10 +73,6 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 			noterExpression(instructionAffectation, instructionAffectation.expression);
 		}
-
-
-
-		//Utilitaire.Maps.getX(vivacites, numeroDeCase, VivaciteVariable::new).tuer(instructionAffectation, this);
 	}
 
 	@Override
@@ -102,26 +101,9 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 		if (differenceIgnoreesAvant != differenceIgnoreesApres) {
 			noterCondition(blocConditionnel, blocConditionnel.condition);
 		}
-
-
-
-
-		/*
-		Deviation deviation = new Deviation(vivacites);
-
-		vivacites = deviation.filsVrai;
-		blocConditionnel.siVrai.acceptInverse(this);
-
-		vivacites = deviation.filsFaux;
-		blocConditionnel.siFaux.acceptInverse(this);
-
-		vivacites = deviation.consolider();
-
-		*/
 	}
 
 	private void noterCondition(BlocConditionnel blocConditionnel, Condition condition) {
-		// TODO : la condition est vide, ne pas faire vivre les variables qu'elle utilise
 		if (condition instanceof ConditionVariable) { // La liste des conditions n'est pas amenée à évoluer
 			ConditionVariable cVariable = (ConditionVariable) condition;
 			
@@ -133,7 +115,5 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	@Override
 	public void visit(InstructionAffichage instructionAffichage) {
 		nombreDiInstructionsVisitees++;
-		// Ignoré
 	}
-
 }
