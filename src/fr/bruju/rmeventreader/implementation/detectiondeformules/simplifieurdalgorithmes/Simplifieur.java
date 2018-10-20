@@ -37,7 +37,7 @@ public class Simplifieur implements Runnable {
 			List<AttaqueALire> attaquesALire = ListeDesAttaques.extraireAttaquesALire();
 			//AttaqueALire.afficher(attaquesALire);
 			
-			AttaqueALire attaque = attaquesALire.get(12);
+			AttaqueALire attaque = attaquesALire.get(27);
 			System.out.println(attaque.nomAttaque + " " + attaque.nomPersonnage);
 			
 			Executeur executeur = new Executeur();
