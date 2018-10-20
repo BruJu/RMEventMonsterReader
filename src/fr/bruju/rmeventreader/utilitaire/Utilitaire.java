@@ -157,6 +157,19 @@ public class Utilitaire {
 					  }
 				  });
 		}
+
+
+		public static <K, V> void combinerNonNull(Map<K, V> destination, Map<K, V> source1, Map<K, V> source2,
+										   BinaryOperator<V> fonctionDeCombinaison) {
+			Stream.of(source1.keySet(), source2.keySet())
+					.flatMap(Set::stream)
+					.distinct()
+					.forEach(cle -> {
+						V valeur1 = source1.get(cle);
+						V valeur2 = source2.get(cle);
+						destination.put(cle, fonctionDeCombinaison.apply(valeur1, valeur2));
+					});
+		}
 	}
 
 	

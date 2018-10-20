@@ -77,24 +77,19 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 	@Override
 	public void visit(BlocConditionnel blocConditionnel) {
-
 		int differenceIgnoreesAvant = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 
-		Map<Integer, InstructionGenerale> origine = this.variablesVivantes;
-		Map<Integer, InstructionGenerale> vrai = new HashMap<>(origine);
-		Map<Integer, InstructionGenerale> faux = new HashMap<>(origine);
+		Map<Integer, InstructionGenerale> vrai = variablesVivantes;
+		Map<Integer, InstructionGenerale> faux = new HashMap<>(variablesVivantes);
 
-		variablesVivantes = vrai;
 		blocConditionnel.siVrai.acceptInverse(this);
 
 		variablesVivantes = faux;
 		blocConditionnel.siFaux.acceptInverse(this);
 
+		variablesVivantes = new HashMap<>();
 
-		variablesVivantes = origine;
-
-		vrai.keySet().forEach(id -> variablesVivantes.put(id, null));
-		faux.keySet().forEach(id -> variablesVivantes.put(id, null));
+		Utilitaire.Maps.combinerNonNull(variablesVivantes, vrai, faux, (v, f) -> v == f ? v : null);
 
 		int differenceIgnoreesApres = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 
