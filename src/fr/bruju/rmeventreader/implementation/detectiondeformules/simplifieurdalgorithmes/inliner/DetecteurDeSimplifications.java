@@ -20,7 +20,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
-	private Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
+	private Map<Integer, Vivacite> variablesVivantes = new HashMap<>();
 
 	private int nombreDiInstructionsVisitees = 0;
 	private int nombreDiInstructionsIgnorees = 0;
@@ -46,7 +46,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			if (variablesVivantes.containsKey(numeroDeCase)) {
 				variablesVivantes.put(numeroDeCase, null);
 			} else {
-				variablesVivantes.put(numeroDeCase, instruction);
+				variablesVivantes.put(numeroDeCase, new Vivacite.AffectationUnique(instruction));
 			}
 		}
 	}
@@ -62,10 +62,11 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			instructionsAIgnorer.add(instructionAffectation);
 			nombreDiInstructionsIgnorees++;
 		} else {
-			InstructionGenerale utilisatrice = variablesVivantes.remove(numeroDeCase);
+			Vivacite vivacite = variablesVivantes.remove(numeroDeCase);
 
-			if (utilisatrice != null) {
+			if (vivacite instanceof Vivacite.AffectationUnique) {
 				// Inlinable
+				InstructionGenerale utilisatrice = ((Vivacite.AffectationUnique) vivacite).instruction;
 				instructionsAIgnorer.add(instructionAffectation);
 				nombreDiInstructionsIgnorees++;
 				Utilitaire.Maps.ajouterElementDansListe(affectationsInlinables, utilisatrice, instructionAffectation);
@@ -79,8 +80,8 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	public void visit(BlocConditionnel blocConditionnel) {
 		int differenceIgnoreesAvant = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 
-		Map<Integer, InstructionGenerale> vrai = variablesVivantes;
-		Map<Integer, InstructionGenerale> faux = new HashMap<>(variablesVivantes);
+		Map<Integer, Vivacite> vrai = variablesVivantes;
+		Map<Integer, Vivacite> faux = new HashMap<>(variablesVivantes);
 
 		blocConditionnel.siVrai.acceptInverse(this);
 
