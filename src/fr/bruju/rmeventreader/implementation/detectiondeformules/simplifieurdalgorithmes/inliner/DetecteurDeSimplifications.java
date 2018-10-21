@@ -31,7 +31,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 	public DetecteurDeSimplifications(Integer[] variablesDeSortie) {
 		for (Integer integer : variablesDeSortie) {
-			variablesVivantes.put(integer, null);
+			variablesVivantes.put(integer, Vivacite.VivaciteNull.get());
 		}
 	}
 	
@@ -44,7 +44,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			int numeroDeCase = variable.idVariable;
 
 			if (variablesVivantes.containsKey(numeroDeCase)) {
-				variablesVivantes.put(numeroDeCase, null);
+				variablesVivantes.put(numeroDeCase, Vivacite.VivaciteNull.get());
 			} else {
 				variablesVivantes.put(numeroDeCase, new Vivacite.AffectationUnique(instruction));
 			}
@@ -62,11 +62,10 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			instructionsAIgnorer.add(instructionAffectation);
 			nombreDiInstructionsIgnorees++;
 		} else {
-			Vivacite vivacite = variablesVivantes.remove(numeroDeCase);
+			InstructionGenerale utilisatrice = variablesVivantes.remove(numeroDeCase).extraireInstructionUnique();
 
-			if (vivacite instanceof Vivacite.AffectationUnique) {
+			if (utilisatrice != null) {
 				// Inlinable
-				InstructionGenerale utilisatrice = ((Vivacite.AffectationUnique) vivacite).instruction;
 				instructionsAIgnorer.add(instructionAffectation);
 				nombreDiInstructionsIgnorees++;
 				Utilitaire.Maps.ajouterElementDansListe(affectationsInlinables, utilisatrice, instructionAffectation);
@@ -90,7 +89,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 		variablesVivantes = new HashMap<>();
 
-		Utilitaire.Maps.combinerNonNull(variablesVivantes, vrai, faux, (v, f) -> v == f ? v : null);
+		Utilitaire.Maps.combinerNonNull(variablesVivantes, vrai, faux, (v, f) -> Vivacite.combiner(v, f, blocConditionnel.condition));
 
 		int differenceIgnoreesApres = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 

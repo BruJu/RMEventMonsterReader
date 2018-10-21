@@ -1,8 +1,22 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 
 public interface Vivacite {
+
+	public default InstructionGenerale extraireInstructionUnique() {
+		return null;
+	}
+
+	public static Vivacite combiner(Vivacite v1, Vivacite v2, Condition condition) {
+		if (v1 == v2)
+			return v1;
+
+
+
+		return VivaciteNull.get();
+	}
 
 
 	public class VivaciteNull implements Vivacite {
@@ -15,9 +29,6 @@ public interface Vivacite {
 
 			return instance;
 		}
-
-
-
 	}
 
 
@@ -26,6 +37,11 @@ public interface Vivacite {
 
 		public AffectationUnique(InstructionGenerale instruction) {
 			this.instruction = instruction;
+		}
+
+		@Override
+		public InstructionGenerale extraireInstructionUnique() {
+			return instruction;
 		}
 	}
 
