@@ -3,6 +3,9 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public interface Vivacite {
 
 	public default InstructionGenerale extraireInstructionUnique() {
@@ -13,10 +16,25 @@ public interface Vivacite {
 		if (v1 == v2)
 			return v1;
 
+		Set<Condition> conditions = new HashSet<>();
+		
+		if (v1 != null) {
+			v1.remplirConditions(conditions, condition);
+		}
+		
+		if (v2 != null) {
+			v2.remplirConditions(conditions, condition.inverser());
+		}
 
-
-		return VivaciteNull.get();
+		
+		if (conditions.contains(null)) {
+			return VivaciteNull.get();
+		}
+		
+		return new VivaciteConditionnelle(conditions);
 	}
+
+	void remplirConditions(Set<Condition> conditions, Condition condition);
 
 
 	public class VivaciteNull implements Vivacite {
@@ -47,9 +65,11 @@ public interface Vivacite {
 
 
 	public class VivaciteConditionnelle implements Vivacite {
+		private final Set<Condition> conditions;
 
-
-
+		public VivaciteConditionnelle(Set<Condition> conditions) {
+			this.conditions = conditions;
+		}
 	}
 
 }

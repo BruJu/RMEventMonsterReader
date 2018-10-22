@@ -40,6 +40,11 @@ public class ConditionVariable implements Condition {
 			return comparateur.test(valeurGauche, valeurDroite);
 		}
 	}
-	
-	
+
+	@Override
+	public Condition inverser() {
+		return new ConditionVariable(gauche, comparateur.revert(), droite);
+	}
+
+
 }
