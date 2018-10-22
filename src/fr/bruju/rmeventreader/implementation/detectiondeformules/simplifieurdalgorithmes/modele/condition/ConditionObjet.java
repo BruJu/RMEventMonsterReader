@@ -4,6 +4,8 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 import fr.bruju.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
 
+import java.util.Objects;
+
 public class ConditionObjet implements Condition {
 	private final CondHerosPossedeObjet condObjet;
 	private final boolean estVrai;
@@ -33,4 +35,17 @@ public class ConditionObjet implements Condition {
 		return new ConditionObjet(this);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ConditionObjet that = (ConditionObjet) o;
+		return estVrai == that.estVrai &&
+				Objects.equals(condObjet, that.condObjet);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(condObjet, estVrai);
+	}
 }
