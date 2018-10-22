@@ -20,7 +20,7 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
-	private Map<Integer, Vivacite> variablesVivantes = new HashMap<>();
+	private Map<Integer, InstructionGenerale> variablesVivantes = new HashMap<>();
 
 	private int nombreDiInstructionsVisitees = 0;
 	private int nombreDiInstructionsIgnorees = 0;
@@ -31,7 +31,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 	public DetecteurDeSimplifications(Integer[] variablesDeSortie) {
 		for (Integer integer : variablesDeSortie) {
-			variablesVivantes.put(integer, Vivacite.VivaciteNull.get());
+			variablesVivantes.put(integer, null);
 		}
 	}
 	
@@ -44,9 +44,9 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			int numeroDeCase = variable.idVariable;
 
 			if (variablesVivantes.containsKey(numeroDeCase)) {
-				variablesVivantes.put(numeroDeCase, Vivacite.VivaciteNull.get());
+				variablesVivantes.put(numeroDeCase, null);
 			} else {
-				variablesVivantes.put(numeroDeCase, new Vivacite.AffectationUnique(instruction));
+				variablesVivantes.put(numeroDeCase, instruction);
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			instructionsAIgnorer.add(instructionAffectation);
 			nombreDiInstructionsIgnorees++;
 		} else {
-			InstructionGenerale utilisatrice = variablesVivantes.remove(numeroDeCase).extraireInstructionUnique();
+			InstructionGenerale utilisatrice = variablesVivantes.remove(numeroDeCase);
 
 			if (utilisatrice != null) {
 				// Inlinable
@@ -79,8 +79,8 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	public void visit(BlocConditionnel blocConditionnel) {
 		int differenceIgnoreesAvant = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 
-		Map<Integer, Vivacite> vrai = creerNouvelleMap(blocConditionnel.condition);
-		Map<Integer, Vivacite> faux = creerNouvelleMap(blocConditionnel.condition.inverser());
+		Map<Integer, InstructionGenerale> vrai = variablesVivantes;
+		Map<Integer, InstructionGenerale> faux = new HashMap<>(variablesVivantes);
 
 		blocConditionnel.siVrai.acceptInverse(this);
 
@@ -89,18 +89,13 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 		variablesVivantes = new HashMap<>();
 
-		Utilitaire.Maps.combinerNonNull(variablesVivantes, vrai, faux, (v, f) -> Vivacite.combiner(v, f, blocConditionnel.condition));
+		Utilitaire.Maps.combinerNonNull(variablesVivantes, vrai, faux, (v, f) -> v == f ? v : null);
 
 		int differenceIgnoreesApres = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 
 		if (differenceIgnoreesAvant != differenceIgnoreesApres) {
 			noterCondition(blocConditionnel, blocConditionnel.condition);
 		}
-	}
-
-	private Map<Integer,Vivacite> creerNouvelleMap(Condition condition) {
-		Map<Integer, Vivacite> resultat = new HashMap<>();
-		Utilitaire.Maps.fusionnerDans(resultat, condition, vivacite -> vivacite.absorber(condition), null);
 	}
 
 	private void noterCondition(BlocConditionnel blocConditionnel, Condition condition) {
