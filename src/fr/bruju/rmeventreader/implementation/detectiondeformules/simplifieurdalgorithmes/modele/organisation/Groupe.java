@@ -24,7 +24,6 @@ public class Groupe<Classifieur> implements Element {
 		StringBuilder sb = new StringBuilder();
 
 		for (Map.Entry<Classifieur, Element> classifieur : elements.entrySet()) {
-			System.out.println("CLASSIFIEUR : " + classifieur.toString());
 			categories.push(classifieur.getKey().toString());
 			sb.append(classifieur.getValue().getString(categories));
 			categories.pop();
@@ -35,8 +34,9 @@ public class Groupe<Classifieur> implements Element {
 
 	@Override
 	public void simplifier(Simplification simplification) {
-		for (Element element : elements.values()) {
-			element.simplifier(simplification);
+
+		for (Map.Entry<Classifieur, Element> element : elements.entrySet()) {
+			element.getValue().simplifier(simplification);
 		}
 	}
 }
