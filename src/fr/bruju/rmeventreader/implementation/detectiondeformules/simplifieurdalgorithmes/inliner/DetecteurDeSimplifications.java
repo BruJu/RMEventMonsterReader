@@ -87,6 +87,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 			faux.put(idVariable, null);
 		});
 
+		variablesVivantes = vrai;
 		blocConditionnel.siVrai.acceptInverse(this);
 
 		variablesVivantes = faux;
