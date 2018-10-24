@@ -89,13 +89,15 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 		variablesVivantes = vrai;
 		blocConditionnel.siVrai.acceptInverse(this);
+		Map<Integer, InstructionGenerale> vraiFin = variablesVivantes;
 
 		variablesVivantes = faux;
 		blocConditionnel.siFaux.acceptInverse(this);
+		Map<Integer, InstructionGenerale> fauxFin = variablesVivantes;
 
 		variablesVivantes = new HashMap<>();
 
-		Utilitaire.Maps.combinerNonNull(variablesVivantes, vrai, faux, (v, f) -> v == f ? v : null);
+		Utilitaire.Maps.combinerNonNull(variablesVivantes, vraiFin, fauxFin, (v, f) -> v == f ? v : null);
 
 		int differenceIgnoreesApres = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 
