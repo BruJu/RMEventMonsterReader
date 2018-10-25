@@ -10,8 +10,9 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaque
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Formule;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Groupe;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.BaseDAlgorithmes;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
@@ -28,55 +29,36 @@ public class Simplifieur implements Runnable {
 	
 	@Override
 	public void run() {
-		Groupe<String> groupeInitial = creerAlgorithmes();
+		BaseDAlgorithmes algorithmes = creerAlgorithmes();
 		
 		for (Simplification simplification : simplifications) {
-			groupeInitial.simplifier(simplification);
+			algorithmes.transformer(simplification);
 		}
 
-		System.out.println(groupeInitial.getString());
+		System.out.println(algorithmes.getString());
 	}
 
-	private Groupe creerAlgorithmes() {
-		Map<String, Map<String, Algorithme>> attaquesDesPersonnages = extraireAlgorithmesDesPersonnages();
-		return transformerEnGroupes(attaquesDesPersonnages);
+	private BaseDAlgorithmes creerAlgorithmes() {
+		return extraireAlgorithmesDesPersonnages();
 	}
 
-	private static Groupe<String> transformerEnGroupes(Map<String, Map<String, Algorithme>> attaquesDesPersonnages) {
-		Groupe<String> groupeRacine = new Groupe("Personnage", new HashMap<>());
-
-		for (Map.Entry<String, Map<String, Algorithme>> personnage : attaquesDesPersonnages.entrySet()) {
-			String nomPersonnage = personnage.getKey();
-			Map<String, Algorithme> attaques = personnage.getValue();
-
-			Groupe groupe = new Groupe("Attaque", attaques);
-
-			for (Map.Entry<String, Algorithme> algorithmes : attaques.entrySet()) {
-				groupe.ajouter(algorithmes.getKey(), new Formule(algorithmes.getValue()));
-			}
-
-			groupeRacine.ajouter(nomPersonnage, groupe);
-		}
-
-		return groupeRacine;
-	}
-
-	private static Map<String, Map<String, Algorithme>> extraireAlgorithmesDesPersonnages() {
+	private static BaseDAlgorithmes extraireAlgorithmesDesPersonnages() {
 		List<AttaqueALire> attaquesALire = ListeDesAttaques.extraireAttaquesALire();
-		Map<String, Map<String, Algorithme>> personnages = new HashMap<>();
+
+		BaseDAlgorithmes base = new BaseDAlgorithmes();
 
 		for (AttaqueALire attaque : attaquesALire) {
 			Executeur executeur = new Executeur();
 			PROJET.lireEvenementCommun(executeur, attaque.numeroEvenementCommun);
 			Algorithme algorithme = executeur.extraireAlgorithme();
 
-			Map<String, Algorithme> attaquesDuPersonnage =
-					Utilitaire.Maps.getX(personnages, attaque.nomPersonnage, HashMap::new);
+			Classificateur personnage = new Classificateur.ClassificateurChaine(attaque.nomPersonnage);
+			Classificateur attaqueNom = new Classificateur.ClassificateurChaine(attaque.nomAttaque);
 
-			attaquesDuPersonnage.put(attaque.nomAttaque, algorithme);
+			base.ajouter(new AlgorithmeEtiquete(new Classificateur[]{personnage, attaqueNom}, algorithme));
 		}
 
-		return personnages;
+		return base;
 	}
 
 	private static class Initiateur implements CreateurDAlgorithme {
