@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.ManipulateurDeListe;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Separateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Simplification;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
@@ -69,5 +70,10 @@ public class BaseDAlgorithmes implements Transformateur.Visiteur {
 		}
 
 		algorithmes = nouvelleListe;
+	}
+
+	@Override
+	public void visit(ManipulateurDeListe manipulateur) {
+		algorithmes = manipulateur.manipuler(algorithmes);
 	}
 }

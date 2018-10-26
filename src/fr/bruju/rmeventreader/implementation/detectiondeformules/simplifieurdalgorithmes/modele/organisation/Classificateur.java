@@ -6,6 +6,8 @@ public interface Classificateur {
 
 	Classificateur ajouter(Classificateur classificateur);
 
+	int comparer(Classificateur classificateur);
+
 
 	public class ClassificateurChaine implements Classificateur {
 		public final String chaine;
@@ -31,6 +33,15 @@ public interface Classificateur {
 			}
 
 			return chaine.equals(((ClassificateurChaine)autre).chaine);
+		}
+
+		@Override
+		public int comparer(Classificateur classificateur) {
+			if (!(classificateur instanceof ClassificateurChaine)) {
+				return -1;
+			}
+
+			return chaine.compareTo(((ClassificateurChaine)classificateur).chaine);
 		}
 	}
 }

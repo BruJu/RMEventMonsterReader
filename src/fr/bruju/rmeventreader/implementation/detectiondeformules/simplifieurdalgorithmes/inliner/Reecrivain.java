@@ -35,7 +35,7 @@ public class Reecrivain implements VisiteurDAlgorithme {
 	private void ajouter(InstructionGenerale instructionModifiee, List<InstructionAffectation> affectations) {
 		Map<ExprVariable, InstructionAffectation> carte = affectations.stream()
 				.map(affectation -> new Pair<>(affectation.variableAssignee, affectation))
-				.collect(Pair.toMap());
+				.collect(Pair.toMapWithDuplicate());
 
 		inliner.put(instructionModifiee, carte);
 	}

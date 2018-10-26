@@ -65,4 +65,31 @@ public class AlgorithmeEtiquete {
 
 		return true;
 	}
+
+	public static int comparer(AlgorithmeEtiquete algorithmeEtiquete, AlgorithmeEtiquete algorithmeEtiquete1) {
+		int i;
+
+		for (i = 0 ; i != algorithmeEtiquete.classificateurs.length ; i++) {
+
+			if (algorithmeEtiquete1.classificateurs.length < i) {
+				return -1;
+			}
+
+			int comparaison = algorithmeEtiquete.classificateurs[i].comparer(algorithmeEtiquete1.classificateurs[i]);
+
+			if (comparaison != 0) {
+				return comparaison;
+			}
+
+
+		}
+
+		if (algorithmeEtiquete1.classificateurs.length >= i) {
+			return 1;
+		} else {
+			return 0;
+		}
+
+
+	}
 }

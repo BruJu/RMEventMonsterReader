@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaque
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.CibleurDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.UnificateurIdentique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.BaseDAlgorithmes;
@@ -24,6 +25,8 @@ public class Simplifieur implements Runnable {
 			new CibleurDeMonstres(),
 			new Borneur(),
 			new InlinerGlobal(),
+			new UnificateurIdentique(),
+			new Tri()
 	};
 	
 	

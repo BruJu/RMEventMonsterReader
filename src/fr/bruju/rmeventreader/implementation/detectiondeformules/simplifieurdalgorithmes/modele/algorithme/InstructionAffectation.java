@@ -34,19 +34,14 @@ public class InstructionAffectation implements InstructionGenerale {
 	}
 
 	@Override
-	public boolean estIdentique(InstructionGenerale instructionGenerale) {
-		return equals(instructionGenerale);
-	}
-
-
-	@Override
-	public boolean equals(Object o) {
+	public boolean estIdentique(InstructionGenerale o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		InstructionAffectation that = (InstructionAffectation) o;
 		return Objects.equals(variableAssignee, that.variableAssignee) &&
 				Objects.equals(expression, that.expression);
 	}
+
 
 	@Override
 	public int hashCode() {

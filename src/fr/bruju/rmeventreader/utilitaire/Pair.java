@@ -86,6 +86,12 @@ public class Pair<T1, T2> {
 	public static <T,K,U> Collector<Pair<K, U>,?,Map<K,U>> toMap() {
 		return Collectors.toMap(Pair::k, Pair::v);
 	}
-	
+
+	/**
+	 * Collecteur permettant de transformer les paires d'un stream en map
+	 */
+	public static <T,K,U> Collector<Pair<K, U>,?,Map<K,U>> toMapWithDuplicate() {
+		return Collectors.toMap(Pair::k, Pair::v, (a, b) -> b);
+	}
 	
 }

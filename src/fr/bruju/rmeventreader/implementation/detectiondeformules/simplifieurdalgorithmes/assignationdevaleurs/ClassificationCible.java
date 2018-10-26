@@ -20,6 +20,15 @@ public class ClassificationCible implements Classificateur {
 		return new ClassificationCible(Cible.Plusieurs);
 	}
 
+	@Override
+	public int comparer(Classificateur classificateur) {
+		if (!(classificateur instanceof ClassificationCible)) {
+			return -1;
+		}
+
+		return cibleChoisie.compareTo(((ClassificationCible) classificateur).cibleChoisie);
+	}
+
 	public enum Cible {
 		Ennemi1,
 		Ennemi2,
