@@ -1,20 +1,17 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.CibleurDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.BaseDAlgorithmes;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -24,7 +21,7 @@ public class Simplifieur implements Runnable {
 	private static final Transformateur[] simplifications = new Transformateur[] {
 			new Borneur(),
 			new InlinerGlobal(),
-			new SeparateurParAssignation(),
+			new CibleurDeMonstres(),
 
 			new Borneur(),
 			new InlinerGlobal(),

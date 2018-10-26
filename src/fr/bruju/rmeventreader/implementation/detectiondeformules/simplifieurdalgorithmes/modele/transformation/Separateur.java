@@ -1,8 +1,8 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public interface Separateur extends Transformateur {

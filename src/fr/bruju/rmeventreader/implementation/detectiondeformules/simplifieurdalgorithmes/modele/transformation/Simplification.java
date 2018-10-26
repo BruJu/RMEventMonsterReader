@@ -1,6 +1,7 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
 
 public interface Simplification extends Transformateur {
 	public Algorithme simplifier(Algorithme algorithme);
