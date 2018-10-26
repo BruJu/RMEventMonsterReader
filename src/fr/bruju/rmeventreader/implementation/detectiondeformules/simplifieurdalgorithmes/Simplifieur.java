@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
@@ -20,10 +21,13 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class Simplifieur implements Runnable {
 	private static final CreateurDAlgorithme createur = new Initiateur();
-	private static final Simplification[] simplifications = new Simplification[] {
+	private static final Transformateur[] simplifications = new Transformateur[] {
 			new Borneur(),
-			new InlinerGlobal()
-			
+			new InlinerGlobal(),
+			new SeparateurParAssignation(),
+
+			new Borneur(),
+			new InlinerGlobal(),
 	};
 	
 	
@@ -31,7 +35,7 @@ public class Simplifieur implements Runnable {
 	public void run() {
 		BaseDAlgorithmes algorithmes = creerAlgorithmes();
 		
-		for (Simplification simplification : simplifications) {
+		for (Transformateur simplification : simplifications) {
 			algorithmes.transformer(simplification);
 		}
 

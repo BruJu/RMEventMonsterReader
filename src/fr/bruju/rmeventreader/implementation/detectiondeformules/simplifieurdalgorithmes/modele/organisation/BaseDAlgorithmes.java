@@ -1,13 +1,13 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Separateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplification;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Transformateur;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
-public class BaseDAlgorithmes {
+public class BaseDAlgorithmes implements Transformateur.Visiteur {
 	private List<AlgorithmeEtiquete> algorithmes;
 
 	public BaseDAlgorithmes() {
@@ -18,12 +18,6 @@ public class BaseDAlgorithmes {
 		algorithmes.add(algorithme);
 	}
 
-	public void transformer(Simplification simplification) {
-		for (AlgorithmeEtiquete algorithme : algorithmes) {
-			algorithme.simplifier(simplification);
-		}
-	}
-
 	public String getString() {
 		StringBuilder stringBuilder = new StringBuilder();
 
@@ -32,5 +26,27 @@ public class BaseDAlgorithmes {
 		}
 
 		return stringBuilder.toString();
+	}
+
+	public void transformer(Transformateur simplification) {
+		visit(simplification);
+	}
+
+	@Override
+	public void visit(Simplification simplification) {
+		for (AlgorithmeEtiquete algorithme : algorithmes) {
+			algorithme.simplifier(simplification);
+		}
+	}
+
+	@Override
+	public void visit(Separateur separateur) {
+		List<AlgorithmeEtiquete> nouveauxAlgorithmes = new ArrayList<>();
+
+		for (AlgorithmeEtiquete algorithme : algorithmes) {
+			separateur.separer(nouveauxAlgorithmes::add, algorithme);
+		}
+
+		algorithmes = nouveauxAlgorithmes;
 	}
 }
