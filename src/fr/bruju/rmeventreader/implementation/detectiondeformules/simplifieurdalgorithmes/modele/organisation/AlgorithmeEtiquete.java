@@ -22,6 +22,12 @@ public class AlgorithmeEtiquete {
 		this.algorithme = nouvelAlgorithme;
 	}
 
+	public AlgorithmeEtiquete(AlgorithmeEtiquete algo1, AlgorithmeEtiquete algo2, Algorithme nouvelAlgorithme) {
+		this.classificateurs = Arrays.copyOf(algo1.classificateurs, algo1.classificateurs.length);
+		this.algorithme = nouvelAlgorithme;
+		classificateurs[classificateurs.length - 1] = classificateurs[classificateurs.length - 1].ajouter(algo2.classificateurs[classificateurs.length - 1]);
+	}
+
 	public void simplifier(Simplification simplification) {
 		algorithme = simplification.simplifier(algorithme);
 	}
@@ -43,5 +49,20 @@ public class AlgorithmeEtiquete {
 
 	public Algorithme getAlgorithme() {
 		return algorithme;
+	}
+
+
+	public static boolean classificationUnifiable(AlgorithmeEtiquete a1, AlgorithmeEtiquete a2) {
+		if (a1.classificateurs.length != a2.classificateurs.length) {
+			return false;
+		}
+
+		for (int i = 0 ; i != a1.classificateurs.length ; i++) {
+			if (!a1.classificateurs[i].estUnifiable(a2.classificateurs[i])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

@@ -12,5 +12,7 @@ public interface Transformateur {
 		void visit(Simplification simplification);
 
 		void visit(Separateur separateur);
+
+		void visit(Unificateur unificateur);
 	}
 }

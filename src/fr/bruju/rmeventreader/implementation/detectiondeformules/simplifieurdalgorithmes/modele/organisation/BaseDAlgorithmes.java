@@ -3,8 +3,12 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Separateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Simplification;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Unificateur;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.similaire.CollectorBySimilarity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BaseDAlgorithmes implements Transformateur.Visiteur {
@@ -48,5 +52,22 @@ public class BaseDAlgorithmes implements Transformateur.Visiteur {
 		}
 
 		algorithmes = nouveauxAlgorithmes;
+	}
+
+	@Override
+	public void visit(Unificateur unificateur) {
+		CollectorBySimilarity<AlgorithmeEtiquete> collecteur
+				= new CollectorBySimilarity<>(a -> 0, AlgorithmeEtiquete::classificationUnifiable);
+
+		Collection<List<AlgorithmeEtiquete>> algorithmesClassifies =
+				algorithmes.stream().collect(collecteur).getMap().values();
+
+		List<AlgorithmeEtiquete> nouvelleListe = new ArrayList<>();
+
+		for (List<AlgorithmeEtiquete> liste : algorithmesClassifies) {
+			nouvelleListe.addAll(Utilitaire.fusionnerJusquaStabilite(liste, unificateur::unifier));
+		}
+
+		algorithmes = nouvelleListe;
 	}
 }

@@ -15,9 +15,15 @@ public class ClassificationCible implements Classificateur {
 		return autre instanceof ClassificationCible;
 	}
 
+	@Override
+	public Classificateur ajouter(Classificateur classificateur) {
+		return new ClassificationCible(Cible.Plusieurs);
+	}
+
 	public enum Cible {
 		Ennemi1,
 		Ennemi2,
-		Ennemi3
+		Ennemi3,
+		Plusieurs
 	}
 }

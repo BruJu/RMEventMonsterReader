@@ -22,7 +22,6 @@ public class Simplifieur implements Runnable {
 			new Borneur(),
 			new InlinerGlobal(),
 			new CibleurDeMonstres(),
-
 			new Borneur(),
 			new InlinerGlobal(),
 	};
