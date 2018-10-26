@@ -16,7 +16,7 @@ public interface ConstructeurDAlgorithme {
 	 */
 	public int commencerCondition(Condition condition);
 	
-	public void conditionElse() ;
+	public void conditionElse();
 	
 	public void conditionFinie();
 }

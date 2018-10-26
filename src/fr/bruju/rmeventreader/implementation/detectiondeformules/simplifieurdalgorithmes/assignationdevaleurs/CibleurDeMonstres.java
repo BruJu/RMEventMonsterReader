@@ -27,7 +27,7 @@ public class CibleurDeMonstres implements Separateur {
 		AssignationDeValeurs assignateur = new AssignationDeValeurs();
 		Algorithme nouvelAlgorithme = assignateur.assigner(elementASeparer.getAlgorithme(), variables);
 
-		Classificateur classificateur = new Classificateur.ClassificateurChaine("" +(1 + idMonstre));
+		Classificateur classificateur = new ClassificationCible(ClassificationCible.Cible.values()[idMonstre]);
 		return new AlgorithmeEtiquete(elementASeparer, classificateur, nouvelAlgorithme);
 	}
 }

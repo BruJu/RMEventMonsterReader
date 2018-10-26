@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.ManipulateurDeListe;
-
 public interface Transformateur {
 	public void accept(Visiteur visiteur);
 

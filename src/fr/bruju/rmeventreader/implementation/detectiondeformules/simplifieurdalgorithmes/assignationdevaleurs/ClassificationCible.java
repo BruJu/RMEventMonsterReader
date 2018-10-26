@@ -17,7 +17,7 @@ public class ClassificationCible implements Classificateur {
 
 	@Override
 	public Classificateur ajouter(Classificateur classificateur) {
-		return new ClassificationCible(Cible.Plusieurs);
+		return new ClassificationCible(Cible.PlusieursCibles);
 	}
 
 	@Override
@@ -33,6 +33,11 @@ public class ClassificationCible implements Classificateur {
 		Ennemi1,
 		Ennemi2,
 		Ennemi3,
-		Plusieurs
+		PlusieursCibles
+	}
+
+	@Override
+	public String toString() {
+		return cibleChoisie.toString();
 	}
 }
