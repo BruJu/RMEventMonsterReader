@@ -3,6 +3,8 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 
+import java.util.Objects;
+
 public class InstructionAffectation implements InstructionGenerale {
 	public final ExprVariable variableAssignee;
 	public final Expression expression;
@@ -32,6 +34,26 @@ public class InstructionAffectation implements InstructionGenerale {
 	}
 
 	@Override
+	public boolean estIdentique(InstructionGenerale instructionGenerale) {
+		return equals(instructionGenerale);
+	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		InstructionAffectation that = (InstructionAffectation) o;
+		return Objects.equals(variableAssignee, that.variableAssignee) &&
+				Objects.equals(expression, that.expression);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(variableAssignee, expression);
+	}
+
+	@Override
 	public String toString() {
 		return new StringBuilder()
 				.append(variableAssignee.getString())
@@ -39,4 +61,7 @@ public class InstructionAffectation implements InstructionGenerale {
 				.append(expression.getString())
 				.toString();
 	}
+
+
+
 }

@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression;
 
+import java.util.Objects;
+
 public class Borne implements Expression {
 	public final Expression variable;
 	public final Expression borne;
@@ -48,4 +50,19 @@ public class Borne implements Expression {
 		}
 	}
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Borne borne1 = (Borne) o;
+		return estBorneMin == borne1.estBorneMin &&
+				Objects.equals(variable, borne1.variable) &&
+				Objects.equals(borne, borne1.borne);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(variable, borne, estBorneMin);
+	}
 }

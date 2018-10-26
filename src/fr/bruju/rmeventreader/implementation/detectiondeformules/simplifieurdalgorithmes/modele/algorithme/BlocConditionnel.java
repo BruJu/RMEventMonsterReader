@@ -39,4 +39,17 @@ public class BlocConditionnel implements InstructionGenerale {
 	public void accept(VisiteurDAlgorithme visiteur) {
 		visiteur.visit(this);
 	}
+
+	@Override
+	public boolean estIdentique(InstructionGenerale instructionGenerale) {
+		if (!(instructionGenerale instanceof BlocConditionnel)) {
+			return false;
+		}
+
+		BlocConditionnel autre = (BlocConditionnel) instructionGenerale;
+
+		return condition.equals(autre.condition)
+				&& siVrai.estIdentique(autre.siVrai)
+				&& siFaux.estIdentique(autre.siFaux);
+	}
 }

@@ -4,6 +4,8 @@ import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 
+import java.util.Objects;
+
 public class ConditionVariable implements Condition {
 	public final Expression gauche;
 	public final Comparateur comparateur;
@@ -40,6 +42,20 @@ public class ConditionVariable implements Condition {
 			return comparateur.test(valeurGauche, valeurDroite);
 		}
 	}
-	
-	
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ConditionVariable that = (ConditionVariable) o;
+		return Objects.equals(gauche, that.gauche) &&
+				comparateur == that.comparateur &&
+				Objects.equals(droite, that.droite);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(gauche, comparateur, droite);
+	}
 }

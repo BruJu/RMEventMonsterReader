@@ -25,4 +25,9 @@ public class InstructionAffichage implements InstructionGenerale {
 	public void accept(VisiteurDAlgorithme visiteur) {
 		visiteur.visit(this);
 	}
+
+	@Override
+	public boolean estIdentique(InstructionGenerale instructionGenerale) {
+		return false;
+	}
 }

@@ -8,4 +8,6 @@ public interface InstructionGenerale {
 	
 	
 	public void accept(VisiteurDAlgorithme visiteur);
+
+	boolean estIdentique(InstructionGenerale instructionGenerale);
 }
