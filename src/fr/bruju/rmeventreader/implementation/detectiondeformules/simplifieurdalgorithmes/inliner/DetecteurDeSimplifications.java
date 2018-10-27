@@ -28,7 +28,16 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	final Set<InstructionAffectation> instructionsAIgnorer = new HashSet<>(); // Mortes + inlinées
 	final Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables = new HashMap<>();
 
-	
+
+	public DetecteurDeSimplifications() {
+	}
+
+	public DetecteurDeSimplifications(List<ExprVariable> variablesVivantes) {
+		for (ExprVariable variablesVivante : variablesVivantes) {
+			this.variablesVivantes.put(variablesVivante.idVariable, null);
+		}
+	}
+
 	public void noterExpression(InstructionGenerale instruction, Expression expression) {
 		ListeurDePresence listeur = new ListeurDePresence();
 		listeur.visit(expression);
@@ -51,7 +60,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 		nombreDiInstructionsVisitees++;
 		int numeroDeCase = instructionAffectation.variableAssignee.idVariable;
 
-		if (!variablesVivantes.containsKey(numeroDeCase) && !instructionAffectation.variableAssignee.estUneSortie()) {
+		if (!variablesVivantes.containsKey(numeroDeCase)) {
 			// Variable morte
 			instructionsAIgnorer.add(instructionAffectation);
 			nombreDiInstructionsIgnorees++;
