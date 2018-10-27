@@ -58,7 +58,7 @@ public class BaseDAlgorithmes implements Transformateur.Visiteur {
 	@Override
 	public void visit(Unificateur unificateur) {
 		CollectorBySimilarity<AlgorithmeEtiquete> collecteur
-				= new CollectorBySimilarity<>(a -> 0, AlgorithmeEtiquete::classificationUnifiable);
+				= new CollectorBySimilarity<>(a -> 0, this::classifier);
 
 		Collection<List<AlgorithmeEtiquete>> algorithmesClassifies =
 				algorithmes.stream().collect(collecteur).getMap().values();
@@ -70,6 +70,16 @@ public class BaseDAlgorithmes implements Transformateur.Visiteur {
 		}
 
 		algorithmes = nouvelleListe;
+	}
+
+	public boolean classifier(AlgorithmeEtiquete a1, AlgorithmeEtiquete a2) {
+		if (a1.getClassificateurs().length != a2.getClassificateurs().length) {
+			return false;
+		}
+
+		return Utilitaire.comparerIterateursBoolean(a1.new IterateurDeClassificateurs(),
+				a2.new IterateurDeClassificateurs(),
+				Classificateur::estUnifiable);
 	}
 
 	@Override

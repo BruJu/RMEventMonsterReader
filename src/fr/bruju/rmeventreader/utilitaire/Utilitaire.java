@@ -334,4 +334,21 @@ public class Utilitaire {
 			}
 		}
 	}
+
+	public static <T> boolean comparerIterateursBoolean(Supplier<T> source1, Supplier<T> source2,
+											 BiPredicate<T, T> fonctionDeComparaison) {
+		while (true) {
+			T objet1 = source1.get();
+			T objet2 = source2.get();
+
+			if (objet1 == null) {
+				return objet2 == null;
+			} else {
+				if (objet2 == null || !fonctionDeComparaison.test(objet1, objet2)) {
+					return false;
+				}
+			}
+		}
+	}
+
 }

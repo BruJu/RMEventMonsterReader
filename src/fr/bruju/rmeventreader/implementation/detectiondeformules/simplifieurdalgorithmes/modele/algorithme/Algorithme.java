@@ -1,16 +1,14 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme;
 
-import com.sun.org.apache.bcel.internal.generic.Instruction;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Algorithme {
-	private List<InstructionGenerale> instructions = new ArrayList<>();
+	private final List<InstructionGenerale> instructions = new ArrayList<>();
 
 	public void ajouterInstruction(InstructionGenerale instruction) {
 		instructions.add(instruction);
@@ -50,10 +48,6 @@ public class Algorithme {
 		}
 	}
 
-	public void ajouter(Algorithme algorithme) {
-		instructions.addAll(algorithme.instructions);
-	}
-
 	public int nombreDInstructions() {
 		return instructions.size();
 	}
@@ -61,7 +55,7 @@ public class Algorithme {
 	public boolean estIdentique(Algorithme algorithme) {
 		Supplier<InstructionGenerale> itThis = new IterateurEffectif();
 		Supplier<InstructionGenerale> itAutre = algorithme.new IterateurEffectif();
-		return Utilitaire.comparerIterateurs(itThis, itAutre, (a, b) -> a.estIdentique(b) ? 0 : 1) == 0;
+		return Utilitaire.comparerIterateursBoolean(itThis, itAutre, InstructionGenerale::estIdentique);
 	}
 
 	private class IterateurEffectif implements Supplier<InstructionGenerale> {

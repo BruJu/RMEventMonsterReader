@@ -2,8 +2,11 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Simplification;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
+import javax.xml.ws.Provider;
 import java.util.Arrays;
+import java.util.function.Supplier;
 
 
 public class AlgorithmeEtiquete {
@@ -52,41 +55,17 @@ public class AlgorithmeEtiquete {
 		return algorithme;
 	}
 
-
-	public static boolean classificationUnifiable(AlgorithmeEtiquete a1, AlgorithmeEtiquete a2) {
-		if (a1.classificateurs.length != a2.classificateurs.length) {
-			return false;
-		}
-
-		for (int i = 0 ; i != a1.classificateurs.length ; i++) {
-			if (!a1.classificateurs[i].estUnifiable(a2.classificateurs[i])) {
-				return false;
-			}
-		}
-
-		return true;
+	public Classificateur[] getClassificateurs() {
+		return classificateurs;
 	}
 
-	public static int comparer(AlgorithmeEtiquete algorithmeEtiquete, AlgorithmeEtiquete algorithmeEtiquete1) {
-		int i;
 
-		for (i = 0 ; i != algorithmeEtiquete.classificateurs.length ; i++) {
+	public class IterateurDeClassificateurs implements Supplier<Classificateur> {
+		int i = 0;
 
-			if (algorithmeEtiquete1.classificateurs.length < i) {
-				return -1;
-			}
-
-			int comparaison = algorithmeEtiquete.classificateurs[i].comparer(algorithmeEtiquete1.classificateurs[i]);
-
-			if (comparaison != 0) {
-				return comparaison;
-			}
-		}
-
-		if (algorithmeEtiquete1.classificateurs.length >= i) {
-			return 1;
-		} else {
-			return 0;
+		@Override
+		public Classificateur get() {
+			return (i == classificateurs.length) ? null : classificateurs[i++];
 		}
 	}
 }
