@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.utilitaire;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,10 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 public class Utilitaire {
@@ -307,5 +306,32 @@ public class Utilitaire {
 		}
 		
 		return nouveauTableau;
+	}
+
+
+	public static <T> int comparerIterateurs(Supplier<T> source1, Supplier<T> source2,
+											 ToIntBiFunction<T, T> fonctionDeComparaison) {
+		while (true) {
+			T objet1 = source1.get();
+			T objet2 = source2.get();
+
+			if (objet1 == null) {
+				if (objet2 == null) {
+					return 0;
+				} else {
+					return -1;
+				}
+			} else {
+				if (objet2 == null) {
+					return 1;
+				} else {
+					int comparaison = fonctionDeComparaison.applyAsInt(objet1, objet2);
+
+					if (comparaison != 0) {
+						return comparaison;
+					}
+				}
+			}
+		}
 	}
 }

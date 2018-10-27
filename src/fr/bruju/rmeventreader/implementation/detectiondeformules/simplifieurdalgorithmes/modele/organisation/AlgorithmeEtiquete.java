@@ -81,8 +81,6 @@ public class AlgorithmeEtiquete {
 			if (comparaison != 0) {
 				return comparaison;
 			}
-
-
 		}
 
 		if (algorithmeEtiquete1.classificateurs.length >= i) {
@@ -90,7 +88,5 @@ public class AlgorithmeEtiquete {
 		} else {
 			return 0;
 		}
-
-
 	}
 }

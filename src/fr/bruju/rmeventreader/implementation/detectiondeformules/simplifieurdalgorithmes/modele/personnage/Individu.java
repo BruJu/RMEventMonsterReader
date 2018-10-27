@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage;
 
+import java.util.Set;
+
 public class Individu implements Personnage {
 	public final String nom;
 
@@ -10,5 +12,10 @@ public class Individu implements Personnage {
 	@Override
 	public String getNom() {
 		return nom;
+	}
+
+	@Override
+	public void ajouterPersonnage(Set<Individu> set) {
+		set.add(this);
 	}
 }

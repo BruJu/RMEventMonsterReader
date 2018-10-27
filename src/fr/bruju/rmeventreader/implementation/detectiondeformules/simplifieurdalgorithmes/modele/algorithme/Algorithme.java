@@ -1,11 +1,13 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme;
 
 import com.sun.org.apache.bcel.internal.generic.Instruction;
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class Algorithme {
 	private List<InstructionGenerale> instructions = new ArrayList<>();
@@ -37,7 +39,9 @@ public class Algorithme {
 	}
 
 	public void accept(VisiteurDAlgorithme visiteurDAlgorithme) {
-		instructions.forEach(visiteurDAlgorithme::visit);
+		for (InstructionGenerale instruction : instructions) {
+			instruction.accept(visiteurDAlgorithme);
+		}
 	}
 	
 	public void acceptInverse(VisiteurDAlgorithme visiteurDAlgorithme) {
@@ -55,59 +59,29 @@ public class Algorithme {
 	}
 
 	public boolean estIdentique(Algorithme algorithme) {
-		Iterator<InstructionGenerale> itThis = getIterateurEffectif();
-		Iterator<InstructionGenerale> itAutre = algorithme.getIterateurEffectif();
-
-		while (true) {
-
-			if (!itThis.hasNext() || !itAutre.hasNext()) {
-				return !itThis.hasNext() && !itAutre.hasNext();
-			}
-
-			InstructionGenerale instructionThis = itThis.next();
-			InstructionGenerale instructionAutre = itAutre.next();
-
-			if (!instructionThis.estIdentique(instructionAutre)) {
-				return false;
-			}
-		}
+		Supplier<InstructionGenerale> itThis = new IterateurEffectif();
+		Supplier<InstructionGenerale> itAutre = algorithme.new IterateurEffectif();
+		return Utilitaire.comparerIterateurs(itThis, itAutre, (a, b) -> a.estIdentique(b) ? 0 : 1) == 0;
 	}
 
-	private Iterator<InstructionGenerale> getIterateurEffectif() {
-		return new IterateurInstructionEffectives();
-	}
-
-	private class IterateurInstructionEffectives implements Iterator<InstructionGenerale> {
+	private class IterateurEffectif implements Supplier<InstructionGenerale> {
 		private int i = -1;
-		private InstructionGenerale instructionActuelle;
 
-		public IterateurInstructionEffectives() {
-			next();
-			instructionActuelle = next();
-		}
-
-		@Override
-		public boolean hasNext() {
-			return i != instructions.size();
-		}
-
-		@Override
-		public InstructionGenerale next() {
-			InstructionGenerale instructionPrecedente = instructionActuelle;
-
-			while (true) {
+		public InstructionGenerale get() {
+			do {
 				i++;
+			} while(estUnAffichage());
 
-				if (i == instructions.size()) {
-					return instructionPrecedente;
-				}
+			return extraire();
+		}
 
-				instructionActuelle = instructions.get(i);
+		private boolean estUnAffichage() {
+			return i < instructions.size() && instructions.get(i) instanceof InstructionAffichage;
+		}
 
-				if (!(instructionActuelle instanceof InstructionAffichage)) {
-					return instructionPrecedente;
-				}
-			}
+		private InstructionGenerale extraire() {
+			return i >= instructions.size() ? null : instructions.get(i);
 		}
 	}
+
 }

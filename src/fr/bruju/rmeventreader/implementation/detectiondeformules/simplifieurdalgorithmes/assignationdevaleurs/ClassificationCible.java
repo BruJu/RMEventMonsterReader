@@ -26,9 +26,9 @@ public class ClassificationCible implements Classificateur {
 	}
 
 	public enum Cible {
-		Ennemi1,
-		Ennemi2,
-		Ennemi3,
+		CibleMonstre1,
+		CibleMonstre2,
+		CibleMonstre3,
 		PlusieursCibles
 	}
 
