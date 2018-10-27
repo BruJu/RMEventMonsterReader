@@ -174,7 +174,10 @@ public class ConstructeurValue implements ConstructeurDAlgorithme {
 
 		@Override
 		public void recevoirFin() {
-			pere.ajouterInstruction(new BlocConditionnel(condition, vrai, faux));
+			if (!(vrai.estVide() && faux.estVide())) {
+				pere.ajouterInstruction(new BlocConditionnel(condition, vrai, faux));
+			}
+
 			ConstructeurValue.this.algorithmeCourant = pere;
 			ConstructeurValue.this.valeursCourantes = getValeursCourantes();
 		}

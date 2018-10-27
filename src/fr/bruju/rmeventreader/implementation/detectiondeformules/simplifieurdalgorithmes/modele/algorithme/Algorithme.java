@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import com.sun.org.apache.bcel.internal.generic.Instruction;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,19 +55,17 @@ public class Algorithme {
 	}
 
 	public boolean estIdentique(Algorithme algorithme) {
-		int iThis = -1;
-		int iAutre = -1;
+		Iterator<InstructionGenerale> itThis = getIterateurEffectif();
+		Iterator<InstructionGenerale> itAutre = algorithme.getIterateurEffectif();
 
 		while (true) {
-			iThis = prochaineInstruction(iThis);
-			iAutre = algorithme.prochaineInstruction(iAutre);
 
-			if (iThis == -1 || iAutre == -1) {
-				return iThis == iAutre;
+			if (!itThis.hasNext() || !itAutre.hasNext()) {
+				return !itThis.hasNext() && !itAutre.hasNext();
 			}
 
-			InstructionGenerale instructionThis = instructions.get(iThis);
-			InstructionGenerale instructionAutre = algorithme.instructions.get(iAutre);
+			InstructionGenerale instructionThis = itThis.next();
+			InstructionGenerale instructionAutre = itAutre.next();
 
 			if (!instructionThis.estIdentique(instructionAutre)) {
 				return false;
@@ -74,12 +73,41 @@ public class Algorithme {
 		}
 	}
 
-	private int prochaineInstruction(int i) {
-		do {
-			i++;
-		} while(i != instructions.size() && instructions.get(i) instanceof InstructionAffectation);
-
-		return (i == instructions.size()) ? -1 : i;
+	private Iterator<InstructionGenerale> getIterateurEffectif() {
+		return new IterateurInstructionEffectives();
 	}
 
+	private class IterateurInstructionEffectives implements Iterator<InstructionGenerale> {
+		private int i = -1;
+		private InstructionGenerale instructionActuelle;
+
+		public IterateurInstructionEffectives() {
+			next();
+			instructionActuelle = next();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return i != instructions.size();
+		}
+
+		@Override
+		public InstructionGenerale next() {
+			InstructionGenerale instructionPrecedente = instructionActuelle;
+
+			while (true) {
+				i++;
+
+				if (i == instructions.size()) {
+					return instructionPrecedente;
+				}
+
+				instructionActuelle = instructions.get(i);
+
+				if (!(instructionActuelle instanceof InstructionAffichage)) {
+					return instructionPrecedente;
+				}
+			}
+		}
+	}
 }
