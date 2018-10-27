@@ -10,9 +10,9 @@ import java.util.TreeSet;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Groupe;
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Individu;
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Personne;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Groupe;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Individu;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Personne;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BConstant;

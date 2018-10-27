@@ -22,10 +22,11 @@ public class AlgorithmeEtiquete {
 		this.algorithme = nouvelAlgorithme;
 	}
 
-	public AlgorithmeEtiquete(AlgorithmeEtiquete algo1, AlgorithmeEtiquete algo2, Algorithme nouvelAlgorithme) {
+	public AlgorithmeEtiquete(AlgorithmeEtiquete algo1, AlgorithmeEtiquete algo2, Algorithme nouvelAlgorithme,
+							  Classificateur nouveauClassificateur) {
 		this.classificateurs = Arrays.copyOf(algo1.classificateurs, algo1.classificateurs.length);
 		this.algorithme = nouvelAlgorithme;
-		classificateurs[classificateurs.length - 1] = classificateurs[classificateurs.length - 1].ajouter(algo2.classificateurs[classificateurs.length - 1]);
+		classificateurs[classificateurs.length - 1] = nouveauClassificateur;
 	}
 
 	public void simplifier(Simplification simplification) {

@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules._personnages;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage;
 
 import java.util.Set;
 import java.util.TreeSet;

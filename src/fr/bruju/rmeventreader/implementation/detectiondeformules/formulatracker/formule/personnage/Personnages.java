@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.LigneNonReconnueException;
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Individu;
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.VariablesAssociees;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.Bouton;

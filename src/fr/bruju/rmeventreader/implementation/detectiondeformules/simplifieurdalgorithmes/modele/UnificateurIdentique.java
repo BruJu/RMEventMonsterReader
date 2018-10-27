@@ -1,6 +1,8 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.ClassificationCible;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Unificateur;
 
 public class UnificateurIdentique implements Unificateur {
@@ -12,6 +14,7 @@ public class UnificateurIdentique implements Unificateur {
 			return null;
 		}
 
-		return new AlgorithmeEtiquete(algo1, algo2, algo1.getAlgorithme());
+		Classificateur classificateur = new ClassificationCible(ClassificationCible.Cible.PlusieursCibles);
+		return new AlgorithmeEtiquete(algo1, algo2, algo1.getAlgorithme(), classificateur);
 	}
 }

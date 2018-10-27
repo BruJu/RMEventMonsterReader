@@ -15,10 +15,6 @@ public class ClassificationCible implements Classificateur {
 		return autre instanceof ClassificationCible;
 	}
 
-	@Override
-	public Classificateur ajouter(Classificateur classificateur) {
-		return new ClassificationCible(Cible.PlusieursCibles);
-	}
 
 	@Override
 	public int comparer(Classificateur classificateur) {

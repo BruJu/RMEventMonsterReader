@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Personne;
-
 /**
  * Une statistique posséde par un personnage
  * @author Bruju

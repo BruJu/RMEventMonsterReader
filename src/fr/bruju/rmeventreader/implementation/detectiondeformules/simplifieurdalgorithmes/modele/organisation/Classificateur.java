@@ -4,18 +4,11 @@ public interface Classificateur {
 
 	public boolean estUnifiable(Classificateur autre);
 
-	Classificateur ajouter(Classificateur classificateur);
-
 	int comparer(Classificateur classificateur);
 
 
 	public class ClassificateurChaine implements Classificateur {
 		public final String chaine;
-
-		@Override
-		public Classificateur ajouter(Classificateur classificateur) {
-			return this;
-		}
 
 		public ClassificateurChaine(String chaine) {
 			this.chaine = chaine;

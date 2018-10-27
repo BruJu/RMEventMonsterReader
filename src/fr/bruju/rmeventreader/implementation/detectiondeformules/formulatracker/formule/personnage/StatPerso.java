@@ -5,11 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Groupe;
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Individu;
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.Personne;
-import fr.bruju.rmeventreader.implementation.detectiondeformules._personnages.VariablesAssociees;
-
 public class StatPerso implements VariablesAssociees {
 
 	public Map<String, Statistique> statistiques;
