@@ -57,4 +57,9 @@ public class ExprVariable implements Expression {
 		}
 		return false;
 	}
+
+
+	public boolean estUneSortie() {
+		return false;
+	}
 }

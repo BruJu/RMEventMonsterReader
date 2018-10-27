@@ -9,7 +9,7 @@ public class InlinerGlobal implements Simplification {
 	
 	@Override
 	public Algorithme simplifier(Algorithme algorithme) {
-		DetecteurDeSimplifications detecteur = new DetecteurDeSimplifications(new Integer[] {514, 516, 517});
+		DetecteurDeSimplifications detecteur = new DetecteurDeSimplifications();
 		algorithme.acceptInverse(detecteur);
 		
 		Reecrivain reecrivain = new Reecrivain(algorithme, detecteur);

@@ -32,8 +32,12 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	
 	private ConstructeurValue constructeur = new ConstructeurValue();
 	
-	private Map<Integer, ExprVariable> variablesInstanciees = new HashMap<>();
-	
+	private Map<Integer, ExprVariable> variablesInstanciees;
+
+	public Executeur(Map<Integer, ExprVariable> variablesInstanciees) {
+		this.variablesInstanciees = variablesInstanciees;
+	}
+
 	private ExprVariable getVariable(int idVariable) {
 		return Utilitaire.Maps.getY(variablesInstanciees, idVariable, ExprVariable::new);
 	}
@@ -70,7 +74,7 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, Variable valeurDroite) {
-		nouvelleAffectation(getVariable(valeurGauche), operateur, new ExprVariable(valeurDroite.idVariable));
+		nouvelleAffectation(getVariable(valeurGauche), operateur, getVariable(valeurDroite.idVariable));
 	}
 
 	@Override
