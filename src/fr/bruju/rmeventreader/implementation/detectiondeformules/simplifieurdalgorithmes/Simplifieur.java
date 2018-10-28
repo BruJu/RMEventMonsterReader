@@ -8,6 +8,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaque
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.CibleurDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.DetermineurDeCiblage;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.Focaliseur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.UnificateurIdentique;
@@ -30,8 +31,9 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 public class Simplifieur implements Runnable {
 	private static final Transformateur[] simplifications = new Transformateur[] {
 			new Borneur(),
-			new InlinerGlobal(),
+			new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
 			new DetermineurDeCiblage(),
+			new Focaliseur(),
 			new Tri()
 	};
 	

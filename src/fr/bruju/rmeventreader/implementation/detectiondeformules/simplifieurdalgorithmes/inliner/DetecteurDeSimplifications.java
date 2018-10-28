@@ -28,10 +28,6 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 	final Set<InstructionAffectation> instructionsAIgnorer = new HashSet<>(); // Mortes + inlinées
 	final Map<InstructionGenerale, List<InstructionAffectation>> affectationsInlinables = new HashMap<>();
 
-
-	public DetecteurDeSimplifications() {
-	}
-
 	public DetecteurDeSimplifications(List<ExprVariable> variablesVivantes) {
 		for (ExprVariable variablesVivante : variablesVivantes) {
 			this.variablesVivantes.put(variablesVivante.idVariable, null);
