@@ -14,7 +14,7 @@ public class UnificateurIdentique implements Unificateur {
 			return null;
 		}
 
-		Classificateur classificateur = new ClassificationCible(ClassificationCible.Cible.PlusieursCibles);
+		Classificateur classificateur = new ClassificationCible(ClassificationCible.Cible.Multicible);
 		return new AlgorithmeEtiquete(algo1, algo2, algo1.getAlgorithme(), classificateur);
 	}
 }

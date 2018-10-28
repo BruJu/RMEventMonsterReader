@@ -7,6 +7,7 @@ import java.util.Map;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.CibleurDeMonstres;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.DetermineurDeCiblage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.UnificateurIdentique;
@@ -30,10 +31,7 @@ public class Simplifieur implements Runnable {
 	private static final Transformateur[] simplifications = new Transformateur[] {
 			new Borneur(),
 			new InlinerGlobal(),
-			new CibleurDeMonstres(),
-			new Borneur(),
-			new InlinerGlobal(),
-			new UnificateurIdentique(),
+			new DetermineurDeCiblage(),
 			new Tri()
 	};
 	

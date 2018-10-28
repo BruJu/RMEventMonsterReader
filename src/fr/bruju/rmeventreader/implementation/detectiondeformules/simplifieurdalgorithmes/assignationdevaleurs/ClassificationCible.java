@@ -26,10 +26,8 @@ public class ClassificationCible implements Classificateur {
 	}
 
 	public enum Cible {
-		CibleMonstre1,
-		CibleMonstre2,
-		CibleMonstre3,
-		PlusieursCibles
+		Monocible,
+		Multicible
 	}
 
 	@Override

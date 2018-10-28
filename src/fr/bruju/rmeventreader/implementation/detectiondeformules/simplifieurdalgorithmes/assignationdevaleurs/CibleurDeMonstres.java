@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.AssignationDeValeurs;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
@@ -27,7 +26,7 @@ public class CibleurDeMonstres implements Separateur {
 		AssignationDeValeurs assignateur = new AssignationDeValeurs();
 		Algorithme nouvelAlgorithme = assignateur.assigner(elementASeparer.getAlgorithme(), variables);
 
-		Classificateur classificateur = new ClassificationCible(ClassificationCible.Cible.values()[idMonstre]);
+		Classificateur classificateur = new ClassificationCible(ClassificationCible.Cible.Monocible);
 		return new AlgorithmeEtiquete(elementASeparer, classificateur, nouvelAlgorithme);
 	}
 }
