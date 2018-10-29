@@ -38,6 +38,10 @@ public abstract class VisiteurReecrivainDExpression implements VisiteurDExpressi
 	public Expression explorer(ExprVariable composant) {
 		return composant;
 	}
+
+	public Expression explorer(Statistique composant) {
+		return explorer((ExprVariable) composant);
+	}
 	
 	public final Expression explorer(Expression composant) {
 		visit(composant);
@@ -63,7 +67,9 @@ public abstract class VisiteurReecrivainDExpression implements VisiteurDExpressi
 	public final void visit(Borne composant) {
 		expression = explorer(composant);
 	}
-	
-	
-	
+
+	@Override
+	public final void visit(Statistique composant) {
+		expression = explorer(composant);
+	}
 }

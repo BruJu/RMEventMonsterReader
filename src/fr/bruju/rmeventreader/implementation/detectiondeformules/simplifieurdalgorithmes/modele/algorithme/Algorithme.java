@@ -58,6 +58,10 @@ public class Algorithme {
 		return Utilitaire.comparerIterateursBoolean(itThis, itAutre, InstructionGenerale::estIdentique);
 	}
 
+	public Supplier<InstructionGenerale> getIterateur() {
+		return new IterateurEffectif();
+	}
+
 	private class IterateurEffectif implements Supplier<InstructionGenerale> {
 		private int i = -1;
 

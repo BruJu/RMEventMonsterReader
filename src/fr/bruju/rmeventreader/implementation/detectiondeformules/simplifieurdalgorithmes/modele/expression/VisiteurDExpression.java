@@ -9,6 +9,9 @@ public interface VisiteurDExpression {
 	public void visit(Constante composant);
 	public void visit(NombreAleatoire composant);
 	public void visit(ExprVariable composant);
+	public default void visit(Statistique composant) {
+		visit((ExprVariable) composant);
+	}
 	public void visit(Borne composant);
 	
 }
