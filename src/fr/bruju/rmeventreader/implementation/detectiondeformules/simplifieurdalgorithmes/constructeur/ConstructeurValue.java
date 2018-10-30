@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules._variables.EtatInitial;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.EtatInitial;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;

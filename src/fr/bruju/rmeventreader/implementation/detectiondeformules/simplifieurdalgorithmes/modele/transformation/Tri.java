@@ -2,7 +2,6 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.ManipulateurDeListe;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import java.util.List;
@@ -10,9 +9,13 @@ import java.util.List;
 public class Tri implements ManipulateurDeListe {
 	@Override
 	public List<AlgorithmeEtiquete> manipuler(List<AlgorithmeEtiquete> liste) {
-		liste.sort((a1, a2) -> Utilitaire.comparerIterateurs(a1.new IterateurDeClassificateurs(),
-						                      				 a2.new IterateurDeClassificateurs(),
-						                      				 Classificateur::comparer));
+		liste.sort(this::comparerDeuxAlgorithmesEtiquetes);
 		return liste;
+	}
+
+	private int comparerDeuxAlgorithmesEtiquetes(AlgorithmeEtiquete a1, AlgorithmeEtiquete a2) {
+		return Utilitaire.comparerIterateurs(a1.new IterateurDeClassificateurs(),
+				a2.new IterateurDeClassificateurs(),
+				Classificateur::comparer);
 	}
 }

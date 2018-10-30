@@ -8,8 +8,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.division.Diviseur;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
@@ -31,7 +32,7 @@ public class Attaque {
 	/**
 	 * Initialise une attaque
 	 * 
-	 * @param nom Nom de l'attaque
+	 * @param noms Nom de l'attaque
 	 * @param resultat Association entre statistiques modifiées et liste des formules
 	 */
 	public Attaque(AttaqueALire noms, Map<ModifStat, List<FormuleDeDegats>> resultat) {

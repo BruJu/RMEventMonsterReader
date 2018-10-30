@@ -10,7 +10,8 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.condition.Condition;

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.ConditionAffichable;

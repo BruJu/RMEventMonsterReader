@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.actionmaker;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.ListeDesAttaques.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaque;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.Attaques;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Personnages;
@@ -18,7 +17,7 @@ public class MaillonActionMaker implements Maillon {
 	public void traiter(Attaques attaques) {
 		Personnages contexte = new Personnages();
 			
-		for (AttaqueALire attaque : ListeDesAttaques.extraireAttaquesALire()) {
+		for (AttaqueALire attaque : AttaqueALire.extraireAttaquesALire()) {
 			attaques.ajouterAttaque(lireEvenementAttaque(contexte, attaque));
 		}
 	}

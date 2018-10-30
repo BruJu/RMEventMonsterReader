@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.simples;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules._variables.EtatInitial;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.EtatInitial;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BBase;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.bouton.BConstant;
