@@ -2,7 +2,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import java.util.Set;
 
-public class Individu implements Personnage {
+public class Individu extends Personnage {
 	public final String nom;
 
 	public Individu(String nom) {

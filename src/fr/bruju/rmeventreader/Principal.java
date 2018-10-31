@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader;
 
 import java.io.IOException;
+import java.util.Random;
 
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;

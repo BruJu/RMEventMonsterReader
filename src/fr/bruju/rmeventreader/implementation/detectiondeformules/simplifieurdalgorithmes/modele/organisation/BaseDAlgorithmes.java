@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.ManipulateurDeListe;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Separateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Simplification;
@@ -11,12 +13,15 @@ import fr.bruju.util.similaire.CollectorBySimilarity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class BaseDAlgorithmes implements Transformateur.Visiteur {
+	private final BaseDePersonnages baseDePersonnages;
 	private List<AlgorithmeEtiquete> algorithmes;
 
-	public BaseDAlgorithmes() {
+	public BaseDAlgorithmes(BaseDePersonnages baseDePersonnages) {
 		this.algorithmes = new ArrayList<>();
+		this.baseDePersonnages = baseDePersonnages;
 	}
 
 	public void ajouter(AlgorithmeEtiquete algorithme) {

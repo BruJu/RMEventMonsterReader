@@ -15,6 +15,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.BaseDAlgorithmes;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Individu;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
@@ -53,9 +54,10 @@ public class Simplifieur implements Runnable {
 	private static BaseDAlgorithmes extraireAlgorithmesDesPersonnages() {
 		List<AttaqueALire> attaquesALire = AttaqueALire.extraireAttaquesALire();
 
-		BaseDAlgorithmes base = new BaseDAlgorithmes();
+		BaseDePersonnages personnages = new BaseDePersonnages();
+		BaseDAlgorithmes base = new BaseDAlgorithmes(personnages);
 
-		Map<Integer, ExprVariable> variablesInstanciees = lireVariablesInitiales();
+		Map<Integer, ExprVariable> variablesInstanciees = personnages.getVariablesInstanciees();
 
 		for (AttaqueALire attaque : attaquesALire) {
 			Executeur executeur = new Executeur(variablesInstanciees);
@@ -69,34 +71,6 @@ public class Simplifieur implements Runnable {
 		}
 
 		return base;
-	}
-
-	private static String FICHIER_PERSONNAGES = "ressources/formulatracker/Statistiques.txt";
-
-	private static Map<Integer,ExprVariable> lireVariablesInitiales() {
-		Map<Integer, ExprVariable> variablesInitiales = new HashMap<>();
-
-		Map<String, Personnage> personnages = new HashMap<>();
-
-
-		LecteurDeFichiersLigneParLigne.lectureFichierRessources(FICHIER_PERSONNAGES, ligne -> {
-			String[] donnees = ligne.split(" ", 3);
-
-			String nomPersonnage = donnees[0];
-			String nomStatistique = donnees[1];
-			boolean estPropriete = donnees[2].charAt(0) == 'S';
-			Integer numeroVariable = Integer.decode((estPropriete ? donnees[2].substring(1) : donnees[2]));
-
-			if (estPropriete) {
-				numeroVariable = -numeroVariable;
-			}
-
-			Personnage personnage = Utilitaire.Maps.getY(personnages, nomPersonnage, Individu::new);
-			Statistique statistique = new Statistique(numeroVariable, personnage, nomStatistique);
-			variablesInitiales.put(numeroVariable, statistique);
-		});
-
-		return variablesInitiales;
 	}
 
 }
