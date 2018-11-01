@@ -7,23 +7,42 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Individu;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Personnage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ContexteDeSubstitution extends VisiteurReecrivainDExpression {
 
-	private final Individu individuSource;
-	private final Individu individuDestination;
+	private final Personnage individuSource;
+	private final Personnage individuDestination;
 
-	public ContexteDeSubstitution(Individu individuSource, Individu individuDestination) {
+	private Map<ExprVariable, ExprVariable> substitutions;
+
+
+	public ContexteDeSubstitution(Personnage individuSource, Personnage individuDestination) {
 		this.individuSource = individuSource;
 		this.individuDestination = individuDestination;
+		substitutions = new HashMap<>();
 	}
 
 	@Override
 	public Expression explorer(ExprVariable composant) {
-		return super.explorer(composant);
+		ExprVariable variable = substitutions.get(composant);
+		return variable == null ? composant : variable;
 	}
 
 	@Override
 	public Expression explorer(Statistique composant) {
-		return super.explorer(composant);
+		if (composant.personnage != individuSource) {
+			return composant;
+		}
+
+		String nomStatistique = composant.nom;
+		Statistique statistiqueChezDestination = individuDestination.getStatistique(nomStatistique);
+		return statistiqueChezDestination == null ? composant : statistiqueChezDestination;
+	}
+
+
+	public void enregistrerSubstitution(ExprVariable source, ExprVariable destination) {
+		substitutions.put(source, destination);
 	}
 }

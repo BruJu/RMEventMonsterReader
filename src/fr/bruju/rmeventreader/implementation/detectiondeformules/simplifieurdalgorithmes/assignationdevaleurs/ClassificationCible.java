@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 
 public class ClassificationCible implements Classificateur {
 
-	private final Cible cibleChoisie;
+	public final Cible cibleChoisie;
 
 	public ClassificationCible(Cible cibleChoisie) {
 		this.cibleChoisie = cibleChoisie;
