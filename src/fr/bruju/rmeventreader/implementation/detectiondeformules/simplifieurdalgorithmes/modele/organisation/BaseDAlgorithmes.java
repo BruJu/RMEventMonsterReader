@@ -71,7 +71,7 @@ public class BaseDAlgorithmes implements Transformateur.Visiteur {
 		List<AlgorithmeEtiquete> nouvelleListe = new ArrayList<>();
 
 		for (List<AlgorithmeEtiquete> liste : algorithmesClassifies) {
-			nouvelleListe.addAll(Utilitaire.fusionnerJusquaStabilite(liste, unificateur::unifier));
+			nouvelleListe.addAll(Utilitaire.fusionnerJusquaStabilite(liste, (a, b) -> unificateur.unifier(a, b, baseDePersonnages)));
 		}
 
 		algorithmes = nouvelleListe;
