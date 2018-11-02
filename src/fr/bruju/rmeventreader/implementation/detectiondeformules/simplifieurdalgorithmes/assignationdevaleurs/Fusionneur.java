@@ -27,7 +27,7 @@ public class Fusionneur implements Unificateur {
 			InstructionGenerale i1 = iterateur1.get();
 			InstructionGenerale i2 = iterateur2.get();
 
-			
+
 
 
 		}

@@ -240,7 +240,12 @@ Actuellement deux solutions sont proposées :
 
 - FormulaTracker qui génère des formules très longues et qui tente de les réduire avec des heuristiques
 
-- Recomposition qui génère des formules un peu plus exactes et plus courtes, mais qui ne dispose pas d'heuristique efficace pour réduire la taille des formules 
+- Recomposition qui génère des formules un peu plus exactes et plus courtes, mais qui ne dispose pas d'heuristique efficace pour réduire la taille des formules. Cette approche, décrivant en ligne les différentes transformations appliquées à une variable, a été supprimée.
+
+- La Simplification d'Algorithme qui est en cours de développement. L'objectif est de présenter l'algorithme présent dans le jeu mais de manière simplifiée (a = 50 ; a += 20 ; a += b est présénté comme étant a = 50 + 20 + b, mais a = 50 ; si a = b ; a * 2 ; fin si reste tel quel)
+
+
+
  
 Ces deux approches échouent pour le moment à produire un résultat acceptable.
 
