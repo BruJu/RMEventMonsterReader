@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner;
 
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;

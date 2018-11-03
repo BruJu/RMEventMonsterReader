@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Simplification;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;

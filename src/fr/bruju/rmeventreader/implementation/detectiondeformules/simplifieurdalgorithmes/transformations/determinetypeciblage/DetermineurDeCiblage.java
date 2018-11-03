@@ -1,5 +1,6 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.AssignationDeValeurs;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Separateur;
@@ -7,6 +8,8 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+
+// Note : non utilisé
 
 public class DetermineurDeCiblage implements Separateur {
 	@Override

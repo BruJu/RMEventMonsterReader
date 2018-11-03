@@ -244,8 +244,5 @@ Actuellement deux solutions sont proposées :
 
 - La Simplification d'Algorithme qui est en cours de développement. L'objectif est de présenter l'algorithme présent dans le jeu mais de manière simplifiée (a = 50 ; a += 20 ; a += b est présénté comme étant a = 50 + 20 + b, mais a = 50 ; si a = b ; a * 2 ; fin si reste tel quel)
 
-
-
- 
-Ces deux approches échouent pour le moment à produire un résultat acceptable.
+L'objectif à terme étant de ne garder que la simplification d'algorithme.
 

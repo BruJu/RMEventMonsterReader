@@ -1,27 +1,21 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.DetermineurDeCiblage;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs.Focaliseur;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.bornage.Borneur;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.DetermineurDeCiblage;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage.Borneur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Statistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.BaseDAlgorithmes;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Individu;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Tri;
-import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -31,7 +25,7 @@ public class Simplifieur implements Runnable {
 			new Borneur(),
 			new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
 			new DetermineurDeCiblage(),
-			new Focaliseur(),
+			new SeparateurParHPDeMonstres(),
 			new Tri()
 	};
 	

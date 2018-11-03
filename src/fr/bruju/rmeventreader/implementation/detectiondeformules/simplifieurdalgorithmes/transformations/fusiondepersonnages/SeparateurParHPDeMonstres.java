@@ -1,6 +1,7 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.inliner.InlinerGlobal;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nonutilise.CibleurDeMonstres;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
@@ -11,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Focaliseur implements Separateur {
+/**
+ * Transforme l'algorithme pour ne considérer que les dégâts fait à un monstre
+ */
+public class SeparateurParHPDeMonstres implements Separateur {
 
 
 	@Override

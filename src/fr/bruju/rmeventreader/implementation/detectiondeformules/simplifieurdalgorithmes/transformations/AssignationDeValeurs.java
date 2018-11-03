@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.assignationdevaleurs;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.constructeur.ConstructeurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.constructeur.ConstructeurValue;

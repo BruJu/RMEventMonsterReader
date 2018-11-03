@@ -6,6 +6,9 @@ import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import java.util.List;
 
+/**
+ * Trie les algorithmes en comparant les classificateurs
+ */
 public class Tri implements ManipulateurDeListe {
 	@Override
 	public List<AlgorithmeEtiquete> manipuler(List<AlgorithmeEtiquete> liste) {
