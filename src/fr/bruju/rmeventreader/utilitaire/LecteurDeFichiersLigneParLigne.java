@@ -62,7 +62,7 @@ public class LecteurDeFichiersLigneParLigne {
 	 * @return Vrai si la ligne est non vide et ne commence pas par //
 	 */
 	private static boolean filtrer(String ligne) {
-		return !ligne.equals("") && !ligne.startsWith(DEBUT_COMMENTAIRE);
+		return !(ligne.equals("") || ligne.startsWith(DEBUT_COMMENTAIRE));
 	}
 	
 	/**
