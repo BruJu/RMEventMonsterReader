@@ -1,9 +1,5 @@
 package fr.bruju.rmeventreader;
 
-import java.io.IOException;
-import java.util.Random;
-
-import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplifieur;
@@ -12,6 +8,7 @@ import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
+import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -21,7 +18,7 @@ public class Principal {
 	public static void main(String[] args) {
 		System.out.println("#### Début ####");
 
-		int choix = 8;
+		int choix = 9;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -36,7 +33,8 @@ public class Principal {
 				/* 05 */ new ChercheurDImages(51),
 				/* 06 */ new ChercheurDeReferences(),
 				/* 07 */ new ChercheurDeMagasins(),
-				/* 08 */ new Simplifieur()
+				/* 08 */ new Simplifieur(),
+				/* 09 */ new DetecteurDeColissionsDInterrupteurs()
 		};
 		
 		options[choix].run();

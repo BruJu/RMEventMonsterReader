@@ -59,7 +59,7 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 	}
 
 	/* ===================
-	 * ACTION MAKER A PILE
+	 * ACTION MAKER DetecteurDeColissionsDInterrupteurs PILE
 	 * =================== */
 
 	/* -----------------------

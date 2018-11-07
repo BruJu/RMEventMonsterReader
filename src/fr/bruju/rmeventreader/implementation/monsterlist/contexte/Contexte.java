@@ -78,7 +78,7 @@ public class Contexte {
 	}
 
 	/**
-	 * A partir du numéro de la variable modifiée, donne un couple <numéro du monstre, statistique>
+	 * DetecteurDeColissionsDInterrupteurs partir du numéro de la variable modifiée, donne un couple <numéro du monstre, statistique>
 	 */
 	public Pair<Integer, String> getStatistique(int position) {
 		return statistiquesSurMonstres.get(position);
@@ -92,7 +92,7 @@ public class Contexte {
 	}
 
 	/**
-	 * A partir du numéro de l'interrupteur modifié, donne un couple <numéro du monstre, statistique>
+	 * DetecteurDeColissionsDInterrupteurs partir du numéro de l'interrupteur modifié, donne un couple <numéro du monstre, statistique>
 	 */
 	public Pair<Integer, String> getPropriete(int position) {
 		return statistiquesSurMonstres.get(position + DECALAGE_PROPRIETE);

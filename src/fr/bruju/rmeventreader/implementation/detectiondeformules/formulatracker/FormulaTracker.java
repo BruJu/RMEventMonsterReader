@@ -23,8 +23,8 @@ public class FormulaTracker implements Runnable {
 				new MaillonActionMaker(),
 				new MaillonEvaluationPartielle(),
 				new MaillonIntegration(),
-				new MaillonDesinjecteur(),						// A faire aprés l'inclusion
-				new MaillonUnificateur(),						// A faire aprés désinjection
+				new MaillonDesinjecteur(),						// DetecteurDeColissionsDInterrupteurs faire aprés l'inclusion
+				new MaillonUnificateur(),						// DetecteurDeColissionsDInterrupteurs faire aprés désinjection
 				new Factorisation(),
 				new MaillonRetirerSiInutile(),
 				new Borne(),

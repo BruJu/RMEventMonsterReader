@@ -102,7 +102,7 @@ public class EtatMemoire {
 	}
 
 	/* ==================
-	 * ACCES A LA MEMOIRE
+	 * ACCES DetecteurDeColissionsDInterrupteurs LA MEMOIRE
 	 * ================== */
 
 	/**
