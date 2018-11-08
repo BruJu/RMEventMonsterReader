@@ -44,10 +44,7 @@ public class Utilitaire {
 			if (tableau.isEmpty())
 				return null;
 			
-			T t = tableau.get(tableau.size() - 1);
-			
-			tableau.remove(tableau.size() - 1);
-			return t;
+			return tableau.remove(tableau.size() - 1);
 		}
 	}
 

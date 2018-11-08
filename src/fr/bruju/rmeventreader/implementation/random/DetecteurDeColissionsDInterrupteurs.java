@@ -4,13 +4,15 @@ import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
+import fr.bruju.rmdechiffreur.modele.ValeurGauche;
 import fr.bruju.rmeventreader.ProjetS;
 import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Cette classe permet de détecter les coffres qui utilisent le même interrupteur.
@@ -28,6 +30,8 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 
 		ProjetS.PROJET.explorerEvenementsSurCarte(this::detecterCoffre);
 
+		enleverDoublons();
+
 		for (Map.Entry<Integer, List<Pair<RMMap, RMEvenement>>> paire : coffresExistants.entrySet()) {
 			if (paire.getValue().size() > 1) {
 				System.out.println("= Collision sur l'interrupteur "
@@ -41,26 +45,94 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 		}
 	}
 
+	private void enleverDoublons() {
+		for (List<Pair<RMMap, RMEvenement>> pairs : coffresExistants.values()) {
+			if (pairs.size() <= 1) {
+				continue;
+			}
+
+			afficherListe(pairs, "Avant");
+			enleverDoublons(pairs, this::sontVoisins);
+			afficherListe(pairs, "Apres");
+		}
+	}
+
+	private void afficherListe(List<Pair<RMMap,RMEvenement>> pairs, String apres) {
+		System.out.println("-" + apres);
+		for (Pair<RMMap, RMEvenement> pair : pairs) {
+			System.out.println(" ; " + pair.getLeft().nom() + "," + pair.getRight().nom() + " " + pair.getRight().x() + "-" + pair.getRight().y());
+		}
+
+	}
+
+	private boolean sontVoisins(Pair<RMMap, RMEvenement> a, Pair<RMMap, RMEvenement> b) {
+		if (!a.getLeft().equals(b.getLeft())) {
+			return false;
+		}
+
+		RMEvenement evenementA = a.getRight();
+		RMEvenement evenementB = b.getRight();
+
+		return coordonneesVoisines(evenementA.x(), evenementB.x())
+				&& coordonneesVoisines(evenementA.y(), evenementB.y())
+				&& (evenementA.nom().equals(evenementB.nom())
+				|| evenementA.nom().startsWith("EV") && evenementB.nom().startsWith("EV"));
+	}
+
+	private boolean coordonneesVoisines(int a, int b) {
+		return a == b || a - 1 == b || a + 1 == b;
+	}
+
+	private <T> void enleverDoublons(List<T> nonExplores, BiPredicate<T, T> sontVoisins) {
+		List<T> explores = new ArrayList<>();
+
+		while (!nonExplores.isEmpty()) {
+			T caseRemplie = Utilitaire.Pile.pop(nonExplores);
+			explores.add(caseRemplie);
+
+			Stack<T> voisins = new Stack<>();
+			voisins.push(caseRemplie);
+
+			while (!voisins.isEmpty()) {
+				T caseDepilee = voisins.pop();
+
+				int i = 0;
+				while (i != nonExplores.size()) {
+					T caseCandidateAuVoisinage = nonExplores.get(i);
+
+					if (sontVoisins.test(caseDepilee, caseCandidateAuVoisinage)) {
+						nonExplores.remove(i);
+						voisins.push(caseCandidateAuVoisinage);
+					} else {
+						i++;
+					}
+				}
+			}
+		}
+
+		nonExplores.addAll(explores);
+	}
+
 	private void detecterCoffre(RMMap map, RMEvenement evenement) {
 		if (evenement.pages().size() != 2) {
 			return;
 		}
 
-		RMPage page1 = evenement.pages().get(0);
+		int idInterrupteurPage2 = evenement.pages().get(1).conditionInterrupteur1();
 
-		if (!(naPasDeCondition(page1) && possedeUnAppelAControleCoffre(page1))) {
+		if (idInterrupteurPage2 == -1) {
 			return;
 		}
 
-		int idInterrupteurPage2 = evenement.pages().get(1).conditionInterrupteur1();
+		RMPage page1 = evenement.pages().get(0);
 
-		if (idInterrupteurPage2 != -1) {
+		if (naPasDeCondition(page1) && possedeUnAppelAControleCoffre(page1, idInterrupteurPage2)) {
 			Utilitaire.Maps.ajouterElementDansListe(coffresExistants, idInterrupteurPage2, new Pair<>(map, evenement));
 		}
 	}
 
-	private boolean possedeUnAppelAControleCoffre(RMPage page) {
-		ExecuteurControle executeur = new ExecuteurControle();
+	private boolean possedeUnAppelAControleCoffre(RMPage page, int idInterrupteur) {
+		ExecuteurControleFin executeur = new ExecuteurControleFin(idInterrupteur);
 		executeur.appliquerInstructions(page.instructions());
 		return executeur.appelTrouve;
 	}
@@ -98,5 +170,49 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 				appelTrouve = true;
 			}
 		}
+	}
+
+
+	private static class ExecuteurControleFin implements ExecuteurInstructions {
+		private static int NUMERO_EVENEMENT_COMMUN_CONTROLE_COFFRe = 354;
+		private final int interrupteur;
+
+		private boolean appelTrouve = false;
+		private boolean donneDesObjets = false;
+
+		public boolean getResultat() {
+			return appelTrouve && donneDesObjets;
+		}
+
+		public ExecuteurControleFin(int interrupteur) {
+			this.interrupteur = interrupteur;
+		}
+
+		@Override
+		public boolean getBooleenParDefaut() {
+			return true;
+		}
+
+		@Override
+		public void Flot_appelEvenementCommun(int numero) {
+			if (numero == NUMERO_EVENEMENT_COMMUN_CONTROLE_COFFRe) {
+				appelTrouve = true;
+			}
+		}
+
+		@Override
+		public void Variables_changerSwitch(ValeurGauche valeurGauche, Boolean nouvelleValeur) {
+			if (nouvelleValeur == Boolean.TRUE) {
+				valeurGauche.appliquerG(idInterrupteur -> {
+					if (idInterrupteur.idVariable == interrupteur) {
+						appelTrouve = true;
+					}
+
+					return null;
+				}, null, null);
+			}
+		}
+
+
 	}
 }
