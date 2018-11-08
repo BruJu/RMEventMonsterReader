@@ -4,6 +4,9 @@ import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.lcfreader.rmobjets.RMPage;
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
+import fr.bruju.rmdechiffreur.modele.FixeVariable;
+import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmdechiffreur.modele.ValeurDroiteVariable;
 import fr.bruju.rmdechiffreur.modele.ValeurGauche;
 import fr.bruju.rmeventreader.ProjetS;
 import fr.bruju.rmeventreader.utilitaire.Pair;
@@ -51,18 +54,8 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 				continue;
 			}
 
-			afficherListe(pairs, "Avant");
 			enleverDoublons(pairs, this::sontVoisins);
-			afficherListe(pairs, "Apres");
 		}
-	}
-
-	private void afficherListe(List<Pair<RMMap,RMEvenement>> pairs, String apres) {
-		System.out.println("-" + apres);
-		for (Pair<RMMap, RMEvenement> pair : pairs) {
-			System.out.println(" ; " + pair.getLeft().nom() + "," + pair.getRight().nom() + " " + pair.getRight().x() + "-" + pair.getRight().y());
-		}
-
 	}
 
 	private boolean sontVoisins(Pair<RMMap, RMEvenement> a, Pair<RMMap, RMEvenement> b) {
@@ -134,7 +127,7 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 	private boolean possedeUnAppelAControleCoffre(RMPage page, int idInterrupteur) {
 		ExecuteurControleFin executeur = new ExecuteurControleFin(idInterrupteur);
 		executeur.appliquerInstructions(page.instructions());
-		return executeur.appelTrouve;
+		return executeur.getResultat();
 	}
 
 	private boolean naPasDeCondition(RMPage page) {
@@ -214,5 +207,38 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 		}
 
 
+		@Override
+		public void Variables_modifierArgent(boolean ajouter, FixeVariable quantite) {
+			donneDesObjets = true;
+		}
+
+		private static int MONNAIE_BIS = 3937;
+
+		@Override
+		public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
+			valeurGauche.appliquerG(v -> {
+				if (v.idVariable == MONNAIE_BIS) {
+					donneDesObjets = true;
+				}
+				return null;
+			}, null, null);
+		}
+
+		@Override
+		public void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur, ValeurDroiteVariable valeurDroite) {
+			valeurGauche.appliquerG(v -> {
+				if (v.idVariable == MONNAIE_BIS) {
+					donneDesObjets = true;
+				}
+				return null;
+			}, null, null);
+		}
+
+		@Override
+		public void Variables_modifierObjets(boolean ajouter, FixeVariable objet, FixeVariable quantite) {
+			donneDesObjets = true;
+		}
 	}
+
+
 }
