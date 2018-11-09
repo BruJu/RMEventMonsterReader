@@ -13,9 +13,6 @@ import fr.bruju.rmeventreader.utilitaire.Pair;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Cette classe permet de détecter les coffres qui utilisent le même interrupteur.
@@ -30,81 +27,14 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 	@Override
 	public void run() {
 		coffresExistants = new HashMap<>();
-
 		ProjetS.PROJET.explorerEvenementsSurCarte(this::detecterCoffre);
-
 		enleverDoublons();
-
-		for (Map.Entry<Integer, List<Pair<RMMap, RMEvenement>>> paire : coffresExistants.entrySet()) {
-			if (paire.getValue().size() > 1) {
-				System.out.println("= Collision sur l'interrupteur "
-						+ paire.getKey() + " " + ProjetS.PROJET.extraireInterrupteur(paire.getKey()));
-
-				for (Pair<RMMap, RMEvenement> evenement : paire.getValue()) {
-					System.out.println(evenement.getLeft().nom() + " : " + evenement.getRight().nom()
-					+ " " + evenement.getRight().x() + ";" + evenement.getRight().y());
-				}
-			}
-		}
+		afficherCoffresEnDouble();
 	}
 
-	private void enleverDoublons() {
-		for (List<Pair<RMMap, RMEvenement>> pairs : coffresExistants.values()) {
-			if (pairs.size() <= 1) {
-				continue;
-			}
-
-			enleverDoublons(pairs, this::sontVoisins);
-		}
-	}
-
-	private boolean sontVoisins(Pair<RMMap, RMEvenement> a, Pair<RMMap, RMEvenement> b) {
-		if (!a.getLeft().equals(b.getLeft())) {
-			return false;
-		}
-
-		RMEvenement evenementA = a.getRight();
-		RMEvenement evenementB = b.getRight();
-
-		return coordonneesVoisines(evenementA.x(), evenementB.x())
-				&& coordonneesVoisines(evenementA.y(), evenementB.y())
-				&& (evenementA.nom().equals(evenementB.nom())
-				|| evenementA.nom().startsWith("EV") && evenementB.nom().startsWith("EV"));
-	}
-
-	private boolean coordonneesVoisines(int a, int b) {
-		return a == b || a - 1 == b || a + 1 == b;
-	}
-
-	private <T> void enleverDoublons(List<T> nonExplores, BiPredicate<T, T> sontVoisins) {
-		List<T> explores = new ArrayList<>();
-
-		while (!nonExplores.isEmpty()) {
-			T caseRemplie = Utilitaire.Pile.pop(nonExplores);
-			explores.add(caseRemplie);
-
-			Stack<T> voisins = new Stack<>();
-			voisins.push(caseRemplie);
-
-			while (!voisins.isEmpty()) {
-				T caseDepilee = voisins.pop();
-
-				int i = 0;
-				while (i != nonExplores.size()) {
-					T caseCandidateAuVoisinage = nonExplores.get(i);
-
-					if (sontVoisins.test(caseDepilee, caseCandidateAuVoisinage)) {
-						nonExplores.remove(i);
-						voisins.push(caseCandidateAuVoisinage);
-					} else {
-						i++;
-					}
-				}
-			}
-		}
-
-		nonExplores.addAll(explores);
-	}
+	/* =====================
+	 * DETECTION DES COFFRES
+	 * ===================== */
 
 	private void detecterCoffre(RMMap map, RMEvenement evenement) {
 		if (evenement.pages().size() != 2) {
@@ -140,51 +70,93 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 				&& page.conditionVariable() == null;
 	}
 
-	/**
-	 * Un exécuteur qui renvoie vrai avec getResultat() si il lit une instruction appellant l'évènement 354
-	 */
-	private static class ExecuteurControle implements ExecuteurInstructions {
-		private static int NUMERO_EVENEMENT_COMMUN_CONTROLE_COFFRe = 354;
 
-		private boolean appelTrouve = false;
+	/* ======================
+	 * DETECTION DES DOUBLONS
+	 * ====================== */
 
-		public boolean getResultat() {
-			return appelTrouve;
+	private void enleverDoublons() {
+		for (List<Pair<RMMap, RMEvenement>> pairs : coffresExistants.values()) {
+			Utilitaire.filtrerParVoisinage(pairs, this::sontVoisins);
+		}
+	}
+
+	private boolean sontVoisins(Pair<RMMap, RMEvenement> a, Pair<RMMap, RMEvenement> b) {
+		if (!a.getLeft().equals(b.getLeft())) {
+			return false;
 		}
 
-		@Override
-		public boolean getBooleenParDefaut() {
-			return true;
-		}
+		RMEvenement evenementA = a.getRight();
+		RMEvenement evenementB = b.getRight();
 
-		@Override
-		public void Flot_appelEvenementCommun(int numero) {
-			if (numero == NUMERO_EVENEMENT_COMMUN_CONTROLE_COFFRe) {
-				appelTrouve = true;
+		return coordonneesVoisines(evenementA.x(), evenementB.x())
+				&& coordonneesVoisines(evenementA.y(), evenementB.y())
+				&& (evenementA.nom().equals(evenementB.nom())
+				|| evenementA.nom().startsWith("EV") && evenementB.nom().startsWith("EV"));
+	}
+
+	private boolean coordonneesVoisines(int a, int b) {
+		return a == b || a - 1 == b || a + 1 == b;
+	}
+
+
+	/* =====================
+	 * AFFICHAGE DU RESULTAT
+	 * ===================== */
+
+	private void afficherCoffresEnDouble() {
+		for (Map.Entry<Integer, List<Pair<RMMap, RMEvenement>>> paire : coffresExistants.entrySet()) {
+			if (paire.getValue().size() > 1) {
+				System.out.println(messageCollision(paire.getKey()));
+
+				for (Pair<RMMap, RMEvenement> evenement : paire.getValue()) {
+					System.out.println(messageEvenement(evenement.getLeft(), evenement.getRight()));
+				}
 			}
 		}
 	}
 
+	private String messageCollision(int id) {
+		return "= Collision sur l'interrupteur " + id + " " + ProjetS.PROJET.extraireInterrupteur(id);
+	}
 
+	private String messageEvenement(RMMap map, RMEvenement evenement) {
+		return map.nom() + " : " + evenement.nom() + " " + evenement.x() + ";" + evenement.y();
+	}
+	
+
+	/* ==================================
+	 * EXECUTEUR DE DETECTION DES COFFRES
+	 * ================================== */
+
+	/**
+	 * Un exécuteur qui renvoie vrai si l'évenement donne des objets ou de l'argent, en plus d'appeller l'évènement
+	 * commun 354 ou d'activer l'interrupteur présent en page 2.
+	 */
 	private static class ExecuteurControleFin implements ExecuteurInstructions {
 		private static int NUMERO_EVENEMENT_COMMUN_CONTROLE_COFFRe = 354;
+		private static int MONNAIE_BIS = 3937;
+
 		private final int interrupteur;
 
 		private boolean appelTrouve = false;
 		private boolean donneDesObjets = false;
 
-		public boolean getResultat() {
-			return appelTrouve && donneDesObjets;
-		}
-
 		public ExecuteurControleFin(int interrupteur) {
 			this.interrupteur = interrupteur;
+		}
+
+		public boolean getResultat() {
+			return appelTrouve && donneDesObjets;
 		}
 
 		@Override
 		public boolean getBooleenParDefaut() {
 			return true;
 		}
+
+		// Recherche d'évènements dont un appel à un évènement spécifique est appelé ou qui active l'interrupteur
+		// indiqué dans la page 2
 
 		@Override
 		public void Flot_appelEvenementCommun(int numero) {
@@ -206,13 +178,12 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 			}
 		}
 
+		// Détection des évènements donnant des objets
 
 		@Override
 		public void Variables_modifierArgent(boolean ajouter, FixeVariable quantite) {
 			donneDesObjets = true;
 		}
-
-		private static int MONNAIE_BIS = 3937;
 
 		@Override
 		public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
@@ -239,6 +210,4 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 			donneDesObjets = true;
 		}
 	}
-
-
 }
