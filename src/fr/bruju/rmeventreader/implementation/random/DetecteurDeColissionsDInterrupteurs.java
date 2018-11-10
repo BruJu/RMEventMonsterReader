@@ -123,7 +123,7 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 	private String messageEvenement(RMMap map, RMEvenement evenement) {
 		return map.nom() + " : " + evenement.nom() + " " + evenement.x() + ";" + evenement.y();
 	}
-	
+
 
 	/* ==================================
 	 * EXECUTEUR DE DETECTION DES COFFRES

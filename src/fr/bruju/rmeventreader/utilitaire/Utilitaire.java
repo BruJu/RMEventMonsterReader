@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.utilitaire;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,8 +7,10 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Stream;
 
+/**
+ * Fourni un ensemble de classes static utilitaires
+ */
 public class Utilitaire {
-	
 	/**
 	 * Fourni des fonctions afin de traiter un tableau comme étant une pile
 	 * 
@@ -203,25 +203,7 @@ public class Utilitaire {
 
 		return transformee;
 	}
-	
-	/**
-	 * Fonction en faisant rien. Remplace () -> {} par Utilitaire::doNothing dans les lambda
-	 */
-	public static void doNothing() {
-		
-	}
-	
-	/**
-	 * Converti un objet en ArrayList
-	 * @param element L'objet à convertir
-	 * @return Une liste d'une case contenant l'élément 
-	 */
-	public static <T> ArrayList<T> toArrayList(T element) {
-		ArrayList<T> arrayList = new ArrayList<>(1);
-		arrayList.add(element);
-		return arrayList;
-	}
-	
+
 	/**
 	 * Ecrit dans le fichier dont le chemin est spécifié la chaîne à écrire
 	 * @param chemin Le fichier
@@ -239,7 +221,7 @@ public class Utilitaire {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Supprime le dossier donné en supprimant tous les fichiers à l'intérieur
 	 * @param dossier Le dossier à supprimer
@@ -251,7 +233,7 @@ public class Utilitaire {
 			else
 				fichierPresent.delete();
 		}
-		
+
 		dossier.delete();
 	}
 
@@ -262,11 +244,11 @@ public class Utilitaire {
 	 */
 	public static int[] toArrayInt(List<Integer> liste) {
 		int[] tableau = new int[liste.size()];
-		
+
 		for (int i = 0 ; i != tableau.length ; i++) {
 			tableau[i] = liste.get(i);
 		}
-		
+
 		return tableau;
 	}
 	
