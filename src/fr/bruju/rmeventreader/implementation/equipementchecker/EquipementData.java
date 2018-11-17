@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.MapsUtils;
 
 /**
  * Ensemble de valeurs modifiées par un équipement
@@ -92,8 +92,8 @@ public class EquipementData {
 		}
 
 		EquipementData eq = new EquipementData();
-		Utilitaire.Maps.fusionnerDans(eq.variablesModifiees, a.variablesModifiees, v -> v, (u, v) -> u + v);
-		Utilitaire.Maps.fusionnerDans(eq.variablesModifiees, b.variablesModifiees, v -> v, (u, v) -> u + v);
+		MapsUtils.fusionnerDans(eq.variablesModifiees, a.variablesModifiees, v -> v, (u, v) -> u + v);
+		MapsUtils.fusionnerDans(eq.variablesModifiees, b.variablesModifiees, v -> v, (u, v) -> u + v);
 		
 		return eq;
 	}
@@ -120,8 +120,8 @@ public class EquipementData {
 		
 		TreeMap<Integer, EquipementData> nouveau = new TreeMap<>();
 		
-		Utilitaire.Maps.fusionnerDans(nouveau, bonus, v -> v, EquipementData::ajouter);
-		Utilitaire.Maps.fusionnerDans(nouveau, malus, v -> v, EquipementData::ajouter);
+		MapsUtils.fusionnerDans(nouveau, bonus, v -> v, EquipementData::ajouter);
+		MapsUtils.fusionnerDans(nouveau, malus, v -> v, EquipementData::ajouter);
 		
 		return nouveau;
 	}

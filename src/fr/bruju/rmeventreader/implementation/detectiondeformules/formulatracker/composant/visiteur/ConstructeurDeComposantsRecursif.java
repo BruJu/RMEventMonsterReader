@@ -23,7 +23,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
+import fr.bruju.util.function.TriFunction;
 
 public class ConstructeurDeComposantsRecursif extends VisiteurRetourneur<Composant> {
 	/**

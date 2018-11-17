@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.Pair;
 
 /**
  * Classe permettant de retrouver la position des variables qui sont écrites dans un fichier ressource.

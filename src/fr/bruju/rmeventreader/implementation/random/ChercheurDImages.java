@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMPage;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.modele.Couleur;
 import fr.bruju.rmdechiffreur.modele.FixeVariable;
 import fr.bruju.rmdechiffreur.modele.ExecEnum.TypeEffet;
+import fr.bruju.util.MapsUtils;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -118,7 +118,7 @@ public class ChercheurDImages implements Runnable {
 		 * @param numeroImage Le numéro de l'image
 		 */
 		private void utiliseImage(int numeroImage) {
-			Utilitaire.Maps.ajouterElementDansSet(utilisations, numeroImage, evenement);
+			MapsUtils.ajouterElementDansSet(utilisations, numeroImage, evenement);
 		}
 		
 		@Override

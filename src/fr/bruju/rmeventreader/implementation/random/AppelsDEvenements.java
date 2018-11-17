@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.modele.Condition;
+import fr.bruju.util.MapsUtils;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -59,7 +59,7 @@ public class AppelsDEvenements implements Runnable {
 
 		@Override
 		public void Flot_appelEvenementCommun(int numero) {
-			Utilitaire.Maps
+			MapsUtils
 				.getX(appels, id, TreeMap::new)
 				.compute(numero, (cle, ex) -> ex == null ? 1 : ex + 1);
 		}

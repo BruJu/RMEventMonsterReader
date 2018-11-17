@@ -17,7 +17,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.VCalcul;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.VTernaire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.Pair;
 
 /**
  * Un état mémoire représente l'état de la mémoire (contenu des variables et des interrupteurs) à un moment donné.

@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Statistique;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.MapsUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,7 +44,7 @@ public class BaseDePersonnages {
 				numeroVariable = -numeroVariable;
 			}
 
-			Personnage personnage = Utilitaire.Maps.getY(personnages, nomPersonnage, Individu::new);
+			Personnage personnage = MapsUtils.getY(personnages, nomPersonnage, Individu::new);
 			Statistique statistique = new Statistique(numeroVariable, personnage, nomStatistique);
 			variablesInstanciees.put(numeroVariable, statistique);
 			personnage.ajouterStatistique(statistique);

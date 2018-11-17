@@ -38,7 +38,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.StatPerso;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Statistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.Maillon;
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.Pair;
 
 /**
  * En tant que constructeur de composants : unifie les composants en utilisant une base de personnages unifiés et le

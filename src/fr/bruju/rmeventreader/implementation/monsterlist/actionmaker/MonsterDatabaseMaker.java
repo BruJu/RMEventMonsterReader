@@ -15,7 +15,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionP
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.Pair;
 
 /**
  * Action Maker qui crée des combats et rempli dedans les statistiques des monstres

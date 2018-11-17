@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.ManipulateurDeListe;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Separateur;
@@ -8,12 +7,12 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Unificateur;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.ListUtils;
 import fr.bruju.util.similaire.CollectorBySimilarity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class BaseDAlgorithmes implements Transformateur.Visiteur {
 	private final BaseDePersonnages baseDePersonnages;
@@ -71,7 +70,7 @@ public class BaseDAlgorithmes implements Transformateur.Visiteur {
 		List<AlgorithmeEtiquete> nouvelleListe = new ArrayList<>();
 
 		for (List<AlgorithmeEtiquete> liste : algorithmesClassifies) {
-			nouvelleListe.addAll(Utilitaire.fusionnerJusquaStabilite(liste, (a, b) -> unificateur.unifier(a, b, baseDePersonnages)));
+			nouvelleListe.addAll(ListUtils.fusionnerJusquaStabilite(liste, (a, b) -> unificateur.unifier(a, b, baseDePersonnages)));
 		}
 
 		algorithmes = nouvelleListe;

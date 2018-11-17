@@ -11,14 +11,13 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.condition.CFixe;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.Valeur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.division.Diviseur;
-import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
+import fr.bruju.util.Pair;
+import fr.bruju.util.function.TriFunction;
 
 /**
  * Base de données des attaques connues

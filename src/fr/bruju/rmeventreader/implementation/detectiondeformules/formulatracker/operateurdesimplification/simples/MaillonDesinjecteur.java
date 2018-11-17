@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.Ressources;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.Composant;
@@ -21,6 +20,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.CreateurDeGestionnaire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.inclusion.gestionnairedecondition.GestionnaireDeCondition;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
+import fr.bruju.util.MapsUtils;
 
 /**
  * Le désinjecteur lit un fichier ressource du type "Nom de personnage IDVariable Valeur" et supprime les conditions en
@@ -67,7 +67,7 @@ public class MaillonDesinjecteur extends ConstructeurDeComposantsRecursif implem
 			int valeur = Integer.parseInt(tableau[2]);
 
 			CVariable condition = new CVariable(new VBase(idVariable), Comparateur.IDENTIQUE, new VConstante(valeur));
-			Utilitaire.Maps.ajouterElementDansListe(conditionsADesinjecter, nomDuMonstre, condition);
+			MapsUtils.ajouterElementDansListe(conditionsADesinjecter, nomDuMonstre, condition);
 		});
 	}
 

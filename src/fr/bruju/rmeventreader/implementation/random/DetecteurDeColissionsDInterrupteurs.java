@@ -9,8 +9,9 @@ import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmdechiffreur.modele.ValeurDroiteVariable;
 import fr.bruju.rmdechiffreur.modele.ValeurGauche;
 import fr.bruju.rmeventreader.ProjetS;
-import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.ListUtils;
+import fr.bruju.util.MapsUtils;
+import fr.bruju.util.Pair;
 
 import java.util.*;
 
@@ -50,7 +51,7 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 		RMPage page1 = evenement.pages().get(0);
 
 		if (naPasDeCondition(page1) && possedeUnAppelAControleCoffre(page1, idInterrupteurPage2)) {
-			Utilitaire.Maps.ajouterElementDansListe(coffresExistants, idInterrupteurPage2, new Pair<>(map, evenement));
+			MapsUtils.ajouterElementDansListe(coffresExistants, idInterrupteurPage2, new Pair<>(map, evenement));
 		}
 	}
 
@@ -77,7 +78,7 @@ public class DetecteurDeColissionsDInterrupteurs implements Runnable {
 
 	private void enleverDoublons() {
 		for (List<Pair<RMMap, RMEvenement>> pairs : coffresExistants.values()) {
-			Utilitaire.filtrerParVoisinage(pairs, this::sontVoisins);
+			ListUtils.filtrerParVoisinage(pairs, this::sontVoisins);
 		}
 	}
 

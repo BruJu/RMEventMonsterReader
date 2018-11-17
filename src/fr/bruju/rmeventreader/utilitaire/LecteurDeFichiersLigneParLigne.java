@@ -9,8 +9,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
-
 /**
  * Classe utilitaire permettant de lire des fichiers
  *  

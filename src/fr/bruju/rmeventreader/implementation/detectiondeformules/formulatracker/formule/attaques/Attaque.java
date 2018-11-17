@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.operateurdesimplification.division.Diviseur;
-import fr.bruju.rmeventreader.utilitaire.Pair;
-import fr.bruju.rmeventreader.utilitaire.lambda.TriFunction;
+import fr.bruju.util.ListUtils;
+import fr.bruju.util.MapsUtils;
+import fr.bruju.util.Pair;
+import fr.bruju.util.function.TriFunction;
 import fr.bruju.util.similaire.CollectorBySimilarity;
 
 /**
@@ -85,9 +85,9 @@ public class Attaque {
 
 		Map<ModifStat, List<FormuleDeDegats>> groupes = new HashMap<>();
 
-		fusionnables.stream().map(liste -> Utilitaire.fusionnerJusquaStabilite(liste, fonctionFusion))
+		fusionnables.stream().map(liste -> ListUtils.fusionnerJusquaStabilite(liste, fonctionFusion))
 				.forEach(liste -> liste.forEach(
-						paire -> Utilitaire.Maps.ajouterElementDansListe(groupes, paire.getLeft(), paire.getRight())));
+						paire -> MapsUtils.ajouterElementDansListe(groupes, paire.getLeft(), paire.getRight())));
 
 		this.resultat = groupes;
 	}
@@ -143,8 +143,7 @@ public class Attaque {
 		Map<ModifStat, List<FormuleDeDegats>> resultat = new HashMap<>();
 
 		donnees.stream().map(formule -> integrerDiviseurs(diviseurs, formule))
-				.forEach(listeResultat -> listeResultat.forEach(nouvellePaire -> Utilitaire
-						.Maps.ajouterElementDansListe(resultat, nouvellePaire.getLeft(), nouvellePaire.getRight())));
+				.forEach(listeResultat -> listeResultat.forEach(nouvellePaire -> MapsUtils.ajouterElementDansListe(resultat, nouvellePaire.getLeft(), nouvellePaire.getRight())));
 
 		return resultat;
 	}

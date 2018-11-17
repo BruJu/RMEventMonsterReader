@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
 import fr.bruju.rmdechiffreur.controlleur.ExtCondition;
 import fr.bruju.rmdechiffreur.modele.Comparateur;
@@ -24,7 +23,8 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.attaques.ModifStat;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Personnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.formule.personnage.Statistique;
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.MapsUtils;
+import fr.bruju.util.Pair;
 
 /**
  * Constructeur de formules à partir d'un fichier pour donner le contenu des variables trackées en fonction d'autres
@@ -297,7 +297,7 @@ public class FormulaMaker implements ExtCondition, ExtChangeVariable.SansAffecta
 		 */
 		public void remplir(Map<ModifStat, List<FormuleDeDegats>> resultat) {
 			formules.forEach(paire ->
-				Utilitaire.Maps.ajouterElementDansListe(resultat, new ModifStat(stat, paire.getLeft()),
+				MapsUtils.ajouterElementDansListe(resultat, new ModifStat(stat, paire.getLeft()),
 						paire.getRight()));
 		}
 	}

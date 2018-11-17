@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
 import fr.bruju.rmdechiffreur.modele.NombreObjet;
@@ -19,6 +18,7 @@ import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmdechiffreur.modele.VariableHeros;
 import fr.bruju.rmdechiffreur.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.util.MapsUtils;
 
 import java.util.Objects;
 
@@ -146,7 +146,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 			if (variable.idVariable != variableTrackee)
 				return;
 			
-			Utilitaire.Maps.ajouterElementDansSet(affectationsTrouvees, reference, new Modification(operateur));
+			MapsUtils.ajouterElementDansSet(affectationsTrouvees, reference, new Modification(operateur));
 		}
 
 		@Override
@@ -191,7 +191,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 			
 			Integer valeur = valeurDroite.valeur;
 			
-			Utilitaire.Maps.ajouterElementDansSet(affectationsTrouvees, reference, new Modification(operateur, valeur));
+			MapsUtils.ajouterElementDansSet(affectationsTrouvees, reference, new Modification(operateur, valeur));
 		}
 	}
 }

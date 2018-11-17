@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.MapsUtils;
 
 public class ConstructeurValue implements ConstructeurDAlgorithme {
 	
@@ -161,7 +161,7 @@ public class ConstructeurValue implements ConstructeurDAlgorithme {
 		public Map<Integer, Integer> getValeursCourantes() {
 			Map<Integer, Integer> valeursCourantes = new HashMap<>();
 			
-			Utilitaire.Maps.combiner(valeursCourantes, valeursCourantesVrai, valeursCourantesFaux, ConstructeurValue::combiner);
+			MapsUtils.combiner(valeursCourantes, valeursCourantesVrai, valeursCourantesFaux, ConstructeurValue::combiner);
 			
 			return valeursCourantes;
 		}

@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
@@ -23,9 +22,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.NombreAleatoire;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
-
-
+import fr.bruju.util.MapsUtils;
 
 
 public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansAffectation, ExtCondition {
@@ -39,7 +36,7 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 	}
 
 	private ExprVariable getVariable(int idVariable) {
-		return Utilitaire.Maps.getY(variablesInstanciees, idVariable, ExprVariable::new);
+		return MapsUtils.getY(variablesInstanciees, idVariable, ExprVariable::new);
 	}
 	
 	private ExprVariable getVariable(Variable variable) {

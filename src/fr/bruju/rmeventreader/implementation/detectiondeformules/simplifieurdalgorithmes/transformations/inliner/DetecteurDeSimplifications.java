@@ -15,7 +15,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.MapsUtils;
 
 public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
@@ -66,7 +66,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 				// Inlinable
 				instructionsAIgnorer.add(instructionAffectation);
 				nombreDiInstructionsIgnorees++;
-				Utilitaire.Maps.ajouterElementDansListe(affectationsInlinables, utilisatrice, instructionAffectation);
+				MapsUtils.ajouterElementDansListe(affectationsInlinables, utilisatrice, instructionAffectation);
 			}
 
 			noterExpression(instructionAffectation, instructionAffectation.expression);
@@ -95,7 +95,7 @@ public class DetecteurDeSimplifications implements VisiteurDAlgorithme {
 
 		variablesVivantes = new HashMap<>();
 
-		Utilitaire.Maps.combinerNonNull(variablesVivantes, vraiFin, fauxFin, (v, f) -> v == f ? v : null);
+		MapsUtils.combinerNonNull(variablesVivantes, vraiFin, fauxFin, (v, f) -> v == f ? v : null);
 
 		int differenceIgnoreesApres = nombreDiInstructionsVisitees - nombreDiInstructionsIgnorees;
 

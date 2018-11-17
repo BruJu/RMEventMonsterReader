@@ -8,7 +8,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.VConstante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.VStatistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.composant.valeur.Valeur;
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.Pair;
 
 // TODO : documenter cette classe / la retravailler
 // WIP avec E_CalculVariadique

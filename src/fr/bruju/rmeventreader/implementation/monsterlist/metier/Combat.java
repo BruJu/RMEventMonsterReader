@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
-import fr.bruju.rmeventreader.utilitaire.Pair;
+import fr.bruju.util.Pair;
 
 /**
  * Représentation d'un combat
