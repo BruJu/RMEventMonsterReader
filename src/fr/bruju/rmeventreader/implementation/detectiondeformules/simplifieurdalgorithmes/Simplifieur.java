@@ -1,7 +1,9 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.DetermineurDeCiblage;
@@ -16,6 +18,8 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Tri;
+import fr.bruju.util.table.Enregistrement;
+import fr.bruju.util.table.Table;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -32,20 +36,84 @@ public class Simplifieur implements Runnable {
 	
 	@Override
 	public void run() {
-		BaseDAlgorithmes algorithmes = creerAlgorithmes();
+	    Table table = creerAlgorithmesTables();
+
+
+	    afficherAlgorithmes(table);
+
+
+
+
+	    // LEGACY
+	    /*
+		BaseDAlgorithmes algorithmes = extraireAlgorithmesDesPersonnages();
 		
 		for (Transformateur simplification : simplifications) {
 			algorithmes.transformer(simplification);
 		}
 
 		System.out.println(algorithmes.getString());
+
+		*/
 	}
 
-	private BaseDAlgorithmes creerAlgorithmes() {
-		return extraireAlgorithmesDesPersonnages();
-	}
+    private void afficherAlgorithmes(Table table) {
+	    StringBuilder sb = new StringBuilder();
 
-	private static BaseDAlgorithmes extraireAlgorithmesDesPersonnages() {
+	    table.forEach(enregistrement -> ajouterAlgorithme(sb, enregistrement));
+
+	    System.out.println(sb.toString());
+    }
+
+    private void ajouterAlgorithme(StringBuilder sb, Enregistrement enregistrement) {
+	    AtomicReference<String> algorithme = new AtomicReference<>("??");
+
+	    sb.append("--");
+
+	    enregistrement.reconstruireObjet((nomChamp, objet) -> {
+	        if (nomChamp.equals("Algorithme")) {
+	            algorithme.set( ((Algorithme)objet).getString());
+            } else {
+                sb.append(" ").append(objet.toString());
+            }
+        });
+
+	    sb.append(" --\n");
+	    sb.append(algorithme.get());
+	    sb.append("\n\n");
+    }
+
+    private Table creerAlgorithmesTables() {
+        List<AttaqueALire> attaquesALire = AttaqueALire.extraireAttaquesALire();
+
+        BaseDePersonnages personnages = new BaseDePersonnages();
+
+        Table table = new Table();
+        table.insererChamp(0, "Personnage", null);
+        table.insererChamp(1, "Attaque", null);
+        table.insererChamp(2, "Algorithme", null);
+
+        Map<Integer, ExprVariable> variablesInstanciees = personnages.getVariablesInstanciees();
+
+        for (AttaqueALire attaque : attaquesALire) {
+            Executeur executeur = new Executeur(variablesInstanciees);
+            PROJET.lireEvenementCommun(executeur, attaque.numeroEvenementCommun);
+            Algorithme algorithme = executeur.extraireAlgorithme();
+
+            List<Object> objets = new ArrayList<>();
+
+            objets.add(attaque.nomPersonnage);
+            objets.add(attaque.nomAttaque);
+            objets.add(algorithme);
+
+            table.ajouterContenu(objets);
+        }
+
+        return table;
+    }
+
+
+    private static BaseDAlgorithmes extraireAlgorithmesDesPersonnages() {
 		List<AttaqueALire> attaquesALire = AttaqueALire.extraireAttaquesALire();
 
 		BaseDePersonnages personnages = new BaseDePersonnages();
