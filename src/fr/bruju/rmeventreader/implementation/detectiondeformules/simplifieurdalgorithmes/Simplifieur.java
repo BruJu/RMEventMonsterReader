@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.NouveauTransformateur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.RemplaceAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.DetermineurDeCiblage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage.Borneur;
@@ -25,6 +27,7 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 
 public class Simplifieur implements Runnable {
+    /*
 	private static final Transformateur[] simplifications = new Transformateur[] {
 			new Borneur(),
 			new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
@@ -32,36 +35,29 @@ public class Simplifieur implements Runnable {
 			new SeparateurParHPDeMonstres(),
 			new Tri()
 	};
+	*/
+
+	private static final NouveauTransformateur[] simplificationsN = new NouveauTransformateur[] {
+
+	        new RemplaceAlgorithme(new Borneur()::simplifier),
+            new RemplaceAlgorithme(new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes)::simplifier)
+    };
 	
 	
 	@Override
 	public void run() {
 	    Table table = creerAlgorithmesTables();
 
+	    for (NouveauTransformateur nouveauTransformateur : simplificationsN) {
+	        table = nouveauTransformateur.appliquer(table);
+        }
 
 	    afficherAlgorithmes(table);
-
-
-
-
-	    // LEGACY
-	    /*
-		BaseDAlgorithmes algorithmes = extraireAlgorithmesDesPersonnages();
-		
-		for (Transformateur simplification : simplifications) {
-			algorithmes.transformer(simplification);
-		}
-
-		System.out.println(algorithmes.getString());
-
-		*/
 	}
 
     private void afficherAlgorithmes(Table table) {
 	    StringBuilder sb = new StringBuilder();
-
 	    table.forEach(enregistrement -> ajouterAlgorithme(sb, enregistrement));
-
 	    System.out.println(sb.toString());
     }
 
@@ -112,27 +108,5 @@ public class Simplifieur implements Runnable {
         return table;
     }
 
-
-    private static BaseDAlgorithmes extraireAlgorithmesDesPersonnages() {
-		List<AttaqueALire> attaquesALire = AttaqueALire.extraireAttaquesALire();
-
-		BaseDePersonnages personnages = new BaseDePersonnages();
-		BaseDAlgorithmes base = new BaseDAlgorithmes(personnages);
-
-		Map<Integer, ExprVariable> variablesInstanciees = personnages.getVariablesInstanciees();
-
-		for (AttaqueALire attaque : attaquesALire) {
-			Executeur executeur = new Executeur(variablesInstanciees);
-			PROJET.lireEvenementCommun(executeur, attaque.numeroEvenementCommun);
-			Algorithme algorithme = executeur.extraireAlgorithme();
-
-			Classificateur personnage = new Classificateur.ClassificateurChaine(attaque.nomPersonnage);
-			Classificateur attaqueNom = new Classificateur.ClassificateurChaine(attaque.nomAttaque);
-
-			base.ajouter(new AlgorithmeEtiquete(new Classificateur[]{personnage, attaqueNom}, algorithme));
-		}
-
-		return base;
-	}
 
 }
