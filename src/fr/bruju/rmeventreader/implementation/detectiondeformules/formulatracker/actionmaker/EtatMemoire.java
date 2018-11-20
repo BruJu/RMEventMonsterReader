@@ -34,9 +34,9 @@ public class EtatMemoire {
 	/** Etat mémoire père */
 	private EtatMemoire pere;
 
-	/** Contenu des variables */
+	/** Enregistrement des variables */
 	private Map<Integer, Valeur> variables;
-	/** Contenu des interrupteusr*/
+	/** Enregistrement des interrupteusr*/
 	private Map<Integer, Bouton> interrupteurs;
 
 	/** Condition ayant mené à la création des fils */

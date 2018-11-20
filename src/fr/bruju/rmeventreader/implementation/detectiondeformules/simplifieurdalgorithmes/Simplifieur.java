@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.AjouteurDeTag;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.NouveauTransformateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.RemplaceAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.DetermineurDeCiblage;
@@ -40,7 +41,8 @@ public class Simplifieur implements Runnable {
 	private static final NouveauTransformateur[] simplificationsN = new NouveauTransformateur[] {
 
 	        new RemplaceAlgorithme(new Borneur()::simplifier),
-            new RemplaceAlgorithme(new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes)::simplifier)
+            new RemplaceAlgorithme(new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes)::simplifier),
+			new AjouteurDeTag("Ciblage", enregistrement -> DetermineurDeCiblage.creerClassification(enregistrement.get("Algorithme")))
     };
 	
 	

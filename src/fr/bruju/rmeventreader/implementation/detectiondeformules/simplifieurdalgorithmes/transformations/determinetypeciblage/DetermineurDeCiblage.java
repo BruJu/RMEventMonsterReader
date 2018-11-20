@@ -15,14 +15,21 @@ public class DetermineurDeCiblage implements Separateur {
 	@Override
 	public void separer(Consumer<AlgorithmeEtiquete> fonctionDAjout, AlgorithmeEtiquete elementASeparer) {
 		Algorithme algorithme = elementASeparer.getAlgorithme();
+		ClassificationCible classification = creerClassification(algorithme);
 
+		AlgorithmeEtiquete algorithmeEtiquete = new AlgorithmeEtiquete(elementASeparer, classification, algorithme);
+		fonctionDAjout.accept(algorithmeEtiquete);
+	}
+
+
+	public static ClassificationCible creerClassification(Algorithme algorithme) {
 		Map<Integer, Integer> variables = new HashMap<>();
 
 		variables.put(436, 5);
 		variables.put(42, 70);
 
 		AssignationDeValeurs assignateur = new AssignationDeValeurs();
-		Algorithme algorithmeCiblantMonstre0 = assignateur.assigner(elementASeparer.getAlgorithme(), variables);
+		Algorithme algorithmeCiblantMonstre0 = assignateur.assigner(algorithme, variables);
 
 		ClassificationCible.Cible classificationCible;
 
@@ -34,7 +41,6 @@ public class DetermineurDeCiblage implements Separateur {
 
 		ClassificationCible classification = new ClassificationCible(classificationCible);
 
-		AlgorithmeEtiquete algorithmeEtiquete = new AlgorithmeEtiquete(elementASeparer, classification, algorithme);
-		fonctionDAjout.accept(algorithmeEtiquete);
+		return classification;
 	}
 }
