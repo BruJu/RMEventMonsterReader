@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-// Note : non utilisé
-
 public class DetermineurDeCiblage implements Separateur {
 	@Override
 	public void separer(Consumer<AlgorithmeEtiquete> fonctionDAjout, AlgorithmeEtiquete elementASeparer) {

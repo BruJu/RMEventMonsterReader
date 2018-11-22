@@ -1,15 +1,18 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiFunction;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.AjouteurDeTag;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.NouveauTransformateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.RemplaceAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.SeparateurN;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.ClassificationCible;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.DetermineurDeCiblage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage.Borneur;
@@ -56,10 +59,35 @@ public class Simplifieur implements Runnable {
 	        table = nouveauTransformateur.appliquer(table);
         }
 
+        table.reordonner(creerComparateurs());
+
 	    afficherAlgorithmes(table);
 	}
 
-    private void afficherAlgorithmes(Table table) {
+	private Iterable<Comparator<Enregistrement>> creerComparateurs() {
+		List<Comparator<Enregistrement>> comparateurs = new ArrayList<>();
+
+		comparateurs.add(Simplifieur.<String>creerComparateur("Personnage", (s1, s2) -> s1.compareTo(s2)));
+		comparateurs.add(Simplifieur.<String>creerComparateur("Attaque", (s1, s2) -> s1.compareTo(s2)));
+		comparateurs.add(Simplifieur.<ClassificationCible>creerComparateur("Ciblage",
+				(s1, s2) -> s1.cibleChoisie.compareTo(s2.cibleChoisie)));
+		comparateurs.add(Simplifieur.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>creerComparateur(
+				"Monstre", (s1, s2) -> Integer.compare(s1.idMonstre, s2.idMonstre)));
+		
+		return comparateurs;
+	}
+
+	private static <T> Comparator<Enregistrement> creerComparateur(String nomChamp, BiFunction<T, T, Integer>
+			comparateur) {
+		return (e1, e2) -> {
+			T c1 = e1.<T>get(nomChamp);
+			T c2 = e2.<T>get(nomChamp);
+			return comparateur.apply(c1, c2);
+		};
+	}
+
+
+	private void afficherAlgorithmes(Table table) {
 	    StringBuilder sb = new StringBuilder();
 	    table.forEach(enregistrement -> ajouterAlgorithme(sb, enregistrement));
 	    System.out.println(sb.toString());
