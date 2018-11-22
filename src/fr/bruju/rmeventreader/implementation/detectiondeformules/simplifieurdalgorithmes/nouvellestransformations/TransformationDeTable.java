@@ -2,6 +2,6 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import fr.bruju.util.table.Table;
 
-public interface NouveauTransformateur {
+public interface TransformationDeTable {
     Table appliquer(Table table);
 }

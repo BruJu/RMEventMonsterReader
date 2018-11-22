@@ -3,22 +3,18 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
-import java.util.function.Function;
-
-public class AjouteurDeTag implements NouveauTransformateur {
-
+public abstract class AjouteurDeTag implements TransformationDeTable {
 	private final String nom;
-	private final Function<Enregistrement, Object> generateur;
 
-	public AjouteurDeTag(String nom, Function<Enregistrement, Object> generateur) {
+	public AjouteurDeTag(String nom) {
 		this.nom = nom;
-		this.generateur = generateur;
 	}
-
 
 	@Override
-	public Table appliquer(Table table) {
-		table.insererChamp(-1, nom, generateur);
+	public final Table appliquer(Table table) {
+		table.insererChamp(-1, nom, this::genererNouveauChamp);
 		return table;
 	}
+
+	protected abstract Object genererNouveauChamp(Enregistrement enregistrement);
 }

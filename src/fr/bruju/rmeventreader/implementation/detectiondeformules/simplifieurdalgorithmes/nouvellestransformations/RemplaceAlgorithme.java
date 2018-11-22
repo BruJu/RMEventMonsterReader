@@ -4,7 +4,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.util.table.Table;
 
 
-public abstract class RemplaceAlgorithme implements NouveauTransformateur {
+public abstract class RemplaceAlgorithme implements TransformationDeTable {
 	public static String CHAMP_ALGORITHME = "Algorithme";
 
     @Override

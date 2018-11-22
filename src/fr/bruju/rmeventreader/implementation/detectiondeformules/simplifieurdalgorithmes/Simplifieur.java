@@ -8,12 +8,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.AjouteurDeTag;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.NouveauTransformateur;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.RemplaceAlgorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.SeparateurN;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.ClassificationCible;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage.DetermineurDeCiblage;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.TransformationDeTable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.ClassificationCible;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
@@ -27,11 +23,10 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 
 public class Simplifieur implements Runnable {
-	private static final NouveauTransformateur[] simplificationsN = new NouveauTransformateur[] {
+	private static final TransformationDeTable[] simplificationsN = new TransformationDeTable[] {
 	        new Borneur(),
             new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
-
-			new AjouteurDeTag("Ciblage", enregistrement -> DetermineurDeCiblage.creerClassification(enregistrement.get("Algorithme"))),
+			new ClassificationCible.Determineur(),
 			new SeparateurParHPDeMonstres()
     };
 	
@@ -40,7 +35,7 @@ public class Simplifieur implements Runnable {
 	public void run() {
 	    Table table = creerAlgorithmesTables();
 
-	    for (NouveauTransformateur nouveauTransformateur : simplificationsN) {
+	    for (TransformationDeTable nouveauTransformateur : simplificationsN) {
 	        table = nouveauTransformateur.appliquer(table);
         }
 

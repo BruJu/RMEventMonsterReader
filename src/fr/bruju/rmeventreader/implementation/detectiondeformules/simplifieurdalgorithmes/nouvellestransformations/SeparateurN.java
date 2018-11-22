@@ -6,9 +6,8 @@ import fr.bruju.util.table.Table;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
-public abstract class SeparateurN implements NouveauTransformateur {
+public abstract class SeparateurN implements TransformationDeTable {
 	private final String nom;
 
 	public SeparateurN(String nom) {
