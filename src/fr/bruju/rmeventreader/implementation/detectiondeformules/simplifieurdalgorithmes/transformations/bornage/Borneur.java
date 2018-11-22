@@ -6,6 +6,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffichage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.VisiteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.RemplaceAlgorithme;
 
 /**
  * Transforme les instructions du type "si a > b ; a = b" en "a = min(a, b)"
@@ -13,9 +14,10 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
  * @author Bruju
  *
  */
-public class Borneur implements VisiteurDAlgorithme {
+public class Borneur extends RemplaceAlgorithme implements VisiteurDAlgorithme {
 	private Algorithme nouvelAlgorithme;
 
+	@Override
 	public Algorithme simplifier(Algorithme algorithme) {
 		nouvelAlgorithme = new Algorithme();
 		visit(algorithme);

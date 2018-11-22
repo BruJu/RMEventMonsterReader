@@ -1,23 +1,25 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nonutilise.CibleurDeMonstres;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.SeparateurN;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.CibleurDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
 import fr.bruju.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Transforme l'algorithme pour ne considérer que les dégâts fait à un monstre
  */
-public class SeparateurParHPDeMonstres {
+public class SeparateurParHPDeMonstres extends SeparateurN {
+	public SeparateurParHPDeMonstres() {
+		super("Monstre");
+	}
 
-
-	public List<Pair<Algorithme, Object>> separerN(Algorithme algorithme) {
+	@Override
+	protected List<Pair<Algorithme, Object>> diviser(Algorithme algorithme) {
 		List<Pair<Algorithme, Object>> liste = new ArrayList<>();
 
 		for (int i = 0 ; i != 3 ; i++) {
@@ -57,9 +59,7 @@ public class SeparateurParHPDeMonstres {
 	}
 
 
-
-
-	public static class ClassificateurMonstreCible implements Classificateur {
+	public static class ClassificateurMonstreCible {
 		public final int idMonstre;
 
 		public ClassificateurMonstreCible(int idMonstre) {
@@ -67,18 +67,8 @@ public class SeparateurParHPDeMonstres {
 		}
 
 		@Override
-		public boolean estUnifiable(Classificateur autre) {
-			return false;
-		}
-
-		@Override
-		public int comparer(Classificateur classificateur) {
-			return 1;
-		}
-
-		@Override
 		public String toString() {
-			return "Monstre" + idMonstre;
+			return "Monstre" + (idMonstre + 1);
 		}
 	}
 }

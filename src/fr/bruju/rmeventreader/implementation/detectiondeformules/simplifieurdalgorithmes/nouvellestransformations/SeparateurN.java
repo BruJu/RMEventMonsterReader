@@ -8,18 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class SeparateurN implements NouveauTransformateur {
+public abstract class SeparateurN implements NouveauTransformateur {
 	private final String nom;
-	private final Function<Algorithme, List<Pair<Algorithme, Object>>> generateur;
 
-	public SeparateurN(String nom, Function<Algorithme, List<Pair<Algorithme, Object>>> generateur) {
+	public SeparateurN(String nom) {
 		this.nom = nom;
-		this.generateur = generateur;
 	}
 
 
+	protected abstract List<Pair<Algorithme, Object>> diviser(Algorithme algorithme);
+
+
 	@Override
-	public Table appliquer(Table table) {
+	public final Table appliquer(Table table) {
 		Table nouvelleTable = new Table();
 
 		for (String s : table.getChamps()) {
@@ -30,7 +31,7 @@ public class SeparateurN implements NouveauTransformateur {
 
 		table.forEach(enregistrement -> {
 				Algorithme algorithme = enregistrement.get("Algorithme");
-				List<Pair<Algorithme, Object>> resultat = generateur.apply(algorithme);
+				List<Pair<Algorithme, Object>> resultat = diviser(algorithme);
 
 				for (Pair<Algorithme, Object> algorithmeObjectPair : resultat) {
 					Algorithme algoTransforme = algorithmeObjectPair.getLeft();

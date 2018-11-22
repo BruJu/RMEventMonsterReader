@@ -28,11 +28,11 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class Simplifieur implements Runnable {
 	private static final NouveauTransformateur[] simplificationsN = new NouveauTransformateur[] {
+	        new Borneur(),
+            new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
 
-	        new RemplaceAlgorithme(new Borneur()::simplifier),
-            new RemplaceAlgorithme(new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes)::simplifier),
 			new AjouteurDeTag("Ciblage", enregistrement -> DetermineurDeCiblage.creerClassification(enregistrement.get("Algorithme"))),
-			new SeparateurN("Monstre", new SeparateurParHPDeMonstres()::separerN)
+			new SeparateurParHPDeMonstres()
     };
 	
 	

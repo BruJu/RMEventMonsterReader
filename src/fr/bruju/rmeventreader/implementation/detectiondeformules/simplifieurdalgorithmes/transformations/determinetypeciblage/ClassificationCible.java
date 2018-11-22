@@ -1,28 +1,11 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.determinetypeciblage;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
-
-public class ClassificationCible implements Classificateur {
+public class ClassificationCible {
 
 	public final Cible cibleChoisie;
 
 	public ClassificationCible(Cible cibleChoisie) {
 		this.cibleChoisie = cibleChoisie;
-	}
-
-	@Override
-	public boolean estUnifiable(Classificateur autre) {
-		return autre instanceof ClassificationCible;
-	}
-
-
-	@Override
-	public int comparer(Classificateur classificateur) {
-		if (!(classificateur instanceof ClassificationCible)) {
-			return -1;
-		}
-
-		return cibleChoisie.compareTo(((ClassificationCible) classificateur).cibleChoisie);
 	}
 
 	public enum Cible {
