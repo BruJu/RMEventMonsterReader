@@ -4,9 +4,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Separateur;
 import fr.bruju.util.Pair;
 
 import java.util.ArrayList;
@@ -16,19 +14,7 @@ import java.util.function.Consumer;
 /**
  * Transforme l'algorithme pour ne considérer que les dégâts fait à un monstre
  */
-public class SeparateurParHPDeMonstres implements Separateur {
-
-
-	@Override
-	public void separer(Consumer<AlgorithmeEtiquete> fonctionDAjout, AlgorithmeEtiquete elementASeparer) {
-		for (int i = 0 ; i != 3 ; i++) {
-			AlgorithmeEtiquete algorithme = cibler(elementASeparer, i);
-
-			if (algorithme != null) {
-				fonctionDAjout.accept(algorithme);
-			}
-		}
-	}
+public class SeparateurParHPDeMonstres {
 
 
 	public List<Pair<Algorithme, Object>> separerN(Algorithme algorithme) {
@@ -72,10 +58,6 @@ public class SeparateurParHPDeMonstres implements Separateur {
 
 
 
-	private AlgorithmeEtiquete cibler(AlgorithmeEtiquete elementASeparer, int idMonstre) {
-		Pair<Algorithme, ClassificateurMonstreCible> paire = instancier(elementASeparer.getAlgorithme(), idMonstre);
-		return new AlgorithmeEtiquete(elementASeparer, paire.getRight(), paire.getLeft());
-	}
 
 	public static class ClassificateurMonstreCible implements Classificateur {
 		public final int idMonstre;

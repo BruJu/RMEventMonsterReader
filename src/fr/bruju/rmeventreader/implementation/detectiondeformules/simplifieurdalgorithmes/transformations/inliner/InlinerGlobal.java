@@ -2,21 +2,19 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Simplification;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 
 import java.util.List;
 import java.util.function.Function;
 
 
-public class InlinerGlobal implements Simplification {
+public class InlinerGlobal {
 	private final Function<Algorithme, List<ExprVariable>> determinateurDeSorties;
 
 	public InlinerGlobal(Function<Algorithme, List<ExprVariable>> determinateurDeSorties) {
 		this.determinateurDeSorties = determinateurDeSorties;
 	}
 
-	@Override
 	public Algorithme simplifier(Algorithme algorithme) {
 		List<ExprVariable> variablesVivantes = determinateurDeSorties.apply(algorithme);
 

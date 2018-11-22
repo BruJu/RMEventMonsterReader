@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Simplification;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
@@ -14,10 +13,9 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
  * @author Bruju
  *
  */
-public class Borneur implements VisiteurDAlgorithme, Simplification {
+public class Borneur implements VisiteurDAlgorithme {
 	private Algorithme nouvelAlgorithme;
 
-	@Override
 	public Algorithme simplifier(Algorithme algorithme) {
 		nouvelAlgorithme = new Algorithme();
 		visit(algorithme);

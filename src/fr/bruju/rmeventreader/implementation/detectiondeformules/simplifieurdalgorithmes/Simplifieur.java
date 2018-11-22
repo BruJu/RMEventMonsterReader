@@ -19,12 +19,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.BaseDAlgorithmes;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Transformateur;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Tri;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
@@ -32,16 +27,6 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 
 public class Simplifieur implements Runnable {
-    /*
-	private static final Transformateur[] simplifications = new Transformateur[] {
-			new Borneur(),
-			new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
-			new DetermineurDeCiblage(),
-			new SeparateurParHPDeMonstres(),
-			new Tri()
-	};
-	*/
-
 	private static final NouveauTransformateur[] simplificationsN = new NouveauTransformateur[] {
 
 	        new RemplaceAlgorithme(new Borneur()::simplifier),
@@ -73,7 +58,7 @@ public class Simplifieur implements Runnable {
 				(s1, s2) -> s1.cibleChoisie.compareTo(s2.cibleChoisie)));
 		comparateurs.add(Simplifieur.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>creerComparateur(
 				"Monstre", (s1, s2) -> Integer.compare(s1.idMonstre, s2.idMonstre)));
-		
+
 		return comparateurs;
 	}
 
@@ -139,6 +124,4 @@ public class Simplifieur implements Runnable {
 
         return table;
     }
-
-
 }
