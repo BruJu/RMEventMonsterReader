@@ -20,19 +20,19 @@ public class CibleurDeMonstres implements Separateur {
 	}
 
 	private AlgorithmeEtiquete creerAttaqueCiblee(AlgorithmeEtiquete elementASeparer, int idMonstre) {
-		Algorithme nouvelAlgorithme = projeterSurMonstre(elementASeparer, idMonstre);
+		Algorithme nouvelAlgorithme = projeterSurMonstre(elementASeparer.getAlgorithme(), idMonstre);
 
 		Classificateur classificateur = new ClassificationCible(ClassificationCible.Cible.Monocible);
 		return new AlgorithmeEtiquete(elementASeparer, classificateur, nouvelAlgorithme);
 	}
 
-	public static Algorithme projeterSurMonstre(AlgorithmeEtiquete elementASeparer, int idMonstre) {
+	public static Algorithme projeterSurMonstre(Algorithme algorithme, int idMonstre) {
 		Map<Integer, Integer> variables = new HashMap<>();
 
 		variables.put(436, 5 + idMonstre);
 		variables.put(42, 70 + idMonstre);
 
 		AssignationDeValeurs assignateur = new AssignationDeValeurs();
-		return assignateur.assigner(elementASeparer.getAlgorithme(), variables);
+		return assignateur.assigner(algorithme, variables);
 	}
 }

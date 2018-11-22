@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.AlgorithmeEtiquete;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.organisation.Classificateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.transformation.Separateur;
+import fr.bruju.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,23 @@ public class SeparateurParHPDeMonstres implements Separateur {
 		}
 	}
 
-	private AlgorithmeEtiquete cibler(AlgorithmeEtiquete elementASeparer, int idMonstre) {
-		Algorithme projection = CibleurDeMonstres.projeterSurMonstre(elementASeparer, idMonstre);
+
+	public List<Pair<Algorithme, Object>> separerN(Algorithme algorithme) {
+		List<Pair<Algorithme, Object>> liste = new ArrayList<>();
+
+		for (int i = 0 ; i != 3 ; i++) {
+			Pair<Algorithme, ClassificateurMonstreCible> paire = instancier(algorithme, i);
+
+			if (paire != null) {
+				liste.add(new Pair<>(paire.getLeft(), paire.getRight()));
+			}
+		}
+
+		return liste;
+	}
+
+	private Pair<Algorithme, ClassificateurMonstreCible> instancier(Algorithme algorithme, int idMonstre) {
+		Algorithme projection = CibleurDeMonstres.projeterSurMonstre(algorithme, idMonstre);
 
 		int idVariableHPMonstre = 514 + idMonstre;
 
@@ -51,7 +67,14 @@ public class SeparateurParHPDeMonstres implements Separateur {
 
 		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(idMonstre);
 
-		return new AlgorithmeEtiquete(elementASeparer, classification, algorithmeResultat);
+		return new Pair<>(algorithmeResultat, classification);
+	}
+
+
+
+	private AlgorithmeEtiquete cibler(AlgorithmeEtiquete elementASeparer, int idMonstre) {
+		Pair<Algorithme, ClassificateurMonstreCible> paire = instancier(elementASeparer.getAlgorithme(), idMonstre);
+		return new AlgorithmeEtiquete(elementASeparer, paire.getRight(), paire.getLeft());
 	}
 
 	public static class ClassificateurMonstreCible implements Classificateur {
