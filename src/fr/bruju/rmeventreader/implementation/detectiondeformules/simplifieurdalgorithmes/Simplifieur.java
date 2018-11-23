@@ -12,6 +12,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.ClassificationCible;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage.Borneur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.UnifierSubstitutions;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
@@ -27,7 +28,8 @@ public class Simplifieur implements Runnable {
 	        new Borneur(),
             new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
 			new ClassificationCible.Determineur(),
-			new SeparateurParHPDeMonstres()
+			new SeparateurParHPDeMonstres(),
+			new UnifierSubstitutions()
     };
 	
 	

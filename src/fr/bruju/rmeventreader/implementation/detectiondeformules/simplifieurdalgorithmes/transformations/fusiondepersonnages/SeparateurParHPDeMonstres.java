@@ -7,10 +7,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.util.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Transforme l'algorithme pour ne considérer que les dégâts fait à un monstre
@@ -65,7 +62,9 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 			return null;
 		}
 
-		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(idMonstre);
+		int bitMonstre = 1 << (idMonstre);
+
+		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(bitMonstre);
 
 		return new Pair<>(algorithmeResultat, classification);
 	}
@@ -80,7 +79,32 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 
 		@Override
 		public String toString() {
-			return "Monstre" + (idMonstre + 1);
+			StringBuilder sb = new StringBuilder().append("Monstre");
+
+			if ((idMonstre & 0x01) == 0x01) {
+				sb.append("1");
+			}
+			if ((idMonstre & 0x02) == 0x02) {
+				sb.append("2");
+			}
+			if ((idMonstre & 0x04) == 0x04) {
+				sb.append("3");
+			}
+
+			return sb.toString();
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			ClassificateurMonstreCible that = (ClassificateurMonstreCible) o;
+			return idMonstre == that.idMonstre;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(idMonstre);
 		}
 	}
 }
