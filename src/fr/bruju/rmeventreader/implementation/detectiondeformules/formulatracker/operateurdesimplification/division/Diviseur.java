@@ -14,7 +14,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.
 import fr.bruju.util.Pair;
 
 /**
- * Objet permettant de diviser une formule de dégâts en une liste de paires condition - formule
+ * Objet permettant de projeter une formule de dégâts en une liste de paires condition - formule
  * 
  * @author Bruju
  *
@@ -34,7 +34,7 @@ public class Diviseur {
 
 	/**
 	 * Divise la formule en ne liste de paires conditions - formules en utilisant ce diviseur
-	 * @param formule La formule à diviser
+	 * @param formule La formule à projeter
 	 * @return La liste des formules issues de la division de la formule donnée avec la condition utilisée. Peut
 	 * renvoyer <null, formule> si aucune division n'est nécessaire.
 	 */

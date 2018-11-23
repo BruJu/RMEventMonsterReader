@@ -1,6 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.SeparateurN;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.MultiProjecteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.AssignationDeValeurs;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
@@ -15,13 +15,13 @@ import java.util.Map;
 /**
  * Transforme l'algorithme pour ne considérer que les dégâts fait à un monstre
  */
-public class SeparateurParHPDeMonstres extends SeparateurN {
+public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 	public SeparateurParHPDeMonstres() {
 		super("Monstre");
 	}
 
 	@Override
-	protected List<Pair<Algorithme, Object>> diviser(Algorithme algorithme) {
+	protected List<Pair<Algorithme, Object>> projeter(Algorithme algorithme) {
 		List<Pair<Algorithme, Object>> liste = new ArrayList<>();
 
 		for (int i = 0 ; i != 3 ; i++) {
