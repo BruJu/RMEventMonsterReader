@@ -24,21 +24,27 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 
 public class Simplifieur implements Runnable {
-	private static final TransformationDeTable[] simplificationsN = new TransformationDeTable[] {
-	        new Borneur(),
-            new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
-			new ClassificationCible.Determineur(),
-			new SeparateurParHPDeMonstres(),
-			new UnifierSubstitutions()
-    };
-	
+	private static TransformationDeTable[] getTransformationsAAppliquer(BaseDePersonnages baseDePersonnages) {
+		return new TransformationDeTable[] {
+				new Borneur(),
+				new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
+				new ClassificationCible.Determineur(),
+				new SeparateurParHPDeMonstres(),
+				new UnifierSubstitutions(baseDePersonnages)
+		};
+	}
+
 	
 	@Override
 	public void run() {
-	    Table table = creerAlgorithmesTables();
+		BaseDePersonnages personnages = new BaseDePersonnages();
 
-	    for (TransformationDeTable nouveauTransformateur : simplificationsN) {
-	        table = nouveauTransformateur.appliquer(table);
+		TransformationDeTable[] transformationsAAplliquer = getTransformationsAAppliquer(personnages);
+
+	    Table table = creerAlgorithmesTables(personnages);
+
+	    for (TransformationDeTable transformation : transformationsAAplliquer) {
+	        table = transformation.appliquer(table);
         }
 
         table.reordonner(creerComparateurs());
@@ -93,10 +99,8 @@ public class Simplifieur implements Runnable {
 	    sb.append("\n\n");
     }
 
-    private Table creerAlgorithmesTables() {
+    private Table creerAlgorithmesTables(BaseDePersonnages personnages) {
         List<AttaqueALire> attaquesALire = AttaqueALire.extraireAttaquesALire();
-
-        BaseDePersonnages personnages = new BaseDePersonnages();
 
         Table table = new Table();
         table.insererChamp(0, "Personnage", null);

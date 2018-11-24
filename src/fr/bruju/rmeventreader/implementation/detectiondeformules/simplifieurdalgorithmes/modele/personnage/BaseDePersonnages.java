@@ -5,10 +5,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import fr.bruju.util.MapsUtils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class BaseDePersonnages {
 
@@ -56,20 +53,40 @@ public class BaseDePersonnages {
 	}
 
 	public Personnage getPersonnage(String nom) {
+		if (!personnages.containsKey(nom)) {
+			System.err.println("Aucun personnage nommé " + nom);
+
+			System.err.print("Personnages existants :");
+			for (String s : personnages.keySet()) {
+				System.err.print(" " + s);
+			}
+
+			System.err.println();
+
+
+			throw new RuntimeException();
+		}
+
+
 		return personnages.get(nom);
 	}
 
 	public Personnage getPersonnageUnifie(Personnage p1, Personnage p2) {
-		Set<Individu> individus = new HashSet<>();
+
+		System.out.print(p1.getNom() + " + " + p2.getNom() + " = ");
+
+		Set<Individu> individus = new TreeSet<>();
 		p1.ajouterPersonnage(individus);
 		p2.ajouterPersonnage(individus);
 
 		String nomPersonnageUnifie = Groupe.definirNom(individus);
 
+		System.out.println(nomPersonnageUnifie);
+
 		Personnage personnage = personnages.get(nomPersonnageUnifie);
 
 		if (personnage == null) {
-			Groupe personnageGroupe = new Groupe(nomPersonnageUnifie);
+			Groupe personnageGroupe = new Groupe(nomPersonnageUnifie, individus);
 			personnage = personnageGroupe;
 			personnages.put(nomPersonnageUnifie, personnageGroupe);
 

@@ -77,6 +77,10 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 			this.idMonstre = idMonstre;
 		}
 
+		public ClassificateurMonstreCible(ClassificateurMonstreCible monstre1, ClassificateurMonstreCible monstre2) {
+			this.idMonstre = monstre1.idMonstre + monstre2.idMonstre;
+		}
+
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder().append("Monstre");

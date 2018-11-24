@@ -9,7 +9,7 @@ public class Groupe extends Personnage {
 	private Set<Individu> personnage;
 	private String nom;
 
-	public Groupe(String nom) {
+	public Groupe(String nom, Set<Individu> personnage) {
 		this.nom = nom;
 		this.personnage = personnage;
 	}
@@ -27,13 +27,23 @@ public class Groupe extends Personnage {
 
 
 	public static String definirNom(Set<Individu> personnage) {
+		String versionMonstre = "Monstre";
+
 		StringJoiner sj = new StringJoiner("/");
 
 		for (Individu individu : personnage) {
-			sj.add(individu.getNom());
+			String nom = individu.getNom();
+
+			sj.add(nom);
+
+			if (nom.startsWith("Monstre") && versionMonstre != null) {
+				versionMonstre += nom.substring(7);
+			} else {
+				versionMonstre = null;
+			}
 		}
 
-		return sj.toString();
+		return versionMonstre != null ? versionMonstre : sj.toString();
 	}
 
 	public void ajouterNouvellesStatistiquesIssuesDe(Personnage personnage, BaseDePersonnages baseDePersonnages) {
