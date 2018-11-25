@@ -72,9 +72,6 @@ public class BaseDePersonnages {
 	}
 
 	public Personnage getPersonnageUnifie(Personnage p1, Personnage p2) {
-
-		System.out.print(p1.getNom() + " + " + p2.getNom() + " = ");
-
 		Set<Individu> individus = new TreeSet<>();
 		p1.ajouterPersonnage(individus);
 		p2.ajouterPersonnage(individus);

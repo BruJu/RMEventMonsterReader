@@ -21,4 +21,9 @@ public class Statistique extends ExprVariable {
 	public boolean estUneSortie() {
 		return true;
 	}
+
+	@Override
+	public void accept(VisiteurDExpression visiteurDExpression) {
+		visiteurDExpression.visit(this);
+	}
 }
