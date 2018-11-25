@@ -54,19 +54,18 @@ public class BaseDePersonnages {
 
 	public Personnage getPersonnage(String nom) {
 		if (!personnages.containsKey(nom)) {
-			System.err.println("Aucun personnage nommé " + nom);
+			String messageDeBase = "Aucun personnage nommé " + nom + "\nPersonnages existants : ";
 
-			System.err.print("Personnages existants :");
+			StringJoiner sj = new StringJoiner(" ", messageDeBase, "");
+
 			for (String s : personnages.keySet()) {
-				System.err.print(" " + s);
+				sj.add(s);
 			}
 
-			System.err.println();
-
+			System.err.println(sj.toString());
 
 			throw new RuntimeException();
 		}
-
 
 		return personnages.get(nom);
 	}
