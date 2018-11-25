@@ -76,9 +76,6 @@ public class BaseDePersonnages {
 		p2.ajouterPersonnage(individus);
 
 		String nomPersonnageUnifie = Groupe.definirNom(individus);
-
-		System.out.println(nomPersonnageUnifie);
-
 		Personnage personnage = personnages.get(nomPersonnageUnifie);
 
 		if (personnage == null) {

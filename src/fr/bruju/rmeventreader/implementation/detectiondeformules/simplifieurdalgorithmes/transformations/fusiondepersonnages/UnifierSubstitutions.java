@@ -5,6 +5,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Personnage;
@@ -33,20 +34,22 @@ public class UnifierSubstitutions implements TransformationDeTable {
 
 	private Enregistrement unificateur(Enregistrement e1, Enregistrement e2) {
 		if (!e1.get("Personnage").equals(e2.get("Personnage"))
-			|| !e1.get("Attaque").equals(e2.get("Attaque"))) {
+				|| !e1.get("Attaque").equals(e2.get("Attaque"))) {
 			return null;
 		}
 
 
 		Personnage p1 = baseDePersonnages.getPersonnage(e1.get("Monstre").toString());
 		Personnage p2 = baseDePersonnages.getPersonnage(e2.get("Monstre").toString());
-		ContexteDeSubstitution contexte = new ContexteDeSubstitution(p2, p1);
 		Personnage unifie = baseDePersonnages.getPersonnageUnifie(p1, p2);
+
+		ContexteDeSubstitution contexte = new ContexteDeSubstitution(p2, p1);
+		ContexteDeSubstitution contexte2 = new ContexteDeSubstitution(p1, unifie);
 
 		Algorithme a1 = e1.get("Algorithme");
 		Algorithme a2 = e2.get("Algorithme");
 
-		Algorithme nouvelAlgorithme = combiner(a1, p1, a2, p2, unifie, contexte);
+		Algorithme nouvelAlgorithme = combiner(a1, a2, contexte, contexte2);
 
 		if (nouvelAlgorithme == null) {
 			return null;
@@ -59,8 +62,8 @@ public class UnifierSubstitutions implements TransformationDeTable {
 		return e1;
 	}
 
-	private Algorithme combiner(Algorithme a1, Personnage p1, Algorithme a2, Personnage p2, Personnage unifie,
-								ContexteDeSubstitution contexte) {
+	private Algorithme combiner(Algorithme a1, Algorithme a2,
+								ContexteDeSubstitution contexteEgal, ContexteDeSubstitution contexteDefini) {
 		Algorithme resultat = new Algorithme();
 
 		Supplier<InstructionGenerale> iterateur1 = a1.getIterateur();
@@ -86,11 +89,12 @@ public class UnifierSubstitutions implements TransformationDeTable {
 				InstructionAffectation iaff1 = (InstructionAffectation) i1;
 				InstructionAffectation iaff2 = (InstructionAffectation) i2;
 
-				Expression droite = contexte.explorer(iaff2.expression);
+				InstructionAffectation iaff2modifie = contexteEgal.substituer(iaff2);
 
-				if (iaff1.expression.equals(droite)) {
-					contexte.enregistrerSubstitution(iaff2.variableAssignee, iaff1.variableAssignee);
-					resultat.ajouterInstruction(i1);
+				if (iaff1.estIdentique(iaff2modifie)) {
+					contexteEgal.enregistrerSubstitution(iaff2, iaff1);
+
+					resultat.ajouterInstruction(contexteDefini.substituer(iaff1));
 				} else {
 					return null;
 				}
