@@ -9,7 +9,7 @@ import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 /** 
  * Lit des fichiers du type
  * <pre>
- * - ExplorationTotale -
+ * - Element -
  * IdVariable NomElement
  * 
  * - Parties -
@@ -76,7 +76,7 @@ public class ContexteElementaire {
 		
 		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
 			switch (ligne) {
-				case "- ExplorationTotale -":
+				case "- Element -":
 					etatActuel.set(true);
 					break;
 				case "- Parties -":
