@@ -9,6 +9,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.util.Pair;
+import fr.bruju.util.table.Enregistrement;
 
 import java.util.*;
 
@@ -52,21 +53,17 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 	private Pair<Algorithme, ClassificateurMonstreCible> instancier(Algorithme algorithme, int idMonstre) {
 		Algorithme projection = projeterSurMonstre(algorithme, idMonstre);
 
-		Personnage personnage = baseDePersonnages.getPersonnage("Monstre" + (idMonstre+1));
+		Personnage personnage = baseDePersonnages.getPersonnage("Monstre" + (idMonstre + 1));
 		Statistique statistiqueHP = personnage.getStatistique("HP");
 
 		List<ExprVariable> variablesVivantes = new ArrayList<>();
 		variablesVivantes.add(statistiqueHP);
 
-		InlinerGlobal inliner = new InlinerGlobal(algo -> variablesVivantes);
-
-		Algorithme algorithmeResultat = inliner.simplifier(projection);
+		Algorithme algorithmeResultat = InlinerGlobal.enleverInstructionsMortes(variablesVivantes, projection);
 
 		if (algorithmeResultat.estVide()) {
 			return null;
 		}
-
-		int bitMonstre = 1 << (idMonstre);
 
 		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(personnage);
 

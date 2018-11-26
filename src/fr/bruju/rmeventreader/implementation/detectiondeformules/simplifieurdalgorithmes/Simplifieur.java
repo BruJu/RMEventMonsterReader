@@ -28,7 +28,8 @@ public class Simplifieur implements Runnable {
 	private static TransformationDeTable[] getTransformationsAAppliquer(BaseDePersonnages baseDePersonnages) {
 		return new TransformationDeTable[] {
 				new Borneur(),
-				new InlinerGlobal(ListeurDeVariablesDeSorties::lireLesVariablesVivantes),
+				new DetecterLesVariablesDeSortie(),
+				new InlinerGlobal(),
 				new ClassificationCible.Determineur(),
 				new SeparateurParHPDeMonstres(baseDePersonnages),
 				new UnifierSubstitutions(baseDePersonnages)

@@ -3,28 +3,29 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.RemplaceAlgorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.TransformationDeTable;
+import fr.bruju.util.table.Enregistrement;
+import fr.bruju.util.table.Table;
 
 import java.util.List;
-import java.util.function.Function;
 
 
-public class InlinerGlobal extends RemplaceAlgorithme {
-	private final Function<Algorithme, List<ExprVariable>> determinateurDeSorties;
-
-	public InlinerGlobal(Function<Algorithme, List<ExprVariable>> determinateurDeSorties) {
-		this.determinateurDeSorties = determinateurDeSorties;
+public class InlinerGlobal implements TransformationDeTable {
+	@Override
+	public Table appliquer(Table table) {
+		table.forEach(this::remplacerAlgorithme);
+		return table;
 	}
 
+	public void remplacerAlgorithme(Enregistrement enregistrement) {
+		List<ExprVariable> variablesVivantes = enregistrement.get("Sorties");
+		Algorithme algorithme = enregistrement.get("Algorithme");
+		enregistrement.set("Algorithme", enleverInstructionsMortes(variablesVivantes, algorithme));
+	}
 
-
-	@Override
-	public Algorithme simplifier(Algorithme algorithme) {
-		List<ExprVariable> variablesVivantes = determinateurDeSorties.apply(algorithme);
-
+	public static Algorithme enleverInstructionsMortes(List<ExprVariable> variablesVivantes, Algorithme algorithme) {
 		DetecteurDeSimplifications detecteur = new DetecteurDeSimplifications(variablesVivantes);
 		algorithme.acceptInverse(detecteur);
-		
 		Reecrivain reecrivain = new Reecrivain(algorithme, detecteur);
 		return reecrivain.produireResultat();
 	}
