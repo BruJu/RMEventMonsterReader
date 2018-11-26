@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader;
 
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.formulatracker.FormulaTracker;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplifieur;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
@@ -26,7 +25,7 @@ public class Principal {
 		
 		Runnable[] options = {
 				/* 00 */ new ListeurDeMonstres(3),
-				/* 01 */ new FormulaTracker(),
+				/* 01 */ null,
 				/* 02 */ () -> PROJET.ecrireRessource("ressources_gen\\"),
 				/* 03 */ new Verificateur(),
 				/* 04 */ new AppelsDEvenements(),
