@@ -11,7 +11,7 @@ import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
  */
 public class EtatInitial {
 	/** Fichier ressource contenant la liste des valeurs initiales des variables */
-	private static final String FICHIER_VARIABLES = "ressources/formulatracker/Injection.txt";
+	public static final String FICHIER_VARIABLES = "ressources/formulatracker/Injection.txt";
 
 	/* =========
 	 * SINGLETON
