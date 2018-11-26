@@ -61,8 +61,8 @@ public class UnifierSubstitutions implements TransformationDeTable {
 								ContexteDeSubstitution contexteEgal, ContexteDeSubstitution contexteDefini) {
 		Algorithme resultat = new Algorithme();
 
-		Supplier<InstructionGenerale> iterateur1 = a1.getIterateur();
-		Supplier<InstructionGenerale> iterateur2 = a2.getIterateur();
+		Supplier<InstructionGenerale> iterateur1 = a1.getListeurDInstructionsEffectives();
+		Supplier<InstructionGenerale> iterateur2 = a2.getListeurDInstructionsEffectives();
 
 		while (true) {
 			InstructionGenerale i1 = iterateur1.get();

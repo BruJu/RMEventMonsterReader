@@ -5,18 +5,28 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expressi
 
 import java.util.Objects;
 
+/**
+ * Une instruction d'affectation a pour but d'attribuer une nouvelle valeur (expression) à une variable.
+ */
 public class InstructionAffectation implements InstructionGenerale {
+	/** Variable modifiée */
 	public final ExprVariable variableAssignee;
+	/** Expression */
 	public final Expression expression;
-	
+
+	/**
+	 * Crée une nouvelle instruction d'affectation
+	 * @param variableAssignee La variable modifiée
+	 * @param expression La valeur prise par la variable
+	 */
 	public InstructionAffectation(ExprVariable variableAssignee, Expression expression) {
 		this.variableAssignee = variableAssignee;
 		this.expression = expression;
 	}
 
 	@Override
-	public void append(ListeurDInstructions sb) {
-		sb.append(variableAssignee.getString())
+	public void listerTextuellement(ListeurDInstructions listeur) {
+		listeur.append(variableAssignee.getString())
 		  .append(" = ")
 		  .append(expression.getString())
 		  .ln();
@@ -26,7 +36,6 @@ public class InstructionAffectation implements InstructionGenerale {
 	public boolean estVide() {
 		return false;
 	}
-	
 
 	@Override
 	public void accept(VisiteurDAlgorithme visiteur) {
@@ -42,7 +51,6 @@ public class InstructionAffectation implements InstructionGenerale {
 				Objects.equals(expression, that.expression);
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(variableAssignee, expression);
@@ -50,13 +58,6 @@ public class InstructionAffectation implements InstructionGenerale {
 
 	@Override
 	public String toString() {
-		return new StringBuilder()
-				.append(variableAssignee.getString())
-				.append(" = ")
-				.append(expression.getString())
-				.toString();
+		return variableAssignee.getString() + " = " + expression.getString();
 	}
-
-
-
 }

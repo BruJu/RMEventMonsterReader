@@ -27,7 +27,7 @@ import fr.bruju.util.MapsUtils;
 public class ConstructeurValue extends VisiteurReecrivainDExpression {
 	/** Algorithme en cours de construction */
 	private Algorithme algorithmeCourant = new Algorithme();
-	/** Pile d'exploration conditionnelle */
+	/** Pile d'exploration conditionnelle (ie instructions conditionnelles en cours de construction) */
 	private Stack<ExplorationConditionnelle> pile = new Stack<>();
 	/** Valeurs actuellement connues pour les variables */
 	private Map<Integer, Integer> valeursCourantes;

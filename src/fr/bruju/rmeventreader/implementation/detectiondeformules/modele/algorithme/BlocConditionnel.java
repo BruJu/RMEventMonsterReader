@@ -2,11 +2,24 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorit
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.Condition;
 
+/**
+ * Un bloc conditionnel est une instruction possédant une condition et deux sous algorithmes lisant les instructions
+ * à exécuter si le bloc conditionnel est vrai ou faux.
+ */
 public class BlocConditionnel implements InstructionGenerale {
+	/** Condition */
 	public final Condition condition;
+	/** Instructions à exécuter si la condition est vraie */
 	public final Algorithme siVrai;
+	/** Instructions à exécuter si la condition est fausse */
 	public final Algorithme siFaux;
-	
+
+	/**
+	 * Crée un bloc conditionnel
+	 * @param condition La condition
+	 * @param siVrai Les instructions si la condition est vraie
+	 * @param siFaux Les instructions si la condition est fausse
+	 */
 	public BlocConditionnel(Condition condition, Algorithme siVrai, Algorithme siFaux) {
 		this.condition = condition;
 		this.siVrai = siVrai;
@@ -14,20 +27,20 @@ public class BlocConditionnel implements InstructionGenerale {
 	}
 	
 	@Override
-	public void append(ListeurDInstructions sb) {
+	public void listerTextuellement(ListeurDInstructions listeur) {
 		if (estVide()) {
 			return;
 		}
 		
-		sb.append("Si ").append(condition.getString()).tab().ln();
-		siVrai.append(sb);
+		listeur.append("Si ").append(condition.getString()).tab().ln();
+		siVrai.lister(listeur);
 		
 		if (!siFaux.estVide()) {
-			sb.retrait().append("Sinon").tab().ln();
-			siFaux.append(sb);
+			listeur.retrait().append("Sinon").tab().ln();
+			siFaux.lister(listeur);
 		}
 		
-		sb.retrait().append("Fin si").ln();
+		listeur.retrait().append("Fin si").ln();
 	}
 
 	@Override

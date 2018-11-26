@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.AjouteurDeTag;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.TransformationDeTable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner.ListeurDeVariablesDeSorties;
 import fr.bruju.util.table.Enregistrement;
 
