@@ -14,7 +14,7 @@ public interface Condition<T> {
 	
 	/**
 	 * Permet de savoir si l'élément respecte la condition
-	 * @param element L'élément à tester
+	 * @param element L'élément à evaluer
 	 * @return Vrai si l'élément respecte la condition
 	 */
 	public boolean filter(T element);

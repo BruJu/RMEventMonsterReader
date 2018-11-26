@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.constructeur;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -130,7 +130,7 @@ public class ConstructeurValue extends VisiteurReecrivainDExpression {
 				condition = cv;
 			}
 			
-			Boolean test = cv.tester();
+			Boolean test = cv.evaluer();
 			
 			if (test != null) {
 				pile.push(new ExplorationPartielle());

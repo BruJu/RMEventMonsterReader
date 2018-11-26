@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.constructeur.ConstructeurValue;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.*;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.Condition;
 

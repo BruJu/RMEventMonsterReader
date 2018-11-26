@@ -6,6 +6,10 @@ import fr.bruju.rmdechiffreur.modele.Condition.CondHerosPossedeObjet;
 
 import java.util.Objects;
 
+/**
+ * Une condition portant sur le port d'un objet chez un personnage.
+ * <br>Cette classe adapte l'objet CondHerosPossedeObjet de RMDechiffreur à l'interface Condition
+ */
 public class ConditionObjet implements Condition {
 	private final CondHerosPossedeObjet condObjet;
 
@@ -19,7 +23,7 @@ public class ConditionObjet implements Condition {
 	}
 
 	@Override
-	public Boolean tester() {
+	public Boolean evaluer() {
 		return null;
 	}
 

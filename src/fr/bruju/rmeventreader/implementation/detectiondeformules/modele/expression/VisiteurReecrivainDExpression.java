@@ -47,23 +47,28 @@ public abstract class VisiteurReecrivainDExpression implements VisiteurDExpressi
 		visit(composant);
 		return expression;
 	}
-	
+
+	@Override
 	public final void visit(Calcul composant) {
 		expression = explorer(composant);
 	}
-	
+
+	@Override
 	public final void visit(Constante composant) {
 		expression = explorer(composant);
 	}
-	
+
+	@Override
 	public final void visit(NombreAleatoire composant) {
 		expression = explorer(composant);
 	}
-	
+
+	@Override
 	public final void visit(ExprVariable composant) {
 		expression = explorer(composant);
 	}
-	
+
+	@Override
 	public final void visit(Borne composant) {
 		expression = explorer(composant);
 	}

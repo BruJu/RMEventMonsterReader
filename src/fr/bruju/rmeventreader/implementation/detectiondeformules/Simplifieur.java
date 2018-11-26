@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.TransformationDeTable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.ClassificationCible;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages.ClassificateurMonstreCible;
@@ -18,6 +17,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.ListeurDeStatistiquesModifiees;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
@@ -28,7 +28,7 @@ public class Simplifieur implements Runnable {
 	private static TransformationDeTable[] getTransformationsAAppliquer(BaseDePersonnages baseDePersonnages) {
 		return new TransformationDeTable[] {
 				new Borneur(),
-				new DetecterLesVariablesDeSortie(),
+				new ListeurDeStatistiquesModifiees(),
 				new InlinerGlobal(),
 				new ClassificationCible.Determineur(),
 				new SeparateurParHPDeMonstres(baseDePersonnages),

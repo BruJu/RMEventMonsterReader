@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Permet de tester une liste d'éléments par rapport à une liste de conditions 
+ * Permet de evaluer une liste d'éléments par rapport à une liste de conditions
  * @author Bruju
  *
  */
