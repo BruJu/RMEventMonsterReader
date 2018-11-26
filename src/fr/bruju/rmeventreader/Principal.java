@@ -1,7 +1,7 @@
 package fr.bruju.rmeventreader;
 
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.Simplifieur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.Simplifieur;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
