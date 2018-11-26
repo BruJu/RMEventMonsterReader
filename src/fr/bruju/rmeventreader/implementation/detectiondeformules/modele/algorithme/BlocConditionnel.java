@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.Condition;
+import fr.bruju.util.IndentedStringBuilder;
 
 /**
  * Un bloc conditionnel est une instruction possédant une condition et deux sous algorithmes lisant les instructions
@@ -27,7 +28,7 @@ public class BlocConditionnel implements InstructionGenerale {
 	}
 	
 	@Override
-	public void listerTextuellement(ListeurDInstructions listeur) {
+	public void listerTextuellement(IndentedStringBuilder listeur) {
 		if (estVide()) {
 			return;
 		}
@@ -36,11 +37,11 @@ public class BlocConditionnel implements InstructionGenerale {
 		siVrai.lister(listeur);
 		
 		if (!siFaux.estVide()) {
-			listeur.retrait().append("Sinon").tab().ln();
+			listeur.untab().append("Sinon").tab().ln();
 			siFaux.lister(listeur);
 		}
 		
-		listeur.retrait().append("Fin si").ln();
+		listeur.untab().append("Fin si").ln();
 	}
 
 	@Override

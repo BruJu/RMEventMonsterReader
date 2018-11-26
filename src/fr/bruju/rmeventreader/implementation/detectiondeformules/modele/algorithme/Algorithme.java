@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme;
 
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
+import fr.bruju.util.IndentedStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class Algorithme {
 	 * @return Une représentation textuelle de l'algorithme
 	 */
 	public String getString() {
-		ListeurDInstructions listeurDInstructions = new ListeurDInstructions();
+		IndentedStringBuilder listeurDInstructions = new IndentedStringBuilder();
 		lister(listeurDInstructions);
 		return listeurDInstructions.toString();
 	}
@@ -84,7 +85,7 @@ public class Algorithme {
 	 * Ajoute l'algorithme à la liste des instructions contenues dans le listeur
 	 * @param listeurDInstructions Le listeur d'instructions
 	 */
-	public void lister(ListeurDInstructions listeurDInstructions) {
+	public void lister(IndentedStringBuilder listeurDInstructions) {
 		for (InstructionGenerale instruction : instructions) {
 			instruction.listerTextuellement(listeurDInstructions);
 		}

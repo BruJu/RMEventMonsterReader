@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme;
 
+import fr.bruju.util.IndentedStringBuilder;
+
 /**
  * Une instruction affichant un commentaire
  */
@@ -16,7 +18,7 @@ public class InstructionAffichage implements InstructionGenerale {
 	}
 
 	@Override
-	public void listerTextuellement(ListeurDInstructions listeur) {
+	public void listerTextuellement(IndentedStringBuilder listeur) {
 		listeur.append(chaine).ln();
 	}
 

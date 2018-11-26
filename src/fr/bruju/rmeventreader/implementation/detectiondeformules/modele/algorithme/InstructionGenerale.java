@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme;
 
+import fr.bruju.util.IndentedStringBuilder;
+
 /**
  * Une instruction
  */
@@ -27,5 +29,5 @@ public interface InstructionGenerale {
 	 * Ajoute l'instruction aux instructions listées en vue de produire un affichage
 	 * @param listeur Le listeur d'instructions
 	 */
-	void listerTextuellement(ListeurDInstructions listeur);
+	void listerTextuellement(IndentedStringBuilder listeur);
 }

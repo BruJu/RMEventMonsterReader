@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorit
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Expression;
+import fr.bruju.util.IndentedStringBuilder;
 
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class InstructionAffectation implements InstructionGenerale {
 	}
 
 	@Override
-	public void listerTextuellement(ListeurDInstructions listeur) {
+	public void listerTextuellement(IndentedStringBuilder listeur) {
 		listeur.append(variableAssignee.getString())
 		  .append(" = ")
 		  .append(expression.getString())
