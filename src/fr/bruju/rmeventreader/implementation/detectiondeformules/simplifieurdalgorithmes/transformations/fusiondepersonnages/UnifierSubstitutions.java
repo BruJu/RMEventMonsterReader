@@ -39,8 +39,8 @@ public class UnifierSubstitutions implements TransformationDeTable {
 		}
 
 
-		Personnage p1 = baseDePersonnages.getPersonnage(e1.get("Monstre").toString());
-		Personnage p2 = baseDePersonnages.getPersonnage(e2.get("Monstre").toString());
+		Personnage p1 = e1.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>get("Monstre").getPersonnage();
+		Personnage p2 = e2.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>get("Monstre").getPersonnage();
 		Personnage unifie = baseDePersonnages.getPersonnageUnifie(p1, p2);
 
 		ContexteDeSubstitution contexte = new ContexteDeSubstitution(p2, p1);
@@ -56,8 +56,7 @@ public class UnifierSubstitutions implements TransformationDeTable {
 		}
 
 		e1.set("Algorithme", nouvelAlgorithme);
-		e1.set("Monstre",
-				new SeparateurParHPDeMonstres.ClassificateurMonstreCible(e1.get("Monstre"), e2.get("Monstre")));
+		e1.set("Monstre", new SeparateurParHPDeMonstres.ClassificateurMonstreCible(unifie));
 
 		return e1;
 	}

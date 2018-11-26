@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffichage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.VisiteurDAlgorithme;
@@ -40,5 +41,11 @@ public class ListeurDeVariablesDeSorties implements VisiteurDAlgorithme.IntegreC
 
 	@Override
 	public void conditionFin() {
+	}
+
+	public static List<ExprVariable> lireLesVariablesVivantes(Algorithme algorithme) {
+		ListeurDeVariablesDeSorties listeur = new ListeurDeVariablesDeSorties();
+		listeur.visit(algorithme);
+		return listeur.get();
 	}
 }

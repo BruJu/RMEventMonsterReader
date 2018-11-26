@@ -17,6 +17,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.ListeurDeVariablesDeSorties;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
@@ -27,9 +28,9 @@ public class Simplifieur implements Runnable {
 	private static TransformationDeTable[] getTransformationsAAppliquer(BaseDePersonnages baseDePersonnages) {
 		return new TransformationDeTable[] {
 				new Borneur(),
-				new InlinerGlobal(InlinerGlobal::lireLesVariablesVivantes),
+				new InlinerGlobal(ListeurDeVariablesDeSorties::lireLesVariablesVivantes),
 				new ClassificationCible.Determineur(),
-				new SeparateurParHPDeMonstres(),
+				new SeparateurParHPDeMonstres(baseDePersonnages),
 				new UnifierSubstitutions(baseDePersonnages)
 		};
 	}
@@ -60,7 +61,7 @@ public class Simplifieur implements Runnable {
 		comparateurs.add(Simplifieur.<ClassificationCible>creerComparateur("Ciblage",
 				(s1, s2) -> s1.cibleChoisie.compareTo(s2.cibleChoisie)));
 		comparateurs.add(Simplifieur.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>creerComparateur(
-				"Monstre", (s1, s2) -> Integer.compare(s1.idMonstre, s2.idMonstre)));
+				"Monstre", SeparateurParHPDeMonstres.ClassificateurMonstreCible::comparateur));
 
 		return comparateurs;
 	}

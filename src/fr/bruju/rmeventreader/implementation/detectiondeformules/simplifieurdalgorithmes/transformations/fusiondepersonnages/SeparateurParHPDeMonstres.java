@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Statistique;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.MultiProjecteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.AssignationDeValeurs;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.InlinerGlobal;
@@ -13,9 +16,13 @@ import java.util.*;
  * Transforme l'algorithme pour ne considérer que les dégâts fait à un monstre
  */
 public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
-	public SeparateurParHPDeMonstres() {
+	private final BaseDePersonnages baseDePersonnages;
+
+	public SeparateurParHPDeMonstres(BaseDePersonnages baseDePersonnages) {
 		super("Monstre");
+		this.baseDePersonnages = baseDePersonnages;
 	}
+
 
 	@Override
 	protected List<Pair<Algorithme, Object>> projeter(Algorithme algorithme) {
@@ -45,14 +52,11 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 	private Pair<Algorithme, ClassificateurMonstreCible> instancier(Algorithme algorithme, int idMonstre) {
 		Algorithme projection = projeterSurMonstre(algorithme, idMonstre);
 
-		int idVariableHPMonstre = 514 + idMonstre;
-
-		if (idMonstre > 0) {
-			idVariableHPMonstre++;
-		}
+		Personnage personnage = baseDePersonnages.getPersonnage("Monstre" + (idMonstre+1));
+		Statistique statistiqueHP = personnage.getStatistique("HP");
 
 		List<ExprVariable> variablesVivantes = new ArrayList<>();
-		variablesVivantes.add(new ExprVariable(idVariableHPMonstre));
+		variablesVivantes.add(statistiqueHP);
 
 		InlinerGlobal inliner = new InlinerGlobal(algo -> variablesVivantes);
 
@@ -64,38 +68,22 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 
 		int bitMonstre = 1 << (idMonstre);
 
-		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(bitMonstre);
+		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(personnage);
 
 		return new Pair<>(algorithmeResultat, classification);
 	}
 
 
 	public static class ClassificateurMonstreCible {
-		public final int idMonstre;
+		private final Personnage personnage;
 
-		public ClassificateurMonstreCible(int idMonstre) {
-			this.idMonstre = idMonstre;
-		}
-
-		public ClassificateurMonstreCible(ClassificateurMonstreCible monstre1, ClassificateurMonstreCible monstre2) {
-			this.idMonstre = monstre1.idMonstre + monstre2.idMonstre;
+		public ClassificateurMonstreCible(Personnage personnage) {
+			this.personnage = personnage;
 		}
 
 		@Override
 		public String toString() {
-			StringBuilder sb = new StringBuilder().append("Monstre");
-
-			if ((idMonstre & 0x01) == 0x01) {
-				sb.append("1");
-			}
-			if ((idMonstre & 0x02) == 0x02) {
-				sb.append("2");
-			}
-			if ((idMonstre & 0x04) == 0x04) {
-				sb.append("3");
-			}
-
-			return sb.toString();
+			return personnage.getNom() + ".HP";
 		}
 
 		@Override
@@ -103,12 +91,20 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 			if (this == o) return true;
 			if (o == null || getClass() != o.getClass()) return false;
 			ClassificateurMonstreCible that = (ClassificateurMonstreCible) o;
-			return idMonstre == that.idMonstre;
+			return personnage.equals(that.personnage);
 		}
 
 		@Override
 		public int hashCode() {
-			return Objects.hash(idMonstre);
+			return personnage.hashCode();
+		}
+
+		public static Integer comparateur(ClassificateurMonstreCible a, ClassificateurMonstreCible b) {
+			return a.personnage.getNom().compareTo(b.personnage.getNom());
+		}
+
+		public Personnage getPersonnage() {
+			return personnage;
 		}
 	}
 }

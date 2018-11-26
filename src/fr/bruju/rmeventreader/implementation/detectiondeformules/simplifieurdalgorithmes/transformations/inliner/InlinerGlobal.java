@@ -28,10 +28,4 @@ public class InlinerGlobal extends RemplaceAlgorithme {
 		Reecrivain reecrivain = new Reecrivain(algorithme, detecteur);
 		return reecrivain.produireResultat();
 	}
-
-	public static List<ExprVariable> lireLesVariablesVivantes(Algorithme algorithme) {
-		ListeurDeVariablesDeSorties listeur = new ListeurDeVariablesDeSorties();
-		listeur.visit(algorithme);
-		return listeur.get();
-	}
 }
