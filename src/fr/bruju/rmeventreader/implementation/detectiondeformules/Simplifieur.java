@@ -13,7 +13,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages.UnifierSubstitutions;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner.InlinerGlobal;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner.InlineurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
@@ -29,7 +29,7 @@ public class Simplifieur implements Runnable {
 		return new TransformationDeTable[] {
 				new Borneur(),
 				new ListeurDeStatistiquesModifiees(),
-				new InlinerGlobal(),
+				new InlineurDAlgorithme(),
 				new ClassificationCible.Determineur(),
 				new SeparateurParHPDeMonstres(baseDePersonnages),
 				new UnifierSubstitutions(baseDePersonnages),

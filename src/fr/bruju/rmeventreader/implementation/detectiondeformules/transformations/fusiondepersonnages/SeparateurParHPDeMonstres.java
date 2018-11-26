@@ -2,10 +2,9 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Statistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.MultiProjecteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.AssignationDeValeurs;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner.InlinerGlobal;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner.InlineurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.util.Pair;
@@ -70,7 +69,7 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 		List<ExprVariable> variablesVivantes = new ArrayList<>();
 		variablesVivantes.add(statistique);
 
-		Algorithme algorithmeResultat = InlinerGlobal.enleverInstructionsMortes(variablesVivantes, projection);
+		Algorithme algorithmeResultat = InlineurDAlgorithme.simplifier(variablesVivantes, projection);
 
 		if (algorithmeResultat.estVide()) {
 			return null;
