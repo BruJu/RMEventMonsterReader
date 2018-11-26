@@ -1,21 +1,15 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages;
 
-import com.sun.org.apache.bcel.internal.generic.Instruction;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.InstructionGenerale;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.TransformationDeTable;
-import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class UnifierSubstitutions implements TransformationDeTable {
@@ -38,9 +32,11 @@ public class UnifierSubstitutions implements TransformationDeTable {
 			return null;
 		}
 
+		ClassificateurMonstreCible classificateur1 = e1.get("Monstre");
+		ClassificateurMonstreCible classificateur2 = e2.get("Monstre");
 
-		Personnage p1 = e1.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>get("Monstre").getPersonnage();
-		Personnage p2 = e2.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>get("Monstre").getPersonnage();
+		Personnage p1 = classificateur1.getPersonnage();
+		Personnage p2 = classificateur2.getPersonnage();
 		Personnage unifie = baseDePersonnages.getPersonnageUnifie(p1, p2);
 
 		ContexteDeSubstitution contexte = new ContexteDeSubstitution(p2, p1);
@@ -56,7 +52,7 @@ public class UnifierSubstitutions implements TransformationDeTable {
 		}
 
 		e1.set("Algorithme", nouvelAlgorithme);
-		e1.set("Monstre", new SeparateurParHPDeMonstres.ClassificateurMonstreCible(unifie));
+		e1.set("Monstre", new ClassificateurMonstreCible(unifie.getStatistique(classificateur1.getStatistique().nom)));
 
 		return e1;
 	}

@@ -26,14 +26,21 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 
 
 	@Override
-	protected List<Pair<Algorithme, Object>> projeter(Algorithme algorithme) {
+	protected List<Pair<Algorithme, Object>> projeter(Enregistrement enregistrement) {
+		Algorithme algorithme = enregistrement.get("Algorithme");
+
+
 		List<Pair<Algorithme, Object>> liste = new ArrayList<>();
 
-		for (int i = 0 ; i != 3 ; i++) {
-			Pair<Algorithme, ClassificateurMonstreCible> paire = instancier(algorithme, i);
+		List<ExprVariable> sorties = enregistrement.get("Sorties");
+		for (ExprVariable sortie : sorties) {
 
-			if (paire != null) {
-				liste.add(new Pair<>(paire.getLeft(), paire.getRight()));
+			if (sortie instanceof Statistique) {
+				Pair<Algorithme, ClassificateurMonstreCible> paire = instancier(algorithme, (Statistique) sortie);
+
+				if (paire != null) {
+					liste.add(new Pair<>(paire.getLeft(), paire.getRight()));
+				}
 			}
 		}
 
@@ -50,14 +57,18 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 		return assignateur.assigner(algorithme, variables);
 	}
 
-	private Pair<Algorithme, ClassificateurMonstreCible> instancier(Algorithme algorithme, int idMonstre) {
-		Algorithme projection = projeterSurMonstre(algorithme, idMonstre);
+	private Pair<Algorithme, ClassificateurMonstreCible> instancier(Algorithme algorithme, Statistique statistique) {
+		Algorithme projection;
 
-		Personnage personnage = baseDePersonnages.getPersonnage("Monstre" + (idMonstre + 1));
-		Statistique statistiqueHP = personnage.getStatistique("HP");
+		if (statistique.personnage.getNom().startsWith("Monstre")) {
+			projection = projeterSurMonstre(algorithme, statistique.personnage.getNom().charAt(7) - '1');
+		} else {
+			projection = projeterSurMonstre(algorithme, 0);
+		}
+
 
 		List<ExprVariable> variablesVivantes = new ArrayList<>();
-		variablesVivantes.add(statistiqueHP);
+		variablesVivantes.add(statistique);
 
 		Algorithme algorithmeResultat = InlinerGlobal.enleverInstructionsMortes(variablesVivantes, projection);
 
@@ -65,43 +76,8 @@ public class SeparateurParHPDeMonstres extends MultiProjecteurDAlgorithme {
 			return null;
 		}
 
-		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(personnage);
+		ClassificateurMonstreCible classification = new ClassificateurMonstreCible(statistique);
 
 		return new Pair<>(algorithmeResultat, classification);
-	}
-
-
-	public static class ClassificateurMonstreCible {
-		private final Personnage personnage;
-
-		public ClassificateurMonstreCible(Personnage personnage) {
-			this.personnage = personnage;
-		}
-
-		@Override
-		public String toString() {
-			return personnage.getNom() + ".HP";
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
-			ClassificateurMonstreCible that = (ClassificateurMonstreCible) o;
-			return personnage.equals(that.personnage);
-		}
-
-		@Override
-		public int hashCode() {
-			return personnage.hashCode();
-		}
-
-		public static Integer comparateur(ClassificateurMonstreCible a, ClassificateurMonstreCible b) {
-			return a.personnage.getNom().compareTo(b.personnage.getNom());
-		}
-
-		public Personnage getPersonnage() {
-			return personnage;
-		}
 	}
 }

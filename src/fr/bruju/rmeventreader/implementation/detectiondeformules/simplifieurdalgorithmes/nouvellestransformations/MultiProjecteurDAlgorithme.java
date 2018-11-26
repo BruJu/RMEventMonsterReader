@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdal
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.util.Pair;
+import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ public abstract class MultiProjecteurDAlgorithme implements TransformationDeTabl
 
 	/**
 	 * Projète l'algorithme pour produire de nouveaux algorithmes selon plusieurs angles de projection
-	 * @param algorithme L'algorithme à projeter
+	 * @param enregistrement L'enregistrement à projeter
 	 * @return Une liste de paire algorithme produit - projection faite
 	 */
-	protected abstract List<Pair<Algorithme, Object>> projeter(Algorithme algorithme);
+	protected abstract List<Pair<Algorithme, Object>> projeter(Enregistrement enregistrement);
 
 
 	@Override
@@ -39,8 +40,7 @@ public abstract class MultiProjecteurDAlgorithme implements TransformationDeTabl
 		int positionAlgorithme = table.getPosition("Algorithme");
 
 		table.forEach(enregistrement -> {
-				Algorithme algorithme = enregistrement.get(positionAlgorithme);
-				List<Pair<Algorithme, Object>> resultat = projeter(algorithme);
+				List<Pair<Algorithme, Object>> resultat = projeter(enregistrement);
 
 				for (Pair<Algorithme, Object> algorithmeObjectPair : resultat) {
 					Algorithme algoProjete = algorithmeObjectPair.getLeft();

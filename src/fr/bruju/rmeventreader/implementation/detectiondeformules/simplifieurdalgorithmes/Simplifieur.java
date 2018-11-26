@@ -10,6 +10,7 @@ import java.util.function.BiFunction;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.AttaqueALire;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.nouvellestransformations.TransformationDeTable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.ClassificationCible;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.ClassificateurMonstreCible;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.bornage.Borneur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.fusiondepersonnages.UnifierSubstitutions;
@@ -17,7 +18,6 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalg
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.modele.personnage.BaseDePersonnages;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.simplifieurdalgorithmes.transformations.inliner.ListeurDeVariablesDeSorties;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
@@ -32,7 +32,8 @@ public class Simplifieur implements Runnable {
 				new InlinerGlobal(),
 				new ClassificationCible.Determineur(),
 				new SeparateurParHPDeMonstres(baseDePersonnages),
-				new UnifierSubstitutions(baseDePersonnages)
+				new UnifierSubstitutions(baseDePersonnages),
+				table -> { table.retirerChamp("Sorties"); return table;}
 		};
 	}
 
@@ -61,8 +62,7 @@ public class Simplifieur implements Runnable {
 		comparateurs.add(Simplifieur.<String>creerComparateur("Attaque", (s1, s2) -> s1.compareTo(s2)));
 		comparateurs.add(Simplifieur.<ClassificationCible>creerComparateur("Ciblage",
 				(s1, s2) -> s1.cibleChoisie.compareTo(s2.cibleChoisie)));
-		comparateurs.add(Simplifieur.<SeparateurParHPDeMonstres.ClassificateurMonstreCible>creerComparateur(
-				"Monstre", SeparateurParHPDeMonstres.ClassificateurMonstreCible::comparateur));
+		comparateurs.add(Simplifieur.creerComparateur("Monstre", ClassificateurMonstreCible::comparateur));
 
 		return comparateurs;
 	}
