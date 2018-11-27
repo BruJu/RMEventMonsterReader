@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Une attaque à lire représente un triplet avec le numéro de l'évènement commun décrivant l'attaque, le nom du
@@ -25,7 +26,19 @@ public class AttaqueALire {
 	 * @return La liste des attaques dans le fichier Attaques.txt
 	 */
 	public static List<AttaqueALire> extraireAttaquesALire() {
-		return LecteurDeFichiersLigneParLigne.listerRessources(CHEMIN_ATTAQUES, AttaqueALire::new);
+		AtomicBoolean ignorer = new AtomicBoolean(false);
+		return LecteurDeFichiersLigneParLigne.listerRessources(CHEMIN_ATTAQUES, serialisation -> {
+			if (ignorer.get()) {
+				return null;
+			}
+
+			if (serialisation.equals("END")) {
+				ignorer.set(true);
+				return null;
+			} else {
+				return new AttaqueALire(serialisation);
+			}
+		});
 	}
 
 	/**

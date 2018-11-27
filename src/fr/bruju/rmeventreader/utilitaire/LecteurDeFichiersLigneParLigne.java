@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -48,6 +49,7 @@ public class LecteurDeFichiersLigneParLigne {
 		try (Stream<String> flux = Files.lines(Paths.get(chemin))) {
 			return flux.filter(LecteurDeFichiersLigneParLigne::filtrer)
 					   .map(mapper)
+					   .filter(Objects::nonNull)
 				       .collect(Collectors.toList());
 		} catch (IOException e) {
 			return null;

@@ -26,8 +26,7 @@ public class ContexteDeSubstitution extends VisiteurReecrivainDExpression {
 
 	@Override
 	public ExprVariable explorer(ExprVariable composant) {
-		ExprVariable variable = substitutions.get(composant);
-		return variable == null ? composant : variable;
+		return substitutions.getOrDefault(composant, composant);
 	}
 
 	@Override
@@ -52,6 +51,10 @@ public class ContexteDeSubstitution extends VisiteurReecrivainDExpression {
 	}
 
 	public void enregistrerSubstitution(ExprVariable source, ExprVariable destination) {
+		if (source == destination || source instanceof Statistique || destination instanceof Statistique) {
+			return;
+		}
+
 		substitutions.put(source, destination);
 	}
 }

@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.fusiondepersonnages;
 
+import com.sun.org.apache.bcel.internal.generic.Instruction;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffectation;
@@ -11,6 +12,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expressi
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.TransformationDeTable;
+import fr.bruju.util.IndentedStringBuilder;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
@@ -84,67 +86,79 @@ public class UnifierSubstitutions implements TransformationDeTable {
 				return null;
 			}
 
+			InstructionGenerale r = null;
+
 			if (i1 instanceof InstructionAffectation) {
-				InstructionAffectation iaff1 = (InstructionAffectation) i1;
-				InstructionAffectation iaff2 = (InstructionAffectation) i2;
-
-				InstructionAffectation iaff2modifie = contexteEgal.substituer(iaff2);
-
-				if (iaff1.estIdentique(iaff2modifie)) {
-					contexteEgal.enregistrerSubstitution(iaff2, iaff1);
-
-					resultat.ajouterInstruction(contexteDefini.substituer(iaff1));
-				} else {
-					return null;
-				}
+				r = affectation((InstructionAffectation) i1, (InstructionAffectation) i2, contexteEgal, contexteDefini);
+			} else if (i1 instanceof BlocConditionnel) {
+				r = blocConditionnel((BlocConditionnel) i1, (BlocConditionnel) i2, contexteEgal, contexteDefini);
 			}
 
-			if (i1 instanceof BlocConditionnel) {
-				BlocConditionnel bloc1 = (BlocConditionnel) i1;
-				BlocConditionnel bloc2 = (BlocConditionnel) i2;
-
-				Condition c1 = bloc1.condition;
-				Condition c2 = bloc2.condition;
-				Condition condition;
-
-				if (c1 instanceof ConditionVariable && c2 instanceof ConditionVariable) {
-					ConditionVariable cv1 = (ConditionVariable) c1;
-					ConditionVariable cv2 = (ConditionVariable) c2;
-
-					if (cv1.comparateur != cv2.comparateur) {
-						return null;
-					}
-
-					Expression gauche2Substitue = contexteEgal.explorer(cv2.gauche);
-					Expression droite2Substitue = contexteEgal.explorer(cv2.droite);
-
-					if (!cv1.gauche.equals(gauche2Substitue) || !cv2.droite.equals(droite2Substitue)) {
-						return null;
-					}
-
-					condition = new ConditionVariable(contexteDefini.explorer(cv1.gauche),
-							cv1.comparateur,
-							contexteDefini.explorer(cv1.droite));
-				} else if (c1 instanceof ConditionObjet && c2 instanceof ConditionObjet) {
-					if (!c1.equals(c2)) {
-						return null;
-					}
-
-					condition = c1;
-				} else {
-					return null;
-				}
-
-				Algorithme vrai = combiner(bloc1.siVrai, bloc2.siVrai, contexteEgal, contexteDefini);
-				if (vrai == null) return null;
-
-				Algorithme faux = combiner(bloc1.siFaux, bloc2.siFaux, contexteEgal, contexteDefini);
-				if (faux == null) return null;
-
-				resultat.ajouterInstruction(new BlocConditionnel(condition, vrai, faux));
+			if (r == null) {
+				return null;
+			} else {
+				resultat.ajouterInstruction(r);
 			}
 		}
 	}
+
+	private InstructionGenerale affectation(InstructionAffectation iaff1, InstructionAffectation iaff2,
+										   ContexteDeSubstitution contexteEgal,
+										   ContexteDeSubstitution contexteDefini) {
+		InstructionAffectation iaff2modifie = contexteEgal.substituer(iaff2);
+
+		if (iaff1.expression.equals(iaff2modifie.expression)) {
+			contexteEgal.enregistrerSubstitution(iaff2, iaff1);
+			return contexteDefini.substituer(iaff1);
+		} else {
+			return null;
+		}
+	}
+
+	private InstructionGenerale blocConditionnel(BlocConditionnel bloc1, BlocConditionnel bloc2,
+												 ContexteDeSubstitution contexteEgal,
+												 ContexteDeSubstitution contexteDefini) {
+		Condition c1 = bloc1.condition;
+		Condition c2 = bloc2.condition;
+		Condition condition;
+
+		if (c1 instanceof ConditionVariable && c2 instanceof ConditionVariable) {
+			ConditionVariable cv1 = (ConditionVariable) c1;
+			ConditionVariable cv2 = (ConditionVariable) c2;
+
+			if (cv1.comparateur != cv2.comparateur) {
+				return null;
+			}
+
+			Expression gauche2Substitue = contexteEgal.explorer(cv2.gauche);
+			Expression droite2Substitue = contexteEgal.explorer(cv2.droite);
+
+			if (!cv1.gauche.equals(gauche2Substitue) || !cv1.droite.equals(droite2Substitue)) {
+				return null;
+			}
+
+			condition = new ConditionVariable(contexteDefini.explorer(cv1.gauche),
+					cv1.comparateur,
+					contexteDefini.explorer(cv1.droite));
+		} else if (c1 instanceof ConditionObjet && c2 instanceof ConditionObjet) {
+			if (!c1.equals(c2)) {
+				return null;
+			}
+
+			condition = c1;
+		} else {
+			return null;
+		}
+
+		Algorithme vrai = combiner(bloc1.siVrai, bloc2.siVrai, contexteEgal, contexteDefini);
+		if (vrai == null) return null;
+
+		Algorithme faux = combiner(bloc1.siFaux, bloc2.siFaux, contexteEgal, contexteDefini);
+		if (faux == null) return null;
+
+		return new BlocConditionnel(condition, vrai, faux);
+	}
+
 
 
 }

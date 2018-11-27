@@ -141,7 +141,8 @@ public class Algorithme {
 		}
 
 		private boolean estUnAffichage() {
-			return i < instructions.size() && instructions.get(i) instanceof InstructionAffichage;
+			return i < instructions.size() &&
+					(instructions.get(i) instanceof InstructionAffichage || instructions.get(i).estVide());
 		}
 
 		private InstructionGenerale extraire() {
