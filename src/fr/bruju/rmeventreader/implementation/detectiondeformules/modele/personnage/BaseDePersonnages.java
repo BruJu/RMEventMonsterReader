@@ -7,24 +7,32 @@ import fr.bruju.util.MapsUtils;
 
 import java.util.*;
 
+/**
+ * Une base de personnages regroupe la liste de tous les personnages et fourni des méthodes utilitaires pour pouvoir
+ * unifier les personnages.
+ */
 public class BaseDePersonnages {
+	/**
+	 * Fichier ressource où sont stockés la liste des personnages au format
+	 * "NomDuPersonnaege NomStatistique NuméroVariable".
+	 */
+	public static String FICHIER_PERSONNAGES = "ressources/formulatracker/Statistiques.txt";
 
-	private static String FICHIER_PERSONNAGES = "ressources/formulatracker/Statistiques.txt";
-
+	/** Association numéro de variable - objet représentant la variable */
 	private Map<Integer, ExprVariable> variablesInstanciees;
+	/** Association nom de personnage - objet représentant le personnage */
 	private Map<String, Personnage> personnages;
+
+	// RPG Maker utilise des variables de 1 à 5000. On utilise donc les variables supérieures à 5000 pour représenter
+	// le numéro des variables de groupes de personnages
+	// L'implémentation impose qu'une statistique est reliée à une variable. Le but de ce module étant de trouver des
+	// similitudes entre algorithmes, on utilise ce procédé pour palier à une faiblesse de l'implémentation.
 	private int numeroVariable = 5001;
 	private int numeroInterrupteur = -5001;
 
-	int getNouvelleVariable() {
-		return numeroVariable++;
-	}
-
-	int getNouvelInterrupteur() {
-		return numeroInterrupteur--;
-	}
-
-
+	/**
+	 * Construit la base de personnages en se reposant sur le fichier ressource défini par FICHIER_PERSONNAGES
+	 */
 	public BaseDePersonnages() {
 		variablesInstanciees = new HashMap<>();
 		personnages = new HashMap<>();
@@ -48,28 +56,21 @@ public class BaseDePersonnages {
 		});
 	}
 
+
+	/**
+	 * Donne la table d'association numéro de variables - instanciation de la statistique
+	 */
 	public Map<Integer, ExprVariable> getVariablesInstanciees() {
 		return variablesInstanciees;
 	}
 
-	public Personnage getPersonnage(String nom) {
-		if (!personnages.containsKey(nom)) {
-			String messageDeBase = "Aucun personnage nommé " + nom + "\nPersonnages existants : ";
-
-			StringJoiner sj = new StringJoiner(" ", messageDeBase, "");
-
-			for (String s : personnages.keySet()) {
-				sj.add(s);
-			}
-
-			System.err.println(sj.toString());
-
-			throw new RuntimeException();
-		}
-
-		return personnages.get(nom);
-	}
-
+	/**
+	 * Donne l'objet personnage qui représente les deux personnages donnés unifiés.
+	 * @param p1 Le premier personnage
+	 * @param p2 Le second personnage
+	 * @return Un objet Groupe qui représente l'unification des deux personnages (ie un meta personnage qui possède les
+	 * statistiques des deux personnages unifiés et dont le nom représente les deux personnages regroupés)
+	 */
 	public Personnage getPersonnageUnifie(Personnage p1, Personnage p2) {
 		Set<Individu> individus = new TreeSet<>();
 		p1.ajouterPersonnage(individus);
@@ -88,5 +89,16 @@ public class BaseDePersonnages {
 		}
 
 		return personnage;
+	}
+
+
+	/** Donne un numéro de variable libre */
+	int getNouvelleVariable() {
+		return numeroVariable++;
+	}
+
+	/** Donne un numéro d'interrupteur libre */
+	int getNouvelInterrupteur() {
+		return numeroInterrupteur--;
 	}
 }
