@@ -1,9 +1,10 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.inliner;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.*;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDExpression;
 
 /**
  * Un visiteur d'expression qui liste les variables qui sont utilisées

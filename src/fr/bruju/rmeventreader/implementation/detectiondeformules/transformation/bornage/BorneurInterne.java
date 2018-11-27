@@ -1,10 +1,11 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.bornage;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.bornage;
 
 import fr.bruju.rmdechiffreur.modele.Comparateur;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.*;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Borne;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.NombreAleatoire;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDAlgorithme;
 
 /**
  * Visiteur renvoyant vrai si la dernière instruction d'affectation visitée possède les mêmes termes que ceux passés

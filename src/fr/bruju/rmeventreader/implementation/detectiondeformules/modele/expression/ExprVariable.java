@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDExpression;
+
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 import java.util.Objects;
 

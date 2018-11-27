@@ -1,7 +1,8 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.bornage;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.bornage;
 
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.*;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDExpression;
 
 public abstract class Evaluateur implements VisiteurDExpression {
 	private boolean possedeUneVariable = false;

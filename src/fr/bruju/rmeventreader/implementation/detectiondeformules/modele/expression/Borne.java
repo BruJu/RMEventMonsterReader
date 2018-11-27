@@ -1,5 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDExpression;
+
 import java.util.Objects;
 
 public class Borne implements Expression {

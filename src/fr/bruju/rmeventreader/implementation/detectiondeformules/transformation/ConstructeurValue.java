@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.conditio
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Constante;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Expression;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.VisiteurReecrivainDExpression;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurReecrivainDExpression;
 import fr.bruju.util.MapsUtils;
 
 /**

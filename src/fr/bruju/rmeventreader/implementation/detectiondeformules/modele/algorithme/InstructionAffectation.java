@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorit
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Expression;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDAlgorithme;
 import fr.bruju.util.IndentedStringBuilder;
 
 import java.util.Objects;

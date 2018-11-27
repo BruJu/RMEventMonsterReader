@@ -1,7 +1,7 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.AjouteurDeTag;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.AjouteurDeTag;
 import fr.bruju.util.table.Enregistrement;
 
 import java.util.HashMap;

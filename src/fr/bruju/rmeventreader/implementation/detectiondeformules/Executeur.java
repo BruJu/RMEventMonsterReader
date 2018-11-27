@@ -12,7 +12,7 @@ import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmdechiffreur.modele.ValeurAleatoire;
 import fr.bruju.rmdechiffreur.modele.ValeurFixe;
 import fr.bruju.rmdechiffreur.modele.Variable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.ConstructeurValue;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.ConstructeurValue;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.ConditionObjet;

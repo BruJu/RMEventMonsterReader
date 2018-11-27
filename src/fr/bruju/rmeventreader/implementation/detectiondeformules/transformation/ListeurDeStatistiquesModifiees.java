@@ -1,13 +1,13 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.*;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.*;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.AjouteurDeTag;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.AjouteurDeTag;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDAlgorithme;
 import fr.bruju.util.table.Enregistrement;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**

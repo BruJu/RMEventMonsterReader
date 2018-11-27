@@ -1,9 +1,9 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.inliner;
 
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.TransformationDeTable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.TransformationDeTable;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 

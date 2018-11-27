@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.inliner;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorith
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffichage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionGenerale;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.VisiteurDAlgorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.Condition;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.ConditionVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Expression;

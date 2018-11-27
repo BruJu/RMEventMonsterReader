@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.fusiondepersonnages;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Statistique;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.Personnage;

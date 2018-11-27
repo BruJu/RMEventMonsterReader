@@ -1,12 +1,12 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.bornage;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.bornage;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffichage;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.VisiteurDAlgorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.ConditionVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.RemplaceAlgorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.RemplaceAlgorithme;
 
 /**
  * Transforme les instructions du type "si a > b ; a = b" en "a = min(a, b)"

@@ -1,7 +1,8 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.*;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.Condition;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDAlgorithme;
 
 import java.util.Map;
 

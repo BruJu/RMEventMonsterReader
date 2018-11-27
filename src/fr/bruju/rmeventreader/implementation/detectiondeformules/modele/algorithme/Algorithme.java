@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme;
 
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDAlgorithme;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.util.IndentedStringBuilder;
 

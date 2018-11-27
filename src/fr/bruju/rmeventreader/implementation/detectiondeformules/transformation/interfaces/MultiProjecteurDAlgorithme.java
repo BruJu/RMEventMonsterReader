@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.util.Pair;

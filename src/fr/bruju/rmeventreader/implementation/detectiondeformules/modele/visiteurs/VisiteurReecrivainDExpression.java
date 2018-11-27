@@ -1,4 +1,6 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs;
+
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.*;
 
 public abstract class VisiteurReecrivainDExpression implements VisiteurDExpression {
 	private Expression expression;

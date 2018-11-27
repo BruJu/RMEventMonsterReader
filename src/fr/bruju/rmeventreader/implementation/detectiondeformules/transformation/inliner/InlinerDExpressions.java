@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.inliner;
 
 import java.util.Map;
 
@@ -6,7 +6,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorith
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionGenerale;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.VisiteurReecrivainDExpression;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurReecrivainDExpression;
 
 /**
  * Construit des expressions en utilisant une table associant à chaque instruction d'affectation la liste des

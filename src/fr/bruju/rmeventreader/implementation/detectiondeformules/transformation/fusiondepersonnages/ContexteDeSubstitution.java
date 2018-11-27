@@ -1,10 +1,10 @@
-package fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages;
+package fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.fusiondepersonnages;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Statistique;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.VisiteurReecrivainDExpression;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurReecrivainDExpression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.Personnage;
 
 import java.util.HashMap;

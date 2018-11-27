@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.Personnage;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDExpression;
 
 public class Statistique extends ExprVariable {
 	public final Personnage personnage;

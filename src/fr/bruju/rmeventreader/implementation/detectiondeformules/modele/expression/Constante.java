@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression;
 
-import fr.bruju.rmdechiffreur.modele.ValeurFixe;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDExpression;
+
 import java.util.Objects;
 
 public class Constante implements Expression {

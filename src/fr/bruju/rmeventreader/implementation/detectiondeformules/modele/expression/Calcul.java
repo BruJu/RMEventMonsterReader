@@ -1,6 +1,8 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.visiteurs.VisiteurDExpression;
+
 import java.util.Objects;
 
 public class Calcul implements Expression {

@@ -7,17 +7,17 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
 
-import fr.bruju.rmeventreader.implementation.detectiondeformules.nouvellestransformations.TransformationDeTable;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.ClassificationCible;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages.ClassificateurMonstreCible;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages.SeparateurParHPDeMonstres;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.bornage.Borneur;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.fusiondepersonnages.UnifierSubstitutions;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.inliner.InlineurDAlgorithme;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.TransformationDeTable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.ClassificationCible;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.fusiondepersonnages.ClassificateurMonstreCible;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.fusiondepersonnages.SeparateurParHPDeMonstres;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.bornage.Borneur;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.fusiondepersonnages.UnifierSubstitutions;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.inliner.InlineurDAlgorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.Algorithme;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformations.ListeurDeStatistiquesModifiees;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.ListeurDeStatistiquesModifiees;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
