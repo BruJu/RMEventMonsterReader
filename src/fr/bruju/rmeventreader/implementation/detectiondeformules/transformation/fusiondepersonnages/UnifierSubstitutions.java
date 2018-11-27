@@ -4,6 +4,10 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorith
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.BlocConditionnel;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionAffectation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorithme.InstructionGenerale;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.Condition;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.ConditionObjet;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.condition.ConditionVariable;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.Expression;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.Personnage;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.TransformationDeTable;
@@ -96,7 +100,48 @@ public class UnifierSubstitutions implements TransformationDeTable {
 			}
 
 			if (i1 instanceof BlocConditionnel) {
-				return null;
+				BlocConditionnel bloc1 = (BlocConditionnel) i1;
+				BlocConditionnel bloc2 = (BlocConditionnel) i2;
+
+				Condition c1 = bloc1.condition;
+				Condition c2 = bloc2.condition;
+				Condition condition;
+
+				if (c1 instanceof ConditionVariable && c2 instanceof ConditionVariable) {
+					ConditionVariable cv1 = (ConditionVariable) c1;
+					ConditionVariable cv2 = (ConditionVariable) c2;
+
+					if (cv1.comparateur != cv2.comparateur) {
+						return null;
+					}
+
+					Expression gauche2Substitue = contexteEgal.explorer(cv2.gauche);
+					Expression droite2Substitue = contexteEgal.explorer(cv2.droite);
+
+					if (!cv1.gauche.equals(gauche2Substitue) || !cv2.droite.equals(droite2Substitue)) {
+						return null;
+					}
+
+					condition = new ConditionVariable(contexteDefini.explorer(cv1.gauche),
+							cv1.comparateur,
+							contexteDefini.explorer(cv1.droite));
+				} else if (c1 instanceof ConditionObjet && c2 instanceof ConditionObjet) {
+					if (!c1.equals(c2)) {
+						return null;
+					}
+
+					condition = c1;
+				} else {
+					return null;
+				}
+
+				Algorithme vrai = combiner(bloc1.siVrai, bloc2.siVrai, contexteEgal, contexteDefini);
+				if (vrai == null) return null;
+
+				Algorithme faux = combiner(bloc1.siFaux, bloc2.siFaux, contexteEgal, contexteDefini);
+				if (faux == null) return null;
+
+				resultat.ajouterInstruction(new BlocConditionnel(condition, vrai, faux));
 			}
 		}
 	}
