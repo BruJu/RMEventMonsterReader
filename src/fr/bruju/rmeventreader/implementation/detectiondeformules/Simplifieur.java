@@ -119,7 +119,7 @@ public class Simplifieur implements Runnable {
             List<Object> objets = new ArrayList<>();
 
             objets.add(attaque.nomPersonnage);
-            objets.add(attaque.nomAttaque);
+            objets.add("[" + attaque.numeroEvenementCommun + "]" + attaque.nomAttaque);
             objets.add(algorithme);
 
             table.ajouterContenu(objets);

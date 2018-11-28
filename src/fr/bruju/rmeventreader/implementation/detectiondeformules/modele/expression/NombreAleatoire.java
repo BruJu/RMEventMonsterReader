@@ -36,6 +36,16 @@ public class NombreAleatoire implements Expression {
 	}
 
 	@Override
+	public Integer evaluerMinimum() {
+		return valeurMin;
+	}
+
+	@Override
+	public Integer evaluerMaximum() {
+		return valeurMax;
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(valeurMin, valeurMax);
 	}

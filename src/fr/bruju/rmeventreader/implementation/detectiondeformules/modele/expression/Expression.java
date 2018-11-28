@@ -10,4 +10,11 @@ public interface Expression {
 	
 	public Integer evaluer();
 
+	public default Integer evaluerMinimum() {
+		return evaluer();
+	}
+
+	public default Integer evaluerMaximum() {
+		return evaluer();
+	}
 }

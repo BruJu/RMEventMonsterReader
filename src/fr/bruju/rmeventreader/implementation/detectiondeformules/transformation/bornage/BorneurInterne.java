@@ -46,15 +46,12 @@ public class BorneurInterne implements VisiteurDAlgorithme {
 		if (instructionAffectation.expression.equals(condition.droite)) {
 			borne = new Borne(condition.gauche, condition.droite, estBorneMin);
 		} else {
-			Evaluateur evaluateurMin = new Evaluateur.Minimum();
-			Evaluateur evaluateurMax = new Evaluateur.Maximum();
-
-			Integer evalMinCondition = evaluateurMin.evaluer(condition.droite);
-			Integer evalMinAffectee = evaluateurMin.evaluer(instructionAffectation.expression);
+			Integer evalMinCondition = condition.droite.evaluerMinimum();
+			Integer evalMinAffectee = instructionAffectation.expression.evaluerMinimum();
 
 			if (evalMinCondition != null && evalMinAffectee != null) {
-				Integer evalMaxCondition = evaluateurMax.evaluer(condition.droite);
-				Integer evalMaxAffectee = evaluateurMax.evaluer(instructionAffectation.expression);
+				Integer evalMaxCondition = condition.droite.evaluerMaximum();
+				Integer evalMaxAffectee = instructionAffectation.expression.evaluerMaximum();
 
 				// TODO : si a <= 0 ; a = 1~5 est actuellement interprété comme a = min(a, 0~5) au lieu de min(a, 1~5)
 				NombreAleatoire aleatoire = null;
