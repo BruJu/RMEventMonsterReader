@@ -86,8 +86,8 @@ public class Executeur implements ExecuteurInstructions, ExtChangeVariable.SansA
 
 	@Override
 	public int variableVariable(int variable, Comparateur comparateur, Variable droite) {
-		ExprVariable exprGauche = new ExprVariable(variable);
-		Expression exprDroite = new ExprVariable(droite.idVariable);
+		ExprVariable exprGauche = getVariable(variable);
+		Expression exprDroite = getVariable(droite.idVariable);
 		return constructeur.commencerCondition(new ConditionVariable(exprGauche, comparateur, exprDroite));
 	}
 	
