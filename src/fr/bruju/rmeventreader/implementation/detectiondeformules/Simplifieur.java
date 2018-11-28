@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.interfaces.TransformationDeTable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.ClassificationCible;
@@ -18,6 +19,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorith
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.ListeurDeStatistiquesModifiees;
+import fr.bruju.util.Pair;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
@@ -52,14 +54,27 @@ public class Simplifieur implements Runnable {
 
         table.reordonner(creerComparateurs());
 
-	    afficherAlgorithmes(table);
+	    //afficherAlgorithmes(table);
+		List<Pair<String, Function<Object, String>>> liste = new ArrayList<>();
+
+		liste.add(new Pair<>("NumeroEvenementCommun", Object::toString));
+		liste.add(new Pair<>("Personnage", Object::toString));
+		liste.add(new Pair<>("Attaque", Object::toString));
+		liste.add(new Pair<>("Ciblage", Object::toString));
+		liste.add(new Pair<>("Monstre", Object::toString));
+		liste.add(new Pair<>("Algorithme", o -> ((Algorithme) o).getString()));
+
+
+		System.out.println(TableVersTable.versHTML(table, liste));
 	}
 
 	private Iterable<Comparator<Enregistrement>> creerComparateurs() {
 		List<Comparator<Enregistrement>> comparateurs = new ArrayList<>();
 
-		comparateurs.add(Simplifieur.<String>creerComparateur("Personnage", (s1, s2) -> s1.compareTo(s2)));
-		comparateurs.add(Simplifieur.<String>creerComparateur("Attaque", (s1, s2) -> s1.compareTo(s2)));
+		comparateurs.add(Simplifieur.creerComparateur("NumeroEvenementCommun", Integer::compareTo));
+		// Ordonner par numéro d'EC rend le tri par personnage et nom d'attaque inutile
+		//comparateurs.add(Simplifieur.creerComparateur("Personnage", String::compareTo));
+		//comparateurs.add(Simplifieur.creerComparateur("Attaque", String::compareTo));
 		comparateurs.add(Simplifieur.<ClassificationCible>creerComparateur("Ciblage",
 				(s1, s2) -> s1.cibleChoisie.compareTo(s2.cibleChoisie)));
 		comparateurs.add(Simplifieur.creerComparateur("Monstre", ClassificateurMonstreCible::comparateur));
@@ -106,8 +121,9 @@ public class Simplifieur implements Runnable {
 
         Table table = new Table();
         table.insererChamp(0, "Personnage", null);
-        table.insererChamp(1, "Attaque", null);
-        table.insererChamp(2, "Algorithme", null);
+        table.insererChamp(1, "NumeroEvenementCommun", null);
+		table.insererChamp(2, "Attaque", null);
+        table.insererChamp(3, "Algorithme", null);
 
         Map<Integer, ExprVariable> variablesInstanciees = personnages.getVariablesInstanciees();
 
@@ -119,7 +135,8 @@ public class Simplifieur implements Runnable {
             List<Object> objets = new ArrayList<>();
 
             objets.add(attaque.nomPersonnage);
-            objets.add("[" + attaque.numeroEvenementCommun + "]" + attaque.nomAttaque);
+            objets.add(attaque.numeroEvenementCommun);
+            objets.add(attaque.nomAttaque);
             objets.add(algorithme);
 
             table.ajouterContenu(objets);
