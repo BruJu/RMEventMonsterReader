@@ -30,7 +30,7 @@ public class InstructionAffectation implements InstructionGenerale {
 	public void listerTextuellement(IndentedStringBuilder listeur) {
 		listeur.append(variableAssignee.getString())
 		  .append(" = ")
-		  .append(expression.getString())
+		  .append(expression.getStringAvecPriorite(0))
 		  .ln();
 	}
 

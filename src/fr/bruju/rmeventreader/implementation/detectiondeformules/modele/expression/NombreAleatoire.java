@@ -19,6 +19,11 @@ public class NombreAleatoire implements Expression {
 		return Integer.toString(valeurMin) + "~" + Integer.toString(valeurMax);
 	}
 
+	@Override
+	public String getStringAvecPriorite(int prioriteActuelle) {
+		return getString();
+	}
+
 	public NombreAleatoire(ValeurAleatoire valeur) {
 		valeurMin = valeur.valeurMin;
 		valeurMax = valeur.valeurMax;

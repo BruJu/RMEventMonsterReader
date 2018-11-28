@@ -6,6 +6,8 @@ public interface Expression {
 
 	public String getString();
 
+	public String getStringAvecPriorite(int prioriteActuelle);
+
 	public void accept(VisiteurDExpression visiteurDExpression);
 	
 	public Integer evaluer();

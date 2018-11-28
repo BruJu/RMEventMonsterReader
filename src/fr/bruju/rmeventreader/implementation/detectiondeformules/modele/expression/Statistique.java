@@ -19,6 +19,11 @@ public class Statistique extends ExprVariable {
 	}
 
 	@Override
+	public String getStringAvecPriorite(int prioriteActuelle) {
+		return getString();
+	}
+
+	@Override
 	public void accept(VisiteurDExpression visiteurDExpression) {
 		visiteurDExpression.visit(this);
 	}

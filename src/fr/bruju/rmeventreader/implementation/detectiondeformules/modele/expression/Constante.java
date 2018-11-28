@@ -12,6 +12,11 @@ public class Constante implements Expression {
 		return Integer.toString(valeur);
 	}
 
+	@Override
+	public String getStringAvecPriorite(int prioriteActuelle) {
+		return Integer.toString(valeur);
+	}
+
 	public Constante(int valeur) {
 		this.valeur = valeur;
 	}

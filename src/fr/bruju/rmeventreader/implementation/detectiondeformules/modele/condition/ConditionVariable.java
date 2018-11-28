@@ -40,7 +40,7 @@ public class ConditionVariable implements Condition {
 
 	@Override
 	public String getString() {
-		return gauche.getString() + " " + comparateur + " " + droite.getString();
+		return gauche.getStringAvecPriorite(0) + " " + comparateur + " " + droite.getStringAvecPriorite(0);
 	}
 
 	@Override

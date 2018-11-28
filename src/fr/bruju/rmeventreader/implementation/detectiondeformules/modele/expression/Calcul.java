@@ -25,6 +25,40 @@ public class Calcul implements Expression {
 	}
 
 	@Override
+	public String getStringAvecPriorite(int prioriteActuelle) {
+		int prioriteOperateur;
+
+		switch (operande) {
+			case PLUS:
+			case MOINS:
+				prioriteOperateur = 1;
+				break;
+			case FOIS:
+			case MODULO:
+			case DIVISE:
+				prioriteOperateur = 2;
+				break;
+			case AFFECTATION: // Impossible
+			default:
+				prioriteOperateur = 0;
+				break;
+		}
+
+		// Si un x a une sous expression un +, on veut que + mette des parenthèses
+
+		if (prioriteOperateur == 1) { // est un +
+			if (prioriteActuelle == 2) { // Appelé par un x
+				return "(" + gauche.getStringAvecPriorite(prioriteOperateur) + " " +
+						operande.symbole + " " + droite.getStringAvecPriorite(prioriteOperateur) + ")";
+			}
+		}
+
+
+		return gauche.getStringAvecPriorite(prioriteOperateur) + " " +
+				operande.symbole + " " + droite.getStringAvecPriorite(prioriteOperateur);
+	}
+
+	@Override
 	public void accept(VisiteurDExpression visiteurDExpression) {
 		visiteurDExpression.visit(this);
 	}

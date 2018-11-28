@@ -32,6 +32,23 @@ public class Borne implements Expression {
 	}
 
 	@Override
+	public String getStringAvecPriorite(int prioriteActuelle) {
+		StringBuilder sb = new StringBuilder();
+		if (estBorneMin) {
+			sb.append("max(");
+		} else {
+			sb.append("min(");
+		}
+
+		sb.append(variable.getStringAvecPriorite(0))
+				.append(", ")
+				.append(borne.getStringAvecPriorite(0))
+				.append(")");
+
+		return sb.toString();
+	}
+
+	@Override
 	public void accept(VisiteurDExpression visiteurDExpression) {
 		visiteurDExpression.visit(this);
 	}
