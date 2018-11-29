@@ -19,6 +19,8 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorith
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.ListeurDeStatistiquesModifiees;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.invocation.ProjecteurInvocation;
+import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.invocation.SortAvecInvocation;
 import fr.bruju.util.Pair;
 import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
@@ -35,7 +37,8 @@ public class Simplifieur implements Runnable {
 				new ClassificationCible.Determineur(),
 				new SeparateurParHPDeMonstres(baseDePersonnages),
 				new UnifierSubstitutions(baseDePersonnages),
-				table -> { table.retirerChamp("Sorties"); return table;}
+				table -> { table.retirerChamp("Sorties"); return table;},
+				new SortAvecInvocation()
 		};
 	}
 
@@ -75,7 +78,7 @@ public class Simplifieur implements Runnable {
 		comparateurs.add(Simplifieur.creerComparateur("NumeroEvenementCommun", Integer::compareTo));
 		// Ordonner par numéro d'EC rend le tri par personnage et nom d'attaque inutile
 		//comparateurs.add(Simplifieur.creerComparateur("Personnage", String::compareTo));
-		//comparateurs.add(Simplifieur.creerComparateur("Attaque", String::compareTo));
+		comparateurs.add(Simplifieur.creerComparateur("Attaque", String::compareTo));
 		comparateurs.add(Simplifieur.<ClassificationCible>creerComparateur("Ciblage",
 				(s1, s2) -> s1.cibleChoisie.compareTo(s2.cibleChoisie)));
 		comparateurs.add(Simplifieur.creerComparateur("Monstre", ClassificateurMonstreCible::comparateur));

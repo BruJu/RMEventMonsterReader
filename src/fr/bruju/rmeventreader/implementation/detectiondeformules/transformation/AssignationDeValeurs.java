@@ -8,11 +8,17 @@ import java.util.Map;
 
 public class AssignationDeValeurs implements VisiteurDAlgorithme {
 	private ConstructeurValue constructeurValue;
+	private boolean aChangeLALgorithme;
 
 	public Algorithme assigner(Algorithme algorithme, Map<Integer, Integer> valeursInitiales) {
+		aChangeLALgorithme = false;
 		constructeurValue = new ConstructeurValue(valeursInitiales);
 		visit(algorithme);
 		return constructeurValue.get();
+	}
+
+	public boolean aFaitUneModification() {
+		return aChangeLALgorithme;
 	}
 
 	@Override
@@ -27,6 +33,8 @@ public class AssignationDeValeurs implements VisiteurDAlgorithme {
 
 		if (reponse == 0) {
 			constructeurValue.conditionElse();
+		} else {
+			aChangeLALgorithme = true;
 		}
 
 		if (reponse != 1) {
