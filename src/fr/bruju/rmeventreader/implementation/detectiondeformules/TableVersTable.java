@@ -1,52 +1,88 @@
 package fr.bruju.rmeventreader.implementation.detectiondeformules;
 
+import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.util.Pair;
-import fr.bruju.util.table.Enregistrement;
 import fr.bruju.util.table.Table;
 
-import javax.swing.text.html.HTMLWriter;
 import java.util.List;
+import java.util.Stack;
 import java.util.function.Function;
 
 /**
  * Une classe qui transforme les Tables BJUtils en Table html
  */
 public class TableVersTable {
+	private StringBuilder sb;
+	private final String chemin;
 
-	public static String versHTML(Table table, List<Pair<String, Function<Object, String>>> colonnes) {
-		StringBuilder sb = new StringBuilder();
+	public TableVersTable(String chemin) {
+		this.chemin = chemin;
+	}
 
-		sb.append("<table><tr>");
+	public void mettreLeHeader() {
+		balise("html");
+		balise("style");
+		sb.append("table, td, tr, th { border: black solid 1px; border-collapse: collapse; }");
+		fermer();
+		balise("body");
+	}
+
+	public void mettreLeFooter() {
+		fermer();
+		fermer();
+	}
+
+	private Stack<String> pile = new Stack<>();
+
+	public void balise(String nom) {
+		sb.append("<" + nom + ">");
+		pile.push(nom);
+	}
+
+	public void fermer() {
+		sb.append("</" + pile.pop() + ">");
+	}
+
+	public void ecrire(String chaine) {
+		sb.append(escapeHTML(chaine));
+	}
+
+
+
+
+	public void versHTML(Table table, List<Pair<String, Function<Object, String>>> colonnes) {
+		sb = new StringBuilder();
+
+		mettreLeHeader();
+
+		balise("table");
+		balise("tr");
+
 		for (Pair<String, Function<Object, String>> colonne : colonnes) {
-			sb.append("<th>").append(colonne.getLeft()).append("</th>");
+			balise("th");
+			ecrire(colonne.getLeft());
+			fermer();
 		}
 
-		sb.append("</tr>");
+		fermer();
 
 		table.forEach(enregistrement -> {
-			sb.append("<tr>");
+			balise("tr");
 
 			for (Pair<String, Function<Object, String>> colonne : colonnes) {
-				sb.append("<td>");
-
-				String contenu = colonne.getRight().apply(enregistrement.get(colonne.getLeft()));
-
-				String contenuEchappe = escapeHTML(contenu);
-
-				sb.append(contenuEchappe);
-
-
-				sb.append("</td>");
+				balise("td");
+				ecrire(colonne.getRight().apply(enregistrement.get(colonne.getLeft())));
+				fermer();
 			}
 
-
-
-			sb.append("</tr>");
+			fermer();
 		});
 
-		sb.append("</table>");
+		fermer();
 
-		return sb.toString();
+		mettreLeFooter();
+
+		Utilitaire.Fichier_Ecrire(chemin, sb.toString());
 	}
 
 	// source : https://www.rgagnon.com/javadetails/java-0306.html

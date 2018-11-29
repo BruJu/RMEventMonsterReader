@@ -65,7 +65,8 @@ public class Simplifieur implements Runnable {
 		liste.add(new Pair<>("Algorithme", o -> ((Algorithme) o).getString()));
 
 
-		System.out.println(TableVersTable.versHTML(table, liste));
+		new TableVersTable("a:/formules.html").versHTML(table, liste);
+		afficherAlgorithmes(table);
 	}
 
 	private Iterable<Comparator<Enregistrement>> creerComparateurs() {
