@@ -19,7 +19,6 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.algorith
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expression.ExprVariable;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.personnage.BaseDePersonnages;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.ListeurDeStatistiquesModifiees;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.invocation.ProjecteurInvocation;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.transformation.invocation.SortAvecInvocation;
 import fr.bruju.util.Pair;
 import fr.bruju.util.table.Enregistrement;
@@ -31,14 +30,15 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 public class Simplifieur implements Runnable {
 	private static TransformationDeTable[] getTransformationsAAppliquer(BaseDePersonnages baseDePersonnages) {
 		return new TransformationDeTable[] {
+				new SortAvecInvocation(),
 				new Borneur(),
 				new ListeurDeStatistiquesModifiees(),
 				new InlineurDAlgorithme(),
 				new ClassificationCible.Determineur(),
 				new SeparateurParHPDeMonstres(baseDePersonnages),
+				new Borneur(),
 				new UnifierSubstitutions(baseDePersonnages),
 				table -> { table.retirerChamp("Sorties"); return table;},
-				new SortAvecInvocation()
 		};
 	}
 

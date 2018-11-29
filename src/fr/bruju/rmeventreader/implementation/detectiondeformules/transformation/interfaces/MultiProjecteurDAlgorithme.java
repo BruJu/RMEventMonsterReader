@@ -44,6 +44,11 @@ public abstract class MultiProjecteurDAlgorithme implements TransformationDeTabl
 
 				for (Pair<Algorithme, Object> algorithmeObjectPair : resultat) {
 					Algorithme algoProjete = algorithmeObjectPair.getLeft();
+
+					if (algoProjete.estVide()) {
+						continue;
+					}
+
 					Object projectionUtilisee = algorithmeObjectPair.getRight();
 
 					List<Object> nouvelObjet = new ArrayList<>(enregistrement.getDonnees());

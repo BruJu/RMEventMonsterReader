@@ -236,13 +236,38 @@ Et qu'on spécifie que Magie et Niveau sont des statistiques, ainsi que HPMonstr
 
 ### Solution
 
-Actuellement deux solutions sont proposées :
+Les formules sont présentées sous forme d'algorithme présentés de manière plus digeste pour un être humain. Le but étant que l'algorithme soit plus simple à lire mais également rende compte de la réalité.
 
-- FormulaTracker qui génère des formules très longues et qui tente de les réduire avec des heuristiques
+Par exmeple
+~~~~
+Temp0 = 50
+Temp = Temp0
+Temp *= Magie
+Temp2 = Temp
+Temp2 += 2
+Temp3 = Temp
+Temp3 += 5
+Temp4 = 7
+HPMonstre -= Temp2
+HPMonstre -= Temp3
+~~~~
 
-- Recomposition qui génère des formules un peu plus exactes et plus courtes, mais qui ne dispose pas d'heuristique efficace pour réduire la taille des formules. Cette approche, décrivant en ligne les différentes transformations appliquées à une variable, a été supprimée.
+devient
 
-- La Simplification d'Algorithme qui est en cours de développement. L'objectif est de présenter l'algorithme présent dans le jeu mais de manière simplifiée (a = 50 ; a += 20 ; a += b est présénté comme étant a = 50 + 20 + b, mais a = 50 ; si a = b ; a * 2 ; fin si reste tel quel)
+~~~~
+Temp = 50 * Magie
+HPMonstre = HPMonstre - (Temp + 2) - (Temp + 5)
+~~~~
 
-L'objectif à terme étant de ne garder que la simplification d'algorithme.
+Explication :
+
+- HPMonstre est notre variable de sortie
+
+- Temp0 n'est utilisé qu'une fois, on met sa valeur directement dans Temp qui l'utilise
+
+- Temp est utilisé deux fois. On garde la ligne pour ne pas avoir des formules énormes à cause de répétitions
+
+- Temp2 et Temp3 ne sont utilisés qu'une fois. On intégre directement leur valeur dans la modification de HPMonstre.
+
+- Temp4 n'est jamais utilisé. On enlève la ligne (variable morte)
 
