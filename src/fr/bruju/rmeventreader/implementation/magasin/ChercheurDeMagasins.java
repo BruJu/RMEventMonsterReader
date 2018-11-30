@@ -2,6 +2,7 @@ package fr.bruju.rmeventreader.implementation.magasin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
@@ -30,12 +31,17 @@ public class ChercheurDeMagasins implements Runnable {
 	public void run() {
 		chercher();
 
-		System.out.println(
-				magasins.values().stream().map(Magasin::getMagasinCompact).collect(Collectors.joining("\n")));
+		StringJoiner sj = new StringJoiner("\n");
 
-		magasins.values().forEach(magasin -> {
+		for (Magasin magasin : magasins.values()) {
+			sj.add(magasin.getMagasinCompact());
+		}
+
+		System.out.println(sj.toString());
+
+		for (Magasin magasin : magasins.values()) {
 			System.out.println();
 			System.out.print(magasin.getMagasinComplet());
-		});
+		}
 	}
 }

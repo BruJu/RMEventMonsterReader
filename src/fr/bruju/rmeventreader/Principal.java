@@ -17,7 +17,7 @@ public class Principal {
 	public static void main(String[] args) {
 		System.out.println("#### Début ####");
 
-		int choix = 8;
+		int choix = 6;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);

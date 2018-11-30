@@ -29,7 +29,7 @@ public class ChercheurDeReferences implements Runnable {
 
 	@Override
 	public void run() {
-		int option = 6;
+		int option = 0;
 		
 		baseDeRecherche = (BaseDeRecherche) (new Supplier[] {
 				/* 0 */ () -> new ApparitionDeVariables(new int[] {3065}),
