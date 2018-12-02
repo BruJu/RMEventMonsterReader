@@ -7,13 +7,7 @@ import java.util.function.Supplier;
 
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.reference.Reference;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ActivationDInterrupteur;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApparitionDeVariables;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.AppelAUnEvenement;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ApprentissageSort;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ModificationsDeVariable;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Musique;
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.Texte;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.*;
 
 /**
  * Cherche les références à des variables codées en dur dans tout un projet
@@ -29,16 +23,17 @@ public class ChercheurDeReferences implements Runnable {
 
 	@Override
 	public void run() {
-		int option = 0;
+		int option = 7;
 		
 		baseDeRecherche = (BaseDeRecherche) (new Supplier[] {
 				/* 0 */ () -> new ApparitionDeVariables(new int[] {3065}),
-				/* 1 */ () -> new Texte("olinale"),
+				/* 1 */ () -> new Texte("essager"),
 				/* 2 */ () -> new ActivationDInterrupteur(3113),
 				/* 3 */ () -> new Musique(),
 				/* 4 */ () -> new ModificationsDeVariable(5),
 				/* 5 */ () -> new ApprentissageSort(3, 112),
-				/* 6 */ () -> new AppelAUnEvenement(356)
+				/* 6 */ () -> new AppelAUnEvenement(356),
+				/* 7 */ () -> new ObjetObtenu(355	)
 		}[option].get());
 
 		System.out.print("[");

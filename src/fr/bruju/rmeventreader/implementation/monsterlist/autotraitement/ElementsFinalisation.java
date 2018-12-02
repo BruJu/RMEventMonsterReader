@@ -40,11 +40,7 @@ public class ElementsFinalisation implements Runnable {
 	 * @param monstre Le monstre à modifier
 	 */
 	private void finaliserMonstre(Monstre monstre) {
-
-		int bonusCalc = monstre.accessInt(Monstre.STATS).get("Niveau");
-		bonusCalc = (bonusCalc / 7) * 5;
-		
-		int bonus = bonusCalc; // Java refuse de prendre bonusCalc directement
+		int bonus = monstre.accessInt(Monstre.STATS).get("Niveau") / 7 * 5;
 
 		monstre.accessInt(ContexteElementaire.ELEMENTS).compute("Physique", (n, v) -> v + bonus / 2);
 

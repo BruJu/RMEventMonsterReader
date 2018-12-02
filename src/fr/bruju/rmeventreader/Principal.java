@@ -17,14 +17,14 @@ public class Principal {
 	public static void main(String[] args) {
 		System.out.println("#### Début ####");
 
-		int choix = 6;
+		int choix = 0;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
 		}
 		
 		Runnable[] options = {
-				/* 00 */ new ListeurDeMonstres(3),
+				/* 00 */ new ListeurDeMonstres(2),
 				/* 01 */ null,
 				/* 02 */ () -> PROJET.ecrireRessource("ressources_gen\\"),
 				/* 03 */ new Verificateur(),
