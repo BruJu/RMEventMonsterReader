@@ -21,10 +21,9 @@ public class ChercheurDeReferences implements Runnable {
 	/** Derniere reference */
 	private int dernierGroupe = 0;
 
-	@Override
-	public void run() {
+	public ChercheurDeReferences() {
 		int option = 7;
-		
+
 		baseDeRecherche = (BaseDeRecherche) (new Supplier[] {
 				/* 0 */ () -> new ApparitionDeVariables(new int[] {3065}),
 				/* 1 */ () -> new Texte("essager"),
@@ -35,7 +34,15 @@ public class ChercheurDeReferences implements Runnable {
 				/* 6 */ () -> new AppelAUnEvenement(356),
 				/* 7 */ () -> new ObjetObtenu(673)
 		}[option].get());
+	}
 
+	public ChercheurDeReferences(BaseDeRecherche baseDeRecherche) {
+		this.baseDeRecherche = baseDeRecherche;
+	}
+
+
+	@Override
+	public void run() {
 		System.out.print("[");
 		PROJET.referencerEvenementsCommuns(baseDeRecherche::getExecuteur);
 		System.out.print("•");

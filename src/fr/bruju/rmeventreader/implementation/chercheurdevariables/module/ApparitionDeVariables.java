@@ -1,9 +1,6 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.modele.ArrierePlanCombat;
@@ -40,6 +37,16 @@ public class ApparitionDeVariables implements BaseDeRecherche {
 	 */
 	public ApparitionDeVariables(int[] is) {
 		for (int id : is) {
+			variablesCherchees.put(id, new TreeSet<>());
+		}
+	}
+
+	/**
+	 * Crée une base de recherche de l'apprition des variables données
+	 * @param nombres La liste des variables
+	 */
+	public ApparitionDeVariables(List<Integer> nombres) {
+		for (int id : nombres) {
 			variablesCherchees.put(id, new TreeSet<>());
 		}
 	}

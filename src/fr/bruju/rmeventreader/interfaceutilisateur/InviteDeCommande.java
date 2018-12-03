@@ -29,7 +29,7 @@ public class InviteDeCommande implements Consumer<Scanner> {
 				optionsDejaMontrees = true;
 			}
 
-			System.out.println("Votre choix : ");
+			System.out.print("Votre choix : ");
 			choix = Integer.parseInt(scanner.next());
 
 			if (choix == 0) {
