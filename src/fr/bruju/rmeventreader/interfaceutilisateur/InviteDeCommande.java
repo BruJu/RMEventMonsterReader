@@ -30,7 +30,7 @@ public class InviteDeCommande implements Consumer<Scanner> {
 			}
 
 			System.out.print("Votre choix : ");
-			choix = Integer.parseInt(scanner.next());
+			choix = Integer.parseInt(scanner.nextLine());
 
 			if (choix == 0) {
 				System.out.println(menu.getListeDesOptions());

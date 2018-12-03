@@ -39,7 +39,7 @@ public class Menus {
 		menu.ajouterOption(new Option("Recherche", new InviteDeCommande(baseDeRecherche())));
 		menu.ajouterOption(new Option("Obtention d'objets", scanner -> {
 			System.out.print("Objet recherché : ");
-			new ObteneurDObjets(scanner.next()).run();
+			new ObteneurDObjets(scanner.nextLine()).run();
 		}));
 
 
@@ -72,7 +72,7 @@ public class Menus {
 			List<Integer> nombres = new ArrayList<>();
 
 			while (true) {
-				int nombreSaisi = Integer.parseInt(scanner.next());
+				int nombreSaisi = Integer.parseInt(scanner.nextLine());
 
 				if (nombreSaisi == 0) {
 					break;
@@ -89,7 +89,7 @@ public class Menus {
 	private static Consumer<Scanner> nombre(String chaine, IntFunction<BaseDeRecherche> instanciation) {
 		return scanner -> {
 			System.out.print(chaine + " : ");
-			int nombreSaisi = Integer.parseInt(scanner.next());
+			int nombreSaisi = Integer.parseInt(scanner.nextLine());
 			BaseDeRecherche base = instanciation.apply(nombreSaisi);
 			new ChercheurDeReferences(base).run();
 		};
@@ -104,9 +104,9 @@ public class Menus {
 											BiIntFunction<BaseDeRecherche> instanciation) {
 		return scanner -> {
 			System.out.print(chaine1 + " : ");
-			int nombreSaisi1 = Integer.parseInt(scanner.next());
+			int nombreSaisi1 = Integer.parseInt(scanner.nextLine());
 			System.out.print(chaine2 + " : ");
-			int nombreSaisi2 = Integer.parseInt(scanner.next());
+			int nombreSaisi2 = Integer.parseInt(scanner.nextLine());
 			BaseDeRecherche base = instanciation.apply(nombreSaisi1, nombreSaisi2);
 			new ChercheurDeReferences(base).run();
 		};
@@ -115,7 +115,7 @@ public class Menus {
 	private static Consumer<Scanner> texte(String chaine, Function<String, BaseDeRecherche> instanciation) {
 		return scanner -> {
 			System.out.print(chaine + " : ");
-			String texteSaisi = scanner.next();
+			String texteSaisi = scanner.nextLine();
 			BaseDeRecherche base = instanciation.apply(texteSaisi);
 			new ChercheurDeReferences(base).run();
 		};
@@ -148,7 +148,7 @@ public class Menus {
 		@Override
 		public void accept(Scanner scanner) {
 			System.out.println(message + " : ");
-			int numero = Integer.parseInt(scanner.next());
+			int numero = Integer.parseInt(scanner.nextLine());
 			createur.apply(numero).run();
 		}
 	}
