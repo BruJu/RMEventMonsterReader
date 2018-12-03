@@ -50,7 +50,7 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 		if (magasins.containsKey(magasinActuel))
 			return;
 		
-		System.out.println("Nouveau magasin : " + magasinActuel + " ; " + map.nom()); 
+		// System.out.println("Nouveau magasin : " + magasinActuel + " ; " + map.nom());
 		
 		magasins.put(magasinActuel, new Magasin(magasinActuel, map.nom()));
 	}

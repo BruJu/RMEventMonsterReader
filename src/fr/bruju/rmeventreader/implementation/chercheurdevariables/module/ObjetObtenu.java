@@ -5,12 +5,13 @@ import fr.bruju.rmdechiffreur.modele.FixeVariable;
 import fr.bruju.rmdechiffreur.reference.Reference;
 import fr.bruju.rmeventreader.ProjetS;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRechercheReferenceuse;
 
 import java.util.Set;
 import java.util.TreeSet;
 
 
-public class ObjetObtenu implements BaseDeRecherche {
+public class ObjetObtenu implements BaseDeRechercheReferenceuse {
 	/** Liste des évènements où la chaîne est utilisée*/
 	private Set<Reference> referencesConnues = new TreeSet<>();
 
@@ -29,6 +30,11 @@ public class ObjetObtenu implements BaseDeRecherche {
 	@Override
 	public ExecuteurInstructions getExecuteur(Reference ref) {
 		return new Chercheur(ref);
+	}
+
+	@Override
+	public Set<Reference> getReferences() {
+		return referencesConnues;
 	}
 
 	/**

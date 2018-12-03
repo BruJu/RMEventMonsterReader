@@ -7,6 +7,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.Simplifieur;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
+import fr.bruju.rmeventreader.implementation.obtentionobjet.ObteneurDObjets;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
@@ -36,6 +37,11 @@ public class Menus {
 		menu.ajouterOption(new Option("Collision des interrupteurs", new DetecteurDeColissionsDInterrupteurs()));
 
 		menu.ajouterOption(new Option("Recherche", new InviteDeCommande(baseDeRecherche())));
+		menu.ajouterOption(new Option("Obtention d'objets", scanner -> {
+			System.out.print("Objet recherché : ");
+			new ObteneurDObjets(scanner.next()).run();
+		}));
+
 
 
 		return menu;

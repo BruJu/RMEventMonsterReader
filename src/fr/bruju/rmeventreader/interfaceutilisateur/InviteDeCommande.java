@@ -41,7 +41,7 @@ public class InviteDeCommande implements Consumer<Scanner> {
 				if (choix < 0 || choix > menu.options.size()) {
 					System.out.println("Choix invalide");
 				} else {
-					menu.options.get(choix-1).runnable.accept(scanner);
+					menu.options.get(choix - 1).runnable.accept(scanner);
 				}
 			}
 		}

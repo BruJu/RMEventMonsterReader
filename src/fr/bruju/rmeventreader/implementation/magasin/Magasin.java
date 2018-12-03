@@ -52,5 +52,18 @@ public class Magasin {
 		
 		return sb.toString();
 	}
-	
+
+	public boolean possedeLObjetdID(int idObjet) {
+		for (Objet objet : objets) {
+			if (objet.id == idObjet) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public String getLieu() {
+		return cheminMap;
+	}
 }
