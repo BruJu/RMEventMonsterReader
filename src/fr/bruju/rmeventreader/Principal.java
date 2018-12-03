@@ -8,6 +8,14 @@ import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
+import fr.bruju.rmeventreader.interfaceutilisateur.InviteDeCommande;
+import fr.bruju.rmeventreader.interfaceutilisateur.Menu;
+import fr.bruju.rmeventreader.interfaceutilisateur.Menus;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.function.Consumer;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -17,7 +25,7 @@ public class Principal {
 	public static void main(String[] args) {
 		System.out.println("#### Début ####");
 
-		int choix = 6;
+		int choix = 10;
 		
 		if (args.length != 0) {
 			choix = Integer.parseInt(args[0]);
@@ -33,11 +41,14 @@ public class Principal {
 				/* 06 */ new ChercheurDeReferences(),
 				/* 07 */ new ChercheurDeMagasins(),
 				/* 08 */ new Simplifieur(),
-				/* 09 */ new DetecteurDeColissionsDInterrupteurs()
+				/* 09 */ new DetecteurDeColissionsDInterrupteurs(),
+				/* 10 */ () -> new InviteDeCommande(Menus.creerMenuGeneral()).accept(new Scanner(System.in))
 		};
 		
 		options[choix].run();
 		
 		System.out.println("#### Fin ####");
 	}
+
+
 }

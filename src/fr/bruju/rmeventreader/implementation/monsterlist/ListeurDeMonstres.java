@@ -121,9 +121,7 @@ public class ListeurDeMonstres implements Runnable {
 		case 6:
 			sauvegarder(baseDeDonnees);
 			break;
-			
 		}
-		
 	}
 	
 	
