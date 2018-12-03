@@ -33,7 +33,7 @@ public class ChercheurDeReferences implements Runnable {
 				/* 4 */ () -> new ModificationsDeVariable(5),
 				/* 5 */ () -> new ApprentissageSort(3, 112),
 				/* 6 */ () -> new AppelAUnEvenement(356),
-				/* 7 */ () -> new ObjetObtenu(355	)
+				/* 7 */ () -> new ObjetObtenu(673)
 		}[option].get());
 
 		System.out.print("[");

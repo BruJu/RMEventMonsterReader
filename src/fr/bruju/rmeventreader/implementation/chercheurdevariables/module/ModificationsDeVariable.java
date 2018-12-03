@@ -1,8 +1,6 @@
 package fr.bruju.rmeventreader.implementation.chercheurdevariables.module;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
@@ -20,8 +18,6 @@ import fr.bruju.rmdechiffreur.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 import fr.bruju.util.MapsUtils;
 
-import java.util.Objects;
-
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
@@ -33,7 +29,7 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 	/** Variable dont on veut connaître les valeurs */
 	public final int variableTrackee;
 	/** Liste des modifications de la variable */
-	private Map<Reference, Set<Modification>> affectationsTrouvees = new HashMap<>();
+	private Map<Reference, Set<Modification>> affectationsTrouvees = new TreeMap<>();
 	
 	/**
 	 * Crée une base de recherche des valeurs affectées à une variable
@@ -48,11 +44,13 @@ public class ModificationsDeVariable implements BaseDeRecherche {
 		System.out.println("== Valeurs possibles pour : " + this.variableTrackee + " " + PROJET.extraireVariable(variableTrackee));
 		
 		affectationsTrouvees.forEach((reference, valeurs) -> {
-			String valeursS = valeurs
-					.stream()
-					.map(Modification::toString)
-					.collect(Collectors.joining(", "));
-			System.out.println(reference.getString() + " : " + valeursS);
+			StringJoiner sj = new StringJoiner(", ");
+
+			for (Modification valeur : valeurs) {
+				sj.add(valeur.toString());
+			}
+
+			System.out.println(reference.getString() + " : " + sj.toString());
 		});
 	}
 
