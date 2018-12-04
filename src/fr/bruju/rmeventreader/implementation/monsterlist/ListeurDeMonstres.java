@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.Parametre;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
@@ -50,53 +51,63 @@ public class ListeurDeMonstres implements Runnable {
 		this.option = option;
 	}
 
-	public void run() {
+
+	public MonsterDatabase creerBaseDeDonnees() {
 		// Contexte général
 		Contexte contexte = new Contexte();
-		
+
 		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
 		ce.lireContexteElementaire(ELEMENTS);
-		
+
 		// Base de données des monstres
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
-		
+
 		Runnable[] listeDesActions = new Runnable[] {
-			() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
-			() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
-			() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
-			() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
-			new Correcteur(baseDeDonnees, CORRECTION),
-			() -> PROJET.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
-			() -> PROJET.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
-			new Correspondance(baseDeDonnees, Correspondance.fond(ZONES)),
-			new Correspondance(baseDeDonnees, Correspondance.nom(MONSTRES)),
-			new Correspondance(baseDeDonnees, Correspondance.drop()),
-			new SommeurDePointsDeCapacites(baseDeDonnees),
-			() -> PROJET.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
-			
-			// Elements
-			
-			new ElementsInit(baseDeDonnees, ce),
-			() -> PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, ce), 277),
-			new ElementsFinalisation(baseDeDonnees, ce)
+				() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
+				() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
+				() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
+				() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
+				new Correcteur(baseDeDonnees, CORRECTION),
+				() -> PROJET.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
+				() -> PROJET.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
+				new Correspondance(baseDeDonnees, Correspondance.fond(ZONES)),
+				new Correspondance(baseDeDonnees, Correspondance.nom(MONSTRES)),
+				new Correspondance(baseDeDonnees, Correspondance.drop()),
+				new SommeurDePointsDeCapacites(baseDeDonnees),
+				() -> PROJET.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
+
+				// Elements
+
+				new ElementsInit(baseDeDonnees, ce),
+				() -> PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, ce), 277),
+				new ElementsFinalisation(baseDeDonnees, ce)
 		};
-		
+
 		for (Runnable action : listeDesActions) {
 			action.run();
 		}
 
 		if (nomsDeMonstresManquant(baseDeDonnees)) {
-			return;
+			return null;
 		}
 
 		List<Combat> combatsAvecNomsInconnus = baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
 		if (!combatsAvecNomsInconnus.isEmpty()) {
 			combatsAvecNomsInconnus.forEach(battle -> System.out.println(battle.getString()));
+			return null;
+		}
+
+		return baseDeDonnees;
+	}
+
+	public void run() {
+		MonsterDatabase baseDeDonnees = creerBaseDeDonnees();
+
+		if (baseDeDonnees == null) {
 			return;
 		}
-		
-		
+
 		switch (option) {
 		case 0:
 			System.out.println(baseDeDonnees.getString());

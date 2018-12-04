@@ -11,6 +11,8 @@ import fr.bruju.rmeventreader.implementation.obtentionobjet.ObteneurDObjets;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
+import fr.bruju.rmeventreader.implementation.recherchecombat.ChercheCombat;
+import fr.bruju.rmeventreader.implementation.recherchecombat.ListeurDeMonstresDansUneZone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,10 @@ public class Menus {
 			new ObteneurDObjets(scanner.nextLine()).run();
 		}));
 
+		menu.ajouterOption(new Option("Recherche de monstres", scanner -> {
+			System.out.print("Rechercher dans les cartes contenant : ");
+			new ListeurDeMonstresDansUneZone().run(scanner.nextLine());
+		}));
 
 
 		return menu;
