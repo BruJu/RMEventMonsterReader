@@ -90,7 +90,7 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 
 			getElementsFiltres().stream()
 					.map(combat -> combat.getMonstre(monstreTouche.getLeft(), true))
-					.forEach(monstre -> monstre.accessBool(Monstre.PROPRIETES).set(monstreTouche.getRight(), nouvelleValeur));
+					.forEach(monstre -> monstre.assigner(monstreTouche.getRight(), nouvelleValeur));
 		}
 	}
 

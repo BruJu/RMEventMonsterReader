@@ -149,8 +149,8 @@ public class Combat {
 		if (monstre == null) {
 			return;
 		}
-		
-		monstre.accessInt(Monstre.STATS).compute(paire.getRight(), (cle, valeur) -> operateur.calculer(valeur, value));
+
+		monstre.assigner(paire.getRight(), operateur.calculer(monstre.accessInt(paire.getRight()), value));
 	}
 
 	public void applyModificator(int idVariable, int valeur) {
@@ -164,8 +164,8 @@ public class Combat {
 		if (monstre == null) {
 			return;
 		}
-		
-		monstre.accessInt(Monstre.STATS).compute(paire.getRight(), (cle, v) -> valeur);
+
+		monstre.assigner(paire.getRight(), valeur);
 	}
 	
 	/* ===========

@@ -291,7 +291,7 @@ public class FinDeCombat extends ExecuteurAFiltre<Combat> implements ExtConditio
 
 		private Integer expDuMonstre(Combat combat, int position) {
 			Monstre monstre = combat.getMonstre(position);
-			return monstre == null ? 0 : monstre.accessInt(Monstre.STATS).get("EXP");
+			return monstre == null ? 0 : monstre.accessInt("EXP");
 		}
 
 		@Override

@@ -17,10 +17,10 @@ public class MonstreSimplifie {
 	public MonstreSimplifie(Monstre monstre) {
 		this.id = monstre.getId();
 		this.nom = monstre.nom;
-		this.hp = monstre.accessInt(Monstre.STATS).get("HP");
+		this.hp = monstre.accessInt("HP");
 		this.combatsApparition = new ArrayList<>();
 		combatsApparition.add(monstre.getBattleId());
-		fossilisable = !monstre.accessBool(Monstre.PROPRIETES).get("Fossile");
+		fossilisable = !monstre.accessBool("Fossile");
 	}
 
 	public void recevoir(MonstreSimplifie monstre) {

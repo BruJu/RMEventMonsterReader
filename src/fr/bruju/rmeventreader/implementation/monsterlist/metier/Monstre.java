@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -23,8 +24,7 @@ public class Monstre {
 	 * ========= */
 
 	/** Données associées au monstre */
-	@SuppressWarnings("rawtypes")
-	public LinkedHashMap<String, Donnees> donnees = new LinkedHashMap<>();
+	public LinkedHashMap<String, Object> donnees = new LinkedHashMap<>();
 
 	/** Combat associé */
 	public final Combat combat;
@@ -48,11 +48,21 @@ public class Monstre {
 	 */
 	private void remplirStats() {
 		Contexte contexte = combat.contexte;
-		
-		donnees.put(STATS, new Donnees<Integer>(this, contexte.getStatistiques(), 0, Object::toString));
-		donnees.put(PROPRIETES,
-				new Donnees<>(this, contexte.getProprietes(), false, v -> (v) ? "Immunisé" : "•"));
+
+		remplir(contexte.getStatistiques(), 0);
+		remplir(contexte.getProprietes(), false);
 	}
+
+	public void remplir(Iterable<String> statistiques, Object valeurDeBase) {
+		for (String statistique : statistiques) {
+			donnees.put(statistique, valeurDeBase);
+		}
+	}
+
+	public void assigner(String nomStatistique, Object nouvelObjet) {
+		donnees.put(nomStatistique, nouvelObjet);
+	}
+
 
 	/* ==========
 	 * ACCESSEURS 
@@ -66,9 +76,8 @@ public class Monstre {
 	 * @param nomDonnees Le nom de l'ensemble de données
 	 * @return L'ensemble des données
 	 */
-	@SuppressWarnings("unchecked")
-	public Donnees<Integer> accessInt(String nomDonnees) {
-		return donnees.get(nomDonnees);
+	public int accessInt(String nomDonnees) {
+		return (Integer) donnees.get(nomDonnees);
 	}
 
 	/**
@@ -79,16 +88,15 @@ public class Monstre {
 	 * @param nomDonnees Le nom de l'ensemble de données
 	 * @return L'ensemble des données
 	 */
-	@SuppressWarnings("unchecked")
-	public Donnees<Boolean> accessBool(String nomDonnees) {
-		return donnees.get(nomDonnees);
+	public boolean accessBool(String nomDonnees) {
+		return (Boolean) donnees.get(nomDonnees);
 	}
 
 	/**
 	 * Donne l'id du monstre
 	 */
 	public int getId() {
-		return (int) donnees.get(STATS).get("ID");
+		return accessInt("ID");
 	}
 
 	/**
@@ -97,7 +105,7 @@ public class Monstre {
 	 * @param idMonstre L'id du monstre
 	 */
 	public void setId(int idMonstre) {
-		accessInt(STATS).set("ID", idMonstre);
+		donnees.put("ID", idMonstre);
 	}
 
 	/**
@@ -119,7 +127,7 @@ public class Monstre {
 
 		sb.append(nom);
 
-		sb.append(donnees.entrySet().stream().map(entrySet -> entrySet.getValue().getCSV())
+		sb.append(donnees.keySet().stream()
 				.collect(Collectors.joining(";")));
 
 		sb.append(",").append(nomDrop);
@@ -140,9 +148,9 @@ public class Monstre {
 	@SuppressWarnings("rawtypes")
 	public static boolean sontSimilaires(Monstre a, Monstre b) {
 
-		for (Entry<String, Donnees> tuple : a.donnees.entrySet()) {
-			Donnees adonnee = tuple.getValue();
-			Donnees bdonnee = b.donnees.get(tuple.getKey());
+		for (Entry<String, Object> tuple : a.donnees.entrySet()) {
+			Object adonnee = tuple.getValue();
+			Object bdonnee = b.donnees.get(tuple.getKey());
 
 			if (!adonnee.equals(bdonnee)) {
 				return false;
@@ -180,7 +188,7 @@ public class Monstre {
 		sb.append(";");
 		sb.append(this.nomDrop);
 
-		String data = donnees.entrySet().stream().map(entrySet -> entrySet.getValue().getCSV())
+		String data = donnees.values().stream().map(Object::toString)
 				.collect(Collectors.joining(";"));
 
 		if (!withBattleId) {
@@ -211,10 +219,9 @@ public class Monstre {
 			sb.append("IDCombat;");
 		}
 		
-		sb.append("IDMonstre;Nom;Drop");
+		sb.append("IDMonstre;Nom;Drop;");
 		
-		String donneesStr = donnees.values().stream()
-									.map(Donnees::getHeader)
+		String donneesStr = donnees.keySet().stream()
 									.collect(Collectors.joining(";"));
 		
 		donneesStr = donneesStr.substring(donneesStr.indexOf(";"));

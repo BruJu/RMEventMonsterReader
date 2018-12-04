@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
-import fr.bruju.rmeventreader.implementation.monsterlist.metier.Donnees;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
@@ -38,9 +37,8 @@ public class ElementsInit implements Runnable {
 	 * @param monstre Le monstre à initialiser
 	 */
 	private void initialiserMonstre(Monstre monstre) {
-		monstre.donnees.put(ContexteElementaire.ELEMENTS,
-				new Donnees<>(monstre, contexte.getElements(), 0, Object::toString));
-		monstre.donnees.put(ContexteElementaire.PARTIES,
-				new Donnees<>(monstre, contexte.getParties(), false, v -> v ? "x" : " "));
+
+		monstre.remplir(contexte.getElements(), 0);
+		monstre.remplir(contexte.getParties(), false);
 	}
 }

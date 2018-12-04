@@ -59,7 +59,7 @@ public class ConditionOnMembreStat implements Condition<Combat> {
 		if (monstre == null) {
 			statMonstre = 0;
 		} else {
-			statMonstre = monstre.accessInt(Monstre.STATS).get(nomStatistique);
+			statMonstre = monstre.accessInt(nomStatistique);
 		}
 		
 		return operator.test(statMonstre, compareTo);

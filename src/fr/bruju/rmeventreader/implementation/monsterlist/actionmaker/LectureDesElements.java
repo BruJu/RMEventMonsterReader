@@ -115,7 +115,7 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 	public void changeSwitch(Variable interrupteur,	boolean nouvelleValeur) {
 		String nom = contexte.getPartie(interrupteur.idVariable);
 
-		this.getElementsFiltres().forEach(monstre -> monstre.accessBool(PARTIES).set(nom, nouvelleValeur));
+		this.getElementsFiltres().forEach(monstre -> monstre.assigner(nom, nouvelleValeur));
 	}
 
 	@Override
@@ -127,11 +127,13 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 	public void changerVariable(Variable variable, OpMathematique operateur, ValeurFixe valeur) {
 		String nom = contexte.getElement(variable.idVariable);
 
-		if (nom == null)
+		if (nom == null) {
 			return;
-		
-		this.getElementsFiltres().forEach(monstre -> monstre.accessInt(ELEMENTS).compute(nom,
-				(n, ex) -> operateur.calculer(ex, valeur.valeur)));
+		}
+
+		for (Monstre monstre : getElementsFiltres()) {
+			monstre.assigner(nom, operateur.calculer(monstre.accessInt(nom), valeur.valeur));
+		}
 	}
 	
 	
@@ -213,7 +215,7 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 		public void changeSwitch(Variable interrupteur, boolean value) {
 			String nomPartie = contexte.getPartie(interrupteur.idVariable);
 
-			actionsARealiser.add(monstre -> monstre.accessBool(ContexteElementaire.PARTIES).set(nomPartie, value));
+			actionsARealiser.add(monstre -> monstre.assigner(nomPartie, value));
 		}
 		
 		@Override
@@ -225,8 +227,8 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 		public void changerVariable(Variable variable, OpMathematique operateur, ValeurFixe valeurDroite) {
 			String nomElement = contexte.getElement(variable.idVariable);
 			
-			actionsARealiser.add(monstre -> monstre.accessInt(ContexteElementaire.ELEMENTS).compute(nomElement,
-					(nom, valeur) -> operateur.calculer(valeur, valeurDroite.valeur)));
+			actionsARealiser.add(monstre -> monstre.assigner(nomElement,
+					operateur.calculer(monstre.accessInt(nomElement), valeurDroite.valeur)));
 		}
 
 		@Override

@@ -25,7 +25,7 @@ public class SommeurDePointsDeCapacites implements Runnable {
 	@Override
 	public void run() {
 		db.extractBattles().forEach(battle -> battle.getMonstersStream().forEach(m -> {
-			battle.addGainCapa(m.accessInt(Monstre.STATS).get("Capacité"));
+			battle.addGainCapa(m.accessInt("Capacité"));
 		}));
 	}
 }
