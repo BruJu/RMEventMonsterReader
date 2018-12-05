@@ -58,7 +58,7 @@ public class ListeurDeMonstres implements Runnable {
 
 		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
-		ce.lireContexteElementaire(ELEMENTS);
+		ce.lireContexteElementaire(contexte, ELEMENTS);
 
 		// Base de données des monstres
 		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);

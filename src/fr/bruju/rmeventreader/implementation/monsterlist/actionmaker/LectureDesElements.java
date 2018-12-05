@@ -113,9 +113,11 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 	
 	@Override
 	public void changeSwitch(Variable interrupteur,	boolean nouvelleValeur) {
-		String nom = contexte.getPartie(interrupteur.idVariable);
+		String partie = contexte.getPartie(interrupteur.idVariable);
 
-		this.getElementsFiltres().forEach(monstre -> monstre.assigner(nom, nouvelleValeur));
+		for (Monstre monstre : getElementsFiltres()) {
+			monstre.assigner(partie, nouvelleValeur);
+		}
 	}
 
 	@Override
@@ -132,7 +134,7 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 		}
 
 		for (Monstre monstre : getElementsFiltres()) {
-			monstre.assigner(nom, operateur.calculer(monstre.accessInt(nom), valeur.valeur));
+			monstre.modifier(nom, ancienneValeur -> operateur.calculer(ancienneValeur, valeur.valeur));
 		}
 	}
 	
@@ -226,9 +228,9 @@ public class LectureDesElements extends ExecuteurAFiltre<Monstre> implements Ext
 		@Override
 		public void changerVariable(Variable variable, OpMathematique operateur, ValeurFixe valeurDroite) {
 			String nomElement = contexte.getElement(variable.idVariable);
-			
-			actionsARealiser.add(monstre -> monstre.assigner(nomElement,
-					operateur.calculer(monstre.accessInt(nomElement), valeurDroite.valeur)));
+
+			actionsARealiser.add(monstre ->
+					monstre.modifier(nomElement, v -> operateur.calculer(v, valeurDroite.valeur)));
 		}
 
 		@Override

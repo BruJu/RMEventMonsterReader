@@ -1,7 +1,5 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.autotraitement;
 
-import java.util.Collection;
-
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
@@ -42,13 +40,12 @@ public class ElementsFinalisation implements Runnable {
 	private void finaliserMonstre(Monstre monstre) {
 		int bonus = monstre.accessInt("Niveau") / 7 * 5;
 
-		monstre.assigner("Physique", monstre.accessInt("Physique") + bonus / 2);
+		monstre.modifier("Physique", v -> v + bonus / 2);
 
-
-		Collection<String> elements = contexte.getElements();
-		elements.stream().filter(element -> !element.equals("Physique")).forEach(
-				element ->
-						monstre.assigner(element, monstre.accessInt(element) + bonus));
+		for (String element : contexte.getElements()) {
+			if (!element.equals("Physique")) {
+				monstre.modifier(element, v -> v + bonus);
+			}
+		}
 	}
-
 }

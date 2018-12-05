@@ -71,7 +71,7 @@ public class ContexteElementaire {
 	 * Rempli ce contexte élémentaire avec le fichier donné
 	 * @param chemin Le nom du fichier contenant les ressources
 	 */
-	public void lireContexteElementaire(String chemin) {
+	public void lireContexteElementaire(Contexte contexte, String chemin) {
 		AtomicBoolean etatActuel = new AtomicBoolean(true); // true = lecture d'élément ; false = lecture de parties
 		
 		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
@@ -92,6 +92,7 @@ public class ContexteElementaire {
 						elementsConnus.put(variable, nom);
 					} else {
 						partiesConnues.put(variable, nom);
+						contexte.ajouterReference(nom, o -> ((Boolean) o) ? "x" : " ");
 					}
 					break;
 			}

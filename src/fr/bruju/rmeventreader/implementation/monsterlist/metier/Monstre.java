@@ -1,11 +1,10 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map.Entry;
+import java.util.StringJoiner;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 
 import java.util.Objects;
 
@@ -16,9 +15,6 @@ import java.util.Objects;
  *
  */
 public class Monstre {
-	public static String STATS = "Statistiques";
-	public static String PROPRIETES = "Proprietes";
-
 	/* =========
 	 * ATTRIBUTS 
 	 * ========= */
@@ -47,10 +43,8 @@ public class Monstre {
 	 * Rempli les propriétés et les statistiques avec des valeurs par défaut
 	 */
 	private void remplirStats() {
-		Contexte contexte = combat.contexte;
-
-		remplir(contexte.getStatistiques(), 0);
-		remplir(contexte.getProprietes(), false);
+		remplir(combat.contexte.getStatistiques(), 0);
+		remplir(combat.contexte.getProprietes(), false);
 	}
 
 	public void remplir(Iterable<String> statistiques, Object valeurDeBase) {
@@ -67,6 +61,11 @@ public class Monstre {
 	/* ==========
 	 * ACCESSEURS 
 	 * ========== */
+
+
+	public void modifier(String nomDonnee, Function<Integer, Integer> modificateur) {
+		donnees.put(nomDonnee, modificateur.apply((Integer) donnees.get(nomDonnee)));
+	}
 
 	/**
 	 * Accède à l'ensemble des données qui sont considérées de type Integer.
@@ -188,8 +187,19 @@ public class Monstre {
 		sb.append(";");
 		sb.append(this.nomDrop);
 
-		String data = donnees.values().stream().map(Object::toString)
-				.collect(Collectors.joining(";"));
+
+		StringJoiner sj = new StringJoiner(";");
+
+		for (Entry<String, Object> stringObjectEntry : donnees.entrySet()) {
+			String nomChamp = stringObjectEntry.getKey();
+			Object valeur = stringObjectEntry.getValue();
+			String valeurAffichable = combat.contexte.getAffichage(nomChamp, valeur);
+			sj.add(valeurAffichable);
+		}
+
+
+		String data = sj.toString();
+
 
 		if (!withBattleId) {
 			data = data.substring(data.indexOf(";"));
@@ -220,12 +230,17 @@ public class Monstre {
 		}
 		
 		sb.append("IDMonstre;Nom;Drop;");
-		
-		String donneesStr = donnees.keySet().stream()
-									.collect(Collectors.joining(";"));
-		
+
+		StringJoiner sj = new StringJoiner(";");
+
+		for (String s : donnees.keySet()) {
+			sj.add(s);
+		}
+
+		String donneesStr = sj.toString();
+
 		donneesStr = donneesStr.substring(donneesStr.indexOf(";"));
-		
+
 		sb.append(donneesStr);
 
 		if (withBattleId) {

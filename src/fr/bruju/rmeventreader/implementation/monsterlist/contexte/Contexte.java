@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import fr.bruju.util.Pair;
 
@@ -52,6 +53,13 @@ public class Contexte {
 	/** Association nom de statistiques - numéros de variables */
 	private Map<String, int[]> variablesConcernees;
 
+	private Map<String, Function<Object, String>> fonctionsDaffichage;
+
+
+	public String getAffichage(String nomChamp, Object objet) {
+		return fonctionsDaffichage.getOrDefault(nomChamp, Object::toString).apply(objet);
+	}
+
 	/**
 	 * Construit un contexte
 	 */
@@ -60,6 +68,7 @@ public class Contexte {
 		this.statistiques = new ArrayList<>();
 		this.proprietes = new ArrayList<>();
 		this.variablesConcernees = new HashMap<>();
+		this.fonctionsDaffichage = new HashMap<>();
 
 		ajouterStatistique(new int[] { 549, 550, 551 }, "ID", false);
 		ajouterStatistique(new int[] { 555, 556, 557 }, "Niveau", false);
@@ -73,8 +82,8 @@ public class Contexte {
 		ajouterStatistique(new int[] { 570, 571, 572 }, "Esprit", false);
 		ajouterStatistique(new int[] { 527, 528, 529 }, "Dextérité", false);
 		ajouterStatistique(new int[] { 536, 537, 538 }, "Esquive", false);
-		ajouterStatistique(new int[] { 537, 538, 539 }, "Fossile", true);
-		ajouterStatistique(new int[] { 3484, 3485, 3486 }, "Humain", true);
+		ajouterStatistique(new int[] { 537, 538, 539 }, "Fossile", true, b -> ((Boolean) b) ? "Immunisé" : " ");
+		ajouterStatistique(new int[] { 3484, 3485, 3486 }, "Humain", true, b -> ((Boolean) b) ? "Humain" : " ");
 	}
 
 	/**
@@ -113,6 +122,11 @@ public class Contexte {
 	}
 
 	private void ajouterStatistique(int[] variables, String nom, boolean estPropriete) {
+		ajouterStatistique(variables, nom, estPropriete, Object::toString);
+	}
+
+	private void ajouterStatistique(int[] variables, String nom, boolean estPropriete,
+									Function<Object, String> fonctionDaffichage) {
 		if (estPropriete) {
 			this.proprietes.add(nom);
 		} else {
@@ -129,6 +143,12 @@ public class Contexte {
 		}
 
 		variablesConcernees.put(nom, variables);
+
+		fonctionsDaffichage.put(nom, fonctionDaffichage);
+	}
+
+	public void ajouterReference(String nom, Function<Object, String> fonctionDaffichage) {
+		fonctionsDaffichage.put(nom, fonctionDaffichage);
 	}
 
 }
