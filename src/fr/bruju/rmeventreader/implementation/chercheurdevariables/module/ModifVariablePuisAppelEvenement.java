@@ -5,15 +5,44 @@ import fr.bruju.rmdechiffreur.modele.*;
 import fr.bruju.rmdechiffreur.reference.Reference;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class ModifVariablePuisAppelEvenement implements BaseDeRecherche {
+	private enum Statut {
+		NONMODIFIE,
+		REUTILISELAVALEUR,
+		MODIFIE;
+
+		static Statut cumuler(Statut statut1, Statut statut2) {
+			if (statut1 == null) {
+				return statut2;
+			}
+
+			if (statut1.ordinal() > statut2.ordinal()) {
+				return statut1;
+			} else {
+				return statut2;
+			}
+		}
+
+
+		static Statut decumuler(Statut statut1, Statut statut2) {
+			if (statut1 == null) {
+				return statut2;
+			}
+
+			if (statut1.ordinal() < statut2.ordinal()) {
+				return statut1;
+			} else {
+				return statut2;
+			}
+		}
+	}
+
 
 	private final int numeroVariable;
-	private Set<Reference> referencesConnues = new TreeSet<>();
+	private Map<Reference, Statut> referencesConnues = new TreeMap<>();
 
 	private final int numeroEvenement;
 
@@ -27,7 +56,13 @@ public class ModifVariablePuisAppelEvenement implements BaseDeRecherche {
 
 	@Override
 	public void afficher() {
-		referencesConnues.forEach(reference -> System.out.println(reference.getString()));
+		referencesConnues.forEach((reference, statut) -> {
+			if (statut == Statut.REUTILISELAVALEUR) {
+				System.out.println(reference.getString() + " (Réutilise)");
+			} else {
+				System.out.println(reference.getString());
+			}
+		});
 	}
 
 	@Override
@@ -38,48 +73,48 @@ public class ModifVariablePuisAppelEvenement implements BaseDeRecherche {
 	
 	public class Chercheur implements ExecuteurInstructions {
 		private Reference reference;
-		private boolean flip = true;
+		private Statut statut = Statut.NONMODIFIE;
 
-		private Stack<Boolean> entree = new Stack<>();
-		private Stack<Boolean> sortie = new Stack<>();
+		private Stack<Statut> entree = new Stack<>();
+		private Stack<Statut> sortie = new Stack<>();
 
 
 		@Override
 		public boolean SaisieMessages_initierQCM(ExecEnum.ChoixQCM choixLorsDeLAnnulation) {
-			entree.push(flip);
-			sortie.push(flip);
+			entree.push(statut);
+			sortie.push(statut);
 			return true;
 		}
 
 		@Override
 		public void SaisieMessages_choixQCM(String texte, ExecEnum.ChoixQCM numero) {
-			sortie.push(sortie.pop() && flip);
-			flip = entree.peek();
+			sortie.push(Statut.cumuler(sortie.pop(), statut));
+			statut = entree.peek();
 		}
 
 		@Override
 		public void SaisieMessages_finQCM() {
 			entree.pop();
-			flip = sortie.pop();
+			statut = sortie.pop();
 		}
 
 		@Override
 		public int Flot_si(Condition condition) {
-			entree.push(flip);
-			sortie.push(flip);
+			entree.push(statut);
+			sortie.push(statut);
 			return 0;
 		}
 
 		@Override
 		public void Flot_siFin() {
 			entree.pop();
-			flip = sortie.pop() && flip;
+			statut = Statut.cumuler(sortie.pop(), statut);
 		}
 
 		@Override
 		public void Flot_siNon() {
-			sortie.push(sortie.pop() && flip);
-			flip = entree.peek();
+			sortie.push(Statut.cumuler(sortie.pop(), statut));
+			statut = entree.peek();
 		}
 
 		public Chercheur(Reference reference) {
@@ -93,23 +128,22 @@ public class ModifVariablePuisAppelEvenement implements BaseDeRecherche {
 
 		@Override
 		public void Flot_appelEvenementCommun(int numero) {
-			if (flip && numero == numeroEvenement) {
-				referencesConnues.add(reference);
+			if (statut != Statut.MODIFIE && numero == numeroEvenement) {
+				referencesConnues.compute(reference, (k, v) -> Statut.decumuler(v, statut));
 			}
 		}
 
 		@Override
 		public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
 			if (valeurGauche.appliquerG(v -> v.idVariable == numeroVariable, null, null) == Boolean.TRUE) {
-				flip = false;
+				statut = Statut.MODIFIE;
 			}
 		}
 
 		@Override
 		public void Variables_changerVariable(ValeurGauche valeurGauche, OpMathematique operateur, ValeurDroiteVariable valeurDroite) {
-
 			if (valeurGauche.appliquerG(v -> v.idVariable == numeroVariable, null, null) == Boolean.TRUE) {
-				flip = false;
+				statut = Statut.cumuler(statut, Statut.REUTILISELAVALEUR);
 			}
 		}
 	}
