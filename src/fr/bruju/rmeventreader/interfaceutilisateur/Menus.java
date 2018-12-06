@@ -11,7 +11,6 @@ import fr.bruju.rmeventreader.implementation.obtentionobjet.ObteneurDObjets;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
-import fr.bruju.rmeventreader.implementation.recherchecombat.ChercheCombat;
 import fr.bruju.rmeventreader.implementation.recherchecombat.ListeurDeMonstresDansUneZone;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class Menus {
 		Menu menu = new Menu("Recherche");
 
 		menu.ajouterOption("Apparition d'une variable", nombres("Variables à chercher", ApparitionDeVariables::new));
-		menu.ajouterOption("Modifications d'une variable", nombre("Variable", ActivationDInterrupteur::new));
+		menu.ajouterOption("Modifications d'une variable", nombre("Variable", ModificationsDeVariable::new));
 		menu.ajouterOption("Obtention d'un objet", nombre("Numéro de l'objet", ObjetObtenu::new));
 		menu.ajouterOption("Texte", texte("Chaîne cherchée", Texte::new));
 		menu.ajouterOption("Activation d'interrupteur", nombre("Interrupteur", ActivationDInterrupteur::new));
@@ -65,6 +64,7 @@ public class Menus {
 		menu.ajouterOption("Appel à un évènement commun", nombre("EvenementCherché", AppelAUnEvenement::new));
 		menu.ajouterOption("Apprentissage d'un sort", nombre("Personnage", "Sort", ApprentissageSort::new));
 		menu.ajouterOption("Augmentation de valeur de variables", nombres("Variables à chercher", DoubleVariableAjoute::new));
+		menu.ajouterOption("Appel à un évènement commun sans maj de variable", nombre("Variable", "Evenement", ModifVariablePuisAppelEvenement::new));
 
 		return menu;
 	}
