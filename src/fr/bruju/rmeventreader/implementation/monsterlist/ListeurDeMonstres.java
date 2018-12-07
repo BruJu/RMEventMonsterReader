@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
@@ -56,12 +57,23 @@ public class ListeurDeMonstres implements Runnable {
 		// Contexte général
 		Contexte contexte = new Contexte();
 
+		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
+
 		// Contexte élémentaire
 		ContexteElementaire ce = new ContexteElementaire();
-		ce.lireContexteElementaire(contexte, ELEMENTS);
+		ce.lireContexteElementaire(baseDeDonnees.serialiseur, ELEMENTS);
+
+		baseDeDonnees.serialiseur.ajouterChampALire("Zones", monstre -> {
+			StringJoiner sj = new StringJoiner(", ", "[", "]");
+
+			for (String fond : monstre.combat.fonds) {
+				sj.add(fond);
+			}
+
+			return sj.toString();
+		});
 
 		// Base de données des monstres
-		MonsterDatabase baseDeDonnees = new MonsterDatabase(contexte);
 
 		Runnable[] listeDesActions = new Runnable[] {
 				() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
@@ -119,7 +131,7 @@ public class ListeurDeMonstres implements Runnable {
 			System.out.println(baseDeDonnees.getCSVRepresentationOfMonsters());
 			break;
 		case 3:
-			BDDReduite bddR = new BDDReduite(baseDeDonnees.extractMonsters());
+			BDDReduite bddR = new BDDReduite(baseDeDonnees.extractMonsters(), baseDeDonnees.serialiseur);
 			System.out.println(bddR.getCSV());
 			break;
 		case 4: // Affiche les combats n'ayant pas de fonds
@@ -153,7 +165,7 @@ public class ListeurDeMonstres implements Runnable {
 				"Monstres",
 				bdd.getCSVRepresentationOfMonsters(),
 				"Reduite",
-				new BDDReduite(bdd.extractMonsters()).getCSV(),
+				new BDDReduite(bdd.extractMonsters(), bdd.serialiseur).getCSV(),
 				"Drop",
 				new ChercheObjet(bdd).toString()
 		};

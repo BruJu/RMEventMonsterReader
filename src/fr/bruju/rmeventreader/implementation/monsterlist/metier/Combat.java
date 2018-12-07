@@ -202,6 +202,8 @@ public class Combat {
 		 .append(this.gainCapa)
 		 .append(" ; EXP = ")
 		 .append(this.gainExp);
+
+		/*
 		for (int i = 0 ; i != monstres.length ; i++) {
 			if (monstres[i] == null)
 				continue;
@@ -211,7 +213,8 @@ public class Combat {
 			 .append(";")
 			 .append(monstres[i].getString());
 		}
-		
+		*/
+
 		return s.toString();
 	}
 	

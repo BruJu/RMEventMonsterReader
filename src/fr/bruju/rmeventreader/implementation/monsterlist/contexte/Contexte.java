@@ -1,11 +1,10 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.contexte;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Serialiseur;
 import fr.bruju.util.Pair;
 
 /**
@@ -53,11 +52,16 @@ public class Contexte {
 	/** Association nom de statistiques - numéros de variables */
 	private Map<String, int[]> variablesConcernees;
 
-	private Map<String, Function<Object, String>> fonctionsDaffichage;
+	private Map<String, Function<Monstre, String>> fonctionsDaffichage;
 
 
-	public String getAffichage(String nomChamp, Object objet) {
-		return fonctionsDaffichage.getOrDefault(nomChamp, Object::toString).apply(objet);
+	public void injecter(Serialiseur serialiseur) {
+		serialiseur.ajouterChampALire("IDCombat", monstre -> Integer.toString(monstre.combat.id));
+		serialiseur.ajouterChampALire("ID", monstre -> Integer.toString(monstre.getId()));
+		serialiseur.ajouterChampALire("Nom", monstre -> monstre.nom);
+		serialiseur.ajouterChampALire("Drop", monstre -> monstre.nomDrop);
+
+		fonctionsDaffichage.forEach(serialiseur::ajouterChampALire);
 	}
 
 	/**
@@ -68,22 +72,22 @@ public class Contexte {
 		this.statistiques = new ArrayList<>();
 		this.proprietes = new ArrayList<>();
 		this.variablesConcernees = new HashMap<>();
-		this.fonctionsDaffichage = new HashMap<>();
+		this.fonctionsDaffichage = new LinkedHashMap<>();
 
-		ajouterStatistique(new int[] { 549, 550, 551 }, "ID", false);
-		ajouterStatistique(new int[] { 555, 556, 557 }, "Niveau", false);
-		ajouterStatistique(new int[] { 574, 575, 576 }, "EXP", false);
-		ajouterStatistique(new int[] { 577, 578, 579 }, "Capacité", false);
-		ajouterStatistique(new int[] { 594, 595, 596 }, "Argent", false);
-		ajouterStatistique(new int[] { 514, 516, 517 }, "HP", false);
-		ajouterStatistique(new int[] { 533, 534, 535 }, "Force", false);
-		ajouterStatistique(new int[] { 530, 531, 532 }, "Défense", false);
-		ajouterStatistique(new int[] { 613, 614, 615 }, "Magie", false);
-		ajouterStatistique(new int[] { 570, 571, 572 }, "Esprit", false);
-		ajouterStatistique(new int[] { 527, 528, 529 }, "Dextérité", false);
-		ajouterStatistique(new int[] { 536, 537, 538 }, "Esquive", false);
-		ajouterStatistique(new int[] { 537, 538, 539 }, "Fossile", true, b -> ((Boolean) b) ? "Immunisé" : " ");
-		ajouterStatistique(new int[] { 3484, 3485, 3486 }, "Humain", true, b -> ((Boolean) b) ? "Humain" : " ");
+		ajouterID(new int[] { 549, 550, 551 });
+		ajouterStatistiqueValuee(new int[] { 555, 556, 557 }, "Niveau");
+		ajouterStatistiqueValuee(new int[] { 574, 575, 576 }, "EXP");
+		ajouterStatistiqueValuee(new int[] { 577, 578, 579 }, "Capacité");
+		ajouterStatistiqueValuee(new int[] { 594, 595, 596 }, "Argent");
+		ajouterStatistiqueValuee(new int[] { 514, 516, 517 }, "HP");
+		ajouterStatistiqueValuee(new int[] { 533, 534, 535 }, "Force");
+		ajouterStatistiqueValuee(new int[] { 530, 531, 532 }, "Défense");
+		ajouterStatistiqueValuee(new int[] { 613, 614, 615 }, "Magie");
+		ajouterStatistiqueValuee(new int[] { 570, 571, 572 }, "Esprit");
+		ajouterStatistiqueValuee(new int[] { 527, 528, 529 }, "Dextérité");
+		ajouterStatistiqueValuee(new int[] { 536, 537, 538 }, "Esquive");
+		ajouterPropriete(new int[] { 537, 538, 539 }, "Fossile", "Immunisé", " ");
+		ajouterPropriete(new int[] { 3484, 3485, 3486 }, "Humain", "Humain", " ");
 	}
 
 	/**
@@ -121,34 +125,46 @@ public class Contexte {
 		return variablesConcernees.get(nomStatistique);
 	}
 
-	private void ajouterStatistique(int[] variables, String nom, boolean estPropriete) {
-		ajouterStatistique(variables, nom, estPropriete, Object::toString);
-	}
 
-	private void ajouterStatistique(int[] variables, String nom, boolean estPropriete,
-									Function<Object, String> fonctionDaffichage) {
-		if (estPropriete) {
-			this.proprietes.add(nom);
-		} else {
-			this.statistiques.add(nom);
-		}
+
+	private void ajouterID(int[] variables) {
+		this.statistiques.add("ID");
 
 		for (int i = 0; i != variables.length; i++) {
 			int idVariable = variables[i];
-			if (estPropriete) {
-				idVariable += DECALAGE_PROPRIETE;
-			}
+			statistiquesSurMonstres.put(idVariable, new Pair<>(i, "ID"));
+		}
 
-			statistiquesSurMonstres.put(idVariable, new Pair<>(i, nom));
+		variablesConcernees.put("ID", variables);
+	}
+
+	private void ajouterStatistiqueValuee(int[] variables, String nom) {
+		this.statistiques.add(nom);
+
+		for (int i = 0; i != variables.length; i++) {
+			statistiquesSurMonstres.put(variables[i], new Pair<>(i, nom));
 		}
 
 		variablesConcernees.put(nom, variables);
 
-		fonctionsDaffichage.put(nom, fonctionDaffichage);
+		fonctionsDaffichage.put(nom, monstre -> Integer.toString(monstre.accessInt(nom)));
 	}
 
-	public void ajouterReference(String nom, Function<Object, String> fonctionDaffichage) {
-		fonctionsDaffichage.put(nom, fonctionDaffichage);
+
+	private void ajouterPropriete(int[] variables, String nom, String siVrai, String siFaux) {
+		this.proprietes.add(nom);
+
+		for (int i = 0; i != variables.length; i++) {
+			variables[i] += DECALAGE_PROPRIETE;
+			statistiquesSurMonstres.put(variables[i], new Pair<>(i, nom));
+		}
+
+		variablesConcernees.put(nom, variables);
+
+		fonctionsDaffichage.put(nom, monstre -> (monstre.accessBool(nom) ? siVrai : siFaux));
 	}
 
+	public void ajouterReference(String nom, Function<Monstre, String> fonctionDaffichage) {
+		fonctionsDaffichage.put(nom, fonctionDaffichage);
+	}
 }

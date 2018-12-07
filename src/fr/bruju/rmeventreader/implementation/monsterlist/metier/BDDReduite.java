@@ -17,6 +17,7 @@ import fr.bruju.util.similaire.CollectorBySimilarity;
  *
  */
 public class BDDReduite {
+	private final Serialiseur serialiseur;
 	/**
 	 * Association entre clés de monstre et liste des mosntres
 	 */
@@ -29,12 +30,16 @@ public class BDDReduite {
 	 * Réduit la liste des monstres en monstres similaires
 	 * @param monstres
 	 */
-	public BDDReduite(Collection<Monstre> monstres) {
+	public BDDReduite(Collection<Monstre> monstres, Serialiseur serialiseur) {
 		unMonstre = monstres.stream().findAny().get();
 
 		monstreReduits = monstres.stream()
 								.collect(new CollectorBySimilarity<>(Monstre::hasher, Monstre::sontSimilaires))
 								.getMap();
+
+		this.serialiseur = new Serialiseur(serialiseur);
+		this.serialiseur.supprimer("IDCombat");
+		this.serialiseur.supprimer("Zones");
 	}
 
 	/**
@@ -42,8 +47,8 @@ public class BDDReduite {
 	 */
 	public String getCSV() {
 		StringBuilder sb = new StringBuilder();
-		
-		sb.append(unMonstre.getCSVHeader())
+
+		sb.append(serialiseur.getHeader())
 		  .append(";Combats")
 		  .append(";Zones");
 
@@ -54,7 +59,7 @@ public class BDDReduite {
 					
 			
 			sb.append("\n");
-			sb.append(mv.get(0).getCSV());
+			sb.append(serialiseur.apply(mv.get(0)));
 			
 			// Id de combats
 			sb.append(";[")

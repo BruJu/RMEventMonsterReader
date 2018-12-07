@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Serialiseur;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 /** 
@@ -71,7 +72,7 @@ public class ContexteElementaire {
 	 * Rempli ce contexte élémentaire avec le fichier donné
 	 * @param chemin Le nom du fichier contenant les ressources
 	 */
-	public void lireContexteElementaire(Contexte contexte, String chemin) {
+	public void lireContexteElementaire(Serialiseur serialiseur, String chemin) {
 		AtomicBoolean etatActuel = new AtomicBoolean(true); // true = lecture d'élément ; false = lecture de parties
 		
 		LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, ligne -> {
@@ -90,9 +91,10 @@ public class ContexteElementaire {
 
 					if (etatActuel.get()) {
 						elementsConnus.put(variable, nom);
+						serialiseur.ajouterChampALire(nom, monstre -> Integer.toString(monstre.accessInt(nom)));
 					} else {
 						partiesConnues.put(variable, nom);
-						contexte.ajouterReference(nom, o -> ((Boolean) o) ? "x" : " ");
+						serialiseur.ajouterChampALire(nom, monstre -> monstre.accessBool(nom) ? "x" : " ");
 					}
 					break;
 			}

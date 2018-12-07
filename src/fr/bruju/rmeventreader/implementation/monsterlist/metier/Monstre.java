@@ -114,26 +114,6 @@ public class Monstre {
 		return combat.id;
 	}
 
-	/* =========
-	 * AFFICHAGE
-	 * ========= */
-
-	/**
-	 * Donne un affichage du monstre
-	 */
-	public String getString() {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(nom);
-
-		sb.append(donnees.keySet().stream()
-				.collect(Collectors.joining(";")));
-
-		sb.append(",").append(nomDrop);
-
-		return sb.toString();
-	}
-
 	/* ========================
 	 * REDUCTION PAR SIMILAIRES
 	 * ======================== */
@@ -167,105 +147,8 @@ public class Monstre {
 	 * AFFICHAGE CSV
 	 * ============= */
 
-	/**
-	 * Donne une représentation en csv du monstre
-	 * 
-	 * @param withBattleId Si vrai inclus l'id du combat à l'affichage
-	 * @return La représentation
-	 */
-	public String getCSV(boolean withBattleId) {
-		StringBuilder sb = new StringBuilder();
-
-		if (withBattleId) {
-			sb.append(this.getBattleId());
-			sb.append(";");
-		}
-
-		sb.append(this.getId());
-		sb.append(";");
-		sb.append(this.nom);
-		sb.append(";");
-		sb.append(this.nomDrop);
-
-
-		StringJoiner sj = new StringJoiner(";");
-
-		for (Entry<String, Object> stringObjectEntry : donnees.entrySet()) {
-			String nomChamp = stringObjectEntry.getKey();
-			Object valeur = stringObjectEntry.getValue();
-			String valeurAffichable = combat.contexte.getAffichage(nomChamp, valeur);
-			sj.add(valeurAffichable);
-		}
-
-
-		String data = sj.toString();
-
-
-		if (!withBattleId) {
-			data = data.substring(data.indexOf(";"));
-		} else {
-			sb.append(";");
-		}
-		
-		sb.append(data);
-
-		if (withBattleId) {
-			sb.append(";").append(this.combat.fonds);
-		}
-
-		return sb.toString();
-	}
-
-	/**
-	 * Renvoie le header du CSV de l'affichage d'un monstre
-	 * 
-	 * @param withBattleId Si vrai inclus l'id du combat à l'affichage
-	 * @return La représentation
-	 */
-	public String getCSVHeader(boolean withBattleId) {
-		StringBuilder sb = new StringBuilder();
-		
-		if (withBattleId) {
-			sb.append("IDCombat;");
-		}
-		
-		sb.append("IDMonstre;Nom;Drop;");
-
-		StringJoiner sj = new StringJoiner(";");
-
-		for (String s : donnees.keySet()) {
-			sj.add(s);
-		}
-
-		String donneesStr = sj.toString();
-
-		donneesStr = donneesStr.substring(donneesStr.indexOf(";"));
-
-		sb.append(donneesStr);
-
-		if (withBattleId) {
-			sb.append(";Zone");
-		}
-
-		return sb.toString();
-	}
-
-	/* =============================
-	 * AFFICHAGE CSV DE LA REDUCTION
-	 * ============================= */
-
-	/**
-	 * Donne le header d'un monstre pour les monstres réduits
-	 */
-	public String getCSVHeader() {
-		return getCSVHeader(false);
-	}
-
-	/**
-	 * Donne la représentation d'un monstre réduit
-	 */
-	public String getCSV() {
-		return getCSV(false);
+	public String serialiser(Serialiseur serialiseur) {
+		return serialiseur.apply(this);
 	}
 
 }

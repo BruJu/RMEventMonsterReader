@@ -21,6 +21,8 @@ public class MonsterDatabase {
 	private Map<Integer, Combat> combats = new HashMap<>();
 	
 	public final Contexte contexte;
+
+	public final Serialiseur serialiseur;
 	
 	/* =======================
 	 * MANIPULATION DE COMBATS 
@@ -32,6 +34,9 @@ public class MonsterDatabase {
 	 */
 	public MonsterDatabase(Contexte contexte) {
 		this.contexte = contexte;
+
+		serialiseur = new Serialiseur();
+		contexte.injecter(serialiseur);
 	}
 
 	/**
@@ -152,11 +157,12 @@ public class MonsterDatabase {
 	 */
 	public String getCSVRepresentationOfMonsters() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(extractMonsters().stream().findAny().get().getCSVHeader(true));
+
+		sb.append(serialiseur.getHeader());
 		
 		combats.values().stream()
 					.flatMap(Combat::getMonstersStream)
-					.forEach(monstre -> {sb.append("\n"); sb.append(monstre.getCSV(true)); });
+					.forEach(monstre -> sb.append("\n").append(serialiseur.apply(monstre)));
 		
 		return sb.toString();
 	}
