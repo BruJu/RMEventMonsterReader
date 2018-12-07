@@ -12,6 +12,7 @@ import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
 import fr.bruju.rmeventreader.implementation.recherchecombat.ListeurDeMonstresDansUneZone;
+import fr.bruju.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,37 +29,46 @@ public class Menus {
 	public static Menu creerMenuGeneral() {
 		Menu menu = new Menu("RMEventReader");
 
-		menu.ajouterOption("Liste des monstres", new InviteDeCommande(creerMenuListeurDeMonstres()));
-		menu.ajouterOption("Sauver les ressources", () -> PROJET.ecrireRessource("ressources_gen\\"));
-		menu.ajouterOption("Verificateur d'équipements", new Verificateur());
+		// Outils pouvant être utilisés sur n'importe quel projet
+		menu.ajouterOption("============= Outils généraux =============", Menus::messageSeparateur);
+		menu.ajouterOption("Recherche", new InviteDeCommande(baseDeRecherche()));
 		menu.ajouterOption("Compteur d'appels à des évènements communs", new AppelsDEvenements());
 		menu.ajouterOption("Chercheur d'images", new Intercepteur("Numéro de la map", ChercheurDImages::new));
+		menu.ajouterOption("Collision des interrupteurs", new DetecteurDeColissionsDInterrupteurs());
+		menu.ajouterOption("Sauver les ressources", () -> PROJET.ecrireRessource("ressources_gen\\"));
+
+		// Outils développés spécifiquement pour un cas particulier
+		menu.ajouterOption("======= Outils spécifiques à un jeu =======", Menus::messageSeparateur);
+		menu.ajouterOption("Liste des monstres", new InviteDeCommande(creerMenuListeurDeMonstres()));
+		menu.ajouterOption("Recherche de monstres", scanner -> {
+			System.out.print("Rechercher dans les cartes contenant : ");
+			new ListeurDeMonstresDansUneZone().afficherMonstresDansUneZone(scanner.nextLine());
+		});
+
+		menu.ajouterOption("Verificateur d'équipements", new Verificateur());
 		menu.ajouterOption("Chercheur de magasins", new ChercheurDeMagasins());
 		menu.ajouterOption("Formules des attaques", new Simplifieur());
-		menu.ajouterOption("Collision des interrupteurs", new DetecteurDeColissionsDInterrupteurs());
-		menu.ajouterOption("Recherche", new InviteDeCommande(baseDeRecherche()));
 
 		menu.ajouterOption("Obtention d'objets", scanner -> {
 			System.out.print("Objet recherché : ");
 			new ObteneurDObjets(scanner.nextLine()).run();
 		});
 
-		menu.ajouterOption("Recherche de monstres", scanner -> {
-			System.out.print("Rechercher dans les cartes contenant : ");
-			new ListeurDeMonstresDansUneZone().afficherMonstresDansUneZone(scanner.nextLine());
-		});
-
 		return menu;
+	}
+
+	private static void messageSeparateur() {
+		System.out.println("Cette option n'est pas une réelle option.");
 	}
 
 	private static Menu baseDeRecherche() {
 		Menu menu = new Menu("Recherche");
 
 		menu.ajouterOption("Apparition d'une variable", nombres("Variables à chercher", ApparitionDeVariables::new));
-		menu.ajouterOption("Modifications d'une variable", nombre("Variable", ModificationsDeVariable::new));
-		menu.ajouterOption("Obtention d'un objet", nombre("Numéro de l'objet", ObjetObtenu::new));
+		menu.ajouterOption("Modifications d'une variable", variable("Variable", ModificationsDeVariable::new));
+		menu.ajouterOption("Obtention d'un objet", objet("Numéro de l'objet", ObjetObtenu::new));
 		menu.ajouterOption("Texte", texte("Chaîne cherchée", Texte::new));
-		menu.ajouterOption("Activation d'interrupteur", nombre("Interrupteur", ActivationDInterrupteur::new));
+		menu.ajouterOption("Activation d'interrupteur", interrupteur("Interrupteur", ActivationDInterrupteur::new));
 		menu.ajouterOption("Musique", bdr(Musique::new));
 		menu.ajouterOption("Appel à un évènement commun", nombre("EvenementCherché", AppelAUnEvenement::new));
 		menu.ajouterOption("Apprentissage d'un sort", nombre("Personnage", "Sort", ApprentissageSort::new));
@@ -100,6 +110,39 @@ public class Menus {
 			new ChercheurDeReferences(base).run();
 		};
 	}
+
+
+	private static Consumer<Scanner> variable(String chaine, IntFunction<BaseDeRecherche> instanciation) {
+		return scanner -> {
+			System.out.print(chaine + " : ");
+			appliquerSaisie(RechercheDansDictionnaire.variableUnique(scanner.nextLine()), instanciation);
+		};
+	}
+
+	private static Consumer<Scanner> objet(String chaine, IntFunction<BaseDeRecherche> instanciation) {
+		return scanner -> {
+			System.out.print(chaine + " : ");
+			appliquerSaisie(RechercheDansDictionnaire.objetUnique(scanner.nextLine()), instanciation);
+		};
+	}
+
+	private static Consumer<Scanner> interrupteur(String chaine, IntFunction<BaseDeRecherche> instanciation) {
+		return scanner -> {
+			System.out.print(chaine + " : ");
+			appliquerSaisie(RechercheDansDictionnaire.interrupteurUnique(scanner.nextLine()), instanciation);
+		};
+	}
+
+	private static void appliquerSaisie(Pair<Integer, String> objet, IntFunction<BaseDeRecherche> instanciation) {
+		if (objet == null) {
+			return;
+		}
+
+		int nombreSaisi = objet.getLeft();
+		BaseDeRecherche base = instanciation.apply(nombreSaisi);
+		new ChercheurDeReferences(base).run();
+	}
+
 
 
 	private interface BiIntFunction<T> {

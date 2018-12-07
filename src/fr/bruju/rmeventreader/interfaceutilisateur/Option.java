@@ -12,7 +12,6 @@ public class Option {
 		this.runnable = scanner -> runnable.run();
 	}
 
-
 	public Option(String nom, Consumer<Scanner> runnable) {
 		this.nom = nom;
 		this.runnable = runnable;

@@ -6,6 +6,8 @@ import fr.bruju.rmdechiffreur.reference.ReferenceMap;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ObjetObtenu;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.magasin.Magasin;
+import fr.bruju.rmeventreader.interfaceutilisateur.RechercheDansDictionnaire;
+import fr.bruju.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,37 +28,19 @@ public class ObteneurDObjets implements Runnable {
 
 	@Override
 	public void run() {
-		int idObjet;
+		Pair<Integer, String> objet = RechercheDansDictionnaire.objetUnique(saisie);
 
-		try {
-			idObjet = Integer.parseInt(saisie);
-		} catch (NumberFormatException exception) {
-			List<Integer> idTrouves = trouverTousLesObjetsContenant(saisie);
-
-			if (idTrouves.isEmpty()) {
-				System.out.println("Aucun objet ne contient " + saisie);
-				return;
-			} else if (idTrouves.size() > 1) {
-				System.out.println("Plusieurs objets contiennent " + saisie);
-
-				for (Integer objetTrouve : idTrouves) {
-					System.out.println(objetTrouve + " : " + PROJET.extraireObjet(objetTrouve));
-				}
-				return;
-			} else {
-				idObjet = idTrouves.get(0);
-			}
+		if (objet == null) {
+			return;
 		}
 
-		System.out.println("Objet : " + idObjet + " - " + PROJET.extraireObjet(idObjet));
+		System.out.println("Objet : " + objet.getRight());
+
+		int idObjet = objet.getLeft();
 
 		chercherAuSol(idObjet);
 		chercherDansUnMagasin(idObjet);
-
-
-
 		// TODO : Monstres
-
 	}
 
 	private void chercherDansUnMagasin(int idObjet) {
@@ -90,20 +74,5 @@ public class ObteneurDObjets implements Runnable {
 				}
 			}
 		}
-	}
-
-	public static List<Integer> trouverTousLesObjetsContenant(String nomPartieObjet) {
-		List<Integer> idTrouves = new ArrayList<>();
-		List<String> objetsExistants = PROJET.extraireObjets();
-
-		System.out.println("Recherche " + nomPartieObjet);
-
-		for (int i = 0 ; i != objetsExistants.size() ; i++) {
-			if (objetsExistants.get(i).contains(nomPartieObjet)) {
-				idTrouves.add(i+1);
-			}
-		}
-
-		return idTrouves;
 	}
 }

@@ -21,25 +21,9 @@ public class ChercheurDeReferences implements Runnable {
 	/** Derniere reference */
 	private int dernierGroupe = 0;
 
-	public ChercheurDeReferences() {
-		int option = 7;
-
-		baseDeRecherche = (BaseDeRecherche) (new Supplier[] {
-				/* 0 */ () -> new ApparitionDeVariables(new int[] {3065}),
-				/* 1 */ () -> new Texte("essager"),
-				/* 2 */ () -> new ActivationDInterrupteur(3113),
-				/* 3 */ () -> new Musique(),
-				/* 4 */ () -> new ModificationsDeVariable(5),
-				/* 5 */ () -> new ApprentissageSort(3, 112),
-				/* 6 */ () -> new AppelAUnEvenement(356),
-				/* 7 */ () -> new ObjetObtenu(673)
-		}[option].get());
-	}
-
 	public ChercheurDeReferences(BaseDeRecherche baseDeRecherche) {
 		this.baseDeRecherche = baseDeRecherche;
 	}
-
 
 	@Override
 	public void run() {

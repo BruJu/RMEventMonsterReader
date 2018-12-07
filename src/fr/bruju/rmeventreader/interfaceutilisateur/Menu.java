@@ -1,15 +1,17 @@
 package fr.bruju.rmeventreader.interfaceutilisateur;
 
-import fr.bruju.rmeventreader.Principal;
-import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
+/**
+ * Un menu repertorie la liste des fonctionnalités qu'il propose
+ */
 public class Menu {
+	/** Le nom du menu */
 	final String nomMenu;
+	/** La liste des options proposées */
 	final List<Option> options;
 
 	public Menu(String nomMenu) {
@@ -25,7 +27,10 @@ public class Menu {
 		options.add(new Option(nom, action));
 	}
 
-
+	/**
+	 * Donne la liste des options disponibles
+	 * @return La liste des options disponibles
+	 */
 	public String getListeDesOptions() {
 		StringBuilder sb = new StringBuilder();
 
@@ -35,5 +40,4 @@ public class Menu {
 
 		return sb.toString();
 	}
-
 }
