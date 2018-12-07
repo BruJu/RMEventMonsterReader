@@ -7,7 +7,7 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.Simplifieur;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
-import fr.bruju.rmeventreader.implementation.obtentionobjet.ObteneurDObjets;
+import fr.bruju.rmeventreader.implementation.random.ObteneurDObjets;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
 import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
 import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
@@ -28,26 +28,25 @@ public class Menus {
 	public static Menu creerMenuGeneral() {
 		Menu menu = new Menu("RMEventReader");
 
-		menu.ajouterOption(new Option("Liste des monstres", new InviteDeCommande(creerMenuListeurDeMonstres())));
-		menu.ajouterOption(new Option("Sauver les ressources", () -> PROJET.ecrireRessource("ressources_gen\\")));
-		menu.ajouterOption(new Option("Verificateur d'équipements", new Verificateur()));
-		menu.ajouterOption(new Option("Compteur d'appels à des évènements communs", new AppelsDEvenements()));
-		menu.ajouterOption(new Option("Chercheur d'images", new Intercepteur("Numéro de la map", ChercheurDImages::new)));
-		menu.ajouterOption(new Option("Chercheur de magasins", new ChercheurDeMagasins()));
-		menu.ajouterOption(new Option("Formules des attaques", new Simplifieur()));
-		menu.ajouterOption(new Option("Collision des interrupteurs", new DetecteurDeColissionsDInterrupteurs()));
+		menu.ajouterOption("Liste des monstres", new InviteDeCommande(creerMenuListeurDeMonstres()));
+		menu.ajouterOption("Sauver les ressources", () -> PROJET.ecrireRessource("ressources_gen\\"));
+		menu.ajouterOption("Verificateur d'équipements", new Verificateur());
+		menu.ajouterOption("Compteur d'appels à des évènements communs", new AppelsDEvenements());
+		menu.ajouterOption("Chercheur d'images", new Intercepteur("Numéro de la map", ChercheurDImages::new));
+		menu.ajouterOption("Chercheur de magasins", new ChercheurDeMagasins());
+		menu.ajouterOption("Formules des attaques", new Simplifieur());
+		menu.ajouterOption("Collision des interrupteurs", new DetecteurDeColissionsDInterrupteurs());
+		menu.ajouterOption("Recherche", new InviteDeCommande(baseDeRecherche()));
 
-		menu.ajouterOption(new Option("Recherche", new InviteDeCommande(baseDeRecherche())));
-		menu.ajouterOption(new Option("Obtention d'objets", scanner -> {
+		menu.ajouterOption("Obtention d'objets", scanner -> {
 			System.out.print("Objet recherché : ");
 			new ObteneurDObjets(scanner.nextLine()).run();
-		}));
+		});
 
-		menu.ajouterOption(new Option("Recherche de monstres", scanner -> {
+		menu.ajouterOption("Recherche de monstres", scanner -> {
 			System.out.print("Rechercher dans les cartes contenant : ");
-			new ListeurDeMonstresDansUneZone().run(scanner.nextLine());
-		}));
-
+			new ListeurDeMonstresDansUneZone().afficherMonstresDansUneZone(scanner.nextLine());
+		});
 
 		return menu;
 	}
@@ -132,13 +131,13 @@ public class Menus {
 	public static Menu creerMenuListeurDeMonstres() {
 		Menu menu = new Menu("Liste des monstres");
 
-		menu.ajouterOption(new Option("Liste des combats", new ListeurDeMonstres(0)));
-		menu.ajouterOption(new Option("CSV des combats", new ListeurDeMonstres(1)));
-		menu.ajouterOption(new Option("CSV des monstres par combat", new ListeurDeMonstres(2)));
-		menu.ajouterOption(new Option("CSV des monstres (regroupés)", new ListeurDeMonstres(3)));
-		menu.ajouterOption(new Option("Afficher les combats qui n'ont pas de fond connu", new ListeurDeMonstres(4)));
-		menu.ajouterOption(new Option("Afficher les lieux de drop des objets", new ListeurDeMonstres(5)));
-		menu.ajouterOption(new Option("Sauvegarder dans des fichiers toutes les données", new ListeurDeMonstres(6)));
+		menu.ajouterOption("Liste des combats", new ListeurDeMonstres(0));
+		menu.ajouterOption("CSV des combats", new ListeurDeMonstres(1));
+		menu.ajouterOption("CSV des monstres par combat", new ListeurDeMonstres(2));
+		menu.ajouterOption("CSV des monstres (regroupés)", new ListeurDeMonstres(3));
+		menu.ajouterOption("Afficher les combats qui n'ont pas de fond connu", new ListeurDeMonstres(4));
+		menu.ajouterOption("Afficher les lieux de drop des objets", new ListeurDeMonstres(5));
+		menu.ajouterOption("Sauvegarder dans des fichiers toutes les données", new ListeurDeMonstres(6));
 
 		return menu;
 	}

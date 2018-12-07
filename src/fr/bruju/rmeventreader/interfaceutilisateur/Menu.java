@@ -17,10 +17,6 @@ public class Menu {
 		this.options = new ArrayList<>();
 	}
 
-	public void ajouterOption(Option option) {
-		options.add(option);
-	}
-
 	public void ajouterOption(String nom, Consumer<Scanner> action) {
 		options.add(new Option(nom, action));
 	}

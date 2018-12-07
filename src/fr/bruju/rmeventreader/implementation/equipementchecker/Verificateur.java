@@ -31,7 +31,8 @@ public class Verificateur implements Runnable {
 	 * @param idEventCommun Numéro de l'event commun où les objets sont désequipés
 	 */
 	private void verifierPersonnage(int idPerso, int idMap, int idEvent, int idEventCommun) {
-		System.out.println("------------- PERSONNAGE " + idPerso);
+		System.out.println("------------- PERSONNAGE " + idPerso + " " + PROJET.extraireHeros(idPerso
+		));
 
 		EquipementChecker onEquip = new EquipementChecker(idPerso);
 		PROJET.lireEvenement(onEquip, idMap, idEvent, 1);
@@ -46,7 +47,7 @@ public class Verificateur implements Runnable {
 
 		somme = EquipementData.simplifier(somme);
 
-		somme.forEach((idObjet, data) -> System.out.println("== Objet " + idObjet + "==\n" + data.getString()));
+		somme.forEach((idObjet, data) -> System.out.println("== Objet " + idObjet + " " + PROJET.extraireObjet(idObjet) + "==\n" + data.getString()));
 	}
 
 }

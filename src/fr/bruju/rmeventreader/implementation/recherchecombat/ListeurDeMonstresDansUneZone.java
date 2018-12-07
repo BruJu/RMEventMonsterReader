@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.recherchecombat;
 
-import fr.bruju.rmdechiffreur.Projet;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
@@ -8,30 +7,75 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
 import java.util.HashMap;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
+/**
+ * Une classe listant tous les combats ponctuels pouvant être trouvés dans des cartes dont l'arborescence contient une
+ * chaîne.
+ */
 public class ListeurDeMonstresDansUneZone {
-
-
-	public void run(String prefixeMap) {
-		Set<Integer> idDeCombat = chercherIdDeCombats(prefixeMap);
-		Set<MonstreSimplifie> monstres = extraireMonstres(idDeCombat);
+	/**
+	 * Affiche tous les monstres dans une zone contenant dans son arborescence la chaîne donnée.
+	 * @param chaine La chaîne
+	 */
+	public void afficherMonstresDansUneZone(String chaine) {
+		Set<MonstreSimplifie> monstres = chercherMonstres(chaine);
 
 		for (MonstreSimplifie monstre : monstres) {
 			System.out.println(monstre.toString());
 		}
 	}
 
+	/**
+	 * Donne l'ensemble de tous les monstres pouvant être affrontés ponctuellement dans une zone dont l'aborescence
+	 * contient la chaîne donnée
+	 * @param chaine La chaîne devant être dans l'arborescence
+	 * @return L'ensemble des monstres pouvant être affrontés lors de combats scriptés
+	 */
+	public Set<MonstreSimplifie> chercherMonstres(String chaine) {
+		Set<Integer> idDeCombat = chercherIdDeCombats(chaine);
+		Set<MonstreSimplifie> monstres = extraireMonstres(idDeCombat);
+		return monstres;
+	}
+
+	// Recherche des ID de Combats
+
+	/**
+	 * Donne la liste de tous les numéros de combat pouvant être trouvés dans des map dont l'arborescence contient la
+	 * chaîne.
+	 * @param chaine La chaîne
+	 * @return La liste des id de combats
+	 */
+	private Set<Integer> chercherIdDeCombats(String chaine) {
+		ChercheCombat recherche = new ChercheCombat();
+
+		PROJET.explorerEvenements((map, evenement, page) -> {
+			if (!map.nom().contains(chaine)) {
+				return;
+			}
+
+			recherche.viderRencontre();
+			recherche.appliquerInstructions(page.instructions());
+		});
+
+		return recherche.getIdTrouves();
+	}
+
+	// Extraire les monstres des combats
+
+	/**
+	 * Converti l'ensemble des id de combat en l'ensemble des monstres qu'on y affronte
+	 * @param idDeCombat La liste des combat
+	 * @return La liste des monstres dans ces combats
+	 */
 	private Set<MonstreSimplifie> extraireMonstres(Set<Integer> idDeCombat) {
 		ListeurDeMonstres listeur = new ListeurDeMonstres(0);
 
 		MonsterDatabase bdd = listeur.creerBaseDeDonnees();
 
-		if (bdd == null) {
-			// TODO : un meilleur traitement des erreurs
+		if (bdd == null) { // TODO : un meilleur traitement des erreurs
 			return new TreeSet<>();
 		}
 
@@ -48,6 +92,11 @@ public class ListeurDeMonstresDansUneZone {
 		return monstres.keySet();
 	}
 
+	/**
+	 * Ajoute dans la map de monstres les monstres contenus dans le combat donné
+	 * @param monstres La map recevant les monstres présent dans les combats
+	 * @param combat Le combat contenant les monstres à ajouter
+	 */
 	private static void completerMonstres(HashMap<MonstreSimplifie, MonstreSimplifie> monstres, Combat combat) {
 		// En gros : c'est une implémentation de CollectorsBySimilarity sans flux
 		// En plus détaillé :
@@ -70,25 +119,10 @@ public class ListeurDeMonstresDansUneZone {
 			MonstreSimplifie monstreSimplifie = new MonstreSimplifie(monstre);
 
 			if (monstres.containsKey(monstreSimplifie)) {
-				monstres.get(monstreSimplifie).recevoir(monstreSimplifie);
+				monstres.get(monstreSimplifie).copierIDDeCombats(monstreSimplifie);
 			} else {
 				monstres.put(monstreSimplifie, monstreSimplifie);
 			}
 		}
-	}
-
-	private Set<Integer> chercherIdDeCombats(String nomMapPartiel) {
-		ChercheCombat recherche = new ChercheCombat();
-
-		PROJET.explorerEvenements((map, evenement, page) -> {
-			if (!map.nom().contains(nomMapPartiel)) {
-				return;
-			}
-
-			recherche.viderRencontre();
-			recherche.appliquerInstructions(page.instructions());
-		});
-
-		return recherche.getIdTrouves();
 	}
 }

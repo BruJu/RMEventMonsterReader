@@ -31,36 +31,8 @@ public class Utilitaire {
 		}
 	}
 
-	/**
-	 * Supprime le dossier donné en supprimant tous les fichiers à l'intérieur
-	 * @param dossier Le dossier à supprimer
-	 */
-	public static void Fichier_supprimerDossier(File dossier) {
-		for (File fichierPresent : dossier.listFiles()) {
-			if (fichierPresent.isDirectory())
-				Fichier_supprimerDossier(fichierPresent);
-			else
-				fichierPresent.delete();
-		}
 
-		dossier.delete();
-	}
 
-	/**
-	 * Transforme la liste en un tableau de int
-	 * @param liste La liste
-	 * @return Un tableau de int
-	 */
-	public static int[] toArrayInt(List<Integer> liste) {
-		int[] tableau = new int[liste.size()];
-
-		for (int i = 0 ; i != tableau.length ; i++) {
-			tableau[i] = liste.get(i);
-		}
-
-		return tableau;
-	}
-	
 	/**
 	 * Donne la position de l'élément dans le tableau, ou -1 si il est absent
 	 * @param element L'élément à chercher
@@ -91,33 +63,6 @@ public class Utilitaire {
 		return nouveauTableau;
 	}
 
-
-	public static <T> int comparerIterateurs(Supplier<T> source1, Supplier<T> source2,
-											 ToIntBiFunction<T, T> fonctionDeComparaison) {
-		while (true) {
-			T objet1 = source1.get();
-			T objet2 = source2.get();
-
-			if (objet1 == null) {
-				if (objet2 == null) {
-					return 0;
-				} else {
-					return -1;
-				}
-			} else {
-				if (objet2 == null) {
-					return 1;
-				} else {
-					int comparaison = fonctionDeComparaison.applyAsInt(objet1, objet2);
-
-					if (comparaison != 0) {
-						return comparaison;
-					}
-				}
-			}
-		}
-	}
-
 	public static <T> boolean comparerIterateursBoolean(Supplier<T> source1, Supplier<T> source2,
 											 BiPredicate<T, T> fonctionDeComparaison) {
 		while (true) {
@@ -133,5 +78,4 @@ public class Utilitaire {
 			}
 		}
 	}
-
 }

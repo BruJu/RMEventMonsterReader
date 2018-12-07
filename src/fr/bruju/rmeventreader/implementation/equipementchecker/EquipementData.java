@@ -1,10 +1,13 @@
 package fr.bruju.rmeventreader.implementation.equipementchecker;
 
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import fr.bruju.util.MapsUtils;
+
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
  * Ensemble de valeurs modifiées par un équipement
@@ -33,15 +36,21 @@ public class EquipementData {
 	 * <ul>
 	 * <li>Si l'évènement est trop complexe, renvoie Complexe</li>
 	 * <li>Sinon, renvoie une liste du type V[idVariable] valeurAjoutée</li>
+	 * </ul>
 	 * @return Une représentation de l'ensemble de valeurs modifiées
 	 */
 	public String getString() {
 		if (estTropComplexe) {
 			return "Complexe";
 		}
-		
-		return variablesModifiees.entrySet().stream().map(entry -> "V[" + entry.getKey() + "] " + entry.getValue())
-							.collect(Collectors.joining("\n"));
+
+		StringJoiner sj = new StringJoiner("\n");
+
+		variablesModifiees.forEach((variable, bonus) -> {
+			sj.add("V[" + variable + ":" + PROJET.extraireVariable(variable) + "] " + bonus);
+		});
+
+		return sj.toString();
 	}
 	
 	/**

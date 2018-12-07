@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.obtentionobjet;
+package fr.bruju.rmeventreader.implementation.random;
 
 import fr.bruju.rmdechiffreur.reference.Reference;
 import fr.bruju.rmdechiffreur.reference.ReferenceEC;

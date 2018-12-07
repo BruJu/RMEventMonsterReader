@@ -1,23 +1,10 @@
 package fr.bruju.rmeventreader;
 
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.ChercheurDeReferences;
-import fr.bruju.rmeventreader.implementation.detectiondeformules.Simplifieur;
-import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
-import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
-import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
-import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
-import fr.bruju.rmeventreader.implementation.random.ChercheurDImages;
-import fr.bruju.rmeventreader.implementation.random.DetecteurDeColissionsDInterrupteurs;
 import fr.bruju.rmeventreader.interfaceutilisateur.InviteDeCommande;
 import fr.bruju.rmeventreader.interfaceutilisateur.Menu;
 import fr.bruju.rmeventreader.interfaceutilisateur.Menus;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
-
-import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /** Classe principale */
 public class Principal {
@@ -25,30 +12,12 @@ public class Principal {
 	public static void main(String[] args) {
 		System.out.println("#### Début ####");
 
-		int choix = 10;
-		
-		if (args.length != 0) {
-			choix = Integer.parseInt(args[0]);
-		}
-		
-		Runnable[] options = {
-				/* 00 */ new ListeurDeMonstres(2),
-				/* 01 */ null,
-				/* 02 */ () -> PROJET.ecrireRessource("ressources_gen\\"),
-				/* 03 */ new Verificateur(),
-				/* 04 */ new AppelsDEvenements(),
-				/* 05 */ new ChercheurDImages(51),
-				/* 06 */ new ChercheurDeReferences(),
-				/* 07 */ new ChercheurDeMagasins(),
-				/* 08 */ new Simplifieur(),
-				/* 09 */ new DetecteurDeColissionsDInterrupteurs(),
-				/* 10 */ () -> new InviteDeCommande(Menus.creerMenuGeneral()).accept(new Scanner(System.in))
-		};
-		
-		options[choix].run();
-		
+		Menu menu = Menus.creerMenuGeneral();
+		InviteDeCommande inviteDeCommande = new InviteDeCommande(menu);
+
+		Scanner scanner = new Scanner(System.in);
+		inviteDeCommande.accept(scanner);
+
 		System.out.println("#### Fin ####");
 	}
-
-
 }
