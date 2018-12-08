@@ -189,7 +189,7 @@ public class Combat {
 	/**
 	 * Donne une représentation du combat
 	 */
-	public String getString() {
+	public String getString(Serialiseur serialiseur) {
 		StringBuilder s = new StringBuilder();
 		
 		if (this.bossBattle) {
@@ -203,7 +203,7 @@ public class Combat {
 		 .append(" ; EXP = ")
 		 .append(this.gainExp);
 
-		/*
+
 		for (int i = 0 ; i != monstres.length ; i++) {
 			if (monstres[i] == null)
 				continue;
@@ -211,9 +211,8 @@ public class Combat {
 			s.append("\n")
 			 .append(i)
 			 .append(";")
-			 .append(monstres[i].getString());
+			 .append(serialiseur.serialiserMonstre(monstres[i]));
 		}
-		*/
 
 		return s.toString();
 	}
@@ -231,11 +230,4 @@ public class Combat {
 	public String getCSV() {
 		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((bossBattle) ? "Boss" : "Non") + ";" + fonds;
 	}
-
-
-
-
-
-
-	
 }

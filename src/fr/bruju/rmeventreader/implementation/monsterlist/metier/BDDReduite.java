@@ -1,9 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -12,27 +9,19 @@ import fr.bruju.util.similaire.CollectorBySimilarity;
 
 /**
  * Base de données de monstres regroupant les monstres similaires en tout point minus le combat d'apparition
- * 
- * @author Bruju
- *
  */
 public class BDDReduite {
+	/** Objet permettant de représenter les monstres */
 	private final Serialiseur serialiseur;
-	/**
-	 * Association entre clés de monstre et liste des mosntres
-	 */
+	/** Association entre clés de monstre et liste des mosntres */
 	private Map<Key<Monstre>, List<Monstre>> monstreReduits;
 
-	/** Un monstre pris au hasard pour avoir accés au header de monstre */
-	private Monstre unMonstre;
-	
 	/**
 	 * Réduit la liste des monstres en monstres similaires
-	 * @param monstres
+	 * @param monstres Liste des monstres
+	 * @param serialiseur Objet de sérialisation des monstres
 	 */
 	public BDDReduite(Collection<Monstre> monstres, Serialiseur serialiseur) {
-		unMonstre = monstres.stream().findAny().get();
-
 		monstreReduits = monstres.stream()
 								.collect(new CollectorBySimilarity<>(Monstre::hasher, Monstre::sontSimilaires))
 								.getMap();
@@ -48,7 +37,7 @@ public class BDDReduite {
 	public String getCSV() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(serialiseur.getHeader())
+		sb.append(serialiseur.getEnTete())
 		  .append(";Combats")
 		  .append(";Zones");
 
@@ -56,27 +45,29 @@ public class BDDReduite {
 
 		monstreReduits.entrySet().stream().sorted(comparator).forEach(entry -> {
 			List<Monstre> mv = entry.getValue();
-					
-			
+
 			sb.append("\n");
-			sb.append(serialiseur.apply(mv.get(0)));
+			sb.append(serialiseur.serialiserMonstre(mv.get(0)));
 			
 			// Id de combats
-			sb.append(";[")
-			  .append(mv.stream()
-					    .map(monstre -> Integer.toString(monstre.getBattleId()))
-					    .collect(Collectors.joining(",")))
-			  .append("]");
-			
+			StringJoiner sj = new StringJoiner(",", ";[", "]");
+
+			for (Monstre monstre : mv) {
+				sj.add(Integer.toString(monstre.getBattleId()));
+			}
+
+			sb.append(sj);
+
 			// Zones d'apparitions
-			List<String> zonesDapparition = mv.stream().map(monstre -> monstre.combat.fonds)
-											.flatMap(Collection::stream)
-											.distinct()
-											.sorted()
-											.collect(Collectors.toList());
+			Set<String> zonesDapparition = new HashSet<>();
+
+			for (Monstre monstre : mv) {
+				for (String fond : monstre.combat.fonds) {
+					zonesDapparition.add(fond);
+				}
+			}
 			
 			sb.append(";").append(zonesDapparition);
-			
 		});
 
 		return sb.toString();

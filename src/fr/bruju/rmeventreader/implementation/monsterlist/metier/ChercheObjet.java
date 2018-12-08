@@ -1,66 +1,70 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ChercheObjet {
-	String resultat;
-	
-	public ChercheObjet(MonsterDatabase baseDeDonnees) {
-		resultat = baseDeDonnees.extractMonsters()
-					.stream()
-					.filter(monstre -> !monstre.nomDrop.equals(""))
-					.filter(monstre -> !monstre.nomDrop.equals(" "))
-					.flatMap(monstre -> monstre.combat.fonds.stream().map(zone -> new String[] {monstre.nomDrop, zone, monstre.nom}))
-					.map(Ensemble::new)
-					.sorted()
-					.distinct()
-					.map(Ensemble::toString)
-					.collect(Collectors.joining("\n"));
-	}
-	
-	public String toString() {
-		return resultat;
-	}
-	
-	
-	private static class Ensemble implements Comparable<Ensemble>{
-		
-		private String[] donnees;
 
-		public Ensemble(String[] donnees) {
-			this.donnees = donnees;
+	public static String chercheObjet(MonsterDatabase baseDeDonnees) {
+		return baseDeDonnees.extractMonsters()
+				.stream()
+				.filter(monstre -> !monstre.nomDrop.equals("") && !monstre.nom.equals(" "))
+				.flatMap(ChercheObjet::miseEnFluxDesDrop)
+				.sorted()
+				.distinct()
+				.map(Ensemble::toString)
+				.collect(Collectors.joining("\n"));
+	}
+
+	private static Stream<Ensemble> miseEnFluxDesDrop(Monstre monstre) {
+		return monstre.combat.fonds.stream().map(zone -> new Ensemble(monstre.nomDrop, zone, monstre.nom));
+	}
+
+	private static class Ensemble implements Comparable<Ensemble> {
+		private final String drop;
+		private final String zone;
+		private final String nom;
+
+		public Ensemble(String drop, String zone, String nom) {
+			this.drop = drop;
+			this.zone = zone;
+			this.nom = nom;
 		}
-		
+
 		public String toString() {
-			return donnees[0]+";"+donnees[1]+";"+donnees[2];
+			return drop + ";" + zone + ";" + nom;
 		}
-		
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			Ensemble ensemble = (Ensemble) o;
+			return Objects.equals(drop, ensemble.drop) &&
+					Objects.equals(zone, ensemble.zone) &&
+					Objects.equals(nom, ensemble.nom);
+		}
+
 		@Override
 		public int hashCode() {
-			return Arrays.deepHashCode(new Object[] { donnees });
-		}
-		
-		@Override
-		public boolean equals(Object object) {
-			if (object instanceof Ensemble) {
-				Ensemble that = (Ensemble) object;
-				return Arrays.deepEquals(this.donnees, that.donnees);
-			}
-			return false;
+			return Objects.hash(drop, zone, nom);
 		}
 
 		@Override
-		public int compareTo(Ensemble arg0) {
-			for (int i = 0 ; i != 3 ; i++) {
-				int cmp = donnees[i].compareTo(arg0.donnees[i]);
-				
-				if (cmp != 0) {
-					return cmp;
-				}
+		public int compareTo(Ensemble autre) {
+			int cmp;
+
+			if ((cmp = drop.compareTo(autre.drop)) != 0) {
+				return cmp;
 			}
-			
-			return 0;
+
+			if ((cmp = zone.compareTo(autre.zone)) != 0) {
+				return cmp;
+			}
+
+			return nom.compareTo(autre.nom);
 		}
 	}
 }

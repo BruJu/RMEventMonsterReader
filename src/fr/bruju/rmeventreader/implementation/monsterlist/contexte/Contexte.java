@@ -163,8 +163,4 @@ public class Contexte {
 
 		fonctionsDaffichage.put(nom, monstre -> (monstre.accessBool(nom) ? siVrai : siFaux));
 	}
-
-	public void ajouterReference(String nom, Function<Monstre, String> fonctionDaffichage) {
-		fonctionsDaffichage.put(nom, fonctionDaffichage);
-	}
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-import fr.bruju.rmeventreader.implementation.chercheurdevariables.BaseDeRecherche;
 import fr.bruju.rmeventreader.utilitaire.Utilitaire;
 import fr.bruju.rmeventreader.Parametre;
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.EnregistreurDeDrop;
@@ -90,7 +89,6 @@ public class ListeurDeMonstres implements Runnable {
 				() -> PROJET.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
 
 				// Elements
-
 				new ElementsInit(baseDeDonnees, ce),
 				() -> PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, ce), 277),
 				new ElementsFinalisation(baseDeDonnees, ce)
@@ -106,7 +104,7 @@ public class ListeurDeMonstres implements Runnable {
 
 		List<Combat> combatsAvecNomsInconnus = baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
 		if (!combatsAvecNomsInconnus.isEmpty()) {
-			combatsAvecNomsInconnus.forEach(battle -> System.out.println(battle.getString()));
+			combatsAvecNomsInconnus.forEach(battle -> System.out.println(battle.getString(baseDeDonnees.serialiseur)));
 			return null;
 		}
 
@@ -139,7 +137,7 @@ public class ListeurDeMonstres implements Runnable {
 			System.out.println(nouvelleBdd.getCSVRepresentationOfBattles());
 			break;
 		case 5:	// Affiche les objets - zone - monstres
-			System.out.println(new ChercheObjet(baseDeDonnees).toString());
+			System.out.println(ChercheObjet.chercheObjet(baseDeDonnees));
 			break;
 		case 6:
 			sauvegarder(baseDeDonnees);
@@ -167,7 +165,7 @@ public class ListeurDeMonstres implements Runnable {
 				"Reduite",
 				new BDDReduite(bdd.extractMonsters(), bdd.serialiseur).getCSV(),
 				"Drop",
-				new ChercheObjet(bdd).toString()
+				ChercheObjet.chercheObjet(bdd)
 		};
 		
 		
@@ -210,6 +208,7 @@ public class ListeurDeMonstres implements Runnable {
 				.stream()
 				.map(Motif::getChaineDeNonReconnaissance)
 				.collect(Collectors.joining("\n"));
+
 		if (!motifsNonReconnus.equals("")) {
 			System.out.println("== Motifs non reconnus ==");
 			System.out.println(motifsNonReconnus);

@@ -37,7 +37,6 @@ public class ElementsInit implements Runnable {
 	 * @param monstre Le monstre à initialiser
 	 */
 	private void initialiserMonstre(Monstre monstre) {
-
 		monstre.remplir(contexte.getElements(), 0);
 		monstre.remplir(contexte.getParties(), false);
 	}

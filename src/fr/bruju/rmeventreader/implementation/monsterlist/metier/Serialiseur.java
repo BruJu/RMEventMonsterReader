@@ -5,26 +5,45 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Function;
 
-public class Serialiseur implements Function<Monstre, String> {
-
-	private List<String> champs = new ArrayList<>();
-	private List<Function<Monstre, String>> lecteursDeChamp = new ArrayList<>();
-
-	public Serialiseur(Serialiseur serialiseur) {
-		champs.addAll(serialiseur.champs);
-		lecteursDeChamp.addAll(serialiseur.lecteursDeChamp);
-	}
+public class Serialiseur {
+	private List<String> champs;
+	private List<Function<Monstre, String>> lecteursDeChamp;
 
 	public Serialiseur() {
-
+		champs = new ArrayList<>();
+		lecteursDeChamp = new ArrayList<>();
 	}
+
+	public Serialiseur(Serialiseur serialiseur) {
+		champs = new ArrayList<>(serialiseur.champs);
+		lecteursDeChamp = new ArrayList<>(serialiseur.lecteursDeChamp);
+	}
+
+	/* =======================
+	 * MODIFICATION DES CHAMPS
+	 * ======================= */
 
 	public void ajouterChampALire(String nom, Function<Monstre, String> serialisation) {
 		champs.add(nom);
 		lecteursDeChamp.add(serialisation);
 	}
 
-	public String getHeader() {
+	public void supprimer(String champ) {
+		int index = champs.indexOf(champ);
+		champs.remove(index);
+		lecteursDeChamp.remove(index);
+	}
+
+
+	/* =========
+	 * AFFICHAGE
+	 * ========= */
+
+	/**
+	 * Donne la liste des noms des champs
+	 * @return La liste des champs séparés par un ;
+	 */
+	public String getEnTete() {
 		StringJoiner sj = new StringJoiner(";");
 
 		for (String champ : champs) {
@@ -34,9 +53,12 @@ public class Serialiseur implements Function<Monstre, String> {
 		return sj.toString();
 	}
 
-
-	@Override
-	public String apply(Monstre monstre) {
+	/**
+	 * Transforme un monstre en une chaîne le représentant
+	 * @param monstre Le monstre
+	 * @return Une représentation du monstre
+	 */
+	public String serialiserMonstre(Monstre monstre) {
 		StringJoiner sj = new StringJoiner(";");
 
 		for (Function<Monstre, String> serialisationPartielle : lecteursDeChamp) {
@@ -44,11 +66,5 @@ public class Serialiseur implements Function<Monstre, String> {
 		}
 
 		return sj.toString();
-	}
-
-	public void supprimer(String champ) {
-		int index = champs.indexOf(champ);
-		champs.remove(index);
-		lecteursDeChamp.remove(index);
 	}
 }

@@ -134,7 +134,7 @@ public class MonsterDatabase {
 		StringBuilder s = new StringBuilder();
 		
 		for (Combat combat : combats.values()) {
-			s.append("\n").append(combat.getString());
+			s.append("\n").append(combat.getString(serialiseur));
 		}
 		
 		return s.toString();
@@ -146,8 +146,10 @@ public class MonsterDatabase {
 	public String getCSVRepresentationOfBattles() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Combat.getCSVHeader());
-		
-		combats.values().forEach(combat -> sb.append("\n").append(combat.getCSV()));
+
+		for (Combat combat : combats.values()) {
+			sb.append("\n").append(combat.getCSV());
+		}
 		
 		return sb.toString();
 	}
@@ -158,11 +160,11 @@ public class MonsterDatabase {
 	public String getCSVRepresentationOfMonsters() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(serialiseur.getHeader());
+		sb.append(serialiseur.getEnTete());
 		
 		combats.values().stream()
 					.flatMap(Combat::getMonstersStream)
-					.forEach(monstre -> sb.append("\n").append(serialiseur.apply(monstre)));
+					.forEach(monstre -> sb.append("\n").append(serialiseur.serialiserMonstre(monstre)));
 		
 		return sb.toString();
 	}

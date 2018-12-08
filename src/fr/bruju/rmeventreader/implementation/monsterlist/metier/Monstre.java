@@ -2,9 +2,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-import java.util.StringJoiner;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import java.util.Objects;
 
@@ -142,13 +140,4 @@ public class Monstre {
 
 		return a.nom.equals(b.nom) && a.nomDrop.equals(b.nomDrop);
 	}
-
-	/* =============
-	 * AFFICHAGE CSV
-	 * ============= */
-
-	public String serialiser(Serialiseur serialiseur) {
-		return serialiseur.apply(this);
-	}
-
 }
