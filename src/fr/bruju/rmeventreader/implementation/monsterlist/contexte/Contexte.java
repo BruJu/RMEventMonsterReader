@@ -51,7 +51,7 @@ public class Contexte {
 	private List<String> proprietes;
 	/** Association nom de statistiques - numéros de variables */
 	private Map<String, int[]> variablesConcernees;
-
+	/** Liste des fonctions d'affichage avec une association nom du critère - affichage à produire */
 	private Map<String, Function<Monstre, String>> fonctionsDaffichage;
 
 
@@ -125,8 +125,10 @@ public class Contexte {
 		return variablesConcernees.get(nomStatistique);
 	}
 
-
-
+	/**
+	 * Ajoute l'ID du monstre à la liste des positions de variables connues
+	 * @param variables Un tableau contenant les variables donnant l'ID de chaque monstre
+	 */
 	private void ajouterID(int[] variables) {
 		this.statistiques.add("ID");
 
@@ -138,6 +140,11 @@ public class Contexte {
 		variablesConcernees.put("ID", variables);
 	}
 
+	/**
+	 * Ajoute une statistique représentée par une variable
+	 * @param variables Un tableau contenant la position des variables
+	 * @param nom Le nom de la statistique
+	 */
 	private void ajouterStatistiqueValuee(int[] variables, String nom) {
 		this.statistiques.add(nom);
 
@@ -150,7 +157,13 @@ public class Contexte {
 		fonctionsDaffichage.put(nom, monstre -> Integer.toString(monstre.accessInt(nom)));
 	}
 
-
+	/**
+	 * Ajoute une propriété (statistique représentée par un interrupteur)
+	 * @param variables La liste des interrupteurs représentant cette propriété
+	 * @param nom Le nom de la propriété
+	 * @param siVrai Affichage à produire si l'interrupteur est activé
+	 * @param siFaux Affichage à produire si l'interrupteur est désactivé
+	 */
 	private void ajouterPropriete(int[] variables, String nom, String siVrai, String siFaux) {
 		this.proprietes.add(nom);
 
