@@ -9,12 +9,14 @@ public class Magasin {
 	private String cheminMap;
 	private int niveauHoldup;
 	private Set<Objet> objets;
+	public final int variationPrix;
 	
-	public Magasin(int idMagasin, String cheminMap) {
+	public Magasin(int idMagasin, String cheminMap, int variationPrix) {
 		this.idMagasin = idMagasin;
 		this.cheminMap = cheminMap;
 		niveauHoldup = 0;
 		objets = new TreeSet<>();
+		this.variationPrix = variationPrix;
 	}
 
 	/**
@@ -26,6 +28,7 @@ public class Magasin {
 		this.idMagasin = source.idMagasin;
 		this.cheminMap = source.cheminMap;
 		niveauHoldup = source.niveauHoldup;
+		this.variationPrix = source.variationPrix;
 		objets = new TreeSet<>();
 	}
 
@@ -86,5 +89,23 @@ public class Magasin {
 
 	public Iterable<Objet> objetsVendus() {
 		return objets;
+	}
+
+	public static int transformerVariation(int variableDeBase) {
+		switch (variableDeBase) {
+			case 0:
+			case 1:
+				return 100;
+			case 2:
+				return 200;
+			case 15:
+				return 150;
+			case -2:
+				return 50;
+			case -15:
+				return 66;
+			default:
+				return variableDeBase;
+		}
 	}
 }

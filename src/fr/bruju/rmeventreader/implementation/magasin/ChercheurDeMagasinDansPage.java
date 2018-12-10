@@ -4,17 +4,20 @@ import java.util.Map;
 
 import fr.bruju.lcfreader.rmobjets.RMMap;
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
-import fr.bruju.rmdechiffreur.modele.ValeurDroiteVariable;
-import fr.bruju.rmdechiffreur.modele.ValeurGauche;
+import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;
+import fr.bruju.rmdechiffreur.modele.*;
 import fr.bruju.rmdechiffreur.modele.ExecEnum.Direction;
 import fr.bruju.rmdechiffreur.reference.ReferenceMap;
 
-public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
+public class ChercheurDeMagasinDansPage implements ExecuteurInstructions, ExtChangeVariable {
 	public static final int MAP_MAGASINS = 461;
 	public static final int VARIABLE_ID_MAGASIN = 1209;
+	public static final int VARIABLE_VARIATION_PRIX = 973;
+
 	private Map<Integer, Magasin> magasins;
 	private RMMap map;
 	private Integer magasinActuel;
+	private int derniereVariationPrix = 0;
 	private ReferenceMap ref;
 
 	public ChercheurDeMagasinDansPage(RMMap map, ReferenceMap ref, Map<Integer, Magasin> magasins) {
@@ -23,16 +26,31 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 		this.ref = ref;
 	}
 
+
 	@Override
-	public void Variables_affecterVariable(ValeurGauche valeurGauche, ValeurDroiteVariable valeurDroite) {
-		Boolean gaucheOk = valeurGauche.appliquerG(v -> v.idVariable == VARIABLE_ID_MAGASIN, null, null);
-		Integer droite = valeurDroite.appliquerDroite(v -> v.valeur, null, null);
-		
-		if (gaucheOk == Boolean.TRUE && droite != null) {
-			magasinActuel = droite;
+	public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
+		if (valeurGauche.idVariable == VARIABLE_ID_MAGASIN) {
+			magasinActuel = valeurDroite.valeur;
+		} else if (valeurGauche.idVariable == VARIABLE_VARIATION_PRIX) {
+			derniereVariationPrix = valeurDroite.valeur;
 		}
 	}
 
+	@Override
+	public int Flot_si(Condition condition) {
+		derniereVariationPrix = 0;
+		return 0;
+	}
+
+	@Override
+	public void Flot_siFin() {
+		derniereVariationPrix = 0;
+	}
+
+	@Override
+	public void Flot_siNon() {
+		derniereVariationPrix = 0;
+	}
 
 	@Override
 	public void Jeu_teleporter(int idMap, int x, int y, Direction direction) {
@@ -46,13 +64,16 @@ public class ChercheurDeMagasinDansPage implements ExecuteurInstructions {
 			System.out.println(map.nom());
 			System.out.println(ref.getString());
 		}
-		
-		if (magasins.containsKey(magasinActuel))
+
+		Magasin magasinExistant = magasins.get(magasinActuel);
+
+		int variationDePrixReel = Magasin.transformerVariation(derniereVariationPrix);
+
+		if (magasinExistant != null && variationDePrixReel >= magasinExistant.variationPrix) {
 			return;
-		
-		// System.out.println("Nouveau magasin : " + magasinActuel + " ; " + map.nom());
-		
-		magasins.put(magasinActuel, new Magasin(magasinActuel, map.nom()));
+		}
+
+		magasins.put(magasinActuel, new Magasin(magasinActuel, map.nom(), variationDePrixReel));
 	}
 
 	@Override

@@ -48,7 +48,13 @@ public class Menus {
 
 		menu.ajouterOption("Verificateur d'équipements", new Verificateur());
 		menu.ajouterOption("Chercheur de magasins", new ChercheurDeMagasins());
-		menu.ajouterOption("Chercheur de librairies", () -> MagasinDeStatistiques.afficherMagasinsDeStatistiques());
+
+
+		menu.ajouterOption("Chercheur de librairies", scanner -> {
+			System.out.print("Rechercher dans les cartes contenant : ");
+			MagasinDeStatistiques.afficherLivresAccessibles(scanner.nextLine().split(" "));
+		});
+
 		menu.ajouterOption("Formules des attaques", new Simplifieur());
 
 		menu.ajouterOption("Obtention d'objets", scanner -> {
