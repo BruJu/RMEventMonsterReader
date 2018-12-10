@@ -69,14 +69,7 @@ public class Correspondance implements Runnable {
 		}
 		
 		public RemplacementABaseDeFichier(String fichier) {
-			lireFichier(fichier);
-		}
-		
-		/**
-		 * Lit un fichier pour remplir les correspondances
-		 */
-		private void lireFichier(String chemin) {
-			LecteurDeFichiersLigneParLigne.lectureFichierRessources(chemin, line -> {
+			LecteurDeFichiersLigneParLigne.lectureFichierRessources(fichier, line -> {
 				String[] chaines = LecteurDeFichiersLigneParLigne.diviser(line, 2);
 
 				map.put(chaines[0], chaines[1]);

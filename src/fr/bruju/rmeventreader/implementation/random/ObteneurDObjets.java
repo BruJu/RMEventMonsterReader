@@ -6,12 +6,17 @@ import fr.bruju.rmdechiffreur.reference.ReferenceMap;
 import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.ObjetObtenu;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.magasin.Magasin;
+import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
+import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 import fr.bruju.rmeventreader.interfaceutilisateur.RechercheDansDictionnaire;
 import fr.bruju.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
@@ -40,7 +45,31 @@ public class ObteneurDObjets implements Runnable {
 
 		chercherAuSol(idObjet);
 		chercherDansUnMagasin(idObjet);
-		// TODO : Monstres
+		chercherUnObjetSurLesMonstres(objet.getRight());
+	}
+
+	private void chercherUnObjetSurLesMonstres(String objet) {
+		MonsterDatabase bdd = new ListeurDeMonstres(0).creerBaseDeDonnees();
+
+		if (bdd == null) {
+			return;
+		}
+
+		List<String> monstres = bdd.extractMonsters()
+				.stream()
+				.filter(monstre -> monstre.nomDrop.equals(objet))
+				.flatMap(monstre -> monstre.combat.fonds.stream().map(fond -> fond + " - " + monstre.nom))
+				.sorted()
+				.distinct()
+				.collect(Collectors.toList());
+
+		if (!monstres.isEmpty()) {
+			System.out.println("• Drop");
+
+			for (String monstre : monstres) {
+				System.out.println(monstre);
+			}
+		}
 	}
 
 	private void chercherDansUnMagasin(int idObjet) {
