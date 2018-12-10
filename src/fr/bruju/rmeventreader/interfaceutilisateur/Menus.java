@@ -6,6 +6,7 @@ import fr.bruju.rmeventreader.implementation.chercheurdevariables.module.*;
 import fr.bruju.rmeventreader.implementation.detectiondeformules.Simplifieur;
 import fr.bruju.rmeventreader.implementation.equipementchecker.Verificateur;
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
+import fr.bruju.rmeventreader.implementation.magasin.livre.MagasinDeStatistiques;
 import fr.bruju.rmeventreader.implementation.monsterlist.ListeurDeMonstres;
 import fr.bruju.rmeventreader.implementation.random.ObteneurDObjets;
 import fr.bruju.rmeventreader.implementation.random.AppelsDEvenements;
@@ -47,6 +48,7 @@ public class Menus {
 
 		menu.ajouterOption("Verificateur d'équipements", new Verificateur());
 		menu.ajouterOption("Chercheur de magasins", new ChercheurDeMagasins());
+		menu.ajouterOption("Chercheur de librairies", () -> MagasinDeStatistiques.afficherMagasinsDeStatistiques());
 		menu.ajouterOption("Formules des attaques", new Simplifieur());
 
 		menu.ajouterOption("Obtention d'objets", scanner -> {

@@ -45,10 +45,12 @@ public class ObteneurDObjets implements Runnable {
 
 		chercherAuSol(idObjet);
 		chercherDansUnMagasin(idObjet);
-		chercherUnObjetSurLesMonstres(objet.getRight());
+		chercherUnObjetSurLesMonstres(idObjet);
 	}
 
-	private void chercherUnObjetSurLesMonstres(String objet) {
+	private void chercherUnObjetSurLesMonstres(int idObjet) {
+		String nomObjet = PROJET.extraireObjet(idObjet);
+
 		MonsterDatabase bdd = new ListeurDeMonstres(0).creerBaseDeDonnees();
 
 		if (bdd == null) {
@@ -57,7 +59,7 @@ public class ObteneurDObjets implements Runnable {
 
 		List<String> monstres = bdd.extractMonsters()
 				.stream()
-				.filter(monstre -> monstre.nomDrop.equals(objet))
+				.filter(monstre -> monstre.nomDrop.equals(nomObjet))
 				.flatMap(monstre -> monstre.combat.fonds.stream().map(fond -> fond + " - " + monstre.nom))
 				.sorted()
 				.distinct()

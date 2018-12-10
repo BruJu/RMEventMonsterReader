@@ -1,5 +1,6 @@
 package fr.bruju.rmeventreader.implementation.magasin;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -15,7 +16,19 @@ public class Magasin {
 		niveauHoldup = 0;
 		objets = new TreeSet<>();
 	}
-	
+
+	/**
+	 * Crée un nouveau magasin possédant le même id, emplacement et niveau de hold up que le magasin source. Ne reprend
+	 * pas les objets vendus.
+	 * @param source Le magasin source
+	 */
+	public Magasin(Magasin source) {
+		this.idMagasin = source.idMagasin;
+		this.cheminMap = source.cheminMap;
+		niveauHoldup = source.niveauHoldup;
+		objets = new TreeSet<>();
+	}
+
 	public int getId() {
 		return idMagasin;
 	}
@@ -65,5 +78,13 @@ public class Magasin {
 
 	public String getLieu() {
 		return cheminMap;
+	}
+
+	public boolean vendUnObjet() {
+		return !objets.isEmpty();
+	}
+
+	public Iterable<Objet> objetsVendus() {
+		return objets;
 	}
 }
