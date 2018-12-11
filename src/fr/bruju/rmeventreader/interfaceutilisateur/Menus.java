@@ -82,6 +82,7 @@ public class Menus {
 		menu.ajouterOption("Apprentissage d'un sort", nombre("Personnage", "Sort", ApprentissageSort::new));
 		menu.ajouterOption("Augmentation de valeur de variables", nombres("Variables à chercher", DoubleVariableAjoute::new));
 		menu.ajouterOption("Appel à un évènement commun sans maj de variable", nombre("Variable", "Evenement", ModifVariablePuisAppelEvenement::new));
+		menu.ajouterOption("Argent", bdr(GainDArgent::new));
 
 		return menu;
 	}
