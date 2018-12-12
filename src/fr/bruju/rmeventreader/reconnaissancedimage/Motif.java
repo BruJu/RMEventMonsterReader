@@ -59,7 +59,7 @@ public class Motif {
 	 * Crée un motif à partir de sa sérialisation (Symbole Nombres_Constituant_Sa_Représentation_Numériqueà
 	 * @param serialisation La sérialisation du motif
 	 */
-	private Motif(String serialisation) {
+	public Motif(String serialisation) {
 		Scanner scanner = new Scanner(serialisation);
 		lettre = scanner.next();
 		composition = lireTousLesNombres(scanner);

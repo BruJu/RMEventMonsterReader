@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 /**
  * Représentation simplifiée de l'image
  */
-class MatricePixels {
+public class MatricePixels {
 	/** Hauteur de l'image */
 	public final int hauteur;
 

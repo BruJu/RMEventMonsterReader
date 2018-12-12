@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Cette classe recherche des motifs dans une matrice de pixels
  */
-class ChercheurDeMotifs {
+public class ChercheurDeMotifs {
 	/** Nombre de colonnes vides consécutives à lire pour afficher un espace */
 	private static final int LARGEUR_ESPACE = 4;
 
