@@ -11,22 +11,6 @@ import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
  * Motif preexistant
  */
 public class Motif {
-	/* =================================
-	 * IDENTIFICATION DE TOUS LES MOTIFS
-	 * ================================= */
-	
-	/** Chemin vers la liste des motifs connus */
-	private static final String CHEMIN_MOTIFS_CONNUS = "metaressources/ocr/motifsconnus.txt";
-
-	/**
-	 * Renvoie la liste des motifs déjà connus, qui sont dans metaressources/ocr/motifsconnus.txt
-	 */
-	static List<Motif> listerLesMotifs() {
-		List<Motif> motifs = LecteurDeFichiersLigneParLigne.listerRessources(CHEMIN_MOTIFS_CONNUS, Motif::new);
-		return motifs == null ? new ArrayList<>() : motifs;
-	}
-	
-
 	/* ===========
 	 * OBJET MOTIF
 	 * =========== */

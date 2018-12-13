@@ -1,4 +1,9 @@
-package fr.bruju.rmeventreader.reconnaissancedimage;
+package fr.bruju.rmeventreader.implementation.monsterlist;
+
+import fr.bruju.rmeventreader.reconnaissancedimage.ChercheurDeMotifs;
+import fr.bruju.rmeventreader.reconnaissancedimage.MatricePixels;
+import fr.bruju.rmeventreader.reconnaissancedimage.Motif;
+import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,7 +54,7 @@ public class ReconnaisseurDImages {
 	public ReconnaisseurDImages(String dossier) {
 		this.dossier = dossier;
 		chainesReconnues = new HashMap<>();
-		motifs = Motif.listerLesMotifs();
+		motifs = listerLesMotifs();
 	}
 
 	/**
@@ -124,4 +129,20 @@ public class ReconnaisseurDImages {
 	public List<Motif> getMotifsInconnus() {
 		return motifsInconnus;
 	}
+
+	/* =================================
+	 * IDENTIFICATION DE TOUS LES MOTIFS
+	 * ================================= */
+
+	/** Chemin vers la liste des motifs connus */
+	private static final String CHEMIN_MOTIFS_CONNUS = "metaressources/ocr/motifsconnus.txt";
+
+	/**
+	 * Renvoie la liste des motifs déjà connus, qui sont dans metaressources/ocr/motifsconnus.txt
+	 */
+	static List<Motif> listerLesMotifs() {
+		List<Motif> motifs = LecteurDeFichiersLigneParLigne.listerRessources(CHEMIN_MOTIFS_CONNUS, Motif::new);
+		return motifs == null ? new ArrayList<>() : motifs;
+	}
+
 }

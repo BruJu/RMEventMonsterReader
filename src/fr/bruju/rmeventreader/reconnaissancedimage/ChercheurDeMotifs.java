@@ -38,8 +38,7 @@ public class ChercheurDeMotifs {
 
 	/**
 	 * Permet d'obtenir une chaîne représentant le texte décrit par les pixels
-	 * 
-	 * @param motifs La liste des motifs connus
+	 *
 	 * @return Une chaine avec l'enchaînement des motifs reconnus
 	 */
 	public String reconnaitre() {
