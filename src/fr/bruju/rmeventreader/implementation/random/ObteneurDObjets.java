@@ -23,16 +23,9 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
 /**
  * Ce module a pour but de permettre la recherche d'objets
  */
-public class ObteneurDObjets implements Runnable {
-	private final String saisie;
+public class ObteneurDObjets {
 
-	public ObteneurDObjets(String saisie) {
-		this.saisie = saisie;
-	}
-
-
-	@Override
-	public void run() {
+	public static void trouverUnObjet(String saisie) {
 		Pair<Integer, String> objet = RechercheDansDictionnaire.objetUnique(saisie);
 
 		if (objet == null) {
@@ -48,7 +41,7 @@ public class ObteneurDObjets implements Runnable {
 		chercherUnObjetSurLesMonstres(idObjet);
 	}
 
-	private void chercherUnObjetSurLesMonstres(int idObjet) {
+	private static void chercherUnObjetSurLesMonstres(int idObjet) {
 		String nomObjet = PROJET.extraireObjet(idObjet);
 
 		MonsterDatabase bdd = new ListeurDeMonstres(0).creerBaseDeDonnees();
@@ -74,7 +67,7 @@ public class ObteneurDObjets implements Runnable {
 		}
 	}
 
-	private void chercherDansUnMagasin(int idObjet) {
+	private static void chercherDansUnMagasin(int idObjet) {
 		ChercheurDeMagasins chercheur = new ChercheurDeMagasins();
 		chercheur.chercher();
 		List<Magasin> magasins = chercheur.obtenirTousLesMagasinsPossedant(idObjet);
@@ -87,7 +80,7 @@ public class ObteneurDObjets implements Runnable {
 		}
 	}
 
-	public void chercherAuSol(int idObjet) {
+	public static void chercherAuSol(int idObjet) {
 		ObjetObtenu rechercheSurCarte = new ObjetObtenu(idObjet);
 		rechercheSurCarte.chercher();
 		Set<Reference> donnes = rechercheSurCarte.getReferences();

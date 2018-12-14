@@ -26,7 +26,6 @@ import java.util.function.Supplier;
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class Menus {
-
 	public static Menu creerMenuGeneral() {
 		Menu menu = new Menu("RMEventReader");
 
@@ -41,26 +40,23 @@ public class Menus {
 		// Outils développés spécifiquement pour un cas particulier
 		menu.ajouterOption("======= Outils spécifiques à un jeu =======", Menus::messageSeparateur);
 		menu.ajouterOption("Liste des monstres", new InviteDeCommande(creerMenuListeurDeMonstres()));
-		menu.ajouterOption("Recherche de monstres", scanner -> {
-			System.out.print("Rechercher dans les cartes contenant : ");
-			new ListeurDeMonstresDansUneZone().afficherMonstresDansUneZone(scanner.nextLine());
-		});
+		menu.ajouterOption("Recherche de monstres",
+				menuATexte("Rechercher dans les cartes contenant : ",
+						chaine -> new ListeurDeMonstresDansUneZone().afficherMonstresDansUneZone(chaine)));
+
 
 		menu.ajouterOption("Verificateur d'équipements", new Verificateur());
 		menu.ajouterOption("Chercheur de magasins", new ChercheurDeMagasins());
 
 
-		menu.ajouterOption("Chercheur de librairies", scanner -> {
-			System.out.print("Rechercher dans les cartes contenant : ");
-			MagasinDeStatistiques.afficherLivresAccessibles(scanner.nextLine().split(" "));
-		});
+		menu.ajouterOption("Chercheur de librairies",
+				menuATexte("Rechercher dans les cartes contenant : ",
+						chaine -> MagasinDeStatistiques.afficherLivresAccessibles(chaine.split(" "))));
 
 		menu.ajouterOption("Formules des attaques", new Simplifieur());
 
-		menu.ajouterOption("Obtention d'objets", scanner -> {
-			System.out.print("Objet recherché : ");
-			new ObteneurDObjets(scanner.nextLine()).run();
-		});
+		menu.ajouterOption("Obtention d'objets",
+				menuATexte("Objet recherché : ", ObteneurDObjets::trouverUnObjet));
 
 		return menu;
 	}
@@ -85,6 +81,13 @@ public class Menus {
 		menu.ajouterOption("Argent", bdr(GainDArgent::new));
 
 		return menu;
+	}
+
+	private static Consumer<Scanner> menuATexte(String texteAffiche, Consumer<String> consumer) {
+		return scanner -> {
+			System.out.print(texteAffiche);
+			consumer.accept(scanner.nextLine());
+		};
 	}
 
 	private static Consumer<Scanner> bdr(Supplier<BaseDeRecherche> supplier) {
