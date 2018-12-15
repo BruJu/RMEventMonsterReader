@@ -46,9 +46,8 @@ public class Menus {
 
 
 		menu.ajouterOption("Verificateur d'équipements", new Verificateur());
-		menu.ajouterOption("Chercheur de magasins", new ChercheurDeMagasins());
-
-
+		menu.ajouterOption("Liste des magasins", new ChercheurDeMagasins());
+		menu.ajouterOption("Liste des librairies", () -> MagasinDeStatistiques.afficherMagasinsDeStatistiques());
 		menu.ajouterOption("Chercheur de librairies",
 				menuATexte("Rechercher dans les cartes contenant : ",
 						chaine -> MagasinDeStatistiques.afficherLivresAccessibles(chaine.split(" "))));
