@@ -1,8 +1,8 @@
 package fr.bruju.rmeventreader.implementation.monsterlist;
 
-import fr.bruju.rmeventreader.reconnaissancedimage.ChercheurDeMotifs;
-import fr.bruju.rmeventreader.reconnaissancedimage.MatricePixels;
-import fr.bruju.rmeventreader.reconnaissancedimage.Motif;
+import fr.bruju.util.reconnaissancedimage.ChercheurDeMotifs;
+import fr.bruju.util.reconnaissancedimage.MatricePixels;
+import fr.bruju.util.reconnaissancedimage.Motif;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
 import java.io.FileNotFoundException;

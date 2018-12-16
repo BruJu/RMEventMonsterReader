@@ -28,7 +28,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.ChercheObjet;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Combat;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
-import fr.bruju.rmeventreader.reconnaissancedimage.Motif;
+import fr.bruju.util.reconnaissancedimage.Motif;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
