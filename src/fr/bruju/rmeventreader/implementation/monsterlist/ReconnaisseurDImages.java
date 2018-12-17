@@ -21,16 +21,11 @@ import java.util.stream.Collectors;
  * <p>
  * <p>
  * Usage à partir d'une MonsterDatabase nommée db pour obtenir le fichier avec la liste des noms des monstres
- * <p>
- * <code>
- * List<String> nomDesImages = new ArrayList<>();
- * db.extractMonsters().forEach(m -> nomDesImages.add(m.getNom()));
- * BuildingMotifs chercheurDeMotifs = new BuildingMotifs(nomDesImages);
- * chercheurDeMotifs.lancer();
- * chercheurDeMotifs.getMap().forEach( (cle, valeur) -> System.out.println(cle + " " + valeur));
- * </code>
  */
 public class ReconnaisseurDImages {
+	/** Chemin vers la liste des motifs connus */
+	private static final String CHEMIN_MOTIFS_CONNUS = "metaressources/ocr/motifsconnus.txt";
+
 	/** Extension des fichiers image */
 	private static final String CHEMIN_SUFFIXE = ".PNG";
 	
@@ -46,19 +41,27 @@ public class ReconnaisseurDImages {
 	private final String dossier;
 	
 	/** Motifs connus */
-	List<Motif> motifs;
+	private List<Motif> motifs;
 	
 	/** Liste des motifs non reconnus */
-	List<Motif> motifsInconnus = new ArrayList<>();
-	
+	private List<Motif> motifsInconnus = new ArrayList<>();
+
+	/**
+	 * Crée un reconnaisseur de nom de monstres en utilisant les images contenues dans le dossier spécifié
+	 * @param dossier Le dossier contenant les images décrivant les noms des monstres
+	 */
 	public ReconnaisseurDImages(String dossier) {
 		this.dossier = dossier;
-		chainesReconnues = new HashMap<>();
-		motifs = listerLesMotifs();
+		this.chainesReconnues = new HashMap<>();
+
+		this.motifs = LecteurDeFichiersLigneParLigne.listerRessources(CHEMIN_MOTIFS_CONNUS, Motif::new);
+		if (this.motifs == null) {
+			this.motifs = new ArrayList<>();
+		}
 	}
 
 	/**
-	 * Tente d'identifier les lettres écrites sur l'image
+	 * Tente d'identifier les lettres écrites sur l'image, et ajoute le nom du monstre à la base de connaissances
 	 * @param nomImage Le nom de l'image
 	 */
 	public void identifier(String nomImage) {
@@ -88,7 +91,15 @@ public class ReconnaisseurDImages {
 
 		chainesReconnues.put(nomImage, nomIdentifie);
 	}
-	
+
+	/**
+	 * Donne la liste des motifs inconnus
+	 * @return La liste des motifs inconnus
+	 */
+	public List<Motif> getMotifsInconnus() {
+		return motifsInconnus;
+	}
+
 	/**
 	 * Donne la liste de tous les noms identifiés avec le nom qui a été lu
 	 * @return Une liste de toutes les images identifiés avec la chaîne lue
@@ -125,24 +136,4 @@ public class ReconnaisseurDImages {
 		
 		return sb.toString();
 	}
-	
-	public List<Motif> getMotifsInconnus() {
-		return motifsInconnus;
-	}
-
-	/* =================================
-	 * IDENTIFICATION DE TOUS LES MOTIFS
-	 * ================================= */
-
-	/** Chemin vers la liste des motifs connus */
-	private static final String CHEMIN_MOTIFS_CONNUS = "metaressources/ocr/motifsconnus.txt";
-
-	/**
-	 * Renvoie la liste des motifs déjà connus, qui sont dans metaressources/ocr/motifsconnus.txt
-	 */
-	static List<Motif> listerLesMotifs() {
-		List<Motif> motifs = LecteurDeFichiersLigneParLigne.listerRessources(CHEMIN_MOTIFS_CONNUS, Motif::new);
-		return motifs == null ? new ArrayList<>() : motifs;
-	}
-
 }
