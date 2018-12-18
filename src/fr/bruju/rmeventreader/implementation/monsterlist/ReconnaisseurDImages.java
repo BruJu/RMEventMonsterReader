@@ -5,6 +5,10 @@ import fr.bruju.util.reconnaissancedimage.MatricePixels;
 import fr.bruju.util.reconnaissancedimage.Motif;
 import fr.bruju.rmeventreader.utilitaire.LecteurDeFichiersLigneParLigne;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,7 +79,7 @@ public class ReconnaisseurDImages {
 		MatricePixels matrice;
 
 		try {
-			matrice = MatricePixels.lireImage(chemin);
+			matrice = lireImage(chemin);
 			nomIdentifie = new ChercheurDeMotifs(matrice, motifs, motifsInconnus).reconnaitre();
 			
 			if (nomIdentifie == null) {
@@ -135,5 +139,34 @@ public class ReconnaisseurDImages {
 		}
 		
 		return sb.toString();
+	}
+
+	/**
+	 * Lit l'image donnée et reconnait les pixels qui sont allumés. Un pixel est considéré comme allumé si sa composante
+	 * de rouge est supérieure à 50
+	 *
+	 * @param chemin Le chemin vers l'image
+	 * @return Un objet contenant une matrice avec les pixels allumés
+	 * @throws IOException
+	 */
+	public static MatricePixels lireImage(String chemin) throws IOException {
+		File file = new File(chemin);
+
+		BufferedImage image = ImageIO.read(file);
+
+		int hauteur = image.getHeight();
+		int longueur = image.getWidth();
+
+		boolean[][] pixelsAllumes = new boolean[longueur][hauteur];
+
+		for (int x = 0; x != longueur; x++) {
+			for (int y = 0; y != hauteur; y++) {
+				Color color = new Color(image.getRGB(x, y));
+
+				pixelsAllumes[x][y] = color.getRed() > 50;
+			}
+		}
+
+		return new MatricePixels(hauteur, longueur, pixelsAllumes);
 	}
 }
