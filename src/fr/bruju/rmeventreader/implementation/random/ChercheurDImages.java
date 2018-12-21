@@ -3,6 +3,7 @@ package fr.bruju.rmeventreader.implementation.random;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
@@ -58,8 +59,13 @@ public class ChercheurDImages implements Runnable {
 	 * @param utilisations La liste des évènements l'utilisant
 	 */
 	private void afficherUneUtilisationDImage(Integer idImg, Set<EvenementLu> utilisations) {
-		String texte = idImg + ":" + utilisations.stream().map(EvenementLu::toString).collect(Collectors.joining(","));
-		System.out.println(texte);
+		StringJoiner sj = new StringJoiner(",");
+
+		for (EvenementLu utilisation : utilisations) {
+			sj.add(utilisation.toString());
+		}
+		
+		System.out.println(idImg + ":" + sj.toString());
 	}
 	
 	/** Représente les données qui seront affichées poru un évènement */
