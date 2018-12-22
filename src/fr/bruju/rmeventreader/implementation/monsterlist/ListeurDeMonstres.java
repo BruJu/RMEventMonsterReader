@@ -188,12 +188,18 @@ public class ListeurDeMonstres implements Runnable {
 		}
 		
 		System.out.println("== Des monstres n'ont pas été reconnus ==");
-		monstresInconnus.forEach(monstre -> System.out.println(monstre.nom));
+		for (Monstre monstre : monstresInconnus) {
+			System.out.println(monstre.nom);
+		}
+
 		System.out.println();
 		
 		
 		ReconnaisseurDImages chercheurDeMotifs = new ReconnaisseurDImages(Parametre.get("DOSSIER") + "Picture\\");
-		monstresInconnus.stream().map(monstre -> monstre.nom).forEach(chercheurDeMotifs::identifier);
+
+		for (Monstre monstre : monstresInconnus) {
+			chercheurDeMotifs.identifier(monstre.nom);
+		}
 		
 		
 		String nomEnErreurs = chercheurDeMotifs.listeLesErreurs();

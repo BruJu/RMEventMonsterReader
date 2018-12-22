@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 import fr.bruju.lcfreader.rmobjets.RMEvenement;
 import fr.bruju.lcfreader.rmobjets.RMPage;
@@ -64,7 +63,7 @@ public class ChercheurDImages implements Runnable {
 		for (EvenementLu utilisation : utilisations) {
 			sj.add(utilisation.toString());
 		}
-		
+
 		System.out.println(idImg + ":" + sj.toString());
 	}
 	
