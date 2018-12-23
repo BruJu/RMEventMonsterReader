@@ -10,34 +10,11 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class ElementsInit implements Runnable {
-	/** La base de données */
-	private MonsterDatabase bdd;
-
-	/** Contexte élémentaire (contient les associations nom - id variable par exemple */
-	private ContexteElementaire contexte;
-	
-	/**
-	 * Crée une instance de la classe
-	 * @param db La base de données
-	 */
-	public ElementsInit(MonsterDatabase bdd, ContexteElementaire contexte) {
-		this.bdd = bdd;
-		this.contexte = contexte;
-	}
-
-	
-	@Override
-	public void run() {
-		bdd.extractMonsters().forEach(this::initialiserMonstre);
-	}
-	
-	/**
-	 * Initialise les données qui seront enregistrées
-	 * @param monstre Le monstre à initialiser
-	 */
-	private void initialiserMonstre(Monstre monstre) {
-		monstre.remplir(contexte.getElements(), 0);
-		monstre.remplir(contexte.getParties(), false);
+public class ElementsInit {
+	public static void initialiserElements(MonsterDatabase bdd, ContexteElementaire contexte) {
+		bdd.extractMonsters().forEach(monstre -> {
+			monstre.remplir(contexte.getElements(), 0);
+			monstre.remplir(contexte.getParties(), false);
+		});
 	}
 }

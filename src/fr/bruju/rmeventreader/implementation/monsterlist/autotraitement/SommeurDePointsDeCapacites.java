@@ -10,21 +10,8 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class SommeurDePointsDeCapacites implements Runnable {
-	/** La base de données */
-	private MonsterDatabase db;
-
-	/**
-	 * Crée un sommeur de points de capacités pour la base de données donnée
-	 * 
-	 * @param db La base de donnée
-	 */
-	public SommeurDePointsDeCapacites(MonsterDatabase db) {
-		this.db = db;
-	}
-
-	@Override
-	public void run() {
+public class SommeurDePointsDeCapacites {
+	public static void sommer(MonsterDatabase db) {
 		db.extractBattles().forEach(battle -> battle.getMonstersStream().forEach(m -> {
 			battle.addGainCapa(m.accessInt("Capacité"));
 		}));

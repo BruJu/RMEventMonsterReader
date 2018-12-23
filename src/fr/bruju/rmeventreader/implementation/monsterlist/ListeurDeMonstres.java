@@ -33,8 +33,6 @@ import fr.bruju.util.reconnaissancedimage.Motif;
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 public class ListeurDeMonstres implements Runnable {
-	/** Variables où se situent les statistiques des monstres + autres positions de variables */
-	public static final String PARAMETRES = "ressources/ListeurDeMonstres_Parametres.txt";
 	/** Nom des éléments et des parties du corps */
 	public static final String ELEMENTS   = "ressources/ListeurDeMonstres_Elements.txt";
 	/** Correspondance id du fond - nom du lieu */
@@ -71,31 +69,25 @@ public class ListeurDeMonstres implements Runnable {
 			return sj.toString();
 		});
 
-		// Base de données des monstres
+		// Remplisssage de la bdd
 
-		Runnable[] listeDesActions = new Runnable[] {
-				() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1),
-				() -> PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1),
-				() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1),
-				() -> PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1),
-				new Correcteur(baseDeDonnees, CORRECTION),
-				() -> PROJET.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1),
-				() -> PROJET.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1),
-				new Correspondance(baseDeDonnees, Correspondance.fond(ZONES)),
-				new Correspondance(baseDeDonnees, Correspondance.nom(MONSTRES)),
-				new Correspondance(baseDeDonnees, Correspondance.drop()),
-				new SommeurDePointsDeCapacites(baseDeDonnees),
-				() -> PROJET.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44),
+		PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1);
+		PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1);
+		PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1);
+		PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1);
+		Correcteur.corrigerBDD(baseDeDonnees, CORRECTION);
+		PROJET.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1);
+		PROJET.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1);
+		Correspondance.fond(ZONES).appliquer(baseDeDonnees);
+		Correspondance.nom(MONSTRES).appliquer(baseDeDonnees);
+		Correspondance.drop().appliquer(baseDeDonnees);
+		SommeurDePointsDeCapacites.sommer(baseDeDonnees);
+		PROJET.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44);
+		ElementsInit.initialiserElements(baseDeDonnees, ce);
+		PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, ce), 277);
+		ElementsFinalisation.finaliser(baseDeDonnees, ce);
 
-				// Elements
-				new ElementsInit(baseDeDonnees, ce),
-				() -> PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, ce), 277),
-				new ElementsFinalisation(baseDeDonnees, ce)
-		};
-
-		for (Runnable action : listeDesActions) {
-			action.run();
-		}
+		// Noms de monstres manquants
 
 		if (nomsDeMonstresManquant(baseDeDonnees)) {
 			return null;

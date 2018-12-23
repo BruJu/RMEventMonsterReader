@@ -11,41 +11,18 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  * @author Bruju
  *
  */
-public class ElementsFinalisation implements Runnable {
-	/** La base de données */
-	private MonsterDatabase bdd;
+public class ElementsFinalisation {
+	public static void finaliser(MonsterDatabase bdd, ContexteElementaire contexte) {
+		bdd.extractMonsters().forEach(monstre -> {
+			int bonus = monstre.accessInt("Niveau") / 7 * 5;
 
-	/** Contexte élémentaire (contient les associations nom - id variable par exemple */
-	private ContexteElementaire contexte;
+			monstre.modifier("Physique", v -> v + bonus / 2);
 
-	/**
-	 * Crée une instance de la classe
-	 * @param db La base de données
-	 */
-	public ElementsFinalisation(MonsterDatabase bdd, ContexteElementaire contexte) {
-		this.bdd = bdd;
-		this.contexte = contexte;
-	}
-
-	@Override
-	public void run() {
-		bdd.extractMonsters().forEach(this::finaliserMonstre);
-	}
-
-	/**
-	 * Finalise le monstre en appliquant les modifications faites à la fin pour réhausser les résistances selon le
-	 * niveau.
-	 * @param monstre Le monstre à modifier
-	 */
-	private void finaliserMonstre(Monstre monstre) {
-		int bonus = monstre.accessInt("Niveau") / 7 * 5;
-
-		monstre.modifier("Physique", v -> v + bonus / 2);
-
-		for (String element : contexte.getElements()) {
-			if (!element.equals("Physique")) {
-				monstre.modifier(element, v -> v + bonus);
+			for (String element : contexte.getElements()) {
+				if (!element.equals("Physique")) {
+					monstre.modifier(element, v -> v + bonus);
+				}
 			}
-		}
+		});
 	}
 }

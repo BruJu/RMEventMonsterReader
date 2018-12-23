@@ -18,35 +18,12 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
  * @author Bruju
  *
  */
-public class Correspondance implements Runnable {
-	/**
-	 * Base de données
-	 */
-	private MonsterDatabase database;
+public class Correspondance {
 
-	/**
-	 * Fonctions de remplacement
-	 */
-	private Remplaceur<?> remplaceur;
-
-
-	/**
-	 * Construit une action dont le but sera de remplacer des données dans la base de données en fonction du remplaceur
-	 * et avec les données fournies par le fichier filename
-	 * 
-	 * @param database La base de données
-	 * @param remplaceur Les fonctions de remplacement
-	 */
-	public Correspondance(MonsterDatabase database, Remplaceur<?> remplaceur) {
-		this.database = database;
-		this.remplaceur = remplaceur;
-	}
-
-	@Override
-	public void run() {
+	public static void remplacer(MonsterDatabase database, Remplaceur<?> remplaceur) {
 		remplaceur.appliquer(database);
 	}
-	
+
 
 	/**
 	 * Classe permettant de remplacer des données dans les monstres
