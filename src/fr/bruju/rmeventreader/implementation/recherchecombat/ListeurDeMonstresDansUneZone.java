@@ -71,9 +71,7 @@ public class ListeurDeMonstresDansUneZone {
 	 * @return La liste des monstres dans ces combats
 	 */
 	private Set<MonstreSimplifie> extraireMonstres(Set<Integer> idDeCombat) {
-		ListeurDeMonstres listeur = new ListeurDeMonstres(0);
-
-		MonsterDatabase bdd = listeur.creerBaseDeDonnees();
+		MonsterDatabase bdd = ListeurDeMonstres.creerBaseDeDonnees();
 
 		if (bdd == null) { // TODO : un meilleur traitement des erreurs
 			return new TreeSet<>();

@@ -48,7 +48,7 @@ public class ListeurDeMonstres implements Runnable {
 	}
 
 
-	public MonsterDatabase creerBaseDeDonnees() {
+	public static MonsterDatabase creerBaseDeDonnees() {
 		// Contexte général
 		Contexte contexte = new Contexte();
 
@@ -98,9 +98,15 @@ public class ListeurDeMonstres implements Runnable {
 			return null;
 		}
 
-		List<Combat> combatsAvecNomsInconnus = baseDeDonnees.trouverLesCombatsAvecDesNomsInconnus();
-		if (!combatsAvecNomsInconnus.isEmpty()) {
-			combatsAvecNomsInconnus.forEach(battle -> System.out.println(battle.getString(baseDeDonnees.serialiseur)));
+		List<Monstre> monstresAvecDesNomsInconnus = baseDeDonnees.trouverLesMonstresAvecDesNomsInconnus();
+
+		if (!monstresAvecDesNomsInconnus.isEmpty()) {
+			System.out.println("Des monstres ont des noms inconnus");
+
+			for (Monstre monstre : monstresAvecDesNomsInconnus) {
+				System.out.println(baseDeDonnees.serialiseur.serialiserMonstre(monstre));
+			}
+
 			return null;
 		}
 

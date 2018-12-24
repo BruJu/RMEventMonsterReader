@@ -44,7 +44,7 @@ public class ObteneurDObjets {
 	private static void chercherUnObjetSurLesMonstres(int idObjet) {
 		String nomObjet = PROJET.extraireObjet(idObjet);
 
-		MonsterDatabase bdd = new ListeurDeMonstres(0).creerBaseDeDonnees();
+		MonsterDatabase bdd = ListeurDeMonstres.creerBaseDeDonnees();
 
 		if (bdd == null) {
 			return;

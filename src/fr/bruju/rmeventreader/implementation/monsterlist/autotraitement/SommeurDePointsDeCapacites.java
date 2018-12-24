@@ -12,8 +12,15 @@ import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
  */
 public class SommeurDePointsDeCapacites {
 	public static void sommer(MonsterDatabase db) {
-		db.extractBattles().forEach(battle -> battle.getMonstersStream().forEach(m -> {
-			battle.addGainCapa(m.accessInt("Capacité"));
-		}));
+
+		for (Combat combat : db.extractBattles()) {
+			int total = 0;
+
+			for (Monstre monstre : combat) {
+				total += monstre.accessInt("Capacité");
+			}
+
+			combat.addGainCapa(total);
+		}
 	}
 }

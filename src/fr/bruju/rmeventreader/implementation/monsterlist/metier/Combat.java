@@ -1,9 +1,6 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
@@ -16,7 +13,7 @@ import fr.bruju.util.Pair;
  * @author Bruju
  *
  */
-public class Combat {
+public class Combat implements Iterable<Monstre> {
 	public static final int NOMBRE_DE_MONSTRES = 3;
 	
 	/* =========
@@ -79,12 +76,28 @@ public class Combat {
 		
 		return monstres[position];
 	}
-	
-	/**
-	 * Donne un flux de monstres contenant la liste des monstres de ce combat
-	 */
-	public Stream<Monstre> getMonstersStream() {
-		return Arrays.stream(monstres).filter(Objects::nonNull);
+
+	@Override
+	public Iterator<Monstre> iterator() {
+		return new MonstreIterator();
+	}
+
+	private class MonstreIterator implements Iterator<Monstre> {
+		int i = 0;
+
+		@Override
+		public boolean hasNext() {
+			while (i != 3 && monstres[i] == null) {
+				i++;
+			}
+
+			return i != 3;
+		}
+
+		@Override
+		public Monstre next() {
+			return monstres[i];
+		}
 	}
 
 	/**
@@ -203,7 +216,6 @@ public class Combat {
 		 .append(" ; EXP = ")
 		 .append(this.gainExp);
 
-
 		for (int i = 0 ; i != monstres.length ; i++) {
 			if (monstres[i] == null)
 				continue;
@@ -230,4 +242,5 @@ public class Combat {
 	public String getCSV() {
 		return id + ";" + this.gainExp + ";" + this.gainCapa + ";" + ((bossBattle) ? "Boss" : "Non") + ";" + fonds;
 	}
+
 }

@@ -79,7 +79,15 @@ public class MonsterDatabase {
 	 * Donne la liste de tous les monstres de la base de données
 	 */
 	public Collection<Monstre> extractMonsters() {
-		return combats.values().stream().flatMap(Combat::getMonstersStream).collect(Collectors.toList());
+		List<Monstre> monstres = new ArrayList<>();
+
+		for (Combat combat : combats.values()) {
+			for (Monstre monstre : combat) {
+				monstres.add(monstre);
+			}
+		}
+
+		return monstres;
 	}
 
 	/* ======
@@ -110,15 +118,18 @@ public class MonsterDatabase {
 	 * ======= */
 	
 	/**
-	 * Affiche dans la console la liste des combats avec des monstres sans nom
-	 * @return 
+	 * Donne la liste des monstres dont le nom est UNKNOWN_NAME
 	 */
-	public List<Combat> trouverLesCombatsAvecDesNomsInconnus() {
-		return extractBattles()
-						.stream()
-						.filter(battle -> battle.getMonstersStream()
-							                 	.anyMatch(m -> m.nom.equals("UNKNOWN_NAME")))
-						.collect(Collectors.toList());
+	public List<Monstre> trouverLesMonstresAvecDesNomsInconnus() {
+		List<Monstre> monstres = new ArrayList<>();
+
+		for (Monstre monstre : extractMonsters()) {
+			if (monstre.nom.equals("UNKNOWN_NAME")) {
+				monstres.add(monstre);
+			}
+		}
+
+		return monstres;
 	}
 	
 	
@@ -161,11 +172,13 @@ public class MonsterDatabase {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(serialiseur.getEnTete());
-		
-		combats.values().stream()
-					.flatMap(Combat::getMonstersStream)
-					.forEach(monstre -> sb.append("\n").append(serialiseur.serialiserMonstre(monstre)));
-		
+
+		for (Combat combat : combats.values()) {
+			for (Monstre monstre : combat) {
+				sb.append("\n").append(serialiseur.serialiserMonstre(monstre));
+			}
+		}
+
 		return sb.toString();
 	}
 }
