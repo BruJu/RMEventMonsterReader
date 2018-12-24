@@ -18,8 +18,7 @@ import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.MonsterData
 import fr.bruju.rmeventreader.implementation.monsterlist.actionmaker.NomDeMonstresViaShowPicture;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correcteur;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Correspondance;
-import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.ElementsFinalisation;
-import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.ElementsInit;
+import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.Elements;
 import fr.bruju.rmeventreader.implementation.monsterlist.autotraitement.SommeurDePointsDeCapacites;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElementaire;
@@ -71,21 +70,27 @@ public class ListeurDeMonstres implements Runnable {
 
 		// Remplisssage de la bdd
 
+		// - Statistiques
 		PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 37, 1);
 		PROJET.lireEvenement(new MonsterDatabaseMaker(baseDeDonnees), 53, 102, 1);
+		// - Fonds
 		PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 37, 1);
 		PROJET.lireEvenement(new ExtracteurDeFond(baseDeDonnees), 53, 102, 1);
+		// - Suppression des combats / monstres buggés
 		Correcteur.corrigerBDD(baseDeDonnees, CORRECTION);
+		// - Nom des monstres, objets et fonds
 		PROJET.lireEvenement(new NomDeMonstresViaShowPicture(baseDeDonnees), 53, 39, 1);
 		PROJET.lireEvenement(new EnregistreurDeDrop(baseDeDonnees), 453, 18, 1);
 		Correspondance.fond(ZONES).appliquer(baseDeDonnees);
 		Correspondance.nom(MONSTRES).appliquer(baseDeDonnees);
 		Correspondance.drop().appliquer(baseDeDonnees);
+		// - Récompense du combat
 		SommeurDePointsDeCapacites.sommer(baseDeDonnees);
 		PROJET.lireEvenementCommun(new FinDeCombat(baseDeDonnees), 44);
-		ElementsInit.initialiserElements(baseDeDonnees, ce);
+		// - Elements / Parties
+		Elements.initialiserElements(baseDeDonnees, ce);
 		PROJET.lireEvenementCommun(new LectureDesElements(baseDeDonnees, ce), 277);
-		ElementsFinalisation.finaliser(baseDeDonnees, ce);
+		Elements.finaliser(baseDeDonnees, ce);
 
 		// Noms de monstres manquants
 

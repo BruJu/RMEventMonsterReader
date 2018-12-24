@@ -4,16 +4,18 @@ import fr.bruju.rmeventreader.implementation.monsterlist.contexte.ContexteElemen
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.MonsterDatabase;
 import fr.bruju.rmeventreader.implementation.monsterlist.metier.Monstre;
 
-/**
- * Finaliser l'extraction des faiblesses élémentaires en appliquant un calcul pour réhausser les faiblesses par rapport
- * au niveau.
- * 
- * @author Bruju
- *
- */
-public class ElementsFinalisation {
+
+public class Elements {
+
+	public static void initialiserElements(MonsterDatabase bdd, ContexteElementaire contexte) {
+		for (Monstre monstre : bdd.extractMonsters()) {
+			monstre.remplir(contexte.getElements(), 0);
+			monstre.remplir(contexte.getParties(), false);
+		}
+	}
+
 	public static void finaliser(MonsterDatabase bdd, ContexteElementaire contexte) {
-		bdd.extractMonsters().forEach(monstre -> {
+		for (Monstre monstre : bdd.extractMonsters()) {
 			int bonus = monstre.accessInt("Niveau") / 7 * 5;
 
 			monstre.modifier("Physique", v -> v + bonus / 2);
@@ -23,6 +25,6 @@ public class ElementsFinalisation {
 					monstre.modifier(element, v -> v + bonus);
 				}
 			}
-		});
+		}
 	}
 }

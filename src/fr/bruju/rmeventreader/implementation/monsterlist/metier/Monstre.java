@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
@@ -18,7 +19,7 @@ public class Monstre {
 	 * ========= */
 
 	/** Données associées au monstre */
-	public LinkedHashMap<String, Object> donnees = new LinkedHashMap<>();
+	private Map<String, Object> donnees = new LinkedHashMap<>();
 
 	/** Combat associé */
 	public final Combat combat;

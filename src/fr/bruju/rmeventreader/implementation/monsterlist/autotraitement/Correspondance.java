@@ -19,12 +19,6 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
  *
  */
 public class Correspondance {
-
-	public static void remplacer(MonsterDatabase database, Remplaceur<?> remplaceur) {
-		remplaceur.appliquer(database);
-	}
-
-
 	/**
 	 * Classe permettant de remplacer des données dans les monstres
 	 */
