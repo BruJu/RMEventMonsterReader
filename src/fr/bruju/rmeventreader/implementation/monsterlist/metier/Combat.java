@@ -96,7 +96,7 @@ public class Combat implements Iterable<Monstre> {
 
 		@Override
 		public Monstre next() {
-			return monstres[i];
+			return monstres[i++];
 		}
 	}
 
