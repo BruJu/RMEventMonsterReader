@@ -9,6 +9,7 @@ import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmdechiffreur.modele.ValeurFixe;
 import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmdechiffreur.modele.Condition.CondInterrupteur;
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Statistique;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionEstUnBoss;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionOnBattleId;
 import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.ConditionPassThrought;
@@ -82,26 +83,43 @@ public class MonsterDatabaseMaker extends ExecuteurAFiltre<Combat> implements Ex
 		if (numeroInterrupteur == POS_BOSSBATTLE) {
 			getElementsFiltres().forEach(Combat::declareBossBattle);
 		} else {
-			Pair<Integer, String> monstreTouche = database.contexte.getPropriete(numeroInterrupteur);
+			Statistique monstreTouche = database.contexte.getPropriete(numeroInterrupteur);
 
 			if (monstreTouche == null) {
 				return;
 			}
 
 			getElementsFiltres().stream()
-					.map(combat -> combat.getMonstre(monstreTouche.getLeft(), true))
-					.forEach(monstre -> monstre.assigner(monstreTouche.getRight(), nouvelleValeur));
+					.map(combat -> combat.getMonstre(monstreTouche.idSlot, true))
+					.forEach(monstre -> monstre.assigner(monstreTouche.nomStatistique, nouvelleValeur));
 		}
 	}
 
 	@Override
 	public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
-		getElementsFiltres().forEach(combat -> combat.applyModificator(valeurGauche.idVariable, valeurDroite.valeur));
+		Statistique monstreTouche = database.contexte.getStatistique(valeurGauche.idVariable);
+
+		if (monstreTouche == null) {
+			return;
+		}
+
+		for (Combat combat : getElementsFiltres()) {
+			combat.fixerStatistiqueMonstre(monstreTouche.idSlot, monstreTouche.nomStatistique, valeurDroite.valeur);
+		}
 	}
 
 	@Override
 	public void changerVariable(Variable valeurGauche, OpMathematique operateur, ValeurFixe valeurDroite) {
-		getElementsFiltres().forEach(combat -> combat.applyModificator(valeurGauche.idVariable, operateur, valeurDroite.valeur));
+		Statistique monstreTouche = database.contexte.getStatistique(valeurGauche.idVariable);
+
+		if (monstreTouche == null) {
+			return;
+		}
+
+		for (Combat combat : getElementsFiltres()) {
+			combat.calculerStatistiqueMonstre(monstreTouche.idSlot, monstreTouche.nomStatistique,
+					operateur, valeurDroite.valeur);
+		}
 	}
 
 	@Override

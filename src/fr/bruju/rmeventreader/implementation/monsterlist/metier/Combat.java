@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import fr.bruju.rmdechiffreur.modele.OpMathematique;
 import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Contexte;
+import fr.bruju.rmeventreader.implementation.monsterlist.contexte.Statistique;
 import fr.bruju.util.Pair;
 
 /**
@@ -144,43 +145,22 @@ public class Combat implements Iterable<Monstre> {
 	/* ======
 	 * CALCUL
 	 * ====== */
-	
-	/**
-	 * Applique une modification des monstres dans le combat
-	 * @param idVariable L'id de la variable modifiée
-	 * @param operateur L'opérateur à appliquer
-	 * @param value La valeur appliquée
-	 */
-	public void applyModificator(int idVariable, OpMathematique operateur, int value) {
-		Pair<Integer, String> paire = contexte.getStatistique(idVariable);
-		
-		if (paire == null)
-			return;
-		
-		Monstre monstre = getMonstre(paire.getLeft(), !operateur.zeroAbsorbantAGauche);
-		
+
+	public void fixerStatistiqueMonstre(int idSlot, String nomStatistique, int valeur) {
+		Monstre monstre = getMonstre(idSlot, true);
+		monstre.assigner(nomStatistique, valeur);
+	}
+
+	public void calculerStatistiqueMonstre(int idSlot, String nomStatistique, OpMathematique operateur, int valeur) {
+		Monstre monstre = getMonstre(idSlot, !operateur.zeroAbsorbantAGauche);
+
 		if (monstre == null) {
 			return;
 		}
 
-		monstre.assigner(paire.getRight(), operateur.calculer(monstre.accessInt(paire.getRight()), value));
+		monstre.assigner(nomStatistique, operateur.calculer(monstre.accessInt(nomStatistique), valeur));
 	}
 
-	public void applyModificator(int idVariable, int valeur) {
-		Pair<Integer, String> paire = contexte.getStatistique(idVariable);
-		
-		if (paire == null)
-			return;
-		
-		Monstre monstre = getMonstre(paire.getLeft(), true);
-		
-		if (monstre == null) {
-			return;
-		}
-
-		monstre.assigner(paire.getRight(), valeur);
-	}
-	
 	/* ===========
 	 * FOND / ZONE
 	 * =========== */

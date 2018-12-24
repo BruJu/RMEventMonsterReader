@@ -44,7 +44,7 @@ public class Contexte {
 	 * ======== */
 
 	/** Statistiques des monstres */
-	private Map<Integer, Pair<Integer, String>> statistiquesSurMonstres;
+	private Map<Integer, Statistique> statistiquesSurMonstres;
 	/** Liste des statistiques */
 	private List<String> statistiques;
 	/** Liste des propriétés */
@@ -93,7 +93,7 @@ public class Contexte {
 	/**
 	 * DetecteurDeColissionsDInterrupteurs partir du numéro de la variable modifiée, donne un couple <numéro du monstre, statistique>
 	 */
-	public Pair<Integer, String> getStatistique(int position) {
+	public Statistique getStatistique(int position) {
 		return statistiquesSurMonstres.get(position);
 	}
 
@@ -107,7 +107,7 @@ public class Contexte {
 	/**
 	 * DetecteurDeColissionsDInterrupteurs partir du numéro de l'interrupteur modifié, donne un couple <numéro du monstre, statistique>
 	 */
-	public Pair<Integer, String> getPropriete(int position) {
+	public Statistique getPropriete(int position) {
 		return statistiquesSurMonstres.get(position + DECALAGE_PROPRIETE);
 }
 
@@ -134,7 +134,7 @@ public class Contexte {
 
 		for (int i = 0; i != variables.length; i++) {
 			int idVariable = variables[i];
-			statistiquesSurMonstres.put(idVariable, new Pair<>(i, "ID"));
+			statistiquesSurMonstres.put(idVariable, new Statistique(i, "ID"));
 		}
 
 		variablesConcernees.put("ID", variables);
@@ -149,7 +149,7 @@ public class Contexte {
 		this.statistiques.add(nom);
 
 		for (int i = 0; i != variables.length; i++) {
-			statistiquesSurMonstres.put(variables[i], new Pair<>(i, nom));
+			statistiquesSurMonstres.put(variables[i], new Statistique(i, nom));
 		}
 
 		variablesConcernees.put(nom, variables);
@@ -169,7 +169,7 @@ public class Contexte {
 
 		for (int i = 0; i != variables.length; i++) {
 			variables[i] += DECALAGE_PROPRIETE;
-			statistiquesSurMonstres.put(variables[i], new Pair<>(i, nom));
+			statistiquesSurMonstres.put(variables[i], new Statistique(i, nom));
 		}
 
 		variablesConcernees.put(nom, variables);
