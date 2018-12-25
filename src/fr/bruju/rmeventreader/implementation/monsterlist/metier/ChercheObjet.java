@@ -1,6 +1,5 @@
 package fr.bruju.rmeventreader.implementation.monsterlist.metier;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

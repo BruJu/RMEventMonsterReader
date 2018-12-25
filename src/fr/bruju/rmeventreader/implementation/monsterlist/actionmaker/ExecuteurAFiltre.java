@@ -3,7 +3,7 @@ package fr.bruju.rmeventreader.implementation.monsterlist.actionmaker;
 import java.util.Collection;
 
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
-import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.MetaStack;
+import fr.bruju.rmeventreader.implementation.monsterlist.manipulation.PileDeConditions;
 
 /**
  * Cette classe est une implémentation partielle des ActionMakerWithConditionalInterest.
@@ -27,14 +27,14 @@ public abstract class ExecuteurAFiltre<T> implements ExecuteurInstructions {
 	/**
 	 * Liste des conditions actuellement traitées
 	 */
-	protected MetaStack<T> conditions = new MetaStack<>();
+	protected PileDeConditions<T> conditions = new PileDeConditions<>();
 	
 	/**
 	 * Permet d'obtenir la liste des éléments filtrés par l'enchaînement courant de conditions
 	 * @return La liste des éléments qui respectent les conditions établies
 	 */
 	public final Collection<T> getElementsFiltres() {
-		return conditions.filter(getAllElements());
+		return conditions.respecteToutesLesConditions(getAllElements());
 	}
 	
 	/**
