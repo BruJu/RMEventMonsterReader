@@ -15,7 +15,9 @@ public class RemplisseurDObjets implements ExecuteurInstructions {
 	Integer idEnCoursDELecture = null;
 	private Map<Integer, Magasin> magasins;
 
-	private Map<Integer, Integer> armes = ListeDArmes.lireBonusAttaque();
+	private ObjetsCrees bibliothequeDObjets = new ObjetsCrees();
+
+
 	
 	public RemplisseurDObjets(Map<Integer, Magasin> magasins) {
 		this.magasins = magasins;
@@ -35,17 +37,7 @@ public class RemplisseurDObjets implements ExecuteurInstructions {
 		Integer idObjet = valeurDroite.appliquerDroite(v -> v.valeur, null, null);
 				
 		if (idObjet != null) {
-			Objet objet;
-
-			Integer bonusOffensif = armes.get(idObjet);
-
-			if (bonusOffensif != null && bonusOffensif != 0) {
-				objet = new EquipementOffensif(idObjet, bonusOffensif);
-			} else {
-				objet = new Objet(idObjet);
-			}
-
-			magasins.get(idEnCoursDELecture).ajouterObjet(objet);
+			magasins.get(idEnCoursDELecture).ajouterObjet(bibliothequeDObjets.getObjet(idObjet));
 		}
 	}
 

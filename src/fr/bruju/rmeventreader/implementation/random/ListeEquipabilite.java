@@ -30,7 +30,7 @@ public class ListeEquipabilite implements ExecuteurInstructions, ExtChangeVariab
 		PROJET.lireEvenement(equipabilite, 69, 3, 1);
 
 		equipabilite.changerHeros(6); // Ar
-		PROJET.lireEvenement(equipabilite, 52, 67, 1);
+		PROJET.lireEvenement(equipabilite, 68, 17, 1);
 
 		equipabilite.changerHeros(7); // Uf
 		PROJET.lireEvenement(equipabilite, 73, 20, 1);
