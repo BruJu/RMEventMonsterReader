@@ -158,7 +158,7 @@ public class Combat implements Iterable<Monstre> {
 			return;
 		}
 
-		monstre.assigner(nomStatistique, operateur.calculer(monstre.accessInt(nomStatistique), valeur));
+		monstre.modifier(nomStatistique, ancienneValeur -> operateur.calculer(ancienneValeur, valeur));
 	}
 
 	/* ===========

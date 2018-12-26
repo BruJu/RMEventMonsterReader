@@ -8,11 +8,14 @@ import fr.bruju.rmdechiffreur.modele.ValeurDroiteVariable;
 import fr.bruju.rmdechiffreur.modele.ValeurGauche;
 import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmdechiffreur.modele.Condition.CondVariable;
+import fr.bruju.rmeventreader.implementation.random.ListeDArmes;
 
 public class RemplisseurDObjets implements ExecuteurInstructions {
 
 	Integer idEnCoursDELecture = null;
 	private Map<Integer, Magasin> magasins;
+
+	private Map<Integer, Integer> armes = ListeDArmes.lireBonusAttaque();
 	
 	public RemplisseurDObjets(Map<Integer, Magasin> magasins) {
 		this.magasins = magasins;
@@ -31,8 +34,19 @@ public class RemplisseurDObjets implements ExecuteurInstructions {
 		
 		Integer idObjet = valeurDroite.appliquerDroite(v -> v.valeur, null, null);
 				
-		if (idObjet != null)
-			magasins.get(idEnCoursDELecture).ajouterObjet(new Objet(idObjet));
+		if (idObjet != null) {
+			Objet objet;
+
+			Integer bonusOffensif = armes.get(idObjet);
+
+			if (bonusOffensif != null && bonusOffensif != 0) {
+				objet = new EquipementOffensif(idObjet, bonusOffensif);
+			} else {
+				objet = new Objet(idObjet);
+			}
+
+			magasins.get(idEnCoursDELecture).ajouterObjet(objet);
+		}
 	}
 
 	private Boolean idVariableEstValide(Variable variable) {

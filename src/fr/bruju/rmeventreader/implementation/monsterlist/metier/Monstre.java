@@ -52,15 +52,16 @@ public class Monstre {
 		}
 	}
 
-	public void assigner(String nomStatistique, Object nouvelObjet) {
-		donnees.put(nomStatistique, nouvelObjet);
-	}
 
 
 	/* ==========
 	 * ACCESSEURS 
 	 * ========== */
 
+
+	public void assigner(String nomStatistique, Object nouvelObjet) {
+		donnees.put(nomStatistique, nouvelObjet);
+	}
 
 	public void modifier(String nomDonnee, Function<Integer, Integer> modificateur) {
 		donnees.put(nomDonnee, modificateur.apply((Integer) donnees.get(nomDonnee)));
