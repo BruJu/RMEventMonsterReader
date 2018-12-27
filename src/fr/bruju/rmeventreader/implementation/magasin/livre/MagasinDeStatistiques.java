@@ -26,16 +26,12 @@ public class MagasinDeStatistiques {
 	public static List<Magasin> filtrerLibrairies(Collection<Magasin> magasinsLus) {
 		List<Magasin> librairies = new ArrayList<>();
 
-		Map<Integer, StatistiqueDeLivre> statistiquesAcquerables = LivresMenus.lireLesStatistiques();
-
 		for (Magasin existant : magasinsLus) {
 			Magasin magasin = new Magasin(existant);
 
 			for (Objet objet : existant.objetsVendus()) {
-				StatistiqueDeLivre statistiqueAugmentee = statistiquesAcquerables.get(objet.id);
-
-				if (statistiqueAugmentee != null) {
-					magasin.ajouterObjet(new Livre(objet.id, objet.nom, statistiqueAugmentee));
+				if (objet instanceof Livre) {
+					magasin.ajouterObjet(objet);
 				}
 			}
 
