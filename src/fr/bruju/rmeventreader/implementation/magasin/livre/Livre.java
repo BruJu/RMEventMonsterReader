@@ -12,6 +12,6 @@ public class Livre extends Objet {
 
 	@Override
 	public String getString() {
-		return id + " " + nom + " (" + statistique + ")";
+		return id + " " + nom + " (£ " + statistique + ")";
 	}
 }

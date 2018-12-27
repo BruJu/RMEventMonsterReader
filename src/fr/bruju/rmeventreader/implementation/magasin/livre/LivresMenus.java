@@ -11,7 +11,15 @@ import fr.bruju.rmeventreader.implementation.detectiondeformules.modele.expressi
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.bruju.rmeventreader.ProjetS.PROJET;
+
 public class LivresMenus implements ExecuteurInstructions, ExtCondition, ExtChangeVariable {
+	public static Map<Integer, StatistiqueDeLivre> lireLesStatistiques() {
+		LivresMenus livresMenus = new LivresMenus();
+		PROJET.lireEvenementCommun(livresMenus, 351);
+		return livresMenus.getResultat();
+	}
+
 	private static final int VARIDOBJET = 427;
 	private static final int VARCARAC = 1914;
 

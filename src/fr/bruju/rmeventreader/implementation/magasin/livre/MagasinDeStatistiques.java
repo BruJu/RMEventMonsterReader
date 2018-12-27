@@ -26,7 +26,7 @@ public class MagasinDeStatistiques {
 	public static List<Magasin> filtrerLibrairies(Collection<Magasin> magasinsLus) {
 		List<Magasin> librairies = new ArrayList<>();
 
-		Map<Integer, StatistiqueDeLivre> statistiquesAcquerables = lireLesStatistiques();
+		Map<Integer, StatistiqueDeLivre> statistiquesAcquerables = LivresMenus.lireLesStatistiques();
 
 		for (Magasin existant : magasinsLus) {
 			Magasin magasin = new Magasin(existant);
@@ -45,12 +45,6 @@ public class MagasinDeStatistiques {
 		}
 
 		return librairies;
-	}
-
-	private static Map<Integer, StatistiqueDeLivre> lireLesStatistiques() {
-		LivresMenus livresMenus = new LivresMenus();
-		PROJET.lireEvenementCommun(livresMenus, 351);
-		return livresMenus.getResultat();
 	}
 
 	public static void afficherLivresAccessibles(String[] nomsDeVilles) {

@@ -1,5 +1,8 @@
 package fr.bruju.rmeventreader.implementation.magasin;
 
+import fr.bruju.rmeventreader.implementation.magasin.livre.Livre;
+import fr.bruju.rmeventreader.implementation.magasin.livre.LivresMenus;
+import fr.bruju.rmeventreader.implementation.magasin.livre.StatistiqueDeLivre;
 import fr.bruju.rmeventreader.implementation.random.ListeDArmes;
 import fr.bruju.rmeventreader.implementation.random.ListeEquipabilite;
 
@@ -15,6 +18,7 @@ public class ObjetsCrees {
 
 	private Map<Integer, Integer> armes = ListeDArmes.lireBonusAttaque();
 	private Map<Integer, Set<Integer>> equipables = ListeEquipabilite.chercherObjetsEquipables();
+	private Map<Integer, StatistiqueDeLivre> livres = LivresMenus.lireLesStatistiques();
 
 
 	public Objet getObjet(int id) {
@@ -23,11 +27,9 @@ public class ObjetsCrees {
 		if (objet == null) {
 			String nom = PROJET.extraireObjet(id);
 
-			Set<Integer> equipablePar = equipables.get(id);
-
-			if (equipablePar == null) {
-				objet = new Objet(id, nom);
-			} else {
+			if (equipables.containsKey(id)) {
+				// Equipement
+				Set<Integer> equipablePar = equipables.get(id);
 				StringJoiner personnages = new StringJoiner(" / ");
 
 				for (Integer idHeros : equipablePar) {
@@ -42,7 +44,15 @@ public class ObjetsCrees {
 					String bonusAttaqueStr = " ; Attaque +" + bonusAttaque;
 					objet = new ObjetAvecDescription(id, nom, personnages.toString() + bonusAttaqueStr);
 				}
+			} else if (livres.containsKey(id)) {
+				StatistiqueDeLivre statistiqueAugmentee = livres.get(id);
+				objet = new Livre(id, nom, statistiqueAugmentee);
+			} else {
+				// Objet sans effet à afficher
+				objet = new Objet(id, nom);
 			}
+
+			objets.put(id, objet);
 		}
 
 		return objet;
