@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.random;
+package fr.bruju.rmeventreader.implementation.magasin.caracteristique;
 
 import fr.bruju.rmdechiffreur.ExecuteurInstructions;
 import fr.bruju.rmdechiffreur.controlleur.ExtChangeVariable;

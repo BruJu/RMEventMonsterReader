@@ -2,13 +2,10 @@ package fr.bruju.rmeventreader.implementation.magasin.livre;
 
 import fr.bruju.rmeventreader.implementation.magasin.ChercheurDeMagasins;
 import fr.bruju.rmeventreader.implementation.magasin.Magasin;
-import fr.bruju.rmeventreader.implementation.magasin.Objet;
-import fr.bruju.util.MapsUtils;
-import fr.bruju.util.Pair;
+import fr.bruju.rmeventreader.implementation.magasin.objet.Livre;
+import fr.bruju.rmeventreader.implementation.magasin.objet.Objet;
 
 import java.util.*;
-
-import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
 /**
  * Le jeu étudié propose un système consistant à lire des livres sur l'univers du jeu afin d'obtenir des statistiques
@@ -47,10 +44,10 @@ public class MagasinDeStatistiques {
 		Collection<Magasin> magasinsExistants = new ChercheurDeMagasins().chercher().getMagasins();
 		List<Magasin> librairies = filtrerLibrairies(magasinsExistants);
 
-		CategorieDeLivre[] categories = new CategorieDeLivre[StatistiqueDeLivre.values().length];
+		CategorieDeLivre[] categories = new CategorieDeLivre[Livre.StatistiqueDeLivre.values().length];
 
 		for (int i = 0 ; i != categories.length ; i++) {
-			categories[i] = new CategorieDeLivre(StatistiqueDeLivre.values()[i]);
+			categories[i] = new CategorieDeLivre(Livre.StatistiqueDeLivre.values()[i]);
 		}
 
 		for (Magasin librairie : librairies) {

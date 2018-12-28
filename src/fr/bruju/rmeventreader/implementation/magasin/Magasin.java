@@ -1,6 +1,7 @@
 package fr.bruju.rmeventreader.implementation.magasin;
 
-import java.util.Iterator;
+import fr.bruju.rmeventreader.implementation.magasin.objet.Objet;
+
 import java.util.Set;
 import java.util.TreeSet;
 

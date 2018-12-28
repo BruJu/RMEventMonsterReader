@@ -8,7 +8,7 @@ import fr.bruju.rmdechiffreur.modele.ValeurDroiteVariable;
 import fr.bruju.rmdechiffreur.modele.ValeurGauche;
 import fr.bruju.rmdechiffreur.modele.Variable;
 import fr.bruju.rmdechiffreur.modele.Condition.CondVariable;
-import fr.bruju.rmeventreader.implementation.random.ListeDArmes;
+import fr.bruju.rmeventreader.implementation.magasin.objet.ObjetsCrees;
 
 public class RemplisseurDObjets implements ExecuteurInstructions {
 

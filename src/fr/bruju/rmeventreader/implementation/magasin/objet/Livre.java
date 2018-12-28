@@ -1,6 +1,4 @@
-package fr.bruju.rmeventreader.implementation.magasin.livre;
-
-import fr.bruju.rmeventreader.implementation.magasin.Objet;
+package fr.bruju.rmeventreader.implementation.magasin.objet;
 
 public class Livre extends Objet {
 	public final StatistiqueDeLivre statistique;
@@ -14,4 +12,17 @@ public class Livre extends Objet {
 	public String getString() {
 		return id + " " + nom + " (£ " + statistique + ")";
 	}
+
+	public enum StatistiqueDeLivre {
+		Erudition,
+		Troc,
+		Force,
+		Magie,
+		Esprit,
+		Persuasion,
+		Vitalite,
+		Dexterite,
+		Commandement
+	}
+
 }

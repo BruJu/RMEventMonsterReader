@@ -1,4 +1,4 @@
-package fr.bruju.rmeventreader.implementation.magasin;
+package fr.bruju.rmeventreader.implementation.magasin.objet;
 
 import java.util.Objects;
 

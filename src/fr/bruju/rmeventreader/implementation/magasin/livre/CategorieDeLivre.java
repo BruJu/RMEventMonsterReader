@@ -1,8 +1,7 @@
 package fr.bruju.rmeventreader.implementation.magasin.livre;
 
 import fr.bruju.rmeventreader.implementation.magasin.Magasin;
-import fr.bruju.rmeventreader.utilitaire.Utilitaire;
-import fr.bruju.util.MapsUtils;
+import fr.bruju.rmeventreader.implementation.magasin.objet.Livre;
 
 import java.util.*;
 
@@ -10,12 +9,12 @@ import java.util.*;
  * Regroupe des livres augmentant la même statistique
  */
 public class CategorieDeLivre {
-	public final StatistiqueDeLivre statistiqueAugmentee;
+	public final Livre.StatistiqueDeLivre statistiqueAugmentee;
 
 	/** Liste des livres achetables et les magasins où ils sont disponibles */
 	private Map<Livre, List<Magasin>> livresAchetables;
 
-	public CategorieDeLivre(StatistiqueDeLivre statistiqueAugmentee) {
+	public CategorieDeLivre(Livre.StatistiqueDeLivre statistiqueAugmentee) {
 		this.statistiqueAugmentee = statistiqueAugmentee;
 		livresAchetables = new TreeMap<>();
 	}

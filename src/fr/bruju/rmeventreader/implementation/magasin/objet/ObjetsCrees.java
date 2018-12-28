@@ -1,10 +1,9 @@
-package fr.bruju.rmeventreader.implementation.magasin;
+package fr.bruju.rmeventreader.implementation.magasin.objet;
 
-import fr.bruju.rmeventreader.implementation.magasin.livre.Livre;
-import fr.bruju.rmeventreader.implementation.magasin.livre.LivresMenus;
+import fr.bruju.rmeventreader.implementation.magasin.caracteristique.LivresMenus;
 import fr.bruju.rmeventreader.implementation.magasin.livre.StatistiqueDeLivre;
-import fr.bruju.rmeventreader.implementation.random.ListeDArmes;
-import fr.bruju.rmeventreader.implementation.random.ListeEquipabilite;
+import fr.bruju.rmeventreader.implementation.magasin.caracteristique.ListeDArmes;
+import fr.bruju.rmeventreader.implementation.magasin.caracteristique.ListeEquipabilite;
 
 import java.util.HashMap;
 import java.util.Map;
