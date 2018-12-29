@@ -1,7 +1,6 @@
 package fr.bruju.rmeventreader.implementation.magasin.objet;
 
 import fr.bruju.rmeventreader.implementation.magasin.caracteristique.LivresMenus;
-import fr.bruju.rmeventreader.implementation.magasin.livre.StatistiqueDeLivre;
 import fr.bruju.rmeventreader.implementation.magasin.caracteristique.ListeDArmes;
 import fr.bruju.rmeventreader.implementation.magasin.caracteristique.ListeEquipabilite;
 
@@ -17,7 +16,7 @@ public class ObjetsCrees {
 
 	private Map<Integer, Integer> armes = ListeDArmes.lireBonusAttaque();
 	private Map<Integer, Set<Integer>> equipables = ListeEquipabilite.chercherObjetsEquipables();
-	private Map<Integer, StatistiqueDeLivre> livres = LivresMenus.lireLesStatistiques();
+	private Map<Integer, Livre.StatistiqueDeLivre> livres = LivresMenus.lireLesStatistiques();
 
 
 	public Objet getObjet(int id) {
@@ -44,7 +43,7 @@ public class ObjetsCrees {
 					objet = new ObjetAvecDescription(id, nom, personnages.toString() + bonusAttaqueStr);
 				}
 			} else if (livres.containsKey(id)) {
-				StatistiqueDeLivre statistiqueAugmentee = livres.get(id);
+				Livre.StatistiqueDeLivre statistiqueAugmentee = livres.get(id);
 				objet = new Livre(id, nom, statistiqueAugmentee);
 			} else {
 				// Objet sans effet à afficher
