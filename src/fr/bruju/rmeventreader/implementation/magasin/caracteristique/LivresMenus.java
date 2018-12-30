@@ -39,16 +39,7 @@ public class LivresMenus implements ExecuteurInstructions, ExtCondition, ExtChan
 	@Override
 	public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
 		if (valeurGauche.idVariable == VARCARAC) {
-
-			Livre.StatistiqueDeLivre stat;
-
-			if (valeurDroite.valeur == 15) {
-				stat = Livre.StatistiqueDeLivre.Commandement;
-			} else {
-				stat = Livre.StatistiqueDeLivre.values()[valeurDroite.valeur - 1];
-			}
-
-			map.put(dernierIdObjetLu - 1000, stat);
+			map.put(dernierIdObjetLu - 1000, Livre.StatistiqueDeLivre.get(valeurDroite.valeur));
 		}
 	}
 

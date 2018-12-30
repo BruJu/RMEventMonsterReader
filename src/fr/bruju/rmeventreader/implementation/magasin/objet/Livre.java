@@ -1,8 +1,18 @@
 package fr.bruju.rmeventreader.implementation.magasin.objet;
 
+/**
+ * Représente un livre (objet donnant des points dans une statistique quand on l'utilise pour la première fois)
+ */
 public class Livre extends Objet {
+	/** Statistique donnée */
 	public final StatistiqueDeLivre statistique;
 
+	/**
+	 * Crée un livre
+	 * @param id ID de l'objet
+	 * @param nom Nom du livre
+	 * @param statistique Statistiques données
+	 */
 	public Livre(int id, String nom, StatistiqueDeLivre statistique) {
 		super(id, nom);
 		this.statistique = statistique;
@@ -13,6 +23,9 @@ public class Livre extends Objet {
 		return id + " " + nom + " (£ " + statistique + ")";
 	}
 
+	/**
+	 * Liste des statistiques données
+	 */
 	public enum StatistiqueDeLivre {
 		Erudition,
 		Troc,
@@ -22,7 +35,15 @@ public class Livre extends Objet {
 		Persuasion,
 		Vitalite,
 		Dexterite,
-		Commandement
+		Commandement;
+
+		public static StatistiqueDeLivre get(int index) {
+			if (index == 15) {
+				return Livre.StatistiqueDeLivre.Commandement;
+			} else {
+				return Livre.StatistiqueDeLivre.values()[index - 1];
+			}
+		}
 	}
 
 }
