@@ -2,15 +2,29 @@ package fr.bruju.rmeventreader.implementation.magasin.objet;
 
 import java.util.Objects;
 
+/**
+ * Un objet simple
+ */
 public class Objet implements Comparable<Objet> {
+	/** Le numéro */
 	public final int id;
+	/** Le nom */
 	public final String nom;
-	
+
+	/**
+	 * Crée un objet
+	 * @param id Numéro de l'objet
+	 * @param nom Le nom
+	 */
 	public Objet(int id, String nom) {
 		this.id = id;
 		this.nom = nom;
 	}
 
+	/**
+	 * Donne une représentation de l'objet
+	 * @return
+	 */
 	public String getString() {
 		return id + " " + nom;
 	}

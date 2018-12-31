@@ -37,6 +37,11 @@ public class Livre extends Objet {
 		Dexterite,
 		Commandement;
 
+		/**
+		 * Donne la statistique correspondant au numéro de stat donné
+		 * @param index Le numéro de stat
+		 * @return La statistique
+		 */
 		public static StatistiqueDeLivre get(int index) {
 			if (index == 15) {
 				return Livre.StatistiqueDeLivre.Commandement;

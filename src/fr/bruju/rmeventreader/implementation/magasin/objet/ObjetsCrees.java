@@ -11,6 +11,10 @@ import java.util.StringJoiner;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
+/**
+ * Classe regroupant les connaissance sur les objets, permettant d'instancier des objets avec des connaissances
+ * supplémentaires extraites de divers évènements
+ */
 public class ObjetsCrees {
 	private Map<Integer, Objet> objets = new HashMap<>();
 
