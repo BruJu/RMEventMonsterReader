@@ -59,19 +59,4 @@ public class ObjetsCrees {
 
 		return objet;
 	}
-
-
-	public static class ObjetAvecDescription extends Objet {
-		private final String complement;
-
-		public ObjetAvecDescription(int id, String nom, String complement) {
-			super(id, nom);
-			this.complement = complement;
-		}
-
-		@Override
-		public String getString() {
-			return super.getString() + " (" + complement + ")";
-		}
-	}
 }
