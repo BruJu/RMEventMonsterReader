@@ -23,7 +23,7 @@ public class Objet implements Comparable<Objet> {
 
 	/**
 	 * Donne une représentation de l'objet
-	 * @return
+	 * @return Une représentation textuelle de l'objet
 	 */
 	public String getString() {
 		return id + " " + nom;

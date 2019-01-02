@@ -16,13 +16,23 @@ import static fr.bruju.rmeventreader.ProjetS.PROJET;
  * supplémentaires extraites de divers évènements
  */
 public class ObjetsCrees {
+    /** Objets déjà instanciés */
 	private Map<Integer, Objet> objets = new HashMap<>();
 
+	// Description des objets
+
+    // Liste des objets offensifs (donnant de l'attaque)
 	private Map<Integer, Integer> armes = ListeDArmes.lireBonusAttaque();
+	// Liste des personnages pouvant équiper chaque ID d'objet
 	private Map<Integer, Set<Integer>> equipables = ListeEquipabilite.chercherObjetsEquipables();
+	// Liste des objets qui lorsqu'ils sont lus donnent des statistiques
 	private Map<Integer, Livre.StatistiqueDeLivre> livres = LivresMenus.lireLesStatistiques();
 
-
+    /**
+     * Donne un objet représentant l'objet dont l'id est donné
+     * @param id L'id de l'objet
+     * @return Une instance représentant l'objet
+     */
 	public Objet getObjet(int id) {
 		Objet objet = objets.get(id);
 

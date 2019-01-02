@@ -66,6 +66,7 @@ public class MagasinDeStatistiques {
 		}
 	}
 
+    /** Renvoie vrai si une des chaînes de chaines contient mot */
 	public static boolean contient(String mot, String[] chaines) {
 		for (String chaine : chaines) {
 			if (mot.contains(chaine)) {
