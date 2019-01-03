@@ -11,22 +11,33 @@ import fr.bruju.rmeventreader.ProjetS;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Module lisant l'attaque donné par chaque id d'objet
+ */
 public class ListeDArmes implements ExecuteurInstructions, ExtChangeVariable, ExtCondition {
+	/**
+	 * Cherche dans tout le projet la liste des objets donnant de l'attaque
+	 * @return Une Map associant id d'objet - attaque donnée par l'objet
+	 */
 	public static Map<Integer, Integer> lireBonusAttaque() {
 		ListeDArmes listeur = new ListeDArmes();
 		ProjetS.PROJET.lireEvenementCommun(listeur, 375);
 		return listeur.getResultat();
 	}
 
-
-	private Map<Integer, Integer> bonusEnAttaque = new HashMap<>();
-
+	/** Variable contenant l'id de l'objet */
 	private static int VAR_OBJET = 828;
+	/** Variable contenant le bonus d'attaque */
 	private static int VAR_ATTAQUE = 1477;
 
+	/** Association objet - attaque donnée */
+	private Map<Integer, Integer> bonusEnAttaque = new HashMap<>();
+
+	/** Valeur de x de la dernière instruction si VAR_OBJET = x */
 	private int dernierIfLu = 0;
 
-	public Map<Integer, Integer> getResultat() {
+	/** Donne la map résultat */
+	private Map<Integer, Integer> getResultat() {
 		return bonusEnAttaque;
 	}
 
