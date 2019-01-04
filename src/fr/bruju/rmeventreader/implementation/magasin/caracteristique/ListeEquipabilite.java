@@ -10,7 +10,15 @@ import java.util.*;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
+/**
+ * Donne la liste des personnages pouvant équiper des objets
+ */
 public class ListeEquipabilite implements ExecuteurInstructions, ExtChangeVariable {
+	/**
+	 * Lit les évènements responsables de l'équipement des objets et donne la liste des personnages pouvant équiper
+	 * chaque objet.
+	 * @return Une map associant à chaque numéro d'objet la liste des id de héros pouvant l'équiper
+	 */
 	public static Map<Integer, Set<Integer>> chercherObjetsEquipables() {
 		ListeEquipabilite equipabilite = new ListeEquipabilite();
 
@@ -38,20 +46,31 @@ public class ListeEquipabilite implements ExecuteurInstructions, ExtChangeVariab
 		return equipabilite.getObjetsEquipables();
 	}
 
-
+	/** Id Objet -> Liste des Id des héros  */
 	private Map<Integer, Set<Integer>> objetsEquipables = new HashMap<>();
 
+	/** ID du héros actuel */
 	private int herosEnCours;
 
+	// Variables contenant des id d'objets équipables. Lorsqu'elles sont affectées, on considère que le personnage
+	// peut équiper l'objet portant l'id égal à la valeure affectée
 	public static int VARIABLE_ID_EQUIP1 = 2556;
 	public static int VARIABLE_ID_EQUIP2 = 2557;
 	public static int VARIABLE_ID_EQUIP3 = 2558;
 	public static int VARIABLE_ID_EQUIP4 = 2559;
 
+	/**
+	 * Modifie l'id du héros en cours de lecture
+	 * @param heros L'id du héros
+	 */
 	public void changerHeros(int heros) {
 		this.herosEnCours = heros;
 	}
 
+	/**
+	 * Donne le résultat
+	 * @return Le résultat, à savoir une association id d'objet - liste des personnages pouvant équiper l'objet
+	 */
 	public Map<Integer, Set<Integer>> getObjetsEquipables() {
 		return objetsEquipables;
 	}
