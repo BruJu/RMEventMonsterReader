@@ -13,20 +13,45 @@ import java.util.Map;
 
 import static fr.bruju.rmeventreader.ProjetS.PROJET;
 
+/**
+ * Détecte la liste des livres et la statistique qu'ils donnent
+ */
 public class LivresMenus implements ExecuteurInstructions, ExtCondition, ExtChangeVariable {
+	/**
+	 * Lit l'évènement commun dédié aux livres et renvoie la liste des livres avec la statistique augmentée par le livre
+	 * @return Une association id objet - statistique augmentée si c'est un livre.
+	 */
 	public static Map<Integer, Livre.StatistiqueDeLivre> lireLesStatistiques() {
 		LivresMenus livresMenus = new LivresMenus();
 		PROJET.lireEvenementCommun(livresMenus, 351);
 		return livresMenus.getResultat();
 	}
 
+	/*
+	 * On recherche des instructions du type
+	 * si V[VARIDOBJET] == IDLIVRE
+	 *   V[VARCARAC] = IDSTAT
+	 * fin si
+	 *
+	 * Si on trouve ce genre d'instructions, on souhaite map.put(IDLIVRE, IDSTAT);
+	 */
+
+	/** Variable contenant l'id de objet */
 	private static final int VARIDOBJET = 427;
+	/** Variable contenant l'id de la caractéristique */
 	private static final int VARCARAC = 1914;
 
+	/** Map résultat */
 	private Map<Integer, Livre.StatistiqueDeLivre> map = new HashMap<>();
+
+	/** ID de l'objet sur lequel la dernière condition a porté */
 	private int dernierIdObjetLu;
 
-	public Map<Integer, Livre.StatistiqueDeLivre> getResultat() {
+	/**
+	 * Donne le résultat de l'exploration (la liste des associations id objet - caractéristique modifiée)
+	 * @return Le résultat
+	 */
+	private Map<Integer, Livre.StatistiqueDeLivre> getResultat() {
 		return map;
 	}
 
@@ -34,7 +59,6 @@ public class LivresMenus implements ExecuteurInstructions, ExtCondition, ExtChan
 	public boolean getBooleenParDefaut() {
 		return true;
 	}
-
 
 	@Override
 	public void affecterVariable(Variable valeurGauche, ValeurFixe valeurDroite) {
