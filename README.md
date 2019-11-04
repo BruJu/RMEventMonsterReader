@@ -317,11 +317,11 @@ Cet outil très pratique a néanmoins plusieurs faiblesses :
 - Une pauvreté des outils disponibles (impossible de chercher une chaîne de texte dans un dialogue, impossible de chercher seulement les affectations à une variable …)
 
 
-Une structure est proposée afin de pouvoir facilement crée de nouvelles opérations de recherche.
+Une structure est proposée afin de pouvoir facilement créer de nouvelles opérations de recherche.
 
 Le principe étant qu'un exécuteur d'instructions est crée pour chaque évènement commun / chaque page dans un évènement dans une carte, et chaque exécuteur peut noter ce qu'il a trouvé.
 
-Les outils proposés par les bibliothèques JavaLCFReader et RMDechiffreur rendent trivial le parcours des cartes.
+Les outils proposés par les bibliothèques `JavaLCFReader` et `RMDechiffreur` rendent trivial le parcours des cartes.
 
 
 #### Chercheur de magasins
